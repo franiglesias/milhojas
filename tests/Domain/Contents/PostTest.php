@@ -16,7 +16,16 @@ class PostTest extends \PHPUnit_Framework_Testcase
 		$Post = new Post(new PostId(1), 'Title', 'Body');
 		$this->assertInstanceOf('Domain\Contents\Post', $Post);
 		$this->assertEquals(new PostId(1), $Post->getId());
+		$this->assertInstanceOf('Domain\Contents\PostStates\DraftPostState', $Post->getState());
 	}
+	
+	public function test_Post_can_be_published()
+	{
+		$Post = new Post(new PostId(1), 'Title', 'Body');
+		$Post->publish(new \DateTimeInmutable());
+		$this->assertInstanceOf('Domain\Contents\PostStates\PublishedPostState', $Post->getState());
+	}
+	
 	
 }
 ?>

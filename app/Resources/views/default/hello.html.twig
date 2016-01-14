@@ -1,0 +1,6 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+	<h1>Hi {{ name }}. Welcome to Symfony.</h1>
+	<p>Language: {{ language }}</p>
+	<p>Language: {{ app.request.getPreferredLanguage() }}</p>
+{% endblock %}

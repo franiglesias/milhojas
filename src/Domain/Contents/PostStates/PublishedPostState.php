@@ -6,11 +6,11 @@ use Domain\Contents\PostStates\AbstractPostState;
 /**
 * Describes a Post not published
 */
-class DraftPostState extends AbstractPostState
+class PublishedPostState extends AbstractPostState
 {
-	public function publish()
+	public function retire()
 	{
-		return new \Domain\Contents\PostStates\PublishedPostState();
+		return new \Domain\Contents\PostStates\RetiredPostState();
 	}
 
 }

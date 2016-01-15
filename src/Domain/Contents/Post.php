@@ -16,6 +16,8 @@ class Post
 	private $state;
 	
 	private $pubDate;
+	private $featured;
+	private $sticky;
 	
 	function __construct(PostId $id, $title, $body)
 	{
@@ -25,10 +27,31 @@ class Post
 		$this->state = new States\DraftPostState();
 	}
 	
-	public function publish(DateTimeInmutable $pubDate)
+	static function write(PostId $id, $title, $body)
+	{
+		return new self($id, $title, $body);
+	}
+	
+	public function publish(\DateTimeImmutable $pubDate)
 	{
 		$this->state = $this->state->publish();
 		$this->pubDate = $pubDate;
+	}
+	
+	public function flagAsFeatured($featured = true)
+	{
+		$this->featured = $featured;
+	}
+	
+	public function flagAsSticky($sticky = true)
+	{
+		$this->sticky = $sticky;
+	}
+	
+	
+	public function retire()
+	{
+		$this->state = $this->state->retire();
 	}
 	
 	public function getId()

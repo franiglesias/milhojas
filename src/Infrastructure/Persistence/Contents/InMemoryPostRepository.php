@@ -1,6 +1,6 @@
 <?php
 
-namespace Infrastructure\Contents\Persistence;
+namespace Infrastructure\Persistence\Contents;
 
 use Domain\Contents\PostRepositoryInterface;
 
@@ -10,7 +10,7 @@ class InMemoryPostRepository implements PostRepositoryInterface {
 	public function get(\Domain\Contents\PostId $id)
 	{
 		if (!isset($this->posts[$id->getId()])) {
-			throw new \Domain\Contents\Exceptions\NotFoundPostException($id->getId().' doesn\t exists.');
+			throw new \Domain\Contents\Exceptions\NotFoundPostException($id->getId().' doesn\'t exists.');
 		}
 		return $this->posts[$id->getId()];
 	}

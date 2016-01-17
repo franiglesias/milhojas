@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Infrastructure\Contents\Persistence;
+namespace Tests\Infrastructure\Persistence\Contents;
 
-use Infrastructure\Contents\Persistence\InMemoryPostRepository;
+use Infrastructure\Persistence\Contents\InMemoryPostRepository;
 
 /**
 * Description

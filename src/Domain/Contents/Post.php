@@ -25,6 +25,8 @@ class Post
 		$this->title = $title;
 		$this->body = $body;
 		$this->state = new States\DraftPostState();
+		$this->featured = false;
+		$this->sticky = false;
 	}
 	
 	static function write(PostId $id, $title, $body)

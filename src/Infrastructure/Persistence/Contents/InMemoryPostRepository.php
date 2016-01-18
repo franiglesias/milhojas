@@ -3,28 +3,36 @@
 namespace Infrastructure\Persistence\Contents;
 
 use Domain\Contents\PostRepositoryInterface;
+use Infrastructure\Persistence\Common\InMemoryStorage;
 
 class InMemoryPostRepository implements PostRepositoryInterface {
-	private $posts;
+	
+	private $Storage;
+	
+	public function __construct(InMemoryStorage $Storage)
+	{
+		$this->Storage = $Storage;
+	}
 	
 	public function get(\Domain\Contents\PostId $id)
 	{
-		if (!isset($this->posts[$id->getId()])) {
-			throw new \Domain\Contents\Exceptions\NotFoundPostException($id->getId().' doesn\'t exists.');
+		try {
+			return $this->Storage->get($id->getId());
+		} catch (\OutOfBoundsException $e) {
+			throw new \Domain\Contents\Exceptions\NotFoundPostException($e->getMessage());
 		}
-		return $this->posts[$id->getId()];
 	}
 	
 	public function save(\Domain\Contents\Post $Post)
 	{
-		$id = $Post->getId()->getId();
-		$this->posts[$id] = $Post;
+		$this->Storage->save($Post->getId()->getId(), $Post);
 	}
 	
 	public function countAll()
 	{
-		return count($this->posts);
+		return $this->Storage->countAll();
 	}
+	
 }
 
 ?>

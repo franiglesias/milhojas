@@ -19,6 +19,11 @@ class Post
 	private $featured;
 	private $sticky;
 	
+	private $authors;
+	private $files;
+	private $labels;
+	
+	
 	function __construct(PostId $id, $title, $body)
 	{
 		$this->id = $id;

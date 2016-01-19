@@ -31,9 +31,13 @@ class InMemoryStorage {
 		unset($this->data[$id]);
 	}
 	
+	public function findAll()
+	{
+		return $this->data;
+	}
+	
 	public function countAll()
 	{
-		
 		return count($this->data);
 	}
 }

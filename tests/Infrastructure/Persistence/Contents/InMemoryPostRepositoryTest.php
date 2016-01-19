@@ -4,6 +4,9 @@ namespace Tests\Infrastructure\Persistence\Contents;
 
 use Infrastructure\Persistence\Contents\InMemoryPostRepository;
 use Infrastructure\Persistence\Common\InMemoryStorage;
+
+use Domain\Contents\Specifications\CurrentlyPublishedPostSpecification;
+
 /**
 * Description
 */
@@ -38,6 +41,38 @@ class InMemoryPostRespositoryTest extends \PHPUnit_Framework_Testcase
 		$Stored = $Repository->get(new \Domain\Contents\PostId(2));
 	}
 	
+	public function test_use_a_specification_to_return_post()
+	{
+		$Repository = new InMemoryPostRepository(new InMemoryStorage());
+
+		$Post = \Domain\Contents\Post::write(new \Domain\Contents\PostId(1), 'Title', 'Body');
+		$Post->publish(new \Library\ValueObjects\Dates\PublicationDateRange(new \DateTimeImmutable()));
+		$Repository->save($Post);
+		
+		$Post2 = \Domain\Contents\Post::write(new \Domain\Contents\PostId(2), 'Title 2', 'Body 2');
+		$Repository->save($Post2);
+		
+		$Response = $Repository->findSatisfying(new CurrentlyPublishedPostSpecification());
+		$this->assertCount(1, $Response);
+		$this->assertEquals($Post, array_shift($Response));
+	}
+	
+	public function test_use_a_specification_return_empty_array_if_nothing_found()
+	{
+		$Repository = new InMemoryPostRepository(new InMemoryStorage());
+
+		$Post = \Domain\Contents\Post::write(new \Domain\Contents\PostId(1), 'Title', 'Body');
+		$Repository->save($Post);
+		
+		$Post2 = \Domain\Contents\Post::write(new \Domain\Contents\PostId(2), 'Title 2', 'Body 2');
+		$Repository->save($Post2);
+		
+		$Post3 = \Domain\Contents\Post::write(new \Domain\Contents\PostId(3), 'Title 3', 'Body 3');
+		$Repository->save($Post3);
+		
+		$Response = $Repository->findSatisfying(new CurrentlyPublishedPostSpecification());
+		$this->assertCount(0, $Response);
+	}
 	
 }
 

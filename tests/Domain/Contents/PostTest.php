@@ -30,14 +30,14 @@ class PostTest extends \PHPUnit_Framework_Testcase
 	public function test_Post_can_be_published()
 	{
 		$Post = Post::write(new PostId(1), 'Title', 'Body');
-		$Post->publish(new \DateTimeImmutable());
+		$Post->publish(new \Library\ValueObjects\Dates\PublicationDateRange(new \DateTimeImmutable()));
 		$this->assertInstanceOf('Domain\Contents\PostStates\PublishedPostState', $Post->getState());
 	}
 	
 	public function test_Post_can_be_retired()
 	{
 		$Post = Post::write(new PostId(1), 'Title', 'Body');
-		$Post->publish(new \DateTimeImmutable());
+		$Post->publish(new \Library\ValueObjects\Dates\PublicationDateRange(new \DateTimeImmutable()));
 		$Post->retire();
 		$this->assertInstanceOf('\Domain\Contents\PostStates\RetiredPostState', $Post->getState());
 	}
@@ -70,5 +70,13 @@ class PostTest extends \PHPUnit_Framework_Testcase
 		$this->assertAttributeEquals(false, 'sticky', $Post);
 	}
 	
+	public function test_Post_is_published_on_date()
+	{
+		$Post = Post::write(new PostId(1), 'Title', 'Body');
+		$Post->publish(new \Library\ValueObjects\Dates\PublicationDateRange(new \DateTimeImmutable('-10 day')));
+		$this->assertTrue($Post->isPublished(new \DateTimeImmutable()));
+		$this->assertFalse($Post->isPublished(new \DateTimeImmutable('-20 day')));
+		$this->assertTrue($Post->isPublished());
+	}
 }
 ?>

@@ -3,7 +3,10 @@
 namespace Infrastructure\Persistence\Contents;
 
 use Domain\Contents\PostRepositoryInterface;
+use Domain\Contents\Specifications\PostSpecificationInterface;
+
 use Infrastructure\Persistence\Common\InMemoryStorage;
+
 
 class InMemoryPostRepository implements PostRepositoryInterface {
 	
@@ -31,6 +34,12 @@ class InMemoryPostRepository implements PostRepositoryInterface {
 	public function countAll()
 	{
 		return $this->Storage->countAll();
+	}
+	
+	public function findSatisfying(PostSpecificationInterface $Specification)
+	{
+		$data = $this->Storage->findAll();
+		return array_filter($data, array($Specification, 'isSatisfiedBy'));
 	}
 	
 }

@@ -4,6 +4,8 @@ namespace Domain\Contents;
 
 use Domain\Contents\PostId;
 use Domain\Contents\PostStates as States;
+
+use Library\ValueObjects\Dates\PublicationDateRange;
 /**
 * Represents a Post (an article)
 */
@@ -16,7 +18,6 @@ class Post
 	private $state;
 	
 	private $pubDate;
-	private $expiration;
 	private $featured;
 	private $sticky;
 	
@@ -35,10 +36,18 @@ class Post
 		return new self($id, $title, $body);
 	}
 	
-	public function publish(\DateTimeImmutable $pubDate)
+	public function publish(PublicationDateRange $pubDate)
 	{
 		$this->state = $this->state->publish();
 		$this->pubDate = $pubDate;
+	}
+	
+	public function isPublished(\DateTimeImmutable $Date = null)
+	{
+		if (!$Date) {
+			$Date = new \DateTimeImmutable();
+		}
+		return ($this->state == new \Domain\Contents\PostStates\PublishedPostState()) && $this->pubDate->includes($Date);
 	}
 	
 	public function flagAsFeatured($featured = true)
@@ -50,7 +59,6 @@ class Post
 	{
 		$this->sticky = $sticky;
 	}
-	
 	
 	public function retire()
 	{

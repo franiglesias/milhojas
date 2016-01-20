@@ -36,7 +36,7 @@ class InMemoryPostRepository implements PostRepositoryInterface {
 		return $this->Storage->countAll();
 	}
 	
-	public function findSatisfying(PostSpecificationInterface $Specification)
+	public function findSatisfying(\Library\Specification\AbstractSpecification $Specification)
 	{
 		$data = $this->Storage->findAll();
 		return array_filter($data, array($Specification, 'isSatisfiedBy'));

@@ -3,13 +3,13 @@
 namespace Domain\Contents\Specifications;
 
 use Domain\Contents\Specifications\PostSpecificationInterface;
-
+use Library\Specification\AbstractSpecification;
 /**
 * Description
 */
-class CurrentlyPublishedPostSpecification implements PostSpecificationInterface
+class CurrentlyPublishedPostSpecification extends AbstractSpecification
 {
-	public function isSatisfiedBy(\Domain\Contents\Post $Post)
+	public function isSatisfiedBy($Post)
 	{
 		return $Post->isPublished(new \DateTimeImmutable());
 	}

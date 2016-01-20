@@ -17,7 +17,8 @@ class Post
 	
 	private $state;
 	
-	private $pubDate;
+	private $publication;
+	
 	private $featured;
 	private $sticky;
 	
@@ -36,10 +37,10 @@ class Post
 		return new self($id, $title, $body);
 	}
 	
-	public function publish(PublicationDateRange $pubDate)
+	public function publish(PublicationDateRange $publication)
 	{
 		$this->state = $this->state->publish();
-		$this->pubDate = $pubDate;
+		$this->publication = $publication;
 	}
 	
 	public function isPublished(\DateTimeImmutable $Date = null)
@@ -47,7 +48,7 @@ class Post
 		if (!$Date) {
 			$Date = new \DateTimeImmutable();
 		}
-		return ($this->state == new \Domain\Contents\PostStates\PublishedPostState()) && $this->pubDate->includes($Date);
+		return ($this->state == new \Domain\Contents\PostStates\PublishedPostState()) && $this->publication->includes($Date);
 	}
 	
 	public function flagAsFeatured($featured = true)

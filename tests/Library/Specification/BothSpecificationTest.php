@@ -54,6 +54,20 @@ class BothSpecificationTest extends \PHPUnit_Framework_Testcase
 		$this->assertTrue($BothSpec->isSatisfiedBy(new MyClass(true)));
 	}
 	
+	public function test_fluent_both_spec()
+	{
+		$Spec = (new TrueSpecification())->both(new TrueSpecification());
+		$this->assertTrue($Spec->isSatisfiedBy(new MyClass(true)));
+	}
+	
+	public function test_chain_several_spec()
+	{
+		$Spec = (new TrueSpecification())
+			->both(new TrueSpecification())
+			->either(new FalseSpecification());
+		$this->assertTrue($Spec->isSatisfiedBy(new MyClass(true)));
+	}
+	
 	public function test_Both_Specification_true_and_false_is_false()
 	{
 		$BothSpec = new BothSpecification(new TrueSpecification(), new FalseSpecification());

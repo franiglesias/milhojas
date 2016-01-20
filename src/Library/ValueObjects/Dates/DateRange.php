@@ -6,7 +6,7 @@ namespace Library\ValueObjects\Dates;
 /**
 * Description
 */
-class PublicationDateRange
+class DateRange
 {
 	private $Start;
 	private $End;

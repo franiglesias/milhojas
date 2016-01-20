@@ -5,39 +5,36 @@ namespace Domain\Contents;
 use Domain\Contents\PostId;
 use Domain\Contents\PostStates as States;
 
-use Library\ValueObjects\Dates\PublicationDateRange;
+use Library\ValueObjects\Dates\DateRange;
 /**
 * Represents a Post (an article)
 */
 class Post
 {
 	private $id;
-	private $title;
-	private $body;
+	private $content;
 	
 	private $state;
 	
 	private $publication;
 	
-	private $featured;
-	private $sticky;
+	private $flags;
 	
-	function __construct(PostId $id, $title, $body)
+	function __construct(PostId $id, PostContent $content)
 	{
 		$this->id = $id;
-		$this->title = $title;
-		$this->body = $body;
+		$this->content = $content;
 		$this->state = new States\DraftPostState();
-		$this->featured = false;
-		$this->sticky = false;
+		$this->flags = new \SplObjectStorage();
+
 	}
 	
-	static function write(PostId $id, $title, $body)
+	static function write(PostId $id, PostContent $content)
 	{
-		return new self($id, $title, $body);
+		return new self($id, $content);
 	}
 	
-	public function publish(PublicationDateRange $publication)
+	public function publish(DateRange $publication)
 	{
 		$this->state = $this->state->publish();
 		$this->publication = $publication;
@@ -51,16 +48,21 @@ class Post
 		return ($this->state == new \Domain\Contents\PostStates\PublishedPostState()) && $this->publication->includes($Date);
 	}
 	
-	public function flagAsFeatured($featured = true)
+	public function addFlag(Flags\FlagInterface $flag)
 	{
-		$this->featured = $featured;
+		$this->flags->attach($flag);
 	}
 	
-	public function flagAsSticky($sticky = true)
+	public function hasFlag(Flags\FlagInterface $flag)
 	{
-		$this->sticky = $sticky;
+		return $this->flags->contains($flag);
 	}
 	
+	public function removeFlag(Flags\FlagInterface $flag)
+	{
+		$this->flags->detach($flag);
+	}
+		
 	public function retire()
 	{
 		$this->state = $this->state->retire();

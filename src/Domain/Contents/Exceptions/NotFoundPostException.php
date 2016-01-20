@@ -3,7 +3,7 @@
 namespace Domain\Contents\Exceptions;
 
 /**
-* Description
+* A Post with a given PostId is not found in the repository
 */
 class NotFoundPostException extends \InvalidArgumentException
 {

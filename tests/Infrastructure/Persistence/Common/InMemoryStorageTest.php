@@ -11,7 +11,7 @@ class InMemoryStorageTest extends \PHPUnit_Framework_Testcase
 	public function test_it_can_store_a_value()
 	{
 		$Storage = new InMemoryStorage();
-		$Storage->save(1, 'Value');
+		$Storage->store(1, 'Value');
 		$this->assertEquals(1, $Storage->countAll());
 	}
 	
@@ -20,7 +20,7 @@ class InMemoryStorageTest extends \PHPUnit_Framework_Testcase
 		$Storage = new InMemoryStorage();
 		$count = 10;
 		for ($id=0; $id < $count; $id++) { 
-			$Storage->save($id, 'Value '.$id);
+			$Storage->store($id, 'Value '.$id);
 		}
 		$this->assertEquals($count, $Storage->countAll());
 	}
@@ -30,10 +30,10 @@ class InMemoryStorageTest extends \PHPUnit_Framework_Testcase
 		$Storage = new InMemoryStorage();
 		$count = 10;
 		for ($id=0; $id < $count; $id++) { 
-			$Storage->save($id, 'Value '.$id);
+			$Storage->store($id, 'Value '.$id);
 		}
 		for ($id=0; $id < $count; $id++) { 
-			$value = $Storage->get($id);
+			$value = $Storage->load($id);
 			$this->assertEquals('Value '.$id, $value);
 		}
 	}
@@ -45,14 +45,14 @@ class InMemoryStorageTest extends \PHPUnit_Framework_Testcase
 	 * @author Fran Iglesias
 	 */
 	
-	public function test_exception_trying_to_get_non_existent_id()
+	public function test_exception_trying_to_load_non_existent_id()
 	{
 		$Storage = new InMemoryStorage();
 		$count = 10;
 		for ($id=0; $id < $count; $id++) { 
-			$Storage->save($id, 'Value '.$id);
+			$Storage->store($id, 'Value '.$id);
 		}
-		$value = $Storage->get(12);
+		$value = $Storage->load(12);
 	}
 	
 	public function test_it_can_remove_a_value_by_id()
@@ -60,7 +60,7 @@ class InMemoryStorageTest extends \PHPUnit_Framework_Testcase
 		$Storage = new InMemoryStorage();
 		$count = 10;
 		for ($id=0; $id < $count; $id++) { 
-			$Storage->save($id, 'Value '.$id);
+			$Storage->store($id, 'Value '.$id);
 		}
 		$Storage->delete(2);
 		$this->assertEquals(9, $Storage->countAll());
@@ -77,7 +77,7 @@ class InMemoryStorageTest extends \PHPUnit_Framework_Testcase
 		$Storage = new InMemoryStorage();
 		$count = 10;
 		for ($id=0; $id < $count; $id++) { 
-			$Storage->save($id, 'Value '.$id);
+			$Storage->store($id, 'Value '.$id);
 		}
 		$Storage->delete(12);
 	}

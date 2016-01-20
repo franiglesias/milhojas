@@ -6,13 +6,14 @@ use Domain\Contents\PostRepositoryInterface;
 use Domain\Contents\Specifications\PostSpecificationInterface;
 
 use Infrastructure\Persistence\Common\InMemoryStorage;
+use Infrastructure\Persistence\Common\StorageInterface;
 
 
 class InMemoryPostRepository implements PostRepositoryInterface {
 	
 	private $Storage;
 	
-	public function __construct(InMemoryStorage $Storage)
+	public function __construct(StorageInterface $Storage)
 	{
 		$this->Storage = $Storage;
 	}
@@ -20,7 +21,7 @@ class InMemoryPostRepository implements PostRepositoryInterface {
 	public function get(\Domain\Contents\PostId $id)
 	{
 		try {
-			return $this->Storage->get($id->getId());
+			return $this->Storage->load($id->getId());
 		} catch (\OutOfBoundsException $e) {
 			throw new \Domain\Contents\Exceptions\NotFoundPostException($e->getMessage());
 		}
@@ -28,7 +29,7 @@ class InMemoryPostRepository implements PostRepositoryInterface {
 	
 	public function save(\Domain\Contents\Post $Post)
 	{
-		$this->Storage->save($Post->getId()->getId(), $Post);
+		$this->Storage->store($Post->getId()->getId(), $Post);
 	}
 	
 	public function countAll()

@@ -5,12 +5,13 @@
  * @author Fran Iglesias
  */
 namespace Infrastructure\Persistence\Common;
+use  Infrastructure\Persistence\Common\StorageInterface;
 
-class InMemoryStorage {
+class InMemoryStorage implements StorageInterface{
 
 	private $data;
 	
-	public function get($id)
+	public function load($id)
 	{
 		if (!isset($this->data[$id])) {
 			throw new \OutOfBoundsException($id.' doesn\'t exists.');
@@ -18,7 +19,7 @@ class InMemoryStorage {
 		return $this->data[$id];
 	}
 	
-	public function save($id, $Object)
+	public function store($id, $Object)
 	{
 		$this->data[$id] = $Object;
 	}
@@ -40,6 +41,7 @@ class InMemoryStorage {
 	{
 		return count($this->data);
 	}
+	
 }
 
 ?>

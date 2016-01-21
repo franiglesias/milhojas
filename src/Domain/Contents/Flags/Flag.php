@@ -2,5 +2,6 @@
 
 namespace Domain\Contents\Flags;
 
-interface FlagInterface {}
+abstract class Flag {
+}
 ?>

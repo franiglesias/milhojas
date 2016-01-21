@@ -2,9 +2,8 @@
 
 namespace Domain\Contents\Flags;
 
-use Domain\Contents\Flags\FlagInterface;
+use Domain\Contents\Flags\Flag;
 
-class StickyFlag implements FlagInterface{
-	
+class StickyFlag extends Flag{
 }
 ?>

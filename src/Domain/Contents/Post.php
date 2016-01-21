@@ -25,7 +25,7 @@ class Post
 		$this->id = $id;
 		$this->content = $content;
 		$this->state = new States\DraftPostState();
-		$this->flags = new \SplObjectStorage();
+		$this->flags = new Flags\FlagCollection(new \SplObjectStorage());
 
 	}
 	
@@ -48,19 +48,19 @@ class Post
 		return ($this->state == new \Domain\Contents\PostStates\PublishedPostState()) && $this->publication->includes($Date);
 	}
 	
-	public function addFlag(Flags\FlagInterface $flag)
+	public function addFlag(Flags\Flag $flag)
 	{
-		$this->flags->attach($flag);
+		$this->flags->add($flag);
 	}
 	
-	public function hasFlag(Flags\FlagInterface $flag)
+	public function hasFlag(Flags\Flag $flag)
 	{
-		return $this->flags->contains($flag);
+		return $this->flags->has($flag);
 	}
 	
-	public function removeFlag(Flags\FlagInterface $flag)
+	public function removeFlag(Flags\Flag $flag)
 	{
-		$this->flags->detach($flag);
+		$this->flags->remove($flag);
 	}
 		
 	public function retire()

@@ -1,0 +1,35 @@
+<?php
+
+namespace Infrastructure\Persistence\Doctrine;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ */
+class Post
+{
+    /**
+     * @ORM\Column(type="string")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+	protected $id;
+
+    /**
+     * @ORM\Column(type="string", length=200)
+     */
+	protected $title;
+	
+    /**
+     * @ORM\Column(type="text")
+     */
+	protected $body;
+
+	/** @ORM\Column(type="datetime") */
+	protected $pubDate;
+	/** @ORM\Column(type="datetime", nullable=TRUE) */
+	protected $expiration;
+	
+}
+?>

@@ -59,6 +59,14 @@ doctrine:
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
+        mappings:
+            Persistence:
+                type: annotation
+                is_bundle: false
+                dir: "%kernel.root_dir%/../src/Infrastructure/Persistence/Doctrine"
+                prefix: Infrastructure\Persistence\Doctrine
+                alias: Persistence
+                
 
 # Swiftmailer Configuration
 swiftmailer:

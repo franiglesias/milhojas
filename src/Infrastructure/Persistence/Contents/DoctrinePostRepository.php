@@ -3,14 +3,15 @@
 namespace Infrastructure\Persistence\Contents;
 
 use Domain\Contents\PostRepositoryInterface;
+use Doctrine\ORM\EntityRepository;
 
 class DoctrinePostRepository implements PostRepositoryInterface {
 	
-	private $Storage;
+	private $Repository;
 	
-	public function __construct(\Doctrine\ORM\EntityRepository $Storage)
+	public function __construct(EntityRepository $Repository)
 	{
-		$this->Storage = $Storage;
+		$this->Repository = $Repository;
 	}
 	
 	public function get(\Domain\Contents\PostId $id)

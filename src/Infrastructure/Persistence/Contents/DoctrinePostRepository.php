@@ -16,11 +16,11 @@ class DoctrinePostRepository implements PostRepositoryInterface {
 	
 	public function get(\Domain\Contents\PostId $id)
 	{
-		// try {
-		// 	return $this->Storage->load($id->getId());
-		// } catch (\OutOfBoundsException $e) {
-		// 	throw new \Domain\Contents\Exceptions\NotFoundPostException($e->getMessage());
-		// }
+		try {
+			return $this->Storage->find($id->getId());
+		} catch (\OutOfBoundsException $e) {
+			throw new \Domain\Contents\Exceptions\NotFoundPostException($e->getMessage());
+		}
 	}
 	
 	public function save(\Domain\Contents\Post $Post)

@@ -66,7 +66,12 @@ doctrine:
                 dir: "%kernel.root_dir%/../src/Infrastructure/Persistence/Doctrine"
                 prefix: Infrastructure\Persistence\Doctrine
                 alias: Persistence
-                
+            Contents:
+                type: annotation
+                is_bundle: false
+                dir: "%kernel.root_dir%/../src/Domain/Contents/DTO"
+                prefix: Domain\Contents\DTO
+                alias: Contents
 
 # Swiftmailer Configuration
 swiftmailer:

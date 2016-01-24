@@ -18,7 +18,7 @@ class DoctrinePostRespositoryTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         // $postRepository->expects($this->once())
         //     ->method('find')
-        //     ->will($this->returnValue(new \Infrastructure\Persistence\Doctrine\Post()));
+        //     ->will($this->returnValue(new \Domain\Contents\DTO\Post()));
 		return $postRepository;
 	}
     protected function getEmMock()

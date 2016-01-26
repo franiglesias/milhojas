@@ -4,6 +4,7 @@ namespace Domain\Contents;
 
 use Domain\Contents\PostId;
 use Domain\Contents\PostStates as States;
+use Domain\Contents\DTO\Post as PostDTO;
 
 use Library\ValueObjects\Dates\DateRange;
 /**
@@ -78,9 +79,18 @@ class Post
 		return $this->state;
 	}
 	
-	public function getAsDto()
+	public function toDto(PostDTO $dto)
 	{
-		# code...
+		$dto->setId($this->id->getId());
+		$dto->setTitle($this->content->getTitle());
+		$dto->setBody($this->content->getBody());
+		return $dto;
+	}
+	
+	static public function fromDto(PostDTO $dto)
+	{
+		$post = new self(new PostId($dto->getId()), new PostContent($dto->getTitle(), $dto->getBody));
+		return $post;
 	}
 }
 

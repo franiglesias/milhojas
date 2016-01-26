@@ -26,14 +26,16 @@ class DoctrinePostRepository implements PostRepositoryInterface {
 	
 	public function save(\Domain\Contents\Post $Post)
 	{
-		$dto = $Post->getAsDto();
+		$dto = $Post->toDto(new \Domain\Contents\DTO\Post());
 		$this->em->persist($dto);
 		$this->em->flush();
 	}
 	
 	public function countAll()
 	{
-		// return $this->Storage->countAll();
+		return $this->em
+			->createQuery('SELECT COUNT(post.id) FROM Contents:Post post')
+			->getSingleScalarResult();
 	}
 	
 	public function findSatisfying(\Library\Specification\AbstractSpecification $Specification)

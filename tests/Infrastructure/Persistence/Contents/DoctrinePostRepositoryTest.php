@@ -17,7 +17,8 @@ class DoctrinePostRespositoryTest extends \PHPUnit_Framework_TestCase
 	
 	public function getPost()
 	{
-		$post = $this->getMockBuilder('Domain\Contents\Post')
+		$post = $this
+			->getMockBuilder('Domain\Contents\Post')
 			->disableOriginalConstructor()
 			->getMock();
 		return $post;
@@ -33,23 +34,32 @@ class DoctrinePostRespositoryTest extends \PHPUnit_Framework_TestCase
 	}
     protected function getEmMock()
     {   
-        // Last, mock the EntityManager to return the mock of the repository
         $entityManager = $this
             ->getMockBuilder('Doctrine\ORM\EntityManager')
             ->disableOriginalConstructor()
             ->getMock();
-        // $entityManager->expects($this->once())
-        //     ->method('getRepository')
-        //     ->will($this->returnValue($this->getRepository()));
 		return $entityManager;
      }
+	 
+	 protected function getQuery()
+	 {
+		 // http://h4cc.tumblr.com/post/61502458780/phpunit-mock-for-doctrineormquery
+		 
+	 	$query = $this
+			->getMockBuilder('Doctrine\ORM\AbstractQuery')
+			->setMethods(array('getResult', 'setParameter', 'getSingleScalarResult'))
+			->disableOriginalConstructor()
+			->getMockForAbstractClass();
+		return $query;
+	 }
 	
 	 public function test_it_can_save_post()
 	 {
-	     $dto = new PostDTO('1348');
-	     $dto->setTitle('A Foo Bar');
+	     $dto = new PostDTO();
+		 $dto->setId('1234');
+	     $dto->setContent(new \Domain\Contents\DTO\PostContent('A Foo Bar', 'A body for this test'));
 		 $dto->setPubDate(new \DateTime());
-	     $dto->setBody('A body for this test');
+
 		 $dto->setExpiration(null);
 		 
 		 $post = $this->getPost();
@@ -58,8 +68,9 @@ class DoctrinePostRespositoryTest extends \PHPUnit_Framework_TestCase
 		 // Set expectations
 		 
 		 $post->expects($this->once())
-			 ->method('getAsDto')
+			 ->method('toDto')
 			 ->will($this->returnValue($dto));
+		 
 		 $em->expects($this->once())
 			 ->method('persist')->with($this->equalTo($dto));
 		 $em->expects($this->once())
@@ -69,51 +80,26 @@ class DoctrinePostRespositoryTest extends \PHPUnit_Framework_TestCase
 		 $repo->save($post);
 	 }
 	 
-	 public function test_it_can_get_a_post_by_id()
+	 public function test_it_can_count_all()
 	 {
-	     $dto = new PostDTO('1234');
-	     $dto->setTitle('A Foo Bar');
-		 $dto->setPubDate(new \DateTime());
-	     $dto->setBody('A body for this test');
-		 $dto->setExpiration(null);
-		 
-		 $post = $this->getPost();
-		 $em = $this->getEmMock();
-
-		 // Set expectations
-		 
-		 // $post->expects($this->once())
-		 // 			 ->method('setAsDto')
-		 // 			 ->will($this->returnValue($dto));
-		 
-         $em->expects($this->once())
-             ->method('getRepository')
-             ->will($this->returnValue($this->getRepository()));
-
-		 $repo = new DoctrinePostRepository($em);
-		 
-		 $post = $repo->get(new \Domain\Contents\PostId('1234'));
-
+	 	$em = $this->getEmMock();
+		$q = $this->getQuery();
+		
+		$em->expects($this->once())
+			->method('createQuery')
+			->with($this->equalTo('SELECT COUNT(post.id) FROM Contents:Post post'))
+			->will($this->returnValue($q)
+		);
+		$q->expects($this->once())
+			->method('getSingleScalarResult')
+			->will($this->returnValue(4));
+		
+		$repo = new DoctrinePostRepository($em);
+		$this->assertEquals(4, $repo->countAll());
+		
 	 }
 	 
-	 public function xtest_it_creates_doctrine_repository()
-	 {
-		 $MockedRepo = $this->getRepository();
-		 $repo = new DoctrinePostRepository($MockedRepo);
-		 $this->assertAttributeEquals($MockedRepo, 'Repository', $repo);
-	 }
-	 
-	 public function xtest_it_can_store_a_record()
-	 {
-		 $MockedRepo = $this->getRepository();
-		 $repo = new DoctrinePostRepository($MockedRepo);
-		 $Post = $this->getMockBuilder('Domain\Contents\Post')
-			 ->disableOriginalConstructor()
-			 ->getMock();
-		 $repo->save($Post);
-		 $this->assertEquals(1, $repo->countAll());
-		 
-	 }
+
 }
 
 ?>

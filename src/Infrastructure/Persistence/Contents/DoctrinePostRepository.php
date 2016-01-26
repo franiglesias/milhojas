@@ -3,21 +3,22 @@
 namespace Infrastructure\Persistence\Contents;
 
 use Domain\Contents\PostRepositoryInterface;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Entitymanager;
 
 class DoctrinePostRepository implements PostRepositoryInterface {
 	
-	private $Repository;
+	private $em;
 	
-	public function __construct(EntityRepository $Repository)
+	public function __construct(Entitymanager $em)
 	{
-		$this->Repository = $Repository;
+		$this->em = $em;
 	}
 	
 	public function get(\Domain\Contents\PostId $id)
 	{
 		try {
-			return $this->Storage->find($id->getId());
+			
+			
 		} catch (\OutOfBoundsException $e) {
 			throw new \Domain\Contents\Exceptions\NotFoundPostException($e->getMessage());
 		}
@@ -25,7 +26,9 @@ class DoctrinePostRepository implements PostRepositoryInterface {
 	
 	public function save(\Domain\Contents\Post $Post)
 	{
-		// $this->Storage->store($Post->getId()->getId(), $Post);
+		$dto = $Post->getAsDto();
+		$this->em->persist($dto);
+		$this->em->flush();
 	}
 	
 	public function countAll()

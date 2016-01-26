@@ -12,7 +12,6 @@ class Post
     /**
      * @ORM\Column(type="string")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
 	protected $id;
 
@@ -31,7 +30,10 @@ class Post
 	/** @ORM\Column(type="datetime", nullable=TRUE) */
 	protected $expiration;
 	
-
+	public function __construct($id)
+	{
+		$this->id = $id;
+	}
     /**
      * Get id
      *

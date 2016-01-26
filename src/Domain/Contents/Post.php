@@ -77,6 +77,11 @@ class Post
 	{
 		return $this->state;
 	}
+	
+	public function getAsDto()
+	{
+		# code...
+	}
 }
 
 ?>

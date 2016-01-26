@@ -7,6 +7,11 @@ use Infrastructure\Persistence\Contents\DoctrinePostRepository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\EntityManager;
 
+
+use Domain\Contents\DTO\Post;
+
+
+
 class DoctrinePostRespositoryTest extends \PHPUnit_Framework_TestCase
 {
 	
@@ -33,6 +38,20 @@ class DoctrinePostRespositoryTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->getRepository()));
 		return $entityManager;
      }
+	
+	 public function test_can_use_a_doctrine_table()
+	 {
+	     $post = new Post();
+	     $post->setTitle('A Foo Bar');
+	     $post->setBody('A body for this test');
+	     $post->setPubDate(date('Y-m-d'));
+		 $post->setExpiration(null);
+
+		 $repo = new EntityRepository('Contents:Post', null);
+
+	     print($post->getId());
+	 
+	 }
 	 
 	 public function test_it_creates_doctrine_repository()
 	 {

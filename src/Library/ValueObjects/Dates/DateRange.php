@@ -42,5 +42,15 @@ class DateRange
 			throw new \InvalidArgumentException('Expiration date must be at least a day after start day.');
 		}
 	}
+	
+	public function getStart()
+	{
+		return $this->start;
+	}
+	
+	public function getEnd()
+	{
+		return $this->end;
+	}
 }
 ?>

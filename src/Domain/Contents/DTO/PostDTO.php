@@ -7,6 +7,7 @@ use Domain\Contents\DTO\PostContent;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(name="post")
  */
 class Post
 {

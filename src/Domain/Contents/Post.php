@@ -21,6 +21,10 @@ class Post
 	
 	private $flags;
 	
+	private $tags;
+	private $authors;
+	private $attachments;
+	
 	function __construct(PostId $id, PostContent $content)
 	{
 		$this->id = $id;
@@ -81,9 +85,10 @@ class Post
 	
 	public function toDto(PostDTO $dto)
 	{
-		$dto->setId($this->id->getId());
-		$dto->setTitle($this->content->getTitle());
-		$dto->setBody($this->content->getBody());
+		$dto->setId($this->id->getId())
+			->setContent($this->content->getTitle())
+			->setPubDate($this->publication->getStart())
+			->setExpiration($this->publication->getEnd());
 		return $dto;
 	}
 	

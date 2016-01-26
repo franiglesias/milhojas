@@ -43,7 +43,7 @@ class DoctrinePostRespositoryTest extends \PHPUnit_Framework_TestCase
 	 
 	 protected function getQuery()
 	 {
-		 // http://h4cc.tumblr.com/post/61502458780/phpunit-mock-for-doctrineormquery
+		// http://h4cc.tumblr.com/post/61502458780/phpunit-mock-for-doctrineormquery
 		 
 	 	$query = $this
 			->getMockBuilder('Doctrine\ORM\AbstractQuery')

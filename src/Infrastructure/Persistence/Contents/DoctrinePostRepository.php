@@ -26,7 +26,7 @@ class DoctrinePostRepository implements PostRepositoryInterface {
 	
 	public function save(\Domain\Contents\Post $Post)
 	{
-		$dto = $Post->toDto(new \Domain\Contents\DTO\Post());
+		$dto = $Post->toDto(new \Domain\Contents\DTO\PostDTO());
 		$this->em->persist($dto);
 		$this->em->flush();
 	}

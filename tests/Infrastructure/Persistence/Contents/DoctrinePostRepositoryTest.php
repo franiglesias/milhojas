@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\EntityManager;
 
 use Domain\Contents\Post;
-use Domain\Contents\DTO\Post as PostDTO;
+use Domain\Contents\DTO\PostDTO;
 
 
 
@@ -57,7 +57,7 @@ class DoctrinePostRespositoryTest extends \PHPUnit_Framework_TestCase
 	 {
 	     $dto = new PostDTO();
 		 $dto->setId('1234');
-	     $dto->setContent(new \Domain\Contents\DTO\PostContent('A Foo Bar', 'A body for this test'));
+	     $dto->setContent(new \Domain\Contents\DTO\PostContentDTO('A Foo Bar', 'A body for this test'));
 		 $dto->setPubDate(new \DateTime());
 
 		 $dto->setExpiration(null);

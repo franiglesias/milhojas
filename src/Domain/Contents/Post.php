@@ -4,7 +4,7 @@ namespace Domain\Contents;
 
 use Domain\Contents\PostId;
 use Domain\Contents\PostStates as States;
-use Domain\Contents\DTO\Post as PostDTO;
+use Domain\Contents\DTO\PostDTO as PostDTO;
 
 use Library\ValueObjects\Dates\DateRange;
 /**

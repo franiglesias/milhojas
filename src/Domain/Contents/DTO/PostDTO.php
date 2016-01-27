@@ -3,13 +3,13 @@
 namespace Domain\Contents\DTO;
 
 use Doctrine\ORM\Mapping as ORM;
-use Domain\Contents\DTO\PostContent;
+use Domain\Contents\DTO\PostContentDTO;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="post")
  */
-class Post
+class PostDTO
 {
     /**
      * @ORM\Column(type="string")
@@ -17,7 +17,7 @@ class Post
      */
 	protected $id;
 	
-	/** @ORM\Embedded(class = "PostContent", columnPrefix = false) */
+	/** @ORM\Embedded(class = "PostContentDTO", columnPrefix = false) */
 	protected $content;
 	
 	/** @ORM\Column(type="datetime") */
@@ -27,7 +27,7 @@ class Post
 	
 	public function __construct()
 	{
-		$this->content = new PostContent();
+		$this->content = new PostContentDTO();
 	}
 	
 	public function setId($id)
@@ -91,14 +91,16 @@ class Post
         return $this->expiration;
     }
 
+
+
     /**
      * Set content
      *
-     * @param \Domain\Contents\DTO\PostContent $content
+     * @param \Domain\Contents\DTO\PostContentDTO $content
      *
-     * @return Post
+     * @return PostDTO
      */
-    public function setContent(\Domain\Contents\DTO\PostContent $content)
+    public function setContent(\Domain\Contents\DTO\PostContentDTO $content)
     {
         $this->content = $content;
 
@@ -108,7 +110,7 @@ class Post
     /**
      * Get content
      *
-     * @return \Domain\Contents\DTO\PostContent
+     * @return \Domain\Contents\DTO\PostContentDTO
      */
     public function getContent()
     {

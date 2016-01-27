@@ -4,7 +4,8 @@
 namespace Tests\Infrastructure\Persistence\Common\DoctrineTest;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Domain\Contents\DTO\Post;
+use Domain\Contents\DTO\PostDTO;
+use Domain\Contents\DTO\PostContentDTO;
 class PostRepositoryTest extends KernelTestCase
 {
     /**
@@ -28,21 +29,25 @@ class PostRepositoryTest extends KernelTestCase
 	{
 		# code...
 	}
-    public function xtestSearchByCategoryName()
+    public function dont_test_experiment()
     {
-	     $post = new Post('1348');
-	     $post->setTitle('A Foo Bar');
+		$content = new PostContentDTO();
+		$content->setTitle('A title');
+		$content->setBody('A New Body');
+		
+	     $post = new PostDTO();
+		 $post->setId('89654');
+	     $post->setContent($content);
 		 $post->setPubDate(new \DateTime());
-	     $post->setBody('A body for this test');
 		 $post->setExpiration(null);
 
 		$this->em->persist($post);
 		$this->em->flush();
         $postList = $this->em
-            ->getRepository('Contents:Post')
+            ->getRepository('Contents:PostDTO')
 				->findAll()
         ;
-		$thePost = $this->em->getRepository('Contents:Post')->find('1234');
+		$thePost = $this->em->getRepository('Contents:PostDTO')->find('1234');
 		print_r($thePost);
         $this->assertCount(1, $postList);
     }

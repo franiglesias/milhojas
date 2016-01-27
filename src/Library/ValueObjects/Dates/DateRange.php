@@ -8,8 +8,8 @@ namespace Library\ValueObjects\Dates;
 */
 class DateRange
 {
-	private $Start;
-	private $End;
+	private $start;
+	private $end;
 	
 	function __construct(\DateTimeImmutable $Start, \DateTimeImmutable $End = null)
 	{

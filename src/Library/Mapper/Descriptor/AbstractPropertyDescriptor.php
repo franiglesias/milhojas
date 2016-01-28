@@ -1,11 +1,10 @@
 <?php
 
-namespace Library\Mapper;
-
+namespace Library\Mapper\Descriptor;
 /**
 * Description
 */
-class PlainPropertyDescriptor
+abstract class AbstractPropertyDescriptor
 {
 	protected $property;
 	protected $object;
@@ -17,11 +16,7 @@ class PlainPropertyDescriptor
 		$this->object = $object;
 	}
 	
-	public function describe($prefix = null)
-	{
-		$value = $this->property->getValue($this->object);
-		return array($this->getQualifiedName($prefix) => $value);
-	}
+	abstract public function describe($prefix = null);
 	
 	protected function getQualifiedName($prefix)
 	{

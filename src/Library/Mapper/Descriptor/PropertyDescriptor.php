@@ -1,6 +1,10 @@
 <?php
 
-namespace Library\Mapper;
+namespace Library\Mapper\Descriptor;
+
+use Library\Mapper\Descriptor\PlainPropertyDescriptor;
+use Library\Mapper\Descriptor\ObjectPropertyDescriptor;
+use Library\Mapper\Descriptor\EmptyPropertyDescriptor;
 
 /**
 * Factory of Specialized Property Descriptors

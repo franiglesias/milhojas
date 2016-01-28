@@ -8,6 +8,11 @@ use Domain\Contents\PostContent;
 
 use Domain\Contents\DTO\PostDTO;
 use Domain\Contents\DTO\PostContentDTO;
+
+
+use Library\Mapper\Descriptor\ObjectDescriptor;
+use Library\Mapper\Descriptor\PropertyDescriptor;
+
 /**
 * Description
 */
@@ -33,113 +38,6 @@ class PostMapper
 	}
 }
 
-class ObjectDescriptor {
-	
-	private $object;
-	private $description;
-	
-	public function __construct($object)
-	{
-		$this->object = $object;
-	}
-	public function describe($prefix = null)
-	{
-		$this->description = array();
-		$reflect = new \ReflectionObject($this->object);
-		$properties = $reflect->getProperties();
-		foreach ($properties as $property) {
-			$descriptor = PropertyDescriptor::get($property, $this->object);
-			$this->description += $descriptor->describe($reflect->getShortName());
-		}
-		return $this->description;
-	}
-
-}
-
-/**
-* Factory of Specialized Property Descriptors
-*/
-class PropertyDescriptor
-{
-	static function get(\ReflectionProperty $property, $object)
-	{
-		$property->setAccessible(true);
-		if (!is_object($property->getValue($object))) {
-			return new PlainPropertyDescriptor($property, $object);
-		}
-		if (self::hasProperties($property->getValue($object))) {
-			return new ObjectPropertyDescriptor($property, $object);
-		}
-		return new EmptyPropertyDescriptor($property, $property->getValue($object));
-	}
-	
-	static private function hasProperties($object)
-	{
-		return (new \ReflectionObject($object))->getProperties();
-	}
-}
-
-/**
-* Description
-*/
-class PlainPropertyDescriptor
-{
-	protected $property;
-	protected $object;
-	
-	function __construct(\ReflectionProperty $property, $object)
-	{
-		$this->property = $property;
-		$this->property->setAccessible(true);
-		$this->object = $object;
-	}
-	
-	public function describe($prefix = null)
-	{
-		$value = $this->property->getValue($this->object);
-		return array($this->getQualifiedName($prefix) => $value);
-	}
-	
-	protected function getQualifiedName($prefix)
-	{
-		return strtolower(($prefix ? $prefix.'.' : '').$this->property->getName());
-	}
-}
-
-/**
-* Description
-*/
-class EmptyPropertyDescriptor extends PlainPropertyDescriptor
-{
-	public function describe($prefix = null)
-	{
-		$r = new \ReflectionObject($this->object);
-		return array($this->getQualifiedName($prefix) => $r->getShortName());
-	}
-}
-
-/**
-* Description
-*/
-class ObjectPropertyDescriptor extends PlainPropertyDescriptor
-{
-
-	public function describe($prefix = null)
-	{
-		$object = $this->property->getValue($this->object);
-		$description = array();
-		foreach ($this->getProperties($object) as $property) {
-			$descriptor = PropertyDescriptor::get($property, $object);
-			$description += $descriptor->describe($this->getQualifiedName($prefix));
-		}
-		return $description;
-	}
-	
-	private function getProperties($object)
-	{
-		return (new \ReflectionObject($object))->getProperties();
-	}
-}
 
 
 class MyClass {
@@ -178,9 +76,7 @@ class ObjectDescriptorTest extends \PHPUnit_Framework_Testcase{
 		$r = new \ReflectionObject($mc);
 		$property = $r->getProperty('id');
 		$pd = PropertyDescriptor::get($property, $mc);
-		$this->assertInstanceOf('Tests\Domain\Contents\PlainPropertyDescriptor', $pd);
-		
-		
+		$this->assertInstanceOf('Library\Mapper\Descriptor\PlainPropertyDescriptor', $pd);
 	}
 	
 	public function test_it_describes_simple_class()

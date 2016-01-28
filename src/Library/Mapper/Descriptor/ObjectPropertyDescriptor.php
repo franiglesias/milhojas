@@ -1,13 +1,13 @@
 <?php
 
-namespace Library\Mapper;
+namespace Library\Mapper\Descriptor;
 
-use Library\Mapper\PlainPropertyDescriptor;
-use Library\Mapper\PropertyDescriptor;
+use Library\Mapper\Descriptor\AbstractPropertyDescriptor;
+use Library\Mapper\Descriptor\PropertyDescriptor;
 /**
 * Description
 */
-class ObjectPropertyDescriptor extends PlainPropertyDescriptor
+class ObjectPropertyDescriptor extends AbstractPropertyDescriptor
 {
 
 	public function describe($prefix = null)

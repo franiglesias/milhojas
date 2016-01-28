@@ -1,7 +1,7 @@
 <?php
 
 namespace Library\Mapper\Descriptor;
-use Library\Mapper\Descriptor\AbstractPropertyDescriptor;
+// use Library\Mapper\Descriptor\AbstractPropertyDescriptor;
 /**
 * Description
 */
@@ -12,8 +12,7 @@ class PlainPropertyDescriptor extends AbstractPropertyDescriptor
 	
 	public function describe($prefix = null)
 	{
-		$value = $this->property->getValue($this->object);
-		return array($this->getQualifiedName($prefix) => $value);
+		return array($this->getQualifiedName($prefix) => $this->property->getValue($this->object));
 	}
 	
 }

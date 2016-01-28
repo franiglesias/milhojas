@@ -2,12 +2,12 @@
 
 namespace Library\Mapper\Descriptor;
 
-use Library\Mapper\Descriptor\PlainPropertyDescriptor;
-use Library\Mapper\Descriptor\ObjectPropertyDescriptor;
-use Library\Mapper\Descriptor\EmptyPropertyDescriptor;
+// use Library\Mapper\Descriptor\PlainPropertyDescriptor;
+// use Library\Mapper\Descriptor\ObjectPropertyDescriptor;
+// use Library\Mapper\Descriptor\EmptyPropertyDescriptor;
 
 /**
-* Factory of Specialized Property Descriptors
+* Factory of Specialized Property Descriptors. It determines what class of property descriptor must return
 */
 class PropertyDescriptor
 {
@@ -20,7 +20,7 @@ class PropertyDescriptor
 		if (self::hasProperties($property->getValue($object))) {
 			return new ObjectPropertyDescriptor($property, $object);
 		}
-		return new EmptyPropertyDescriptor($property, $property->getValue($object));
+		return new EmptyPropertyDescriptor($property, $object);
 	}
 	
 	static private function hasProperties($object)

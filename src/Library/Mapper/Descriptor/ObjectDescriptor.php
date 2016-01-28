@@ -2,7 +2,7 @@
 
 namespace Library\Mapper\Descriptor;
 
-use Library\Mapper\Descriptor\PropertyDescriptor;
+// use Library\Mapper\Descriptor\PropertyDescriptor;
 
 /**
  * Describes properties of an object
@@ -14,22 +14,24 @@ use Library\Mapper\Descriptor\PropertyDescriptor;
 class ObjectDescriptor {
 	
 	private $object;
-	private $description;
 	
 	public function __construct($object)
 	{
 		$this->object = $object;
 	}
-	public function describe($prefix = null)
+	public function describe()
 	{
-		$this->description = array();
+		$description = array();
 		$reflect = new \ReflectionObject($this->object);
 		$properties = $reflect->getProperties();
+		if (!$properties) {
+			throw new \ReflectionException(sprintf('Class %s has no properties.',$reflect->getName() ));
+		}
 		foreach ($properties as $property) {
 			$descriptor = PropertyDescriptor::get($property, $this->object);
-			$this->description += $descriptor->describe($reflect->getShortName());
+			$description += $descriptor->describe($reflect->getShortName());
 		}
-		return $this->description;
+		return $description;
 	}
 }
 

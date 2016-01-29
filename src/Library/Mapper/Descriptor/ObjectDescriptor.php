@@ -13,22 +13,20 @@ namespace Library\Mapper\Descriptor;
 
 class ObjectDescriptor {
 	
-	private $object;
-	
-	public function __construct($object)
+	public function __construct()
 	{
-		$this->object = $object;
 	}
-	public function describe()
+
+	public function describe($object)
 	{
 		$description = array();
-		$reflect = new \ReflectionObject($this->object);
+		$reflect = new \ReflectionObject($object);
 		$properties = $reflect->getProperties();
 		if (!$properties) {
 			throw new \ReflectionException(sprintf('Class %s has no properties.',$reflect->getName() ));
 		}
 		foreach ($properties as $property) {
-			$descriptor = PropertyDescriptor::get($property, $this->object);
+			$descriptor = PropertyDescriptor::get($property, $object);
 			$description += $descriptor->describe($reflect->getShortName());
 		}
 		return $description;

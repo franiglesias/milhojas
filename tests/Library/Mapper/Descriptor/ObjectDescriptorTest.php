@@ -22,25 +22,25 @@ class ObjectDescriptorTest extends \PHPUnit_Framework_Testcase{
 	public function test_it_describes_simple_class()
 	{
 		$mc =  new ClassWithPlainProperties(1, 'Content');
-		$descriptor = new ObjectDescriptor($mc);
+		$descriptor = new ObjectDescriptor();
 		$description = array(
 			'classwithplainproperties.id' => 1,
 			'classwithplainproperties.content' => 'Content',
 		);
-		$this->assertEquals($description, $descriptor->describe());
+		$this->assertEquals($description, $descriptor->describe($mc));
 	}
 
 	public function test_it_describes_class_with_members()
 	{
 		$c = $this->getClass();
-		$descriptor = new ObjectDescriptor($c);
+		$descriptor = new ObjectDescriptor();
 		$description = array(
 			'classwithallpropertytypes.id' => 1,
 			'classwithallpropertytypes.member.id' => 1,
 			'classwithallpropertytypes.member.content' => 'Content',
 			'classwithallpropertytypes.empty' => 'EmptyClass'
 		);
-		$this->assertEquals($description, $descriptor->describe());
+		$this->assertEquals($description, $descriptor->describe($c));
 	}
 	
 	/**
@@ -49,8 +49,8 @@ class ObjectDescriptorTest extends \PHPUnit_Framework_Testcase{
 	public function test_throws_exception_if_class_has_no_members()
 	{
 		$mc =  new EmptyClass();
-		$descriptor = new ObjectDescriptor($mc);
-		$descriptor->describe();
+		$descriptor = new ObjectDescriptor();
+		$descriptor->describe($mc);
 	}
 
 }

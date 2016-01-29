@@ -3,6 +3,7 @@
 namespace Tests\Library\Mapper\Descriptor;
 
 use Library\Mapper\Descriptor\ObjectDescriptor;
+use Library\Mapper\Descriptor\PropertyDescriptor;
 
 include_once('TestClasses.php');
 
@@ -22,7 +23,7 @@ class ObjectDescriptorTest extends \PHPUnit_Framework_Testcase{
 	public function test_it_describes_simple_class()
 	{
 		$mc =  new ClassWithPlainProperties(1, 'Content');
-		$descriptor = new ObjectDescriptor();
+		$descriptor = new ObjectDescriptor(new PropertyDescriptor());
 		$description = array(
 			'classwithplainproperties.id' => 1,
 			'classwithplainproperties.content' => 'Content',
@@ -33,7 +34,7 @@ class ObjectDescriptorTest extends \PHPUnit_Framework_Testcase{
 	public function test_it_describes_class_with_members()
 	{
 		$c = $this->getClass();
-		$descriptor = new ObjectDescriptor();
+		$descriptor = new ObjectDescriptor(new PropertyDescriptor());
 		$description = array(
 			'classwithallpropertytypes.id' => 1,
 			'classwithallpropertytypes.member.id' => 1,
@@ -49,7 +50,7 @@ class ObjectDescriptorTest extends \PHPUnit_Framework_Testcase{
 	public function test_throws_exception_if_class_has_no_members()
 	{
 		$mc =  new EmptyClass();
-		$descriptor = new ObjectDescriptor();
+		$descriptor = new ObjectDescriptor(new PropertyDescriptor());
 		$descriptor->describe($mc);
 	}
 

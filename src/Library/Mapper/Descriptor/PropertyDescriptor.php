@@ -11,19 +11,24 @@ namespace Library\Mapper\Descriptor;
 */
 class PropertyDescriptor
 {
-	static function get(\ReflectionProperty $property, $object)
+	public function describe(\ReflectionProperty $property, $object, $prefix = null)
+	{
+		return $this->getDescriptor($property, $object)->describe($property, $object, $prefix);
+	}
+	
+	public function getDescriptor(\ReflectionProperty $property, $object)
 	{
 		$property->setAccessible(true);
 		if (!is_object($property->getValue($object))) {
-			return new PlainPropertyDescriptor($property, $object);
+			return new PlainPropertyDescriptor();
 		}
-		if (self::hasProperties($property->getValue($object))) {
-			return new ObjectPropertyDescriptor($property, $object);
+		if ($this->hasProperties($property->getValue($object))) {
+			return new ObjectPropertyDescriptor($this);
 		}
-		return new EmptyPropertyDescriptor($property, $object);
+		return new EmptyPropertyDescriptor();
 	}
 	
-	static private function hasProperties($object)
+	private function hasProperties($object)
 	{
 		return (new \ReflectionObject($object))->getProperties();
 	}

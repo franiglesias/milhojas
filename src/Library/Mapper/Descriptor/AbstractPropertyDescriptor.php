@@ -6,10 +6,6 @@ namespace Library\Mapper\Descriptor;
 */
 abstract class AbstractPropertyDescriptor
 {
-	function __construct()
-	{
-	}
-	
 	abstract public function describe(\ReflectionProperty $property, $object, $prefix = null);
 	
 	protected function getQualifiedName(\ReflectionProperty $property, $prefix)

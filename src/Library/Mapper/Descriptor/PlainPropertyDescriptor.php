@@ -7,9 +7,6 @@ namespace Library\Mapper\Descriptor;
 */
 class PlainPropertyDescriptor extends AbstractPropertyDescriptor
 {
-	protected $property;
-	protected $object;
-	
 	public function describe(\ReflectionProperty $property, $object, $prefix = null)
 	{
 		$property->setAccessible(true);

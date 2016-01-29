@@ -10,9 +10,10 @@ class PlainPropertyDescriptor extends AbstractPropertyDescriptor
 	protected $property;
 	protected $object;
 	
-	public function describe($prefix = null)
+	public function describe(\ReflectionProperty $property, $object, $prefix = null)
 	{
-		return array($this->getQualifiedName($prefix) => $this->property->getValue($this->object));
+		$property->setAccessible(true);
+		return array($this->getQualifiedName($property, $prefix) => $property->getValue($object));
 	}
 	
 }

@@ -6,21 +6,15 @@ namespace Library\Mapper\Descriptor;
 */
 abstract class AbstractPropertyDescriptor
 {
-	protected $property;
-	protected $object;
-	
-	function __construct(\ReflectionProperty $property, $object)
+	function __construct()
 	{
-		$this->property = $property;
-		$this->property->setAccessible(true);
-		$this->object = $object;
 	}
 	
-	abstract public function describe($prefix = null);
+	abstract public function describe(\ReflectionProperty $property, $object, $prefix = null);
 	
-	protected function getQualifiedName($prefix)
+	protected function getQualifiedName(\ReflectionProperty $property, $prefix)
 	{
-		return strtolower(($prefix ? $prefix.'.' : '').$this->property->getName());
+		return strtolower(($prefix ? $prefix.'.' : '').$property->getName());
 	}
 }
 

@@ -27,7 +27,7 @@ class ObjectDescriptor {
 		}
 		foreach ($properties as $property) {
 			$descriptor = PropertyDescriptor::get($property, $object);
-			$description += $descriptor->describe($reflect->getShortName());
+			$description += $descriptor->describe($property, $object, $reflect->getShortName());
 		}
 		return $description;
 	}

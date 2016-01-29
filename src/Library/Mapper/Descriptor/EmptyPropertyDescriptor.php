@@ -9,10 +9,11 @@ namespace Library\Mapper\Descriptor;
 */
 class EmptyPropertyDescriptor extends AbstractPropertyDescriptor
 {
-	public function describe($prefix = null)
+	public function describe(\ReflectionProperty $property, $object, $prefix = null)
 	{
-		$r = new \ReflectionObject($this->property->getValue($this->object));
-		return array($this->getQualifiedName($prefix) => $r->getShortName());
+		$property->setAccessible(true);
+		$r = new \ReflectionObject($property->getValue($object));
+		return array($this->getQualifiedName($property, $prefix) => $r->getShortName());
 	}
 }
 

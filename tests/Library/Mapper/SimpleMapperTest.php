@@ -21,11 +21,14 @@ class SimpleModel
 	}
 }
 
+interface mappableDTO {
+	public function fromMap($map);
+}
 
 /**
 * Description
 */
-class SimpleDTO
+class SimpleDTO implements mappableDTO
 {
 	private $id;
 	private $title;
@@ -71,7 +74,7 @@ class SimpleMapper
 		$this->descriptor = $descriptor;
 	}
 	
-	public function map($object, $dto)
+	public function map($object, MappableDTO $dto)
 	{
 		$map = $this->descriptor->describe($object);
 		$dto->fromMap($map);

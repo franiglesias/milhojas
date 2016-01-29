@@ -10,13 +10,14 @@ namespace Library\Mapper\Descriptor;
 class ObjectPropertyDescriptor extends AbstractPropertyDescriptor
 {
 
-	public function describe($prefix = null)
+	public function describe(\ReflectionProperty $theProperty, $theObject, $prefix = null)
 	{
-		$object = $this->property->getValue($this->object);
+		$theProperty->setAccessible(true);
+		$object = $theProperty->getValue($theObject);
 		$description = array();
 		foreach ($this->getProperties($object) as $property) {
 			$descriptor = PropertyDescriptor::get($property, $object);
-			$description += $descriptor->describe($this->getQualifiedName($prefix));
+			$description += $descriptor->describe($property, $object, $this->getQualifiedName($theProperty, $prefix));
 		}
 		return $description;
 	}

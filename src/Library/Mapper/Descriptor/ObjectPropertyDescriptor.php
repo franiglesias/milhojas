@@ -2,10 +2,8 @@
 
 namespace Library\Mapper\Descriptor;
 
-// use Library\Mapper\Descriptor\AbstractPropertyDescriptor;
-// use Library\Mapper\Descriptor\PropertyDescriptor;
 /**
-* Description
+* Describes a property with a complex value
 */
 class ObjectPropertyDescriptor extends AbstractPropertyDescriptor
 {

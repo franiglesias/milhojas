@@ -1,92 +1,14 @@
 <?php
 
-
 namespace Tests\Library\Mapper;
-
-
-/**
-* Description
-*/
-class SimpleModel
-{
-	private $id;
-	private $title;
-	private $content;
-	
-	function __construct($id, $title, $content)
-	{
-		$this->id = $id;
-		$this->title = $title;
-		$this->content = $content;
-	}
-}
-
-interface mappableDTO {
-	public function fromMap($map);
-}
-
-/**
-* Description
-*/
-class SimpleDTO implements mappableDTO
-{
-	private $id;
-	private $title;
-	private $content;
-	
-	function __construct()
-	{
-		# code...
-	}
-	
-	public function fromMap($map)
-	{
-		$this->id = $map['simplemodel.id'];
-		$this->title = $map['simplemodel.title'];
-		$this->content = $map['simplemodel.content'];
-	}
-	
-	public function setId($id)
-	{
-		$this->id = $id;
-	}
-	
-	public function setTitle($title)
-	{
-		$this->title = $title;
-	}
-	
-	public function setContent($content)
-	{
-		$this->content = $content;
-	}
-}
-
-/**
-* Description
-*/
-class SimpleMapper
-{
-	private $descriptor;
-	
-	function __construct(\Library\Mapper\Descriptor\ObjectDescriptor $descriptor)
-	{
-		$this->descriptor = $descriptor;
-	}
-	
-	public function map($object, MappableDTO $dto)
-	{
-		$map = $this->descriptor->describe($object);
-		$dto->fromMap($map);
-		return $dto;
-	}
-}
+use Library\Mapper\Mappable;
+use Library\Mapper\SimpleMapper;
 
 class SimpleMapperTest extends \PHPUnit_Framework_Testcase {
 	
 	public function test_it_maps_simple_dto()
 	{
-		$expectedDto = new SimpleDTO();
+		$expectedDto = new Utils\SimpleDTO();
 		$expectedDto->setId(1);
 		$expectedDto->setTitle('Title');
 		$expectedDto->setContent('Content');
@@ -110,8 +32,8 @@ class SimpleMapperTest extends \PHPUnit_Framework_Testcase {
 
 
 		$dto = $Mapper->map(
-			new SimpleModel(1, 'Title', 'Content'), 
-			new SimpleDTO()
+			new Utils\SimpleModel(1, 'Title', 'Content'), 
+			new Utils\SimpleDTO()
 		);
 		
 		$this->assertEquals($expectedDto, $dto);

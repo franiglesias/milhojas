@@ -5,9 +5,7 @@ namespace Tests\Library\Mapper\Descriptor;
 use Library\Mapper\Descriptor\ObjectPropertyDescriptor;
 use Library\Mapper\Descriptor\PropertyDescriptor;
 
-include_once('TestClasses.php');
-
-class ObjectPropertyDescriptorTest extends AbstractPropertyDescriptorTest {
+class ObjectPropertyDescriptorTest extends AbstractPropertyDescriptorTestCase {
 	
 	public function test_it_describes_empty_property_as_class_name()
 	{

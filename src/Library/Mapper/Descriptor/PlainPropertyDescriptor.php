@@ -1,9 +1,9 @@
 <?php
 
 namespace Library\Mapper\Descriptor;
-// use Library\Mapper\Descriptor\AbstractPropertyDescriptor;
+
 /**
-* Description
+* Describes a property with a simple value
 */
 class PlainPropertyDescriptor extends AbstractPropertyDescriptor
 {

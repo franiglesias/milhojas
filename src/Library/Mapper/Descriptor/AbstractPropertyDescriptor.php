@@ -2,7 +2,7 @@
 
 namespace Library\Mapper\Descriptor;
 /**
-* Description
+* Base class for property descriptors
 */
 abstract class AbstractPropertyDescriptor
 {

@@ -8,7 +8,7 @@ class PropertyDescriptorTest extends \PHPUnit_Framework_Testcase {
 	
 	private function getClass()
 	{
-		return new ClassWithAllPropertyTypes(1, new EmptyClass(), new ClassWithPlainProperties(1, 'Content'));
+		return new Utils\ClassWithAllPropertyTypes(1, new Utils\EmptyClass(), new Utils\ClassWithPlainProperties(1, 'Content'));
 	}
 	
 	public function getProperty($name)

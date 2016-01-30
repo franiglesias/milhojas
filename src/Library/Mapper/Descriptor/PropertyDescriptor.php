@@ -2,18 +2,16 @@
 
 namespace Library\Mapper\Descriptor;
 
-// use Library\Mapper\Descriptor\PlainPropertyDescriptor;
-// use Library\Mapper\Descriptor\ObjectPropertyDescriptor;
-// use Library\Mapper\Descriptor\EmptyPropertyDescriptor;
-
 /**
-* Factory of Specialized Property Descriptors. It determines what class of property descriptor must return
+* Composite of Property Descriptors. It determines what class of property descriptor should do the work;
 */
+
 class PropertyDescriptor
 {
 	public function describe(\ReflectionProperty $property, $object, $prefix = null)
 	{
-		return $this->getDescriptor($property, $object)->describe($property, $object, $prefix);
+		return $this->getDescriptor($property, $object)
+			->describe($property, $object, $prefix);
 	}
 	
 	public function getDescriptor(\ReflectionProperty $property, $object)
@@ -22,13 +20,13 @@ class PropertyDescriptor
 		if (!is_object($property->getValue($object))) {
 			return new PlainPropertyDescriptor();
 		}
-		if ($this->hasProperties($property->getValue($object))) {
+		if ($this->objectValueHasProperties($property->getValue($object))) {
 			return new ObjectPropertyDescriptor($this);
 		}
 		return new EmptyPropertyDescriptor();
 	}
 	
-	private function hasProperties($object)
+	private function objectValueHasProperties($object)
 	{
 		return (new \ReflectionObject($object))->getProperties();
 	}

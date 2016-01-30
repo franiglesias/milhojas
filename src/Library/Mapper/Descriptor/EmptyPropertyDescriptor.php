@@ -2,10 +2,8 @@
 
 namespace Library\Mapper\Descriptor;
 
-// use Library\Mapper\Descriptor\AbstractPropertyDescriptor;
-
 /**
-* Description
+* Describes a property that is an object with no properties. i.e. state classes
 */
 class EmptyPropertyDescriptor extends AbstractPropertyDescriptor
 {

@@ -9,7 +9,7 @@ use Domain\Contents\DTO\PostContentDTO;
  * @ORM\Entity
  * @ORM\Table(name="post")
  */
-class PostDTO
+class PostDTO implements \Library\Mapper\Mappable
 {
     /**
      * @ORM\Column(type="string")
@@ -25,11 +25,19 @@ class PostDTO
 	/** @ORM\Column(type="datetime", nullable=TRUE) */
 	protected $expiration;
 	
+	
 	public function __construct()
 	{
 		$this->content = new PostContentDTO();
 	}
 	
+	public function fromMap($map)
+	{
+		$this->id = $map['post.id'];
+		$this->content->setTitle($map['post.content.title']);
+		$this->content->setBody($map['post.content.body']);
+	}
+
 	public function setId($id)
 	{
 		$this->id = $id;

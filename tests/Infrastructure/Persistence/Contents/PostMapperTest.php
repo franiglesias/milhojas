@@ -17,7 +17,6 @@ class PostMapperTest extends \PHPUnit_Framework_Testcase
 			->disableOriginalConstructor()
 				->getMock();
 		$PostDTO = $this->getMock('\Domain\Contents\DTO\PostDTO');
-		$map = array();
 		$Mapper = $this->getMockBuilder('\Library\Mapper\SimpleMapper')
 			->disableOriginalConstructor()
 				->getMock();

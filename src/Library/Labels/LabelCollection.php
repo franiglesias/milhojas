@@ -21,26 +21,33 @@ class LabelCollection {
 		return $counter > 0;
 	}
 	
-	
 	public function hasAll($labels)
 	{
-		$compare = $this->prepareCompareArray($labels);
-		return count(array_intersect_key($this->labels, $compare)) == count($compare);
+		return $this->countCoincidences($labels) == count($labels);
 	}
 	
 	public function hasSome($labels)
 	{
-		$compare = $this->prepareCompareArray($labels);
-		return count(array_intersect_key($this->labels, $compare)) > 0;
+		return $this->countCoincidences($labels) > 0;
 	}
 	
-	protected function prepareCompareArray($labels)
+	public function not($labels)
+	{
+		return $this->countCoincidences($labels) == 0;
+	}
+	
+	protected function prepareArray($labels)
 	{
 		$compare = array();
 		foreach ((array)$labels as $label) {
 			$compare[$this->getKey($label)] = $label;
 		}
 		return $compare;
+	}
+	
+	protected function countCoincidences($labels)
+	{
+		return count(array_intersect_key($this->labels, $this->prepareArray($labels)));
 	}
 	
 	private function getKey($label)

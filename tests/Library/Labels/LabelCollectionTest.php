@@ -50,118 +50,12 @@ class LabelCollectionTest extends \PHPUnit_Framework_Testcase {
 		
 	}
 	
-	
-	
-	public function test_array_intersect()
+	public function test_it_has_none_of_these_labels()
 	{
-		$labels = array(
-			'test' => 'Test',
-			'myLabel' => 'My Label',
-			'prueba' => 'Prueba'
-		);
-		
-		$has = array(
-			'prueba' => 'Prueba'
-		);	
-		
-		$result = array_intersect_key($has, $labels);
-		
-		$this->assertEquals(1, count($result));
-		$this->assertEquals($has, $result);
-	}
-	
-	public function test_array_diff()
-	{
-		$labels = array(
-			'test' => 'Test',
-			'myLabel' => 'My Label',
-			'prueba' => 'Prueba'
-		);
-		
-		$has = array(
-			'prueba' => 'Prueba'
-		);	
-		
-		$result = array_diff_key($labels, $has);
-		
-		$expected = array(
-			'test' => 'Test',
-			'myLabel' => 'My Label',
-		);
-		
-		$this->assertEquals(2, count($result));
-		$this->assertEquals($expected, $result);
-	}
-	
-	public function test_array_has_all_keys()
-	{
-		$labels = array(
-			'test' => 'Test',
-			'myLabel' => 'My Label',
-			'prueba' => 'Prueba'
-		);
-		
-		$has = array(
-			'prueba' => true,
-			'test' => true
-		);	
-		
-		$result = array_intersect_key($labels, $has);
-		
-		$expected = array(
-			'test' => 'Test',
-			'prueba' => 'Prueba',
-		);
-		
-		$this->assertEquals(2, count($result));
-		$this->assertEquals($expected, $result);
-		
-	}
-	
-	public function test_array_has_some_keys()
-	{
-		$labels = array(
-			'test' => 'Test',
-			'myLabel' => 'My Label',
-			'prueba' => 'Prueba'
-		);
-		
-		$has = array(
-			'prueba' => true,
-			'test' => true
-		);	
-		
-		$result = array_intersect_key($labels, $has);
-		
-		$expected = array(
-			'test' => 'Test',
-			'prueba' => 'Prueba',
-		);
-		
-		$this->assertGreaterThan(0, count($result));
-		$this->assertEquals($expected, $result);
-		
-	}
-	
-	public function test_array_has_no_keys()
-	{
-		$labels = array(
-			'test' => 'Test',
-			'myLabel' => 'My Label',
-			'prueba' => 'Prueba'
-		);
-		
-		$has = array(
-			'foo' => true,
-			'bar' => true
-		);	
-		
-		$result = array_intersect_key($labels, $has);
-		
-		$expected = array();
-		
-		$this->assertEquals($expected, $result);
-		
+		$labels = $this->getCollection();
+		$this->assertFalse($labels->not(array('Test 1', 'Test 3', 'Test 4')));
+		$this->assertFalse($labels->not(array('Test 34', 'Test 2')));
+		$this->assertTrue($labels->not(array('No label', 'False label')));
 	}
 	
 }

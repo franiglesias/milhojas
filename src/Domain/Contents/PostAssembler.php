@@ -38,9 +38,13 @@ class PostAssembler
 	{
 		switch ($dto->getState()) {
 			case 'PublishedPostState':
+			$expiration = null;
+			if ($dto->getExpiration()) {
+				$expiration = new \DateTimeImmutable($dto->getExpiration());
+			}
 			$dateRange = new \Library\ValueObjects\Dates\DateRange(
 					new \DateTimeImmutable($dto->getPubDate()),
-					new \DateTimeImmutable($dto->getExpiration())
+					$expiration
 				);
 				$Post->publish($dateRange);
 				break;

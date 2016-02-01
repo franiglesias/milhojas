@@ -23,7 +23,7 @@ class DoctrinePostRepository implements PostRepository {
 			
 			
 		} catch (\OutOfBoundsException $e) {
-			throw new \Domain\Contents\Exceptions\NotFoundPostException($e->getMessage());
+			throw new \Domain\Contents\Exceptions\PostWasNotFound($e->getMessage());
 		}
 	}
 	

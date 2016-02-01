@@ -31,7 +31,6 @@ class Post
 		$this->content = $content;
 		$this->state = new States\DraftPostState();
 		$this->flags = new Flags\FlagCollection(new \SplObjectStorage());
-
 	}
 	
 	static function write(PostId $id, PostContent $content)
@@ -83,11 +82,6 @@ class Post
 		return $this->state;
 	}
 	
-	static public function fromDto(PostDTO $dto)
-	{
-		$post = new self(new PostId($dto->getId()), new PostContent($dto->getTitle(), $dto->getBody));
-		return $post;
-	}
 }
 
 ?>

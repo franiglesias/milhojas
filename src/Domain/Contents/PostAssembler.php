@@ -20,6 +20,38 @@ class PostAssembler
 	{
 		return $this->Mapper->map($Post, $dto);
 	}
+	
+	public function build(\Library\Mapper\PopulatedFromMapper $dto)
+	{
+		$Post = Post::write(
+			new PostId($dto->getId()), 
+			new PostContent(
+				$dto->getContent()->getTitle(), 
+				$dto->getContent()->getBody()
+			)
+		);
+		$this->buildState($Post, $dto);
+		return $Post;
+	}
+	
+	private function buildState($Post, $dto)
+	{
+		switch ($dto->getState()) {
+			case 'PublishedPostState':
+			$dateRange = new \Library\ValueObjects\Dates\DateRange(
+					new \DateTimeImmutable($dto->getPubDate()),
+					new \DateTimeImmutable($dto->getExpiration())
+				);
+				$Post->publish($dateRange);
+				break;
+			case 'RetiredPostState':
+			$Post->retire();
+				break;
+			default:
+				
+				break;
+		}
+	}
 }
 
 ?>

@@ -25,6 +25,7 @@ class PostDTO implements \Library\Mapper\PopulatedFromMapper
 	/** @ORM\Column(type="datetime", nullable=TRUE) */
 	protected $expiration;
 	
+	protected $state;
 	
 	public function __construct()
 	{
@@ -36,6 +37,7 @@ class PostDTO implements \Library\Mapper\PopulatedFromMapper
 		$this->id = $map['post.id'];
 		$this->content->setTitle($map['post.content.title']);
 		$this->content->setBody($map['post.content.body']);
+		$this->content->setState($map['post.content.state']);
 	}
 
 	public function setId($id)
@@ -124,4 +126,14 @@ class PostDTO implements \Library\Mapper\PopulatedFromMapper
     {
         return $this->content;
     }
+	
+	public function getState()
+	{
+		return $this->state;
+	}
+	
+	public function setState($state)
+	{
+		$this->state = $state;
+	}
 }

@@ -2,14 +2,14 @@
 
 namespace Infrastructure\Persistence\Contents;
 
-use Domain\Contents\PostRepositoryInterface;
+use Domain\Contents\PostRepository;
 use Domain\Contents\Specifications\PostSpecificationInterface;
 
 use Infrastructure\Persistence\Common\InMemoryStorage;
 use Infrastructure\Persistence\Common\StorageInterface;
 
 
-class InMemoryPostRepository implements PostRepositoryInterface {
+class InMemoryPostRepository implements PostRepository {
 	
 	private $Storage;
 	

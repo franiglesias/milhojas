@@ -2,12 +2,12 @@
 
 
 namespace Tests\Library\Mapper\Utils;
-use Library\Mapper\Mappable;
+use Library\Mapper\PopulatedFromMapper;
 
 /**
 * Description
 */
-class SimpleDTO implements Mappable
+class SimpleDTO implements PopulatedFromMapper
 {
 	private $id;
 	private $title;

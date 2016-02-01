@@ -2,7 +2,7 @@
 
 namespace Library\Mapper;
 
-interface Mappable {
+interface PopulatedFromMapper {
 	public function fromMap($map);
 	
 }

@@ -83,15 +83,6 @@ class Post
 		return $this->state;
 	}
 	
-	public function toDto(PostDTO $dto)
-	{
-		$dto->setId($this->id->getId())
-			->setContent($this->content->getTitle())
-			->setPubDate($this->publication->getStart())
-			->setExpiration($this->publication->getEnd());
-		return $dto;
-	}
-	
 	static public function fromDto(PostDTO $dto)
 	{
 		$post = new self(new PostId($dto->getId()), new PostContent($dto->getTitle(), $dto->getBody));

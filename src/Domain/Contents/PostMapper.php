@@ -2,13 +2,12 @@
 
 namespace Infrastructure\Persistence\Contents;
 
-use Domain\Contents\PostMapperInterface;
 use Domain\Contents\Post;
 use Library\Mapper\SimpleMapper;
 /**
 * Description
 */
-class PostMapper implements PostMapperInterface
+class PostMapper
 {
 	private $Mapper;
 	
@@ -16,7 +15,7 @@ class PostMapper implements PostMapperInterface
 	{
 		$this->Mapper = $Mapper;
 	}
-	public function map(Post $Post, \Library\Mapper\Mappable $dto)
+	public function map(Post $Post, \Library\Mapper\PopulatedFromMapper $dto)
 	{
 		return $this->Mapper->map($Post, $dto);
 	}

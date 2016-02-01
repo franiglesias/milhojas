@@ -2,16 +2,19 @@
 
 namespace Infrastructure\Persistence\Contents;
 
-use Domain\Contents\PostRepositoryInterface;
+use Domain\Contents\PostRepository;
+use Domain\Contents\PostMapper;
 use Doctrine\ORM\Entitymanager;
 
-class DoctrinePostRepository implements PostRepositoryInterface {
+class DoctrinePostRepository implements PostRepository {
 	
 	private $em;
+	private $mapper;
 	
-	public function __construct(Entitymanager $em)
+	public function __construct(Entitymanager $em, PostMapper $mapper)
 	{
 		$this->em = $em;
+		$this->mapper = $mapper;
 	}
 	
 	public function get(\Domain\Contents\PostId $id)
@@ -26,7 +29,7 @@ class DoctrinePostRepository implements PostRepositoryInterface {
 	
 	public function save(\Domain\Contents\Post $Post)
 	{
-		$dto = $Post->toDto(new \Domain\Contents\DTO\PostDTO());
+		$dto = $this->mapper->map($Post, new \Domain\Contents\DTO\PostDTO());
 		$this->em->persist($dto);
 		$this->em->flush();
 	}

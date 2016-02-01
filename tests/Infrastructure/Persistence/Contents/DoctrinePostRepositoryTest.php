@@ -32,7 +32,7 @@ class DoctrinePostRespositoryTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 		return $postRepository;
 	}
-    protected function getEmMock()
+    protected function getEntityManager()
     {   
         $entityManager = $this
             ->getMockBuilder('Doctrine\ORM\EntityManager')
@@ -52,6 +52,15 @@ class DoctrinePostRespositoryTest extends \PHPUnit_Framework_TestCase
 			->getMockForAbstractClass();
 		return $query;
 	 }
+	 
+	 public function getMapper()
+	 {
+	 	$mapper = $this
+			->getMockBuilder('Domain\Contents\PostMapper')
+				->disableOriginalConstructor()
+					->getMock();
+		return $mapper;
+	 }
 	
 	 public function test_it_can_save_post()
 	 {
@@ -63,26 +72,27 @@ class DoctrinePostRespositoryTest extends \PHPUnit_Framework_TestCase
 		 $dto->setExpiration(null);
 		 
 		 $post = $this->getPost();
-		 $em = $this->getEmMock();
+		 $em = $this->getEntityManager();
 
 		 // Set expectations
 		 
-		 $post->expects($this->once())
-			 ->method('toDto')
-			 ->will($this->returnValue($dto));
+		 $mapper = $this->getMapper();
+		 $mapper->expects($this->once())
+			 ->method('map')->with($this->equalTo($post), $this->equalTo(new PostDTO()))
+				 ->will($this->returnValue($dto));
 		 
 		 $em->expects($this->once())
 			 ->method('persist')->with($this->equalTo($dto));
 		 $em->expects($this->once())
 			 ->method('flush');
 
-		 $repo = new DoctrinePostRepository($em);
+		 $repo = new DoctrinePostRepository($em, $mapper);
 		 $repo->save($post);
 	 }
 	 
 	 public function test_it_can_count_all()
 	 {
-	 	$em = $this->getEmMock();
+	 	$em = $this->getEntityManager();
 		$q = $this->getQuery();
 		
 		$em->expects($this->once())
@@ -94,7 +104,7 @@ class DoctrinePostRespositoryTest extends \PHPUnit_Framework_TestCase
 			->method('getSingleScalarResult')
 			->will($this->returnValue(4));
 		
-		$repo = new DoctrinePostRepository($em);
+		$repo = new DoctrinePostRepository($em, $this->getMapper());
 		$this->assertEquals(4, $repo->countAll());
 		
 	 }

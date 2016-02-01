@@ -9,7 +9,7 @@ use Domain\Contents\DTO\PostContentDTO;
  * @ORM\Entity
  * @ORM\Table(name="post")
  */
-class PostDTO implements \Library\Mapper\Mappable
+class PostDTO implements \Library\Mapper\PopulatedFromMapper
 {
     /**
      * @ORM\Column(type="string")

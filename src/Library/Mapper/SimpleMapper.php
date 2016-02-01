@@ -14,7 +14,7 @@ class SimpleMapper
 		$this->descriptor = $descriptor;
 	}
 	
-	public function map($object, Mappable $dto)
+	public function map($object, PopulatedFromMapper $dto)
 	{
 		$map = $this->descriptor->describe($object);
 		$dto->fromMap($map);

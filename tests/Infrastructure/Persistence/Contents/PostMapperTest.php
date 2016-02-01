@@ -2,7 +2,7 @@
 
 namespace Tests\Infrastructure\Persistence\Contents;
 
-use Infrastructure\Persistence\Contents\PostMapper;
+use Domain\Contents\PostMapper;
 use Library\Mapper\SimpleMapper;
 use Library\Mapper\Descriptor\ObjectDescriptor;
 use Library\Mapper\Descriptor\PropertyDescriptor;

@@ -2,7 +2,7 @@
 
 namespace Domain\Contents;
 
-interface PostRepositoryInterface {
+interface PostRepository {
 	public function get(PostId $id);
 	public function save(Post $Post);
 	public function findSatisfying(\Library\Specification\AbstractSpecification $Specification);

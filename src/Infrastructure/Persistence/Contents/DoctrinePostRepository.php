@@ -3,7 +3,7 @@
 namespace Infrastructure\Persistence\Contents;
 
 use Domain\Contents\PostRepository;
-use Domain\Contents\PostMapper;
+use Domain\Contents\PostAssembler;
 use Doctrine\ORM\Entitymanager;
 
 class DoctrinePostRepository implements PostRepository {
@@ -11,7 +11,7 @@ class DoctrinePostRepository implements PostRepository {
 	private $em;
 	private $mapper;
 	
-	public function __construct(Entitymanager $em, PostMapper $mapper)
+	public function __construct(Entitymanager $em, PostAssembler $mapper)
 	{
 		$this->em = $em;
 		$this->mapper = $mapper;

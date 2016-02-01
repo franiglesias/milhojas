@@ -8,7 +8,7 @@ use Library\Mapper\SimpleMapper;
 /**
 * A simple Mapper to map Post to PostDTO
 */
-class PostMapper
+class PostAssembler
 {
 	private $Mapper;
 	

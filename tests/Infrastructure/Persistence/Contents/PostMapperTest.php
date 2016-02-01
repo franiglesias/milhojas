@@ -2,14 +2,14 @@
 
 namespace Tests\Infrastructure\Persistence\Contents;
 
-use Domain\Contents\PostMapper;
+use Domain\Contents\PostAssembler;
 use Library\Mapper\SimpleMapper;
 use Library\Mapper\Descriptor\ObjectDescriptor;
 use Library\Mapper\Descriptor\PropertyDescriptor;
 /**
 * Description
 */
-class PostMapperTest extends \PHPUnit_Framework_Testcase
+class PostAssemblerTest extends \PHPUnit_Framework_Testcase
 {
 	public function test_it_maps_a_Post_object()
 	{
@@ -24,8 +24,8 @@ class PostMapperTest extends \PHPUnit_Framework_Testcase
 			->method('map')
 				->with($this->equalTo($Post), $this->equalTo($PostDTO))
 				->will($this->returnValue($PostDTO));
-		$PostMapper = new PostMapper($Mapper);
-		$dto = $PostMapper->map($Post, $PostDTO);
+		$PostAssembler = new PostAssembler($Mapper);
+		$dto = $PostAssembler->map($Post, $PostDTO);
 		$this->assertEquals($dto, $PostDTO);
 	}
 }

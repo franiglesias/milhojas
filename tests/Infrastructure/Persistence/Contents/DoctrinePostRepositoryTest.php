@@ -56,7 +56,7 @@ class DoctrinePostRespositoryTest extends \PHPUnit_Framework_TestCase
 	 public function getMapper()
 	 {
 	 	$mapper = $this
-			->getMockBuilder('Domain\Contents\PostMapper')
+			->getMockBuilder('Domain\Contents\PostAssembler')
 				->disableOriginalConstructor()
 					->getMock();
 		return $mapper;

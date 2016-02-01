@@ -1,11 +1,12 @@
 <?php
 
-namespace Infrastructure\Persistence\Contents;
+namespace Domain\Contents;
 
 use Domain\Contents\Post;
 use Library\Mapper\SimpleMapper;
+
 /**
-* Description
+* A simple Mapper to map Post to PostDTO
 */
 class PostMapper
 {

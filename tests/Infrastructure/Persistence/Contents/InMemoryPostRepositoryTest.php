@@ -30,7 +30,7 @@ class InMemoryPostRespositoryTest extends \PHPUnit_Framework_Testcase
 	}
 	
 	/**
-	 * @expectedException Domain\Contents\Exceptions\NotFoundPostException
+	 * @expectedException Domain\Contents\Exceptions\PostWasNotFound
 	 *
 	 */
 	public function test_if_id_does_not_exists_throws_exception()

@@ -7,9 +7,9 @@ use Infrastructure\Persistence\Contents\DoctrinePostRepository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\EntityManager;
 
-use Domain\Contents\Post;
 use Domain\Contents\DTO\PostDTO;
 
+use Domain\Contents\Post;
 
 
 class DoctrinePostRespositoryTest extends \PHPUnit_Framework_TestCase

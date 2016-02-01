@@ -23,7 +23,7 @@ class InMemoryPostRepository implements PostRepository {
 		try {
 			return $this->Storage->load($id->getId());
 		} catch (\OutOfBoundsException $e) {
-			throw new \Domain\Contents\Exceptions\NotFoundPostException($e->getMessage());
+			throw new \Domain\Contents\Exceptions\PostWasNotFound($e->getMessage());
 		}
 	}
 	

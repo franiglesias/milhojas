@@ -7,15 +7,6 @@ use Library\Labels\LabelCollection;
 class LabelCollectionTest extends \PHPUnit_Framework_Testcase {
 	
 	
-	public function getTestData()
-	{
-		return array(
-			'Test 1',
-			'Test 2',
-			'Test 3'
-		);
-	}
-	
 	public function getCollection($elements = 10)
 	{
 		$data = array();
@@ -30,7 +21,7 @@ class LabelCollectionTest extends \PHPUnit_Framework_Testcase {
 	public function test_it_creates_a_label_colletion()
 	{
 		$labels = $this->getCollection();
-		$this->assertTrue($labels->has('Test 1'));
+		$this->assertEquals(10, $labels->count());
 	}
 	
 	public function test_it_has_all_labels()
@@ -58,5 +49,17 @@ class LabelCollectionTest extends \PHPUnit_Framework_Testcase {
 		$this->assertTrue($labels->not(array('No label', 'False label')));
 	}
 	
+	public function test_it_does_not_add_existing_labels()
+	{
+		$labels = $this->getCollection();
+		$labels->add('Test 1');
+		$this->assertEquals(10, $labels->count());
+		$labels->add(array('Test 1', 'Test 2', 'Test 3'));
+		$this->assertEquals(10, $labels->count());
+		
+		$labels->add(array('New label', 'Another label', 'Test 3'));
+		$this->assertEquals(12, $labels->count());
+		
+	}
 }
 ?>

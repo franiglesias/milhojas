@@ -3,22 +3,21 @@
 namespace Library\Labels;
 
 class LabelCollection {
+	
 	private $labels;
 	
+	public function __construct()
+	{
+		$this->labels = [];
+	}
 	public function add($labels)
 	{
-		foreach ((array)$labels as $label) {
-			$this->labels[$this->getKey($label)] = $label;
-		}
+		$this->labels += $this->normalize($labels);
 	}
 	
 	public function has($labels)
 	{
-		$counter = 0;
-		foreach ((array)$labels as $label) {
-			$counter += array_key_exists($this->getKey($label), $this->labels);
-		}
-		return $counter > 0;
+		return $this->hasAll($labels);
 	}
 	
 	public function hasAll($labels)
@@ -36,24 +35,27 @@ class LabelCollection {
 		return $this->countCoincidences($labels) == 0;
 	}
 	
-	protected function prepareArray($labels)
+	public function count()
 	{
-		$compare = array();
-		foreach ((array)$labels as $label) {
-			$compare[$this->getKey($label)] = $label;
-		}
-		return $compare;
+		return count($this->labels);
+	}
+	
+	protected function normalize($labels)
+	{
+		$labels = (array)$labels;
+		$keys = $labels;
+		array_walk($keys, function(&$label, $key) {
+			$label = trim(mb_strtolower($label));
+			$label = str_replace(' ', '_', $label);
+		});
+		return array_combine($keys, $labels);
 	}
 	
 	protected function countCoincidences($labels)
 	{
-		return count(array_intersect_key($this->labels, $this->prepareArray($labels)));
+		return count(array_intersect_key($this->labels, $this->normalize($labels)));
 	}
 	
-	private function getKey($label)
-	{
-		return trim(mb_strtolower($label));
-	}
 }
 
 ?>

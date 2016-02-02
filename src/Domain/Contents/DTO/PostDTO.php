@@ -110,7 +110,7 @@ class PostDTO implements \Milhojas\Library\Mapper\PopulatedFromMapper
      *
      * @return PostDTO
      */
-    public function setContent(\Domain\Contents\DTO\PostContentDTO $content)
+    public function setContent(\Milhojas\Domain\Contents\DTO\PostContentDTO $content)
     {
         $this->content = $content;
 

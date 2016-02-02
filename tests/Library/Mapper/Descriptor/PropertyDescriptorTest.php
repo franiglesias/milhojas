@@ -20,7 +20,7 @@ class PropertyDescriptorTest extends \PHPUnit_Framework_Testcase {
 	public function test_it_returns_plain_property_descriptor()
 	{
 		$descriptor = new PropertyDescriptor();
-		$this->assertInstanceOf('Library\Mapper\Descriptor\PlainPropertyDescriptor', 
+		$this->assertInstanceOf('\Milhojas\Library\Mapper\Descriptor\PlainPropertyDescriptor', 
 			$descriptor->getDescriptor($this->getProperty('id'), $this->getClass())
 		);
 	}
@@ -28,13 +28,13 @@ class PropertyDescriptorTest extends \PHPUnit_Framework_Testcase {
 	public function test_it_returns_empty_property_descriptor()
 	{
 		$descriptor = new PropertyDescriptor();
-		$this->assertInstanceOf('Library\Mapper\Descriptor\EmptyPropertyDescriptor', $descriptor->getDescriptor($this->getProperty('empty'), $this->getClass()));
+		$this->assertInstanceOf('\Milhojas\Library\Mapper\Descriptor\EmptyPropertyDescriptor', $descriptor->getDescriptor($this->getProperty('empty'), $this->getClass()));
 	}
 	
 	public function test_it_returns_object_property_descriptor()
 	{
 		$descriptor = new PropertyDescriptor();
-		$this->assertInstanceOf('Library\Mapper\Descriptor\ObjectPropertyDescriptor', $descriptor->getDescriptor($this->getProperty('member'), $this->getClass()));
+		$this->assertInstanceOf('\Milhojas\Library\Mapper\Descriptor\ObjectPropertyDescriptor', $descriptor->getDescriptor($this->getProperty('member'), $this->getClass()));
 	}
 	
 }

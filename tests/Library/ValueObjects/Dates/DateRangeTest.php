@@ -77,7 +77,7 @@ class DateRangeTest extends \PHPUnit_Framework_Testcase
 	{
 		$Pub = new DateRange(new \DateTimeImmutable());
 		$NewPub = $Pub->changeExpiration(new \DateTimeImmutable('+ 5 day'));
-		$this->assertInstanceOf('\Library\ValueObjects\Dates\DateRange', $NewPub);
+		$this->assertInstanceOf('\Milhojas\Library\ValueObjects\Dates\DateRange', $NewPub);
 
 		$Expected = new DateRange(new \DateTimeImmutable(), new \DateTimeImmutable('+ 5 day'));
 		$this->assertEquals($Expected, $NewPub);
@@ -87,7 +87,7 @@ class DateRangeTest extends \PHPUnit_Framework_Testcase
 	{
 		$Pub = new DateRange(new \DateTimeImmutable(), new \DateTimeImmutable('+2 day'));
 		$NewPub = $Pub->changeExpiration();
-		$this->assertInstanceOf('\Library\ValueObjects\Dates\DateRange', $NewPub);
+		$this->assertInstanceOf('\Milhojas\Library\ValueObjects\Dates\DateRange', $NewPub);
 
 		$Expected = new DateRange(new \DateTimeImmutable());
 		$this->assertEquals($Expected, $NewPub);
@@ -97,7 +97,7 @@ class DateRangeTest extends \PHPUnit_Framework_Testcase
 	{
 		$Pub = new DateRange(new \DateTimeImmutable());
 		$NewPub = $Pub->changeStart(new \DateTimeImmutable('+ 5 day'));
-		$this->assertInstanceOf('\Library\ValueObjects\Dates\DateRange', $NewPub);
+		$this->assertInstanceOf('\Milhojas\Library\ValueObjects\Dates\DateRange', $NewPub);
 
 		$Expected = new DateRange(new \DateTimeImmutable('+ 5 day'));
 		$this->assertEquals($Expected, $NewPub);

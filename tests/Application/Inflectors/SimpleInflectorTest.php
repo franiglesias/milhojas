@@ -23,7 +23,7 @@ class SimpleInflectorTest extends \PHPUnit_Framework_Testcase {
 	{
 		$inflector = new SimpleInflector();
 		$handler = $inflector->inflect(new CreateUser);
-		$this->assertEquals('CreateUserHandler', $handler);
+		$this->assertEquals('Tests\Application\CreateUserHandler', $handler);
 	}
 }
 

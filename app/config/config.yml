@@ -64,7 +64,7 @@ doctrine:
                 type: annotation
                 is_bundle: false
                 dir: "%kernel.root_dir%/../src/Domain/Contents/DTO"
-                prefix: Domain\Contents\DTO
+                prefix: Milhojas\Domain\Contents\DTO
                 alias: Contents
 
 # Swiftmailer Configuration

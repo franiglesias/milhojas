@@ -1,16 +1,16 @@
 <?php
 
-namespace Milhojas\Tests\Domain\Contents;
+namespace Tests\Domain\Contents;
 
-use \Milhojas\Domain\Contents\PostAssembler;
+use Milhojas\Domain\Contents\PostAssembler;
 
-use Library\Mapper\SimpleMapper;
+use Milhojas\Library\Mapper\SimpleMapper;
 
-use \Milhojas\Domain\Contents\Post;
-use \Milhojas\Domain\Contents\PostId;
-use \Milhojas\Domain\Contents\PostContent;
-use \Milhojas\Domain\Contents\DTO\PostDTO;
-use \Milhojas\Domain\Contents\DTO\PostContentDTO;
+use Milhojas\Domain\Contents\Post;
+use Milhojas\Domain\Contents\PostId;
+use Milhojas\Domain\Contents\PostContent;
+use Milhojas\Domain\Contents\DTO\PostDTO;
+use Milhojas\Domain\Contents\DTO\PostContentDTO;
 
 /**
 * Description
@@ -19,7 +19,7 @@ class PostAssemblerTest extends \PHPUnit_Framework_Testcase
 {
 	private function getMapper()
 	{
-		return $this->getMockBuilder('\Library\Mapper\SimpleMapper')
+		return $this->getMockBuilder('\Milhojas\Library\Mapper\SimpleMapper')
 			->disableOriginalConstructor()
 				->getMock();
 	}
@@ -27,7 +27,7 @@ class PostAssemblerTest extends \PHPUnit_Framework_Testcase
 	private function getPost()
 	{
 		$Post = Post::write(new PostId(1), new PostContent('Title', 'Body'));
-		$Post->publish(new \Library\ValueObjects\Dates\DateRange(new \DateTimeImmutable('2016-01-01')));
+		$Post->publish(new \Milhojas\Library\ValueObjects\Dates\DateRange(new \DateTimeImmutable('2016-01-01')));
 		return $Post;
 	}
 	

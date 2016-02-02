@@ -1,8 +1,8 @@
 <?php
 
-namespace Library\Specification;
+namespace Milhojas\Library\Specification;
 
-use Library\Specification\AbstractSpecification;
+use Milhojas\Library\Specification\AbstractSpecification;
 
 /**
 * Description

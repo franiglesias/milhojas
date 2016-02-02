@@ -1,8 +1,8 @@
 <?php
 
-namespace Library\Mapper\Descriptor;
+namespace Milhojas\Library\Mapper\Descriptor;
 
-// use Library\Mapper\Descriptor\PropertyDescriptor;
+// use Milhojas\Library\Mapper\Descriptor\PropertyDescriptor;
 
 /**
  * Describes properties of an object

@@ -1,8 +1,7 @@
 <?php
 
-
-namespace Milhojas\Tests\Library\Mapper\Utils;
-use Library\Mapper\PopulatedFromMapper;
+namespace Tests\Library\Mapper\Utils;
+use Milhojas\Library\Mapper\PopulatedFromMapper;
 
 /**
 * Description

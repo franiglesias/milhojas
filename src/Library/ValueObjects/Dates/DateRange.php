@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Library\ValueObjects\Dates;
+namespace Milhojas\Library\ValueObjects\Dates;
 
 /**
 * Description

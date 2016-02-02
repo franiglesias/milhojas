@@ -1,6 +1,6 @@
 <?php
 
-namespace Library\Mapper\Descriptor;
+namespace Milhojas\Library\Mapper\Descriptor;
 /**
 * Base class for property descriptors
 */

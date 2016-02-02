@@ -9,7 +9,7 @@ use Milhojas\Domain\Contents\DTO\PostContentDTO;
  * @ORM\Entity
  * @ORM\Table(name="post")
  */
-class PostDTO implements \Library\Mapper\PopulatedFromMapper
+class PostDTO implements \Milhojas\Library\Mapper\PopulatedFromMapper
 {
     /**
      * @ORM\Column(type="string")

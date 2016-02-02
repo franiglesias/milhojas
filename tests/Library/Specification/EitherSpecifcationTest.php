@@ -1,8 +1,8 @@
 <?php
 
-namespace Milhojas\Tests\Library\Specification;
+namespace Tests\Library\Specification;
 
-use Library\Specification\EitherSpecification;
+use Milhojas\Library\Specification\EitherSpecification;
 
 /**
 * Description

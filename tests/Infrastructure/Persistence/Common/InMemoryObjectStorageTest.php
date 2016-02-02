@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Tests\Infrastructure\Persistence\Common;
+namespace Tests\Infrastructure\Persistence\Common;
 
 use \Milhojas\Infrastructure\Persistence\Common\InMemoryObjectStorage;
 

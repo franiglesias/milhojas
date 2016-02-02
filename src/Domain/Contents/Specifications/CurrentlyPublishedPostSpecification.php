@@ -3,7 +3,7 @@
 namespace Milhojas\Domain\Contents\Specifications;
 
 use Milhojas\Domain\Contents\Specifications\PostSpecificationInterface;
-use Library\Specification\AbstractSpecification;
+use Milhojas\Library\Specification\AbstractSpecification;
 /**
 * Description
 */

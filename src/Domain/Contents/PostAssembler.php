@@ -3,7 +3,7 @@
 namespace Milhojas\Domain\Contents;
 
 use Milhojas\Domain\Contents\Post;
-use Library\Mapper\SimpleMapper;
+use Milhojas\Library\Mapper\SimpleMapper;
 
 /**
 * A simple Mapper to map Post to PostDTO
@@ -16,12 +16,12 @@ class PostAssembler
 	{
 		$this->Mapper = $Mapper;
 	}
-	public function map(Post $Post, \Library\Mapper\PopulatedFromMapper $dto)
+	public function map(Post $Post, \Milhojas\Library\Mapper\PopulatedFromMapper $dto)
 	{
 		return $this->Mapper->map($Post, $dto);
 	}
 	
-	public function build(\Library\Mapper\PopulatedFromMapper $dto)
+	public function build(\Milhojas\Library\Mapper\PopulatedFromMapper $dto)
 	{
 		$Post = Post::write(
 			new PostId($dto->getId()), 
@@ -42,7 +42,7 @@ class PostAssembler
 				if ($dto->getExpiration()) {
 					$expiration = new \DateTimeImmutable($dto->getExpiration());
 				}
-				$dateRange = new \Library\ValueObjects\Dates\DateRange(
+				$dateRange = new \Milhojas\Library\ValueObjects\Dates\DateRange(
 					new \DateTimeImmutable($dto->getPubDate()),
 					$expiration
 				);

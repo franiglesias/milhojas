@@ -17,7 +17,7 @@ class DoctrinePostRepository implements PostRepository {
 		$this->mapper = $mapper;
 	}
 	
-	public function get(\Domain\Contents\PostId $id)
+	public function get(\Milhojas\Domain\Contents\PostId $id)
 	{
 		try {
 			
@@ -27,7 +27,7 @@ class DoctrinePostRepository implements PostRepository {
 		}
 	}
 	
-	public function save(\Domain\Contents\Post $Post)
+	public function save(\Milhojas\Domain\Contents\Post $Post)
 	{
 		$dto = $this->mapper->map($Post, new \Milhojas\Domain\Contents\DTO\PostDTO());
 		$this->em->persist($dto);
@@ -41,7 +41,7 @@ class DoctrinePostRepository implements PostRepository {
 			->getSingleScalarResult();
 	}
 	
-	public function findSatisfying(\Library\Specification\AbstractSpecification $Specification)
+	public function findSatisfying(\Milhojas\Library\Specification\SpecificationInterface $Specification)
 	{
 		// $data = $this->Storage->findAll();
 		// return array_filter($data, array($Specification, 'isSatisfiedBy'));

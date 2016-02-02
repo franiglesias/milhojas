@@ -1,8 +1,8 @@
 <?php
 
-namespace Milhojas\Tests\Library\Mapper\Descriptor;
+namespace Tests\Library\Mapper\Descriptor;
 
-use Library\Mapper\Descriptor\PlainPropertyDescriptor;
+use Milhojas\Library\Mapper\Descriptor\PlainPropertyDescriptor;
 
 class PlainPropertyDescriptorTest extends AbstractPropertyDescriptorTestCase {
 	

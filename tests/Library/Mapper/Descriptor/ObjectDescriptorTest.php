@@ -1,9 +1,9 @@
 <?php
 
-namespace Milhojas\Tests\Library\Mapper\Descriptor;
+namespace Tests\Library\Mapper\Descriptor;
 
-use Library\Mapper\Descriptor\ObjectDescriptor;
-use Library\Mapper\Descriptor\PropertyDescriptor;
+use Milhojas\Library\Mapper\Descriptor\ObjectDescriptor;
+use Milhojas\Library\Mapper\Descriptor\PropertyDescriptor;
 
 
 class ObjectDescriptorTest extends \PHPUnit_Framework_Testcase{

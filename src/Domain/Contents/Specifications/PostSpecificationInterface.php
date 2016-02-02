@@ -10,6 +10,6 @@ interface PostSpecificationInterface {
 	 * @return boolean
 	 * @author Fran Iglesias
 	 */
-	public function isSatisfiedBy(\Domain\Contents\Post $Post);
+	public function isSatisfiedBy(\Milhojas\Domain\Contents\Post $Post);
 }
 ?>

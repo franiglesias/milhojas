@@ -1,7 +1,7 @@
 <?php
 
 // tests/AppBundle/Entity/ProductRepositoryTest.php
-namespace Milhojas\Tests\Infrastructure\Persistence\Common\DoctrineTest;
+namespace Tests\Infrastructure\Persistence\Common\DoctrineTest;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use \Milhojas\Domain\Contents\DTO\PostDTO;

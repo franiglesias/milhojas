@@ -2,6 +2,7 @@
 
 namespace Milhojas\Application\Inflectors;
 use Milhojas\Application\Inflector;
+use Milhojas\Application\Command;
 
 /**
 * Description

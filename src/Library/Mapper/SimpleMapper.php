@@ -1,6 +1,6 @@
 <?php
 
-namespace Library\Mapper;
+namespace Milhojas\Library\Mapper;
 
 /**
 * Description
@@ -9,7 +9,7 @@ class SimpleMapper
 {
 	private $descriptor;
 	
-	function __construct(\Library\Mapper\Descriptor\ObjectDescriptor $descriptor)
+	function __construct(\Milhojas\Library\Mapper\Descriptor\ObjectDescriptor $descriptor)
 	{
 		$this->descriptor = $descriptor;
 	}

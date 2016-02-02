@@ -1,8 +1,8 @@
 <?php
 
-namespace Milhojas\Tests\Library\Mapper;
-use Library\Mapper\Mappable;
-use Library\Mapper\SimpleMapper;
+namespace Tests\Library\Mapper;
+
+use Milhojas\Library\Mapper\SimpleMapper;
 
 class SimpleMapperTest extends \PHPUnit_Framework_Testcase {
 	
@@ -20,7 +20,7 @@ class SimpleMapperTest extends \PHPUnit_Framework_Testcase {
 		);
 
 		$descriptor = $this
-			->getMockBuilder('Library\Mapper\Descriptor\ObjectDescriptor')
+			->getMockBuilder('\Milhojas\Library\Mapper\Descriptor\ObjectDescriptor')
 			->disableOriginalConstructor()
 			->getMock();
 		

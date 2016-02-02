@@ -1,6 +1,6 @@
 <?php
 
-namespace Library\Mapper\Descriptor;
+namespace Milhojas\Library\Mapper\Descriptor;
 
 /**
 * Describes a property with a complex value

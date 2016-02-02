@@ -1,6 +1,6 @@
 <?php
 
-namespace Library\Labels;
+namespace Milhojas\Library\Labels;
 
 class LabelCollection {
 	

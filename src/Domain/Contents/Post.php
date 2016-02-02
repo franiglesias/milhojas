@@ -6,7 +6,7 @@ use Milhojas\Domain\Contents\PostId;
 use Milhojas\Domain\Contents\PostStates as States;
 use Milhojas\Domain\Contents\DTO\PostDTO as PostDTO;
 
-use Library\ValueObjects\Dates\DateRange;
+use Milhojas\Library\ValueObjects\Dates\DateRange;
 /**
 * Represents a Post (an article)
 */

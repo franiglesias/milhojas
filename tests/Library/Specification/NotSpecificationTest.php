@@ -1,8 +1,8 @@
 <?php
 
-namespace Milhojas\Tests\Library\Specification;
+namespace Tests\Library\Specification;
 
-use Library\Specification\NotSpecification;
+use Milhojas\Library\Specification\NotSpecification;
 
 /**
 * Description

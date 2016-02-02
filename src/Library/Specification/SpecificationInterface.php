@@ -1,6 +1,6 @@
 <?php
 
-namespace Library\Specification;
+namespace Milhojas\Library\Specification;
 
 interface SpecificationInterface {
 	/**

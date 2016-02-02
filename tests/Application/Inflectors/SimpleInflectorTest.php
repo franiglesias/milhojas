@@ -1,15 +1,15 @@
 <?php
 
-namespace Milhojas\Tests\Application;
+namespace Tests\Application;
 
-use \Milhojas\Application\Inflectors\SimpleInflector;
-use \Milhojas\Application\Command;
+use Milhojas\Application\Inflectors\SimpleInflector;
+use Milhojas\Application\Command;
 
 class CreateUser implements Command {
 	
 }
 
-class DeleteUser implements Commnad {
+class DeleteUser implements Command {
 
 }
 

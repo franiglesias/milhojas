@@ -1,8 +1,6 @@
 <?php
 
-namespace Library\Specification;
-
-use Library\Specification\SpecificationInterface;
+namespace Milhojas\Library\Specification;
 
 abstract class AbstractSpecification implements SpecificationInterface
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Library\Mapper\Descriptor;
+namespace Milhojas\Library\Mapper\Descriptor;
 
 /**
 * Composite of Property Descriptors. It determines what class of property descriptor should do the work;

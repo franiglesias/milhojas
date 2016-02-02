@@ -1,8 +1,8 @@
 <?php
 
-namespace Milhojas\Tests\Library\Labels;
+namespace Tests\Library\Labels;
 
-use Library\Labels\LabelCollection;
+use Milhojas\Library\Labels\LabelCollection;
 
 class LabelCollectionTest extends \PHPUnit_Framework_Testcase {
 	

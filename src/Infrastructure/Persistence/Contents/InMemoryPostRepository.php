@@ -3,7 +3,7 @@
 namespace Milhojas\Infrastructure\Persistence\Contents;
 
 use Milhojas\Domain\Contents\PostRepository;
-use Milhojas\Domain\Contents\Specifications\PostSpecificationInterface;
+use Milhojas\Library\Specification\SpecificacionInterface;
 
 use Milhojas\Infrastructure\Persistence\Common\InMemoryStorage;
 use Milhojas\Infrastructure\Persistence\Common\StorageInterface;
@@ -18,7 +18,7 @@ class InMemoryPostRepository implements PostRepository {
 		$this->Storage = $Storage;
 	}
 	
-	public function get(\Domain\Contents\PostId $id)
+	public function get(\Milhojas\Domain\Contents\PostId $id)
 	{
 		try {
 			return $this->Storage->load($id->getId());
@@ -27,7 +27,7 @@ class InMemoryPostRepository implements PostRepository {
 		}
 	}
 	
-	public function save(\Domain\Contents\Post $Post)
+	public function save(\Milhojas\Domain\Contents\Post $Post)
 	{
 		$this->Storage->store($Post->getId()->getId(), $Post);
 	}
@@ -37,7 +37,7 @@ class InMemoryPostRepository implements PostRepository {
 		return $this->Storage->countAll();
 	}
 	
-	public function findSatisfying(\Library\Specification\AbstractSpecification $Specification)
+	public function findSatisfying(\Milhojas\Library\Specification\SpecificationInterface $Specification)
 	{
 		$data = $this->Storage->findAll();
 		return array_filter($data, array($Specification, 'isSatisfiedBy'));

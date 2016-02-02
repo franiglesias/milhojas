@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Tests\Library\Mapper\Descriptor\Utils;
+namespace Tests\Library\Mapper\Descriptor\Utils;
 
 class ClassWithAllPropertyTypes
 {

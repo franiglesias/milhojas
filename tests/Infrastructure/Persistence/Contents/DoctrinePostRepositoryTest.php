@@ -1,15 +1,14 @@
 <?php
 
-namespace Milhojas\Tests\Infrastructure\Persistence\Contents;
+namespace Tests\Infrastructure\Persistence\Contents;
 
-use \Milhojas\Infrastructure\Persistence\Contents\DoctrinePostRepository;
+use Milhojas\Infrastructure\Persistence\Contents\DoctrinePostRepository;
+
+use Milhojas\Domain\Contents\Post;
+use Milhojas\Domain\Contents\DTO\PostDTO;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\EntityManager;
-
-use \Milhojas\Domain\Contents\DTO\PostDTO;
-
-use \Milhojas\Domain\Contents\Post;
 
 
 class DoctrinePostRespositoryTest extends \PHPUnit_Framework_TestCase
@@ -18,7 +17,7 @@ class DoctrinePostRespositoryTest extends \PHPUnit_Framework_TestCase
 	public function getPost()
 	{
 		$post = $this
-			->getMockBuilder('Domain\Contents\Post')
+			->getMockBuilder('Milhojas\Domain\Contents\Post')
 			->disableOriginalConstructor()
 			->getMock();
 		return $post;
@@ -56,7 +55,7 @@ class DoctrinePostRespositoryTest extends \PHPUnit_Framework_TestCase
 	 public function getMapper()
 	 {
 	 	$mapper = $this
-			->getMockBuilder('Domain\Contents\PostAssembler')
+			->getMockBuilder('Milhojas\Domain\Contents\PostAssembler')
 				->disableOriginalConstructor()
 					->getMock();
 		return $mapper;
@@ -66,7 +65,7 @@ class DoctrinePostRespositoryTest extends \PHPUnit_Framework_TestCase
 	 {
 	     $dto = new PostDTO();
 		 $dto->setId('1234');
-	     $dto->setContent(new \Domain\Contents\DTO\PostContentDTO('A Foo Bar', 'A body for this test'));
+	     $dto->setContent(new \Milhojas\Domain\Contents\DTO\PostContentDTO('A Foo Bar', 'A body for this test'));
 		 $dto->setPubDate(new \DateTime());
 
 		 $dto->setExpiration(null);

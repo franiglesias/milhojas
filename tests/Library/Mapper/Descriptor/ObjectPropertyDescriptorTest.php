@@ -1,9 +1,9 @@
 <?php
 
-namespace Milhojas\Tests\Library\Mapper\Descriptor;
+namespace Tests\Library\Mapper\Descriptor;
 
-use Library\Mapper\Descriptor\ObjectPropertyDescriptor;
-use Library\Mapper\Descriptor\PropertyDescriptor;
+use Milhojas\Library\Mapper\Descriptor\ObjectPropertyDescriptor;
+use Milhojas\Library\Mapper\Descriptor\PropertyDescriptor;
 
 class ObjectPropertyDescriptorTest extends AbstractPropertyDescriptorTestCase {
 	

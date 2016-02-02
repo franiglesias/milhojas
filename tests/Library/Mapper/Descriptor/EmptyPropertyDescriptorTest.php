@@ -1,8 +1,8 @@
 <?php
 
-namespace Milhojas\Tests\Library\Mapper\Descriptor;
+namespace Tests\Library\Mapper\Descriptor;
 
-use Library\Mapper\Descriptor\EmptyPropertyDescriptor;
+use Milhojas\Library\Mapper\Descriptor\EmptyPropertyDescriptor;
 
 class EmptyPropertyDescriptorTest extends AbstractPropertyDescriptorTestCase {
 		

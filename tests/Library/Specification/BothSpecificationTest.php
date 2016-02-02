@@ -1,8 +1,8 @@
 <?php
 
-namespace Milhojas\Tests\Library\Specification;
+namespace Tests\Library\Specification;
 
-use Library\Specification\BothSpecification;
+use Milhojas\Library\Specification\BothSpecification;
 
 
 class MyClass {
@@ -21,7 +21,7 @@ class MyClass {
 /**
 * Description
 */
-class TrueSpecification extends \Library\Specification\AbstractSpecification
+class TrueSpecification extends \Milhojas\Library\Specification\AbstractSpecification
 {
 	public function isSatisfiedBy($object)
 	{
@@ -33,7 +33,7 @@ class TrueSpecification extends \Library\Specification\AbstractSpecification
 /**
 * Description
 */
-class FalseSpecification extends \Library\Specification\AbstractSpecification
+class FalseSpecification extends \Milhojas\Library\Specification\AbstractSpecification
 {
 	public function isSatisfiedBy($object)
 	{

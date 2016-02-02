@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Tests\Domain\Contents;
+namespace Tests\Domain\Contents;
 
 use \Milhojas\Domain\Contents\Post;
 use \Milhojas\Domain\Contents\PostId;
@@ -16,30 +16,30 @@ class PostTest extends \PHPUnit_Framework_Testcase
 	public function test_can_write_a_new_post()
 	{
 		$Post = Post::write(new PostId(1), new PostContent('Title', 'Body'));
-		$this->assertInstanceOf('Domain\Contents\Post', $Post);
+		$this->assertInstanceOf('\Milhojas\Domain\Contents\Post', $Post);
 	}
 	
 	public function test_new_Post_is_valid()
 	{
 		$Post = Post::write(new PostId(1), new PostContent('Title', 'Body'));
 		$this->assertEquals(new PostId(1), $Post->getId());
-		$this->assertInstanceOf('Domain\Contents\PostStates\DraftPostState', $Post->getState());
+		$this->assertInstanceOf('\Milhojas\Domain\Contents\PostStates\DraftPostState', $Post->getState());
 		$this->assertAttributeEquals(new PostContent('Title', 'Body'), 'content', $Post);
 	}
 	
 	public function test_Post_can_be_published()
 	{
 		$Post = Post::write(new PostId(1), new PostContent('Title', 'Body'));
-		$Post->publish(new \Library\ValueObjects\Dates\DateRange(new \DateTimeImmutable()));
-		$this->assertInstanceOf('Domain\Contents\PostStates\PublishedPostState', $Post->getState());
+		$Post->publish(new \Milhojas\Library\ValueObjects\Dates\DateRange(new \DateTimeImmutable()));
+		$this->assertInstanceOf('\Milhojas\Domain\Contents\PostStates\PublishedPostState', $Post->getState());
 	}
 	
 	public function test_Post_can_be_retired()
 	{
 		$Post = Post::write(new PostId(1), new PostContent('Title', 'Body'));
-		$Post->publish(new \Library\ValueObjects\Dates\DateRange(new \DateTimeImmutable()));
+		$Post->publish(new \Milhojas\Library\ValueObjects\Dates\DateRange(new \DateTimeImmutable()));
 		$Post->retire();
-		$this->assertInstanceOf('\Domain\Contents\PostStates\RetiredPostState', $Post->getState());
+		$this->assertInstanceOf('\Milhojas\Domain\Contents\PostStates\RetiredPostState', $Post->getState());
 	}
 
 	/**
@@ -88,7 +88,7 @@ class PostTest extends \PHPUnit_Framework_Testcase
 	public function test_Post_is_published_on_date()
 	{
 		$Post = Post::write(new PostId(1), new PostContent('Title', 'Body'));
-		$Post->publish(new \Library\ValueObjects\Dates\DateRange(new \DateTimeImmutable('-10 day')));
+		$Post->publish(new \Milhojas\Library\ValueObjects\Dates\DateRange(new \DateTimeImmutable('-10 day')));
 		$this->assertTrue($Post->isPublished(new \DateTimeImmutable()));
 		$this->assertFalse($Post->isPublished(new \DateTimeImmutable('-20 day')));
 		$this->assertTrue($Post->isPublished());

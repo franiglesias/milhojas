@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Contents;
+namespace Milhojas\Domain\Contents;
 
 /**
 * Represents the main content of an article, blog post, page

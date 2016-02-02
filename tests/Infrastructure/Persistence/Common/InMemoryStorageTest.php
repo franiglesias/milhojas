@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Infrastructure\Persistence\Common;
+namespace Milhojas\Tests\Infrastructure\Persistence\Common;
 
-use Infrastructure\Persistence\Common\InMemoryStorage;
+use \Milhojas\Infrastructure\Persistence\Common\InMemoryStorage;
 /**
 * Description
 */

@@ -1,9 +1,9 @@
 <?php
 
-namespace Domain\Contents\DTO;
+namespace Milhojas\Domain\Contents\DTO;
 
 use Doctrine\ORM\Mapping as ORM;
-use Domain\Contents\DTO\PostContentDTO;
+use Milhojas\Domain\Contents\DTO\PostContentDTO;
 
 /**
  * @ORM\Entity
@@ -106,7 +106,7 @@ class PostDTO implements \Library\Mapper\PopulatedFromMapper
     /**
      * Set content
      *
-     * @param \Domain\Contents\DTO\PostContentDTO $content
+     * @param \Milhojas\Domain\Contents\DTO\PostContentDTO $content
      *
      * @return PostDTO
      */
@@ -120,7 +120,7 @@ class PostDTO implements \Library\Mapper\PopulatedFromMapper
     /**
      * Get content
      *
-     * @return \Domain\Contents\DTO\PostContentDTO
+     * @return \Milhojas\Domain\Contents\DTO\PostContentDTO
      */
     public function getContent()
     {

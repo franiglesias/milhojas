@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Contents;
+namespace Milhojas\Domain\Contents;
 /**
 * Value Object to represent PostID
 */

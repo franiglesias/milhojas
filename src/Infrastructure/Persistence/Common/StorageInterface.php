@@ -1,6 +1,6 @@
 <?php
 
-namespace Infrastructure\Persistence\Common;
+namespace Milhojas\Infrastructure\Persistence\Common;
 
 interface StorageInterface {
 	public function load($id);

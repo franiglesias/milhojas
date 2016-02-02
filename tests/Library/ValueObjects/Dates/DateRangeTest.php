@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Tests\Library\ValueObjects\Dates;
+namespace Milhojas\Tests\Library\ValueObjects\Dates;
 
 use Library\ValueObjects\Dates\DateRange;
 

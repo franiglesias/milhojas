@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Library\Mapper\Descriptor;
+namespace Milhojas\Tests\Library\Mapper\Descriptor;
 
 use Library\Mapper\Descriptor\ObjectDescriptor;
 use Library\Mapper\Descriptor\PropertyDescriptor;

@@ -1,11 +1,11 @@
 <?php
 
 // tests/AppBundle/Entity/ProductRepositoryTest.php
-namespace Tests\Infrastructure\Persistence\Common\DoctrineTest;
+namespace Milhojas\Tests\Infrastructure\Persistence\Common\DoctrineTest;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Domain\Contents\DTO\PostDTO;
-use Domain\Contents\DTO\PostContentDTO;
+use \Milhojas\Domain\Contents\DTO\PostDTO;
+use \Milhojas\Domain\Contents\DTO\PostContentDTO;
 class PostRepositoryTest extends KernelTestCase
 {
     /**

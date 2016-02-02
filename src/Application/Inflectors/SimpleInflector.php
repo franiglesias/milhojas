@@ -1,7 +1,7 @@
 <?php
 
-namespace Application\Inflectors;
-use Application\Inflector;
+namespace Milhojas\Application\Inflectors;
+use Milhojas\Application\Inflector;
 
 /**
 * Description

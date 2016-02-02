@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Library\Specification;
+namespace Milhojas\Tests\Library\Specification;
 
 use Library\Specification\EitherSpecification;
 

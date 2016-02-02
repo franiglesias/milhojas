@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Domain\Contents;
+namespace Milhojas\Tests\Domain\Contents;
 
-use Domain\Contents\Post;
-use Domain\Contents\PostId;
-use Domain\Contents\PostContent;
-use Domain\Contents\Flags as Flag;
+use \Milhojas\Domain\Contents\Post;
+use \Milhojas\Domain\Contents\PostId;
+use \Milhojas\Domain\Contents\PostContent;
+use \Milhojas\Domain\Contents\Flags as Flag;
 
 /**
 * Description

@@ -1,8 +1,8 @@
 <?php
 
-namespace Domain\Contents;
+namespace Milhojas\Domain\Contents;
 
-use Domain\Contents\Post;
+use Milhojas\Domain\Contents\Post;
 use Library\Mapper\SimpleMapper;
 
 /**

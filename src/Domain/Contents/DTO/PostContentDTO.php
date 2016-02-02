@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Contents\DTO;
+namespace Milhojas\Domain\Contents\DTO;
 
 use Doctrine\ORM\Mapping as ORM;
 

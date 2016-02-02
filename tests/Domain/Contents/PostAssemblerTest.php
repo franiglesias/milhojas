@@ -1,16 +1,16 @@
 <?php
 
-namespace Tests\Domain\Contents;
+namespace Milhojas\Tests\Domain\Contents;
 
-use Domain\Contents\PostAssembler;
+use \Milhojas\Domain\Contents\PostAssembler;
 
 use Library\Mapper\SimpleMapper;
 
-use Domain\Contents\Post;
-use Domain\Contents\PostId;
-use Domain\Contents\PostContent;
-use Domain\Contents\DTO\PostDTO;
-use Domain\Contents\DTO\PostContentDTO;
+use \Milhojas\Domain\Contents\Post;
+use \Milhojas\Domain\Contents\PostId;
+use \Milhojas\Domain\Contents\PostContent;
+use \Milhojas\Domain\Contents\DTO\PostDTO;
+use \Milhojas\Domain\Contents\DTO\PostContentDTO;
 
 /**
 * Description

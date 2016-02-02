@@ -1,7 +1,7 @@
 <?php
 
-namespace Domain\Contents\PostStates;
-use Domain\Contents\PostStates\AbstractPostState;
+namespace Milhojas\Domain\Contents\PostStates;
+use Milhojas\Domain\Contents\PostStates\AbstractPostState;
 
 /**
 * Describes a Post not published

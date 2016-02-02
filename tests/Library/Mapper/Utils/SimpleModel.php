@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Library\Mapper\Utils;
+namespace Milhojas\Tests\Library\Mapper\Utils;
 
 /**
 * Simple Model Class for Mapper Tests

@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Domain\Contents\Flags;
+namespace Milhojas\Tests\Domain\Contents\Flags;
 
-use Domain\Contents\Flags as Flag;
+use \Milhojas\Domain\Contents\Flags as Flag;
 
 /**
 * Description

@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Application;
+namespace Milhojas\Tests\Application;
 
-use Application\Inflectors\SimpleInflector;
-use Application\Command;
+use \Milhojas\Application\Inflectors\SimpleInflector;
+use \Milhojas\Application\Command;
 
 class CreateUser implements Command {
 	

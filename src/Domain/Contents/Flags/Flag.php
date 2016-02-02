@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Contents\Flags;
+namespace Milhojas\Domain\Contents\Flags;
 
 abstract class Flag {
 }

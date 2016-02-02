@@ -1,10 +1,10 @@
 <?php
 
-namespace Domain\Contents;
+namespace Milhojas\Domain\Contents;
 
-use Domain\Contents\PostId;
-use Domain\Contents\PostStates as States;
-use Domain\Contents\DTO\PostDTO as PostDTO;
+use Milhojas\Domain\Contents\PostId;
+use Milhojas\Domain\Contents\PostStates as States;
+use Milhojas\Domain\Contents\DTO\PostDTO as PostDTO;
 
 use Library\ValueObjects\Dates\DateRange;
 /**
@@ -49,7 +49,7 @@ class Post
 		if (!$Date) {
 			$Date = new \DateTimeImmutable();
 		}
-		return ($this->state == new \Domain\Contents\PostStates\PublishedPostState()) && $this->publication->includes($Date);
+		return ($this->state == new \Milhojas\Domain\Contents\PostStates\PublishedPostState()) && $this->publication->includes($Date);
 	}
 	
 	public function addFlag(Flags\Flag $flag)

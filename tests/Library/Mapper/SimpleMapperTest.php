@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Library\Mapper;
+namespace Milhojas\Tests\Library\Mapper;
 use Library\Mapper\Mappable;
 use Library\Mapper\SimpleMapper;
 

@@ -4,7 +4,7 @@
  *
  * @author Fran Iglesias
  */
-namespace Infrastructure\Persistence\Common;
+namespace Milhojas\Infrastructure\Persistence\Common;
 use  Infrastructure\Persistence\Common\StorageInterface;
 
 class InMemoryStorage implements StorageInterface{

@@ -1,12 +1,12 @@
 <?php
 
-namespace Infrastructure\Persistence\Contents;
+namespace Milhojas\Infrastructure\Persistence\Contents;
 
-use Domain\Contents\PostRepository;
-use Domain\Contents\Specifications\PostSpecificationInterface;
+use Milhojas\Domain\Contents\PostRepository;
+use Milhojas\Domain\Contents\Specifications\PostSpecificationInterface;
 
-use Infrastructure\Persistence\Common\InMemoryStorage;
-use Infrastructure\Persistence\Common\StorageInterface;
+use Milhojas\Infrastructure\Persistence\Common\InMemoryStorage;
+use Milhojas\Infrastructure\Persistence\Common\StorageInterface;
 
 
 class InMemoryPostRepository implements PostRepository {
@@ -23,7 +23,7 @@ class InMemoryPostRepository implements PostRepository {
 		try {
 			return $this->Storage->load($id->getId());
 		} catch (\OutOfBoundsException $e) {
-			throw new \Domain\Contents\Exceptions\PostWasNotFound($e->getMessage());
+			throw new \Milhojas\Domain\Contents\Exceptions\PostWasNotFound($e->getMessage());
 		}
 	}
 	

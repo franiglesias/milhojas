@@ -1,8 +1,8 @@
 <?php
 
-namespace Domain\Contents\Specifications;
+namespace Milhojas\Domain\Contents\Specifications;
 
-use Domain\Contents\Specifications\PostSpecificationInterface;
+use Milhojas\Domain\Contents\Specifications\PostSpecificationInterface;
 use Library\Specification\AbstractSpecification;
 /**
 * Description

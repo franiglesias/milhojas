@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Infrastructure\Persistence\Contents;
+namespace Milhojas\Tests\Infrastructure\Persistence\Contents;
 
-use Infrastructure\Persistence\Contents\InMemoryPostRepository;
-use Infrastructure\Persistence\Common\InMemoryStorage;
+use \Milhojas\Infrastructure\Persistence\Contents\InMemoryPostRepository;
+use \Milhojas\Infrastructure\Persistence\Common\InMemoryStorage;
 
-use Domain\Contents\Specifications\CurrentlyPublishedPostSpecification;
+use \Milhojas\Domain\Contents\Specifications\CurrentlyPublishedPostSpecification;
 
 /**
 * Description

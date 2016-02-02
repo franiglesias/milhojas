@@ -1,9 +1,9 @@
 <?php
 
-namespace Infrastructure\Persistence\Contents;
+namespace Milhojas\Infrastructure\Persistence\Contents;
 
-use Domain\Contents\PostRepository;
-use Domain\Contents\PostAssembler;
+use Milhojas\Domain\Contents\PostRepository;
+use Milhojas\Domain\Contents\PostAssembler;
 use Doctrine\ORM\Entitymanager;
 
 class DoctrinePostRepository implements PostRepository {
@@ -23,13 +23,13 @@ class DoctrinePostRepository implements PostRepository {
 			
 			
 		} catch (\OutOfBoundsException $e) {
-			throw new \Domain\Contents\Exceptions\PostWasNotFound($e->getMessage());
+			throw new \Milhojas\Domain\Contents\Exceptions\PostWasNotFound($e->getMessage());
 		}
 	}
 	
 	public function save(\Domain\Contents\Post $Post)
 	{
-		$dto = $this->mapper->map($Post, new \Domain\Contents\DTO\PostDTO());
+		$dto = $this->mapper->map($Post, new \Milhojas\Domain\Contents\DTO\PostDTO());
 		$this->em->persist($dto);
 		$this->em->flush();
 	}

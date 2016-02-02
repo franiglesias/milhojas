@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Library\Mapper\Descriptor;
+namespace Milhojas\Tests\Library\Mapper\Descriptor;
 
 // Abstract base class for PropertyDescriptor Tests with some common methods
 

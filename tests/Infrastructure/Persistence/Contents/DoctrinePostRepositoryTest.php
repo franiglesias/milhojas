@@ -1,15 +1,15 @@
 <?php
 
-namespace Tests\Infrastructure\Persistence\Contents;
+namespace Milhojas\Tests\Infrastructure\Persistence\Contents;
 
-use Infrastructure\Persistence\Contents\DoctrinePostRepository;
+use \Milhojas\Infrastructure\Persistence\Contents\DoctrinePostRepository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\EntityManager;
 
-use Domain\Contents\DTO\PostDTO;
+use \Milhojas\Domain\Contents\DTO\PostDTO;
 
-use Domain\Contents\Post;
+use \Milhojas\Domain\Contents\Post;
 
 
 class DoctrinePostRespositoryTest extends \PHPUnit_Framework_TestCase

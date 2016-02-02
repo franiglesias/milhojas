@@ -1,8 +1,8 @@
 <?php
 
-namespace Domain\Contents\Flags;
+namespace Milhojas\Domain\Contents\Flags;
 
-use Domain\Contents\Flags\FeaturedFlag;
+use Milhojas\Domain\Contents\Flags\FeaturedFlag;
 /**
 * Description
 */

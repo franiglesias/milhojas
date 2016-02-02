@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Contents;
+namespace Milhojas\Domain\Contents;
 
 interface PostRepository {
 	public function get(PostId $id);

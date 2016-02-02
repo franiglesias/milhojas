@@ -1,8 +1,8 @@
 <?php
 
-namespace Domain\Contents\Flags;
+namespace Milhojas\Domain\Contents\Flags;
 
-use Domain\Contents\Flags\Flag;
+use Milhojas\Domain\Contents\Flags\Flag;
 
 class FeaturedFlag extends Flag{
 }

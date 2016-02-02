@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Contents\PostStates;
+namespace Milhojas\Domain\Contents\PostStates;
 
 class AbstractPostState {
 	public function publish()

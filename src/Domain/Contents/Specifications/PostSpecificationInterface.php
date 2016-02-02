@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Contents\Specifications;
+namespace Milhojas\Domain\Contents\Specifications;
 
 interface PostSpecificationInterface {
 	/**

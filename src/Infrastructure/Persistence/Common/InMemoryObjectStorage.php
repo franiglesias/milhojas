@@ -4,8 +4,8 @@
  *
  * @author Fran Iglesias
  */
-namespace Infrastructure\Persistence\Common;
-use Infrastructure\Persistence\Common\StorageInterface;
+namespace Milhojas\Infrastructure\Persistence\Common;
+use Milhojas\Infrastructure\Persistence\Common\StorageInterface;
 
 class ObjectId {
 	private $id;

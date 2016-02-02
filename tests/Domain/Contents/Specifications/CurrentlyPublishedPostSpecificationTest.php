@@ -2,8 +2,8 @@
 
 namespace Test\Domain\Contents\Specifications;
 
-use Domain\Contents\Specifications\PostSpecificationInterface;
-use Domain\Contents\Specifications\CurrentlyPublishedPostSpecification;
+use \Milhojas\Domain\Contents\Specifications\PostSpecificationInterface;
+use \Milhojas\Domain\Contents\Specifications\CurrentlyPublishedPostSpecification;
 
 class CurrentlyPublishedPostSpecificationTest extends \PHPUnit_Framework_Testcase {
 	

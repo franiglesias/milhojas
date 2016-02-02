@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Library\Labels;
+namespace Milhojas\Tests\Library\Labels;
 
 use Library\Labels\LabelCollection;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Domain\Contents;
+namespace Milhojas\Tests\Domain\Contents;
 
-use Domain\Contents\PostContent;
+use \Milhojas\Domain\Contents\PostContent;
 
 /**
 * Description

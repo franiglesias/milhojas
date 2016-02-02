@@ -38,22 +38,22 @@ class PostAssembler
 	{
 		switch ($dto->getState()) {
 			case 'PublishedPostState':
-			$expiration = null;
-			if ($dto->getExpiration()) {
-				$expiration = new \DateTimeImmutable($dto->getExpiration());
-			}
-			$dateRange = new \Library\ValueObjects\Dates\DateRange(
+				$expiration = null;
+				if ($dto->getExpiration()) {
+					$expiration = new \DateTimeImmutable($dto->getExpiration());
+				}
+				$dateRange = new \Library\ValueObjects\Dates\DateRange(
 					new \DateTimeImmutable($dto->getPubDate()),
 					$expiration
 				);
 				$Post->publish($dateRange);
 				break;
 			case 'RetiredPostState':
-			$Post->retire();
+				$Post->retire();
 				break;
 			default:
 				
-				break;
+			break;
 		}
 	}
 }

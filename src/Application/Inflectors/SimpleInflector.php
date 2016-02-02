@@ -11,8 +11,7 @@ class SimpleInflector implements Inflector
 {
 	public function inflect(Command $command)
 	{
-		$name = get_class($command).'Handler';
-		return $name;
+		return preg_replace('/Command/', '', get_class($command)).'Handler';
 	}
 }
 ?>

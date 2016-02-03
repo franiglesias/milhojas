@@ -7,6 +7,26 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+
+    property_descriptor:
+        class:     Milhojas\Library\Mapper\Descriptor\PropertyDescriptor
+    object_descriptor:
+        class:     Milhojas\Library\Mapper\Descriptor\ObjectDescriptor
+        arguments: ["@property_descriptor"]
+    simple_mapper:
+        class:      Milhojas\Library\Mapper\SimpleMapper
+        arguments:  ["@object_descriptor"]
+    post_assembler:
+        class:      Milhojas\Domain\Contents\PostAssembler
+        arguments:  ["@simple_mapper"]
     post_repository:
-        class:        Infrastructure\Persistence\Contents\DoctrinePostRepository
-        arguments:    ["@doctrine.orm.entity_manager"]
+        class:        Milhojas\Infrastructure\Persistence\Contents\DoctrinePostRepository
+        arguments:    ["@doctrine.orm.entity_manager", '@post_assembler']
+
+    handler_container:
+        class:        Milhojas\Application\Containers\HandlerContainer
+        arguments:    ["@service_container"]
+
+    write_post_handler:
+        class:        Milhojas\Application\Contents\WritePostHandler
+        arguments:    ["@post_repository"]

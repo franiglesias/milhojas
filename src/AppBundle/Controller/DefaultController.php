@@ -48,4 +48,13 @@ class DefaultController extends Controller
 			'language' => $request->getPreferredLanguage()
 		));
 	}
+	/**
+	 * @Route("/write")
+	 */
+	public function writeAction()
+	{
+		$command = new \Milhojas\Application\Contents\WritePost(1, 'Title of a Post', 'Body of the first Post');
+		$bus = new \Milhojas\Application\CommandBus($this->get('handler_container'), new \Milhojas\Application\Inflectors\HandlerInflector());
+		$bus->execute($command);
+	}
 }

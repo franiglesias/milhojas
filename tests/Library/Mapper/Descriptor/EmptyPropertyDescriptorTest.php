@@ -4,6 +4,10 @@ namespace Tests\Library\Mapper\Descriptor;
 
 use Milhojas\Library\Mapper\Descriptor\EmptyPropertyDescriptor;
 
+use Tests\Library\Mapper\Utils\ClassWithAllPropertyTypes;
+use Tests\Library\Mapper\Utils\EmptyClass;
+use Tests\Library\Mapper\Utils\ClassWithPlainProperties;
+
 class EmptyPropertyDescriptorTest extends AbstractPropertyDescriptorTestCase {
 		
 	public function test_it_describes_empty_property_as_class_name()

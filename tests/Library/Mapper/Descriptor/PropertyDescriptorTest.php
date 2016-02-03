@@ -4,11 +4,15 @@ namespace Tests\Library\Mapper\Descriptor;
 
 use Milhojas\Library\Mapper\Descriptor\PropertyDescriptor;
 
+use Tests\Library\Mapper\Utils\ClassWithAllPropertyTypes;
+use Tests\Library\Mapper\Utils\EmptyClass;
+use Tests\Library\Mapper\Utils\ClassWithPlainProperties;
+
 class PropertyDescriptorTest extends \PHPUnit_Framework_Testcase {
 	
 	private function getClass()
 	{
-		return new Utils\ClassWithAllPropertyTypes(1, new Utils\EmptyClass(), new Utils\ClassWithPlainProperties(1, 'Content'));
+		return new ClassWithAllPropertyTypes(1, new EmptyClass(), new ClassWithPlainProperties(1, 'Content'));
 	}
 	
 	public function getProperty($name)

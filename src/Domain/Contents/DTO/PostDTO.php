@@ -20,11 +20,14 @@ class PostDTO implements \Milhojas\Library\Mapper\PopulatedFromMapper
 	/** @ORM\Embedded(class = "PostContentDTO", columnPrefix = false) */
 	protected $content;
 	
-	/** @ORM\Column(type="datetime") */
+	/** @ORM\Column(type="datetime", nullable=TRUE) */
 	protected $pubDate;
 	/** @ORM\Column(type="datetime", nullable=TRUE) */
 	protected $expiration;
 	
+	/**
+	 * @ORM\Column(type="string", nullable=FALSE)
+	 */
 	protected $state;
 	
 	public function __construct()
@@ -34,10 +37,10 @@ class PostDTO implements \Milhojas\Library\Mapper\PopulatedFromMapper
 	
 	public function fromMap($map)
 	{
-		$this->id = $map['post.id'];
+		$this->id = $map['post.id.id'];
 		$this->content->setTitle($map['post.content.title']);
 		$this->content->setBody($map['post.content.body']);
-		$this->content->setState($map['post.content.state']);
+		$this->setState($map['post.state']);
 	}
 
 	public function setId($id)

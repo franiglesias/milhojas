@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Library\Mapper\Descriptor\Utils;
+namespace Tests\Library\Mapper\Utils;
 
 class ClassWithAllPropertyTypes
 {

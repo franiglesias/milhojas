@@ -9,12 +9,12 @@ use Doctrine\ORM\Entitymanager;
 class DoctrinePostRepository implements PostRepository {
 	
 	private $em;
-	private $mapper;
+	private $assembler;
 	
-	public function __construct(Entitymanager $em, PostAssembler $mapper)
+	public function __construct(Entitymanager $em, PostAssembler $assembler)
 	{
 		$this->em = $em;
-		$this->mapper = $mapper;
+		$this->assembler = $assembler;
 	}
 	
 	public function get(\Milhojas\Domain\Contents\PostId $id)
@@ -29,7 +29,7 @@ class DoctrinePostRepository implements PostRepository {
 	
 	public function save(\Milhojas\Domain\Contents\Post $Post)
 	{
-		$dto = $this->mapper->map($Post, new \Milhojas\Domain\Contents\DTO\PostDTO());
+		$dto = $this->assembler->map($Post, new \Milhojas\Domain\Contents\DTO\PostDTO());
 		$this->em->persist($dto);
 		$this->em->flush();
 	}

@@ -3,7 +3,7 @@
 namespace Milhojas\Domain\Contents;
 
 use Milhojas\Domain\Contents\Post;
-use Milhojas\Library\Mapper\SimpleMapper;
+use Milhojas\Library\Mapper\Mapper;
 
 /**
 * A simple Mapper to map Post to PostDTO
@@ -12,13 +12,15 @@ class PostAssembler
 {
 	private $Mapper;
 	
-	public function __construct(SimpleMapper $Mapper)
+	public function __construct(Mapper $Mapper)
 	{
 		$this->Mapper = $Mapper;
 	}
 	public function map(Post $Post, \Milhojas\Library\Mapper\PopulatedFromMapper $dto)
 	{
-		return $this->Mapper->map($Post, $dto);
+		$map = $this->Mapper->map($Post);
+		$dto->fromMap($map);
+		return $dto;
 	}
 	
 	public function build(\Milhojas\Library\Mapper\PopulatedFromMapper $dto)

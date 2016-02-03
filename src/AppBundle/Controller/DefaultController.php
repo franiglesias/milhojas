@@ -53,7 +53,7 @@ class DefaultController extends Controller
 	 */
 	public function writeAction()
 	{
-		$command = new \Milhojas\Application\Contents\WritePost(2, 'Title of a Post', 'Body of the first Post');
+		$command = new \Milhojas\Application\Contents\WritePost(5, 'Title of a Post', 'Body of the first Post');
 		$bus = new \Milhojas\Application\CommandBus($this->get('handler_container'), new \Milhojas\Application\Inflectors\HandlerInflector());
 		$bus->execute($command);
 		return new Response('Job done!');

@@ -1,26 +1,19 @@
 <?php
 
-namespace Milhojas\Library\Mapper\Descriptor;
+namespace Milhojas\Library\Mapper;
 
-// use Milhojas\Library\Mapper\Descriptor\PropertyDescriptor;
+use Milhojas\Library\Mapper\Descriptor\PropertyDescriptor;
 
-/**
- * Describes properties of an object
- *
- * @package milhojas/mapper
- * @author Fran Iglesias
- */
-
-class ObjectDescriptor {
+class ObjectMapper implements Mapper{
 	
 	private $PropertyDescriptor;
 	
-	public function __construct($PropertyDescriptor)
+	public function __construct(PropertyDescriptor $PropertyDescriptor)
 	{
 		$this->PropertyDescriptor = $PropertyDescriptor;
 	}
 
-	public function describe($object)
+	public function map($object)
 	{
 		$description = array();
 		$reflect = new \ReflectionObject($object);
@@ -34,7 +27,5 @@ class ObjectDescriptor {
 		return $description;
 	}
 }
-
-
 
 ?>

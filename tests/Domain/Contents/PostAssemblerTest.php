@@ -4,7 +4,7 @@ namespace Tests\Domain\Contents;
 
 use Milhojas\Domain\Contents\PostAssembler;
 
-use Milhojas\Library\Mapper\SimpleMapper;
+use Milhojas\Library\Mapper\ObjectMapper;
 
 use Milhojas\Domain\Contents\Post;
 use Milhojas\Domain\Contents\PostId;
@@ -19,7 +19,7 @@ class PostAssemblerTest extends \PHPUnit_Framework_Testcase
 {
 	private function getMapper()
 	{
-		return $this->getMockBuilder('\Milhojas\Library\Mapper\SimpleMapper')
+		return $this->getMockBuilder('\Milhojas\Library\Mapper\ObjectMapper')
 			->disableOriginalConstructor()
 				->getMock();
 	}
@@ -48,11 +48,20 @@ class PostAssemblerTest extends \PHPUnit_Framework_Testcase
 		$Post = $this->getPost();
 		$PostDTO = $this->getPostDTO();
 		
+		$map = array(
+			'post.id.id' => 1,
+			'post.content.title' => 'Title',
+			'post.content.body' => 'Body',
+			'post.publication.start' => '2016-01-01',
+			'post.state' => 'PublishedPostState'
+		);
+
+		
 		$Mapper = $this->getMapper();
 		$Mapper->expects($this->once())
 			->method('map')
-				->with($this->equalTo($Post), $this->equalTo($PostDTO))
-				->will($this->returnValue($PostDTO));
+				->with($this->equalTo($Post))
+				->will($this->returnValue($map));
 		
 		$PostAssembler = new PostAssembler($Mapper);
 		$dto = $PostAssembler->map($Post, $PostDTO);

@@ -16,12 +16,17 @@ class ObjectPropertyDescriptor extends AbstractPropertyDescriptor
 
 	public function describe(\ReflectionProperty $theProperty, $theObject, $prefix = null)
 	{
+		$description = array();
 		$theProperty->setAccessible(true);
 		$object = $theProperty->getValue($theObject);
-		$description = array();
-		foreach ($this->getProperties($object) as $property) {
-			$description += $this->PropertyDescriptor->describe($property, $object, $this->getQualifiedName($theProperty, $prefix));
-		}
+		$prefix = $this->getQualifiedName($theProperty, $prefix);
+		$properties = $this->getProperties($object);
+		// foreach ($this->getProperties($object) as $property) {
+		// 	$description += $this->PropertyDescriptor->describe($property, $object, $prefix);
+		// }
+		array_walk($properties, function ($property, $key) use (&$description, $object, $prefix) {
+			$description += $this->PropertyDescriptor->describe($property, $object, $prefix);
+		});
 		return $description;
 	}
 	

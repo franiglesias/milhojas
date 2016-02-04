@@ -2,7 +2,7 @@
 
 namespace Test\Domain\Contents\Specifications;
 
-use Milhojas\Domain\Contents\Specifications\PostSpecificationInterface;
+use Milhojas\Domain\Contents\Specifications\PostSpecification;
 use Milhojas\Domain\Contents\Specifications\CurrentlyPublishedPostSpecification;
 
 class CurrentlyPublishedPostSpecificationTest extends \PHPUnit_Framework_Testcase {

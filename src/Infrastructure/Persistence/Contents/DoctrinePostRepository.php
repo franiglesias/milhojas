@@ -5,7 +5,7 @@ namespace Milhojas\Infrastructure\Persistence\Contents;
 use Milhojas\Domain\Contents\PostRepository;
 use Milhojas\Domain\Contents\PostAssembler;
 use Doctrine\ORM\Entitymanager;
-
+use Milhojas\Library\Specification\Specification;
 class DoctrinePostRepository implements PostRepository {
 	
 	private $em;
@@ -41,7 +41,7 @@ class DoctrinePostRepository implements PostRepository {
 			->getSingleScalarResult();
 	}
 	
-	public function findSatisfying(\Milhojas\Library\Specification\SpecificationInterface $Specification)
+	public function findSatisfying(Specification $Specification)
 	{
 		// $data = $this->Storage->findAll();
 		// return array_filter($data, array($Specification, 'isSatisfiedBy'));

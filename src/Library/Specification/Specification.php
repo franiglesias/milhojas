@@ -2,13 +2,13 @@
 
 namespace Milhojas\Library\Specification;
 
-interface SpecificationInterface {
+interface Specification {
 	/**
 	 * @return boolean
 	 */
 	public function isSatisfiedBy($object);
-	public function both(SpecificationInterface $spec);
-	public function either(SpecificationInterface $spec);
+	public function both(Specification $spec);
+	public function either(Specification $spec);
 	public function not();
 }
 ?>

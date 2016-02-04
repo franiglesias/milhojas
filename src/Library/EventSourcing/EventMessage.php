@@ -39,6 +39,11 @@ class EventMessage
 		return $uuid->toString();
 	}
 	
+	public function getEvent()
+	{
+		return $this->payload;
+	}
+	
 	
 }
 

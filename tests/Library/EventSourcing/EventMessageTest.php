@@ -20,6 +20,15 @@ class EventMessageTest extends \PHPUnit_Framework_TestCase
 		$Message = EventMessage::record($event, 'Entity', 'entityid');
 		$this->assertInstanceOf('Milhojas\Library\EventSourcing\EventMessage', $Message);
 	}
+	
+	public function test_it_can_return_the_event()
+	{
+		$event = $this->getMockBuilder('Milhojas\Library\EventSourcing\DomainEvent')
+			->disableOriginalConstructor()
+            ->getMock();
+		$Message = EventMessage::record($event, 'Entity', 'entityid');
+		$this->assertEquals($event, $Message->getEvent());
+	}
 }
 
 ?>

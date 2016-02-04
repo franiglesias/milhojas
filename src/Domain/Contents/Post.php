@@ -7,6 +7,7 @@ use Milhojas\Domain\Contents\PostStates as States;
 use Milhojas\Domain\Contents\DTO\PostDTO as PostDTO;
 
 use Milhojas\Library\ValueObjects\Dates\DateRange;
+use Milhojas\Library\ValueObjects\Dates\OpenDateRange;
 /**
 * Represents a Post (an article)
 */
@@ -31,6 +32,7 @@ class Post
 		$this->content = $content;
 		$this->state = new States\DraftPostState();
 		$this->flags = new Flags\FlagCollection(new \SplObjectStorage());
+		$this->publication = new OpenDateRange(new \DateTimeImmutable());
 	}
 	
 	static function write(PostId $id, PostContent $content)

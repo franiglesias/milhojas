@@ -4,7 +4,7 @@
 namespace Tests\Library\ValueObjects\Dates;
 
 use Milhojas\Library\ValueObjects\Dates\DateRange;
-
+use Milhojas\Library\ValueObjects\Dates\OpenDateRange;
 /**
 * Description
 */
@@ -70,6 +70,13 @@ class DateRangeTest extends \PHPUnit_Framework_Testcase
 	{
 		$PubDate = new DateRange(new \DateTimeImmutable(), new \DateTimeImmutable('-5 day'));
 	}
+	
+	public function test_open_date_range()
+	{
+		$PubDate = DateRange::open(new \DateTimeImmutable());
+		$this->assertInstanceOf('\Milhojas\Library\ValueObjects\Dates\OpenDateRange', $PubDate);
+		
+	}
 
 	# Changing range limits
 	
@@ -87,9 +94,9 @@ class DateRangeTest extends \PHPUnit_Framework_Testcase
 	{
 		$Pub = new DateRange(new \DateTimeImmutable(), new \DateTimeImmutable('+2 day'));
 		$NewPub = $Pub->changeExpiration();
-		$this->assertInstanceOf('\Milhojas\Library\ValueObjects\Dates\DateRange', $NewPub);
+		$this->assertInstanceOf('\Milhojas\Library\ValueObjects\Dates\OpenDateRange', $NewPub);
 
-		$Expected = new DateRange(new \DateTimeImmutable());
+		$Expected = new OpenDateRange(new \DateTimeImmutable());
 		$this->assertEquals($Expected, $NewPub);
 	}
 	

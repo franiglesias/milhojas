@@ -25,9 +25,6 @@ class ObjectMapper implements Mapper{
 		foreach ($properties as $property) {
 			$description += $this->PropertyDescriptor->describe($property, $object, $prefix);
 		}
-		// array_walk($properties, function ($property, $key) use (&$description, $object, $prefix) {
-		// 	$description += $this->PropertyDescriptor->describe($property, $object, $prefix);
-		// });
 		return $description;
 	}
 }

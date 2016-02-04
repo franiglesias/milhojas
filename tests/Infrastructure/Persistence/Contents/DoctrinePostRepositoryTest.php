@@ -55,11 +55,28 @@ class DoctrinePostRespositoryTest extends \PHPUnit_Framework_TestCase
 	 public function getMapper()
 	 {
 	 	$mapper = $this
-			->getMockBuilder('Milhojas\Domain\Contents\PostAssembler')
+			->getMockBuilder('Milhojas\Library\Mapper\Mapper')
 				->disableOriginalConstructor()
 					->getMock();
 		return $mapper;
 	 }
+	 
+	 public function getAssembler()
+	 {
+		 return $this
+			 ->getMockBuilder('Milhojas\Domain\Contents\PostAssembler')
+				 ->disableOriginalConstructor()
+					 ->getMock();
+	 }
+
+	 public function getDTOAssembler()
+	 {
+		 return $this
+			 ->getMockBuilder('Milhojas\Domain\Contents\PostDTOAssembler')
+				 ->disableOriginalConstructor()
+					 ->getMock();
+	 }
+
 	
 	 public function test_it_can_save_post()
 	 {
@@ -75,9 +92,16 @@ class DoctrinePostRespositoryTest extends \PHPUnit_Framework_TestCase
 
 		 // Set expectations
 		 
+		 $map = array('a.field' => 'data');
+		 
 		 $mapper = $this->getMapper();
 		 $mapper->expects($this->once())
-			 ->method('map')->with($this->equalTo($post), $this->equalTo(new PostDTO()))
+			 ->method('map')->with($this->equalTo($post))
+				 ->will($this->returnValue($map));
+		 
+		 $dtoAssembler = $this->getDTOAssembler();
+		 $dtoAssembler->expects($this->once())
+			 ->method('assemble')->with($this->equalTo($map))
 				 ->will($this->returnValue($dto));
 		 
 		 $em->expects($this->once())
@@ -85,7 +109,7 @@ class DoctrinePostRespositoryTest extends \PHPUnit_Framework_TestCase
 		 $em->expects($this->once())
 			 ->method('flush');
 
-		 $repo = new DoctrinePostRepository($em, $mapper);
+		 $repo = new DoctrinePostRepository($em, $mapper, $this->getAssembler(), $dtoAssembler);
 		 $repo->save($post);
 	 }
 	 
@@ -103,7 +127,7 @@ class DoctrinePostRespositoryTest extends \PHPUnit_Framework_TestCase
 			->method('getSingleScalarResult')
 			->will($this->returnValue(4));
 		
-		$repo = new DoctrinePostRepository($em, $this->getMapper());
+		$repo = new DoctrinePostRepository($em, $this->getMapper(), $this->getAssembler(), $this->getDTOAssembler());
 		$this->assertEquals(4, $repo->countAll());
 		
 	 }

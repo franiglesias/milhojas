@@ -25,6 +25,7 @@ class PostTest extends \PHPUnit_Framework_Testcase
 		$this->assertEquals(new PostId(1), $Post->getId());
 		$this->assertInstanceOf('\Milhojas\Domain\Contents\PostStates\DraftPostState', $Post->getState());
 		$this->assertAttributeEquals(new PostContent('Title', 'Body'), 'content', $Post);
+		$this->assertAttributeInstanceOf('\Milhojas\Library\ValueObjects\Dates\DateRange', 'publication', $Post);
 	}
 	
 	public function test_Post_can_be_published()

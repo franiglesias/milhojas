@@ -18,6 +18,11 @@ class DateRange
 		$this->end = $End;
 	}
 	
+	static public function open(\DateTimeImmutable $Start)
+	{
+		return new OpenDateRange($Start);
+	}
+	
 	public function includes(\DateTimeImmutable $Test)
 	{
 		if ($this->end) {
@@ -33,6 +38,9 @@ class DateRange
 	
 	public function changeExpiration(\DateTimeImmutable $End = null)
 	{
+		if (is_null($End)) {
+			return new OpenDateRange($this->start);
+		}
 		return new self($this->start, $End);
 	}
 	

@@ -15,10 +15,11 @@ services:
         arguments:      ["@milhojas.property_descriptor"]
     post_assembler:
         class:      Milhojas\Domain\Contents\PostAssembler
-        arguments:  ["@milhojas.object_mapper"]
+    post_dto_assembler:
+        class:      Milhojas\Domain\Contents\PostDTOAssembler
     post_repository:
         class:        Milhojas\Infrastructure\Persistence\Contents\DoctrinePostRepository
-        arguments:    ["@doctrine.orm.entity_manager", '@post_assembler']
+        arguments:    ["@doctrine.orm.entity_manager", '@milhojas.object_mapper', '@post_assembler', '@post_dto_assembler']
 
     handler_container:
         class:        Milhojas\Application\Containers\HandlerContainer

@@ -3,27 +3,21 @@
 namespace Milhojas\Domain\Contents;
 
 use Milhojas\Domain\Contents\Post;
+use Milhojas\Domain\Contents\DTO\PostDTO;
 use Milhojas\Library\Mapper\Mapper;
+use Milhojas\Library\Mapper\Assembler;
 
 /**
 * A simple Mapper to map Post to PostDTO
 */
-class PostAssembler
+class PostAssembler implements Assembler
 {
-	private $Mapper;
 	
-	public function __construct(Mapper $Mapper)
+	public function __construct()
 	{
-		$this->Mapper = $Mapper;
-	}
-	public function map(Post $Post, \Milhojas\Library\Mapper\PopulatedFromMapper $dto)
-	{
-		$map = $this->Mapper->map($Post);
-		$dto->fromMap($map);
-		return $dto;
 	}
 	
-	public function build(\Milhojas\Library\Mapper\PopulatedFromMapper $dto)
+	public function assemble($dto)
 	{
 		$Post = Post::write(
 			new PostId($dto->getId()), 

@@ -4,17 +4,25 @@ namespace Milhojas\Infrastructure\Persistence\Contents;
 
 use Milhojas\Domain\Contents\PostRepository;
 use Milhojas\Domain\Contents\PostAssembler;
+use Milhojas\Domain\Contents\PostDTOAssembler;
 use Doctrine\ORM\Entitymanager;
+
 use Milhojas\Library\Specification\Specification;
+use Milhojas\Library\Mapper\Mapper;
+
 class DoctrinePostRepository implements PostRepository {
 	
 	private $em;
 	private $assembler;
+	private $mapper;
+	private $dtoAssembler;
 	
-	public function __construct(Entitymanager $em, PostAssembler $assembler)
+	public function __construct(Entitymanager $em, Mapper $mapper, PostAssembler $assembler, PostDTOAssembler $dtoAssembler)
 	{
 		$this->em = $em;
 		$this->assembler = $assembler;
+		$this->mapper = $mapper;
+		$this->dtoAssembler = $dtoAssembler;
 	}
 	
 	public function get(\Milhojas\Domain\Contents\PostId $id)
@@ -29,7 +37,8 @@ class DoctrinePostRepository implements PostRepository {
 	
 	public function save(\Milhojas\Domain\Contents\Post $Post)
 	{
-		$dto = $this->assembler->map($Post, new \Milhojas\Domain\Contents\DTO\PostDTO());
+		$map = $this->mapper->map($Post);
+		$dto = $this->dtoAssembler->assemble($map);
 		$this->em->persist($dto);
 		$this->em->flush();
 	}

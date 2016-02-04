@@ -2,7 +2,7 @@
 
 namespace Tests\Domain\Contents;
 
-use Milhojas\Domain\Contents\PostAssembler;
+use Milhojas\Domain\Contents\PostDTOAssembler;
 
 use Milhojas\Library\Mapper\ObjectMapper;
 
@@ -15,8 +15,14 @@ use Milhojas\Domain\Contents\DTO\PostContentDTO;
 /**
 * Description
 */
-class PostAssemblerTest extends \PHPUnit_Framework_Testcase
+class PostDTOAssemblerTest extends \PHPUnit_Framework_Testcase
 {
+	private function getMapper()
+	{
+		return $this->getMockBuilder('\Milhojas\Library\Mapper\ObjectMapper')
+			->disableOriginalConstructor()
+				->getMock();
+	}
 	
 	private function getPost()
 	{
@@ -36,15 +42,23 @@ class PostAssemblerTest extends \PHPUnit_Framework_Testcase
 		$dto->setState('PublishedPostState');
 		return $dto;
 	}
-		
-	public function test_it_can_build_a_post_from_dto()
+	
+	public function test_it_maps_a_Post_object()
 	{
-		$Expected = $this->getPost();
-		$dto = $this->getPostDTO();
-		$Assembler = new PostAssembler();
-		$Post = $Assembler->assemble($dto);
-		$this->assertEquals($Expected, $Post);
+		$PostDTO = $this->getPostDTO();
 		
+		$map = array(
+			'post.id.id' => 1,
+			'post.content.title' => 'Title',
+			'post.content.body' => 'Body',
+			'post.publication.start' => '2016-01-01',
+			'post.state' => 'PublishedPostState'
+		);
+
+		$Assembler = new PostDTOAssembler();
+		$dto = $Assembler->assemble($map);
+		$this->assertEquals($dto, $PostDTO);
 	}
+
 }
 ?>

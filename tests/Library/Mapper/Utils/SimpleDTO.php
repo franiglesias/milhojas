@@ -1,12 +1,11 @@
 <?php
 
 namespace Tests\Library\Mapper\Utils;
-use Milhojas\Library\Mapper\PopulatedFromMapper;
 
 /**
 * Description
 */
-class SimpleDTO implements PopulatedFromMapper
+class SimpleDTO
 {
 	private $id;
 	private $title;
@@ -15,13 +14,6 @@ class SimpleDTO implements PopulatedFromMapper
 	function __construct()
 	{
 		# code...
-	}
-	
-	public function fromMap($map)
-	{
-		$this->id = $map['simplemodel.id'];
-		$this->title = $map['simplemodel.title'];
-		$this->content = $map['simplemodel.content'];
 	}
 	
 	public function setId($id)

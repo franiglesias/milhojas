@@ -5,6 +5,7 @@ namespace Milhojas\Domain\Contents;
 use Milhojas\Domain\Contents\PostId;
 use Milhojas\Domain\Contents\PostStates as States;
 use Milhojas\Domain\Contents\DTO\PostDTO as PostDTO;
+use Milhojas\Domain\Contents\Events as Events;
 
 use Milhojas\Library\ValueObjects\Dates\DateRange;
 use Milhojas\Library\ValueObjects\Dates\OpenDateRange;
@@ -26,10 +27,8 @@ class Post
 	private $authors;
 	private $attachments;
 	
-	function __construct(PostId $id, PostContent $content)
+	private function __construct()
 	{
-		$this->id = $id;
-		$this->content = $content;
 		$this->state = new States\DraftPostState();
 		$this->flags = new Flags\FlagCollection(new \SplObjectStorage());
 		$this->publication = new OpenDateRange(new \DateTimeImmutable());
@@ -37,7 +36,23 @@ class Post
 	
 	static function write(PostId $id, PostContent $content)
 	{
+		$post = new self();
+		$post->apply(new Events\NewPostWritten($id->getId(), $content->getTitle(), $content->getBody(), 'author'));
 		return new self($id, $content);
+	}
+	
+	public function apply($event)
+	{
+		$method = get_class($event);
+		$method = 'apply'.substr($method, strrpos($method, '\\')+1);
+		$this->$method($event);
+	}
+	
+	protected function applyNewPostWritten(Events\NewPostWritten $event)
+	{
+		$this->id = new PostId($event->getAggregateId());
+		$this->content = new PostContent($event->getTitle(), $event->getBody());
+		$this->author = $event->getAuthor();
 	}
 	
 	public function publish(DateRange $publication)

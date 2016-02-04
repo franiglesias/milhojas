@@ -9,7 +9,7 @@ use Milhojas\Domain\Contents\DTO\PostContentDTO;
  * @ORM\Entity
  * @ORM\Table(name="post")
  */
-class PostDTO implements \Milhojas\Library\Mapper\PopulatedFromMapper
+class PostDTO
 {
     /**
      * @ORM\Column(type="string")
@@ -33,14 +33,6 @@ class PostDTO implements \Milhojas\Library\Mapper\PopulatedFromMapper
 	public function __construct()
 	{
 		$this->content = new PostContentDTO();
-	}
-	
-	public function fromMap($map)
-	{
-		$this->id = $map['post.id.id'];
-		$this->content->setTitle($map['post.content.title']);
-		$this->content->setBody($map['post.content.body']);
-		$this->setState($map['post.state']);
 	}
 
 	public function setId($id)

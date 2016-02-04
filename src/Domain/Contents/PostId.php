@@ -1,22 +1,13 @@
 <?php
 
 namespace Milhojas\Domain\Contents;
+
+use Milhojas\Library\ValueObjects\Identity\Id;
 /**
 * Value Object to represent PostID
 */
-class PostId
+class PostId extends Id
 {
-	private $id;
-	
-	function __construct($id)
-	{
-		$this->id = $id;
-	}
-	
-	public function getId()
-	{
-		return $this->id;
-	}
 }
 
 ?>

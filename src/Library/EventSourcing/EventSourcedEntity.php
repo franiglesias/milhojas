@@ -3,9 +3,10 @@
 namespace Milhojas\Library\EventSourcing;
 
 use Milhojas\Library\EventSourcing\EventSourced;
-
+use Milhojas\Library\EventSourcing\EventStream;
+use Milhojas\Library\EventSourcing\EventMessage;
 /**
-* Description
+* Base class for Event Sourced Domain Entities
 */
 abstract class EventSourcedEntity implements EventSourced
 {
@@ -27,6 +28,7 @@ abstract class EventSourcedEntity implements EventSourced
 	{
 		$this->handle($event);
 		// Create e EventMessage and store in events
+		$this->events[] = EventMessage::record($event, get_class($this), $this->getEntityId());
 	}
 	
 	protected function handle($event)

@@ -21,12 +21,12 @@ class ObjectPropertyDescriptor extends AbstractPropertyDescriptor
 		$object = $theProperty->getValue($theObject);
 		$prefix = $this->getQualifiedName($theProperty, $prefix);
 		$properties = $this->getProperties($object);
-		// foreach ($this->getProperties($object) as $property) {
-		// 	$description += $this->PropertyDescriptor->describe($property, $object, $prefix);
-		// }
-		array_walk($properties, function ($property, $key) use (&$description, $object, $prefix) {
+		foreach ($this->getProperties($object) as $property) {
 			$description += $this->PropertyDescriptor->describe($property, $object, $prefix);
-		});
+		}
+		// array_walk($properties, function ($property, $key) use (&$description, $object, $prefix) {
+		// 	$description += $this->PropertyDescriptor->describe($property, $object, $prefix);
+		// });
 		return $description;
 	}
 	

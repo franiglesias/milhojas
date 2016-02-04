@@ -21,13 +21,13 @@ class ObjectMapper implements Mapper{
 		if (!$properties) {
 			throw new \ReflectionException(sprintf('Class %s has no properties.',$reflect->getName() ));
 		}
-		// foreach ($properties as $property) {
-		// 	$description += $this->PropertyDescriptor->describe($property, $object, $reflect->getShortName());
-		// }
 		$prefix = $reflect->getShortName();
-		array_walk($properties, function ($property, $key) use (&$description, $object, $prefix) {
+		foreach ($properties as $property) {
 			$description += $this->PropertyDescriptor->describe($property, $object, $prefix);
-		});
+		}
+		// array_walk($properties, function ($property, $key) use (&$description, $object, $prefix) {
+		// 	$description += $this->PropertyDescriptor->describe($property, $object, $prefix);
+		// });
 		return $description;
 	}
 }

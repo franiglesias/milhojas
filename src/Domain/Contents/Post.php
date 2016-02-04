@@ -5,14 +5,15 @@ namespace Milhojas\Domain\Contents;
 use Milhojas\Domain\Contents\PostId;
 use Milhojas\Domain\Contents\PostStates as States;
 use Milhojas\Domain\Contents\DTO\PostDTO as PostDTO;
-use Milhojas\Domain\Contents\Events as Events;
 
 use Milhojas\Library\ValueObjects\Dates\DateRange;
 use Milhojas\Library\ValueObjects\Dates\OpenDateRange;
+
+use Milhojas\Library\EventSourcing\EventSourcedEntity;
 /**
 * Represents a Post (an article)
 */
-class Post
+class Post extends EventSourcedEntity
 {
 	private $id;
 	private $content;
@@ -34,23 +35,27 @@ class Post
 		$this->publication = new OpenDateRange(new \DateTimeImmutable());
 	}
 	
-	static function write(PostId $id, PostContent $content)
+	static function write(PostId $id, PostContent $content, $author = '')
 	{
 		$post = new self();
-		$post->apply(new Events\NewPostWritten($id->getId(), $content->getTitle(), $content->getBody(), 'author'));
-		return new self($id, $content);
+		$post->apply(new Events\NewPostWritten($id->getId(), $content->getTitle(), $content->getBody(), $author));
+		return $post;
 	}
-	
-	public function apply($event)
-	{
-		$method = get_class($event);
-		$method = 'apply'.substr($method, strrpos($method, '\\')+1);
-		$this->$method($event);
-	}
-	
+
 	protected function applyNewPostWritten(Events\NewPostWritten $event)
 	{
-		$this->id = new PostId($event->getAggregateId());
+		$this->id = new PostId($event->getEntityId());
+		$this->content = new PostContent($event->getTitle(), $event->getBody());
+		$this->author = $event->getAuthor();
+	}
+	
+	public function update(PostContent $newContent, $author = '')
+	{
+		$this->apply(new Events\PostUpdated($this->getEntityId(), $newContent->getTitle(), $newContent->getBody(), $author));
+	}
+	
+	protected function applyPostUpdated(Events\PostUpdated $event)
+	{
 		$this->content = new PostContent($event->getTitle(), $event->getBody());
 		$this->author = $event->getAuthor();
 	}
@@ -58,7 +63,12 @@ class Post
 	public function publish(DateRange $publication)
 	{
 		$this->state = $this->state->publish();
-		$this->publication = $publication;
+		$this->applyPostPublished(new Events\PostPublished($this->getEntityId(), $publication->getStart(), $publication->getEnd()));
+	}
+	
+	protected function applyPostPublished(Events\PostPublished $event)
+	{
+		$this->publication = new DateRange($event->getPublication(), $event->getExpiration());
 	}
 	
 	public function isPublished(\DateTimeImmutable $Date = null)
@@ -66,24 +76,9 @@ class Post
 		if (!$Date) {
 			$Date = new \DateTimeImmutable();
 		}
-		return ($this->state == new \Milhojas\Domain\Contents\PostStates\PublishedPostState()) && $this->publication->includes($Date);
+		return ($this->state == new States\PublishedPostState()) && $this->publication->includes($Date);
 	}
-	
-	public function addFlag(Flags\Flag $flag)
-	{
-		$this->flags->add($flag);
-	}
-	
-	public function hasFlag(Flags\Flag $flag)
-	{
-		return $this->flags->has($flag);
-	}
-	
-	public function removeFlag(Flags\Flag $flag)
-	{
-		$this->flags->remove($flag);
-	}
-		
+			
 	public function retire()
 	{
 		$this->state = $this->state->retire();
@@ -92,6 +87,11 @@ class Post
 	public function getId()
 	{
 		return $this->id;
+	}
+	
+	public function getEntityId()
+	{
+		return $this->id->getId();
 	}
 	
 	public function getState()

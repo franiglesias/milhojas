@@ -12,9 +12,15 @@ use Milhojas\Domain\Contents\Specifications\CurrentlyPublishedPostSpecification;
 */
 class InMemoryPostRespositoryTest extends \PHPUnit_Framework_Testcase
 {
+	
+	private function getPost($id = 1)
+	{
+		$Post = \Milhojas\Domain\Contents\Post::write(new \Milhojas\Domain\Contents\PostId($id), new \Milhojas\Domain\Contents\PostContent('Title', 'Body'));
+		return $Post;
+	}
 	public function test_Can_Store_A_Post()
 	{
-		$Post = \Milhojas\Domain\Contents\Post::write(new \Milhojas\Domain\Contents\PostId(1), new \Milhojas\Domain\Contents\PostContent('Title', 'Body'));
+		$Post = $this->getPost();
 		$Repository = new InMemoryPostRepository(new InMemoryStorage());
 		$Repository->save($Post);
 		$this->assertEquals(1, $Repository->countAll());
@@ -22,7 +28,7 @@ class InMemoryPostRespositoryTest extends \PHPUnit_Framework_Testcase
 	
 	public function test_Can_Retrieve_A_Post_By_Id()
 	{
-		$Post = \Milhojas\Domain\Contents\Post::write(new \Milhojas\Domain\Contents\PostId(1), new \Milhojas\Domain\Contents\PostContent('Title', 'Body'));
+		$Post = $this->getPost();
 		$Repository = new InMemoryPostRepository(new InMemoryStorage());
 		$Repository->save($Post);
 		$Stored = $Repository->get(new \Milhojas\Domain\Contents\PostId(1));
@@ -35,7 +41,7 @@ class InMemoryPostRespositoryTest extends \PHPUnit_Framework_Testcase
 	 */
 	public function test_if_id_does_not_exists_throws_exception()
 	{
-		$Post = \Milhojas\Domain\Contents\Post::write(new \Milhojas\Domain\Contents\PostId(1), new \Milhojas\Domain\Contents\PostContent('Title', 'Body'));
+		$Post = $this->getPost();
 		$Repository = new InMemoryPostRepository(new InMemoryStorage());
 		$Repository->save($Post);
 		$Stored = $Repository->get(new \Milhojas\Domain\Contents\PostId(2));
@@ -45,11 +51,11 @@ class InMemoryPostRespositoryTest extends \PHPUnit_Framework_Testcase
 	{
 		$Repository = new InMemoryPostRepository(new InMemoryStorage());
 
-		$Post = \Milhojas\Domain\Contents\Post::write(new \Milhojas\Domain\Contents\PostId(1), new \Milhojas\Domain\Contents\PostContent('Title', 'Body'));
+		$Post = $this->getPost();
 		$Post->publish(new \Milhojas\Library\ValueObjects\Dates\DateRange(new \DateTimeImmutable()));
 		$Repository->save($Post);
 		
-		$Post2 = \Milhojas\Domain\Contents\Post::write(new \Milhojas\Domain\Contents\PostId(2), new \Milhojas\Domain\Contents\PostContent('Title 2', 'Body 2'));
+		$Post2 = $this->getPost(2);
 		$Repository->save($Post2);
 		
 		$Response = $Repository->findSatisfying(new CurrentlyPublishedPostSpecification());
@@ -61,13 +67,14 @@ class InMemoryPostRespositoryTest extends \PHPUnit_Framework_Testcase
 	{
 		$Repository = new InMemoryPostRepository(new InMemoryStorage());
 
-		$Post = \Milhojas\Domain\Contents\Post::write(new \Milhojas\Domain\Contents\PostId(1), new \Milhojas\Domain\Contents\PostContent('Title', 'Body'));
+		$Post = $this->getPost();
+		
 		$Repository->save($Post);
 		
-		$Post2 = \Milhojas\Domain\Contents\Post::write(new \Milhojas\Domain\Contents\PostId(2), new \Milhojas\Domain\Contents\PostContent('Title 2', 'Body 2'));
+		$Post2 = $this->getPost(2);
 		$Repository->save($Post2);
 		
-		$Post3 = \Milhojas\Domain\Contents\Post::write(new \Milhojas\Domain\Contents\PostId(3), new \Milhojas\Domain\Contents\PostContent('Title 3', 'Body 3'));
+		$Post3 = $this->getPost(3);
 		$Repository->save($Post3);
 		
 		$Response = $Repository->findSatisfying(new CurrentlyPublishedPostSpecification());

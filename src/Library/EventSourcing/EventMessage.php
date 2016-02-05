@@ -23,13 +23,14 @@ class EventMessage
 		$this->time = time();
 	}
 	
-	static public function record($event, $entity_type, $entity_id)
+	static public function record(DomainEvent $event, $entity_type, $entity_id)
 	{
 		$Message = new static();
 		$Message->entity_type = $entity_type;
 		$Message->entity_id = $entity_id;
 		$Message->event = get_class($event);
 		$Message->payload = $event;
+		$Message->metadata = array();
 		return $Message;
 	}
 	

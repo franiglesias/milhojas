@@ -16,12 +16,17 @@ abstract class EventSourcedEntity implements EventSourced
 	
 	public function getEvents()
 	{
-		return $events;
+		return new EventStream($this->events);
 	}
 	
-	public function reconstitute(EventStream $stream)
+	static public function reconstitute(EventStream $stream)
 	{
-		# code...
+		$entity = new static();
+		foreach ($stream as $message) {
+			$event = $message->getEvent();
+			$entity->apply($event);
+		}
+		return $entity;
 	}
 	
 	public function apply(DomainEvent $event)

@@ -14,6 +14,21 @@ class EventStream implements \IteratorAggregate {
 	{
 		return new \ArrayIterator($this->events);
 	}
+	
+	public function count()
+	{
+		return count($this->events);
+	}
+	
+	public function flush()
+	{
+		$this->events = array();
+	}
+	
+	public function append($event)
+	{
+		$this->events[] = $event;
+	}
 }
 
 ?>

@@ -2,7 +2,14 @@
 
 namespace Milhojas\Library\EventSourcing;
 
+/**
+ * Keeps a list of Events
+ *
+ * @package default
+ * @author Francisco Iglesias Gómez
+ */
 class EventStream implements \IteratorAggregate {
+	
 	private $events;
 	
 	public function __construct(array $events)

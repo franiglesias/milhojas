@@ -6,34 +6,46 @@ use Milhojas\Library\EventSourcing\EventSourced;
 use Milhojas\Library\EventSourcing\EventStream;
 use Milhojas\Library\EventSourcing\EventMessage;
 /**
-* Base class for Event Sourced Domain Entities
+* Base class for Event Sourced Domain Entities. EventSourced Enttities should extend this class
 */
 abstract class EventSourcedEntity implements EventSourced
 {
 	protected $events;
 	
 	abstract public function getEntityId();
-	
-	public function getEvents()
-	{
-		return new EventStream($this->events);
-	}
-	
+	/**
+	 * Returns a instance of the Entity from a stream of events
+	 *
+	 * @param EventStream $stream 
+	 * @return EventSourcedEntity
+	 */
 	static public function reconstitute(EventStream $stream)
 	{
 		$entity = new static();
 		foreach ($stream as $message) {
-			$event = $message->getEvent();
-			$entity->apply($event);
+			$entity->apply($message->getEvent());
 		}
 		return $entity;
 	}
-	
+	/**
+	 * Returns the stream of recorded events
+	 *
+	 * @return EventStream
+	 */
+	public function getEvents()
+	{
+		return new EventStream((array)$this->events);
+	}
+	/**
+	 * Apply a DomainEvent to the Entity and appends it to the Event Stream
+	 *
+	 * @param DomainEvent $event 
+	 * @return void
+	 * @author Francisco Iglesias Gómez
+	 */
 	public function apply(DomainEvent $event)
 	{
 		$this->handle($event);
-		// Create e EventMessage and store in events
-		$this->events[] = EventMessage::record($event, get_class($this), $this->getEntityId());
 	}
 	
 	protected function handle($event)
@@ -43,6 +55,11 @@ abstract class EventSourcedEntity implements EventSourced
 			return;
 		}
 		$this->$method($event);
+		$this->record($event);
+	}
+	protected function record($event)
+	{
+		$this->events[] = EventMessage::record($event, get_class($this), $this->getEntityId());
 	}
 	protected function getMethod($event)
 	{

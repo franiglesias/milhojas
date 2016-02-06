@@ -18,7 +18,7 @@ class TestESEntity extends EventSourcedEntity {
 		return $this->id;
 	}
 	
-	public function applyTested()
+	public function applyHandled()
 	{
 		$this->counter++;
 	}
@@ -32,31 +32,39 @@ class EventSourcedEntityTest extends \PHPUnit_Framework_TestCase {
 	
 	public function test_it_applies_event()
 	{
-
 		$Entity = new TestESEntity();
 		$Event = $this->getMockBuilder('Milhojas\Library\EventSourcing\DomainEvent')
-			->setMockClassName('Tested')->disableOriginalConstructor()
+			->setMockClassName('Handled')->disableOriginalConstructor()
             ->getMock();
 		$Entity->apply($Event);
 		$this->assertEquals(1, count($Entity->getEvents()));
 	}
 	
-	public function test_it_can_not_apply_event()
+	public function test_it_does_not_apply_unknown_event()
 	{
-
 		$Entity = new TestESEntity();
 		$Event = $this->getMockBuilder('Milhojas\Library\EventSourcing\DomainEvent')
-			->setMockClassName('Tested')->disableOriginalConstructor()
+			->setMockClassName('NoHandled')->disableOriginalConstructor()
             ->getMock();
-
 		$Entity->apply($Event);
+		$this->assertEquals(0, $Entity->getEvents()->count());
 	}
 	
+	public function test_it_does_not_record_a_event_that_can_not_be_handled()
+	{
+		$Entity = new TestESEntity();
+		$Event = $this->getMockBuilder('Milhojas\Library\EventSourcing\DomainEvent')
+			->setMockClassName('NoHandled')->disableOriginalConstructor()
+            ->getMock();
+		$Entity->apply($Event);
+		$this->assertEquals(0, $Entity->getCounter());
+	}	
+
 	public function test_it_can_reconstitute()
 	{
 		$Entity = new TestESEntity();
 		$Event = $this->getMockBuilder('Milhojas\Library\EventSourcing\DomainEvent')
-			->setMockClassName('Tested')->disableOriginalConstructor()
+			->setMockClassName('Handled')->disableOriginalConstructor()
             ->getMock();
 		$Entity->apply($Event);
 		$Entity->apply($Event);
@@ -65,6 +73,22 @@ class EventSourcedEntityTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(3, $NewEntity->getCounter());
 	}
 	
+	public function test_it_can_reconstitute_with_an_event_that_can_not_handle()
+	{
+		$Entity = new TestESEntity();
+		$Event = $this->getMockBuilder('Milhojas\Library\EventSourcing\DomainEvent')
+			->setMockClassName('Handled')->disableOriginalConstructor()
+            ->getMock();
+		$BadEvent = $this->getMockBuilder('Milhojas\Library\EventSourcing\DomainEvent')
+			->setMockClassName('NoHandled')->disableOriginalConstructor()
+            ->getMock();
+		$Entity->apply($Event);
+		$Entity->apply($BadEvent);
+		$Entity->apply($Event);
+		$NewEntity = TestESEntity::reconstitute($Entity->getEvents());
+		$this->assertEquals(2, $NewEntity->getCounter());
+		$this->assertEquals(2, $NewEntity->getEvents()->count());
+	}
 	
 }
 ?>

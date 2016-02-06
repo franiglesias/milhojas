@@ -38,6 +38,7 @@ class Post extends EventSourcedEntity
 	static function write(PostId $id, PostContent $content, $author = '')
 	{
 		$post = new self();
+		$post->id = $id;
 		$post->apply(new Events\NewPostWritten($id->getId(), $content->getTitle(), $content->getBody(), $author));
 		return $post;
 	}
@@ -63,12 +64,13 @@ class Post extends EventSourcedEntity
 	public function publish(DateRange $publication)
 	{
 		$this->state = $this->state->publish();
-		$this->applyPostPublished(new Events\PostPublished($this->getEntityId(), $publication->getStart(), $publication->getEnd()));
+		$this->apply(new Events\PostPublished($this->getEntityId(), $publication->getStart(), $publication->getEnd()));
 	}
 	
 	protected function applyPostPublished(Events\PostPublished $event)
 	{
 		$this->publication = new DateRange($event->getPublication(), $event->getExpiration());
+		$this->state = new States\PublishedPostState();
 	}
 	
 	public function isPublished(\DateTimeImmutable $Date = null)
@@ -82,6 +84,12 @@ class Post extends EventSourcedEntity
 	public function retire()
 	{
 		$this->state = $this->state->retire();
+		$this->apply(new Events\PostRetired($this->getEntityId()));
+	}
+	
+	protected function applyPostRetired(Events\PostRetired $event)
+	{
+		$this->state = new States\RetiredPostState();
 	}
 	
 	public function getId()

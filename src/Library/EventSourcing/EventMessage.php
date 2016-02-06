@@ -4,7 +4,7 @@ namespace Milhojas\Library\EventSourcing;
 
 use Rhumsaa\Uuid\Uuid;
 /**
-* Description
+* Stores an event and metadata needed
 */
 class EventMessage
 {
@@ -19,8 +19,9 @@ class EventMessage
 	
 	function __construct()
 	{
-		$this->id = $this->createEventId();
+		$this->id = $this->getIdentity();
 		$this->time = time();
+		$this->metadata = array();
 	}
 	
 	static public function record(DomainEvent $event, $entity_type, $entity_id)
@@ -30,11 +31,10 @@ class EventMessage
 		$Message->entity_id = $entity_id;
 		$Message->event = get_class($event);
 		$Message->payload = $event;
-		$Message->metadata = array();
 		return $Message;
 	}
 	
-	private function createEventId()
+	private function getIdentity()
 	{
 		$uuid = Uuid::uuid4();
 		return $uuid->toString();
@@ -45,6 +45,19 @@ class EventMessage
 		return $this->payload;
 	}
 	
+	public function addMetaData($key, $value = null)
+	{
+		$data = $key;
+		if (!is_array($key)) {
+			$data = array($key => $value);
+		}
+		$this->metadata += $data;
+	}
+	
+	public function getMetaData()
+	{
+		return $this->metadata;
+	}
 	
 }
 

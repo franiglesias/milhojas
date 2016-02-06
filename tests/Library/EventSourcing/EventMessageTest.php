@@ -29,6 +29,28 @@ class EventMessageTest extends \PHPUnit_Framework_TestCase
 		$Message = EventMessage::record($event, 'Entity', 'entityid');
 		$this->assertEquals($event, $Message->getEvent());
 	}
+	
+	public function test_it_can_add_metadata()
+	{
+		$event = $this->getMockBuilder('Milhojas\Library\EventSourcing\DomainEvent')
+			->disableOriginalConstructor()
+            ->getMock();
+		$Message = EventMessage::record($event, 'Entity', 'entityid');
+		$Message->addMetaData('data', 'some data');
+		$this->assertEquals(array('data' => 'some data'), $Message->getMetaData());
+	}
+	
+	public function test_it_can_add_an_array_of_metadata()
+	{
+		$event = $this->getMockBuilder('Milhojas\Library\EventSourcing\DomainEvent')
+			->disableOriginalConstructor()
+            ->getMock();
+		$meta = array('data' => 'some data', 'data 2' => 'some data');
+		$Message = EventMessage::record($event, 'Entity', 'entityid');
+		$Message->addMetaData($meta);
+		$this->assertEquals($meta, $Message->getMetaData());
+	}
+	
 }
 
 ?>

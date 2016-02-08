@@ -2,61 +2,47 @@
 
 namespace Milhojas\Library\EventSourcing;
 
-use Rhumsaa\Uuid\Uuid;
+
 /**
 * Stores an event and metadata needed
 */
+
+
 class EventMessage
 {
-	private $id;
 	private $event;
-	private $payload;
-	private $time;
-	private $version;
-	private $entity_type;
-	private $entity_id;
-	private $metadata;
+	private $envelope;
 	
 	function __construct()
 	{
-		$this->id = $this->getIdentity();
-		$this->time = time();
-		$this->metadata = array();
 	}
 	
-	static public function record(DomainEvent $event, $entity_type, $entity_id)
+	static public function record(DomainEvent $event, EventSourced $entity)
 	{
 		$Message = new static();
-		$Message->entity_type = $entity_type;
-		$Message->entity_id = $entity_id;
-		$Message->event = get_class($event);
-		$Message->payload = $event;
+		$Message->event = $event;
+		$Message->envelope = new EventMessageEnvelope($event, $entity);
 		return $Message;
-	}
-	
-	private function getIdentity()
-	{
-		$uuid = Uuid::uuid4();
-		return $uuid->toString();
 	}
 	
 	public function getEvent()
 	{
-		return $this->payload;
+		return $this->event;
+	}
+	
+	public function getEnvelope()
+	{
+		return $this->envelope;
 	}
 	
 	public function addMetaData($key, $value = null)
 	{
-		$data = $key;
-		if (!is_array($key)) {
-			$data = array($key => $value);
-		}
-		$this->metadata += $data;
+		$this->envelope->addMetaData($key, $value);
 	}
 	
 	public function getMetaData()
 	{
-		return $this->metadata;
+		return $this->envelope->getMetadata();
 	}
 	
 }

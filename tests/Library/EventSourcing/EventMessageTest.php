@@ -17,7 +17,9 @@ class EventMessageTest extends \PHPUnit_Framework_TestCase
 		$event = $this->getMockBuilder('Milhojas\Library\EventSourcing\DomainEvent')
 			->disableOriginalConstructor()
             ->getMock();
-		$Message = EventMessage::record($event, 'Entity', 'entityid');
+		$entity = $this->getMockBuilder('Milhojas\Library\EventSourcing\EventSourced')
+			->getMock();
+		$Message = EventMessage::record($event, $entity);
 		$this->assertInstanceOf('Milhojas\Library\EventSourcing\EventMessage', $Message);
 	}
 	
@@ -26,7 +28,9 @@ class EventMessageTest extends \PHPUnit_Framework_TestCase
 		$event = $this->getMockBuilder('Milhojas\Library\EventSourcing\DomainEvent')
 			->disableOriginalConstructor()
             ->getMock();
-		$Message = EventMessage::record($event, 'Entity', 'entityid');
+		$entity = $this->getMockBuilder('Milhojas\Library\EventSourcing\EventSourced')
+			->getMock();
+		$Message = EventMessage::record($event, $entity);
 		$this->assertEquals($event, $Message->getEvent());
 	}
 	
@@ -35,7 +39,9 @@ class EventMessageTest extends \PHPUnit_Framework_TestCase
 		$event = $this->getMockBuilder('Milhojas\Library\EventSourcing\DomainEvent')
 			->disableOriginalConstructor()
             ->getMock();
-		$Message = EventMessage::record($event, 'Entity', 'entityid');
+		$entity = $this->getMockBuilder('Milhojas\Library\EventSourcing\EventSourced')
+			->getMock();
+		$Message = EventMessage::record($event, $entity);
 		$Message->addMetaData('data', 'some data');
 		$this->assertEquals(array('data' => 'some data'), $Message->getMetaData());
 	}
@@ -45,8 +51,10 @@ class EventMessageTest extends \PHPUnit_Framework_TestCase
 		$event = $this->getMockBuilder('Milhojas\Library\EventSourcing\DomainEvent')
 			->disableOriginalConstructor()
             ->getMock();
+		$entity = $this->getMockBuilder('Milhojas\Library\EventSourcing\EventSourced')
+			->getMock();
 		$meta = array('data' => 'some data', 'data 2' => 'some data');
-		$Message = EventMessage::record($event, 'Entity', 'entityid');
+		$Message = EventMessage::record($event, $entity);
 		$Message->addMetaData($meta);
 		$this->assertEquals($meta, $Message->getMetaData());
 	}

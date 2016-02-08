@@ -13,9 +13,7 @@ class InMemoryStorage implements StorageInterface{
 	
 	public function load($id)
 	{
-		if (!isset($this->data[$id])) {
-			throw new \OutOfBoundsException($id.' doesn\'t exists.');
-		}
+		$this->keyExists($id);
 		return $this->data[$id];
 	}
 	
@@ -26,9 +24,7 @@ class InMemoryStorage implements StorageInterface{
 	
 	public function delete($id)
 	{
-		if (!isset($this->data[$id])) {
-			throw new \OutOfBoundsException($id.' doesn\'t exists.');
-		}
+		$this->keyExists($id);
 		unset($this->data[$id]);
 	}
 	
@@ -40,6 +36,13 @@ class InMemoryStorage implements StorageInterface{
 	public function countAll()
 	{
 		return count($this->data);
+	}
+	
+	private function keyExists($id)
+	{
+		if (! isset($this->data[$id])) {
+			throw new \OutOfBoundsException($id.' doesn\'t exists.');
+		}
 	}
 	
 }

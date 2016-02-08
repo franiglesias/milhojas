@@ -59,7 +59,7 @@ abstract class EventSourcedEntity implements EventSourced
 	}
 	protected function record($event)
 	{
-		$this->events[] = EventMessage::record($event, get_class($this), $this->getEntityId());
+		$this->events[] = EventMessage::record($event, $this);
 	}
 	protected function getMethod($event)
 	{

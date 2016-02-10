@@ -36,7 +36,7 @@ class DoctrineEventStorage implements EventStorage
 	public function buildEvent(EventMessage $message)
 	{
 		$event = new Event();
-		$event->setId($message->getId());
+		$event->setId($message->getEnvelope()->getId());
 		$event->setEvent($message->getEvent());
 		$event->setEventType($message->getEnvelope()->getEventType());
 		$event->setEntityType($message->getEnvelope()->getEntityType());

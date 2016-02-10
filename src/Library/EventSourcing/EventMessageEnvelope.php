@@ -72,6 +72,11 @@ class EventMessageEnvelope
 	{
 		return $this->event_type;
 	}
+	
+	public function getVersion()
+	{
+		return $this->version;
+	}
 }
 
 ?>

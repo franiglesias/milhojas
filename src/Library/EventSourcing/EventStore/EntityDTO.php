@@ -4,7 +4,7 @@ namespace Milhojas\Library\EventSourcing\EventStore;
 
 use Milhojas\Library\EventSourcing\EventSourced;
 /**
-* Description
+* Transports information about entity type and id
 */
 class EntityDTO
 {

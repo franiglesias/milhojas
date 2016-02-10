@@ -5,7 +5,7 @@ namespace Milhojas\Library\EventSourcing\EventStore;
 use Milhojas\Library\EventSourcing\EventStore\EventStorage;
 use Milhojas\Library\EventSourcing\EventStream;
 /**
-* 
+* A simple in memory event storage.
 */
 class InMemoryEventStorage implements EventStorage
 {

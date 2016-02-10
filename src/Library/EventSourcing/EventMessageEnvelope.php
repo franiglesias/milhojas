@@ -5,7 +5,7 @@ namespace Milhojas\Library\EventSourcing;
 use Rhumsaa\Uuid\Uuid;
 use Milhojas\Library\EventSourcing\EventStore\EntityDTO;
 /**
-* Description
+* Contains metadata for event messages
 */
 class EventMessageEnvelope
 {

@@ -11,10 +11,15 @@ class EntityDTO
 	private $type;
 	private $id;
 	
-	function __construct(EventSourced $entity)
+	function __construct($type, $id)
 	{
-		$this->type = get_class($entity);
-		$this->id = $entity->getEntityId();
+		$this->type = $type;
+		$this->id = $id;
+	}
+	
+	static public function fromEntity(EventSourced $entity)
+	{
+		return new static(get_class($entity), $entity->getEntityId());
 	}
 	
 	public function getType()

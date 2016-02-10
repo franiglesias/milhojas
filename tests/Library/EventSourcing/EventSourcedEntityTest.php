@@ -28,6 +28,7 @@ class TestESEntity extends EventSourcedEntity {
 		return $this->counter;
 	}
 }
+
 class EventSourcedEntityTest extends \PHPUnit_Framework_TestCase {
 	
 	public function test_it_applies_event()

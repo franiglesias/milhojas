@@ -23,7 +23,7 @@ class EventMessageEnvelope
 		$this->metadata = array();
 		$this->getEntityData($entity);
 		$this->event_type = get_class($event);
-		$this->entity = new EntityDTO($entity);
+		$this->entity = EntityDTO::fromEntity($entity);
 	}
 	
 	

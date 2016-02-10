@@ -19,7 +19,15 @@ class DoctrineEventStorage implements EventStorage
 	
 	public function loadStream(EntityDTO $entity) 
 	{
-		$events = array();
+		$events = $this->em
+            ->getRepository('EventStore:Event')
+			->findBy(array(
+				'entity_type' => $entity->getType(),
+				'entity_id' => $entity->getId()
+			));
+		foreach ($events as $event) {
+			# code...
+		}
 		return new EventStream($events);
 	}
 	
@@ -33,7 +41,7 @@ class DoctrineEventStorage implements EventStorage
 		$this->em->clear();
 	}
 	
-	public function buildEvent(EventMessage $message)
+	private function buildEvent(EventMessage $message)
 	{
 		$event = new Event();
 		$event->setId($message->getEnvelope()->getId());

@@ -11,6 +11,7 @@ use Milhojas\Library\EventSourcing\EventMessage;
 abstract class EventSourcedEntity implements EventSourced
 {
 	protected $events;
+	protected $playhead = -1;
 	
 	abstract public function getEntityId();
 	/**
@@ -54,6 +55,7 @@ abstract class EventSourcedEntity implements EventSourced
 		if (! method_exists($this, $method)) {
 			return;
 		}
+		$this->playhead++;
 		$this->$method($event);
 		$this->record($event);
 	}

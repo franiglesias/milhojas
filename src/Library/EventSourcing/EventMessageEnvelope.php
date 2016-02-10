@@ -21,17 +21,10 @@ class EventMessageEnvelope
 		$this->id = $this->assignIdentity();
 		$this->time = new \DateTimeImmutable();
 		$this->metadata = array();
-		$this->getEntityData($entity);
 		$this->event_type = get_class($event);
 		$this->entity = EntityDTO::fromEntity($entity);
 	}
 	
-	
-	private function getEntityData($entity)
-	{
-		$this->entity_type = get_class($entity);
-		$this->entity_id = $entity->getEntityId();
-	}
 	
 	private function assignIdentity()
 	{

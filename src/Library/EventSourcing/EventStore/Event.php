@@ -138,10 +138,7 @@ class Event
 	{
 	  return $this->time;
 	}
-	
-	
-	
-	
+
 }
 
 ?>

@@ -3,7 +3,7 @@
 namespace Milhojas\Library\EventSourcing;
 
 /**
- * Keeps a list of Events
+ * Keeps a list of event messages
  *
  * @package default
  * @author Francisco Iglesias Gómez

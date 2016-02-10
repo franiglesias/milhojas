@@ -4,9 +4,9 @@
 namespace Tests\Infrastructure\Persistence\Common\DoctrineTest;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use \Milhojas\Domain\Contents\DTO\PostDTO;
-use \Milhojas\Domain\Contents\DTO\PostContentDTO;
-class PostRepositoryTest extends KernelTestCase
+use \Milhojas\Library\EventSourcing\EventStore\Event;
+
+class ESRepositoryTest extends KernelTestCase
 {
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -31,25 +31,23 @@ class PostRepositoryTest extends KernelTestCase
 	}
     public function dont_test_experiment()
     {
-		$content = new PostContentDTO();
-		$content->setTitle('A title');
-		$content->setBody('A New Body');
-		
-	     $post = new PostDTO();
-		 $post->setId('89654');
-	     $post->setContent($content);
-		 $post->setPubDate(new \DateTime());
-		 $post->setExpiration(null);
+		$event = new Event();
+		$event->setId(1);
+		$event->setEventType('CreateEvent');
+		$event->setEntityType('Entity');
+		$event->setEntityId('2');
+		$event->setVersion(6);
+		$event->setMetadata(array('meta' => 'data', 'other' => 'metadata'));
+		$event->setTime(new \DateTime());
 
-		$this->em->persist($post);
+		$this->em->persist($event);
 		$this->em->flush();
-        $postList = $this->em
-            ->getRepository('Contents:PostDTO')
-				->findAll()
-        ;
-		$thePost = $this->em->getRepository('Contents:PostDTO')->find('1234');
-		print_r($thePost);
-        $this->assertCount(1, $postList);
+        $eventList = $this->em
+            ->getRepository('EventStore:Event')
+				->findAll();
+		$theEvent = $this->em->getRepository('EventStore:Event')->find('1');
+		print_r($theEvent);
+        $this->assertCount(1, $eventList);
     }
 
     /**

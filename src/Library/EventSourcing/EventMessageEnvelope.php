@@ -19,7 +19,7 @@ class EventMessageEnvelope
 	function __construct(DomainEvent $event, EventSourced $entity)
 	{
 		$this->id = $this->assignIdentity();
-		$this->time = time();
+		$this->time = new \DateTimeImmutable();
 		$this->metadata = array();
 		$this->getEntityData($entity);
 		$this->event_type = get_class($event);
@@ -68,7 +68,10 @@ class EventMessageEnvelope
 	{
 		return $this->entity->getId();
 	}
-	
+	public function getEventType()
+	{
+		return $this->event_type;
+	}
 }
 
 ?>

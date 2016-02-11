@@ -14,14 +14,7 @@ use Doctrine\ORM\EntityManager;
 
 class DoctrineEventStorageTest extends \PHPUnit_Framework_TestCase
 {
-	private function getRepository()
-	{
-		$postRepository = $this
-			->getMockBuilder('Doctrine\ORM\EntityRepository')
-			->disableOriginalConstructor()
-			->getMock();
-		return $postRepository;
-	}
+
 
 	private function getEntityManager()
 	{
@@ -44,6 +37,7 @@ class DoctrineEventStorageTest extends \PHPUnit_Framework_TestCase
 	private function getEntity($id = 1)
 	{
 		$entity = $this->getMockBuilder('Milhojas\Library\EventSourcing\EventSourced')
+			->setMockClassName('Entity')
 			->getMock();
 		return $entity;
 	}
@@ -98,22 +92,35 @@ class DoctrineEventStorageTest extends \PHPUnit_Framework_TestCase
 		$Storage->saveStream( new EntityData('Entity', 2, 2), $Stream2);
 	}
 
+	private function getRepository($events)
+	{
+		$postRepository = $this->getMockBuilder('Doctrine\ORM\EntityRepository')
+			->disableOriginalConstructor()
+			->getMock();
+		$postRepository->expects($this->once())
+			->method('findBy')
+			->with($this->equalTo( array(
+				'entity_type' => 'Entity',
+				'entity_id' => 1
+			) ))
+			->will($this->returnValue( $this->getDTOs($events) ));
+		return $postRepository;
+	}
+
+
 	public function test_it_can_load_an_event_stream_for_an_entity()
 	{
-		$em = $this->getEntityManager();
 		$events = $this->getEventsForAnEntity($this->getEntity(1));
-		$Stream = new EventStream($events);
-		$dtos = $this->getDTOs($events);
-		$repo = $this->getRepository();
-		$repo->expects($this->once())
-			->method('findBy')
-			->will($this->returnValue($dtos));
+		
+		$em = $this->getEntityManager();
 		$em->expects($this->once())
 			->method('getRepository')
-			->will($this->returnValue($repo));
+			->will($this->returnValue($this->getRepository($events)));
+		
 		$Storage = new DoctrineEventStorage($em);
 		$loadedStream = $Storage->loadStream(new EntityData('Entity', 1, 2));
-		$this->assertEquals($Stream, $loadedStream);
+		
+		$this->assertEquals(new EventStream($events), $loadedStream);
 	}
 
 	public function test_it_counts_events_for_an_entity()

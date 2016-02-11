@@ -20,10 +20,10 @@ class EventMessageEnvelope
 		$this->metadata = $metadata;
 	}
 	
-	static function now()
+	static public function now()
 	{
 		return new static(
-			self::assignIdentity(),
+			self::autoAssignIdentity(),
 			new \DateTimeImmutable(),
 			array()
 		);
@@ -38,7 +38,7 @@ class EventMessageEnvelope
 		);
 	}
 	
-	static private function assignIdentity()
+	static private function autoAssignIdentity()
 	{
 		return Uuid::uuid4()->toString();
 	}
@@ -52,10 +52,6 @@ class EventMessageEnvelope
 		$this->metadata += $data;
 	}
 	
-	public function getMetaData()
-	{
-		return $this->metadata;
-	}
 	public function getId()
 	{
 		return $this->id;
@@ -63,6 +59,10 @@ class EventMessageEnvelope
 	public function getTime()
 	{
 		return $this->time;
+	}
+	public function getMetaData()
+	{
+		return $this->metadata;
 	}
 	
 }

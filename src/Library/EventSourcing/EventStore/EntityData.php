@@ -26,7 +26,7 @@ class EntityData
 	
 	static public function fromDTO($dto)
 	{
-		return new static($dto->getEntityType(), $dto->getEntityID(), $dto->getVersion());
+		return new static($dto->getEntityType(), $dto->getEntityId(), $dto->getVersion());
 	}
 	
 	public function getType()

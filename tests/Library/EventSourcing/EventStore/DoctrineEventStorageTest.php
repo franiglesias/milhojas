@@ -50,11 +50,25 @@ class DoctrineEventStorageTest extends \PHPUnit_Framework_TestCase
 	
 	private function getStreamForEntity($entity)
 	{
-		return new EventStream(array(
+		return new EventStream($this->getEventsForAnEntity($entity));
+	}
+	
+	public function getEventsForAnEntity($entity)
+	{
+		return array(
 			$this->getEvent('EntityCreated', $entity),
 			$this->getEvent('EntityUpdated', $entity),
 			$this->getEvent('EntityDeleted', $entity)
-		));
+		);
+	}
+	
+	public function getDTOs($events)
+	{
+		$dtos = array();
+		foreach ($events as $event) {
+			$dtos[] = EventDTO::fromEventMessage($event);
+		}
+		return $dtos;
 	}
 	
 	public function test_it_can_store_an_event_strem_for_an_entity()
@@ -87,40 +101,18 @@ class DoctrineEventStorageTest extends \PHPUnit_Framework_TestCase
 	public function test_it_can_load_an_event_stream_for_an_entity()
 	{
 		$em = $this->getEntityManager();
-		
-		$Stream = $this->getStreamForEntity($this->getEntity(1));
-		$Stream2 = $this->getStreamForEntity($this->getEntity(2));
-		
-		$em->expects($this->exactly(6))
-			->method('persist');
-		
-		$Storage = new DoctrineEventStorage($em);
-		$Storage->saveStream( new EntityData('Entity', 1, 2), $Stream);
-		$Storage->saveStream( new EntityData('Entity', 2, 2), $Stream2);
-		
-		$entity = $this->getEntity(1);
-		$events = array(
-			$this->getEvent('EntityCreated', $entity),
-			$this->getEvent('EntityUpdated', $entity),
-			$this->getEvent('EntityDeleted', $entity)
-		);
-		
-		$dtos = array();
-		foreach ($events as $event) {
-			$dtos[] = EventDTO::fromEventMessage($event);
-		}
-		
+		$events = $this->getEventsForAnEntity($this->getEntity(1));
+		$Stream = new EventStream($events);
+		$dtos = $this->getDTOs($events);
 		$repo = $this->getRepository();
-
 		$repo->expects($this->once())
 			->method('findBy')
 			->will($this->returnValue($dtos));
-		
 		$em->expects($this->once())
 			->method('getRepository')
 			->will($this->returnValue($repo));
+		$Storage = new DoctrineEventStorage($em);
 		$loadedStream = $Storage->loadStream(new EntityData('Entity', 1, 2));
-		
 		$this->assertEquals($Stream, $loadedStream);
 	}
 

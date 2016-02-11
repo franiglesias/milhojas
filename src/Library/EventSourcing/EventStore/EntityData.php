@@ -2,7 +2,7 @@
 
 namespace Milhojas\Library\EventSourcing\EventStore;
 
-use Milhojas\Library\EventSourcing\EventSourced;
+use Milhojas\Library\EventSourcing\Domain\EventSourced;
 /**
 * Transports information about entity type and id
 */

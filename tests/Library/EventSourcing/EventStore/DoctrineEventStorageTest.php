@@ -24,10 +24,26 @@ class DoctrineEventStorageTest extends \PHPUnit_Framework_TestCase
 			->getMock();
 		return $entityManager;
 	}
+	
+	private function getRepository($events)
+	{
+		$postRepository = $this->getMockBuilder('Doctrine\ORM\EntityRepository')
+			->disableOriginalConstructor()
+			->getMock();
+		$postRepository->expects($this->once())
+			->method('findBy')
+			->with($this->equalTo( array(
+				'entity_type' => 'Entity',
+				'entity_id' => 1
+			) ))
+			->will($this->returnValue( $this->getDTOs($events) ));
+		return $postRepository;
+	}
+	
 
 	private function getEvent($name, $entity)
 	{
-		$Event = $this->getMockBuilder('Milhojas\Library\EventSourcing\DomainEvent')
+		$Event = $this->getMockBuilder('Milhojas\Library\EventSourcing\Domain\DomainEvent')
 			->setMockClassName($name)
 			->disableOriginalConstructor()
 			->getMock();
@@ -36,7 +52,7 @@ class DoctrineEventStorageTest extends \PHPUnit_Framework_TestCase
 
 	private function getEntity($id = 1)
 	{
-		$entity = $this->getMockBuilder('Milhojas\Library\EventSourcing\EventSourced')
+		$entity = $this->getMockBuilder('Milhojas\Library\EventSourcing\Domain\EventSourced')
 			->setMockClassName('Entity')
 			->getMock();
 		return $entity;
@@ -92,20 +108,6 @@ class DoctrineEventStorageTest extends \PHPUnit_Framework_TestCase
 		$Storage->saveStream( new EntityData('Entity', 2, 2), $Stream2);
 	}
 
-	private function getRepository($events)
-	{
-		$postRepository = $this->getMockBuilder('Doctrine\ORM\EntityRepository')
-			->disableOriginalConstructor()
-			->getMock();
-		$postRepository->expects($this->once())
-			->method('findBy')
-			->with($this->equalTo( array(
-				'entity_type' => 'Entity',
-				'entity_id' => 1
-			) ))
-			->will($this->returnValue( $this->getDTOs($events) ));
-		return $postRepository;
-	}
 
 
 	public function test_it_can_load_an_event_stream_for_an_entity()

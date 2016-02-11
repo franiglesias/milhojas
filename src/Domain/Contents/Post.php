@@ -9,7 +9,7 @@ use Milhojas\Domain\Contents\DTO\PostDTO as PostDTO;
 use Milhojas\Library\ValueObjects\Dates\DateRange;
 use Milhojas\Library\ValueObjects\Dates\OpenDateRange;
 
-use Milhojas\Library\EventSourcing\EventSourcedEntity;
+use Milhojas\Library\EventSourcing\Domain\EventSourcedEntity;
 /**
 * Represents a Post (an article)
 */

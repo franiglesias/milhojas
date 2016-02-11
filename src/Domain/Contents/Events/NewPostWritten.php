@@ -1,7 +1,7 @@
 <?php
 
 namespace Milhojas\Domain\Contents\Events;
-use Milhojas\Library\EventSourcing\DomainEvent;
+use Milhojas\Library\EventSourcing\Domain\DomainEvent;
 
 /**
 * A Post Was Written by first time

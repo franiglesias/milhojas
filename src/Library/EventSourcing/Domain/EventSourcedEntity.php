@@ -1,21 +1,23 @@
 <?php
 
-namespace Milhojas\Library\EventSourcing;
+namespace Milhojas\Library\EventSourcing\Domain;
 
-use Milhojas\Library\EventSourcing\EventSourced;
+use Milhojas\Library\EventSourcing\Domain\EventSourced;
 use Milhojas\Library\EventSourcing\EventStream;
 use Milhojas\Library\EventSourcing\EventMessage;
 /**
-* Base class for Event Sourced Domain Entities. EventSourced Enttities should extend this class
+* Base class for Event Sourced Domain Entities. 
+* EventSourced Enttities should extend this class
 */
 abstract class EventSourcedEntity implements EventSourced
 {
 	protected $events;
-	protected $playhead = -1;
+	protected $version = -1;
 	
 	abstract public function getEntityId();
+	
 	/**
-	 * Returns a instance of the Entity from a stream of events
+	 * Recreates an instance of the Entity from a stream of events
 	 *
 	 * @param EventStream $stream 
 	 * @return EventSourcedEntity
@@ -28,6 +30,7 @@ abstract class EventSourcedEntity implements EventSourced
 		}
 		return $entity;
 	}
+	
 	/**
 	 * Returns the stream of recorded events
 	 *
@@ -37,6 +40,7 @@ abstract class EventSourcedEntity implements EventSourced
 	{
 		return new EventStream((array)$this->events);
 	}
+	
 	/**
 	 * Apply a DomainEvent to the Entity and appends it to the Event Stream
 	 *
@@ -51,7 +55,7 @@ abstract class EventSourcedEntity implements EventSourced
 	
 	public function getVersion()
 	{
-		return $this->playhead;
+		return $this->version;
 	}
 	
 	protected function handle($event)
@@ -60,7 +64,7 @@ abstract class EventSourcedEntity implements EventSourced
 		if (! method_exists($this, $method)) {
 			return;
 		}
-		$this->playhead++;
+		$this->version++;
 		$this->$method($event);
 		$this->record($event);
 	}

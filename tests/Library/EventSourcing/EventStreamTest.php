@@ -54,6 +54,12 @@ class EventStreamTest extends \PHPUnit_Framework_Testcase {
 		$Stream->append('event 3');
 		$this->assertEquals(3, $Stream->count());
 	}
+	
+	public function test_it_can_create_empty_event_stream()
+	{
+		$Stream = new EventStream();
+		$this->assertEquals(0, $Stream->count());
+	}
 }
 
 ?>

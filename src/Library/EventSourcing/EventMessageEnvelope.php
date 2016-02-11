@@ -10,26 +10,37 @@ use Milhojas\Library\EventSourcing\EventStore\EntityData;
 class EventMessageEnvelope
 {
 	private $id;
-	private $event_type;
 	private $time;
-	private $version;
-	private $entity;
 	private $metadata;
 	
-	function __construct(DomainEvent $event, EventSourced $entity)
+	private function __construct($id, $time, $metadata)
 	{
-		$this->id = $this->assignIdentity();
-		$this->time = new \DateTimeImmutable();
-		$this->metadata = array();
-		$this->event_type = get_class($event);
-		$this->entity = EntityData::fromEntity($entity);
+		$this->id = $id;
+		$this->time = $time;
+		$this->metadata = $metadata;
 	}
 	
-	
-	private function assignIdentity()
+	static function now()
 	{
-		$uuid = Uuid::uuid4();
-		return $uuid->toString();
+		return new static(
+			self::assignIdentity(),
+			new \DateTimeImmutable(),
+			array()
+		);
+	}
+	
+	static public function fromDTO($dto)
+	{
+		return new static(
+			$dto->getId(),
+			$dto->getTime(),
+			$dto->getMetadata()
+		);
+	}
+	
+	static private function assignIdentity()
+	{
+		return Uuid::uuid4()->toString();
 	}
 	
 	public function addMetaData($key, $value = null)
@@ -53,23 +64,7 @@ class EventMessageEnvelope
 	{
 		return $this->time;
 	}
-	public function getEntityType()
-	{
-		return $this->entity->getType();
-	}
-	public function getEntityId()
-	{
-		return $this->entity->getId();
-	}
-	public function getEventType()
-	{
-		return $this->event_type;
-	}
 	
-	public function getVersion()
-	{
-		return $this->version;
-	}
 }
 
 ?>

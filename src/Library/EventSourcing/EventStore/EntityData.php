@@ -10,16 +10,23 @@ class EntityData
 {
 	private $type;
 	private $id;
+	private $version;
 	
-	function __construct($type, $id)
+	function __construct($type, $id, $version)
 	{
 		$this->type = $type;
 		$this->id = $id;
+		$this->version = $version;
 	}
 	
 	static public function fromEntity(EventSourced $entity)
 	{
-		return new static(get_class($entity), $entity->getEntityId());
+		return new static(get_class($entity), $entity->getEntityId(), $entity->getVersion());
+	}
+	
+	static public function fromDTO($dto)
+	{
+		return new static($dto->getEntityType(), $dto->getEntityID(), $dto->getVersion());
 	}
 	
 	public function getType()
@@ -30,6 +37,11 @@ class EntityData
 	public function getId()
 	{
 		return $this->id;
+	}
+	
+	public function getVersion()
+	{
+		return $this->version;
 	}
 }
 ?>

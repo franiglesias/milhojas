@@ -39,6 +39,7 @@ class EventSourcedEntityTest extends \PHPUnit_Framework_TestCase {
             ->getMock();
 		$Entity->apply($Event);
 		$this->assertEquals(1, count($Entity->getEvents()));
+		$this->assertAttributeEquals(0, 'playhead', $Entity);
 	}
 	
 	public function test_it_does_not_apply_unknown_event()
@@ -49,6 +50,7 @@ class EventSourcedEntityTest extends \PHPUnit_Framework_TestCase {
             ->getMock();
 		$Entity->apply($Event);
 		$this->assertEquals(0, $Entity->getEvents()->count());
+		$this->assertAttributeEquals(-1, 'playhead', $Entity);
 	}
 	
 	public function test_it_does_not_record_a_event_that_can_not_be_handled()
@@ -59,6 +61,7 @@ class EventSourcedEntityTest extends \PHPUnit_Framework_TestCase {
             ->getMock();
 		$Entity->apply($Event);
 		$this->assertEquals(0, $Entity->getCounter());
+		$this->assertAttributeEquals(-1, 'playhead', $Entity);
 	}	
 
 	public function test_it_can_reconstitute()
@@ -72,6 +75,7 @@ class EventSourcedEntityTest extends \PHPUnit_Framework_TestCase {
 		$Entity->apply($Event);
 		$NewEntity = TestESEntity::reconstitute($Entity->getEvents());
 		$this->assertEquals(3, $NewEntity->getCounter());
+		$this->assertAttributeEquals(2, 'playhead', $Entity);
 	}
 	
 	public function test_it_can_reconstitute_with_an_event_that_can_not_handle()
@@ -89,6 +93,7 @@ class EventSourcedEntityTest extends \PHPUnit_Framework_TestCase {
 		$NewEntity = TestESEntity::reconstitute($Entity->getEvents());
 		$this->assertEquals(2, $NewEntity->getCounter());
 		$this->assertEquals(2, $NewEntity->getEvents()->count());
+		$this->assertAttributeEquals(1, 'playhead', $Entity);
 	}
 	
 }

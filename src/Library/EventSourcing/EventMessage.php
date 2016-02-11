@@ -1,8 +1,7 @@
 <?php
 
 namespace Milhojas\Library\EventSourcing;
-
-
+use Milhojas\Library\EventSourcing\EventStore\EntityData;
 /**
 * Stores an event and metadata needed
 */
@@ -12,6 +11,7 @@ class EventMessage
 {
 	private $event;
 	private $envelope;
+	private $entity;
 	
 	function __construct()
 	{
@@ -21,7 +21,17 @@ class EventMessage
 	{
 		$Message = new static();
 		$Message->event = $event;
-		$Message->envelope = new EventMessageEnvelope($event, $entity);
+		$Message->envelope = EventMessageEnvelope::now();
+		$Message->entity = EntityData::fromEntity($entity);
+		return $Message;
+	}
+	
+	static public function fromDTO($dto)
+	{
+		$Message = new static();
+		$Message->event = $dto->getEvent();
+		$Message->envelope = EventMessageEnvelope::fromDTO($dto);
+		$Message->entity = EntityData::fromDTO($dto);
 		return $Message;
 	}
 	
@@ -33,6 +43,11 @@ class EventMessage
 	public function getEnvelope()
 	{
 		return $this->envelope;
+	}
+	
+	public function getEntity()
+	{
+		return $this->entity;
 	}
 	
 	public function addMetaData($key, $value = null)

@@ -49,6 +49,11 @@ abstract class EventSourcedEntity implements EventSourced
 		$this->handle($event);
 	}
 	
+	public function getVersion()
+	{
+		return $this->playhead;
+	}
+	
 	protected function handle($event)
 	{
 		$method = $this->getMethod($event);
@@ -69,6 +74,8 @@ abstract class EventSourcedEntity implements EventSourced
 		return 'apply'.end($parts);
 		
 	}
+	
+
 }
 
 

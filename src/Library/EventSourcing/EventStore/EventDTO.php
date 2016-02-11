@@ -3,6 +3,7 @@
 namespace Milhojas\Library\EventSourcing\EventStore;
 
 use Doctrine\ORM\Mapping as ORM;
+use Milhojas\Library\EventSourcing\EventMessage;
 
 /**
 * Stores an event and metadata needed
@@ -59,9 +60,23 @@ class EventDTO
 	{
 	}
 	
+	static public function fromEventMessage(EventMessage $message)
+	{
+		$event = new static();
+		$event->setId($message->getEnvelope()->getId());
+		$event->setEvent($message->getEvent());
+		$event->setEventType(get_class($message->getEvent()));
+		$event->setEntityType($message->getEntity()->getType());
+		$event->setEntityId($message->getEntity()->getId());
+		$event->setVersion($message->getEntity()->getVersion());
+		$event->setMetadata($message->getEnvelope()->getMetadata());
+		$event->setTime($message->getEnvelope()->getTime());
+		return $event;
+	}
+	
 	public function getId()
 	{
-		$this->id = $id;
+		return $this->id;
 	}
 	
 	public function setId($id)

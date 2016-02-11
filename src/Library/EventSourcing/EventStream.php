@@ -12,7 +12,7 @@ class EventStream implements \IteratorAggregate {
 	
 	private $events;
 	
-	public function __construct(array $events)
+	public function __construct(array $events = array())
 	{
 		$this->events = $events;
 	}

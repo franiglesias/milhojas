@@ -19,41 +19,28 @@ class DoctrineEventStorage implements EventStorage
 	
 	public function loadStream(EntityData $entity) 
 	{
-		$events = $this->em
+		$dtos = $this->em
             ->getRepository('EventStore:EventDTO')
 			->findBy(array(
 				'entity_type' => $entity->getType(),
 				'entity_id' => $entity->getId()
 			));
-		foreach ($events as $event) {
-			# code...
+		$stream = new EventStream();
+		foreach ($dtos as $dto) {
+			$stream->append(EventMessage::fromDTO($dto));
 		}
-		return new EventStream($events);
+		return $stream;
 	}
 	
 	public function saveStream(EntityData $entity, EventStream $stream)
 	{
 		foreach ($stream as $message) {
-			$event = $this->buildEvent($message);
-			$this->em->persist($event);
+			$this->em->persist(EventDTO::fromEventMessage($message));
 		}
 		$this->em->flush();
 		$this->em->clear();
 	}
-	
-	private function buildEvent(EventMessage $message)
-	{
-		$event = new EventDTO();
-		$event->setId($message->getEnvelope()->getId());
-		$event->setEvent($message->getEvent());
-		$event->setEventType($message->getEnvelope()->getEventType());
-		$event->setEntityType($message->getEnvelope()->getEntityType());
-		$event->setEntityId($message->getEnvelope()->getEntityId());
-		$event->setVersion($message->getEnvelope()->getVersion());
-		$event->setMetadata($message->getEnvelope()->getMetadata());
-		$event->setTime($message->getEnvelope()->getTime());
-		return $event;
-	}
+
 }
 
 

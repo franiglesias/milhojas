@@ -13,7 +13,7 @@ class InMemoryEventStorageTest extends \PHPUnit_Framework_TestCase
 		$Storage = new InMemoryEventStorage();
 		$Stream = new EventStream(array('event 1', 'event 2', 'event 3'));
 		$expected = array('Entity' => array(1 => array('event 1', 'event 2', 'event 3')));
-		$Storage->saveStream( new EntityData('Entity', '1'), $Stream);
+		$Storage->saveStream( new EntityData('Entity', '1', 2), $Stream);
 		$this->assertAttributeEquals($expected, 'events', $Storage);
 		
 	}
@@ -28,8 +28,8 @@ class InMemoryEventStorageTest extends \PHPUnit_Framework_TestCase
 		);
 		
 		$Storage = new InMemoryEventStorage();
-		$Storage->saveStream( new EntityData('Entity', '1'), $Stream);
-		$Storage->saveStream( new EntityData('OtherEntity', 2), $Stream2);
+		$Storage->saveStream( new EntityData('Entity', '1', 2), $Stream);
+		$Storage->saveStream( new EntityData('OtherEntity', 2, 2), $Stream2);
 		
 		$this->assertAttributeEquals($expected, 'events', $Storage);
 	}
@@ -39,8 +39,8 @@ class InMemoryEventStorageTest extends \PHPUnit_Framework_TestCase
 		$Storage = new InMemoryEventStorage();
 		$Stream = new EventStream(array('event 1', 'event 2', 'event 3'));
 		$expected = array('Entity' => array(1 => array('event 1', 'event 2', 'event 3')));
-		$Storage->saveStream( new EntityData('Entity', '1'), $Stream);
-		$loadedStream = $Storage->loadStream(new EntityData('Entity', 1));
+		$Storage->saveStream( new EntityData('Entity', '1', 2), $Stream);
+		$loadedStream = $Storage->loadStream(new EntityData('Entity', 1, 2));
 		$this->assertEquals($Stream, $loadedStream);
 	}
 	

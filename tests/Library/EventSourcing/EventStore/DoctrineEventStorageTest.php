@@ -5,7 +5,7 @@ namespace Tests\Milhojas\Library\EventSourcing\EventStore;
 use Milhojas\Library\EventSourcing\EventStore\DoctrineEventStorage;
 use Milhojas\Library\EventSourcing\DTO\EntityData;
 
-use Milhojas\Library\EventSourcing\DTO\EventDTO;
+use Milhojas\Library\EventSourcing\DTO\EventDAO;
 use Milhojas\Library\EventSourcing\EventStream;
 use Milhojas\Library\EventSourcing\EventMessage;
 
@@ -77,7 +77,7 @@ class DoctrineEventStorageTest extends \PHPUnit_Framework_TestCase
 	{
 		$dtos = array();
 		foreach ($events as $event) {
-			$dtos[] = EventDTO::fromEventMessage($event);
+			$dtos[] = EventDAO::fromEventMessage($event);
 		}
 		return $dtos;
 	}
@@ -91,7 +91,7 @@ class DoctrineEventStorageTest extends \PHPUnit_Framework_TestCase
 		$Stream = $this->getStreamForEntity($this->getEntity(1));
 
 		$Storage = new DoctrineEventStorage($em);
-		$Storage->saveStream( new EntityData('Entity', '1', 2), $Stream);
+		$Storage->saveStream($Stream);
 		
 	}
 	
@@ -105,8 +105,8 @@ class DoctrineEventStorageTest extends \PHPUnit_Framework_TestCase
 		$Stream2 = $this->getStreamForEntity($this->getEntity(2));
 		
 		$Storage = new DoctrineEventStorage($em);
-		$Storage->saveStream( new EntityData('Entity', 1, 2), $Stream);
-		$Storage->saveStream( new EntityData('Entity', 2, 2), $Stream2);
+		$Storage->saveStream($Stream);
+		$Storage->saveStream($Stream2);
 	}
 
 
@@ -126,10 +126,7 @@ class DoctrineEventStorageTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals(new EventStream($events), $loadedStream);
 	}
 
-	public function test_it_counts_events_for_an_entity()
-	{
-	
-	}
+
 }
 
 ?>

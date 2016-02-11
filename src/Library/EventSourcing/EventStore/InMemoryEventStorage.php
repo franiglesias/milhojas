@@ -30,10 +30,10 @@ class InMemoryEventStorage implements EventStorage
 		return new EventStream($events);
 	}
 	
-	public function saveStream(EntityData $entity, EventStream $stream)
+	public function saveStream(EventStream $stream)
 	{
 		foreach ($stream as $message) {
-			$this->events[$entity->getType()][$entity->getId()][] = $message;
+			$this->events[$message->getEntity()->getType()][$message->getEntity()->getId()][] = $message;
 		}
 	}
 	

@@ -5,49 +5,54 @@ namespace Tests\Milhojas\Library\EventSourcing\EventStore;
 use Milhojas\Library\EventSourcing\EventStore\InMemoryEventStorage;
 use Milhojas\Library\EventSourcing\DTO\EntityData;
 use Milhojas\Library\EventSourcing\EventStream;
+use Milhojas\Library\EventSourcing\EventMessage;
 
 class InMemoryEventStorageTest extends \PHPUnit_Framework_TestCase
 {
+	
+	private function getEvent($name, $entity)
+	{
+		$Event = $this->getMockBuilder('Milhojas\Library\EventSourcing\Domain\DomainEvent')
+			->setMockClassName($name)
+			->disableOriginalConstructor()
+			->getMock();
+		return EventMessage::record($Event, $entity);
+	}
+
+	private function getEntity($id = 1)
+	{
+		$entity = $this->getMockBuilder('Milhojas\Library\EventSourcing\Domain\EventSourced')
+			->setMockClassName('Entity')
+			->getMock();
+		$entity->expects($this->any())->method('getEntityId')->will($this->returnValue($this->equalTo($id)));
+		return $entity;
+	}
+	
+	
+	public function getEventsForAnEntity($entity)
+	{
+		return array(
+			$this->getEvent('EntityCreated', $entity),
+			$this->getEvent('EntityUpdated', $entity),
+			$this->getEvent('EntityDeleted', $entity)
+		);
+	}
+
+	private function getStreamForEntity($entity)
+	{
+		return new EventStream($this->getEventsForAnEntity($entity));
+	}
+	
 	public function test_it_can_store_an_event_strem_for_an_entity()
 	{
-		$Storage = new InMemoryEventStorage();
-		$Stream = new EventStream(array('event 1', 'event 2', 'event 3'));
-		$expected = array('Entity' => array(1 => array('event 1', 'event 2', 'event 3')));
-		$Storage->saveStream( new EntityData('Entity', '1', 2), $Stream);
-		$this->assertAttributeEquals($expected, 'events', $Storage);
-		
-	}
-	
-	public function test_it_can_store_an_event_stream_for_different_entities()
-	{
-		$Stream = new EventStream(array('event 1', 'event 2', 'event 3'));
-		$Stream2 = new EventStream(array('event 4', 'event 5'));
-		$expected = array(
-			'Entity' => array(1 => array('event 1', 'event 2', 'event 3')),
-			'OtherEntity' => array(2 => array('event 4', 'event 5'))
-		);
+		$Stream = $this->getStreamForEntity($this->getEntity(1));
+		$expected['Entity'][1] = $this->getEventsForAnEntity($this->getEntity(1));
 		
 		$Storage = new InMemoryEventStorage();
-		$Storage->saveStream( new EntityData('Entity', '1', 2), $Stream);
-		$Storage->saveStream( new EntityData('OtherEntity', 2, 2), $Stream2);
+		$Storage->saveStream($Stream);
+		$this->assertAttributeEquals($expected, 'events', $Storage);	
+	}
 		
-		$this->assertAttributeEquals($expected, 'events', $Storage);
-	}
-	
-	public function test_it_can_load_an_event_stream_for_an_entity()
-	{
-		$Storage = new InMemoryEventStorage();
-		$Stream = new EventStream(array('event 1', 'event 2', 'event 3'));
-		$expected = array('Entity' => array(1 => array('event 1', 'event 2', 'event 3')));
-		$Storage->saveStream( new EntityData('Entity', '1', 2), $Stream);
-		$loadedStream = $Storage->loadStream(new EntityData('Entity', 1, 2));
-		$this->assertEquals($Stream, $loadedStream);
-	}
-	
-	public function test_it_counts_events_for_an_entity()
-	{
-	
-	}
 }
 
 ?>

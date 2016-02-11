@@ -13,7 +13,7 @@ use Milhojas\Library\EventSourcing\DTO\EntityData;
  */
 interface EventStorage {
 	public function loadStream(EntityData $entity);
-	public function saveStream(EntityData $entity, EventStream $stream);
+	public function saveStream(EventStream $stream);
 }
 
 ?>

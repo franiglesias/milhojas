@@ -4,7 +4,7 @@
 namespace Tests\Infrastructure\Persistence\Common\DoctrineTest;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use \Milhojas\Library\EventSourcing\EventStore\EventDTO;
+use \Milhojas\Library\EventSourcing\DTO\EventDTO;
 
 class ESRepositoryTest extends KernelTestCase
 {

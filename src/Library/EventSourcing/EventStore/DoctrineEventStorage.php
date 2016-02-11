@@ -7,7 +7,7 @@ use Milhojas\Library\EventSourcing\EventMessage;
 
 use Milhojas\Library\EventSourcing\EventStore\EventStorage;
 use Milhojas\Library\EventSourcing\DTO\EntityData;
-use Milhojas\Library\EventSourcing\EventStore\EventDTO;
+use Milhojas\Library\EventSourcing\DTO\EventDTO;
 
 use Doctrine\ORM\Entitymanager;
 

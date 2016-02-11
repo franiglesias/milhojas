@@ -4,7 +4,8 @@ namespace Tests\Milhojas\Library\EventSourcing\EventStore;
 
 use Milhojas\Library\EventSourcing\EventStore\DoctrineEventStorage;
 use Milhojas\Library\EventSourcing\DTO\EntityData;
-use Milhojas\Library\EventSourcing\EventStore\EventDTO;
+
+use Milhojas\Library\EventSourcing\DTO\EventDTO;
 use Milhojas\Library\EventSourcing\EventStream;
 use Milhojas\Library\EventSourcing\EventMessage;
 

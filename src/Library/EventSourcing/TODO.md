@@ -4,11 +4,11 @@
 
 √ Milhojas/EventSourcing/EventStore/Event is a bad name. It should be better EventDTO.
 
-Milhojas/EventSourcing/EventStore/EntityData is also a bad name. It could be better EntityData or EntityInformation oe EventSourcedEntityInformation. Not sure about this.
+Milhojas/EventSourcing/EventStore/EntityDTO is also a bad name. It could be better EntityData or EntityInformation oe EventSourcedEntityInformation. Not sure about this.
 
 ## Separation of concerns
 
-EventMessage and EventMessageEnvelope should accept this EntityData object instead of EventSourced. We don't work with entities in this layer (infrastructure), but we need some enity information.
+EventMessage and EventMessageEnvelope should accept this EntityData object instead of EventSourced. We don't work with entities in this layer (infrastructure), but we need some entity information.
 
 Entity information is redundant in several parts. We should check if this redundancy in acceptable or not.
 

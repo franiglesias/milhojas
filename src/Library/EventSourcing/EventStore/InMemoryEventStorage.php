@@ -41,6 +41,11 @@ class InMemoryEventStorage implements EventStorage
 	{
 		return count($this->events[$entity->getType()][$entity->getId()]);
 	}
+	
+	public function getEvents()
+	{
+		return $this->events;
+	}
 }
 
 ?>

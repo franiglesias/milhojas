@@ -50,6 +50,7 @@ class InMemoryEventStorageTest extends \PHPUnit_Framework_TestCase
 		
 		$Storage = new InMemoryEventStorage();
 		$Storage->saveStream($Stream);
+		print_r($Storage->getEvents());
 		$this->assertAttributeEquals($expected, 'events', $Storage);	
 	}
 		

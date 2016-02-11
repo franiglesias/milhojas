@@ -3,7 +3,7 @@
 namespace Milhojas\Library\EventSourcing;
 
 use Rhumsaa\Uuid\Uuid;
-use Milhojas\Library\EventSourcing\EventStore\EntityData;
+use Milhojas\Library\EventSourcing\DTO\EntityData;
 /**
 * Contains metadata for event messages
 */

@@ -3,8 +3,11 @@
 namespace Milhojas\Library\EventSourcing\Domain;
 
 use Milhojas\Library\EventSourcing\Domain\EventSourced;
+use Milhojas\Library\EventSourcing\Domain\DomainEvent;
+
 use Milhojas\Library\EventSourcing\EventStream;
 use Milhojas\Library\EventSourcing\EventMessage;
+
 /**
 * Base class for Event Sourced Domain Entities. 
 * EventSourced Enttities should extend this class
@@ -64,19 +67,20 @@ abstract class EventSourcedEntity implements EventSourced
 		if (! method_exists($this, $method)) {
 			return;
 		}
-		$this->version++;
 		$this->$method($event);
+		$this->version++;
 		$this->record($event);
 	}
+	
 	protected function record($event)
 	{
 		$this->events[] = EventMessage::record($event, $this);
 	}
+	
 	protected function getMethod($event)
 	{
 		$parts = explode('\\', get_class($event));
 		return 'apply'.end($parts);
-		
 	}
 	
 

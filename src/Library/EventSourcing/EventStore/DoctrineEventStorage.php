@@ -4,8 +4,11 @@ namespace Milhojas\Library\EventSourcing\EventStore;
 
 use Milhojas\Library\EventSourcing\EventStream;
 use Milhojas\Library\EventSourcing\EventMessage;
+
 use Milhojas\Library\EventSourcing\EventStore\EventStorage;
-use Milhojas\Library\EventSourcing\EventStore\EntityData;
+use Milhojas\Library\EventSourcing\DTO\EntityData;
+use Milhojas\Library\EventSourcing\EventStore\EventDTO;
+
 use Doctrine\ORM\Entitymanager;
 
 class DoctrineEventStorage implements EventStorage

@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Library\EventSourcing\EventStore;
+namespace Milhojas\Library\EventSourcing\DTO;
 
 use Milhojas\Library\EventSourcing\Domain\EventSourced;
 /**

@@ -23,6 +23,11 @@ class TestESEntity extends EventSourcedEntity {
 		$this->counter++;
 	}
 	
+	public function applyFailed()
+	{
+		throw new \InvalidArgumentException("Error Processing Request", 1);
+	}
+	
 	public function getCounter()
 	{
 		return $this->counter;
@@ -55,10 +60,13 @@ class EventSourcedEntityTest extends \PHPUnit_Framework_TestCase {
 		$this->assertAttributeEquals(-1, 'version', $Entity);
 	}
 	
+	/**
+	 * @expectedException InvalidArgumentException
+	 */
 	public function test_it_does_not_record_a_event_that_can_not_be_handled()
 	{
 		$Entity = new TestESEntity();
-		$Entity->apply($this->getEvent('NoHandled'));
+		$Entity->apply($this->getEvent('Failed'));
 		$this->assertEquals(0, $Entity->getCounter());
 		$this->assertAttributeEquals(-1, 'version', $Entity);
 	}	
@@ -83,6 +91,7 @@ class EventSourcedEntityTest extends \PHPUnit_Framework_TestCase {
 		$Entity->apply($Event);
 		$Entity->apply($BadEvent);
 		$Entity->apply($Event);
+		
 		$NewEntity = TestESEntity::reconstitute($Entity->getEvents());
 		$this->assertEquals(2, $NewEntity->getCounter());
 		$this->assertEquals(2, $NewEntity->getEvents()->count());

@@ -3,7 +3,7 @@
 namespace Milhojas\Library\EventSourcing;
 
 use Rhumsaa\Uuid\Uuid;
-use Milhojas\Library\EventSourcing\EventStore\EntityDTO;
+use Milhojas\Library\EventSourcing\EventStore\EntityData;
 /**
 * Contains metadata for event messages
 */
@@ -22,7 +22,7 @@ class EventMessageEnvelope
 		$this->time = new \DateTimeImmutable();
 		$this->metadata = array();
 		$this->event_type = get_class($event);
-		$this->entity = EntityDTO::fromEntity($entity);
+		$this->entity = EntityData::fromEntity($entity);
 	}
 	
 	

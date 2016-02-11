@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="events")
  */
-class Event
+class EventDTO
 {
     /**
      * @ORM\Column(type="string")

@@ -11,8 +11,8 @@ use Milhojas\Library\EventSourcing\EventStream;
  * @package default
  */
 interface EventStorage {
-	public function loadStream(EntityDTO $entity);
-	public function saveStream(EntityDTO $entity, EventStream $stream);
+	public function loadStream(EntityData $entity);
+	public function saveStream(EntityData $entity, EventStream $stream);
 }
 
 ?>

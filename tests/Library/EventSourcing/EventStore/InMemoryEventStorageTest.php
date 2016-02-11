@@ -3,7 +3,7 @@
 namespace Tests\Milhojas\Library\EventSourcing\EventStore;
 
 use Milhojas\Library\EventSourcing\EventStore\InMemoryEventStorage;
-use Milhojas\Library\EventSourcing\EventStore\EntityDTO;
+use Milhojas\Library\EventSourcing\EventStore\EntityData;
 use Milhojas\Library\EventSourcing\EventStream;
 
 class InMemoryEventStorageTest extends \PHPUnit_Framework_TestCase
@@ -13,7 +13,7 @@ class InMemoryEventStorageTest extends \PHPUnit_Framework_TestCase
 		$Storage = new InMemoryEventStorage();
 		$Stream = new EventStream(array('event 1', 'event 2', 'event 3'));
 		$expected = array('Entity' => array(1 => array('event 1', 'event 2', 'event 3')));
-		$Storage->saveStream( new EntityDTO('Entity', '1'), $Stream);
+		$Storage->saveStream( new EntityData('Entity', '1'), $Stream);
 		$this->assertAttributeEquals($expected, 'events', $Storage);
 		
 	}
@@ -28,8 +28,8 @@ class InMemoryEventStorageTest extends \PHPUnit_Framework_TestCase
 		);
 		
 		$Storage = new InMemoryEventStorage();
-		$Storage->saveStream( new EntityDTO('Entity', '1'), $Stream);
-		$Storage->saveStream( new EntityDTO('OtherEntity', 2), $Stream2);
+		$Storage->saveStream( new EntityData('Entity', '1'), $Stream);
+		$Storage->saveStream( new EntityData('OtherEntity', 2), $Stream2);
 		
 		$this->assertAttributeEquals($expected, 'events', $Storage);
 	}
@@ -39,8 +39,8 @@ class InMemoryEventStorageTest extends \PHPUnit_Framework_TestCase
 		$Storage = new InMemoryEventStorage();
 		$Stream = new EventStream(array('event 1', 'event 2', 'event 3'));
 		$expected = array('Entity' => array(1 => array('event 1', 'event 2', 'event 3')));
-		$Storage->saveStream( new EntityDTO('Entity', '1'), $Stream);
-		$loadedStream = $Storage->loadStream(new EntityDTO('Entity', 1));
+		$Storage->saveStream( new EntityData('Entity', '1'), $Stream);
+		$loadedStream = $Storage->loadStream(new EntityData('Entity', 1));
 		$this->assertEquals($Stream, $loadedStream);
 	}
 	

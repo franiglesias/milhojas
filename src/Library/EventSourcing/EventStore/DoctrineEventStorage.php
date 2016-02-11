@@ -5,7 +5,7 @@ namespace Milhojas\Library\EventSourcing\EventStore;
 use Milhojas\Library\EventSourcing\EventStream;
 use Milhojas\Library\EventSourcing\EventMessage;
 use Milhojas\Library\EventSourcing\EventStore\EventStorage;
-use Milhojas\Library\EventSourcing\EventStore\EntityDTO;
+use Milhojas\Library\EventSourcing\EventStore\EntityData;
 use Doctrine\ORM\Entitymanager;
 
 class DoctrineEventStorage implements EventStorage
@@ -17,10 +17,10 @@ class DoctrineEventStorage implements EventStorage
 		$this->em = $em;
 	}
 	
-	public function loadStream(EntityDTO $entity) 
+	public function loadStream(EntityData $entity) 
 	{
 		$events = $this->em
-            ->getRepository('EventStore:Event')
+            ->getRepository('EventStore:EventDTO')
 			->findBy(array(
 				'entity_type' => $entity->getType(),
 				'entity_id' => $entity->getId()
@@ -31,7 +31,7 @@ class DoctrineEventStorage implements EventStorage
 		return new EventStream($events);
 	}
 	
-	public function saveStream(EntityDTO $entity, EventStream $stream)
+	public function saveStream(EntityData $entity, EventStream $stream)
 	{
 		foreach ($stream as $message) {
 			$event = $this->buildEvent($message);
@@ -43,7 +43,7 @@ class DoctrineEventStorage implements EventStorage
 	
 	private function buildEvent(EventMessage $message)
 	{
-		$event = new Event();
+		$event = new EventDTO();
 		$event->setId($message->getEnvelope()->getId());
 		$event->setEvent($message->getEvent());
 		$event->setEventType($message->getEnvelope()->getEventType());

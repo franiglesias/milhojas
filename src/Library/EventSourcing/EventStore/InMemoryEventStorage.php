@@ -22,20 +22,20 @@ class InMemoryEventStorage implements EventStorage
 		$this->events = array();
 	}
 	
-	public function loadStream(EntityDTO $entity) 
+	public function loadStream(EntityData $entity) 
 	{
 		$events = $this->events[$entity->getType()][$entity->getId()];
 		return new EventStream($events);
 	}
 	
-	public function saveStream(EntityDTO $entity, EventStream $stream)
+	public function saveStream(EntityData $entity, EventStream $stream)
 	{
 		foreach ($stream as $message) {
 			$this->events[$entity->getType()][$entity->getId()][] = $message;
 		}
 	}
 	
-	public function count(EntityDTO $entity)
+	public function count(EntityData $entity)
 	{
 		return count($this->events[$entity->getType()][$entity->getId()]);
 	}

@@ -3,7 +3,7 @@
 namespace Tests\Milhojas\Library\EventSourcing\EventStore;
 
 use Milhojas\Library\EventSourcing\EventStore\DoctrineEventStorage;
-use Milhojas\Library\EventSourcing\EventStore\EntityDTO;
+use Milhojas\Library\EventSourcing\EventStore\EntityData;
 use Milhojas\Library\EventSourcing\EventStream;
 use Milhojas\Library\EventSourcing\EventMessage;
 
@@ -65,7 +65,7 @@ class DoctrineEventStorageTest extends \PHPUnit_Framework_TestCase
 		$Stream = $this->getStreamForEntity($this->getEntity(1));
 
 		$Storage = new DoctrineEventStorage($em);
-		$Storage->saveStream( new EntityDTO('Entity', '1'), $Stream);
+		$Storage->saveStream( new EntityData('Entity', '1'), $Stream);
 		
 	}
 	
@@ -79,8 +79,8 @@ class DoctrineEventStorageTest extends \PHPUnit_Framework_TestCase
 		$Stream2 = $this->getStreamForEntity($this->getEntity(2));
 		
 		$Storage = new DoctrineEventStorage($em);
-		$Storage->saveStream( new EntityDTO('Entity', 1), $Stream);
-		$Storage->saveStream( new EntityDTO('Entity', 2), $Stream2);
+		$Storage->saveStream( new EntityData('Entity', 1), $Stream);
+		$Storage->saveStream( new EntityData('Entity', 2), $Stream2);
 	}
 
 	public function test_it_can_load_an_event_stream_for_an_entity()
@@ -94,8 +94,8 @@ class DoctrineEventStorageTest extends \PHPUnit_Framework_TestCase
 			->method('persist');
 		
 		$Storage = new DoctrineEventStorage($em);
-		$Storage->saveStream( new EntityDTO('Entity', 1), $Stream);
-		$Storage->saveStream( new EntityDTO('Entity', 2), $Stream2);
+		$Storage->saveStream( new EntityData('Entity', 1), $Stream);
+		$Storage->saveStream( new EntityData('Entity', 2), $Stream2);
 		
 		$entity = $this->getEntity(1);
 		$events = array(
@@ -112,7 +112,7 @@ class DoctrineEventStorageTest extends \PHPUnit_Framework_TestCase
 		$em->expects($this->once())
 			->method('getRepository')
 			->will($this->returnValue($repo));
-		$loadedStream = $Storage->loadStream(new EntityDTO('Entity', 1));
+		$loadedStream = $Storage->loadStream(new EntityData('Entity', 1));
 		
 		$this->assertEquals($Stream, $loadedStream);
 	}

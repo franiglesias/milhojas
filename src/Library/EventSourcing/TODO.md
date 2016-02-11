@@ -2,9 +2,9 @@
 
 ## Naming things
 
-Milhojas/EventSourcing/EventStore/Event is a bad name. It should be better EventDTO.
+√ Milhojas/EventSourcing/EventStore/Event is a bad name. It should be better EventDTO.
 
-Milhojas/EventSourcing/EventStore/EntityDTO is also a bad name. It could be better EntityData or EntityInformation oe EventSourcedEntityInformation. Not sure about this.
+Milhojas/EventSourcing/EventStore/EntityData is also a bad name. It could be better EntityData or EntityInformation oe EventSourcedEntityInformation. Not sure about this.
 
 ## Separation of concerns
 

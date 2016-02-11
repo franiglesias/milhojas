@@ -11,7 +11,7 @@ class EventBuilder
 {
 	public function build(EventMessage $event)
 	{
-		$dto = new Event();
+		$dto = new EventDTO();
 		$dto->setId($event->getEnvelope()->getId());
 		return $dto;
 	}

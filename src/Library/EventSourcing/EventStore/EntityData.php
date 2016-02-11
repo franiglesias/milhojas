@@ -6,7 +6,7 @@ use Milhojas\Library\EventSourcing\EventSourced;
 /**
 * Transports information about entity type and id
 */
-class EntityDTO
+class EntityData
 {
 	private $type;
 	private $id;

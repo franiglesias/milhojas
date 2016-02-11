@@ -4,7 +4,7 @@
 namespace Tests\Infrastructure\Persistence\Common\DoctrineTest;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use \Milhojas\Library\EventSourcing\EventStore\Event;
+use \Milhojas\Library\EventSourcing\EventStore\EventDTO;
 
 class ESRepositoryTest extends KernelTestCase
 {
@@ -31,7 +31,7 @@ class ESRepositoryTest extends KernelTestCase
 	}
     public function dont_test_experiment()
     {
-		$event = new Event();
+		$event = new EventDTO();
 		$event->setId(1);
 		$event->setEventType('CreateEvent');
 		$event->setEntityType('Entity');
@@ -43,9 +43,9 @@ class ESRepositoryTest extends KernelTestCase
 		$this->em->persist($event);
 		$this->em->flush();
         $eventList = $this->em
-            ->getRepository('EventStore:Event')
+            ->getRepository('EventStore:EventDTO')
 				->findAll();
-		$theEvent = $this->em->getRepository('EventStore:Event')->find('1');
+		$theEvent = $this->em->getRepository('EventStore:EventDTO')->find('1');
 		print_r($theEvent);
         $this->assertCount(1, $eventList);
     }

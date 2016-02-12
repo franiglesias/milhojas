@@ -43,6 +43,20 @@ class DoctrineEventStorage implements EventStorage
 		$this->em->flush();
 		$this->em->clear();
 	}
+	
+	public function count(EntityData $entity)
+	{
+		$qb = $entityManager->createQueryBuilder();
+		$qb->select('count(event.id)');
+		$qb->from('EventStore:EventDAO','events');
+		$qb->where('entity_type = ? ', $entity->getType());
+		$qb->andWhere('entity_id = ? ', $entity->getId());
+		return $qb->getQuery()->getSingleScalarResult();
+		// return $this->em
+		// 	->createQuery('SELECT COUNT(event.id) FROM EventStore:EventDAO Event WHERE ? AND ?')
+		// 	->getSingleScalarResult();
+
+	}
 
 }
 

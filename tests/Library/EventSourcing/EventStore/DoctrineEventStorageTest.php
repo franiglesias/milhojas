@@ -13,17 +13,55 @@ use Milhojas\Library\EventSourcing\EventMessage;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\EntityManager;
 
+
 class DoctrineEventStorageTest extends \PHPUnit_Framework_TestCase
 {
 
+	private $Storage;
+	
+	protected function start_a_new_storage()
+	{
+		$this->Storage = new DoctrineEventStorage($this->getEntityManager());
+	}
+
+	
+	protected function store_an_event_stream_with_this_number_of_events($eventCount)
+	{
+		$Stream = $this->prepare_stream_for_entity($this->getEntity(1, $eventCount-1), $eventCount);
+		$this->Storage->saveStream($Stream);
+	}
+
+	protected function store_an_event_stream_with_conflicting_version($eventCount, $badVersionNumber)
+	{
+		$Stream = $this->prepare_stream_for_entity($this->getEntity(1, $badVersionNumber), $eventCount);
+		$this->Storage->saveStream($Stream);
+	}
+
+
+	protected function storage_should_contain_this_number_of_events($expectedEventCount)
+	{
+		$this->assertEquals($expectedEventCount, $this->Storage->count($this->getEntity(1, $expectedEventCount-1)));
+	}
+	
+	protected function storage_should_return_an_event_stream()
+	{
+		$Stream = $this->Storage->loadStream($this->getEntity(1));
+		$this->assertInstanceOf('Milhojas\Library\EventSourcing\EventStream', $Stream);
+	}
+	
+	
+	protected function storage_should_return_an_event_stream_with_events($expectedCount)
+	{
+		$Stream = $this->Storage->loadStream($this->getEntity(1));
+		$this->assertEquals($expectedCount, $Stream->count());
+	}
 
 	private function getEntityManager()
 	{
-		$entityManager = $this
+		return $this
 			->getMockBuilder('Doctrine\ORM\EntityManager')
 			->disableOriginalConstructor()
 			->getMock();
-		return $entityManager;
 	}
 	
 	private function getRepository($events)
@@ -42,22 +80,7 @@ class DoctrineEventStorageTest extends \PHPUnit_Framework_TestCase
 	}
 	
 
-	private function getEvent($name, $entity)
-	{
-		$Event = $this->getMockBuilder('Milhojas\Library\EventSourcing\Domain\DomainEvent')
-			->setMockClassName($name)
-			->disableOriginalConstructor()
-			->getMock();
-		return EventMessage::record($Event, $entity);
-	}
 
-	private function getEntity($id = 1)
-	{
-		$entity = $this->getMockBuilder('Milhojas\Library\EventSourcing\Domain\EventSourced')
-			->setMockClassName('Entity')
-			->getMock();
-		return $entity;
-	}
 	
 	private function getStreamForEntity($entity)
 	{
@@ -81,51 +104,72 @@ class DoctrineEventStorageTest extends \PHPUnit_Framework_TestCase
 		}
 		return $dtos;
 	}
+
+	
+	private function getEvent($name)
+	{
+		return $this->getMockBuilder('Milhojas\Library\EventSourcing\Domain\DomainEvent')
+			->setMockClassName($name)
+			->disableOriginalConstructor()
+			->getMock();
+	}
+
+	private function getEntity($id = 1, $version = -1)
+	{
+		return new EntityData('Entity', $id, $version);
+	}
+	
+	private function prepare_stream_for_entity($entity, $eventCount)
+	{
+		$messages = array();
+		for ($i=0; $i < $eventCount; $i++) { 
+			$event = $this->getEvent('Event_'.$i);
+			$messages[] = EventMessage::record($event, $entity);
+		}
+		return new EventStream($messages);
+	}
+	
+	public function test_a_new_storage_has_no_events()
+	{
+		$this->start_a_new_storage();
+		$this->storage_should_contain_this_number_of_events(0);
+	}
+	
+	/**
+	 * @expectedException Milhojas\Library\EventSourcing\Exceptions\EntityNotFound
+	 */
+	public function test_throw_exception_if_there_id_no_info_for_entity()
+	{
+		$this->start_a_new_storage();
+		$this->storage_should_contain_this_number_of_events(0);
+		$this->storage_should_return_an_event_stream();
+	}
 	
 	public function test_it_can_store_an_event_strem_for_an_entity()
 	{
-		// $em = $this->getEntityManager();
-		// $em->expects($this->exactly(3))
-		// 	->method('persist');
-		//
-		// $Stream = $this->getStreamForEntity($this->getEntity(1));
-		//
-		// $Storage = new DoctrineEventStorage($em);
-		// $Storage->saveStream($Stream);
-		
+		$this->start_a_new_storage();
+		$this->store_an_event_stream_with_this_number_of_events(3);
+		$this->storage_should_contain_this_number_of_events(3);
 	}
 	
-	public function test_it_can_store_an_event_stream_for_different_entities()
+	public function test_it_can_retrieve_an_event_stream_for_an_entity()
 	{
-		// $em = $this->getEntityManager();
-		// $em->expects($this->exactly(6))
-		// 	->method('persist');
-		//
-		// $Stream = $this->getStreamForEntity($this->getEntity(1));
-		// $Stream2 = $this->getStreamForEntity($this->getEntity(2));
-		//
-		// $Storage = new DoctrineEventStorage($em);
-		// $Storage->saveStream($Stream);
-		// $Storage->saveStream($Stream2);
+		$this->start_a_new_storage();
+		$this->store_an_event_stream_with_this_number_of_events(3);
+		$this->storage_should_return_an_event_stream();
+		$this->storage_should_return_an_event_stream_with_events(3);
 	}
 
-
-
-	public function test_it_can_load_an_event_stream_for_an_entity()
+	/**
+	 * @expectedException Milhojas\Library\EventSourcing\Exceptions\ConflictingVersion
+	 */
+	public function test_it_detects_a_conflicting_version()
 	{
-		// $events = $this->getEventsForAnEntity($this->getEntity(1));
-		//
-		// $em = $this->getEntityManager();
-		// $em->expects($this->once())
-		// 	->method('getRepository')
-		// 	->will($this->returnValue($this->getRepository($events)));
-		//
-		// $Storage = new DoctrineEventStorage($em);
-		// $loadedStream = $Storage->loadStream(new EntityData('Entity', 1, 2));
-		//
-		// $this->assertEquals(new EventStream($events), $loadedStream);
+		$this->start_a_new_storage();
+		$this->store_an_event_stream_with_this_number_of_events(5);
+		$this->store_an_event_stream_with_conflicting_version(3, 3);
 	}
-
+	
 
 }
 

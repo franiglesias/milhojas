@@ -22,9 +22,9 @@ class InMemoryEventStorageTest extends \PHPUnit_Framework_TestCase
 		$this->Storage->saveStream($Stream);
 	}
 
-	protected function store_an_event_stream_with_conflicting_version($eventCount, $badVersion)
+	protected function store_an_event_stream_with_conflicting_version($eventCount, $badVersionNumber)
 	{
-		$Stream = $this->prepare_stream_for_entity($this->getEntity(1, $badVersion), $eventCount);
+		$Stream = $this->prepare_stream_for_entity($this->getEntity(1, $badVersionNumber), $eventCount);
 		$this->Storage->saveStream($Stream);
 	}
 

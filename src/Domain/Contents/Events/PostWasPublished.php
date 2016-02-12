@@ -6,7 +6,7 @@ use Milhojas\Library\EventSourcing\Domain\DomainEvent;
 /**
 * A Post was published from a date
 */
-class PostPublished implements DomainEvent
+class PostWasPublished implements DomainEvent
 {
 	private $id;
 	private $publication;

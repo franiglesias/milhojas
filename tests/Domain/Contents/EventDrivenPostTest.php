@@ -7,10 +7,10 @@ use Milhojas\Domain\Contents\PostId;
 use Milhojas\Domain\Contents\PostContent;
 use Milhojas\Domain\Contents\Flags as Flag;
 
-use Milhojas\Domain\Contents\Events\NewPostWritten;
-use Milhojas\Domain\Contents\Events\PostUpdated;
-use Milhojas\Domain\Contents\Events\PostPublished;
-use Milhojas\Domain\Contents\Events\PostRetired;
+use Milhojas\Domain\Contents\Events\NewPostWasWritten;
+use Milhojas\Domain\Contents\Events\PostWasUpdated;
+use Milhojas\Domain\Contents\Events\PostWasPublished;
+use Milhojas\Domain\Contents\Events\PostWasRetired;
 
 class EventDrivenPostTest extends \PHPUnit_Framework_Testcase {
 	
@@ -18,7 +18,7 @@ class EventDrivenPostTest extends \PHPUnit_Framework_Testcase {
 	public function test_it_handles_post_updated()
 	{
 		$Post = Post::write(new PostId(1), new PostContent('Title', 'Body'), 'Author');
-		$Event = new PostUpdated(1, 'New Title', 'New Body', 'New author');
+		$Event = new PostWasUpdated(1, 'New Title', 'New Body', 'New author');
 		$Post->apply($Event);
 		$this->assertEquals(new PostId(1), $Post->getId());
 		$this->assertInstanceOf('\Milhojas\Domain\Contents\PostStates\DraftPostState', $Post->getState());
@@ -29,7 +29,7 @@ class EventDrivenPostTest extends \PHPUnit_Framework_Testcase {
 	public function test_it_handles_post_published()
 	{
 		$Post = Post::write(new PostId(1), new PostContent('Title', 'Body'), 'Author');
-		$Event = new PostPublished(1, new \DateTimeImmutable('2016-01-01'));
+		$Event = new PostWasPublished(1, new \DateTimeImmutable('2016-01-01'));
 		$Post->apply($Event);
 		$this->assertEquals(new PostId(1), $Post->getId());
 		$this->assertInstanceOf('\Milhojas\Domain\Contents\PostStates\PublishedPostState', $Post->getState());
@@ -38,7 +38,7 @@ class EventDrivenPostTest extends \PHPUnit_Framework_Testcase {
 	public function test_it_handles_post_retired()
 	{
 		$Post = Post::write(new PostId(1), new PostContent('Title', 'Body'), 'Author');
-		$Event = new PostRetired(1);
+		$Event = new PostWasRetired(1);
 		$Post->apply($Event);
 		$this->assertEquals(new PostId(1), $Post->getId());
 		$this->assertInstanceOf('\Milhojas\Domain\Contents\PostStates\RetiredPostState', $Post->getState());

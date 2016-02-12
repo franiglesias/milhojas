@@ -39,11 +39,11 @@ class Post extends EventSourcedEntity
 	{
 		$post = new self();
 		$post->id = $id;
-		$post->apply(new Events\NewPostWritten($id->getId(), $content->getTitle(), $content->getBody(), $author));
+		$post->recordThat(new Events\NewPostWasWritten($id->getId(), $content->getTitle(), $content->getBody(), $author));
 		return $post;
 	}
 
-	protected function applyNewPostWritten(Events\NewPostWritten $event)
+	protected function applyNewPostWasWritten(Events\NewPostWasWritten $event)
 	{
 		$this->id = new PostId($event->getEntityId());
 		$this->content = new PostContent($event->getTitle(), $event->getBody());
@@ -52,10 +52,10 @@ class Post extends EventSourcedEntity
 	
 	public function update(PostContent $newContent, $author = '')
 	{
-		$this->apply(new Events\PostUpdated($this->getEntityId(), $newContent->getTitle(), $newContent->getBody(), $author));
+		$this->recordThat(new Events\PostWasUpdated($this->getEntityId(), $newContent->getTitle(), $newContent->getBody(), $author));
 	}
 	
-	protected function applyPostUpdated(Events\PostUpdated $event)
+	protected function applyPostWasUpdated(Events\PostWasUpdated $event)
 	{
 		$this->content = new PostContent($event->getTitle(), $event->getBody());
 		$this->author = $event->getAuthor();
@@ -64,10 +64,10 @@ class Post extends EventSourcedEntity
 	public function publish(DateRange $publication)
 	{
 		$this->state = $this->state->publish();
-		$this->apply(new Events\PostPublished($this->getEntityId(), $publication->getStart(), $publication->getEnd()));
+		$this->recordThat(new Events\PostWasPublished($this->getEntityId(), $publication->getStart(), $publication->getEnd()));
 	}
 	
-	protected function applyPostPublished(Events\PostPublished $event)
+	protected function applyPostWasPublished(Events\PostWasPublished $event)
 	{
 		$this->publication = new DateRange($event->getPublication(), $event->getExpiration());
 		$this->state = new States\PublishedPostState();
@@ -84,10 +84,10 @@ class Post extends EventSourcedEntity
 	public function retire()
 	{
 		$this->state = $this->state->retire();
-		$this->apply(new Events\PostRetired($this->getEntityId()));
+		$this->recordThat(new Events\PostWasRetired($this->getEntityId()));
 	}
 	
-	protected function applyPostRetired(Events\PostRetired $event)
+	protected function applyPostWasRetired(Events\PostWasRetired $event)
 	{
 		$this->state = new States\RetiredPostState();
 	}

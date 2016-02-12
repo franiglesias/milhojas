@@ -60,6 +60,13 @@ class EventStreamTest extends \PHPUnit_Framework_Testcase {
 		$Stream = new EventStream();
 		$this->assertEquals(0, $Stream->count());
 	}
+	
+	public function test_it_can_create_empty_event_stream_with_empty_array()
+	{
+		$Stream = new EventStream(array());
+		$this->assertEquals(0, $Stream->count());
+	}
+	
 }
 
 ?>

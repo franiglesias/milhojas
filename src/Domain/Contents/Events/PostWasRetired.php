@@ -6,7 +6,7 @@ use Milhojas\Library\EventSourcing\Domain\DomainEvent;
 /**
 * An existent post was retired
 */
-class PostRetired implements DomainEvent
+class PostWasRetired implements DomainEvent
 {
 	private $id;
 	

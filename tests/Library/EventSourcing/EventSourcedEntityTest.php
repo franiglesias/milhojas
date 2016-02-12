@@ -3,6 +3,7 @@
 namespace Tests\Library\EventSourcing;
 
 use Milhojas\Library\EventSourcing\Domain\EventSourcedEntity;
+use Milhojas\Library\EventSourcing\Domain\DomainEvent;
 
 class TestESEntity extends EventSourcedEntity {
 	
@@ -32,32 +33,64 @@ class TestESEntity extends EventSourcedEntity {
 	{
 		return $this->counter;
 	}
+	
+	public function recordThat(DomainEvent $event)
+	{
+		parent::recordThat($event);
+	}
 }
 
 
 class EventSourcedEntityTest extends \PHPUnit_Framework_TestCase {
 	
-	public function getEvent($name)
+	protected function getEvent($name)
 	{
 		return $this->getMockBuilder('Milhojas\Library\EventSourcing\Domain\DomainEvent')
 			->setMockClassName($name)->disableOriginalConstructor()
             ->getMock();
 	}
 	
+	protected function itShouldHaveRecordedEvents($eventCount, $Entity)
+	{
+		$this->assertEquals($eventCount, $Entity->getEvents()->count());
+	}
+	
+	protected function itShouldHaveVersionNumber($version, $Entity)
+	{
+		$this->assertAttributeEquals($version, 'version', $Entity);
+	}
+	
+	protected function itShouldHaveNotRecordedEvents($Entity)
+	{
+		$this->itShouldHaveRecordedEvents(0, $Entity);
+	}
+	
+	protected function itShouldNotHaveVersion($Entity)
+	{
+		$this->itShouldHaveVersionNumber(-1, $Entity);
+	}
+	
+	public function test_new_entity_has_no_recorded_events()
+	{
+		$Entity = new TestESEntity();
+		$this->itShouldHaveNotRecordedEvents($Entity);
+		$this->itShouldNotHaveVersion($Entity);
+	}
+	
 	public function test_it_applies_event()
 	{
 		$Entity = new TestESEntity();
-		$Entity->apply($this->getEvent('Handled'));
-		$this->assertEquals(1, count($Entity->getEvents()));
-		$this->assertAttributeEquals(0, 'version', $Entity);
+		$Entity->recordThat($this->getEvent('Handled'));
+		$this->itShouldHaveRecordedEvents(1, $Entity);
+		$this->itShouldHaveVersionNumber(0, $Entity);
 	}
 	
 	public function test_it_does_not_apply_unknown_event()
 	{
 		$Entity = new TestESEntity();
-		$Entity->apply($this->getEvent('NoHandled'));
-		$this->assertEquals(0, $Entity->getEvents()->count());
-		$this->assertAttributeEquals(-1, 'version', $Entity);
+		$Entity->recordThat($this->getEvent('NoHandled'));
+		$this->itShouldHaveNotRecordedEvents($Entity);
+		$this->itShouldNotHaveVersion($Entity);
 	}
 	
 	/**
@@ -66,21 +99,22 @@ class EventSourcedEntityTest extends \PHPUnit_Framework_TestCase {
 	public function test_it_does_not_record_a_event_that_can_not_be_handled()
 	{
 		$Entity = new TestESEntity();
-		$Entity->apply($this->getEvent('Failed'));
-		$this->assertEquals(0, $Entity->getCounter());
-		$this->assertAttributeEquals(-1, 'version', $Entity);
+		$Entity->recordThat($this->getEvent('Failed'));
 	}	
 
 	public function test_it_can_reconstitute()
 	{
 		$Entity = new TestESEntity();
 		$Event = $this->getEvent('Handled');
-		$Entity->apply($Event);
-		$Entity->apply($Event);
-		$Entity->apply($Event);
+		$Entity->recordThat($Event);
+		$Entity->recordThat($Event);
+		$Entity->recordThat($Event);
+
 		$NewEntity = TestESEntity::reconstitute($Entity->getEvents());
+		
+		$this->itShouldHaveNotRecordedEvents($NewEntity);
+		$this->itShouldHaveVersionNumber(2, $NewEntity);
 		$this->assertEquals(3, $NewEntity->getCounter());
-		$this->assertAttributeEquals(2, 'version', $Entity);
 	}
 	
 	public function test_it_can_reconstitute_with_an_event_that_can_not_handle()
@@ -88,14 +122,14 @@ class EventSourcedEntityTest extends \PHPUnit_Framework_TestCase {
 		$Entity = new TestESEntity();
 		$Event = $this->getEvent('Handled');
 		$BadEvent = $this->getEvent('NoHandled');
-		$Entity->apply($Event);
-		$Entity->apply($BadEvent);
-		$Entity->apply($Event);
+		$Entity->recordThat($Event);
+		$Entity->recordThat($BadEvent);
+		$Entity->recordThat($Event);
 		
 		$NewEntity = TestESEntity::reconstitute($Entity->getEvents());
+		$this->itShouldHaveNotRecordedEvents($NewEntity);
+		$this->itShouldHaveVersionNumber(1, $NewEntity);
 		$this->assertEquals(2, $NewEntity->getCounter());
-		$this->assertEquals(2, $NewEntity->getEvents()->count());
-		$this->assertAttributeEquals(1, 'version', $Entity);
 	}
 	
 }

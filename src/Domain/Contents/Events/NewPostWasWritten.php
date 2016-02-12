@@ -1,12 +1,12 @@
 <?php
 
 namespace Milhojas\Domain\Contents\Events;
-
 use Milhojas\Library\EventSourcing\Domain\DomainEvent;
+
 /**
-* An existent post was updated
+* A Post Was Written by first time
 */
-class PostUpdated implements DomainEvent
+class NewPostWasWritten implements DomainEvent
 {
 	private $id;
 	private $title;

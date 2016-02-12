@@ -9,6 +9,8 @@ use Milhojas\Library\EventSourcing\EventStore\EventStorage;
 use Milhojas\Library\EventSourcing\DTO\EntityData;
 use Milhojas\Library\EventSourcing\DTO\EventDAO;
 
+use Milhojas\Library\EventSourcing\Exceptions as Exception;
+
 use Doctrine\ORM\Entitymanager;
 
 class DoctrineEventStorage implements EventStorage
@@ -28,6 +30,9 @@ class DoctrineEventStorage implements EventStorage
 				'entity_type' => $entity->getType(),
 				'entity_id' => $entity->getId()
 			));
+		if (!$dtos) {
+			throw new Exception\EntityNotFound(sprintf('No events found for entity: %s', $entity->getType()), 2);
+		}
 		$stream = new EventStream();
 		foreach ($dtos as $dto) {
 			$stream->append(EventMessage::fromDTO($dto));
@@ -38,6 +43,7 @@ class DoctrineEventStorage implements EventStorage
 	public function saveStream(EventStream $stream)
 	{
 		foreach ($stream as $message) {
+			$this->checkVersion($message->getEntity());
 			$this->em->persist(EventDAO::fromEventMessage($message));
 		}
 		$this->em->flush();
@@ -46,16 +52,34 @@ class DoctrineEventStorage implements EventStorage
 	
 	public function count(EntityData $entity)
 	{
-		$qb = $entityManager->createQueryBuilder();
-		$qb->select('count(event.id)');
-		$qb->from('EventStore:EventDAO','events');
-		$qb->where('entity_type = ? ', $entity->getType());
-		$qb->andWhere('entity_id = ? ', $entity->getId());
-		return $qb->getQuery()->getSingleScalarResult();
-		// return $this->em
-		// 	->createQuery('SELECT COUNT(event.id) FROM EventStore:EventDAO Event WHERE ? AND ?')
-		// 	->getSingleScalarResult();
-
+		return $this->em
+			->createQuery('SELECT COUNT(events.id) FROM EventStore:EventDAO events WHERE events.entity_type = :entity AND events.entity_id = :id')
+			->setParameter('entity', $entity->getType())
+			->setParameter('id', $entity->getId())
+			->getSingleScalarResult();
+	}
+	
+	protected function storedVersion($entity)
+	{
+		return $this->em
+			->createQuery('SELECT MAX(events.version) FROM EventStore:EventDAO events WHERE events.entity_type = :entity AND events.entity_id = :id')
+			->setParameter('entity', $entity->getType())
+			->setParameter('id', $entity->getId())
+			->getSingleScalarResult();
+	}
+	
+	protected function conflictingVersion($entity, $stored)
+	{
+		return $entity->getVersion() < $stored;
+	}
+	
+	protected function checkVersion($entity)
+	{
+		$stored = $this->storedVersion($entity);
+		if ($this->conflictingVersion($entity, $stored)) {
+			$message = sprintf('Stored version found to be %s, trying to save version %s', $stored, $entity->getVersion());
+			throw new Exception\ConflictingVersion($message, 1);
+		}
 	}
 
 }

@@ -50,6 +50,32 @@ class ESRepositoryTest extends KernelTestCase
         $this->assertCount(1, $eventList);
     }
 
+	public function dont_test_count()
+	{
+		$qb = $this->em->createQueryBuilder()
+			->select('count(events.id)')
+			->from('EventStore:EventDAO','events')
+			->where('events.entity_type = :entity AND events.entity_id = :id')
+				->setParameter('entity', 'Entity')->setParameter('id', '2');
+		print_r( $qb->getQuery()->getSingleScalarResult());
+		
+		
+		print_r ($this->em
+			->createQuery('SELECT COUNT(events.id) FROM EventStore:EventDAO events WHERE events.entity_type = :entity AND events.entity_id = :id')
+			->setParameter('entity', 'Entity')
+			->setParameter('id', '2')
+			->getSingleScalarResult());
+	}
+	
+	public function dont_test_max()
+	{
+		print $this->em
+					->createQuery('SELECT MAX(events.version) FROM EventStore:EventDAO events WHERE events.entity_type = :entity AND events.entity_id = :id')
+					->setParameter('entity', 'Entity')
+					->setParameter('id', 2)
+					->getSingleScalarResult();
+	}
+
     /**
      * {@inheritDoc}
      */

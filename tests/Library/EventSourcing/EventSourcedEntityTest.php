@@ -43,6 +43,57 @@ class TestESEntity extends EventSourcedEntity {
 
 class EventSourcedEntityTest extends \PHPUnit_Framework_TestCase {
 	
+	private $Entity;
+	
+	protected function start_with_a_new_entity()
+	{
+		$this->Entity = new TestESEntity();
+	}
+	
+	protected function entity_has_not_recorded_events()
+	{
+		$this->assertEquals(0, $this->Entity->getEvents()->count());
+	}
+	
+	protected function entity_receives_an_unknown_event()
+	{
+		$this->Entity->recordThat($this->getEvent('NoHandled'));
+	}
+	
+	protected function entity_receives_events($count = 1)
+	{
+		for ($i=0; $i < $count; $i++) { 
+			$this->Entity->recordThat($this->getEvent('Handled'));
+		}
+	}
+	
+	protected function entity_should_have_recorded_events($expectedEventCount)
+	{
+		$this->assertEquals($expectedEventCount, $this->Entity->getEvents()->count());
+	}
+	
+	protected function entity_should_have_version_number_of($expectedVersionNumber)
+	{
+		$this->assertAttributeEquals($expectedVersionNumber, 'version', $this->Entity);
+	}
+	
+	protected function entity_receives_a_failing_event()
+	{
+		$this->Entity->recordThat($this->getEvent('Failed'));
+	}
+	
+	protected function entity_is_reconstituted()
+	{
+		$original = $this->Entity;
+		unset($this->Entity);
+		$this->Entity = TestESEntity::reconstitute($original->getEvents());
+	}
+
+	protected function entity_has_changed_state_to($expectedState)
+	{
+		$this->assertEquals($expectedState, $this->Entity->getCounter());
+	}
+	
 	protected function getEvent($name)
 	{
 		return $this->getMockBuilder('Milhojas\Library\EventSourcing\Domain\DomainEvent')
@@ -50,47 +101,26 @@ class EventSourcedEntityTest extends \PHPUnit_Framework_TestCase {
             ->getMock();
 	}
 	
-	protected function itShouldHaveRecordedEvents($eventCount, $Entity)
-	{
-		$this->assertEquals($eventCount, $Entity->getEvents()->count());
-	}
-	
-	protected function itShouldHaveVersionNumber($version, $Entity)
-	{
-		$this->assertAttributeEquals($version, 'version', $Entity);
-	}
-	
-	protected function itShouldHaveNotRecordedEvents($Entity)
-	{
-		$this->itShouldHaveRecordedEvents(0, $Entity);
-	}
-	
-	protected function itShouldNotHaveVersion($Entity)
-	{
-		$this->itShouldHaveVersionNumber(-1, $Entity);
-	}
-	
+		
 	public function test_new_entity_has_no_recorded_events()
 	{
-		$Entity = new TestESEntity();
-		$this->itShouldHaveNotRecordedEvents($Entity);
-		$this->itShouldNotHaveVersion($Entity);
+		$this->start_with_a_new_entity();
+		$this->entity_has_not_recorded_events();
 	}
 	
 	public function test_it_applies_event()
 	{
-		$Entity = new TestESEntity();
-		$Entity->recordThat($this->getEvent('Handled'));
-		$this->itShouldHaveRecordedEvents(1, $Entity);
-		$this->itShouldHaveVersionNumber(0, $Entity);
+		$this->start_with_a_new_entity();
+		$this->entity_receives_events(1);
+		$this->entity_should_have_recorded_events(1);
+		$this->entity_should_have_version_number_of(0);
 	}
 	
 	public function test_it_does_not_apply_unknown_event()
 	{
-		$Entity = new TestESEntity();
-		$Entity->recordThat($this->getEvent('NoHandled'));
-		$this->itShouldHaveNotRecordedEvents($Entity);
-		$this->itShouldNotHaveVersion($Entity);
+		$this->start_with_a_new_entity();
+		$this->entity_receives_an_unknown_event();
+		$this->entity_has_not_recorded_events();
 	}
 	
 	/**
@@ -98,38 +128,34 @@ class EventSourcedEntityTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function test_it_does_not_record_a_event_that_can_not_be_handled()
 	{
-		$Entity = new TestESEntity();
-		$Entity->recordThat($this->getEvent('Failed'));
-	}	
+		$this->start_with_a_new_entity();
+		$this->entity_receives_a_failing_event();
+	}
+	
 
 	public function test_it_can_reconstitute()
 	{
-		$Entity = new TestESEntity();
-		$Event = $this->getEvent('Handled');
-		$Entity->recordThat($Event);
-		$Entity->recordThat($Event);
-		$Entity->recordThat($Event);
-
-		$NewEntity = TestESEntity::reconstitute($Entity->getEvents());
+		$this->start_with_a_new_entity();
+		$this->entity_receives_events(3);
 		
-		$this->itShouldHaveNotRecordedEvents($NewEntity);
-		$this->itShouldHaveVersionNumber(2, $NewEntity);
-		$this->assertEquals(3, $NewEntity->getCounter());
+		$this->entity_is_reconstituted();
+		
+		$this->entity_has_not_recorded_events();
+		$this->entity_should_have_version_number_of(2);
+		$this->entity_has_changed_state_to(3);
 	}
 	
 	public function test_it_can_reconstitute_with_an_event_that_can_not_handle()
 	{
-		$Entity = new TestESEntity();
-		$Event = $this->getEvent('Handled');
-		$BadEvent = $this->getEvent('NoHandled');
-		$Entity->recordThat($Event);
-		$Entity->recordThat($BadEvent);
-		$Entity->recordThat($Event);
+		$this->start_with_a_new_entity();
+		$this->entity_receives_events(2);
+		$this->entity_receives_an_unknown_event();
 		
-		$NewEntity = TestESEntity::reconstitute($Entity->getEvents());
-		$this->itShouldHaveNotRecordedEvents($NewEntity);
-		$this->itShouldHaveVersionNumber(1, $NewEntity);
-		$this->assertEquals(2, $NewEntity->getCounter());
+		$this->entity_is_reconstituted();
+		
+		$this->entity_has_not_recorded_events();
+		$this->entity_should_have_version_number_of(1);
+		$this->entity_has_changed_state_to(2);
 	}
 	
 }

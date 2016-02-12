@@ -22,6 +22,13 @@ class InMemoryEventStorageTest extends \PHPUnit_Framework_TestCase
 		$this->Storage->saveStream($Stream);
 	}
 
+	protected function store_an_event_stream_with_conflicting_version($eventCount, $badVersion)
+	{
+		$Stream = $this->prepare_stream_for_entity($this->getEntity(1, $badVersion), $eventCount);
+		$this->Storage->saveStream($Stream);
+	}
+
+
 	protected function storage_should_contain_this_number_of_events($expectedEventCount)
 	{
 		$this->assertEquals($expectedEventCount, $this->Storage->count($this->getEntity(1, $expectedEventCount-1)));
@@ -70,7 +77,7 @@ class InMemoryEventStorageTest extends \PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 * @expectedException \UnderflowException
+	 * @expectedException Milhojas\Library\EventSourcing\Exceptions\EntityNotFound
 	 */
 	public function test_throw_exception_if_there_id_no_info_for_entity()
 	{
@@ -78,7 +85,6 @@ class InMemoryEventStorageTest extends \PHPUnit_Framework_TestCase
 		$this->storage_should_contain_this_number_of_events(0);
 		$this->storage_should_return_an_event_stream();
 	}
-	
 	
 	public function test_it_can_store_an_event_strem_for_an_entity()
 	{
@@ -93,6 +99,16 @@ class InMemoryEventStorageTest extends \PHPUnit_Framework_TestCase
 		$this->store_an_event_stream_with_this_number_of_events(3);
 		$this->storage_should_return_an_event_stream();
 		$this->storage_should_return_an_event_stream_with_events(3);
+	}
+
+	/**
+	 * @expectedException Milhojas\Library\EventSourcing\Exceptions\ConflictingVersion
+	 */
+	public function test_it_detects_a_conflicting_version()
+	{
+		$this->start_a_new_storage();
+		$this->store_an_event_stream_with_this_number_of_events(5);
+		$this->store_an_event_stream_with_conflicting_version(3, 3);
 	}
 		
 }

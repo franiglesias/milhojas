@@ -5,6 +5,7 @@ namespace Milhojas\Library\EventSourcing\EventStore;
 use Milhojas\Library\EventSourcing\EventStore\EventStorage;
 use Milhojas\Library\EventSourcing\DTO\EntityData;
 use Milhojas\Library\EventSourcing\EventStream;
+use Milhojas\Library\EventSourcing\Exceptions as Exception;
 
 /**
 * A simple in memory event storage.
@@ -27,7 +28,7 @@ class InMemoryEventStorage implements EventStorage
 	public function loadStream(EntityData $entity) 
 	{
 		if (! $this->thereAreEventsForEntity($entity)) {
-			throw new \UnderflowException("Error Processing Request", 1);
+			throw new Exception\EntityNotFound(sprintf('No events found for entity: %s', $entity->getType()), 2);
 		}
 		$events = $this->events[$entity->getType()][$entity->getId()];
 		return new EventStream($events);
@@ -54,15 +55,21 @@ class InMemoryEventStorage implements EventStorage
 		return isset($this->events[$entity->getType()][$entity->getId()]);
 	}
 	
-	protected function expectedVersion($entity)
+	protected function storedVersion($entity)
 	{
 		return $this->count($entity) - 1;
 	}
 	
+	protected function conflictingVersion($entity)
+	{
+		return $entity->getVersion() < $this->storedVersion($entity);
+	}
+	
 	protected function checkVersion($entity)
 	{
-		if ($entity->getVersion() < $this->expectedVersion($entity)) {
-			throw new InvalidArgumentException("Error Processing Request", 1);
+		if ($this->conflictingVersion($entity)) {
+			$message = sprintf('Stored version found to be %s, trying to save version %s', $this->storedVersion($entity), $entity->getVersion());
+			throw new Exception\ConflictingVersion($message, 1);
 		}
 	}
 }

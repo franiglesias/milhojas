@@ -9,49 +9,90 @@ use Milhojas\Library\EventSourcing\EventMessage;
 
 class InMemoryEventStorageTest extends \PHPUnit_Framework_TestCase
 {
+	private $Storage;
 	
-	private function getEvent($name, $entity)
+	protected function start_a_new_storage()
 	{
-		$Event = $this->getMockBuilder('Milhojas\Library\EventSourcing\Domain\DomainEvent')
+		$this->Storage = new InMemoryEventStorage();
+	}
+	
+	protected function store_an_event_stream_with_this_number_of_events($eventCount)
+	{
+		$Stream = $this->prepare_stream_for_entity($this->getEntity(1, $eventCount-1), $eventCount);
+		$this->Storage->saveStream($Stream);
+	}
+
+	protected function storage_should_contain_this_number_of_events($expectedEventCount)
+	{
+		$this->assertEquals($expectedEventCount, $this->Storage->count($this->getEntity(1, $expectedEventCount-1)));
+	}
+	
+	protected function storage_should_return_an_event_stream()
+	{
+		$Stream = $this->Storage->loadStream($this->getEntity(1));
+		$this->assertInstanceOf('Milhojas\Library\EventSourcing\EventStream', $Stream);
+	}
+	
+	
+	protected function storage_should_return_an_event_stream_with_events($expectedCount)
+	{
+		$Stream = $this->Storage->loadStream($this->getEntity(1));
+		$this->assertEquals($expectedCount, $Stream->count());
+	}
+	
+	private function getEvent($name)
+	{
+		return $this->getMockBuilder('Milhojas\Library\EventSourcing\Domain\DomainEvent')
 			->setMockClassName($name)
 			->disableOriginalConstructor()
 			->getMock();
-		return EventMessage::record($Event, $entity);
 	}
 
-	private function getEntity($id = 1)
+	private function getEntity($id = 1, $version = -1)
 	{
-		$entity = $this->getMockBuilder('Milhojas\Library\EventSourcing\Domain\EventSourced')
-			->setMockClassName('Entity')
-			->getMock();
-		$entity->expects($this->any())->method('getEntityId')->will($this->returnValue($this->equalTo($id)));
-		return $entity;
+		return new EntityData('Entity', $id, $version);
 	}
 	
+	private function prepare_stream_for_entity($entity, $eventCount)
+	{
+		$messages = array();
+		for ($i=0; $i < $eventCount; $i++) { 
+			$event = $this->getEvent('Event_'.$i);
+			$messages[] = EventMessage::record($event, $entity);
+		}
+		return new EventStream($messages);
+	}
 	
-	public function getEventsForAnEntity($entity)
+	public function test_a_new_storage_has_no_events()
 	{
-		return array(
-			$this->getEvent('EntityCreated', $entity),
-			$this->getEvent('EntityUpdated', $entity),
-			$this->getEvent('EntityDeleted', $entity)
-		);
+		$this->start_a_new_storage();
+		$this->storage_should_contain_this_number_of_events(0);
 	}
-
-	private function getStreamForEntity($entity)
+	
+	/**
+	 * @expectedException \UnderflowException
+	 */
+	public function test_throw_exception_if_there_id_no_info_for_entity()
 	{
-		return new EventStream($this->getEventsForAnEntity($entity));
+		$this->start_a_new_storage();
+		$this->storage_should_contain_this_number_of_events(0);
+		$this->storage_should_return_an_event_stream();
 	}
+	
 	
 	public function test_it_can_store_an_event_strem_for_an_entity()
 	{
-		// $Stream = $this->getStreamForEntity($this->getEntity(1));
-		// $expected['Entity'][1] = $this->getEventsForAnEntity($this->getEntity(1));
-		//
-		// $Storage = new InMemoryEventStorage();
-		// $Storage->saveStream($Stream);
-		// print_r($Storage->getEvents());
-		// $this->assertAttributeEquals($expected, 'events', $Storage);
+		$this->start_a_new_storage();
+		$this->store_an_event_stream_with_this_number_of_events(3);
+		$this->storage_should_contain_this_number_of_events(3);
+	}
+	
+	public function test_it_can_retrieve_an_event_stream_for_an_entity()
+	{
+		$this->start_a_new_storage();
+		$this->store_an_event_stream_with_this_number_of_events(3);
+		$this->storage_should_return_an_event_stream();
+		$this->storage_should_return_an_event_stream_with_events(3);
 	}
 		
 }

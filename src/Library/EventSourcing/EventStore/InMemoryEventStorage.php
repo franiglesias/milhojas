@@ -26,6 +26,9 @@ class InMemoryEventStorage implements EventStorage
 	
 	public function loadStream(EntityData $entity) 
 	{
+		if (! $this->thereAreEventsForEntity($entity)) {
+			throw new \UnderflowException("Error Processing Request", 1);
+		}
 		$events = $this->events[$entity->getType()][$entity->getId()];
 		return new EventStream($events);
 	}
@@ -33,18 +36,34 @@ class InMemoryEventStorage implements EventStorage
 	public function saveStream(EventStream $stream)
 	{
 		foreach ($stream as $message) {
+			$this->checkVersion($message->getEntity());
 			$this->events[$message->getEntity()->getType()][$message->getEntity()->getId()][] = $message;
 		}
 	}
 	
 	public function count(EntityData $entity)
 	{
-		return count($this->events[$entity->getType()][$entity->getId()]);
+		if ($this->thereAreEventsForEntity($entity)) {
+			return count($this->events[$entity->getType()][$entity->getId()]);
+		}
+		return 0;
 	}
 	
-	public function getEvents()
+	protected function thereAreEventsForEntity($entity)
 	{
-		return $this->events;
+		return isset($this->events[$entity->getType()][$entity->getId()]);
+	}
+	
+	protected function expectedVersion($entity)
+	{
+		return $this->count($entity) - 1;
+	}
+	
+	protected function checkVersion($entity)
+	{
+		if ($entity->getVersion() < $this->expectedVersion($entity)) {
+			throw new InvalidArgumentException("Error Processing Request", 1);
+		}
 	}
 }
 

@@ -4,6 +4,7 @@ namespace Milhojas\Library\EventSourcing\Domain;
 
 use Milhojas\Library\EventSourcing\Domain\EventSourced;
 use Milhojas\Library\EventSourcing\Domain\DomainEvent;
+use Milhojas\Library\EventSourcing\DTO\EntityData;
 
 use Milhojas\Library\EventSourcing\EventStream;
 use Milhojas\Library\EventSourcing\EventMessage;
@@ -68,7 +69,7 @@ abstract class EventSourcedEntity implements EventSourced
 		if (!$this->canHandleEvent($event)) {
 			return;
 		}
-		$this->events[] = EventMessage::record($event, $this);
+		$this->events[] = EventMessage::record($event, EntityData::fromEntity($this));
 		$this->apply($event);
 	}
 	

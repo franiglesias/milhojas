@@ -18,18 +18,18 @@ class EventMessage
 	private $envelope;
 	private $entity;
 	
-	private function __construct(DomainEvent $event, EntityData $entity, EventMessageEnvelope $envelope)
+	public function __construct(DomainEvent $event, EntityData $entity, EventMessageEnvelope $envelope)
 	{
 		$this->event = $event;
 		$this->entity = $entity;
 		$this->envelope = $envelope;
 	}
 	
-	static public function record(DomainEvent $event, EventSourced $entity)
+	static public function record(DomainEvent $event, EntityData $entity)
 	{
 		return new static(
 			$event, 
-			EntityData::fromEntity($entity),
+			$entity,
 			EventMessageEnvelope::now()
 		);
 	}

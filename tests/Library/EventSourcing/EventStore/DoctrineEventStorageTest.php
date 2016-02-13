@@ -22,13 +22,13 @@ class DoctrineEventStorageTest extends \PHPUnit_Framework_TestCase
 	
 	protected function start_a_new_storage()
 	{
-		$this->getEntityManager();
+		$this->start_entity_manager();
 		$this->Storage = new DoctrineEventStorage($this->em);
 	}
 
 	protected function simulate_a_storage_returning_events($eventCount)
 	{
-		$this->getEntityManager();
+		$this->start_entity_manager();
 		$dtos = $this->prepare_dtos_for_entity($this->getEntity(), $eventCount);
 		$repo = $this->getRepository($dtos);
 		$this->em->expects($this->any())->method('getRepository')->will($this->returnValue($repo));
@@ -38,6 +38,11 @@ class DoctrineEventStorageTest extends \PHPUnit_Framework_TestCase
 	protected function store_an_event_stream_with_this_number_of_events($eventCount)
 	{
 		$Stream = $this->prepare_stream_for_entity($this->getEntity(1, $eventCount-1), $eventCount);
+		$this->em->expects($this->exactly($eventCount))->method('persist');
+		$this->em->expects($this->once())->method('flush');
+		$this->em->expects($this->once())->method('clear');
+		$this->em->expects($this->any())->method('createQuery')->will($this->returnValue($this->getQuerySaving(3)));
+		
 		$this->Storage->saveStream($Stream);
 	}
 
@@ -68,7 +73,7 @@ class DoctrineEventStorageTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals($expectedCount, $Stream->count());
 	}
 
-	private function getEntityManager()
+	private function start_entity_manager()
 	{
 		$this->em = $this
 			->getMockBuilder('Doctrine\ORM\EntityManager')
@@ -113,7 +118,26 @@ class DoctrineEventStorageTest extends \PHPUnit_Framework_TestCase
 			->will($this->returnSelf());
 		return $query;
 	}
-
+	
+	protected function getQuerySaving($count)
+	{
+		// http://h4cc.tumblr.com/post/61502458780/phpunit-mock-for-doctrineormquery
+	 
+	 	$query = $this
+			->getMockBuilder('Doctrine\ORM\AbstractQuery')
+			->setMethods(array('getResult', 'setParameter', 'getSingleScalarResult'))
+			->disableOriginalConstructor()
+			->getMockForAbstractClass();
+		$query->expects($this->any())
+			->method('getSingleScalarResult')
+			->will($this->onConsecutiveCalls(-1, 0, 1, 2, 3, 4, 5, 6, 7, 8));
+		$query->expects($this->any())
+			->method('setParameter')
+			->will($this->returnSelf());
+		return $query;
+	}
+	
+	
 	private function getEvent($name)
 	{
 		return $this->getMockBuilder('Milhojas\Library\EventSourcing\Domain\DomainEvent')
@@ -163,12 +187,12 @@ class DoctrineEventStorageTest extends \PHPUnit_Framework_TestCase
 		$this->storage_should_return_an_event_stream();
 	}
 	
-	// public function test_it_can_store_an_event_strem_for_an_entity()
-	// {
-	// 	$this->simulate_a_storage_returning_events(3);
-	// 	$this->store_an_event_stream_with_this_number_of_events(3);
-	// 	$this->storage_should_contain_this_number_of_events(3);
-	// }
+	public function test_it_can_store_an_event_strem_for_an_entity()
+	{
+		$this->start_a_new_storage();
+		$this->store_an_event_stream_with_this_number_of_events(3);
+		$this->storage_should_contain_this_number_of_events(3);
+	}
 
 	public function test_it_can_retrieve_an_event_stream_for_an_entity()
 	{

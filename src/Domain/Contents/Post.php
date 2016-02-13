@@ -7,7 +7,6 @@ use Milhojas\Domain\Contents\PostStates as States;
 use Milhojas\Domain\Contents\DTO\PostDTO as PostDTO;
 
 use Milhojas\Library\ValueObjects\Dates\DateRange;
-use Milhojas\Library\ValueObjects\Dates\OpenDateRange;
 
 use Milhojas\Library\EventSourcing\Domain\EventSourcedEntity;
 use Milhojas\Library\EventSourcing\EventStream;
@@ -33,7 +32,7 @@ class Post extends EventSourcedEntity
 	{
 		$this->state = new States\DraftPostState();
 		$this->flags = new Flags\FlagCollection(new \SplObjectStorage());
-		$this->publication = new OpenDateRange(new \DateTimeImmutable());
+		$this->publication = new DateRange(new \DateTimeImmutable());
 	}
 
 	/**

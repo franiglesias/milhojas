@@ -38,9 +38,6 @@ class DateRange
 	
 	public function changeExpiration(\DateTimeImmutable $End = null)
 	{
-		if (is_null($End)) {
-			return new OpenDateRange($this->start);
-		}
 		return new self($this->start, $End);
 	}
 	

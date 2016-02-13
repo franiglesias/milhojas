@@ -16,7 +16,7 @@ use Milhojas\Library\EventSourcing\EventMessage;
 abstract class EventSourcedEntity implements EventSourced
 {
 	protected $events = array();
-	protected $version = -1;
+	protected $version = 0;
 	
 	abstract public function getEntityId();
 	
@@ -46,7 +46,7 @@ abstract class EventSourcedEntity implements EventSourced
 	}
 	
 	/**
-	 * Apply a DomainEvent to the Entity and appends it to the Event Stream
+	 * Apply a DomainEvent to the Entity
 	 *
 	 * @param DomainEvent $event 
 	 * @return void
@@ -59,18 +59,25 @@ abstract class EventSourcedEntity implements EventSourced
 		$this->version++;
 	}
 	
-	public function getVersion()
-	{
-		return $this->version;
-	}
-	
+	/**
+	 * Apply and record an event
+	 *
+	 * @param DomainEvent $event 
+	 * @return void
+	 * @author Francisco Iglesias Gómez
+	 */
 	protected function recordThat(DomainEvent $event)
 	{
 		if (!$this->canHandleEvent($event)) {
 			return;
 		}
-		$this->events[] = EventMessage::record($event, EntityData::fromEntity($this));
 		$this->apply($event);
+		$this->events[] = EventMessage::record($event, EntityData::fromEntity($this));
+	}
+
+	public function getVersion()
+	{
+		return $this->version;
 	}
 	
 	protected function getMethod($event)

@@ -59,7 +59,7 @@ class DoctrineEventStorage implements EventStorage
 			->getSingleScalarResult();
 	}
 	
-	protected function storedVersion($entity)
+	protected function getStoredVersion($entity)
 	{
 		return $this->em
 			->createQuery('SELECT MAX(events.version) FROM EventStore:EventDAO events WHERE events.entity_type = :entity AND events.entity_id = :id')
@@ -68,19 +68,15 @@ class DoctrineEventStorage implements EventStorage
 			->getSingleScalarResult();
 	}
 	
-	protected function conflictingVersion($entity, $stored)
-	{
-		return $entity->getVersion() < $stored;
-	}
-	
 	protected function checkVersion($entity)
 	{
-		$stored = $this->storedVersion($entity);
-		if ($this->conflictingVersion($entity, $stored)) {
-			$message = sprintf('Stored version found to be %s, trying to save version %s', $stored, $entity->getVersion());
-			throw new Exception\ConflictingVersion($message, 1);
+		$newVersion = $entity->getVersion();
+		$storedVersion = $this->getStoredVersion($entity);
+		if ($newVersion <= $storedVersion) {
+			throw new Exception\ConflictingVersion(sprintf('Stored version found to be %s, trying to save version %s', $storedVersion, $newVersion), 1);
 		}
 	}
+
 
 }
 

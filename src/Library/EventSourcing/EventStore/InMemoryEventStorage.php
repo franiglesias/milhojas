@@ -55,21 +55,17 @@ class InMemoryEventStorage implements EventStorage
 		return isset($this->events[$entity->getType()][$entity->getId()]);
 	}
 	
-	protected function storedVersion($entity)
+	protected function getStoredVersion($entity)
 	{
-		return $this->count($entity) - 1;
-	}
-	
-	protected function conflictingVersion($entity)
-	{
-		return $entity->getVersion() < $this->storedVersion($entity);
+		return $this->count($entity);
 	}
 	
 	protected function checkVersion($entity)
 	{
-		if ($this->conflictingVersion($entity)) {
-			$message = sprintf('Stored version found to be %s, trying to save version %s', $this->storedVersion($entity), $entity->getVersion());
-			throw new Exception\ConflictingVersion($message, 1);
+		$newVersion = $entity->getVersion();
+		$storedVersion = $this->getStoredVersion($entity);
+		if ($newVersion <= $storedVersion) {
+			throw new Exception\ConflictingVersion(sprintf('Stored version found to be %s, trying to save version %s', $storedVersion, $newVersion), 1);
 		}
 	}
 }

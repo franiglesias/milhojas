@@ -37,11 +37,11 @@ class DoctrineEventStorageTest extends \PHPUnit_Framework_TestCase
 	
 	protected function store_an_event_stream_with_this_number_of_events($eventCount)
 	{
-		$Stream = $this->prepare_stream_for_entity($this->getEntity(1, $eventCount-1), $eventCount);
+		$Stream = $this->prepare_stream_for_entity($this->getEntity(1, $eventCount), $eventCount);
 		$this->em->expects($this->exactly($eventCount))->method('persist');
 		$this->em->expects($this->once())->method('flush');
 		$this->em->expects($this->once())->method('clear');
-		$this->em->expects($this->any())->method('createQuery')->will($this->returnValue($this->getQuerySaving(3)));
+		$this->em->expects($this->any())->method('createQuery')->will($this->returnValue($this->getQuerySaving($eventCount)));
 		
 		$this->Storage->saveStream($Stream);
 	}
@@ -130,7 +130,7 @@ class DoctrineEventStorageTest extends \PHPUnit_Framework_TestCase
 			->getMockForAbstractClass();
 		$query->expects($this->any())
 			->method('getSingleScalarResult')
-			->will($this->onConsecutiveCalls(-1, 0, 1, 2, 3, 4, 5, 6, 7, 8));
+			->will($this->onConsecutiveCalls(0, 1, 2, 3, 4, 5, 6, 7, 8));
 		$query->expects($this->any())
 			->method('setParameter')
 			->will($this->returnSelf());

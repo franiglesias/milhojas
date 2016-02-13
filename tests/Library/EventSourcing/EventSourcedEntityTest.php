@@ -106,6 +106,7 @@ class EventSourcedEntityTest extends \PHPUnit_Framework_TestCase {
 	{
 		$this->start_with_a_new_entity();
 		$this->entity_has_not_recorded_events();
+		$this->entity_should_have_version_number_of(0);
 	}
 	
 	public function test_it_applies_event()
@@ -113,7 +114,7 @@ class EventSourcedEntityTest extends \PHPUnit_Framework_TestCase {
 		$this->start_with_a_new_entity();
 		$this->entity_receives_events(1);
 		$this->entity_should_have_recorded_events(1);
-		$this->entity_should_have_version_number_of(0);
+		$this->entity_should_have_version_number_of(1);
 	}
 	
 	public function test_it_does_not_apply_unknown_event()
@@ -121,6 +122,7 @@ class EventSourcedEntityTest extends \PHPUnit_Framework_TestCase {
 		$this->start_with_a_new_entity();
 		$this->entity_receives_an_unknown_event();
 		$this->entity_has_not_recorded_events();
+		$this->entity_should_have_version_number_of(0);
 	}
 	
 	/**
@@ -141,7 +143,7 @@ class EventSourcedEntityTest extends \PHPUnit_Framework_TestCase {
 		$this->entity_is_reconstituted();
 		
 		$this->entity_has_not_recorded_events();
-		$this->entity_should_have_version_number_of(2);
+		$this->entity_should_have_version_number_of(3);
 		$this->entity_has_changed_state_to(3);
 	}
 	
@@ -154,9 +156,18 @@ class EventSourcedEntityTest extends \PHPUnit_Framework_TestCase {
 		$this->entity_is_reconstituted();
 		
 		$this->entity_has_not_recorded_events();
-		$this->entity_should_have_version_number_of(1);
+		$this->entity_should_have_version_number_of(2);
 		$this->entity_has_changed_state_to(2);
 	}
 	
+	public function test_it_can_receive_series_of_events_an_maintain_right_version_number()
+	{
+		$this->start_with_a_new_entity();
+		$this->entity_receives_events(2);
+		$this->entity_receives_events(3);
+		$this->entity_receives_events(4);
+		$this->entity_should_have_version_number_of(9);
+	}
+		
 }
 ?>

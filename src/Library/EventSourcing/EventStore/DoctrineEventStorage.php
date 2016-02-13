@@ -13,7 +13,7 @@ use Milhojas\Library\EventSourcing\Exceptions as Exception;
 
 use Doctrine\ORM\Entitymanager;
 
-class DoctrineEventStorage implements EventStorage
+class DoctrineEventStorage extends EventStorage
 {
 	private $em;
 	
@@ -59,7 +59,7 @@ class DoctrineEventStorage implements EventStorage
 			->getSingleScalarResult();
 	}
 	
-	protected function getStoredVersion($entity)
+	protected function getStoredVersion(EntityData $entity)
 	{
 		return $this->em
 			->createQuery('SELECT MAX(events.version) FROM EventStore:EventDAO events WHERE events.entity_type = :entity AND events.entity_id = :id')
@@ -68,15 +68,6 @@ class DoctrineEventStorage implements EventStorage
 			->getSingleScalarResult();
 	}
 	
-	protected function checkVersion($entity)
-	{
-		$newVersion = $entity->getVersion();
-		$storedVersion = $this->getStoredVersion($entity);
-		if ($newVersion <= $storedVersion) {
-			throw new Exception\ConflictingVersion(sprintf('Stored version found to be %s, trying to save version %s', $storedVersion, $newVersion), 1);
-		}
-	}
-
 
 }
 

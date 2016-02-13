@@ -10,7 +10,7 @@ use Milhojas\Library\EventSourcing\Exceptions as Exception;
 /**
 * A simple in memory event storage.
 */
-class InMemoryEventStorage implements EventStorage
+class InMemoryEventStorage extends EventStorage
 {
 	/**
 	 * Store the events
@@ -41,7 +41,7 @@ class InMemoryEventStorage implements EventStorage
 			$this->events[$message->getEntity()->getType()][$message->getEntity()->getId()][] = $message;
 		}
 	}
-	
+
 	public function count(EntityData $entity)
 	{
 		if ($this->thereAreEventsForEntity($entity)) {
@@ -49,25 +49,17 @@ class InMemoryEventStorage implements EventStorage
 		}
 		return 0;
 	}
-	
+
 	protected function thereAreEventsForEntity($entity)
 	{
 		return isset($this->events[$entity->getType()][$entity->getId()]);
 	}
-	
-	protected function getStoredVersion($entity)
+
+	protected function getStoredVersion(EntityData $entity)
 	{
 		return $this->count($entity);
 	}
 	
-	protected function checkVersion($entity)
-	{
-		$newVersion = $entity->getVersion();
-		$storedVersion = $this->getStoredVersion($entity);
-		if ($newVersion <= $storedVersion) {
-			throw new Exception\ConflictingVersion(sprintf('Stored version found to be %s, trying to save version %s', $storedVersion, $newVersion), 1);
-		}
-	}
 }
 
 ?>

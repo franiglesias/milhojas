@@ -36,6 +36,11 @@ class EventStream implements \IteratorAggregate {
 	{
 		$this->events[] = $event;
 	}
+	
+	public function __toString()
+	{
+		return sprintf('Stream has %s events', count($this->events));
+	}
 }
 
 ?>

@@ -68,6 +68,11 @@ class EventMessage
 		return $this->envelope->getMetadata();
 	}
 	
+	public function __toString()
+	{
+		return sprintf('%s with %s', get_class($this->event), $this->entity);
+	}
+	
 }
 
 ?>

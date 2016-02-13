@@ -43,5 +43,10 @@ class EntityData
 	{
 		return $this->version;
 	}
+	
+	public function __toString()
+	{
+		return sprintf('Entity: %s::%s (%s)', $this->type, $this->id, $this->version);
+	}
 }
 ?>

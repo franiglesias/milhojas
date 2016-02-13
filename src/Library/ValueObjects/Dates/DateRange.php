@@ -20,7 +20,7 @@ class DateRange
 	
 	static public function open(\DateTimeImmutable $Start)
 	{
-		return new OpenDateRange($Start);
+		return new self($Start, null);
 	}
 	
 	public function includes(\DateTimeImmutable $Test)

@@ -10,6 +10,7 @@ use Milhojas\Library\ValueObjects\Dates\DateRange;
 use Milhojas\Library\ValueObjects\Dates\OpenDateRange;
 
 use Milhojas\Library\EventSourcing\Domain\EventSourcedEntity;
+use Milhojas\Library\EventSourcing\EventStream;
 /**
 * Represents a Post (an article)
 */
@@ -28,12 +29,28 @@ class Post extends EventSourcedEntity
 	private $authors;
 	private $attachments;
 	
-	private function __construct()
+	protected function __construct()
 	{
 		$this->state = new States\DraftPostState();
 		$this->flags = new Flags\FlagCollection(new \SplObjectStorage());
 		$this->publication = new OpenDateRange(new \DateTimeImmutable());
 	}
+
+	/**
+	 * Recreates an instance of the Entity from a stream of events
+	 *
+	 * @param EventStream $stream 
+	 * @return EventSourcedEntity
+	 */
+	static public function reconstitute(EventStream $stream)
+	{
+		$post = new self();
+		foreach ($stream as $message) {
+			$post->apply($message->getEvent());
+		}
+		return $post;
+	}
+
 	
 	static function write(PostId $id, PostContent $content, $author = '')
 	{

@@ -31,7 +31,8 @@ class InMemoryEventStorage extends EventStorage
 			throw new Exception\EntityNotFound(sprintf('No events found for entity: %s', $entity->getType()), 2);
 		}
 		$events = $this->events[$entity->getType()][$entity->getId()];
-		return new EventStream($events);
+		$stream =  new EventStream($events);
+		return $stream;
 	}
 	
 	public function saveStream(EventStream $stream)
@@ -49,6 +50,14 @@ class InMemoryEventStorage extends EventStorage
 		}
 		return 0;
 	}
+	
+	public function countEntitiesOfType($type)
+	{
+		if (isset($this->events[$type])) {
+			return count($this->events[$type]);
+		}
+		return 0;
+	}
 
 	protected function thereAreEventsForEntity($entity)
 	{
@@ -58,6 +67,11 @@ class InMemoryEventStorage extends EventStorage
 	protected function getStoredVersion(EntityData $entity)
 	{
 		return $this->count($entity);
+	}
+	
+	public function getEvents()
+	{
+		return $this->events;
 	}
 	
 }

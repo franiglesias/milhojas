@@ -50,6 +50,15 @@ class DoctrineEventStorage extends EventStorage
 		$this->em->clear();
 	}
 	
+	public function countEntitiesOfType($type)
+	{
+		return $this->em
+			->createQuery('SELECT COUNT(events.id) FROM EventStore:EventDAO events WHERE events.entity_type = :entity AND events.version = 1')
+			->setParameter('entity', $type)
+			->getSingleScalarResult();
+	}
+	
+	
 	public function count(EntityData $entity)
 	{
 		return $this->em

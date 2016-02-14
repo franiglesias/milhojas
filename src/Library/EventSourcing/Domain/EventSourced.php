@@ -38,6 +38,14 @@ interface EventSourced {
 	 * @author Fran Iglesias
 	 */
 	public function getVersion();
+	
+	/**
+	 * Clear remaining events
+	 *
+	 * @return void
+	 * @author Francisco Iglesias Gómez
+	 */
+	public function clearEvents();
 }
 
 ?>

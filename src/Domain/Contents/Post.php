@@ -34,22 +34,6 @@ class Post extends EventSourcedEntity
 		$this->flags = new Flags\FlagCollection(new \SplObjectStorage());
 		$this->publication = new DateRange(new \DateTimeImmutable());
 	}
-
-	/**
-	 * Recreates an instance of the Entity from a stream of events
-	 *
-	 * @param EventStream $stream 
-	 * @return EventSourcedEntity
-	 */
-	static public function reconstitute(EventStream $stream)
-	{
-		$post = new self();
-		foreach ($stream as $message) {
-			$post->apply($message->getEvent());
-		}
-		return $post;
-	}
-
 	
 	static function write(PostId $id, PostContent $content, $author = '')
 	{

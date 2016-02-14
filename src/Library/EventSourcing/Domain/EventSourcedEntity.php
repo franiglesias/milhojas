@@ -45,6 +45,11 @@ abstract class EventSourcedEntity implements EventSourced
 		return new EventStream($this->events);
 	}
 	
+	public function clearEvents()
+	{
+		$this->events = array();
+	}
+	
 	/**
 	 * Apply a DomainEvent to the Entity
 	 *

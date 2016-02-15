@@ -8,24 +8,31 @@ services:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
 
-    milhojas.property_descriptor:
-        class:     Milhojas\Library\Mapper\Descriptor\PropertyDescriptor
-    milhojas.object_mapper:
-        class:          Milhojas\Library\Mapper\ObjectMapper
-        arguments:      ["@milhojas.property_descriptor"]
-    post_assembler:
-        class:      Milhojas\Domain\Contents\PostAssembler
-    post_dto_assembler:
-        class:      Milhojas\Domain\Contents\PostDTOAssembler
+    # milhojas.property_descriptor:
+    #     class:     Milhojas\Library\Mapper\Descriptor\PropertyDescriptor
+    # milhojas.object_mapper:
+    #     class:          Milhojas\Library\Mapper\ObjectMapper
+    #     arguments:      ["@milhojas.property_descriptor"]
+    # post_assembler:
+    #     class:      Milhojas\Domain\Contents\PostAssembler
+    # post_dto_assembler:
+    #     class:      Milhojas\Domain\Contents\PostDTOAssembler
+    event_store:
+        class:      Milhojas\Library\EventSourcing\EventStore\DoctrineEventStorage
+        arguments:  ["@doctrine.orm.entity_manager"]
     post_repository:
-        class:        Milhojas\Infrastructure\Persistence\Contents\DoctrinePostRepository
-        arguments:    ["@doctrine.orm.entity_manager", '@milhojas.object_mapper', '@post_assembler', '@post_dto_assembler']
-
+        # class:        Milhojas\Infrastructure\Persistence\Contents\DoctrinePostRepository
+        # arguments:    ["@doctrine.orm.entity_manager", '@milhojas.object_mapper', '@post_assembler', '@post_dto_assembler']
+        class:      Milhojas\Infrastructure\Persistence\Contents\EventSourcedPostRepository
+        arguments:  ["@event_store"]
     handler_container:
         class:        Milhojas\Application\Containers\HandlerContainer
         arguments:    ["@service_container"]
-
+    handler_inflector:
+        class:        Milhojas\Application\Inflectors\HandlerInflector
     write_post_handler:
         class:        Milhojas\Application\Contents\WritePostHandler
         arguments:    ["@post_repository"]
-
+    update_post_handler:
+        class:        Milhojas\Application\Contents\UpdatePostHandler
+        arguments:    ["@post_repository"]

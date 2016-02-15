@@ -54,8 +54,20 @@ class DefaultController extends Controller
 	public function writeAction()
 	{
 		$command = new \Milhojas\Application\Contents\WritePost(8, 'Title of a Post', 'Body of the first Post');
-		$bus = new \Milhojas\Application\CommandBus($this->get('handler_container'), new \Milhojas\Application\Inflectors\HandlerInflector());
+		$bus = new \Milhojas\Application\CommandBus($this->get('handler_container'), $this->get('handler_inflector'));
 		$bus->execute($command);
 		return new Response('Job done!');
 	}
+	
+	/**
+	 * @Route("/update")
+	 */
+	public function updateAction()
+	{
+		$command = new \Milhojas\Application\Contents\UpdatePost(8, 'New Title of a Post', 'New Body of the first Post');
+		$bus = new \Milhojas\Application\CommandBus($this->get('handler_container'), $this->get('handler_inflector'));
+		$bus->execute($command);
+		return new Response('Update job done!');
+	}
+	
 }

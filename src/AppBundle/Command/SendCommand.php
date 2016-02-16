@@ -12,6 +12,33 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use Symfony\Component\Finder\Finder;
 
+class Payroll {
+	private $file;
+	private $email;
+	private $name;
+	private $path;
+	
+	public function __construct($file)
+	{
+		$this->file = $file;
+	}
+	
+	public function getEmail()
+	{
+		# code...
+	}
+	
+	public function getName()
+	{
+		# code...
+	}
+	
+	public function getFile()
+	{
+		# code...
+	}
+}
+
 class SendCommand extends ContainerAwareCommand
 {
 	private $emails;

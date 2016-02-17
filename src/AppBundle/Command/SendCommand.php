@@ -161,45 +161,7 @@ class SendCommand extends ContainerAwareCommand
 			}
 		}
     }
-	
-	private function readEmails($path)
-	{
-		$emails = array();
-		foreach (file($path) as $line) {
-			list($id, $email) = explode(chr(9), $line);
-			$emails[$id] = $email;
-		}
-		return $emails;
-	}
-	
-	private function extractIdFromFileName($filename)
-	{
-		preg_match('/trabajador_(\d+_\d+)/',$filename, $matches);
-		return $matches[1];
-	}
-	
-	private function extractNameFromFileName($filename)
-	{
-		preg_match('/nombre_\((.*), (.*)\)/', $filename, $matches);
-		return mb_convert_case($matches[2].' '.$matches[1], MB_CASE_TITLE);
-	}
-	
-	private function getEmail($id)
-	{
-		return trim($this->emails[$id]);
-	}
-	
-	private function getEmailForFile($file)
-	{
-		$id = $this->extractIdFromFileName($file->getRelativePathname());
-		return $this->getEmail($id);
-	}
-	
-	public function getNameForFile($file)
-	{
-		return $this->extractNameFromFileName($file->getRelativePathname()); 
-	}
-	
+		
 	private function sendEmail($payroll)
 	{
 		

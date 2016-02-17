@@ -36,3 +36,9 @@ services:
     update_post_handler:
         class:        Milhojas\Application\Contents\UpdatePostHandler
         arguments:    ["@post_repository"]
+    payroll_send:
+        class:          AppBundle\Command\Payroll\SendCommand
+        arguments:     ["@mailer", "%payroll.sender%", "%payroll.report%", "%payroll.dataPath%"]
+        tags:
+                - {name: console.command}
+        

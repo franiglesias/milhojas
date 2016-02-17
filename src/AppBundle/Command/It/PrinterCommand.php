@@ -11,6 +11,7 @@ use Symfony\Component\Console\Helper\ProgressBar;
 
 use Symfony\Component\DomCrawler\Crawler;
 
+use AppBundle\Command\Payroll\Utils\Ping;
 /**
 * Description
 */
@@ -34,8 +35,11 @@ class PrinterCommand extends Command
 	
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-		$page = file_get_contents($this->url);
-		$this->extractTrayInfo($page, 1);
+		// $page = file_get_contents($this->url);
+		// $this->extractTrayInfo($page, 1);
+		if(Ping::isListening('miralba.org')) {
+			$output->writeln('Server is up');
+		}
 	}
 	
 	private function extractTrayInfo($page, $tray = 1)

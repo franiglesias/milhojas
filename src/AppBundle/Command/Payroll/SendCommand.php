@@ -53,9 +53,11 @@ class SendCommand extends Command
 	
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-		$this->checkServer($output);
-
+		$this->checkServer();
+		$output->writeln('Mail server is Up.');
+		
 		$this->month = $input->getArgument('month');
+		
 		$finder = new Finder();
 		$finder->files()->in($this->dataPath.'/'.$this->month);
 		
@@ -63,10 +65,11 @@ class SendCommand extends Command
 		
 		$reporter = new EmailReporter(
 						new ConsoleReporter(
-							new PayrollReporter(count($finder))
-							, $output)
-						, $this->mailer
-						, $this->report
+							new PayrollReporter(count($finder)),
+							$output
+						),
+						$this->mailer,
+						$this->report
 					);
 		
 		$progress = new ProgressBar($output, count($finder));
@@ -99,13 +102,11 @@ class SendCommand extends Command
 		return $this->mailer->send($message);
 	}
 	
-	public function checkServer($output)
+	public function checkServer()
 	{
 		if (!Ping::check('smtp.gmail.com')) {
 			throw new \RuntimeException('Mail Server unavailable. Check Internet connectivity.', 1);
 		}
-		$output->writeln('Mail server is Up.');
-		
 	}
 }
 ?>

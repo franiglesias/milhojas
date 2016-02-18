@@ -22,6 +22,11 @@ abstract class ReporterDecorator
 	{
 		$this->reporter->count();
 	}
+	
+	public function setTotal($total)
+	{
+		$this->reporter->setTotal($total);
+	}
 }
 
 ?>

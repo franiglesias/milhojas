@@ -12,10 +12,15 @@ class PayrollReporter
 	private $errors;
 	
 	
-	function __construct($total)
+	function __construct()
 	{
 		$this->lines = array();
 		$this->errors = array();
+		$this->total = 0;
+	}
+	
+	public function setTotal($total)
+	{
 		$this->total = $total;
 	}
 	

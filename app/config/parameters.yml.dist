@@ -17,3 +17,11 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
+
+    payroll.sender:
+        administracion@miralba.org: Administración Colegio Miralba
+    payroll.report:
+        administracion@miralba.org: Administración Colegio Miralba
+        webmaster@miralba.org: Webmaster
+    payroll.dataPath: "%kernel.root_dir%/../payroll"
+    

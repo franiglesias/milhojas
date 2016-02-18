@@ -27,7 +27,10 @@ class SendCommand extends Command
 	private $sender;
 	private $dataPath;
 	private $report;
+
+	## members
 	private $mailer;
+	private $reporter;
 	
 	public function __construct($mailer, $sender, $report, $dataPath)
 	{
@@ -35,6 +38,8 @@ class SendCommand extends Command
 		$this->sender = $sender;
 		$this->report = $report;
 		$this->dataPath = $dataPath;
+
+
 		parent::__construct();
 	}
 	
@@ -51,9 +56,23 @@ class SendCommand extends Command
         ;
     }
 	
+	private function buildReporter($output)
+	{
+		$this->reporter =  new EmailReporter(
+			new ConsoleReporter(
+				new PayrollReporter(),
+				$output
+			),
+			$this->mailer,
+			$this->report
+		);
+	}
+	
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 		$this->checkServer();
+		$this->buildReporter($output);
+		
 		$output->writeln('Mail server is Up.');
 		
 		$this->month = $input->getArgument('month');
@@ -63,28 +82,25 @@ class SendCommand extends Command
 		
 		$repository = new PayrollRepository($this->dataPath);
 		
-		$reporter = new EmailReporter(
-						new ConsoleReporter(
-							new PayrollReporter(count($finder)),
-							$output
-						),
-						$this->mailer,
-						$this->report
-					);
 		
+		$this->reporter->setTotal(count($finder));
 		$progress = new ProgressBar($output, count($finder));
 		$progress->start();
 
 		foreach ($finder as $file) {
 			$payroll = $repository->get($file);
 			if (!$this->sendEmail($payroll)) {
-				$reporter->error('Problem with email: '.$payroll->getEmail());
+				$this->reporter->error('Problem with email: '.$payroll->getEmail());
+			} else {
+				$this->reporter->add(sprintf('Email sent to %s.',$payroll->getName()));
+				$this->reporter->add('Deleting associated file.');	
+			    unlink($payroll->getFile());
 			}
 			$progress->advance();
 		}
 
 		$progress->finish();
-		$reporter->report();
+		$this->reporter->report();
     }
 		
 	private function sendEmail($payroll)
@@ -99,6 +115,7 @@ class SendCommand extends Command
 			->setBody(sprintf('Estimado/a %s:'.chr(10).chr(10).'Adjuntamos tu nómina del mes de %s', $payroll->getName(), $this->month))
 			->addPart(sprintf('<p>Estimado/a %s:</p><p>Adjuntamos tu nómina del mes de %s</p>', $payroll->getName(), $this->month), 'text/html')
 			->attach(\Swift_Attachment::fromPath($payroll->getFile()));
+		
 		return $this->mailer->send($message);
 	}
 	

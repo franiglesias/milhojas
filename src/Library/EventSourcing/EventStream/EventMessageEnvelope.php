@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Library\EventSourcing;
+namespace Milhojas\Library\EventSourcing\EventStream;
 
 use Rhumsaa\Uuid\Uuid;
 use Milhojas\Library\EventSourcing\DTO\EntityData;

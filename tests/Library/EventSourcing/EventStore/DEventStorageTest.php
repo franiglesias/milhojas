@@ -6,8 +6,8 @@ use Tests\Infrastructure\Persistence\Common\DoctrineTestCase;
 use Milhojas\Library\EventSourcing\EventStore\DoctrineEventStorage;
 use Milhojas\Library\EventSourcing\DTO\EntityData;
 use Milhojas\Library\EventSourcing\DTO\EntityVersionData;
-use Milhojas\Library\EventSourcing\EventMessage;
-use Milhojas\Library\EventSourcing\EventMessageEnvelope;
+use Milhojas\Library\EventSourcing\EventStream\EventMessage;
+use Milhojas\Library\EventSourcing\EventStream\EventMessageEnvelope;
 use Milhojas\Library\EventSourcing\EventStream\EventStream;
 /**
 * Description

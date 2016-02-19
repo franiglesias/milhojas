@@ -3,7 +3,7 @@
 
 namespace Tests\Library\EventSourcing;
 
-use Milhojas\Library\EventSourcing\EventMessage;
+use Milhojas\Library\EventSourcing\EventStream\EventMessage;
 
 use Milhojas\Library\EventSourcing\Domain\DomainEvent;
 use Milhojas\Library\EventSourcing\DTO\EntityData;
@@ -21,7 +21,7 @@ class EventMessageTest extends \PHPUnit_Framework_TestCase
 		// $entity = $this->getMockBuilder('Milhojas\Library\EventSourcing\DTO\EntityData')
 		// 	->getMock();
 		// $Message = EventMessage::record($event, $entity);
-		// $this->assertInstanceOf('Milhojas\Library\EventSourcing\EventMessage', $Message);
+		// $this->assertInstanceOf('Milhojas\Library\EventSourcing\EventStream\EventMessage', $Message);
 	}
 	
 	public function test_it_can_return_the_event()

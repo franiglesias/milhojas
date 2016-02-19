@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Library\EventSourcing;
+namespace Milhojas\Library\EventSourcing\EventStream;
 
 use Milhojas\Library\EventSourcing\Domain\DomainEvent;
 use Milhojas\Library\EventSourcing\Domain\EventSourced;

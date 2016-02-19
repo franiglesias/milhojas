@@ -11,7 +11,7 @@ use Milhojas\Library\ValueObjects\Dates\DateRange;
 
 use Milhojas\Library\EventSourcing\EventStore\InMemoryEventStorage;
 use Milhojas\Library\EventSourcing\DTO\EntityData;
-use Milhojas\Library\EventSourcing\EventMessage;
+use Milhojas\Library\EventSourcing\EventStream\EventMessage;
 use Milhojas\Library\EventSourcing\EventStream\EventStream;
 
 class EventSourcedPostRepositoryTest extends \PHPUnit_Framework_Testcase

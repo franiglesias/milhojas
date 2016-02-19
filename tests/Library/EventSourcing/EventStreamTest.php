@@ -2,7 +2,7 @@
 
 namespace Tests\Library\EventSourcing;
 
-use Milhojas\Library\EventSourcing\EventStream;
+use Milhojas\Library\EventSourcing\EventStream\EventStream;
 use Milhojas\Library\EventSourcing\Domain\DomainEvent;
 
 class EventStreamTest extends \PHPUnit_Framework_Testcase {

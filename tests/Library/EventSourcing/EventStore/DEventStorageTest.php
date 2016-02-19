@@ -8,7 +8,7 @@ use Milhojas\Library\EventSourcing\DTO\EntityData;
 use Milhojas\Library\EventSourcing\DTO\EntityVersionData;
 use Milhojas\Library\EventSourcing\EventMessage;
 use Milhojas\Library\EventSourcing\EventMessageEnvelope;
-use Milhojas\Library\EventSourcing\EventStream;
+use Milhojas\Library\EventSourcing\EventStream\EventStream;
 /**
 * Description
 */

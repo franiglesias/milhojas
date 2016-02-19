@@ -6,7 +6,7 @@ use Milhojas\Library\EventSourcing\EventStore\DoctrineEventStorage;
 use Milhojas\Library\EventSourcing\DTO\EntityData;
 use Milhojas\Library\EventSourcing\DTO\EntityVersionData;
 use Milhojas\Library\EventSourcing\DTO\EventDTO;
-use Milhojas\Library\EventSourcing\EventStream;
+use Milhojas\Library\EventSourcing\EventStream\EventStream;
 use Milhojas\Library\EventSourcing\EventMessage;
 
 
@@ -63,7 +63,7 @@ class DoctrineEventStorageTest extends \PHPUnit_Framework_TestCase
 	protected function storage_should_return_an_event_stream()
 	{
 		$Stream = $this->Storage->loadStream($this->getEntity(1));
-		$this->assertInstanceOf('Milhojas\Library\EventSourcing\EventStream', $Stream);
+		$this->assertInstanceOf('Milhojas\Library\EventSourcing\EventStream\EventStream', $Stream);
 	}
 	
 	

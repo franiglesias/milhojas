@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Library\EventSourcing;
+namespace Milhojas\Library\EventSourcing\EventStream;
 
 /**
  * Keeps a list of event messages

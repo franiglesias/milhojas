@@ -4,7 +4,7 @@ namespace Milhojas\Library\EventSourcing\EventStore;
 
 use Milhojas\Library\EventSourcing\EventStore\EventStorage;
 use Milhojas\Library\EventSourcing\DTO\EntityData;
-use Milhojas\Library\EventSourcing\EventStream;
+use Milhojas\Library\EventSourcing\EventStream\EventStream;
 use Milhojas\Library\EventSourcing\Exceptions as Exception;
 
 /**

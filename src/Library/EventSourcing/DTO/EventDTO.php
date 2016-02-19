@@ -13,7 +13,7 @@ use Milhojas\Library\EventSourcing\EventMessage;
  * @ORM\Entity
  * @ORM\Table(name="events")
  */
-class EventDAO
+class EventDTO
 {
     /**
      * @ORM\Column(type="string")

@@ -4,7 +4,7 @@
 namespace Tests\Infrastructure\Persistence\Common\DoctrineTest;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use \Milhojas\Library\EventSourcing\DTO\EventDAO;
+use \Milhojas\Library\EventSourcing\DTO\EventDTO;
 
 class ESRepositoryTest extends KernelTestCase
 {
@@ -31,7 +31,7 @@ class ESRepositoryTest extends KernelTestCase
 	}
     public function dont_test_experiment()
     {
-		$event = new EventDAO();
+		$event = new EventDTO();
 		$event->setId(1);
 		$event->setEventType('CreateEvent');
 		$event->setEntityType('Entity');
@@ -43,9 +43,9 @@ class ESRepositoryTest extends KernelTestCase
 		$this->em->persist($event);
 		$this->em->flush();
         $eventList = $this->em
-            ->getRepository('EventStore:EventDAO')
+            ->getRepository('EventStore:EventDTO')
 				->findAll();
-		$theEvent = $this->em->getRepository('EventStore:EventDAO')->find('1');
+		$theEvent = $this->em->getRepository('EventStore:EventDTO')->find('1');
 		print_r($theEvent);
         $this->assertCount(1, $eventList);
     }
@@ -54,14 +54,14 @@ class ESRepositoryTest extends KernelTestCase
 	{
 		$qb = $this->em->createQueryBuilder()
 			->select('count(events.id)')
-			->from('EventStore:EventDAO','events')
+			->from('EventStore:EventDTO','events')
 			->where('events.entity_type = :entity AND events.entity_id = :id')
 				->setParameter('entity', 'Entity')->setParameter('id', '2');
 		print_r( $qb->getQuery()->getSingleScalarResult());
 		
 		
 		print_r ($this->em
-			->createQuery('SELECT COUNT(events.id) FROM EventStore:EventDAO events WHERE events.entity_type = :entity AND events.entity_id = :id')
+			->createQuery('SELECT COUNT(events.id) FROM EventStore:EventDTO events WHERE events.entity_type = :entity AND events.entity_id = :id')
 			->setParameter('entity', 'Entity')
 			->setParameter('id', '2')
 			->getSingleScalarResult());
@@ -70,7 +70,7 @@ class ESRepositoryTest extends KernelTestCase
 	public function dont_test_max()
 	{
 		print $this->em
-					->createQuery('SELECT MAX(events.version) FROM EventStore:EventDAO events WHERE events.entity_type = :entity AND events.entity_id = :id')
+					->createQuery('SELECT MAX(events.version) FROM EventStore:EventDTO events WHERE events.entity_type = :entity AND events.entity_id = :id')
 					->setParameter('entity', 'Entity')
 					->setParameter('id', 2)
 					->getSingleScalarResult();

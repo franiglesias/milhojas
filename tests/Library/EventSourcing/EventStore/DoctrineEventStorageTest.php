@@ -5,7 +5,7 @@ namespace Tests\Milhojas\Library\EventSourcing\EventStore;
 use Milhojas\Library\EventSourcing\EventStore\DoctrineEventStorage;
 use Milhojas\Library\EventSourcing\DTO\EntityData;
 
-use Milhojas\Library\EventSourcing\DTO\EventDAO;
+use Milhojas\Library\EventSourcing\DTO\EventDTO;
 use Milhojas\Library\EventSourcing\EventStream;
 use Milhojas\Library\EventSourcing\EventMessage;
 
@@ -166,7 +166,7 @@ class DoctrineEventStorageTest extends \PHPUnit_Framework_TestCase
 		$dtos = array();
 		for ($i=0; $i < $eventCount; $i++) { 
 			$event = $this->getEvent('Event_'.$i);
-			$dtos[] = EventDAO::fromEventMessage(EventMessage::record($event, $entity));
+			$dtos[] = EventDTO::fromEventMessage(EventMessage::record($event, $entity));
 		}
 		return $dtos;
 	}

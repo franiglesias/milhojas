@@ -7,7 +7,7 @@ use Milhojas\Library\EventSourcing\EventMessage;
 
 use Milhojas\Library\EventSourcing\EventStore\EventStorage;
 use Milhojas\Library\EventSourcing\DTO\EntityData;
-use Milhojas\Library\EventSourcing\DTO\EventDAO;
+use Milhojas\Library\EventSourcing\DTO\EventDTO;
 
 use Milhojas\Library\EventSourcing\Exceptions as Exception;
 
@@ -25,7 +25,7 @@ class DoctrineEventStorage extends EventStorage
 	public function loadStream(EntityData $entity) 
 	{
 		$dtos = $this->em
-            ->getRepository('EventStore:EventDAO')
+            ->getRepository('EventStore:EventDTO')
 			->findBy(array(
 				'entity_type' => $entity->getType(),
 				'entity_id' => $entity->getId()
@@ -44,7 +44,7 @@ class DoctrineEventStorage extends EventStorage
 	{
 		foreach ($stream as $message) {
 			$this->checkVersion($message->getEntity());
-			$this->em->persist(EventDAO::fromEventMessage($message));
+			$this->em->persist(EventDTO::fromEventMessage($message));
 		}
 		$this->em->flush();
 		$this->em->clear();
@@ -53,7 +53,7 @@ class DoctrineEventStorage extends EventStorage
 	public function countEntitiesOfType($type)
 	{
 		return $this->em
-			->createQuery('SELECT COUNT(events.id) FROM EventStore:EventDAO events WHERE events.entity_type = :entity AND events.version = 1')
+			->createQuery('SELECT COUNT(events.id) FROM EventStore:EventDTO events WHERE events.entity_type = :entity AND events.version = 1')
 			->setParameter('entity', $type)
 			->getSingleScalarResult();
 	}
@@ -62,7 +62,7 @@ class DoctrineEventStorage extends EventStorage
 	public function count(EntityData $entity)
 	{
 		return $this->em
-			->createQuery('SELECT COUNT(events.id) FROM EventStore:EventDAO events WHERE events.entity_type = :entity AND events.entity_id = :id')
+			->createQuery('SELECT COUNT(events.id) FROM EventStore:EventDTO events WHERE events.entity_type = :entity AND events.entity_id = :id')
 			->setParameter('entity', $entity->getType())
 			->setParameter('id', $entity->getId())
 			->getSingleScalarResult();
@@ -71,7 +71,7 @@ class DoctrineEventStorage extends EventStorage
 	protected function getStoredVersion(EntityData $entity)
 	{
 		return $this->em
-			->createQuery('SELECT MAX(events.version) FROM EventStore:EventDAO events WHERE events.entity_type = :entity AND events.entity_id = :id')
+			->createQuery('SELECT MAX(events.version) FROM EventStore:EventDTO events WHERE events.entity_type = :entity AND events.entity_id = :id')
 			->setParameter('entity', $entity->getType())
 			->setParameter('id', $entity->getId())
 			->getSingleScalarResult();

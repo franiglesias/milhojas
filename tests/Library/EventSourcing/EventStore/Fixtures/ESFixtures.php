@@ -5,7 +5,7 @@ namespace Tests\Infrastructure\Persistence\Contents\Fixtures;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
-use Milhojas\Library\EventSourcing\DTO\EventDAO;
+use Milhojas\Library\EventSourcing\DTO\EventDTO;
 
 /**
 * Description
@@ -51,7 +51,7 @@ class ESFixtures extends AbstractFixture
 	{
 		for ($version=1; $version <= $maxVersion; $version++) { 
 			$this->eventId++;
-			$event = new EventDAO();
+			$event = new EventDTO();
 
 			$event->setId($this->eventId);
 			$event->setEventType('DomainEventDouble');

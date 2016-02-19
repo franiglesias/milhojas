@@ -4,29 +4,27 @@ namespace Milhojas\Library\EventSourcing\DTO;
 
 use Milhojas\Library\EventSourcing\Domain\EventSourced;
 /**
-* Transports information about entity type and id
+* Transports information about an individual entity
 */
 class EntityData
 {
 	private $type;
 	private $id;
-	private $version;
 	
-	function __construct($type, $id, $version = 0)
+	function __construct($type, $id)
 	{
 		$this->type = $type;
 		$this->id = $id;
-		$this->version = $version;
 	}
 	
 	static public function fromEntity(EventSourced $entity)
 	{
-		return new static(get_class($entity), $entity->getEntityId(), $entity->getVersion());
+		return new static(get_class($entity), $entity->getEntityId());
 	}
 	
 	static public function fromDTO($dto)
 	{
-		return new static($dto->getEntityType(), $dto->getEntityId(), $dto->getVersion());
+		return new static($dto->getEntityType(), $dto->getEntityId());
 	}
 	
 	public function getType()
@@ -39,14 +37,10 @@ class EntityData
 		return $this->id;
 	}
 	
-	public function getVersion()
-	{
-		return $this->version;
-	}
 	
 	public function __toString()
 	{
-		return sprintf('Entity: %s::%s (%s)', $this->type, $this->id, $this->version);
+		return sprintf('Entity: %s::%s', $this->type, $this->id);
 	}
 }
 ?>

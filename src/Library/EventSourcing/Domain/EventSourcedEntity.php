@@ -45,6 +45,12 @@ abstract class EventSourcedEntity implements EventSourced
 		return new EventStream($this->events);
 	}
 	
+	/**
+	 * Clears the stored list of events
+	 *
+	 * @return void
+	 * @author Fran Iglesias
+	 */
 	public function clearEvents()
 	{
 		$this->events = array();

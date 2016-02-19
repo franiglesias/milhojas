@@ -6,10 +6,8 @@ use Milhojas\Library\EventSourcing\Domain\EventSourced;
 /**
 * Transports information about entity type, id, and version
 */
-class EntityVersionData
+class EntityVersionData extends EntityData
 {
-	private $type;
-	private $id;
 	private $version;
 	
 	function __construct($type, $id, $version)

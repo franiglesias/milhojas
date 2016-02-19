@@ -4,6 +4,7 @@ namespace Milhojas\Library\EventSourcing\EventStore;
 
 use Milhojas\Library\EventSourcing\EventStream;
 use Milhojas\Library\EventSourcing\DTO\EntityData;
+use Milhojas\Library\EventSourcing\DTO\EntityVersionData;
 use Milhojas\Library\EventSourcing\EventStore\EventStore;
 use Milhojas\Library\EventSourcing\Exceptions as Exception;
 
@@ -48,7 +49,7 @@ abstract class EventStorage implements EventStore{
 	 * @return nothing or ConflictingVersion Exception
 	 * @author Francisco Iglesias Gómez
 	 */
-	protected function checkVersion(EntityData $entity)
+	protected function checkVersion(EntityVersionData $entity)
 	{
 		$newVersion = $entity->getVersion();
 		$storedVersion = $this->getStoredVersion($entity);

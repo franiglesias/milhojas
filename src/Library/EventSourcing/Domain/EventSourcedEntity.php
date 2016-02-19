@@ -5,6 +5,7 @@ namespace Milhojas\Library\EventSourcing\Domain;
 use Milhojas\Library\EventSourcing\Domain\EventSourced;
 use Milhojas\Library\EventSourcing\Domain\DomainEvent;
 use Milhojas\Library\EventSourcing\DTO\EntityData;
+use Milhojas\Library\EventSourcing\DTO\EntityVersionData;
 
 use Milhojas\Library\EventSourcing\EventStream;
 use Milhojas\Library\EventSourcing\EventMessage;
@@ -83,7 +84,7 @@ abstract class EventSourcedEntity implements EventSourced
 			return;
 		}
 		$this->apply($event);
-		$this->events[] = EventMessage::record($event, EntityData::fromEntity($this));
+		$this->events[] = EventMessage::record($event, EntityVersionData::fromEntity($this));
 	}
 
 	public function getVersion()

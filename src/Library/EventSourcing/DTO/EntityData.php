@@ -8,8 +8,8 @@ use Milhojas\Library\EventSourcing\Domain\EventSourced;
 */
 class EntityData
 {
-	private $type;
-	private $id;
+	protected $type;
+	protected $id;
 	
 	function __construct($type, $id)
 	{

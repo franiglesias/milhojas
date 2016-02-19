@@ -5,7 +5,7 @@ namespace Tests\Library\EventSourcing\EventStore;
 use Tests\Infrastructure\Persistence\Common\DoctrineTestCase;
 use Milhojas\Library\EventSourcing\EventStore\DoctrineEventStorage;
 use Milhojas\Library\EventSourcing\DTO\EntityData;
-
+use Milhojas\Library\EventSourcing\DTO\EntityVersionData;
 use Milhojas\Library\EventSourcing\EventMessage;
 use Milhojas\Library\EventSourcing\EventMessageEnvelope;
 use Milhojas\Library\EventSourcing\EventStream;
@@ -96,7 +96,7 @@ class DEventStorageTest extends DoctrineTestCase
 	{
 		$stream = new EventStream();
 		for ($version=1; $version <= $maxVersion; $version++) { 
-			$message = new EventMessage(new DomainEventDouble($id), new EntityData($entity, $id, $version), EventMessageEnvelope::now());
+			$message = new EventMessage(new DomainEventDouble($id), new EntityVersionData($entity, $id, $version), EventMessageEnvelope::now());
 			$stream->append($message);
 		}
 		return $stream;

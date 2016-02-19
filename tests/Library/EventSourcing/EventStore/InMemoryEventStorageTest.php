@@ -4,6 +4,8 @@ namespace Tests\Milhojas\Library\EventSourcing\EventStore;
 
 use Milhojas\Library\EventSourcing\EventStore\InMemoryEventStorage;
 use Milhojas\Library\EventSourcing\DTO\EntityData;
+use Milhojas\Library\EventSourcing\DTO\EntityVersionData;
+
 use Milhojas\Library\EventSourcing\EventStream;
 use Milhojas\Library\EventSourcing\EventMessage;
 
@@ -57,7 +59,7 @@ class InMemoryEventStorageTest extends \PHPUnit_Framework_TestCase
 
 	private function getEntity($id = 1, $version = -1)
 	{
-		return new EntityData('Entity', $id, $version);
+		return new EntityVersionData('Entity', $id, $version);
 	}
 	
 	private function prepare_stream_for_entity($entity, $eventCount)

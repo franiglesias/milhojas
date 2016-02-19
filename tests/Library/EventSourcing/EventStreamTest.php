@@ -83,7 +83,15 @@ class EventStreamTest extends \PHPUnit_Framework_Testcase {
 		$NewStream = new EventStream($events);
 		$Stream->appendStream($NewStream);
 		$this->assertEquals(6, $Stream->count());
-		
+		$expected = array(
+			'Event 1',
+			'Event 2',
+			'Event 3',
+			'Event 10',
+			'Event 11',
+			'Event 12'
+		);
+		$this->assertEquals(new EventStream($expected), $Stream);
 		
 	}
 }

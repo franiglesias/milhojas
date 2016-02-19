@@ -3,7 +3,10 @@
 namespace Milhojas\Library\EventSourcing\EventStream;
 
 /**
- * Keeps a list of event messages
+ * Keeps a list of event messages. 
+ * 
+ * An even message contains Event object and metadata
+ * EventSourced Entities return an EventStream
  *
  * @package default
  * @author Francisco Iglesias Gómez
@@ -46,7 +49,13 @@ class EventStream implements \IteratorAggregate {
 	
 	public function __toString()
 	{
-		return sprintf('Stream has %s events', count($this->events));
+		$buffer[] = sprintf('Stream has %s events', count($this->events));
+		$counter = 0;
+		foreach ($this->events as $event) {
+			$buffer[] = sprintf('[%s] %s', $counter, $event);
+			$counter++;
+		}
+		return implode(chr(10), $buffer);
 	}
 }
 

@@ -20,12 +20,16 @@ services:
         arguments:      ["@service_container"]
     handler_inflector:
         class:          Milhojas\Application\Inflectors\HandlerInflector
+        
+# Contents Post Command Handlers
     write_post_handler:
         class:          Milhojas\Application\Contents\WritePostHandler
         arguments:      ["@post_repository"]
     update_post_handler:
         class:          Milhojas\Application\Contents\UpdatePostHandler
         arguments:      ["@post_repository"]
+
+# Payroll dependencies
     payroll_send:
         class:          AppBundle\Command\Payroll\SendCommand
         arguments:      ["@mailer", "%payroll.sender%", "%payroll.report%", "%payroll.dataPath%"]

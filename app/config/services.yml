@@ -10,25 +10,25 @@ services:
 
 
     event_store:
-        class:      Milhojas\Library\EventSourcing\EventStore\DoctrineEventStorage
-        arguments:  ["@doctrine.orm.entity_manager"]
+        class:          Milhojas\Library\EventSourcing\EventStore\DoctrineEventStorage
+        arguments:      ["@doctrine.orm.entity_manager"]
     post_repository:
-        class:      Milhojas\Infrastructure\Persistence\Contents\EventSourcedPostRepository
-        arguments:  ["@event_store"]
+        class:          Milhojas\Infrastructure\Persistence\Contents\EventSourcedPostRepository
+        arguments:      ["@event_store"]
     handler_container:
-        class:        Milhojas\Application\Containers\HandlerContainer
-        arguments:    ["@service_container"]
+        class:          Milhojas\Application\Containers\HandlerContainer
+        arguments:      ["@service_container"]
     handler_inflector:
-        class:        Milhojas\Application\Inflectors\HandlerInflector
+        class:          Milhojas\Application\Inflectors\HandlerInflector
     write_post_handler:
-        class:        Milhojas\Application\Contents\WritePostHandler
-        arguments:    ["@post_repository"]
+        class:          Milhojas\Application\Contents\WritePostHandler
+        arguments:      ["@post_repository"]
     update_post_handler:
-        class:        Milhojas\Application\Contents\UpdatePostHandler
-        arguments:    ["@post_repository"]
+        class:          Milhojas\Application\Contents\UpdatePostHandler
+        arguments:      ["@post_repository"]
     payroll_send:
         class:          AppBundle\Command\Payroll\SendCommand
-        arguments:     ["@mailer", "%payroll.sender%", "%payroll.report%", "%payroll.dataPath%"]
+        arguments:      ["@mailer", "%payroll.sender%", "%payroll.report%", "%payroll.dataPath%"]
         tags:
-                - {name: console.command}
+             - {name: console.command}
         

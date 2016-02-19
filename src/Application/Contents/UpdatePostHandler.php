@@ -26,6 +26,7 @@ class UpdatePostHandler implements CommandHandler
 	{
 		$Post = $this->repository->get(new PostId($command->getId()));
 		$Post->update(new PostContent($command->getTitle(), $command->getBody()));
+		// Get the events and send to an EventProvider??
 		$this->repository->save($Post);
 	}
 }

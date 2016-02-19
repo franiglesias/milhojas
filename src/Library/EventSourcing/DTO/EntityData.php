@@ -12,7 +12,7 @@ class EntityData
 	private $id;
 	private $version;
 	
-	function __construct($type, $id, $version)
+	function __construct($type, $id, $version = 0)
 	{
 		$this->type = $type;
 		$this->id = $id;

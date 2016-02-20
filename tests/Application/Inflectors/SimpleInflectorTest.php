@@ -2,8 +2,8 @@
 
 namespace Tests\Application;
 
-use Milhojas\Application\Inflectors\SimpleInflector;
-use Milhojas\Application\Command;
+use Milhojas\Library\CommandBus\Inflectors\SimpleInflector;
+use Milhojas\Library\CommandBus\Command;
 
 // class CreateUser implements Command {
 //

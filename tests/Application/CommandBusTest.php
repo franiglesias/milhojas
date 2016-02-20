@@ -2,9 +2,9 @@
 
 namespace Tests\Application;
 
-use Milhojas\Application\CommandBus;
-use Milhojas\Application\Command;
-use Milhojas\Application\CommandHandler;
+use Milhojas\Library\CommandBus\CommandBus;
+use Milhojas\Library\CommandBus\Command;
+use Milhojas\Library\CommandBus\CommandHandler;
 
 class MakeDumb implements Command {
 	
@@ -20,13 +20,13 @@ class CommandBusTest extends \PHPUnit_Framework_Testcase {
 	
 	private function getContainer()
 	{
-		return $this->getMockBuilder('Milhojas\Application\Container')
+		return $this->getMockBuilder('Milhojas\Library\CommandBus\Container')
 			->getMock();
 	}
 	
 	public function getInflector()
 	{
-		return $this->getMockBuilder('Milhojas\Application\Inflector')
+		return $this->getMockBuilder('Milhojas\Library\CommandBus\Inflector')
 			->getMock();
 		
 	}

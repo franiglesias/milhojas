@@ -1,10 +1,10 @@
 <?php
 
-namespace Milhojas\Application\Containers;
+namespace Milhojas\Library\CommandBus\Containers;
 
 
-use Milhojas\Application\Command;
-use Milhojas\Application\CommandHandler;
+use Milhojas\Library\CommandBus\Command;
+use Milhojas\Library\CommandBus\CommandHandler;
 use Milhojas\Application\Container;
 /**
 * Returns CommandHandlers

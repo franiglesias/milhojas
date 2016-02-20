@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Application;
+namespace Milhojas\Library\CommandBus;
 
 interface Container {
 	public function make($classname);

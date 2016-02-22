@@ -6,7 +6,7 @@ namespace Milhojas\Library\CommandBus;
 /**
 * Description
 */
-class CommandBus
+class CommandHandlerMiddleware
 {
 	private $container;
 	private $inflector;

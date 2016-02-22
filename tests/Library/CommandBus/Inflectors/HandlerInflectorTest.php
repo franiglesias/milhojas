@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Application;
+namespace Tests\Library\CommandBus;
 
 use Milhojas\Library\CommandBus\Inflectors\HandlerInflector;
 use Milhojas\Library\CommandBus\Command;

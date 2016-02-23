@@ -11,7 +11,7 @@ use Milhojas\Library\CommandBus\Workers\CommandWorker;
 class CommandBusSpy implements CommandBus
 {
 	private $busUnderTest;
-	private $workers;
+	public $workers;
 	private $commands;
 	private $pipeline;
 	
@@ -24,17 +24,15 @@ class CommandBusSpy implements CommandBus
 	private function extractWorkers()
 	{
 		$reflect = new \ReflectionObject($this->busUnderTest);
-		$property = $reflect->getProperty('workers');
+		$property = $reflect->getProperty('chain');
 		$property->setAccessible(true);
 		$this->workers = $property->getValue($this->busUnderTest);
 	}
 
 	public function execute(Command $command)
 	{
-		foreach ($this->workers as $worker) {
-			$this->registerWorker($worker);
-			$worker->execute($command);
-		}
+		$this->workers->injectSpy($this);
+		$this->workers->execute($command);
 		$this->registerCommand($command);
 	}
 	
@@ -52,7 +50,8 @@ class CommandBusSpy implements CommandBus
 	
 	public function registerWorker(CommandWorker $worker)
 	{
-		$this->pipeline[] = get_class($worker);
+		$parts = explode('\\', get_class($worker));
+		$this->pipeline[] = end($parts);
 	}
 	
 	/**
@@ -67,6 +66,11 @@ class CommandBusSpy implements CommandBus
 			'commands' => $this->commands,
 			'pipeline' => $this->pipeline
 		);
+	}
+	
+	public function getPipeline()
+	{
+		return $this->pipeline;
 	}
 }
 

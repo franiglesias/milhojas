@@ -14,7 +14,8 @@ class BasicCommandBus implements CommandBus
 	
 	function __construct(array $workers)
 	{
-		$first = $chain = array_shift($workers);
+		$chain = array_shift($workers);
+		$first = $chain;
 		while (count($workers) > 0) {
 			$next = array_shift($workers);
 			$chain->setNext($next);

@@ -12,8 +12,16 @@ use Tests\Library\CommandBus\Fixtures\SimpleCommandHandler;
 */
 class ExecuteCommandFakeWorker implements CommandWorker
 {
+	public $spy;
+	protected $next;
+	
 	public function __construct()
 	{
+	}
+	
+	public function injectSpy($spy)
+	{
+		$this->spy = $spy;
 	}
 	
 	public function setNext(CommandWorker $next)
@@ -22,8 +30,13 @@ class ExecuteCommandFakeWorker implements CommandWorker
 	}
 	function execute(Command $command)
 	{
+		if (!$this->next) {
+			return;
+		}
+		$this->spy->registerWorker($this);
 		$handler = new SimpleCommandHandler();
 		$handler->handle($command);
+		$this->next->injectSpy($this->spy);
 		$this->next->execute($command);
 	}
 }

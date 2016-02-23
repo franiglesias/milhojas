@@ -5,7 +5,7 @@ namespace Milhojas\Library\CommandBus\Containers;
 
 use Milhojas\Library\CommandBus\Command;
 use Milhojas\Library\CommandBus\CommandHandler;
-use Milhojas\Application\Container;
+use Milhojas\Library\CommandBus\Containers\Container;
 /**
 * Returns CommandHandlers
 */

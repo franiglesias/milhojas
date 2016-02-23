@@ -1,7 +1,7 @@
 <?php
 
 namespace Milhojas\Library\CommandBus\Inflectors;
-use Milhojas\Library\CommandBus\Inflector;
+use Milhojas\Library\CommandBus\Inflectors\Inflector;
 use Milhojas\Library\CommandBus\Command;
 
 /**

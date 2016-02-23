@@ -3,29 +3,59 @@
 namespace Milhojas\Library\CommandBus;
 
 use Milhojas\Library\CommandBus\CommandBus;
+use Milhojas\Library\CommandBus\CommandWorker;
 /**
 * Description
 */
 class BasicCommandBus implements CommandBus
 {
-	private $buses;
+	private $workers;
 	
-	function __construct(array $buses)
+	function __construct(array $workers)
 	{
-		foreach ($buses as $bus) {
-			$this->append($bus);
+		foreach ($workers as $worker) {
+			$this->append($worker);
 		}
 	}
 	
-	public function append(CommandBus $bus)
+	/**
+	 * Appends worker to the worker chain
+	 *
+	 * @param string $worker 
+	 * @return void or Exception if no worker is passed
+	 * @author Fran Iglesias
+	 */
+	private function append($worker)
 	{
-		$this->buses[] = $bus;
+		$this->isValidWorker($worker);
+		$this->workers[] = $worker;
 	}
 	
+	/**
+	 * TypeHinting error throw exception
+	 *
+	 * @param string $worker 
+	 * @return void
+	 * @author Fran Iglesias
+	 */
+	private function isValidWorker($worker)
+	{
+		if (! is_a($worker, 'Milhojas\Library\CommandBus\CommandWorker')) {
+			throw new \InvalidArgumentException('Worker should implement Milhojas\Library\CommandBus\CommandWorker Interface', 1);
+		}
+	}
+	
+	/**
+	 * Execute command
+	 *
+	 * @param Command $command 
+	 * @return void
+	 * @author Fran Iglesias
+	 */
 	public function execute(Command $command)
 	{
-		foreach ($this->buses as $bus) {
-			$bus->execute($command);
+		foreach ($this->workers as $worker) {
+			$worker->execute($command);
 		}
 	}
 }

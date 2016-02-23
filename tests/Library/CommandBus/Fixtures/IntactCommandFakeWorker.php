@@ -16,9 +16,14 @@ class IntactCommandFakeWorker implements CommandWorker
 	{
 	}
 	
+	public function setNext(CommandWorker $next)
+	{
+		$this->next = $next;
+	}
 	
 	function execute(Command $command)
 	{
+		$this->next->execute($command);
 	}
 }
 

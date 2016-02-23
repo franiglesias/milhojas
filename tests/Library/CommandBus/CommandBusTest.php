@@ -35,7 +35,7 @@ class CommandBusTest extends \PHPUnit_Framework_Testcase {
 	/**
 	 * @expectedException \InvalidArgumentException
 	 */
-	public function test_it_does_not_accept_other_objetcs()
+	public function dont_test_it_does_not_accept_other_objetcs()
 	{
 		$bus = new BasicCommandBus(array(
 			new \stdClass()

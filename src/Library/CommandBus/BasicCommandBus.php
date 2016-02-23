@@ -10,12 +10,17 @@ use Milhojas\Library\CommandBus\Workers\CommandWorker;
 class BasicCommandBus implements CommandBus
 {
 	private $workers;
+	private $chain;
 	
 	function __construct(array $workers)
 	{
-		foreach ($workers as $worker) {
-			$this->append($worker);
+		$first = $chain = array_shift($workers);
+		while (count($workers) > 0) {
+			$next = array_shift($workers);
+			$chain->setNext($next);
+			$chain = $next;
 		}
+		$this->chain = $first;
 	}
 	
 	/**
@@ -54,9 +59,7 @@ class BasicCommandBus implements CommandBus
 	 */
 	public function execute(Command $command)
 	{
-		foreach ($this->workers as $worker) {
-			$worker->execute($command);
-		}
+		$this->chain->execute($command);
 	}
 }
 ?>

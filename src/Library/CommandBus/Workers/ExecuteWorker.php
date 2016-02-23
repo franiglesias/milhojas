@@ -21,10 +21,16 @@ class ExecuteWorker implements CommandWorker
 		$this->inflector = $inflector;
 	}
 	
-	public function execute(Command $command)
+	public function setNext(CommandWorker $next)
+	{
+		$this->next = $next;
+	}
+	
+	public function execute(Command $command, Callable $next)
 	{
 		$handler = $this->getHandler($command);
 		$handler->handle($command);
+		$next($command);
 	}
 	
 	protected function getHandler(Command $command)

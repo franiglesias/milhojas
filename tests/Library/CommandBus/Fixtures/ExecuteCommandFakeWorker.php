@@ -16,11 +16,15 @@ class ExecuteCommandFakeWorker implements CommandWorker
 	{
 	}
 	
-	
+	public function setNext(CommandWorker $next)
+	{
+		$this->next = $next;
+	}
 	function execute(Command $command)
 	{
 		$handler = new SimpleCommandHandler();
 		$handler->handle($command);
+		$this->next->execute($command);
 	}
 }
 

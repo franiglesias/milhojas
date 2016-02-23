@@ -14,14 +14,13 @@ class BasicCommandBus implements CommandBus
 	
 	function __construct(array $workers)
 	{
-		$chain = array_shift($workers);
-		$first = $chain;
+		$chain = array_pop($workers);
 		while (count($workers) > 0) {
-			$next = array_shift($workers);
-			$chain->setNext($next);
-			$chain = $next;
+			$prev = array_pop($workers);
+			$prev->setNext($chain);
 		}
-		$this->chain = $first;
+		$this->chain = $chain;
+		print_r($this->chain);
 	}
 	
 	/**

@@ -6,11 +6,13 @@ use Milhojas\Library\CommandBus\Containers\Container;
 use Milhojas\Library\CommandBus\Inflectors\Inflector;
 use Milhojas\Library\CommandBus\Command;
 use Milhojas\Library\CommandBus\Workers\CommandWorker;
+
 /**
 * Manages the execution of a command with the right command handler
+* You can control de behavior using different inflectors
 */
 
-class ExecuteWorker implements CommandWorker
+class ExecuteWorker extends CommandWorker
 {
 	private $container;
 	private $inflector;
@@ -21,16 +23,11 @@ class ExecuteWorker implements CommandWorker
 		$this->inflector = $inflector;
 	}
 	
-	public function setNext(CommandWorker $next)
-	{
-		$this->next = $next;
-	}
-	
-	public function execute(Command $command, Callable $next)
+	public function execute(Command $command)
 	{
 		$handler = $this->getHandler($command);
 		$handler->handle($command);
-		$next($command);
+		$this->delegateNext($command);
 	}
 	
 	protected function getHandler(Command $command)

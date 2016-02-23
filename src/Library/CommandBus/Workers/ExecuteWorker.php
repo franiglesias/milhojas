@@ -1,12 +1,13 @@
 <?php
 
-namespace Milhojas\Library\CommandBus;
+namespace Milhojas\Library\CommandBus\Workers
+	;
 
 
 /**
 * Description
 */
-class CommandHandlerMiddleware
+class ExecuteWorker
 {
 	private $container;
 	private $inflector;

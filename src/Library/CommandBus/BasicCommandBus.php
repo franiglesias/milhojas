@@ -3,7 +3,7 @@
 namespace Milhojas\Library\CommandBus;
 
 use Milhojas\Library\CommandBus\CommandBus;
-use Milhojas\Library\CommandBus\CommandWorker;
+use Milhojas\Library\CommandBus\Workers\CommandWorker;
 /**
 * Description
 */
@@ -40,7 +40,7 @@ class BasicCommandBus implements CommandBus
 	 */
 	private function isValidWorker($worker)
 	{
-		if (! is_a($worker, 'Milhojas\Library\CommandBus\CommandWorker')) {
+		if (! is_a($worker, 'Milhojas\Library\CommandBus\Workers\CommandWorker')) {
 			throw new \InvalidArgumentException('Worker should implement Milhojas\Library\CommandBus\CommandWorker Interface', 1);
 		}
 	}

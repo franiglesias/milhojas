@@ -2,8 +2,8 @@
 
 namespace Tests\Library\CommandBus\Fixtures;
 
-use Milhojas\Library\CommandBus\CommandWorker;
 use Milhojas\Library\CommandBus\Command;
+use Milhojas\Library\CommandBus\Workers\CommandWorker;
 
 use Tests\Library\CommandBus\Fixtures\SimpleCommandHandler;
 

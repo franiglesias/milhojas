@@ -4,7 +4,7 @@ namespace Tests\Library\CommandBus\Utils;
 
 use Milhojas\Library\CommandBus\CommandBus;
 use Milhojas\Library\CommandBus\Command;
-use Milhojas\Library\CommandBus\CommandWorker;
+use Milhojas\Library\CommandBus\Workers\CommandWorker;
 /**
 * A simple test spy
 */

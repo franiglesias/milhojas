@@ -10,7 +10,7 @@ use Tests\Library\CommandBus\Fixtures\SimpleCommandHandler;
 /**
 * A simple worker that executes a Command with the SimpleCommandHandler
 */
-class ExecuteCommandTestWorker implements CommandWorker
+class ExecuteCommandFakeWorker implements CommandWorker
 {
 	public function __construct()
 	{

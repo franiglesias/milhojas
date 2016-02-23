@@ -10,7 +10,7 @@ use Tests\Library\CommandBus\Fixtures\SimpleCommandHandler;
 /**
 * A simple worker that does not execute the command. It only registers itself in the test spy
 */
-class IntactCommandTestWorker implements CommandWorker
+class IntactCommandFakeWorker implements CommandWorker
 {
 	public function __construct()
 	{

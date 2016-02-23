@@ -16,10 +16,10 @@ services:
         class:          Milhojas\Infrastructure\Persistence\Contents\EventSourcedPostRepository
         arguments:      ["@event_store"]
     handler_container:
-        class:          Milhojas\Application\Containers\HandlerContainer
+        class:          Milhojas\Library\CommandBus\Containers\HandlerContainer
         arguments:      ["@service_container"]
     handler_inflector:
-        class:          Milhojas\Application\Inflectors\HandlerInflector
+        class:          Milhojas\Library\CommandBus\Inflectors\HandlerInflector
         
 # Contents Post Command Handlers
     write_post_handler:

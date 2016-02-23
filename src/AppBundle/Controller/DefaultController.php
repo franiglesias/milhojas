@@ -48,16 +48,6 @@ class DefaultController extends Controller
 			'language' => $request->getPreferredLanguage()
 		));
 	}
-	/**
-	 * @Route("/write")
-	 */
-	public function writeAction()
-	{
-		$command = new \Milhojas\Application\Contents\WritePost(8, 'Title of a Post', 'Body of the first Post');
-		$bus = new \Milhojas\Application\CommandBus($this->get('handler_container'), $this->get('handler_inflector'));
-		$bus->execute($command);
-		return new Response('Job done!');
-	}
 	
 	/**
 	 * @Route("/update")
@@ -65,7 +55,9 @@ class DefaultController extends Controller
 	public function updateAction()
 	{
 		$command = new \Milhojas\Application\Contents\UpdatePost(8, 'New Title of a Post', 'New Body of the first Post');
-		$bus = new \Milhojas\Application\CommandBus($this->get('handler_container'), $this->get('handler_inflector'));
+		$bus = new \Milhojas\Library\CommandBus\BasicCommandBus(array(
+			new \Milhojas\Library\CommandBus\Workers\ExecuteWorker($this->get('handler_container'), $this->get('handler_inflector'))
+		));
 		$bus->execute($command);
 		return new Response('Update job done!');
 	}

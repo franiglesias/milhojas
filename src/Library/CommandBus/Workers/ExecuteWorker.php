@@ -1,13 +1,16 @@
 <?php
 
-namespace Milhojas\Library\CommandBus\Workers
-	;
+namespace Milhojas\Library\CommandBus\Workers;
 
-
+use Milhojas\Library\CommandBus\Containers\Container;
+use Milhojas\Library\CommandBus\Inflectors\Inflector;
+use Milhojas\Library\CommandBus\Command;
+use Milhojas\Library\CommandBus\Workers\CommandWorker;
 /**
-* Description
+* Manages the execution of a command with the right command handler
 */
-class ExecuteWorker
+
+class ExecuteWorker implements CommandWorker
 {
 	private $container;
 	private $inflector;

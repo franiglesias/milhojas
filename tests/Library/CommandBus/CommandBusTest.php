@@ -9,8 +9,8 @@ use Milhojas\Library\CommandBus\CommandHandler;
 
 
 use Tests\Library\CommandBus\Utils\CommandBusSpy;
-use Tests\Library\CommandBus\Fixtures\ExecuteCommandTestWorker;
-use Tests\Library\CommandBus\Fixtures\IntactCommandTestWorker;
+use Tests\Library\CommandBus\Fixtures\ExecuteCommandFakeWorker;
+use Tests\Library\CommandBus\Fixtures\IntactCommandFakeWorker;
 use Tests\Library\CommandBus\Fixtures\SimpleCommand;
 use Tests\Library\CommandBus\Fixtures\SimpleCommandHandler;
 
@@ -28,7 +28,7 @@ class CommandBusTest extends \PHPUnit_Framework_Testcase {
 	public function test_it_accepts_command_workers()
 	{
 		$bus = new BasicCommandBus(array(
-			new ExecuteCommandTestWorker()
+			new ExecuteCommandFakeWorker()
 		));
 	}
 	
@@ -46,8 +46,8 @@ class CommandBusTest extends \PHPUnit_Framework_Testcase {
 	{
 
 		$bus = new BasicCommandBus(array(
-			new IntactCommandTestWorker(),
-			new ExecuteCommandTestWorker(),
+			new IntactCommandFakeWorker(),
+			new ExecuteCommandFakeWorker(),
 		));
 		$spy = new CommandBusSpy($bus);
 		
@@ -57,8 +57,8 @@ class CommandBusTest extends \PHPUnit_Framework_Testcase {
 				'Tests\Library\CommandBus\Fixtures\SimpleCommand'
 			),
 			'pipeline' => array(
-				'Tests\Library\CommandBus\Fixtures\IntactCommandTestWorker',
-				'Tests\Library\CommandBus\Fixtures\ExecuteCommandTestWorker'
+				'Tests\Library\CommandBus\Fixtures\IntactCommandFakeWorker',
+				'Tests\Library\CommandBus\Fixtures\ExecuteCommandFakeWorker'
 			)
 		), $spy->getResult());
 	}

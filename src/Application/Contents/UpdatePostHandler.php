@@ -2,8 +2,9 @@
 
 namespace Milhojas\Application\Contents;
 
-use Library\CommandBus\Command;
-use Library\CommandBus\CommandHandler;
+use Milhojas\Library\CommandBus\Command;
+use Milhojas\Library\CommandBus\CommandHandler;
+
 use Milhojas\Domain\Contents\PostRepository;
 
 use Milhojas\Domain\Contents\Post;

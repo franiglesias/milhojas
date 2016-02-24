@@ -15,6 +15,7 @@ class ExecuteCommandFakeWorker extends FakeCommandWorker
 	
 	function execute(Command $command)
 	{
+		$this->spy->registerExecution($this, $command);
 		$this->spy->registerWorker($this);
 		$handler = new SimpleCommandHandler();
 		$handler->handle($command);

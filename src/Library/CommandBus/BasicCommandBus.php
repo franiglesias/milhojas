@@ -10,11 +10,11 @@ use Milhojas\Library\CommandBus\CommandBus;
 
 class BasicCommandBus implements CommandBus
 {
-	private $chain;
+	private $workersChain;
 	
 	function __construct(array $workers)
 	{
-		$this->chain = $this->buildChain($workers);
+		$this->workersChain = $this->buildWorkersChain($workers);
 	}
 	
 	/**
@@ -24,7 +24,7 @@ class BasicCommandBus implements CommandBus
 	 * @return the chain
 	 * @author Francisco Iglesias Gómez
 	 */
-	private function buildChain($workers)
+	private function buildWorkersChain($workers)
 	{
 		$chain = array_pop($workers);
 		while (count($workers) > 0) {
@@ -44,7 +44,7 @@ class BasicCommandBus implements CommandBus
 	 */
 	public function execute(Command $command)
 	{
-		$this->chain->execute($command);
+		$this->workersChain->execute($command);
 	}
 }
 ?>

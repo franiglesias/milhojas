@@ -20,14 +20,17 @@ class FakeCommandWorker extends CommandWorker
 	protected function delegateNext(Command $command)
 	{
 		if (!$this->next) {
+			$this->spy->registerChainEnd($this, $command);
 			return;
 		}
 		$this->next->injectSpy($this->spy);
+		$this->spy->registerDelegation($this, $this->next, $command);
 		$this->next->execute($command);
 	}
 	
 	function execute(Command $command)
 	{
+		$this->spy->registerExecution($this, $command);
 		$this->spy->registerWorker($this);
 		$this->delegateNext($command);
 	}

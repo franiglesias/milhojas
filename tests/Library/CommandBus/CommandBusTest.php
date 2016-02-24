@@ -56,8 +56,12 @@ class CommandBusTest extends \PHPUnit_Framework_Testcase {
 				'IntactCommandFakeWorker',
 				'ExecuteCommandFakeWorker',
 				'IntactCommandFakeWorker',
-					
 		), $spy->getPipeline());
+		
+		$this->assertEquals(array('SimpleCommand'), $spy->getCommandsExecuted());
+		// echo(chr(10));
+		// print_r($spy->getStory());
+		// echo(chr(10));
 	}
 }
 

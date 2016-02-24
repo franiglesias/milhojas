@@ -11,9 +11,10 @@ use Milhojas\Library\CommandBus\Workers\CommandWorker;
 class CommandBusSpy implements CommandBus
 {
 	private $busUnderTest;
-	public $workers;
+	public $workersChain;
 	private $commands;
 	private $pipeline;
+	private $log;
 	
 	function __construct(CommandBus $busUnderTest)
 	{
@@ -24,15 +25,15 @@ class CommandBusSpy implements CommandBus
 	private function extractWorkers()
 	{
 		$reflect = new \ReflectionObject($this->busUnderTest);
-		$property = $reflect->getProperty('chain');
+		$property = $reflect->getProperty('workersChain');
 		$property->setAccessible(true);
-		$this->workers = $property->getValue($this->busUnderTest);
+		$this->workersChain = $property->getValue($this->busUnderTest);
 	}
 
 	public function execute(Command $command)
 	{
-		$this->workers->injectSpy($this);
-		$this->workers->execute($command);
+		$this->workersChain->injectSpy($this);
+		$this->workersChain->execute($command);
 		$this->registerCommand($command);
 	}
 	
@@ -45,32 +46,49 @@ class CommandBusSpy implements CommandBus
 	 */
 	public function registerCommand(Command $command)
 	{
-		$this->commands[] = get_class($command);
+		$this->commands[] = $this->getShortClassName($command);
 	}
 	
 	public function registerWorker(CommandWorker $worker)
 	{
-		$parts = explode('\\', get_class($worker));
-		$this->pipeline[] = end($parts);
+		$this->pipeline[] = $this->getShortClassName($worker);
 	}
 	
-	/**
-	 * Review the log as array
-	 *
-	 * @return array
-	 * @author Fran Iglesias
-	 */
-	public function getResult()
+	public function registerExecution(CommandWorker $worker, Command $command)
 	{
-		return array(
-			'commands' => $this->commands,
-			'pipeline' => $this->pipeline
-		);
+		$this->log[] = sprintf('Worker %s has received command %s.', $this->getShortClassName($worker), $this->getShortClassName($command));
 	}
 	
+	public function registerDelegation(CommandWorker $worker, CommandWorker $next, Command $command)
+	{
+		$this->log[] = sprintf('Worker %s has passed command %s to worker %s.', $this->getShortClassName($worker), $this->getShortClassName($command), $this->getShortClassName($next));
+	}
+	
+	public function registerChainEnd(CommandWorker $worker, Command $command)
+	{
+		$this->log[] = sprintf('Worker %s can\'t delegate command %s.', $this->getShortClassName($worker), $this->getShortClassName($command));
+		
+	}
+	
+	private function getShortClassName($object)
+	{
+		$parts = explode('\\', get_class($object));
+		return end($parts);
+	}
+		
 	public function getPipeline()
 	{
 		return $this->pipeline;
+	}
+	
+	public function getCommandsExecuted()
+	{
+		return $this->commands;
+	}
+	
+	public function getStory()
+	{
+		return $this->log;
 	}
 }
 

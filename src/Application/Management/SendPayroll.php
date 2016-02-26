@@ -10,15 +10,22 @@ use Milhojas\Library\CommandBus\Command;
 class SendPayroll implements Command
 {
 	private $month;
+	private $sender;
 	
-	function __construct($month)
+	function __construct($sender, $month)
 	{
 		$this->month = $month;
+		$this->sender = $sender;
 	}
 	
 	public function getMonth()
 	{
 		return $this->month;
+	}
+	
+	public function getSender()
+	{
+		return $this->sender;
 	}
 }
 

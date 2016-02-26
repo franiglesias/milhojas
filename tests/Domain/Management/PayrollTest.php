@@ -26,9 +26,10 @@ class PayrollTest extends \PHPUnit_Framework_Testcase
 	
 	public function test_it_links_to_a_payroll_file()
 	{
-		$fileName = 'payroll/enero/01_nombre_(apellido1 apellido2, nombre1 nombre 2)_empresa_22308_trabajador_130496_010216_ mensual.pdf';
-		$file = new PayrollFile($fileName);
-		$payroll = new Payroll($file);
+		$payroll = new Payroll('123', 'Nombre Apellido', 'email@example.com', 'datafile');
+		$this->assertEquals('Nombre Apellido', $payroll->getName());
+		$this->assertEquals('123', $payroll->getId());
+		$this->assertEquals('datafile', $payroll->getFile());
 	}
 }
 

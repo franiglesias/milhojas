@@ -1,6 +1,7 @@
 <?php
 
 namespace Milhojas\Domain\Management;
+
 /**
  * Represents a Payroll file
  * 
@@ -10,18 +11,17 @@ namespace Milhojas\Domain\Management;
  * @author Francisco Iglesias Gómez
  */
 class Payroll {
-	private $file;
 	private $id;
 	private $name;
 	private $path;
 	private $email;
 	
-	public function __construct($file)
+	public function __construct($id, $name, $email, $path)
 	{
-		$this->file = $file;
-		$this->name = $this->extractNameFromFileName();
-		$this->id = $this->extractIdFromFileName();
-		$this->path = $this->file->getRealpath();
+		$this->name = $name;
+		$this->id = $id;
+		$this->email = $email;
+		$this->path = $path;
 	}
 	
 	public function getId()
@@ -39,11 +39,6 @@ class Payroll {
 		return $this->path;
 	}
 	
-	public function setEmail($email)
-	{
-		$this->email = $email;
-	}
-	
 	public function getEmail()
 	{
 		return $this->email;
@@ -54,19 +49,6 @@ class Payroll {
 		return array($this->email => $this->name);
 	}
 	
-	private function extractNameFromFileName()
-	{
-		$filename = $this->file->getRelativePathname();
-		preg_match('/nombre_\((.*), (.*)\)/', $filename, $matches);
-		return mb_convert_case($matches[2].' '.$matches[1], MB_CASE_TITLE);
-	}
-	
-	private function extractIdFromFileName()
-	{
-		$filename = $this->file->getRelativePathname();
-		preg_match('/trabajador_(\d+_\d+)/',$filename, $matches);
-		return $matches[1];
-	}
 }
 
 

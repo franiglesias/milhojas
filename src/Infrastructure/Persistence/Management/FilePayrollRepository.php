@@ -22,10 +22,15 @@ class FilePayrollRepository implements PayrollRepository{
 		$this->emails = $this->load($pathToFile);
 	}
 	
-	public function get($payrollFile)
+	public function get(PayrollFile $payrollFile)
 	{
-		$Payroll = new Payroll($payrollFile);
-		$Payroll->setEmail($this->emails[$Payroll->getId()]);
+		$id = $payrollFile->extractId();
+		$Payroll = new Payroll(
+			$id, 
+			$payrollFile->extractName(), 
+			$this->emails[$id],
+			$payrollFile->getRealPath()
+		);
 		return $Payroll;
 	}
 	

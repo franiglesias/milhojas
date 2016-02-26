@@ -31,7 +31,7 @@ class SendPayrollHandler implements CommandHandler
 	public function handle(Command $command)
 	{
 		$this->finder->getFiles($this->dataPath.'/'.$command->getMonth());
-		foreach ($finder as $file) {
+		foreach ($this->finder as $file) {
 			$payroll = $repository->get($file);
 			if (!$this->sendEmail($payroll, $command->getSender(), $command->getMonth())) {
 				// $this->reporter->error('Problem with email: '.$payroll->getEmail());

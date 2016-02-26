@@ -34,6 +34,15 @@ class DummyFinder extends PayrollFinder
 	{
 		# code...
 	}
+	
+	public function getFiles($path)
+	{
+	}
+	
+	public function getIterator()
+	{
+	}
+	
 }
 
 /**

@@ -32,13 +32,13 @@ class SendPayrollHandler implements CommandHandler
 	{
 		$this->finder->getFiles($this->dataPath.'/'.$command->getMonth());
 		foreach ($this->finder as $file) {
-			$payroll = $repository->get($file);
+			$payroll = $this->repository->get($file);
 			if (!$this->sendEmail($payroll, $command->getSender(), $command->getMonth())) {
 				// $this->reporter->error('Problem with email: '.$payroll->getEmail());
 			} else {
 				// $this->reporter->add(sprintf('Email sent to %s.',$payroll->getName()));
 				// $this->reporter->add('Deleting associated file.');
-			    unlink($payroll->getFile());
+			    //unlink($payroll->getFile());
 			}
 			// $progress->advance();
 		}
@@ -48,7 +48,7 @@ class SendPayrollHandler implements CommandHandler
 	private function sendEmail($payroll, $sender, $month)
 	{
 		$message = \Swift_Message::newInstance()
-			->setSubject(sprintf('Nómina de %s', $this->month))
+			->setSubject(sprintf('Nómina de %s', $month))
 			->setFrom($sender)
 			->setReturnPath(key($sender))
 			->setReplyTo(key($sender))

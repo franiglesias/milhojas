@@ -8,7 +8,7 @@ use Milhojas\Application\Management\SendPayroll;
 use Milhojas\Domain\Management\Payroll;
 use Milhojas\Domain\Management\PayrollRepository;
 use Milhojas\Infrastructure\Persistence\Management\PayrollFinder;
-
+use Symfony\Component\Finder\Finder;
 /**
 * Description
 */
@@ -25,25 +25,6 @@ class PayrollStubRepository implements PayrollRepository {
 	}
 }
 
-/**
-* Description
-*/
-class DummyFinder extends PayrollFinder
-{
-	public function __construct()
-	{
-		# code...
-	}
-	
-	public function getFiles($path)
-	{
-	}
-	
-	public function getIterator()
-	{
-	}
-	
-}
 
 /**
 * Description
@@ -61,8 +42,8 @@ class SendPayrollHandlerTest extends \PHPUnit_Framework_Testcase
 	public function test_it_handles_the_command()
 	{
 		$command = new SendPayroll(array('sender@email.com' => 'Sender'), 'test');
-		$dataPath = '/Library/WebServer/Documents/milhojas/payroll/test';
-		$finder = new DummyFinder();
+		$dataPath = '/Library/WebServer/Documents/milhojas/payroll';
+		$finder = new PayrollFinder(new Finder);
 		$repository = new PayrollStubRepository();
 		$mailer = new MailerStub();
 		$handler = new SendPayrollHandler($dataPath, $finder, $repository, $mailer);

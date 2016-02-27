@@ -4,6 +4,8 @@ namespace Milhojas\Infrastructure\Persistence\Management;
 
 use Milhojas\Domain\Management\PayrollRepository;
 use Milhojas\Domain\Management\Payroll;
+use Milhojas\Infrastructure\Persistence\Management\PayrollFile;
+
 /**
  * Repository/factory for payroll. It returns a Payroll object with all needed settings made
  * 

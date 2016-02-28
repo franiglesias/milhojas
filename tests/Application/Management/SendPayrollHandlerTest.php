@@ -26,8 +26,8 @@ class PayrollStubRepository implements PayrollRepository {
 	{
 		$this->times = 0;
 		$this->responses = array(
-			1 => new Payroll(1, 'Name1 Lastname 1', 'email1@example.com', '01_nombre_(apellido1 apellido2, nombre1 nombre2)_empresa_22308_trabajador_130496_010216_mensual.pdf'),
-			2 => new Payroll(2, 'Name2 Lastname 2', 'email2@example.com', '02_nombre_(apellido3 apellido4, nombre3)_empresa_22308_trabajador_130286_010216_mensual.pdf'),
+			1 => new Payroll(1, 'Name1 Lastname 1', 'email1@example.com', vfsStream::url('payroll/test/01_nombre_(apellido1 apellido2, nombre1 nombre2)_empresa_22308_trabajador_130496_010216_mensual.pdf')),
+			2 => new Payroll(2, 'Name2 Lastname 2', 'email2@example.com', vfsStream::url('payroll/test/02_nombre_(apellido3 apellido4, nombre3)_empresa_22308_trabajador_130286_010216_mensual.pdf')),
  		);
 	}
 	

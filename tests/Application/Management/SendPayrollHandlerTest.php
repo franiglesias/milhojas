@@ -22,11 +22,13 @@ use org\bovigo\vfs\vfsStream;
 class PayrollStubRepository implements PayrollRepository {
 
 	private $times;
+	private $finder;
 	
 	private $responses;
 	
-	public function __construct()
+	public function __construct($finder)
 	{
+		$this->finder = $finder;
 		$this->times = 0;
 		$this->responses = array(
 			1 => new Payroll(1, 'Name1 Lastname 1', 'email1@example.com', vfsStream::url('payroll/test/01_nombre_(apellido1 apellido2, nombre1 nombre2)_empresa_22308_trabajador_130496_010216_mensual.pdf')),
@@ -44,6 +46,11 @@ class PayrollStubRepository implements PayrollRepository {
 	public function getTimesCalled()
 	{
 		return $this->times;
+	}
+	
+	public function finder()
+	{
+		return $this->finder;
 	}
 }
 
@@ -84,7 +91,7 @@ class SendPayrollHandlerTest extends \PHPUnit_Framework_Testcase
 	{
 		$this->root = (new PayrollFileSystem())->get();
 		$this->mailer = new MailerStub();
-		$this->repository = new PayrollStubRepository();
+		$this->repository = new PayrollStubRepository(new PayrollFinder(new Finder));
 	}
 
 	public function test_it_handles_the_command()
@@ -94,7 +101,6 @@ class SendPayrollHandlerTest extends \PHPUnit_Framework_Testcase
 
 		$handler = new SendPayrollHandler(
 			vfsStream::url('payroll'), 
-			new PayrollFinder(new Finder), 
 			$this->repository, 
 			$this->mailer
 		);

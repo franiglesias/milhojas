@@ -21,14 +21,12 @@ class PayrollFinderTest extends \PHPUnit_Framework_Testcase
     {
 		$this->root = (new PayrollFileSystem())->get();
     }
-
 	
-	public function test_it_loads_files()
+	public function test_it_loads_the_three_valid_files()
 	{
 		$finder = new PayrollFinder(new Finder());
 		$finder->getFiles(vfsStream::url('payroll/test'));
-		
-		$this->assertEquals(4, iterator_count($finder->getIterator()));
+		$this->assertEquals(3, iterator_count($finder->getIterator()));
 	}
 	
 }

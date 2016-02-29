@@ -9,7 +9,9 @@ namespace Milhojas\Domain\Management;
  * @author Francisco Iglesias Gómez
  */
 interface PayrollRepository {
-	public function get($file);
+	public function get($payrollFile);
+	// Returns a finder
+	public function finder();
 }
 
 

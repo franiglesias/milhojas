@@ -20,7 +20,8 @@ class PayrollFinder implements \IteratorAggregate
 	
 	public function getFiles($path)
 	{
-		$this->finder->files()->in($path);
+		// Find only files with valid names
+		$this->finder->files()->in($path)->name('/nombre_\((.*), (.*)\).*trabajador_(\d+_\d+)/');
 	}
 	
 	public function getIterator()

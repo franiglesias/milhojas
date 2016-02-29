@@ -17,14 +17,16 @@ use Milhojas\Infrastructure\Persistence\Management\PayrollFile;
 class FilePayrollRepository implements PayrollRepository{
 	
 	private $emails;
+	private $finder;
 	
-	public function __construct($pathToFile)
+	public function __construct($pathToFile, $finder)
 	{
 		// emails.dat
 		$this->emails = $this->load($pathToFile);
+		$this->finder = $finder;
 	}
 	
-	public function get(PayrollFile $payrollFile)
+	public function get( $payrollFile)
 	{
 		$id = $payrollFile->extractId();
 		$Payroll = new Payroll(
@@ -34,6 +36,11 @@ class FilePayrollRepository implements PayrollRepository{
 			$payrollFile->getRealPath()
 		);
 		return $Payroll;
+	}
+	
+	public function finder()
+	{
+		return $this->finder;
 	}
 	
 	private function load($path)

@@ -32,7 +32,6 @@ class PayrollFileTest extends \PHPUnit_Framework_Testcase {
 		$this->assertEquals('vfs://payroll/test/01_nombre_(apellido1 apellido2, nombre1 nombre2)_empresa_22308_trabajador_130496_010216_mensual.pdf', $file->getRealPath());
 	}
 
-	
 	public function test_it_extracts_the_name_single_name()
 	{
 		$path = vfsStream::url('payroll/test/03_nombre_(apellido1 apellido2, nombre1)_empresa_22308_trabajador_130496_010216_mensual.pdf');

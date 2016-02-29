@@ -16,9 +16,8 @@ class PayrollFile
 	{
 		$this->idPattern = '/trabajador_(\d+_\d+)/';
 		$this->namePattern = '/nombre_\((.*), (.*)\)/';
-		$this->checkFileName($file);
+		$this->isWellFormedFileName($file);
 		$this->file = $file;
-
 	}
 	
 	public function extractId()
@@ -43,7 +42,7 @@ class PayrollFile
 		return $path;
 	}
 	
-	private function checkFileName($file)
+	private function isWellFormedFileName($file)
 	{
 		$filename = $file->getBaseName();
 		if (! preg_match($this->idPattern, $filename, $matches)) {

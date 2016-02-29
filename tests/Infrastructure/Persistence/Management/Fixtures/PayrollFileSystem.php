@@ -21,7 +21,13 @@ class PayrollFileSystem {
 				'05_nombre_(apellido1 apellido2, nombre1)_empresa_22308_trabajador_45asdf_010216_mensual.pdf' => 'no name'
 			)
 		);
-		$this->root = vfsStream::setup('payroll', null, $structure);
+		$structure = array(
+			'payroll' => $structure,
+			'alternative' => array(
+				'noemail.dat' => 'empty'
+			)
+		);
+		$this->root = vfsStream::setup('root', null, $structure);
 	}
 	
 	public function get()

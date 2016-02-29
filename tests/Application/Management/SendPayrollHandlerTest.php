@@ -33,9 +33,9 @@ class PayrollStubRepository implements PayrollRepository {
 		$this->times = 0;
 		$this->root = $root;
 		$this->responses = array(
-			1 => new Payroll(1, 'Name1 Lastname 1', 'email1@example.com', vfsStream::url('payroll/test/01_nombre_(apellido1 apellido2, nombre1 nombre2)_empresa_22308_trabajador_130496_010216_mensual.pdf')),
-			2 => new Payroll(2, 'Name2 Lastname 2', 'email2@example.com', vfsStream::url('payroll/test/02_nombre_(apellido3 apellido4, nombre3)_empresa_22308_trabajador_130286_010216_mensual.pdf')),
-			3 => new Payroll(3, 'Name3 Lastname 3', 'email3@example.com', vfsStream::url('payroll/test/03_nombre_(apellido1 apellido2, nombre1)_empresa_22308_trabajador_130296_010216_mensual.pdf')),
+			1 => new Payroll(1, 'Name1 Lastname 1', 'email1@example.com', vfsStream::url('root/payroll/test/01_nombre_(apellido1 apellido2, nombre1 nombre2)_empresa_22308_trabajador_130496_010216_mensual.pdf')),
+			2 => new Payroll(2, 'Name2 Lastname 2', 'email2@example.com', vfsStream::url('root/payroll/test/02_nombre_(apellido3 apellido4, nombre3)_empresa_22308_trabajador_130286_010216_mensual.pdf')),
+			3 => new Payroll(3, 'Name3 Lastname 3', 'email3@example.com', vfsStream::url('root/payroll/test/03_nombre_(apellido1 apellido2, nombre1)_empresa_22308_trabajador_130296_010216_mensual.pdf')),
  		);
 	}
 	
@@ -99,7 +99,7 @@ class SendPayrollHandlerTest extends \PHPUnit_Framework_Testcase
 	{
 		$this->root = (new PayrollFileSystem())->get();
 		$this->mailer = new MailerStub();
-		$this->repository = new PayrollStubRepository(vfsStream::url('payroll'), new PayrollFinder(new Finder));
+		$this->repository = new PayrollStubRepository(vfsStream::url('root/payroll'), new PayrollFinder(new Finder));
 	}
 
 	public function test_it_handles_the_command()

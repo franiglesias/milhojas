@@ -12,6 +12,7 @@ interface PayrollRepository {
 	public function get($payrollFile);
 	// Returns a finder
 	public function finder();
+	// Iterate the files for a month
 	public function getFiles($month);
 }
 

@@ -5,7 +5,7 @@ namespace Milhojas\Infrastructure\Persistence\Management;
 use Symfony\Component\Finder\Finder;
 
 /**
-* Iterator to access payroll files. Uses Symfony Finder Component
+* Iterator to access payroll files. Uses Symfony Finder Component to access the available files
 */
 
 class PayrollFinder implements \IteratorAggregate

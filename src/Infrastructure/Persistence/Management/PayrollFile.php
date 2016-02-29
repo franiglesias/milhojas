@@ -2,35 +2,34 @@
 
 namespace Milhojas\Infrastructure\Persistence\Management;
 
+use Milhojas\Infrastructure\Persistence\Management\Exceptions\MalformedPayrollFileName;
 /**
 * Represents a Payrollfile. Acts as a decorator for SplFileInfo
 */
 class PayrollFile
 {
-	var $file;
+	private $file;
+	private $idPattern;
+	private $namePattern;
 	
 	public function __construct(\SplFileInfo $file)
 	{
+		$this->idPattern = '/trabajador_(\d+_\d+)/';
+		$this->namePattern = '/nombre_\((.*), (.*)\)/';
+		$this->checkFileName($file);
 		$this->file = $file;
+
 	}
 	
 	public function extractId()
 	{
-		$filename = $this->file->getBaseName();
-		preg_match('/trabajador_(\d+_\d+)/',$filename, $matches);
-		if (!isset($matches[1])) {
-			return false;
-		}
+		preg_match($this->idPattern, $this->file->getBaseName(), $matches);
 		return $matches[1];
 	}
 	
 	public function extractName()
 	{
-		$filename = $this->file->getBaseName();
-		preg_match('/nombre_\((.*), (.*)\)/', $filename, $matches);
-		if (! isset($matches[1]) || !isset($matches[2])) {
-			return null;
-		}
+		preg_match($this->namePattern, $this->file->getBaseName(), $matches);
 		return mb_convert_case($matches[2].' '.$matches[1], MB_CASE_TITLE);
 	}
 	
@@ -42,6 +41,17 @@ class PayrollFile
 			return $this->file->getPathname();
 		}
 		return $path;
+	}
+	
+	private function checkFileName($file)
+	{
+		$filename = $file->getBaseName();
+		if (! preg_match($this->idPattern, $filename, $matches)) {
+			throw new MalformedPayrollFileName(sprintf('Unable to recognize id in: %s', $filename), 1);
+		}
+		if (! preg_match($this->namePattern, $filename, $matches)) {
+			throw new MalformedPayrollFileName(sprintf('Unable to recognize name in: %s', $filename), 2);
+		}
 	}
 }
 

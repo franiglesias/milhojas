@@ -9,7 +9,7 @@ use Milhojas\Domain\Management\Payroll;
 use Milhojas\Infrastructure\Persistence\Management\PayrollFinder;
 use Milhojas\Infrastructure\Persistence\Management\PayrollFile;
 
-
+use Milhojas\Infrastructure\Persistence\Management\Exceptions\MalformedPayrollFileName;
 /**
 * Manages SendPayroll command
 */
@@ -33,15 +33,21 @@ class SendPayrollHandler implements CommandHandler
 	{
 		$this->finder->getFiles($this->dataPath.'/'.$command->getMonth());
 		foreach ($this->finder as $file) {
-			$payroll = $this->repository->get(new PayrollFile($file));
-			if (!$this->sendEmail($payroll, $command->getSender(), $command->getMonth())) {
-				// $this->reporter->error('Problem with email: '.$payroll->getEmail());
-			} else {
-				// $this->reporter->add(sprintf('Email sent to %s.',$payroll->getName()));
-				// $this->reporter->add('Deleting associated file.');
-			    unlink($payroll->getFile());
+			try {
+				$file = new PayrollFile($file);
+				$payroll = $this->repository->get($file);
+				if (!$this->sendEmail($payroll, $command->getSender(), $command->getMonth())) {
+					// $this->reporter->error('Problem with email: '.$payroll->getEmail());
+				} else {
+					// $this->reporter->add(sprintf('Email sent to %s.',$payroll->getName()));
+					// $this->reporter->add('Deleting associated file.');
+				    unlink($payroll->getFile());
+				}
+				// $progress->advance();
+				
+			} catch (MalformedPayrollFileName $e) {
+				// Ignoring malformed name file
 			}
-			// $progress->advance();
 		}
 		
 	}

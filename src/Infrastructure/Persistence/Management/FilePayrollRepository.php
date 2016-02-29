@@ -5,6 +5,7 @@ namespace Milhojas\Infrastructure\Persistence\Management;
 use Milhojas\Domain\Management\PayrollRepository;
 use Milhojas\Domain\Management\Payroll;
 use Milhojas\Infrastructure\Persistence\Management\PayrollFile;
+use Milhojas\Infrastructure\Persistence\Management\PayrollFinder;
 
 /**
  * Repository/factory for payroll. It returns a Payroll object with all needed settings made
@@ -18,15 +19,17 @@ class FilePayrollRepository implements PayrollRepository{
 	
 	private $emails;
 	private $finder;
+	private $root;
 	
-	public function __construct($pathToFile, $finder)
+	public function __construct($pathToFile, PayrollFinder $finder)
 	{
 		// emails.dat
 		$this->emails = $this->load($pathToFile);
+		$this->root = dirname($pathToFile);
 		$this->finder = $finder;
 	}
 	
-	public function get( $payrollFile)
+	public function get($payrollFile)
 	{
 		$id = $payrollFile->extractId();
 		$Payroll = new Payroll(
@@ -40,6 +43,12 @@ class FilePayrollRepository implements PayrollRepository{
 	
 	public function finder()
 	{
+		return $this->finder;
+	}
+	
+	public function getFiles($month)
+	{
+		$this->finder->getFiles($this->root.'/'.$month);
 		return $this->finder;
 	}
 	

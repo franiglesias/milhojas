@@ -23,13 +23,15 @@ class PayrollStubRepository implements PayrollRepository {
 
 	private $times;
 	private $finder;
+	private $root;
 	
 	private $responses;
 	
-	public function __construct($finder)
+	public function __construct($root, $finder)
 	{
 		$this->finder = $finder;
 		$this->times = 0;
+		$this->root = $root;
 		$this->responses = array(
 			1 => new Payroll(1, 'Name1 Lastname 1', 'email1@example.com', vfsStream::url('payroll/test/01_nombre_(apellido1 apellido2, nombre1 nombre2)_empresa_22308_trabajador_130496_010216_mensual.pdf')),
 			2 => new Payroll(2, 'Name2 Lastname 2', 'email2@example.com', vfsStream::url('payroll/test/02_nombre_(apellido3 apellido4, nombre3)_empresa_22308_trabajador_130286_010216_mensual.pdf')),
@@ -50,6 +52,12 @@ class PayrollStubRepository implements PayrollRepository {
 	
 	public function finder()
 	{
+		return $this->finder;
+	}
+	
+	public function getFiles($month)
+	{
+		$this->finder->getFiles($this->root.'/'.$month);
 		return $this->finder;
 	}
 }
@@ -91,7 +99,7 @@ class SendPayrollHandlerTest extends \PHPUnit_Framework_Testcase
 	{
 		$this->root = (new PayrollFileSystem())->get();
 		$this->mailer = new MailerStub();
-		$this->repository = new PayrollStubRepository(new PayrollFinder(new Finder));
+		$this->repository = new PayrollStubRepository(vfsStream::url('payroll'), new PayrollFinder(new Finder));
 	}
 
 	public function test_it_handles_the_command()
@@ -100,7 +108,6 @@ class SendPayrollHandlerTest extends \PHPUnit_Framework_Testcase
 		$command = new SendPayroll(array('sender@email.com' => 'Sender'), 'test');
 
 		$handler = new SendPayrollHandler(
-			vfsStream::url('payroll'), 
 			$this->repository, 
 			$this->mailer
 		);
@@ -112,7 +119,7 @@ class SendPayrollHandlerTest extends \PHPUnit_Framework_Testcase
 		$this->assertAMessageWasSentTo('email1@example.com');
 		$this->assertAMessageWasSentTo('email2@example.com');
 		$this->assertAMessageWasSentTo('email3@example.com');
-		
+		$this->assertThatNoValidFilesRemain();
 	}
 	
 	private function assertMailerSendsMessages($expected)
@@ -128,6 +135,11 @@ class SendPayrollHandlerTest extends \PHPUnit_Framework_Testcase
 	private function assertAMessageWasSentTo($email)
 	{
 		$this->assertTrue($this->mailer->messageTo($email));
+	}
+	
+	private function assertThatNoValidFilesRemain()
+	{
+		$this->assertEquals(0, iterator_count($this->repository->getFiles('test')));
 	}
 }
 

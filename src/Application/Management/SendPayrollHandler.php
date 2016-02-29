@@ -17,32 +17,22 @@ class SendPayrollHandler implements CommandHandler
 {
 	private $repository;
 	private $mailer;
-	private $dataPath;
 	private $sender;
 	
-	function __construct($dataPath, PayrollRepository $repository, $mailer)
+	function __construct(PayrollRepository $repository, $mailer)
 	{
-		$this->dataPath = $dataPath;
 		$this->repository = $repository;
 		$this->mailer = $mailer;
 	}
 	
 	public function handle(Command $command)
 	{
-		$this->repository->finder()->getFiles($this->dataPath.'/'.$command->getMonth());
-		foreach ($this->repository->finder() as $file) {
-			$file = new PayrollFile($file);
-			$payroll = $this->repository->get($file);
-			if (!$this->sendEmail($payroll, $command->getSender(), $command->getMonth())) {
-				// $this->reporter->error('Problem with email: '.$payroll->getEmail());
-			} else {
-				// $this->reporter->add(sprintf('Email sent to %s.',$payroll->getName()));
-				// $this->reporter->add('Deleting associated file.');
+		foreach ($this->repository->getFiles($command->getMonth()) as $file) {
+			$payroll = $this->repository->get(new PayrollFile($file));
+			if ($this->sendEmail($payroll, $command->getSender(), $command->getMonth())) {
 			    unlink($payroll->getFile());
 			}
-			// $progress->advance();
 		}
-		
 	}
 	
 	private function sendEmail($payroll, $sender, $month)

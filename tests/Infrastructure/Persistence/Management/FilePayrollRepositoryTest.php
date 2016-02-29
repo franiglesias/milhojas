@@ -45,7 +45,7 @@ class FilePayrollRepositoryTest extends \PHPUnit_Framework_Testcase
 	{
 		$dataPath = vfsStream::url('payroll/email.dat');
 		$repository = new FilePayrollRepository($dataPath, new PayrollFinder(new Finder()));
-		$repository->finder()->getFiles(vfsStream::url('payroll/test'));
+		$repository->getFiles('test');
 		$this->assertEquals(3, iterator_count($repository->finder()->getIterator()));
 	}
 

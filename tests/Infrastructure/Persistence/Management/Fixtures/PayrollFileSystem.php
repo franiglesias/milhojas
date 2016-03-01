@@ -19,10 +19,13 @@ class PayrollFileSystem {
 				'03_nombre_(apellido1 apellido2, nombre1)_empresa_22308_trabajador_130296_010216_mensual.pdf'=> 'valid single name',
 				'04_nom_(apellido1 apellido2, nombre1)_empresa_22308_trabajador_130196_010216_mensual.pdf' => 'no name',
 				'05_nombre_(apellido1 apellido2, nombre1)_empresa_22308_trabajador_45asdf_010216_mensual.pdf' => 'no name'
-			)
+			),
+			'empty' => array()
 		);
 		$structure = array(
+			// Path with a realistic file structure and contents
 			'payroll' => $structure,
+			// Path with no file structure or contents
 			'alternative' => array(
 				'noemail.dat' => 'empty'
 			)

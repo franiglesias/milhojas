@@ -72,15 +72,15 @@ class FilePayrollRepository implements PayrollRepository{
 	
 	private function isValidRoot($root)
 	{
-		if (! file_exists($this->root)) {
-			throw new Exceptions\InvalidPayrollData(sprintf('This is not a valid root for payroll: %s.', $this->root), 1);
+		if (! file_exists($root)) {
+			throw new Exceptions\InvalidPayrollData(sprintf('Unexistent of invalid root for payroll: %s.', $root), 1);
 		}
 	}
 	
 	private function isValidEmailData($root)
 	{
-		if (! file_exists($this->root.'/email.dat')) {
-			throw new Exceptions\InvalidPayrollData(sprintf('There is not email.dat file in %s.', $this->root), 2);
+		if (! file_exists($root.'/email.dat')) {
+			throw new Exceptions\InvalidPayrollData(sprintf('There is not email.dat file in %s.', $root), 2);
 		}
 	}
 }

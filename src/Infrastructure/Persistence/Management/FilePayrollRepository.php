@@ -25,11 +25,11 @@ class FilePayrollRepository implements PayrollRepository{
 	
 	public function __construct($root, PayrollFinder $finder)
 	{
-		$this->isValidRoot($root);
-		$this->isValidEmailData($root);
+		$this->rootExistsInFileSystem($root);
+		$this->emailDataFileExistsInFileSystem($root);
 		
 		$this->root = $root;
-		$this->emails = $this->load($root.'/email.dat');
+		$this->emails = $this->loadEmailData($root.'/email.dat');
 		$this->finder = $finder;
 	}
 	
@@ -44,23 +44,17 @@ class FilePayrollRepository implements PayrollRepository{
 		);
 		return $Payroll;
 	}
-	
-	public function finder()
-	{
-		return $this->finder;
-	}
-	
+		
 	public function getFiles($month)
 	{
 		if (!file_exists($this->root.'/'.$month)) {
-			throw new Exceptions\InvalidPayrollData(sprintf('There is not a folder for mont: %s. Check spelling.', $month), 3);
-			
+			throw new Exceptions\InvalidPayrollData(sprintf('There is not a folder for month: %s. Check spelling.', $month), 3);
 		}
 		$this->finder->getFiles($this->root.'/'.$month);
 		return $this->finder;
 	}
 	
-	private function load($path)
+	private function loadEmailData($path)
 	{
 		$emails = array();
 		foreach (file($path) as $line) {
@@ -70,14 +64,14 @@ class FilePayrollRepository implements PayrollRepository{
 		return $emails;
 	}
 	
-	private function isValidRoot($root)
+	private function rootExistsInFileSystem($root)
 	{
 		if (! file_exists($root)) {
 			throw new Exceptions\InvalidPayrollData(sprintf('Unexistent of invalid root for payroll: %s.', $root), 1);
 		}
 	}
 	
-	private function isValidEmailData($root)
+	private function emailDataFileExistsInFileSystem($root)
 	{
 		if (! file_exists($root.'/email.dat')) {
 			throw new Exceptions\InvalidPayrollData(sprintf('There is not email.dat file in %s.', $root), 2);

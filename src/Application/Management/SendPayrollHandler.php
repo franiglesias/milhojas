@@ -4,20 +4,19 @@ namespace Milhojas\Application\Management;
 
 use Milhojas\Library\CommandBus\Command;
 use Milhojas\Library\CommandBus\CommandHandler;
-use Milhojas\Domain\Management\PayrollRepository;
-use Milhojas\Domain\Management\Payroll;
-use Milhojas\Infrastructure\Persistence\Management\PayrollFinder;
-use Milhojas\Infrastructure\Persistence\Management\PayrollFile;
 
+use Milhojas\Domain\Management\PayrollRepository;
+use Milhojas\Infrastructure\Persistence\Management\PayrollFile;
 use Milhojas\Infrastructure\Persistence\Management\Exceptions\MalformedPayrollFileName;
+
 /**
 * Manages SendPayroll command
 */
+
 class SendPayrollHandler implements CommandHandler
 {
 	private $repository;
 	private $mailer;
-	private $sender;
 	
 	function __construct(PayrollRepository $repository, $mailer)
 	{

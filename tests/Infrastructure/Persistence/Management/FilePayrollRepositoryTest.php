@@ -22,61 +22,51 @@ class FilePayrollRepositoryTest extends \PHPUnit_Framework_Testcase
 		$this->root = (new PayrollFileSystem())->get();
     }
 	
-	public function test_it_builds()
+	public function test_it_can_find_the_files()
 	{
-		$dataPath = vfsStream::url('root/payroll');
-		
-		$repository = new FilePayrollRepository($dataPath, new PayrollFinder(new Finder()));
-		$this->assertInstanceOf('Milhojas\Infrastructure\Persistence\Management\PayrollFinder', $repository->finder());
+		$pathThatHasFiles = vfsStream::url('root/payroll');
+		$repository = new FilePayrollRepository($pathThatHasFiles, new PayrollFinder(new Finder()));
+		$this->assertEquals(3, iterator_count($repository->getFiles('test')));
 	}
 	
-	public function test_it_returns_a_payroll_from_a_file()
+	public function test_it_can_return_a_payroll_from_a_file()
 	{
 		$dataPath = vfsStream::url('root/payroll');
 		$filepath = vfsStream::url('root/payroll/test/01_nombre_(apellido1 apellido2, nombre1 nombre2)_empresa_22308_trabajador_130496_010216_mensual.pdf');
 		
 		$repository = new FilePayrollRepository($dataPath, new PayrollFinder(new Finder()));
+		
 		$payroll = $repository->get(new PayrollFile(new \SplFileInfo($filepath)));
 		$this->assertInstanceOf('Milhojas\Domain\Management\Payroll', $payroll);
 		$this->assertEquals('130496_010216', $payroll->getId());
 	}
 	
-	public function test_it_can_find_the_files()
-	{
-		$dataPath = vfsStream::url('root/payroll');
-		$repository = new FilePayrollRepository($dataPath, new PayrollFinder(new Finder()));
-		$repository->getFiles('test');
-		$this->assertEquals(3, iterator_count($repository->finder()->getIterator()));
-	}
 	
 	/**
 	 * @expectedException Milhojas\Infrastructure\Persistence\Management\Exceptions\InvalidPayrollData
 	 */
 	public function test_it_throws_exception_if_invalid_root()
 	{
-		$dataPath = vfsStream::url('root/alt');
-		$repository = new FilePayrollRepository($dataPath, new PayrollFinder(new Finder()));
+		$pathThatDoesNotExists = vfsStream::url('root/alt');
+		$repository = new FilePayrollRepository($pathThatDoesNotExists, new PayrollFinder(new Finder()));
 	}
-
 
 	/**
 	 * @expectedException Milhojas\Infrastructure\Persistence\Management\Exceptions\InvalidPayrollData
 	 */
 	public function test_it_throws_exception_if_no_email_data_file_if_found()
 	{
-		$dataPath = vfsStream::url('root/alternative');
-		$repository = new FilePayrollRepository($dataPath, new PayrollFinder(new Finder()));
+		$pathThatDoesNotHaveEmailDataFile = vfsStream::url('root/alternative');
+		$repository = new FilePayrollRepository($pathThatDoesNotHaveEmailDataFile, new PayrollFinder(new Finder()));
 	}
-
-
 
 	/**
 	 * @expectedException Milhojas\Infrastructure\Persistence\Management\Exceptions\InvalidPayrollData
 	 */
 	public function test_it_throws_exception_if_no_folder_for_month_is_found()
 	{
-		$dataPath = vfsStream::url('root/payroll');
-		$repository = new FilePayrollRepository($dataPath, new PayrollFinder(new Finder()));
+		$pathThatHasFiles = vfsStream::url('root/payroll');
+		$repository = new FilePayrollRepository($pathThatHasFiles, new PayrollFinder(new Finder()));
 		$repository->getFiles('badmonth');
 	}
 	

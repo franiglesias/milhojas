@@ -5,7 +5,7 @@ namespace Milhojas\Application\Management;
 use Milhojas\Library\CommandBus\Command;
 
 /**
-* Description
+* Command to send payroll files for a month
 */
 class SendPayroll implements Command
 {

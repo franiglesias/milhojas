@@ -11,10 +11,10 @@ namespace Milhojas\Domain\Management;
  * @author Francisco Iglesias Gómez
  */
 class Payroll {
-	private $id;
-	private $name;
-	private $path;
-	private $email;
+	private $id; // Identifies the employee
+	private $name; // Name of the employee
+	private $path; // Path to the pshysical file associated
+	private $email; // Email to send the file
 	
 	public function __construct($id, $name, $email, $path)
 	{

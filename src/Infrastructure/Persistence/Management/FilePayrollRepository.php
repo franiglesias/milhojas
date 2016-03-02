@@ -22,6 +22,7 @@ class FilePayrollRepository implements PayrollRepository{
 	private $emails;
 	private $finder;
 	private $root;
+	private $genders;
 	
 	public function __construct($root, PayrollFinder $finder)
 	{
@@ -40,7 +41,8 @@ class FilePayrollRepository implements PayrollRepository{
 			$id, 
 			$payrollFile->extractName(), 
 			$this->emails[$id],
-			$payrollFile->getRealPath()
+			$payrollFile->getRealPath(),
+			$this->genders[$id]
 		);
 		return $Payroll;
 	}
@@ -56,11 +58,13 @@ class FilePayrollRepository implements PayrollRepository{
 	
 	private function loadEmailData($path)
 	{
-		$emails = array();
+		$emails = $genders = array();
 		foreach (file($path) as $line) {
-			list($id, $email) = explode(chr(9), $line);
+			list($id, $email, $gender) = explode(chr(9), $line);
 			$emails[$id] = trim($email);
+			$genders[$id] = trim($gender);
 		}
+		$this->genders = $genders;
 		return $emails;
 	}
 	

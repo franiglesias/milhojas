@@ -13,6 +13,7 @@ use Symfony\Component\Finder\Finder;
 # Test utilities, fixtures and mocks
 
 use Tests\Utils\MailerStub;
+use Tests\Utils\TemplatingStub;
 use org\bovigo\vfs\vfsStream;
 use Tests\Infrastructure\Persistence\Management\Fixtures\PayrollFileSystem; 
 
@@ -36,7 +37,8 @@ class SendPayrollHandlerTest extends \PHPUnit_Framework_Testcase
 
 		$handler = new SendPayrollHandler(
 			$this->repository, 
-			$this->mailer
+			$this->mailer,
+			new TemplatingStub()
 		);
 
 		$handler->handle($command);

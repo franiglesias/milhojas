@@ -19,10 +19,10 @@ class MonthCommand extends Command
 	private $month;
 	private $sender;
 	private $dataPath;
-	private $bus;
 
 	## members
 	private $mailer;
+	private $bus;
 	
 	public function __construct($mailer, $sender, $bus, $dataPath)
 	{
@@ -30,8 +30,6 @@ class MonthCommand extends Command
 		$this->sender = $sender;
 		$this->bus = $bus;
 		$this->dataPath = $dataPath;
-
-
 		parent::__construct();
 	}
 	
@@ -53,11 +51,7 @@ class MonthCommand extends Command
     {
 		$this->checkServer();
 		$output->writeln('Mail server is Up.');
-
 		$command = new \Milhojas\Application\Management\SendPayroll($this->sender, $input->getArgument('month'));
-		// $bus = new \Milhojas\Library\CommandBus\BasicCommandBus(array(
-		// 	new \Milhojas\Library\CommandBus\Workers\ExecuteWorker($this->get('handler_container'), $this->get('handler_inflector'))
-		// ));
 		$this->bus->execute($command);
     }
 		

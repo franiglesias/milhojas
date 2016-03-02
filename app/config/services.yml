@@ -43,10 +43,12 @@ services:
     payroll_repository:
         class:          Milhojas\Infrastructure\Persistence\Management\FilePayrollRepository
         arguments:      ["%payroll.dataPath%", "@payroll_finder"]
-
+    email_templating:
+        class:          Milhojas\Infrastructure\Templating\Adapters\TwigTemplating
+        arguments:      ['@twig']
     send_payroll_handler:
         class:          Milhojas\Application\Management\SendPayrollHandler
-        arguments:      ['@payroll_repository', '@mailer']
+        arguments:      ['@payroll_repository', '@mailer', '@email_templating']
         
 # Payroll dependencies
     payroll_send:

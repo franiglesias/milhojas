@@ -15,13 +15,15 @@ class Payroll {
 	private $name; // Name of the employee
 	private $path; // Path to the pshysical file associated
 	private $email; // Email to send the file
+	private $gender;
 	
-	public function __construct($id, $name, $email, $path)
+	public function __construct($id, $name, $email, $path, $gender)
 	{
 		$this->name = $name;
 		$this->id = $id;
 		$this->email = $email;
 		$this->path = $path;
+		$this->gender = $gender;
 	}
 	
 	public function getId()
@@ -47,6 +49,11 @@ class Payroll {
 	public function getTo()
 	{
 		return array($this->email => $this->name);
+	}
+	
+	public function getGender()
+	{
+		return $this->gender;
 	}
 	
 }

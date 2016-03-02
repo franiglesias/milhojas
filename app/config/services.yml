@@ -20,7 +20,12 @@ services:
         arguments:      ["@service_container"]
     handler_inflector:
         class:          Milhojas\Library\CommandBus\Inflectors\HandlerInflector
-        
+    executer_bus_worker:
+        class:          Milhojas\Library\CommandBus\Workers\ExecuteWorker
+        arguments:      ["@handler_container", "@handler_inflector"]
+    command_bus:
+        class:          Milhojas\Library\CommandBus\BasicCommandBus
+        arguments:      [["@executer_bus_worker"]]
 # Contents Post Command Handlers
     write_post_handler:
         class:          Milhojas\Application\Contents\WritePostHandler
@@ -29,10 +34,29 @@ services:
         class:          Milhojas\Application\Contents\UpdatePostHandler
         arguments:      ["@post_repository"]
 
+# Management Payroll Command Handlers
+    finder:
+        class:          Symfony\Component\Finder\Finder
+    payroll_finder:
+        class:          Milhojas\Infrastructure\Persistence\Management\PayrollFinder
+        arguments:      ["@finder"]
+    payroll_repository:
+        class:          Milhojas\Infrastructure\Persistence\Management\FilePayrollRepository
+        arguments:      ["%payroll.dataPath%", "@payroll_finder"]
+
+    send_payroll_handler:
+        class:          Milhojas\Application\Management\SendPayrollHandler
+        arguments:      ['@payroll_repository', '@mailer']
+        
 # Payroll dependencies
     payroll_send:
         class:          AppBundle\Command\Payroll\SendCommand
         arguments:      ["@mailer", "%payroll.sender%", "%payroll.report%", "%payroll.dataPath%"]
+        tags:
+             - {name: console.command}
+    payroll_month:
+        class:          AppBundle\Command\Payroll\MonthCommand
+        arguments:      ["@mailer", "%payroll.sender%", "@command_bus", "%payroll.dataPath%"]
         tags:
              - {name: console.command}
         

@@ -2,96 +2,24 @@
 
 namespace Tests\Application\Management;
 
+# The SUT
 use Milhojas\Application\Management\SendPayrollHandler;
 use Milhojas\Application\Management\SendPayroll;
 
-use Milhojas\Domain\Management\Payroll;
-use Milhojas\Domain\Management\PayrollRepository;
-use Milhojas\Infrastructure\Persistence\Management\PayrollFinder;
+# Needed to check what happens in the FileSystem
+
 use Symfony\Component\Finder\Finder;
 
+# Test utilities, fixtures and mocks
+
+use Tests\Utils\MailerStub;
+use org\bovigo\vfs\vfsStream;
 use Tests\Infrastructure\Persistence\Management\Fixtures\PayrollFileSystem; 
 
+use Tests\Application\Management\Doubles\PayrollRepositoryMock;
+use Tests\Application\Management\Doubles\PayrollFinderMock;
 
-use org\bovigo\vfs\vfsStream;
 
-/**
-* Simulates the Payroll Respository
-*/
-
-class PayrollStubRepository implements PayrollRepository {
-
-	private $times;
-	private $finder;
-	private $root;
-	
-	private $responses;
-	
-	public function __construct($root, $finder)
-	{
-		$this->finder = $finder;
-		$this->times = 0;
-		$this->root = $root;
-		$this->responses = array(
-			1 => new Payroll(1, 'Name1 Lastname 1', 'email1@example.com', vfsStream::url('root/payroll/test/01_nombre_(apellido1 apellido2, nombre1 nombre2)_empresa_22308_trabajador_130496_010216_mensual.pdf')),
-			2 => new Payroll(2, 'Name2 Lastname 2', 'email2@example.com', vfsStream::url('root/payroll/test/02_nombre_(apellido3 apellido4, nombre3)_empresa_22308_trabajador_130286_010216_mensual.pdf')),
-			3 => new Payroll(3, 'Name3 Lastname 3', 'email3@example.com', vfsStream::url('root/payroll/test/03_nombre_(apellido1 apellido2, nombre1)_empresa_22308_trabajador_130296_010216_mensual.pdf')),
- 		);
-	}
-	
-	public function get($file)
-	{
-		$this->times++;
-		return $this->responses[$this->times];
-	}
-	
-	public function getTimesCalled()
-	{
-		return $this->times;
-	}
-	
-	public function finder()
-	{
-		return $this->finder;
-	}
-	
-	public function getFiles($month)
-	{
-		$this->finder->getFiles($this->root.'/'.$month);
-		return $this->finder;
-	}
-}
-
-/**
-* Simulates a Mailer
-*/
-class MailerStub 
-{
-	private $times;
-	private $message;
-	
-	public function send($message)
-	{
-		$this->times++;
-		$this->message = array_merge((array)$this->message, $message->getTo());
-		return true;
-	}
-	
-	public function getTimesCalled()
-	{
-		return $this->times;
-	}
-	
-	public function getMessages()
-	{
-		return $this->message;
-	}
-	
-	public function messageTo($email)
-	{
-		return isset($this->message[$email]);
-	}
-}
 
 class SendPayrollHandlerTest extends \PHPUnit_Framework_Testcase
 {
@@ -99,26 +27,29 @@ class SendPayrollHandlerTest extends \PHPUnit_Framework_Testcase
 	{
 		$this->root = (new PayrollFileSystem())->get();
 		$this->mailer = new MailerStub();
-		$this->repository = new PayrollStubRepository(vfsStream::url('root/payroll'), new PayrollFinder(new Finder));
+		$this->repository = new PayrollRepositoryMock(vfsStream::url('root/payroll'), new PayrollFinderMock());
 	}
 
 	public function test_it_handles_the_command()
 	{
-		
 		$command = new SendPayroll(array('sender@email.com' => 'Sender'), 'test');
 
 		$handler = new SendPayrollHandler(
 			$this->repository, 
 			$this->mailer
 		);
-		
+
 		$handler->handle($command);
+		
+		# assert severals outcomes of the command
+		
+		$this->assertRepositoryProducesPayrolls(3);
 
 		$this->assertMailerSendsMessages(3);
-		$this->assertRepositoryProducesPayrolls(3);
 		$this->assertAMessageWasSentTo('email1@example.com');
 		$this->assertAMessageWasSentTo('email2@example.com');
 		$this->assertAMessageWasSentTo('email3@example.com');
+		
 		$this->assertThatNoValidFilesRemain();
 	}
 	
@@ -139,7 +70,9 @@ class SendPayrollHandlerTest extends \PHPUnit_Framework_Testcase
 	
 	private function assertThatNoValidFilesRemain()
 	{
-		$this->assertEquals(0, iterator_count($this->repository->getFiles('test')));
+		$finder = new Finder();
+		$finder->files()->in(vfsStream::url('root/payroll/test'))->name('/nombre_\((.*), (.*)\).*trabajador_(\d+_\d+)/');
+		$this->assertEquals(0, iterator_count($finder));
 	}
 }
 

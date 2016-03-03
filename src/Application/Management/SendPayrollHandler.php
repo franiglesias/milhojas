@@ -5,10 +5,12 @@ namespace Milhojas\Application\Management;
 use Milhojas\Library\CommandBus\Command;
 use Milhojas\Library\CommandBus\CommandHandler;
 
-use Milhojas\Domain\Management\PayrollRepository;
 use Milhojas\Infrastructure\Persistence\Management\PayrollFile;
-use Milhojas\Infrastructure\Persistence\Management\Exceptions\MalformedPayrollFileName;
+// use Milhojas\Infrastructure\Persistence\Management\Exceptions\MalformedPayrollFileName;
 
+# Contracts
+
+use Milhojas\Domain\Management\PayrollRepository;
 use Milhojas\Infrastructure\Templating\Templating;
 
 /**
@@ -37,6 +39,8 @@ class SendPayrollHandler implements CommandHandler
 			}
 		}
 	}
+	
+	// Uses this tip to have two email versions in one template
 	// http://alexandre-salome.fr/blog/Generate-Mails-With-templating
 	
 	private function sendEmail($payroll, $sender, $month)

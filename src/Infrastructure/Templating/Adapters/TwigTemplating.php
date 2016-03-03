@@ -4,6 +4,13 @@ namespace Milhojas\Infrastructure\Templating\Adapters;
 
 use Milhojas\Infrastructure\Templating\Templating;
 
+/**
+ * Adaptaer for Templating
+ *
+ * @package default
+ * @author Fran Iglesias
+ */
+
 class TwigTemplating implements Templating {
 	
 	private $twig;
@@ -17,12 +24,6 @@ class TwigTemplating implements Templating {
 	{
 		return $this->twig->loadTemplate($template);
 	}
-	
-	
-	// public function __call($method, $args)
-	// {
-	// 	return call_user_func_array(array($this->twig, $method), $args);
-	// }
 }
 
 ?>

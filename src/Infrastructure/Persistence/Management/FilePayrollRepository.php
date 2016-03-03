@@ -19,18 +19,18 @@ use Milhojas\Infrastructure\Persistence\Management\Exceptions as Exceptions;
  */
 class FilePayrollRepository implements PayrollRepository{
 	
-	private $emails;
 	private $finder;
 	private $root;
-	private $genders;
+	private $data;
 	
 	public function __construct($root, PayrollFinder $finder)
 	{
 		$this->rootExistsInFileSystem($root);
 		$this->emailDataFileExistsInFileSystem($root);
+		$this->data = array();
 		
 		$this->root = $root;
-		$this->emails = $this->loadEmailData($root.'/email.dat');
+		$this->loadData($root.'/email.dat');
 		$this->finder = $finder;
 	}
 	
@@ -40,9 +40,9 @@ class FilePayrollRepository implements PayrollRepository{
 		$Payroll = new Payroll(
 			$id, 
 			$payrollFile->extractName(), 
-			$this->emails[$id],
+			$this->data[$id]['email'],
 			$payrollFile->getRealPath(),
-			$this->genders[$id]
+			$this->data[$id]['gender']
 		);
 		return $Payroll;
 	}
@@ -56,16 +56,15 @@ class FilePayrollRepository implements PayrollRepository{
 		return $this->finder;
 	}
 	
-	private function loadEmailData($path)
+	private function loadData($path)
 	{
-		$emails = $genders = array();
 		foreach (file($path) as $line) {
 			list($id, $email, $gender) = explode(chr(9), $line);
-			$emails[$id] = trim($email);
-			$genders[$id] = trim($gender);
+			$this->data[$id] = array(
+				'email' => $email,
+				'gender' => $gender
+			);
 		}
-		$this->genders = $genders;
-		return $emails;
 	}
 	
 	private function rootExistsInFileSystem($root)

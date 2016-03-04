@@ -59,7 +59,7 @@ class SendPayrollHandler implements CommandHandler
 			->setBody($template->renderBlock('body_text', $parameters))
 			->addPart($template->renderBlock('body_html', $parameters), 'text/html')
 			->attach(\Swift_Attachment::fromPath($payroll->getFile()));
-
+		
 		
 		return $this->mailer->send($message);
 	}

@@ -45,7 +45,7 @@ class MailerStub implements Mailer
 /**
 * Description
 */
-class MessageAdapter implements MailMessage
+class MessageAdapter
 {
 	private $message;
 	

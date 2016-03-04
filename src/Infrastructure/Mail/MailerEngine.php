@@ -4,9 +4,8 @@ namespace Milhojas\Infrastructure\Mail;
 
 use Milhojas\Infrastructure\Mail\MailMessage;
 
-interface Mailer {
+interface MailerEngine {
 	public function send(MailMessage $message);
-	public function newMessage();
 }
 
 ?>

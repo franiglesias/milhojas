@@ -39,9 +39,6 @@ class SendPayrollHandler implements CommandHandler
 		}
 	}
 	
-	// Uses this tip to have two email versions in one template
-	// http://alexandre-salome.fr/blog/Generate-Mails-With-templating
-	
 	private function sendEmail($payroll, $sender, $month)
 	{
 		return $this->mailer->sendWithTemplate(

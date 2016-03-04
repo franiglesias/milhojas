@@ -35,7 +35,7 @@ services:
         arguments:      ["@post_repository"]
 
 # Mailer
-    email_templating:
+    milhojas.templating.engine:
         class:          Milhojas\Infrastructure\Templating\Adapters\TwigTemplating
         arguments:      ['@twig']
     milhojas.mailer.engine:
@@ -43,7 +43,7 @@ services:
         arguments:      ['@mailer']
     milhojas.mailer:
         class:          Milhojas\Infrastructure\Mail\Mailer
-        arguments:      ['@milhojas.mailer.engine', '@email_templating']
+        arguments:      ['@milhojas.mailer.engine', '@milhojas.templating.engine']
 
 # Management Payroll Command Handlers
     finder:
@@ -66,7 +66,7 @@ services:
              - {name: console.command}
     payroll_month:
         class:          AppBundle\Command\Payroll\MonthCommand
-        arguments:      ["@mailer", "%payroll.sender%", "@command_bus", "%payroll.dataPath%"]
+        arguments:      ["%payroll.sender%", "@command_bus"]
         tags:
              - {name: console.command}
         

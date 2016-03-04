@@ -7,7 +7,7 @@ use Milhojas\Infrastructure\Mail\MailMessage;
 
 use Milhojas\Infrastructure\Templating\Templating;
 /**
-* Representes a Mailer Service
+* Representes a Mailer Service that send emails messages using a Mail Engine and Templating system
 */
 class Mailer
 {
@@ -24,6 +24,9 @@ class Mailer
 	{
 		return $this->engine->send($message);
 	}
+	
+	// Uses this tip to have two email versions in one template
+	// http://alexandre-salome.fr/blog/Generate-Mails-With-templating
 	
 	public function sendWithTemplate($to, $from, $template, $data, $attachments = array())
 	{

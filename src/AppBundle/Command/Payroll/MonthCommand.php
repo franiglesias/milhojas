@@ -9,27 +9,19 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
 
-use Symfony\Component\Finder\Finder;
-
 use AppBundle\Command\Payroll\Utils\Ping;
 
 class MonthCommand extends Command
 {
-	private $emails;
-	private $month;
 	private $sender;
-	private $dataPath;
 
 	## members
-	private $mailer;
 	private $bus;
 	
-	public function __construct($mailer, $sender, $bus, $dataPath)
+	public function __construct($sender, $bus)
 	{
-		$this->mailer = $mailer;
 		$this->sender = $sender;
 		$this->bus = $bus;
-		$this->dataPath = $dataPath;
 		parent::__construct();
 	}
 	
@@ -46,7 +38,6 @@ class MonthCommand extends Command
         ;
     }
 	
-	
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 		$this->checkServer();
@@ -55,7 +46,6 @@ class MonthCommand extends Command
 		$this->bus->execute($command);
     }
 		
-	
 	public function checkServer()
 	{
 		if (!Ping::check('smtp.gmail.com')) {

@@ -2,9 +2,8 @@
 
 namespace Milhojas\Infrastructure\Mail;
 
-
 /**
-* Description
+* DTO to represent an email message
 */
 class MailMessage
 {

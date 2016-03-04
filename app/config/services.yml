@@ -48,22 +48,20 @@ services:
 # Management Payroll Command Handlers
     finder:
         class:          Symfony\Component\Finder\Finder
-    payroll_finder:
+    milhojas.payroll.finder:
         class:          Milhojas\Infrastructure\Persistence\Management\PayrollFinder
         arguments:      ["@finder"]
-    payroll_repository:
+    milhojas.payroll.dataparser:
+        class:          Milhojas\Infrastructure\Utilities\DataParser
+        arguments:      [['id', 'email', 'gender']]
+    milhojas.payroll.repository:
         class:          Milhojas\Infrastructure\Persistence\Management\FilePayrollRepository
-        arguments:      ["%payroll.dataPath%", "@payroll_finder"]
+        arguments:      ["%payroll.dataPath%", "@milhojas.payroll.finder", "@milhojas.payroll.dataparser"]
     send_payroll_handler:
         class:          Milhojas\Application\Management\SendPayrollHandler
-        arguments:      ['@payroll_repository', '@milhojas.mailer']
+        arguments:      ['@milhojas.payroll.repository', '@milhojas.mailer']
         
 # Payroll dependencies
-    payroll_send:
-        class:          AppBundle\Command\Payroll\SendCommand
-        arguments:      ["@mailer", "%payroll.sender%", "%payroll.report%", "%payroll.dataPath%"]
-        tags:
-             - {name: console.command}
     payroll_month:
         class:          AppBundle\Command\Payroll\MonthCommand
         arguments:      ["%payroll.sender%", "@command_bus"]

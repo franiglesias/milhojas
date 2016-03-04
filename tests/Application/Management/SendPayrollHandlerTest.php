@@ -37,8 +37,7 @@ class SendPayrollHandlerTest extends \PHPUnit_Framework_Testcase
 
 		$handler = new SendPayrollHandler(
 			$this->repository, 
-			$this->mailer,
-			new TemplatingStub()
+			$this->mailer
 		);
 
 		$handler->handle($command);

@@ -6,6 +6,7 @@ use Milhojas\Domain\Management\PayrollRepository;
 use Milhojas\Domain\Management\Payroll;
 use Milhojas\Infrastructure\Persistence\Management\PayrollFile;
 use Milhojas\Infrastructure\Persistence\Management\PayrollFinder;
+use Milhojas\Infrastructure\Utilities\DataParser;
 
 use Milhojas\Infrastructure\Persistence\Management\Exceptions as Exceptions;
 
@@ -22,15 +23,15 @@ class FilePayrollRepository implements PayrollRepository{
 	private $finder;
 	private $root;
 	private $data;
+
 	
-	public function __construct($root, PayrollFinder $finder)
+	public function __construct($root, PayrollFinder $finder, DataParser $parser)
 	{
 		$this->rootExistsInFileSystem($root);
 		$this->emailDataFileExistsInFileSystem($root);
-		$this->data = array();
-		
 		$this->root = $root;
-		$this->loadData($root.'/email.dat');
+		$this->data = $parser->asTab(file($this->root.'/email.dat'));
+		// $this->data = $parser->getData();
 		$this->finder = $finder;
 	}
 	
@@ -54,17 +55,6 @@ class FilePayrollRepository implements PayrollRepository{
 		}
 		$this->finder->getFiles($this->root.'/'.$month);
 		return $this->finder;
-	}
-	
-	private function loadData($path)
-	{
-		foreach (file($path) as $line) {
-			list($id, $email, $gender) = explode(chr(9), $line);
-			$this->data[$id] = array(
-				'email' => $email,
-				'gender' => $gender
-			);
-		}
 	}
 	
 	private function rootExistsInFileSystem($root)

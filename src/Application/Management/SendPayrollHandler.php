@@ -42,8 +42,9 @@ class SendPayrollHandler implements CommandHandler
 	private function sendEmail($payroll, $sender, $month)
 	{
 		return $this->mailer->sendWithTemplate(
+			$payroll->getTo(), 
 			$sender,
-			$payroll->getTo(), 'AppBundle:Management:payroll.email.twig',
+			'AppBundle:Management:payroll.email.twig',
 			array(
 				'payroll' => $payroll,
 				'month' => $month

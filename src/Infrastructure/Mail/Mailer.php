@@ -7,8 +7,9 @@ use Milhojas\Infrastructure\Mail\MailMessage;
 
 use Milhojas\Infrastructure\Templating\Templating;
 /**
-* Representes a Mailer Service that send emails messages using a Mail Engine and Templating system
+* A Mailer Service that can send email messages using a Mail Engine and a Templating system
 */
+
 class Mailer
 {
 	private $engine;

@@ -7,6 +7,7 @@ use Milhojas\Infrastructure\Persistence\Management\PayrollFile;
 use Tests\Infrastructure\Persistence\Management\Fixtures\PayrollFileSystem; 
 
 use Milhojas\Infrastructure\Persistence\Management\PayrollFinder;
+use Milhojas\Infrastructure\Utilities\DataParser;
 use Milhojas\Infrastructure\Persistence\Management\Exceptions\InvalidPayrollData;
 use Symfony\Component\Finder\Finder;
 
@@ -16,16 +17,20 @@ use org\bovigo\vfs\vfsStream;
 class FilePayrollRepositoryTest extends \PHPUnit_Framework_Testcase
 {
     private $root;
+	private $finder;
+	private $parser;
 
     public function setUp()
     {
 		$this->root = (new PayrollFileSystem())->get();
+		$this->finder = new PayrollFinder(new Finder());
+		$this->parser = new DataParser(['id', 'email', 'gender']);
     }
 	
 	public function test_it_can_find_the_files()
 	{
 		$pathThatHasFiles = vfsStream::url('root/payroll');
-		$repository = new FilePayrollRepository($pathThatHasFiles, new PayrollFinder(new Finder()));
+		$repository = new FilePayrollRepository($pathThatHasFiles, $this->finder, $this->parser);
 		$this->assertEquals(3, iterator_count($repository->getFiles('test')));
 	}
 	
@@ -34,7 +39,7 @@ class FilePayrollRepositoryTest extends \PHPUnit_Framework_Testcase
 		$dataPath = vfsStream::url('root/payroll');
 		$filepath = vfsStream::url('root/payroll/test/01_nombre_(apellido1 apellido2, nombre1 nombre2)_empresa_22308_trabajador_130496_010216_mensual.pdf');
 		
-		$repository = new FilePayrollRepository($dataPath, new PayrollFinder(new Finder()));
+		$repository = new FilePayrollRepository($dataPath, $this->finder, $this->parser);
 		
 		$payroll = $repository->get(new PayrollFile(new \SplFileInfo($filepath)));
 		$this->assertInstanceOf('Milhojas\Domain\Management\Payroll', $payroll);
@@ -48,7 +53,7 @@ class FilePayrollRepositoryTest extends \PHPUnit_Framework_Testcase
 	public function test_it_throws_exception_if_invalid_root()
 	{
 		$pathThatDoesNotExists = vfsStream::url('root/alt');
-		$repository = new FilePayrollRepository($pathThatDoesNotExists, new PayrollFinder(new Finder()));
+		$repository = new FilePayrollRepository($pathThatDoesNotExists, $this->finder, $this->parser);
 	}
 
 	/**
@@ -57,7 +62,7 @@ class FilePayrollRepositoryTest extends \PHPUnit_Framework_Testcase
 	public function test_it_throws_exception_if_no_email_data_file_if_found()
 	{
 		$pathThatDoesNotHaveEmailDataFile = vfsStream::url('root/alternative');
-		$repository = new FilePayrollRepository($pathThatDoesNotHaveEmailDataFile, new PayrollFinder(new Finder()));
+		$repository = new FilePayrollRepository($pathThatDoesNotHaveEmailDataFile, $this->finder, $this->parser);
 	}
 
 	/**
@@ -66,7 +71,7 @@ class FilePayrollRepositoryTest extends \PHPUnit_Framework_Testcase
 	public function test_it_throws_exception_if_no_folder_for_month_is_found()
 	{
 		$pathThatHasFiles = vfsStream::url('root/payroll');
-		$repository = new FilePayrollRepository($pathThatHasFiles, new PayrollFinder(new Finder()));
+		$repository = new FilePayrollRepository($pathThatHasFiles, $this->finder, $this->parser);
 		$repository->getFiles('badmonth');
 	}
 	

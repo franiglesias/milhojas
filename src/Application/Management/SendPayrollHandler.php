@@ -51,14 +51,24 @@ class SendPayrollHandler implements CommandHandler
 			'month' => $month
 		);
 
-		$message = \Swift_Message::newInstance()
+		// $message = \Swift_Message::newInstance()
+		// 	->setSubject($template->renderBlock('subject',   $parameters))
+		// 	->setFrom($sender)
+		// 	->setReplyTo(key($sender))
+		// 	->setTo($payroll->getTo())
+		// 	->setBody($template->renderBlock('body_text', $parameters))
+		// 	->addPart($template->renderBlock('body_html', $parameters), 'text/html')
+		// 	->attach(\Swift_Attachment::fromPath($payroll->getFile()));
+
+		$message = new \Milhojas\Infrastructure\Mail\MailMessage();
+		$message
 			->setSubject($template->renderBlock('subject',   $parameters))
-			->setFrom($sender)
+			->setSender($sender)
 			->setReplyTo(key($sender))
 			->setTo($payroll->getTo())
 			->setBody($template->renderBlock('body_text', $parameters))
 			->addPart($template->renderBlock('body_html', $parameters), 'text/html')
-			->attach(\Swift_Attachment::fromPath($payroll->getFile()));
+			->attach($payroll->getFile());
 		
 		
 		return $this->mailer->send($message);

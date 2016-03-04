@@ -39,7 +39,7 @@ class MailMessage
 	}
 	
 	public function setReplyTo($replyTo) {
-		$this->$replyTo;
+		$this->replyTo = $replyTo;
 		return $this;
 	}
 	public function getReplyTo()
@@ -48,7 +48,7 @@ class MailMessage
 	}
 	
 	public function setTo($to) {
-		$this->$to;
+		$this->to = $to;
 		return $this;
 	}
 	public function getTo()
@@ -66,7 +66,7 @@ class MailMessage
 	}
 	
 	public function addPart($part, $type) {
-		$this->parts[] = array($part, $type);
+		$this->parts[] = array('part' => $part, 'type' => $type);
 		return $this;
 	}
 	

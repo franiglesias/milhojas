@@ -7,7 +7,7 @@ use Milhojas\Infrastructure\Mail\MailMessage;
 /**
 * Simulates a Simple Mailer
 */
-class MailerStub implements Mailer
+class MailerStub
 {
 	private $times;
 	private $message;

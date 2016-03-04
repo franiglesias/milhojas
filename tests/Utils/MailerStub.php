@@ -38,6 +38,19 @@ class MailerStub
 	{
 		return new MessageAdapter();
 	}
+	
+	public function sendWithTemplate($to, $from, $template, $data, $attachments = array()) {
+		$message = new MailMessage();
+		$message
+			->setSubject('subject')
+			->setSender($from)
+			->setReplyTo(key($from))
+			->setTo($to)
+			->setBody('body part')
+			->addPart('html part', 'text/html')
+		;
+		return $this->send($message);
+	}
 }
 
 

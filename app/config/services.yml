@@ -35,12 +35,15 @@ services:
         arguments:      ["@post_repository"]
 
 # Mailer
+    email_templating:
+        class:          Milhojas\Infrastructure\Templating\Adapters\TwigTemplating
+        arguments:      ['@twig']
     milhojas.mailer.engine:
         class:          Milhojas\Infrastructure\Mail\Adapters\SwiftMailerEngineAdapter
         arguments:      ['@mailer']
     milhojas.mailer:
         class:          Milhojas\Infrastructure\Mail\Mailer
-        arguments:      ['@milhojas.mailer.engine']
+        arguments:      ['@milhojas.mailer.engine', '@email_templating']
 
 # Management Payroll Command Handlers
     finder:
@@ -51,12 +54,9 @@ services:
     payroll_repository:
         class:          Milhojas\Infrastructure\Persistence\Management\FilePayrollRepository
         arguments:      ["%payroll.dataPath%", "@payroll_finder"]
-    email_templating:
-        class:          Milhojas\Infrastructure\Templating\Adapters\TwigTemplating
-        arguments:      ['@twig']
     send_payroll_handler:
         class:          Milhojas\Application\Management\SendPayrollHandler
-        arguments:      ['@payroll_repository', '@milhojas.mailer', '@email_templating']
+        arguments:      ['@payroll_repository', '@milhojas.mailer']
         
 # Payroll dependencies
     payroll_send:

@@ -23,11 +23,10 @@ class SendPayrollHandler implements CommandHandler
 	private $mailer;
 	private $templating;
 	
-	function __construct(PayrollRepository $repository, $mailer, Templating $templating)
+	function __construct(PayrollRepository $repository, $mailer)
 	{
 		$this->repository = $repository;
 		$this->mailer = $mailer;
-		$this->templating = $templating;
 	}
 	
 	public function handle(Command $command)
@@ -45,33 +44,15 @@ class SendPayrollHandler implements CommandHandler
 	
 	private function sendEmail($payroll, $sender, $month)
 	{
-		$template = $this->templating->loadTemplate('AppBundle:Management:payroll.email.twig');
-		$parameters  = array(
-		    'payroll' => $payroll,
-			'month' => $month
+		return $this->mailer->sendWithTemplate(
+			$sender,
+			$payroll->getTo(), 'AppBundle:Management:payroll.email.twig',
+			array(
+				'payroll' => $payroll,
+				'month' => $month
+			),
+			array($payroll->getFile())
 		);
-
-		// $message = \Swift_Message::newInstance()
-		// 	->setSubject($template->renderBlock('subject',   $parameters))
-		// 	->setFrom($sender)
-		// 	->setReplyTo(key($sender))
-		// 	->setTo($payroll->getTo())
-		// 	->setBody($template->renderBlock('body_text', $parameters))
-		// 	->addPart($template->renderBlock('body_html', $parameters), 'text/html')
-		// 	->attach(\Swift_Attachment::fromPath($payroll->getFile()));
-
-		$message = new \Milhojas\Infrastructure\Mail\MailMessage();
-		$message
-			->setSubject($template->renderBlock('subject',   $parameters))
-			->setSender($sender)
-			->setReplyTo(key($sender))
-			->setTo($payroll->getTo())
-			->setBody($template->renderBlock('body_text', $parameters))
-			->addPart($template->renderBlock('body_html', $parameters), 'text/html')
-			->attach($payroll->getFile());
-		
-		
-		return $this->mailer->send($message);
 	}
 	
 }

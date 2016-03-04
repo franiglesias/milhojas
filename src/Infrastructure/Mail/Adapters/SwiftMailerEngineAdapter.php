@@ -28,7 +28,7 @@ class SwiftMailerEngineAdapter implements MailerEngine {
 		foreach ($message->getAttachments() as $attachment) {
 			$swiftMessage->attach(\Swift_Attachment::fromPath($attachment));
 		}
-		$this->swift->send($swiftMessage);
+		return $this->swift->send($swiftMessage);
 	}
 	
 }

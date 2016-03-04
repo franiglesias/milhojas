@@ -26,7 +26,7 @@ class DataParser
 	
 	public function setId($field)
 	{
-		if (! in_array($field, $this->fields) {
+		if (! in_array($field, $this->fields)) {
 			throw new \InvalidArgumentException(sprintf('Field %s is not defined.', $field), 1);
 		}
 		$this->id = $field;

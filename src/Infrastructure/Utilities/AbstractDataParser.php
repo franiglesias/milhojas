@@ -7,10 +7,10 @@ namespace Milhojas\Infrastructure\Utilities;
 * null fields are skipped
 * use first field as id field by default
 */
-class DataParser
+abstract class AbstractDataParser
 {
-	private $fields;
-	private $id;
+	protected $fields;
+	protected $id;
 	
 	function __construct(array $fields = array())
 	{
@@ -32,20 +32,26 @@ class DataParser
 		$this->id = $field;
 	}
 	
-	public function asTab(array $data)
+	public function parse(array $data)
 	{
 		$tab = array();
 		foreach ($data as $line) {
-			$parsed = array_combine($this->fields, explode(chr(9), $line));
-			$parsed = $this->removeUndesiredFields($parsed);
+			$parsed = $this->assignFields($this->parseLine($line));
 			$tab[$parsed[$this->id]] = $parsed;
 		}
 		return $tab;
 	}
 	
-	private function removeUndesiredFields($data)
+	abstract protected function parseLine($line);
+	
+	private function assignFields($parsedLine)
 	{
-		return array_filter($data, function($key) {
+		return $this->removeUndesiredFileds(array_combine($this->fields, $parsedLine));
+	}
+	
+	private function removeUndesiredFileds($row)
+	{
+		return array_filter($row, function($key) {
 				return !empty($key);
 			}, ARRAY_FILTER_USE_KEY);
 	}

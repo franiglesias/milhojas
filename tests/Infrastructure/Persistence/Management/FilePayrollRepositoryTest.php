@@ -7,7 +7,7 @@ use Milhojas\Infrastructure\Persistence\Management\PayrollFile;
 use Tests\Infrastructure\Persistence\Management\Fixtures\PayrollFileSystem; 
 
 use Milhojas\Infrastructure\Persistence\Management\PayrollFinder;
-use Milhojas\Infrastructure\Utilities\DataParser;
+use Milhojas\Infrastructure\Utilities\TabDataParser;
 use Milhojas\Infrastructure\Persistence\Management\Exceptions\InvalidPayrollData;
 use Symfony\Component\Finder\Finder;
 
@@ -24,7 +24,7 @@ class FilePayrollRepositoryTest extends \PHPUnit_Framework_Testcase
     {
 		$this->root = (new PayrollFileSystem())->get();
 		$this->finder = new PayrollFinder(new Finder());
-		$this->parser = new DataParser(['id', 'email', 'gender']);
+		$this->parser = new TabDataParser(['id', 'email', 'gender']);
     }
 	
 	public function test_it_can_find_the_files()

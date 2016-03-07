@@ -3,7 +3,7 @@
 
 namespace Tests\Infrastructure\Utilities;
 
-use Milhojas\Infrastructure\Utilities\DataParser;
+use Milhojas\Infrastructure\Utilities\TabDataParser;
 
 /**
 * Description
@@ -25,8 +25,8 @@ class DataParserTest extends \PHPUnit_Framework_Testcase
 			'3' => array('id' => 3, 'name' => 'Name 3', 'lastname' => 'LastName 3', 'code' => 'ghi'),
 		);
 		
-		$parser = new DataParser(['id', 'name', 'lastname', 'code']);
-		$this->assertEquals($expected, $parser->asTab($data));
+		$parser = new TabDataParser(['id', 'name', 'lastname', 'code']);
+		$this->assertEquals($expected, $parser->parse($data));
 		
 	}
 	
@@ -44,8 +44,8 @@ class DataParserTest extends \PHPUnit_Framework_Testcase
 			'3' => array('id' => 3, 'name' => 'Name 3', 'code' => 'ghi'),
 		);
 		
-		$parser = new DataParser(['id', 'name', null, 'code']);
-		$this->assertEquals($expected, $parser->asTab($data));
+		$parser = new TabDataParser(['id', 'name', null, 'code']);
+		$this->assertEquals($expected, $parser->parse($data));
 		
 	}
 	
@@ -64,10 +64,21 @@ class DataParserTest extends \PHPUnit_Framework_Testcase
 			'ghi' => array('id' => 3, 'name' => 'Name 3', 'lastname' => 'LastName 3', 'code' => 'ghi'),
 		);
 		
-		$parser = new DataParser(['id', 'name', 'lastname', 'code']);
+		$parser = new TabDataParser(['id', 'name', 'lastname', 'code']);
 		$parser->setId('code');
-		$this->assertEquals($expected, $parser->asTab($data));
+		$this->assertEquals($expected, $parser->parse($data));
 		
 	}
+	
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function test_it_throws_exception_if_invalid_id_field_is_specified()
+	{
+		$parser = new TabDataParser(['id', 'name', 'lastname', 'code']);
+		$parser->setId('fake');
+		
+	}
+	
 }
 ?>

@@ -8,7 +8,7 @@ use Milhojas\Infrastructure\Utilities\TabDataParser;
 /**
 * Description
 */
-class DataParserTest extends \PHPUnit_Framework_Testcase
+class TabDataParserTest extends \PHPUnit_Framework_Testcase
 {
 
 	public function test_it_parses_tabular_data()

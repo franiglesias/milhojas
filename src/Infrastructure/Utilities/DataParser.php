@@ -5,7 +5,8 @@ namespace Milhojas\Infrastructure\Utilities;
 /**
 * A simple configurable Data Parser. Accepts a list of fields that describe the structure of the file
 * null fields are skipped
-* use first field as id field by default
+* use first field as id field by default, or setId($field) with a existent field
+* Extend with a template method pattern
 */
 abstract class DataParser
 {

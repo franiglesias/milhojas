@@ -3,12 +3,12 @@
 
 namespace Milhojas\Infrastructure\Utilities;
 
-use Milhojas\Infrastructure\Utilities\AbstractDataParser;
+use Milhojas\Infrastructure\Utilities\DataParser;
 
 /**
 * Description
 */
-class CSVDataParser extends AbstractDataParser
+class CSVDataParser extends DataParser
 {
 	public function parseLine($line)
 	{

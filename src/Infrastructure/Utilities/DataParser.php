@@ -7,7 +7,7 @@ namespace Milhojas\Infrastructure\Utilities;
 * null fields are skipped
 * use first field as id field by default
 */
-abstract class AbstractDataParser
+abstract class DataParser
 {
 	protected $fields;
 	protected $id;

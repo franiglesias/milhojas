@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Command\Payroll\Utils;
+namespace Milhojas\Library\System;
 
 class Ping {
 	static function check($host)

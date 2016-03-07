@@ -31,7 +31,6 @@ class FilePayrollRepository implements PayrollRepository{
 		$this->emailDataFileExistsInFileSystem($root);
 		$this->root = $root;
 		$this->data = $parser->asTab(file($this->root.'/email.dat'));
-		// $this->data = $parser->getData();
 		$this->finder = $finder;
 	}
 	

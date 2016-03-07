@@ -6,7 +6,7 @@ use Milhojas\Library\CommandBus\Command;
 use Milhojas\Library\CommandBus\CommandHandler;
 
 use Milhojas\Infrastructure\Persistence\Management\PayrollFile;
-// use Milhojas\Infrastructure\Persistence\Management\Exceptions\MalformedPayrollFileName;
+use Milhojas\Infrastructure\Mail\MailMessage;
 
 # Contracts
 
@@ -41,16 +41,13 @@ class SendPayrollHandler implements CommandHandler
 	
 	private function sendEmail($payroll, $sender, $month)
 	{
-		return $this->mailer->sendWithTemplate(
-			$payroll->getTo(), 
-			$sender,
-			'AppBundle:Management:payroll.email.twig',
-			array(
-				'payroll' => $payroll,
-				'month' => $month
-			),
-			array($payroll->getFile())
-		);
+		$message = new MailMessage();
+		$message
+			->setTo($payroll->getTo())
+			->setSender($sender)
+			->setTemplate('AppBundle:Management:payroll.email.twig', array('payroll' => $payroll, 'month' => $month))
+			->attach($payroll->getFile()); 
+		return $this->mailer->send($message);
 	}
 	
 }

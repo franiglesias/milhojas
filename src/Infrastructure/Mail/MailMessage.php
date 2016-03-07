@@ -3,7 +3,7 @@
 namespace Milhojas\Infrastructure\Mail;
 
 /**
-* DTO to represent an email message
+* DTO to represent an email message that can use a template
 */
 class MailMessage
 {
@@ -13,6 +13,9 @@ class MailMessage
 	private $to;
 	private $parts;
 	private $attachments;
+	private $body;
+	private $template;
+	private $data;
 	
 	public function __construct()
 	{
@@ -83,6 +86,20 @@ class MailMessage
 		return $this->attachments;
 	}
 	
+	public function setTemplate($template, array $data = array())
+	{
+		$this->template = $template;
+		$this->data = $data;
+		return $this;
+	}
+	public function getTemplate()
+	{
+		return $this->template;
+	}
+	public function getData()
+	{
+		return $this->data;
+	}
 	
 }
 

@@ -41,9 +41,12 @@ services:
     milhojas.mailer.engine:
         class:          Milhojas\Infrastructure\Mail\Adapters\SwiftMailerEngineAdapter
         arguments:      ['@mailer']
+    milhojas.mailer.basic:
+        class:          Milhojas\Infrastructure\Mail\Mailers\BasicMailer
+        arguments:      ['@milhojas.mailer.engine']
     milhojas.mailer:
-        class:          Milhojas\Infrastructure\Mail\Mailer
-        arguments:      ['@milhojas.mailer.engine', '@milhojas.templating.engine']
+        class:          Milhojas\Infrastructure\Mail\Mailers\TemplateMailer
+        arguments:      ['@milhojas.mailer.basic', '@milhojas.templating.engine']
 
 # Management Payroll Command Handlers
     finder:

@@ -64,7 +64,7 @@ services:
         class:          Milhojas\Application\Management\SendPayrollHandler
         arguments:      ['@milhojas.payroll.repository', '@milhojas.mailer']
         
-# Payroll dependencies
+# Payroll command
     payroll_month:
         class:          AppBundle\Command\Payroll\MonthCommand
         arguments:      ["%payroll.sender%", "@command_bus"]

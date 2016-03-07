@@ -35,18 +35,26 @@ class PrinterCommand extends Command
 	
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-		// $page = file_get_contents($this->url);
-		// $this->extractTrayInfo($page, 1);
 		if(Ping::isListening('miralba.org')) {
 			$output->writeln('Server is up');
 		}
+		$page = file_get_contents($this->url);
+		if ($this->extractSAT($page)) {
+			$output->writeln('Printer needs SAT.');
+		}
+		$output->writeln('Tray 1 '.$this->extractTrayInfo($page, 1));
+	}
+	
+	private function extractSAT($page)
+	{
+		return preg_match('/\/images\/deviceStScall16.gif/', $page, $matches) > 0;
 	}
 	
 	private function extractTrayInfo($page, $tray = 1)
 	{
-		$crawler = new Crawler($page);
-		$crawler = $crawler->filter('tr.staticProp td');
-		print_r($crawler);
+		preg_match('/Bandeja '.$tray.'.*StP(.*)16/', $page, $matches);
+		var_dump($matches);
+		// return $matches[1];
 	}
 }
 

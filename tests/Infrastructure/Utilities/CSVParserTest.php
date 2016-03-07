@@ -18,48 +18,40 @@ class CSVDataParserTest extends \PHPUnit_Framework_Testcase
 			'"3","Name 3","LastName 3","ghi"'
 		);
 	}
+	
 	public function test_it_parses_tabular_data()
 	{
-		
 		$expected = array(
 			'1' => array('id' => 1, 'name' => 'Name', 'lastname' => 'LastName', 'code' => 'abc'),
 			'2' => array('id' => 2, 'name' => 'Name 2', 'lastname' => 'LastName 2', 'code' => 'def'),
 			'3' => array('id' => 3, 'name' => 'Name 3', 'lastname' => 'LastName 3', 'code' => 'ghi'),
 		);
-		
 		$parser = new CSVDataParser(['id', 'name', 'lastname', 'code']);
 		$this->assertEquals($expected, $parser->parse($this->getData()));
-		
 	}
 	
 	public function test_it_can_ignore_fields()
 	{
-		
 		$expected = array(
 			'1' => array('id' => 1, 'name' => 'Name', 'code' => 'abc'),
 			'2' => array('id' => 2, 'name' => 'Name 2', 'code' => 'def'),
 			'3' => array('id' => 3, 'name' => 'Name 3', 'code' => 'ghi'),
 		);
-		
 		$parser = new CSVDataParser(['id', 'name', null, 'code']);
 		$this->assertEquals($expected, $parser->parse($this->getData()));
-		
 	}
 	
 	
 	public function test_it_parses_tabular_data_changing_id_field()
 	{
-		
 		$expected = array(
 			'abc' => array('id' => 1, 'name' => 'Name', 'lastname' => 'LastName', 'code' => 'abc'),
 			'def' => array('id' => 2, 'name' => 'Name 2', 'lastname' => 'LastName 2', 'code' => 'def'),
 			'ghi' => array('id' => 3, 'name' => 'Name 3', 'lastname' => 'LastName 3', 'code' => 'ghi'),
 		);
-		
 		$parser = new CSVDataParser(['id', 'name', 'lastname', 'code']);
 		$parser->setId('code');
 		$this->assertEquals($expected, $parser->parse($this->getData()));
-		
 	}
 	
 	/**

@@ -3,10 +3,12 @@
 namespace Milhojas\Infrastructure\Utilities;
 
 /**
-* A simple configurable Data Parser. Accepts a list of fields that describe the structure of the file
-* null fields are skipped
-* use first field as id field by default, or setId($field) with a existent field
-* Extend with a template method pattern
+* A simple configurable Data Parser. 
+* Parses an array of data. Every element is a "row" that can be parsed
+* Constructor accepts a list of fields that describe the structure of the columns, null fields are skipped
+* By default it uses the first field as the id field by default, or setId($field) with a existent field
+* 
+* Extend with template method pattern
 */
 abstract class DataParser
 {
@@ -47,14 +49,16 @@ abstract class DataParser
 	
 	private function assignFields($parsedLine)
 	{
-		return $this->removeUndesiredFileds(array_combine($this->fields, $parsedLine));
+		return $this->removeUndesiredFields(array_combine($this->fields, $parsedLine));
 	}
 	
-	private function removeUndesiredFileds($row)
+	private function removeUndesiredFields($row)
 	{
-		return array_filter($row, function($key) {
-				return !empty($key);
-			}, ARRAY_FILTER_USE_KEY);
+		$removeEmptyKeys = function (&$value, $key) {
+			$value = trim($value);
+			return !empty($key);
+		};
+		return array_filter($row, $removeEmptyKeys, ARRAY_FILTER_USE_BOTH);
 	}
 	
 	private function fieldExists($field)

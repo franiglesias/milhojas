@@ -7,7 +7,6 @@ use Tests\Utils\TemplateStub;
 
 class TemplatingStub implements Templating {
 	
-	
 	public function loadTemplate($template)
 	{
 		return new TemplateStub($template);

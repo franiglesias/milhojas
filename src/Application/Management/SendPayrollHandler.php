@@ -7,6 +7,7 @@ use Milhojas\Library\CommandBus\CommandHandler;
 
 use Milhojas\Infrastructure\Persistence\Management\PayrollFile;
 use Milhojas\Infrastructure\Mail\MailMessage;
+use Milhojas\Infrastructure\Mail\Mailer;
 
 # Contracts
 
@@ -23,7 +24,7 @@ class SendPayrollHandler implements CommandHandler
 	private $mailer;
 	private $templating;
 	
-	function __construct(PayrollRepository $repository, $mailer)
+	function __construct(PayrollRepository $repository, Mailer $mailer)
 	{
 		$this->repository = $repository;
 		$this->mailer = $mailer;

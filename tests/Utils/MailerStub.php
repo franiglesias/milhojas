@@ -7,7 +7,7 @@ use Milhojas\Infrastructure\Mail\MailMessage;
 /**
 * Simulates a Simple Mailer
 */
-class MailerStub
+class MailerStub implements Mailer
 {
 	private $times;
 	private $message;
@@ -18,6 +18,8 @@ class MailerStub
 		$this->message = array_merge((array)$this->message, $message->getTo());
 		return true;
 	}
+	
+	# Test spy
 	
 	public function getTimesCalled()
 	{
@@ -34,80 +36,6 @@ class MailerStub
 		return isset($this->message[$email]);
 	}
 	
-	public function newMessage()
-	{
-		return new MessageAdapter();
-	}
-	
-	public function sendWithTemplate($to, $from, $template, $data, $attachments = array()) {
-		$message = new MailMessage();
-		$message
-			->setSubject('subject')
-			->setSender($from)
-			->setReplyTo(key($from))
-			->setTo($to)
-			->setBody('body part')
-			->addPart('html part', 'text/html')
-		;
-		return $this->send($message);
-	}
-}
-
-
-
-/**
-* Description
-*/
-class MessageAdapter
-{
-	private $message;
-	
-	public function __construct()
-	{
-	}
-
-	static public function newInstance()
-	{
-		return new static ();
-	}
-	
-	public function setSubject($subject) {
-		$this->subject = $subject;
-		return $this;
-	}
-	
-	public function setFrom($sender) {
-		$this->sender = $sender;
-		return $this;
-	}
-	
-	public function setReplyTo($replyTo) {
-		$this->replyto = $replyTo;
-		return $this;
-	}
-	
-	public function setTo($to) {
-		$this->to = $to;
-		return $this;
-	}
-	
-	public function setBody($body) {
-		$this->body = $body;
-		return $this;
-	}
-	
-	public function addPart($part, $type) {
-		return $this;
-	}
-	
-	public function attach($path) {
-		return $this;
-	}
-	
-	public function getTo()
-	{
-		return $this->to;
-	}
 	
 }
 

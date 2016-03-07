@@ -11,7 +11,7 @@ use Symfony\Component\Console\Helper\ProgressBar;
 
 use Symfony\Component\DomCrawler\Crawler;
 
-use AppBundle\Command\Payroll\Utils\Ping;
+use Milhojas\Library\System\Ping;
 /**
 * Description
 */

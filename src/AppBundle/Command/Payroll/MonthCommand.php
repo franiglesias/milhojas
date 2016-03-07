@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
 
-use AppBundle\Command\Payroll\Utils\Ping;
+use Milhojas\Library\System\Ping;
 
 class MonthCommand extends Command
 {

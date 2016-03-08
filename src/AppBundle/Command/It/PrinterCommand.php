@@ -42,7 +42,14 @@ class PrinterCommand extends Command
 		if ($this->extractSAT($page)) {
 			$output->writeln('Printer needs SAT.');
 		}
-		$output->writeln('Tray 1 '.$this->extractTrayInfo($page, 1));
+		for ($i=0; $i <= 4; $i++) { 
+			$output->writeln('Tray '.($i+1).': '.$this->extractTrayInfo($page, $i));
+		}
+		$messages = array(0 => 'Reemplazar', 1 => 'Bajo', 2=> 'Medio bajo', 3 =>'Medio', 4 => 'Alto', 5 => 'Lleno'); 
+		foreach (array('K' => 'Negro', 'M' => 'Magenta', 'C' => 'Cyan', 'Y' => 'Amarillo') as $color => $name) {
+			$result = $this->extractTonerInfo($page, $color);
+			$output->writeln('Color: '.$name.': '.$messages[$result]);
+		}
 	}
 	
 	private function extractSAT($page)
@@ -50,11 +57,16 @@ class PrinterCommand extends Command
 		return preg_match('/\/images\/deviceStScall16.gif/', $page, $matches) > 0;
 	}
 	
-	private function extractTrayInfo($page, $tray = 1)
+	private function extractTrayInfo($page, $tray)
 	{
-		preg_match('/Bandeja '.$tray.'.*StP(.*)16/', $page, $matches);
-		var_dump($matches);
-		// return $matches[1];
+		preg_match_all('/deviceStP(.+?)_?16\.gif/', $page, $matches);
+		return $matches[1][$tray];
+	}
+	
+	public function extractTonerInfo($page, $color)
+	{
+		preg_match_all('/deviceStToner('.$color.')\.gif/', $page, $matches);
+		return count($matches[1]);
 	}
 }
 

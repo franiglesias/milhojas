@@ -11,7 +11,7 @@ class Ping {
 	
 	static function isListening($host, $port=80, $timeout=6)
 	{
-        if (! fsockopen($host, $port, $errno, $errstr, $timeout) )
+        if (! @fsockopen($host, $port, $errno, $errstr, $timeout) )
         {
             return FALSE;
         }

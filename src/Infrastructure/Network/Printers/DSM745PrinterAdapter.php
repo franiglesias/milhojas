@@ -2,78 +2,34 @@
 
 namespace Milhojas\Infrastructure\Network\Printers;
 
-use Milhojas\Infrastructure\Network\NetworkPrinter;
+use Milhojas\Library\ValueObjects\Technical\Ip;
+use Milhojas\Infrastructure\Network\Printers\AbstractPrinterAdapter;
 
 /**
 * Printer Adapter for Ricoh DSM-745
 */
-class DSM745PrinterAdapter implements PrinterAdapter
+class DSM745PrinterAdapter extends AbstractPrinterAdapter
 {
-	private $page;
-	private $trays;
+	const URL = '/web/guest/es/websys/webArch/topPage.cgi';
 	
-	private $details;
-	
-	function __construct($url, $trays)
+	protected function detectFail()
 	{
-		$this->page = file_get_contents('http://'.$url); 
-		$this->trays = $trays;
-		$this->details = array();
+		return !empty($this->guessServiceCode());
 	}
 	
-	public function needsToner()
-	{
-		$needsToner = false;
-		foreach (array('K') as $color) {
-			if ($this->tonerLevelForColor($color) <= 1) {
-				$this->details[] = sprintf('Replace toner for color %s', $color);
-				$needsToner = true;
-			}
-		}
-		return $needsToner;
-	}
-	
-	public function needsPaper()
-	{
-		$needsPaper = false;
-		for ($tray=1; $tray <= $this->trays; $tray++) { 
-			if ($this->paperLevelForTray($tray) <= 1) {
-				$this->details[] = sprintf('Put paper in tray %s', $tray);
-				$needsPaper = true;
-			}
-		}
-		return $needsPaper;
-	}
-	
-	public function needsService()
-	{
-		$needsService = false;
-		if (preg_match('/\/images\/deviceStScall16.gif/', $this->page, $matches) > 0) {
-			$needsService = true;
-			$this->details[] = sprintf('Printer needs Service with errors: %s', $this->guessServiceCode());
-		}
-		return $needsService;
-	}
-	
-	public function getDetails()
-	{
-		return $this->details;
-		return implode(chr(10), $this->details);
-	}
-	
-	private function guessServiceCode()
+	protected function guessServiceCode()
 	{ 
 		preg_match_all('/SC\d+/', $this->page, $matches);
 		return implode(', ', $matches[0]);
 	}
 	
-	private function tonerLevelForColor($color)
+	protected function tonerLevelForColor($color)
 	{
-		preg_match_all('/\/images\/tonner_no\.gif/', $this->page, $matches);
+		preg_match_all('/\/images\/tonner_on\.gif/', $this->page, $matches);
 		return count($matches[0]);
 	}
 	
-	private function paperLevelForTray($tray)
+	protected function paperLevelForTray($tray)
 	{
 		preg_match_all('/iconk(\d\d)-ss\.gif/', $this->page, $matches);
 		switch ($matches[1][$tray]) {

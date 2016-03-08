@@ -4,24 +4,25 @@ namespace Milhojas\Infrastructure\Network\Printers;
 
 use Milhojas\Infrastructure\Network\NetworkPrinter;
 use Milhojas\Library\ValueObjects\Technical\Ip;
+
 /**
-* Printer Adapter for Ricoh MP-C4500
+* Printer Adapter for Ricoh DSM-745
 */
-class MPC4500PrinterAdapter implements PrinterAdapter
+abstract class AbstractPrinterAdapter implements PrinterAdapter
 {
-	const URL = '/web/guest/es/websys/webArch/topPage.cgi';
-	private $page;
-	private $trays;
-	private $colors;
+	const URL = '';
+	protected $page;
+	protected $trays;
+	protected $colors;
 	
-	private $details;
+	protected $details;
 	
 	function __construct(Ip $ip, $trays, array $colors)
 	{
 		$this->page = file_get_contents('http://'.$ip->getIp().self::URL); 
 		$this->trays = $trays;
-		$this->colors = $colors;
 		$this->details = array();
+		$this->colors = $colors;
 	}
 	
 	public function needsToner()
@@ -50,7 +51,9 @@ class MPC4500PrinterAdapter implements PrinterAdapter
 	
 	public function needsService()
 	{
-		if ($needsService = preg_match('/\/images\/deviceStScall16.gif/', $this->page, $matches) > 0) {
+		$needsService = false;
+		if ($this->detectFail()) {
+			$needsService = true;
 			$this->details[] = sprintf('Printer needs Service with errors: %s', $this->guessServiceCode());
 		}
 		return $needsService;
@@ -59,46 +62,15 @@ class MPC4500PrinterAdapter implements PrinterAdapter
 	public function getDetails()
 	{
 		return $this->details;
-		return implode(chr(10), $this->details);
 	}
 	
-	private function guessServiceCode()
-	{
-		preg_match_all('/SC\d+/', $this->page, $matches);
-		return implode(', ', $matches[0]);
-	}
+	abstract protected function detectFail();
 	
-	private function tonerLevelForColor($color)
-	{
-		preg_match_all('/deviceStToner('.$color.')\.gif/', $this->page, $matches);
-		return count($matches[1]);
-	}
+	abstract protected function guessServiceCode();
 	
-	private function paperLevelForTray($tray)
-	{
-		preg_match_all('/deviceStP(.+?)_?16\.gif/', $this->page, $matches);
-		switch ($matches[1][$tray]) {
-			case 'end':
-				$level = 0;
-				break;
-			case 'Nend':
-				$level = 1;
-				break;
-			case '25':
-				$level = 2;
-				break;
-			case '50':
-				$level = 3;
-				break;
-			case '75':
-				$level = 4;
-				break;
-			default:
-				$level = 5;
-				break;
-		}
-		return $level;
-	}
+	abstract protected function tonerLevelForColor($color);
+	
+	abstract protected function paperLevelForTray($tray);
 	
 }
 

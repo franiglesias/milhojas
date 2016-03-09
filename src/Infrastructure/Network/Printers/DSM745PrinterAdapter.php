@@ -2,9 +2,11 @@
 
 namespace Milhojas\Infrastructure\Network\Printers;
 
-use Milhojas\Library\ValueObjects\Technical\Ip;
 use Milhojas\Infrastructure\Network\Printers\AbstractPrinterAdapter;
+use Milhojas\Infrastructure\Network\Printers\DSM745SupplyLevel;
 
+use Milhojas\Library\ValueObjects\Technical\Ip;
+use Milhojas\Library\ValueObjects\Technical\SupplyLevel;
 /**
 * Printer Adapter for Ricoh DSM-745
 */
@@ -25,34 +27,14 @@ class DSM745PrinterAdapter extends AbstractPrinterAdapter
 	
 	protected function tonerLevelForColor($color)
 	{
-		preg_match_all('/\/images\/tonner_on\.gif/', $this->page, $matches);
-		return count($matches[0]);
+		preg_match_all('/tonner_on\.gif/', $this->page, $matches);
+		return new SupplyLevel(count($matches[0]));
 	}
 	
 	protected function paperLevelForTray($tray)
 	{
 		preg_match_all('/iconk(\d\d)-ss\.gif/', $this->page, $matches);
-		switch ($matches[1][$tray]) {
-			case '06':
-				$level = 0;
-				break;
-			case '05':
-				$level = 1;
-				break;
-			case '04':
-				$level = 2;
-				break;
-			case '03':
-				$level = 3;
-				break;
-			case '02':
-				$level = 4;
-				break;
-			default:
-				$level = 5;
-				break;
-		}
-		return $level;
+		return new DSM745SupplyLevel($matches[1][$tray-1]);
 	}
 	
 }

@@ -4,6 +4,7 @@ namespace Milhojas\Infrastructure\Network\Printers;
 
 use Milhojas\Infrastructure\Network\NetworkPrinter;
 use Milhojas\Library\ValueObjects\Technical\Ip;
+use Milhojas\Library\ValueObjects\Technical\SupplyLevel;
 
 /**
 * Printer Adapter for Ricoh DSM-745
@@ -17,9 +18,10 @@ abstract class AbstractPrinterAdapter implements PrinterAdapter
 	
 	protected $details;
 	
-	function __construct(Ip $ip, $trays, array $colors)
+	function __construct($page, $trays, array $colors)
 	{
-		$this->page = file_get_contents('http://'.$ip->getIp().self::URL); 
+		// Use satic instead of self to get late static binding so we can override class constants
+		$this->page = $page; 
 		$this->trays = $trays;
 		$this->details = array();
 		$this->colors = $colors;
@@ -29,9 +31,9 @@ abstract class AbstractPrinterAdapter implements PrinterAdapter
 	{
 		$needsToner = false;
 		foreach ($this->colors as $color) {
-			if ($this->tonerLevelForColor($color) <= 1) {
-				$this->details[] = sprintf('Replace toner for color %s', $color);
+			if ($this->tonerLevelForColor($color)->shouldReplace()) {
 				$needsToner = true;
+				$this->recordThat(sprintf('Replace toner for color %s', $color));
 			}
 		}
 		return $needsToner;
@@ -41,9 +43,9 @@ abstract class AbstractPrinterAdapter implements PrinterAdapter
 	{
 		$needsPaper = false;
 		for ($tray=1; $tray <= $this->trays; $tray++) { 
-			if ($this->paperLevelForTray($tray) <= 1) {
-				$this->details[] = sprintf('Put paper in tray %s', $tray);
+			if ($this->paperLevelForTray($tray)->shouldReplace()) {
 				$needsPaper = true;
+				$this->recordThat(sprintf('Put paper in tray %s', $tray));
 			}
 		}
 		return $needsPaper;
@@ -54,7 +56,7 @@ abstract class AbstractPrinterAdapter implements PrinterAdapter
 		$needsService = false;
 		if ($this->detectFail()) {
 			$needsService = true;
-			$this->details[] = sprintf('Printer needs Service with errors: %s', $this->guessServiceCode());
+			$this->recordThat(sprintf('Printer needs Service with errors: %s', $this->guessServiceCode() ));
 		}
 		return $needsService;
 	}
@@ -62,6 +64,11 @@ abstract class AbstractPrinterAdapter implements PrinterAdapter
 	public function getDetails()
 	{
 		return $this->details;
+	}
+	
+	protected function recordThat($message)
+	{
+		$this->details[] = $message;
 	}
 	
 	abstract protected function detectFail();

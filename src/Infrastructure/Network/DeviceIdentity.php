@@ -5,14 +5,10 @@ namespace Milhojas\Infrastructure\Network;
 use Milhojas\Library\ValueObjects\Technical\Ip;
 use Milhojas\Library\ValueObjects\Technical\Vendor;
 
-
-use Milhojas\Library\System\Ping;
-
-
 /**
 * Description
 */
-class Device
+class DeviceIdentity
 {
 	protected $ip;
 	protected $name;

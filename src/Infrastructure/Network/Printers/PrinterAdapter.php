@@ -11,6 +11,8 @@ interface PrinterAdapter
 	public function needsPaper();
 	public function needsService();
 	public function getDetails();
+	public function requestStatus($tatus);
+	public function getReport();
 }
 
 ?>

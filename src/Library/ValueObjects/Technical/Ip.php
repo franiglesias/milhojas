@@ -8,11 +8,13 @@ namespace Milhojas\Library\ValueObjects\Technical;
 class Ip
 {
 	private $ip;
+	private $port;
 	
-	function __construct($ip)
+	function __construct($ip, $port = false)
 	{
 		$this->isValid($ip);
 		$this->ip = $ip;
+		$this->port = $port;
 	}
 	
 	public function getIp()
@@ -36,6 +38,21 @@ class Ip
 	{
 		exec(sprintf('ping -c 1 -W 5 %s', escapeshellarg($this->ip)), $res, $rval);
 		return $rval === 0;
+	}
+	
+	public function isListening()
+	{
+		if (!$this->port) {
+			return false;
+		}
+        if (! @fsockopen($this->ip, $this->port, $errno, $errstr, $timeout) )
+        {
+            return FALSE;
+        }
+        else
+        {
+            return TRUE;
+        }
 	}
 }
 

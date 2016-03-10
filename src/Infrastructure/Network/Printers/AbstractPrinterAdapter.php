@@ -70,16 +70,43 @@ abstract class AbstractPrinterAdapter implements PrinterAdapter, KnowsVendorInfo
 		return $needsService;
 	}
 	
+	public function getReport()
+	{
+		$report = array(sprintf('Status report for %s %s', static::VENDOR, static::MODEL));
+		return array_merge($report, $this->getTonerReport(), $this->getPaperReport());
+	}
+
+	private function getTonerReport()
+	{
+		$report = array('Toner report');
+		foreach ($this->colors as $color) {
+			$report[] = sprintf('Color %s level: %s', $color, $this->tonerLevelForColor($color)->getLevel());
+		}
+		return $report;
+	}
+
+	private function getPaperReport()
+	{
+		$report = array('Paper report');
+		for ($tray=1; $tray <= $this->trays; $tray++) { 
+			$report[] = sprintf('Paper tray %s level: %s', $tray, $this->paperLevelForTray($tray)->getLevel());
+		}
+		return $report;
+	}
+
+	
 	public function getDetails()
 	{
 		return $this->details;
 	}
+
 	
 	public function getVendor()
 	{
 		return new Vendor(static::VENDOR, static::MODEL);
 	}
 	
+
 	protected function recordThat($message)
 	{
 		$this->details[] = $message;

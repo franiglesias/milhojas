@@ -16,6 +16,7 @@ abstract class AbstractPrinterAdapter implements PrinterAdapter, KnowsVendorInfo
 	const URL = '';
 	const MODEL = '';
 	const VENDOR = '';
+	
 	protected $status;
 	protected $trays;
 	protected $colors;
@@ -106,6 +107,10 @@ abstract class AbstractPrinterAdapter implements PrinterAdapter, KnowsVendorInfo
 		return new Vendor(static::VENDOR, static::MODEL);
 	}
 	
+	public function getStatusUrl()
+	{
+		return static::URL;
+	}
 
 	protected function recordThat($message)
 	{

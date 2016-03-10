@@ -27,7 +27,7 @@ class Ip
 		return $this->ip;
 	}
 	
-	public function isValid($ip)
+	protected function isValid($ip)
 	{
 		if (filter_var($ip, FILTER_VALIDATE_IP) === false) {
 			throw new InvalidArgumentException(sprintf('%s is not a valid IP', $ip));

@@ -23,9 +23,19 @@ class DeviceIdentity
 		$this->vendor = $vendor;
 	}
 	
+	public function getIp()
+	{
+		return $this->ip->getIp();
+	}
+	
 	public function isUp()
 	{
 		return $this->ip->isUp();
+	}
+	
+	public function isListening()
+	{
+		return $this->ip->isListening();
 	}
 }
 

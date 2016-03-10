@@ -30,6 +30,11 @@ class PrinterDriver implements Driver
 	{
 		return $this->adapter->getReport();
 	}
+	
+	public function requestStatus(DeviceReporter $reporter)
+	{
+		$this->adapter->requestStatus($reporter->requestStatus($this->adapter->getStatusUrl()));
+	}
 }
 
 ?>

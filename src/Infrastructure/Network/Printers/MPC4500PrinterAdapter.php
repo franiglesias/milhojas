@@ -12,7 +12,9 @@ use Milhojas\Infrastructure\Network\Printers\MPC4500SupplyLevel;
 class MPC4500PrinterAdapter extends AbstractPrinterAdapter
 {
 	const URL = '/web/guest/es/websys/webArch/topPage.cgi';
-
+	const VENDOR = 'Ricoh';
+	const MODEL = 'MP-C4500';
+	
 	protected function detectFail()
 	{
 		return !empty($this->guessServiceCode());
@@ -20,19 +22,19 @@ class MPC4500PrinterAdapter extends AbstractPrinterAdapter
 	
 	protected function guessServiceCode()
 	{
-		preg_match_all('/SC\d+/', $this->page, $matches);
+		preg_match_all('/SC\d+/', $this->status, $matches);
 		return implode(', ', $matches[0]);
 	}
 	
 	protected function tonerLevelForColor($color)
 	{
-		preg_match_all('/deviceStToner('.$color.')\.gif/', $this->page, $matches);
+		preg_match_all('/deviceStToner('.$color.')\.gif/', $this->status, $matches);
 		return new SupplyLevel(count($matches[1]));
 	}
 	
 	protected function paperLevelForTray($tray)
 	{
-		preg_match_all('/deviceStP(.+?)_?16\.gif/', $this->page, $matches);
+		preg_match_all('/deviceStP(.+?)_?16\.gif/', $this->status, $matches);
 		return new MPC4500SupplyLevel($matches[1][$tray-1]);
 	}
 	

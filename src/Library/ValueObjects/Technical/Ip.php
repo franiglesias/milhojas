@@ -31,6 +31,12 @@ class Ip
 			throw new InvalidArgumentException(sprintf('%s is not a valid IP', $ip));
 		}
 	}
+	
+	public function isUp()
+	{
+		exec(sprintf('ping -c 1 -W 5 %s', escapeshellarg($this->ip)), $res, $rval);
+		return $rval === 0;
+	}
 }
 
 ?>

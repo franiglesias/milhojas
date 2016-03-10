@@ -21,9 +21,6 @@ class Device
 	
 	function __construct($name, $location, Ip $ip, Vendor $vendor)
 	{
-		if (! Ping::check($ip->getIp())) {
-			throw new \RuntimeException(sprintf('Device %s unavailable at IP: %s', $name, $ip), 1);
-		}
 		$this->ip = $ip;
 		$this->name = $name;
 		$this->location = $location;
@@ -32,7 +29,7 @@ class Device
 	
 	public function isUp()
 	{
-		return Ping::check($this->ip->getIp());
+		return $this->ip->isUp();
 	}
 }
 

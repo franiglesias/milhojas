@@ -3,28 +3,37 @@
 namespace Milhojas\Infrastructure\Network\Printers;
 
 use Milhojas\Infrastructure\Network\NetworkPrinter;
+use Milhojas\Infrastructure\Network\KnowsVendorInformation;
 use Milhojas\Library\ValueObjects\Technical\Ip;
+use Milhojas\Library\ValueObjects\Technical\Vendor;
 use Milhojas\Library\ValueObjects\Technical\SupplyLevel;
 
 /**
-* Printer Adapter for Ricoh DSM-745
+* Base printer adpter
 */
-abstract class AbstractPrinterAdapter implements PrinterAdapter
+abstract class AbstractPrinterAdapter implements PrinterAdapter, KnowsVendorInformation
 {
 	const URL = '';
-	protected $page;
+	const MODEL = '';
+	const VENDOR = '';
+	protected $status;
 	protected $trays;
 	protected $colors;
 	
 	protected $details;
 	
-	function __construct($page, $trays, array $colors)
+	function __construct($trays, array $colors)
 	{
 		// Use satic instead of self to get late static binding so we can override class constants
-		$this->page = $page; 
+		$this->status = ''; 
 		$this->trays = $trays;
 		$this->details = array();
 		$this->colors = $colors;
+	}
+	
+	public function requestStatus($status)
+	{
+		$this->status = $status;
 	}
 	
 	public function needsToner()
@@ -66,10 +75,17 @@ abstract class AbstractPrinterAdapter implements PrinterAdapter
 		return $this->details;
 	}
 	
+	public function getVendor()
+	{
+		return new Vendor(static::VENDOR, static::MODEL);
+	}
+	
 	protected function recordThat($message)
 	{
 		$this->details[] = $message;
 	}
+	
+	
 	
 	abstract protected function detectFail();
 	

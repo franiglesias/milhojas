@@ -50,8 +50,8 @@ class MPC4500PrinterAdapterTest extends \PHPUnit_Framework_Testcase
 	
 	public function test_it_works_ok()
 	{
-		$mock = $this->getFullWorking();
-		$printer = new MPC4500PrinterAdapter($mock->getData(), 4, ['K','C','M', 'K']);
+		$printer = new MPC4500PrinterAdapter(4, ['K','C','M', 'K']);
+		$printer->requestStatus($this->getFullWorking()->getData());
 		$this->assertFalse($printer->needsToner());
 		$this->assertFalse($printer->needsPaper());
 		$this->assertFalse($printer->needsService());
@@ -59,31 +59,30 @@ class MPC4500PrinterAdapterTest extends \PHPUnit_Framework_Testcase
 	
 	public function test_it_needs_toner()
 	{
-		// $page = file_get_contents('http://172.16.0.222'.MPC4500PrinterAdapter::URL);
-		$mock = $this->getNeedsToner();
-		$printer = new MPC4500PrinterAdapter($mock->getData(), 4, ['K','C','M', 'K']);
+		$printer = new MPC4500PrinterAdapter(4, ['K','C','M', 'K']);
+		$printer->requestStatus($this->getNeedsToner()->getData());
 		$this->assertTrue($printer->needsToner());
 	}
 	
 	public function test_it_needs_service()
 	{
-		$mock = $this->getNeedsService();
-		$printer = new MPC4500PrinterAdapter($mock->getData(), 4, ['K','C','M', 'K']);
-		$this->assertFalse($printer->needsService());
+		$printer = new MPC4500PrinterAdapter(4, ['K','C','M', 'K']);
+		$printer->requestStatus($this->getNeedsService()->getData());
+		$this->assertTrue($printer->needsService());
 	}
 	
 	public function test_it_needs_paper()
 	{
-		$mock = $this->getNeedsPaper();
-		$printer = new MPC4500PrinterAdapter($mock->getData(), 4, ['K','C','M', 'K']);
+		$printer = new MPC4500PrinterAdapter(4, ['K','C','M', 'K']);
+		$printer->requestStatus($this->getNeedsPaper()->getData());
 		$this->assertTrue($printer->needsPaper());
 		return $printer;
 	}
 
 	public function dont_test_it_returns_details()
 	{
-		$mock = $this->getNeedsPaper();
-		$printer = new MPC4500PrinterAdapter($mock->getData(), 4, ['K','C','M', 'K']);
+		$printer = new MPC4500PrinterAdapter(4, ['K','C','M', 'K']);
+		$printer->requestStatus($this->getFullWorking()->getData());
 		$this->assertTrue(!empty($printer->getDetails()));
 	}
 	

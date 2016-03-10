@@ -49,8 +49,8 @@ class DSM745PrinterAdapterTest extends \PHPUnit_Framework_Testcase
 	public function test_it_works_ok()
 	{
 		// $page = file_get_contents('http://172.16.0.224'.DSM745PrinterAdapter::URL);
-		$mock = $this->getFullWorking();
-		$printer = new DSM745PrinterAdapter($mock->getData(), 4, ['K']);
+		$printer = new DSM745PrinterAdapter(4, ['K']);
+		$printer->requestStatus($this->getFullWorking()->getData());
 		$this->assertFalse($printer->needsToner());
 		$this->assertFalse($printer->needsPaper());
 		$this->assertFalse($printer->needsService());
@@ -58,24 +58,31 @@ class DSM745PrinterAdapterTest extends \PHPUnit_Framework_Testcase
 	
 	public function test_it_needs_toner()
 	{
-		$mock = $this->getNeedsToner();
-		$printer = new DSM745PrinterAdapter($mock->getData(), 4, ['K']);
+		$printer = new DSM745PrinterAdapter(4, ['K']);
+		$printer->requestStatus($this->getNeedsToner()->getData());
 		$this->assertTrue($printer->needsToner());
 	}
 	public function test_it_needs_service()
 	{
-		$mock = $this->getNeedsService();
-		$printer = new DSM745PrinterAdapter($mock->getData(), 4, ['K']);
+		$printer = new DSM745PrinterAdapter(4, ['K']);
+		$printer->requestStatus($this->getNeedsService()->getData());
 		$this->assertTrue($printer->needsService());
 	}
 
 	public function test_it_needs_paper()
 	{
-		$mock = $this->getNeedsPaper();
-		$printer = new DSM745PrinterAdapter($mock->getData(), 4, ['K']);
+		$printer = new DSM745PrinterAdapter(4, ['K']);
+		$printer->requestStatus($this->getNeedsPaper()->getData());
 		$this->assertTrue($printer->needsPaper());
 	}
 
+	public function test_it_records_details()
+	{
+		$printer = new DSM745PrinterAdapter(4, ['K']);
+		$printer->requestStatus($this->getNeedsPaper()->getData());
+		$printer->needsPaper();
+		$this->assertFalse(empty($printer->getDetails()));
+	}
 
 }
 

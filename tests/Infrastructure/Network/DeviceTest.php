@@ -17,13 +17,6 @@ class DeviceTest extends \PHPUnit_Framework_Testcase
 		$this->assertTrue($device->isUp());
 	}
 	
-	/**
-	 * @expectedException RuntimeException
-	 */
-	public function test_it_throws_exception_if_device_is_not_up_in_the_network()
-	{
-		$device = new Device('Myself', 'Here', new Ip('127.0.30.1'), new Vendor('Apple', 'iMac'));
-	}
 }
 
 ?>

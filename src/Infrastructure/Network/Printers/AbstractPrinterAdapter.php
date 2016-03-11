@@ -25,7 +25,7 @@ abstract class AbstractPrinterAdapter implements PrinterAdapter, KnowsVendorInfo
 	
 	function __construct($trays, array $colors)
 	{
-		// Use satic instead of self to get late static binding so we can override class constants
+		// Use static instead of self to get late static binding so we can override class constants
 		$this->status = ''; 
 		$this->trays = $trays;
 		$this->details = array();

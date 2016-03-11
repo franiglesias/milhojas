@@ -3,10 +3,11 @@
 namespace Tests\Infrastructure\Network\Printers;
 
 use Milhojas\Infrastructure\Network\Printer;
+use Milhojas\Infrastructure\Network\Printers\PrinterConfiguration;
 use Milhojas\Infrastructure\Network\DeviceIdentity;
 use Milhojas\Library\ValueObjects\Technical\Ip;
 use Tests\Infrastructure\Network\Printers\Doubles\MockPrinterDriver;
-use Tests\Infrastructure\Network\Printers\Doubles\MockStatusLoader;
+use Tests\Infrastructure\Network\Printers\Doubles\MockStatus;
 
 /**
 * Description
@@ -17,8 +18,9 @@ class PrinterTest extends \PHPUnit_Framework_Testcase
 	{
 		$printer = new Printer(
 			new DeviceIdentity('Printer', 'Testing', new Ip('127.0.0.1')), 
-			MockStatusLoader::working(), 
-			new MockPrinterDriver(), 1, ['K']
+			MockStatus::working(), 
+			new MockPrinterDriver(),
+			new PrinterConfiguration (1, ['K'])
 		);
 		$this->assertFalse($printer->needsService());
 		$this->assertFalse($printer->needsSupplies());
@@ -28,8 +30,10 @@ class PrinterTest extends \PHPUnit_Framework_Testcase
 	{
 		$printer = new Printer(
 			new DeviceIdentity('Printer', 'Testing', new Ip('127.0.0.1')), 
-			MockStatusLoader::withoutPaper(), 
-			new MockPrinterDriver(), 1, ['K']
+			MockStatus::withoutPaper(), 
+			new MockPrinterDriver(),
+			new PrinterConfiguration (1, ['K'])
+
 		);
 		$this->assertTrue($printer->needsSupplies());
 	}
@@ -38,8 +42,10 @@ class PrinterTest extends \PHPUnit_Framework_Testcase
 	{
 		$printer = new Printer(
 			new DeviceIdentity('Printer', 'Testing', new Ip('127.0.0.1')), 
-			MockStatusLoader::withoutToner(), 
-			new MockPrinterDriver(), 1, ['K']
+			MockStatus::withoutToner(), 
+			new MockPrinterDriver(),
+			new PrinterConfiguration (1, ['K'])
+
 		);
 		$this->assertTrue($printer->needsSupplies());
 	}
@@ -48,21 +54,38 @@ class PrinterTest extends \PHPUnit_Framework_Testcase
 	{
 		$printer = new Printer(
 			new DeviceIdentity('Printer', 'Testing', new Ip('127.0.0.1')), 
-			MockStatusLoader::needingService(), 
-			new MockPrinterDriver(), 1, ['K']
+			MockStatus::needingService(), 
+			new MockPrinterDriver(),
+			new PrinterConfiguration (1, ['K'])
+
 		);
 		$this->assertTrue($printer->needsService());
 	}
 
-	public function test_it_know_when_is_down()
+	public function test_it_knows_when_is_down()
 	{
 		$printer = new Printer(
 			new DeviceIdentity('Printer', 'Testing', new Ip('127.0.0.1')), 
-			MockStatusLoader::needingService(), 
-			new MockPrinterDriver(), 1, ['K']
+			MockStatus::down(), 
+			new MockPrinterDriver(),
+			new PrinterConfiguration (1, ['K'])
+
 		);
 		$this->assertFalse($printer->isUp());
 	}
+	
+	public function test_it_knows_when_is_not_listening()
+	{
+		$printer = new Printer(
+			new DeviceIdentity('Printer', 'Testing', new Ip('127.0.0.1')), 
+			MockStatus::closed(), 
+			new MockPrinterDriver(),
+			new PrinterConfiguration (1, ['K'])
+
+		);
+		$this->assertFalse($printer->isListening());
+	}
+	
 }
 
 

@@ -2,21 +2,23 @@
 
 namespace Tests\Infrastructure\Network\Printers\Doubles;
 
-use Milhojas\Infrastructure\Network\StatusLoader;
+use Milhojas\Infrastructure\Network\DeviceStatus;
 
 /**
 * Description
 */
-class MockStatusLoader implements StatusLoader
+class MockStatus implements DeviceStatus
 {
 	private $status;
 	
-	function __construct($service, $toner, $paper)
+	function __construct($service, $toner, $paper, $up = true, $listening = true)
 	{
 		$this->status = array(
 			'service' => $service,
 			'toner' => $toner,
-			'paper' => $paper
+			'paper' => $paper,
+			'up' => $up,
+			'listening' => $listening
 		);
 	}
 	
@@ -40,6 +42,25 @@ class MockStatusLoader implements StatusLoader
 		return new static('Error', 5, 5);
 	}
 	
+	static public function down()
+	{
+		return new static(false, 5, 5, false, false);
+	}
+	
+	static public function closed()
+	{
+		return new static(false, 5, 5, true, false);
+	}
+	
+	public function isUp()
+	{
+		return $this->status['up'];
+	}
+	
+	public function isListening()
+	{
+		return $this->status['listening'];
+	}
 	
 	public function getStatus($force = false)
 	{

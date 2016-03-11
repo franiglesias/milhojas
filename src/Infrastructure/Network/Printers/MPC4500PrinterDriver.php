@@ -7,6 +7,7 @@ use Milhojas\Infrastructure\Network\Printers\PrinterDriver;
 use Milhojas\Library\ValueObjects\Technical\SupplyLevel;
 use Milhojas\Infrastructure\Network\Printers\MPC4500SupplyLevel;
 use Milhojas\Library\ValueObjects\Technical\Vendor;
+
 /**
 * Printer Adapter for Ricoh MP-C4500
 */
@@ -41,6 +42,13 @@ class MPC4500PrinterDriver implements PrinterDriver
 		return new Vendor(static::VENDOR, static::MODEL);
 	}
 }
+
+/**
+ * translates supply level information
+ *
+ * @package default
+ * @author Francisco Iglesias Gómez
+ */
 
 class MPC4500SupplyLevel extends SupplyLevel {
 	

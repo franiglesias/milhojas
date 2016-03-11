@@ -6,7 +6,7 @@ use  Milhojas\Library\ValueObjects\Technical\Ip;
 use  Milhojas\Infrastructure\Network\DeviceStatus;
 
 /**
-* Retrieves information for a device
+* Retrieves information for a device that show a status web page
 */
 class WebDeviceStatus implements DeviceStatus
 {

@@ -3,7 +3,7 @@
 namespace Milhojas\Infrastructure\Network\Printers;
 
 /**
-* Description
+* VO Representing the concrete configuration of a Printer
 */
 class PrinterConfiguration
 {

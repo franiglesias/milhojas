@@ -4,7 +4,7 @@ namespace Tests\Infrastructure\Network\Printers;
 
 use Milhojas\Infrastructure\Network\Printers\DSM745PrinterDriver;
 use Milhojas\Library\ValueObjects\Technical\Ip;
-use Milhojas\Infrastructure\Network\StatusLoader;
+use Milhojas\Infrastructure\Network\DeviceStatus;
 
 /**
 * Description
@@ -44,7 +44,7 @@ class DSM745PrinterDriverTest extends \PHPUnit_Framework_Testcase
 /**
 * Simulates the behavior of a printer returning a minimal subset of the status web page
 */
-class DSM745Mock implements StatusLoader
+class DSM745Mock implements DeviceStatus
 {
 	private $service;
 	private $paper;
@@ -138,6 +138,17 @@ class DSM745Mock implements StatusLoader
 		$page .= $this->buildTrays();
 		return $page;
 	}
+	
+	public function isUp()
+	{
+		return true;
+	}
+	
+	public function isListening()
+	{
+		return true;
+	}
+	
 }
 
 

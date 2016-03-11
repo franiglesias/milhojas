@@ -66,7 +66,7 @@ class Printer implements Device
 	{
 		$needsToner = false;
 		foreach ($this->configuration->getColors() as $color) {
-			if ($this->driver->tonerLevelForColor($color, $this->status->getStatus())->shouldReplace()) {
+			if ($this->getTonerLevel($color)->shouldReplace()) {
 				$needsToner = true;
 				$this->recordThat(sprintf('Replace toner for color %s', $color));
 			}
@@ -74,17 +74,27 @@ class Printer implements Device
 		return $needsToner;
 	}
 	
-	public function needsPaper()
+	private function getTonerLevel($color)
+	{
+		return $this->driver->tonerLevelForColor($color, $this->status->getStatus());
+	}
+	
+	private function needsPaper()
 	{
 		$needsPaper = false;
 		for ($tray=1; $tray <= $this->configuration->getTrays(); $tray++) { 
-			if ($this->driver->paperLevelForTray($tray, $this->status->getStatus())->shouldReplace()) {
+			if ($this->getPaperLevel($tray)->shouldReplace()) {
 				$needsPaper = true;
 				$this->recordThat(sprintf('Put paper in tray %s', $tray));
 			}
 		}
 		return $needsPaper;
 		
+	}
+	
+	private function getPaperLevel($tray)
+	{
+		return $this->driver->paperLevelForTray($tray, $this->status->getStatus());
 	}
 	
 	protected function recordThat($message)

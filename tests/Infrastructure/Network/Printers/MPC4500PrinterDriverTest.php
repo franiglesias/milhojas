@@ -4,7 +4,7 @@ namespace Tests\Infrastructure\Network\Printers;
 
 use Milhojas\Infrastructure\Network\Printers\MPC4500PrinterDriver;
 use Milhojas\Library\ValueObjects\Technical\Ip;
-
+use Milhojas\Infrastructure\Network\DeviceStatus;
 /**
 * Description
 */
@@ -43,7 +43,7 @@ class MPC4500PrinterDriverTest extends \PHPUnit_Framework_Testcase
 /**
 * Simulates the behavior of a printer returning a minimal subset of the status web page
 */
-class MPC4500Mock
+class MPC4500Mock implements DeviceStatus
 {
 	private $service;
 	private $paper;
@@ -128,7 +128,7 @@ class MPC4500Mock
 		}
 		return $block;
 	}
-	public function getStatus()
+	public function getStatus($force = false)
 	{
 		$page = chr(10);
 		$page .= 'Simulated status page'.chr(10);
@@ -136,6 +136,16 @@ class MPC4500Mock
 		$page .= $this->buildToner();
 		$page .= $this->buildTrays();
 		return $page;
+	}
+	
+	public function isUp()
+	{
+		return true;
+	}
+	
+	public function isListening()
+	{
+		return true;
 	}
 }
 

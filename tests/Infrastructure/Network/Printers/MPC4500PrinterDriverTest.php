@@ -10,86 +10,33 @@ use Milhojas\Library\ValueObjects\Technical\Ip;
 */
 class MPC4500PrinterDriverTest extends \PHPUnit_Framework_Testcase
 {
-	public function getFullWorking()
+	
+	public function test_it_works_ok()
 	{
-		return new MPC4500Mock(
-			true, 
-			[1 => '50', 2 => '50', 3 => '50', 4 => '50'], 
-			['K' => 4, 'C' => 4, 'M' => '4', 'Y' => '4']
-		);
+		$driver = new MPC4500PrinterDriver();
+		$this->assertFalse($driver->tonerLevelForColor('K', MPC4500Mock::workingFine()->getStatus())->shouldReplace());
+		$this->assertFalse($driver->paperLevelForTray(1, MPC4500Mock::workingFine()->getStatus())->shouldReplace());
+		$this->assertTrue(empty($driver->guessServiceCode(MPC4500Mock::workingFine()->getStatus())));
 	}
 	
-	public function getNeedsToner()
+	public function test_it_needs_toner()
 	{
-		return new MPC4500Mock(
-			true, 
-			[1 => '50', 2 => '50', 3 => '50', 4 => '50'], 
-			['K' => 0, 'C' => 4, 'M' => '4', 'Y' => '4']
-		);
+		$driver = new MPC4500PrinterDriver();
+		$this->assertTrue($driver->tonerLevelForColor('K', MPC4500Mock::withoutToner()->getStatus())->shouldReplace());
 	}
-	
-	public function getNeedsPaper()
+
+	public function test_it_needs_service()
 	{
-		return new MPC4500Mock(
-			true, 
-			[1 => 'end', 2 => '50', 3 => '50', 4 => '50'], 
-			['K' => 5, 'C' => 4, 'M' => '4', 'Y' => '4']
-		);
+		$driver = new MPC4500PrinterDriver();
+		$this->assertFalse(empty($driver->guessServiceCode(MPC4500Mock::needingService()->getStatus())));
 	}
-	
-	public function getNeedsService()
+
+	public function test_it_needs_paper()
 	{
-		return new MPC4500Mock(
-			false, 
-			[1 => '50', 2 => '50', 3 => '50', 4 => '50'], 
-			['K' => 0, 'C' => 4, 'M' => '4', 'Y' => '4']
-		);
+		$driver = new MPC4500PrinterDriver();
+		$this->assertTrue($driver->paperLevelForTray(1, MPC4500Mock::withoutPaper()->getStatus())->shouldReplace());
 	}
-	
-	
-	
-	// public function test_it_works_ok()
-	// {
-	// 	$printer = new MPC4500PrinterDriver(4, ['K','C','M', 'K']);
-	// 	$printer->requestStatus($this->getFullWorking()->getData());
-	// 	$this->assertFalse($printer->needsToner());
-	// 	$this->assertFalse($printer->needsPaper());
-	// 	$this->assertFalse($printer->needsService());
-	// }
-	//
-	// public function test_it_needs_toner()
-	// {
-	// 	$printer = new MPC4500PrinterDriver(4, ['K','C','M', 'K']);
-	// 	$printer->requestStatus($this->getNeedsToner()->getData());
-	// 	$this->assertTrue($printer->needsToner());
-	// }
-	//
-	// public function test_it_needs_service()
-	// {
-	// 	$printer = new MPC4500PrinterDriver(4, ['K','C','M', 'K']);
-	// 	$printer->requestStatus($this->getNeedsService()->getData());
-	// 	$this->assertTrue($printer->needsService());
-	// }
-	//
-	// public function test_it_needs_paper()
-	// {
-	// 	$printer = new MPC4500PrinterDriver(4, ['K','C','M', 'K']);
-	// 	$printer->requestStatus($this->getNeedsPaper()->getData());
-	// 	$this->assertTrue($printer->needsPaper());
-	// 	return $printer;
-	// }
-	//
-	// public function dont_test_it_returns_details()
-	// {
-	// 	$printer = new MPC4500PrinterDriver(4, ['K','C','M', 'K']);
-	// 	$printer->requestStatus($this->getFullWorking()->getData());
-	// 	$this->assertTrue(!empty($printer->getDetails()));
-	// }
-	
-	public function test_somethinf()
-	{
-		# code...
-	}
+
 }
 
 
@@ -107,6 +54,42 @@ class MPC4500Mock
 		$this->service = $service;
 		$this->paper = $paper;
 		$this->toner = $toner;
+	}
+	
+	static public function workingFine()
+	{
+		return new static(
+			true, 
+			[1 => 5, 2 => 5, 3 => 5, 4 => 5], 
+			['K' => 5]
+		);
+	}
+	
+	static public function withoutToner()
+	{
+		return new static(
+			true, 
+			[1 => 5, 2 => 5, 3 => 5, 4 => 5], 
+			['K' => 0]
+		);
+	}
+	
+	static public function withoutPaper()
+	{
+		return new static(
+			true, 
+			[1 => 0, 2 => 5, 3 => 5, 4 => 5], 
+			['K' => 5]
+		);
+	}
+	
+	static public function needingService()
+	{
+		return new static(
+			false, 
+			[1 => 5, 2 => 5, 3 => 5, 4 => 5], 
+			['K' => 4]
+		);
 	}
 	
 	private function buildService()
@@ -131,12 +114,21 @@ class MPC4500Mock
 	private function buildTrays()
 	{
 		$block = '';
+		$levels = array(
+			0 => 'end',
+			1 => 'Nend',
+			2 => '25_',
+			3 => '50_',
+			4 => '75_', 
+			5 => '100_'
+		);
+
 		foreach ($this->paper as $tray => $level) {
-			$block .= sprintf('deviceStP%s_16.gif', $level).chr(10);
+			$block .= sprintf('deviceStP%s16.gif', $levels[$level]).chr(10);
 		}
 		return $block;
 	}
-	public function getData()
+	public function getStatus()
 	{
 		$page = chr(10);
 		$page .= 'Simulated status page'.chr(10);

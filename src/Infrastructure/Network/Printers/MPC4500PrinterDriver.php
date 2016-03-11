@@ -4,14 +4,15 @@ namespace Milhojas\Infrastructure\Network\Printers;
 
 use Milhojas\Infrastructure\Network\Printers\PrinterDriverInterface;
 
-
-use Milhojas\Library\ValueObjects\Technical\Ip;
 use Milhojas\Library\ValueObjects\Technical\SupplyLevel;
 use Milhojas\Infrastructure\Network\Printers\MPC4500SupplyLevel;
+use Milhojas\Library\ValueObjects\Technical\Vendor;
 /**
 * Printer Adapter for Ricoh MP-C4500
 */
-class MPC4500PrinterDriver extends PrinterDriverInterface
+
+class MPC4500PrinterDriver implements PrinterDriverInterface
+
 {
 	const URL = '/web/guest/es/websys/webArch/topPage.cgi';
 	const VENDOR = 'Ricoh';
@@ -29,10 +30,15 @@ class MPC4500PrinterDriver extends PrinterDriverInterface
 		return new SupplyLevel(count($matches[1]));
 	}
 	
-	public function paperLevelForTray($tray)
+	public function paperLevelForTray($tray, $status)
 	{
 		preg_match_all('/deviceStP(.+?)_?16\.gif/', $status, $matches);
 		return new MPC4500SupplyLevel($matches[1][$tray-1]);
+	}
+	
+	public function getVendorInformation()
+	{
+		return new Vendor(static::VENDOR, static::MODEL);
 	}
 }
 

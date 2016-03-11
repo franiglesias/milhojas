@@ -14,38 +14,29 @@ class DSM745PrinterDriverTest extends \PHPUnit_Framework_Testcase
 	
 	public function test_it_works_ok()
 	{
-		$driver = new DSM745PrinterDriver(DSM745Mock::workingFine(), 4, ['K']);
-		$this->assertFalse($driver->tonerLevelForColor('K')->shouldReplace());
-		$this->assertFalse($driver->paperLevelForTray(1)->shouldReplace());
-		$this->assertFalse($driver->needsService());
+		$driver = new DSM745PrinterDriver();
+		$this->assertFalse($driver->tonerLevelForColor('K', DSM745Mock::workingFine()->getStatus())->shouldReplace());
+		$this->assertFalse($driver->paperLevelForTray(1, DSM745Mock::workingFine()->getStatus())->shouldReplace());
+		$this->assertTrue(empty($driver->guessServiceCode(DSM745Mock::workingFine()->getStatus())));
 	}
 	
 	public function test_it_needs_toner()
 	{
-		$driver = new DSM745PrinterDriver(DSM745Mock::withoutToner(), 4, ['K']);
-		$this->assertTrue($driver->tonerLevelForColor('K')->shouldReplace());
+		$driver = new DSM745PrinterDriver();
+		$this->assertTrue($driver->tonerLevelForColor('K', DSM745Mock::withoutToner()->getStatus())->shouldReplace());
 	}
 
 	public function test_it_needs_service()
 	{
-		$driver = new DSM745PrinterDriver(DSM745Mock::needingService(), 4, ['K']);
-		$this->assertTrue($driver->needsService());
+		$driver = new DSM745PrinterDriver();
+		$this->assertFalse(empty($driver->guessServiceCode(DSM745Mock::needingService()->getStatus())));
 	}
 
-	// public function test_it_needs_paper()
-	// {
-	// 	$driver = new DSM745PrinterDriver(4, ['K']);
-	// 	$driver->requestStatus($this->getNeedsPaper()->getData());
-	// 	$this->assertTrue($driver->needsPaper());
-	// }
-	//
-	// public function test_it_records_details()
-	// {
-	// 	$driver = new DSM745PrinterDriver(4, ['K']);
-	// 	$driver->requestStatus($this->getNeedsPaper()->getData());
-	// 	$driver->needsPaper();
-	// 	$this->assertFalse(empty($driver->getDetails()));
-	// }
+	public function test_it_needs_paper()
+	{
+		$driver = new DSM745PrinterDriver();
+		$this->assertTrue($driver->paperLevelForTray(1, DSM745Mock::withoutPaper()->getStatus())->shouldReplace());
+	}
 
 }
 

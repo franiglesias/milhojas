@@ -2,12 +2,11 @@
 
 namespace Milhojas\Infrastructure\Network;
 
-use Milhojas\Infrastructure\Network\Driver;
 use Milhojas\Infrastructure\Network\Printers\PrinterAdapter;
 /**
 * Description
 */
-class PrinterDriver implements Driver
+class Printer 
 {
 	private $adapter;
 	

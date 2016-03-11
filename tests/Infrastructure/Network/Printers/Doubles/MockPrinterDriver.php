@@ -2,16 +2,15 @@
 
 namespace Milhojas\Infrastructure\Network\Printers;
 
-use Milhojas\Infrastructure\Network\Printers\PrinterDriverInterface;
+use Milhojas\Infrastructure\Network\Printers\PrinterDriver;
 
 use Milhojas\Library\ValueObjects\Technical\SupplyLevel;
-use Milhojas\Infrastructure\Network\Printers\MPC4500SupplyLevel;
 
 /**
 * Printer Adapter for Ricoh MP-C4500
 */
 
-class MockPrinterDriver implements PrinterDriverInterface
+class MockPrinterDriver implements PrinterDriver
 
 {
 	const URL = 'url';

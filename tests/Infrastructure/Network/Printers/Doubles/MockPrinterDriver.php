@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Infrastructure\Network\Printers;
+namespace Tests\Infrastructure\Network\Printers\Doubles;
 
 use Milhojas\Infrastructure\Network\Printers\PrinterDriver;
 
@@ -17,30 +17,24 @@ class MockPrinterDriver implements PrinterDriver
 	const VENDOR = 'Printer';
 	const MODEL = 'Working';
 	
-	private $paper;
-	private $toner;
-	private $service;
-	
-	public function __construct($paper, $toner, $service)
-	{
-		$this->paper = $paper;
-		$this->toner = $toner;
-		$this->service = $service;
-	}
-	
 	public function guessServiceCode($status)
 	{
-		return $this->service;
+		return $status['service'];
 	}
 	
 	public function tonerLevelForColor($color, $status)
 	{
-		return new SupplyLevel($this->toner);
+		return new SupplyLevel($status['toner']);
 	}
 	
 	public function paperLevelForTray($tray, $status)
 	{
-		return new SupplyLevel($this->paper);
+		return new SupplyLevel($status['paper']);
+	}
+	
+	public function getVendorInformation()
+	{
+		return new Vendor(static::VENDOR, static::MODEL);
 	}
 }
 

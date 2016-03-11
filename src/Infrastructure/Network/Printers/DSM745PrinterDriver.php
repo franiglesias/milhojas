@@ -2,14 +2,14 @@
 
 namespace Milhojas\Infrastructure\Network\Printers;
 
-use Milhojas\Infrastructure\Network\Printers\PrinterDriverInterface;
+use Milhojas\Infrastructure\Network\Printers\PrinterDriver;
 use Milhojas\Library\ValueObjects\Technical\SupplyLevel;
 use Milhojas\Library\ValueObjects\Technical\Vendor;
 
 /**
 * Printer Adapter for Ricoh DSM-745
 */
-class DSM745PrinterDriver implements PrinterDriverInterface
+class DSM745PrinterDriver implements PrinterDriver
 {
 	const URL = '/web/guest/es/websys/webArch/topPage.cgi';
 	const VENDOR = 'Ricoh';

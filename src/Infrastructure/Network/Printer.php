@@ -8,11 +8,19 @@ use Milhojas\Infrastructure\Network\Printers\PrinterDriver;
 */
 class Printer implements Device
 {
-	private $adapter;
+	private $driver;
+	private $device;
+	private $loader;
+	private $messages;
+	private $colors;
+	private $trays;
 	
-	function __construct(PrinterAdapter $adapter)
+	function __construct(DeviceIdentity $device, StatusLoader $loader, PrinterDriver $driver)
 	{
-		$this->adapter = $adapter;
+		$this->driver = $driver;
+		$this->loader = $loader;
+		$this->colors = ['K', 'C', 'M', 'Y'];
+		$this->trays = 4;
 	}
 	
 	public function isUp()
@@ -27,27 +35,64 @@ class Printer implements Device
 		
 	public function needsSupplies()
 	{
-		return $this->adapter->needsPaper() || $this->adapter->needsToner();
+		return ($this->needsToner() || $this->needsPaper());
 	}
 	
 	public function needsService()
 	{
-		return $this->adapter->needsService();
+		return $this->hasFailed();
 	}
 	
 	public function getReport()
 	{
-		return $this->adapter->getReport();
 	}
 	
-	public function requestStatus(DeviceReporter $reporter)
+	private function hasFailed()
 	{
-		$this->adapter->requestStatus($reporter->requestStatus($this->adapter->getStatusUrl()));
+		$serviceCodes = $this->driver->guessServiceCode($this->loader->getStatus());
+		$needsService = false;
+		if ($serviceCodes) {
+			$needsService = true;
+			$this->recordThat(sprintf('Printer needs Service with errors: %s', $serviceCodes ));
+		}
+		return $needsService;
 	}
+	
+	
+	private function needsToner()
+	{
+		$needsToner = false;
+		foreach ($this->colors as $color) {
+			if ($this->driver->tonerLevelForColor($color, $this->loader->getStatus())->shouldReplace()) {
+				$needsToner = true;
+				$this->recordThat(sprintf('Replace toner for color %s', $color));
+			}
+		}
+		return $needsToner;
+	}
+	
+	public function needsPaper()
+	{
+		$needsPaper = false;
+		for ($tray=1; $tray <= $this->trays; $tray++) { 
+			if ($this->driver->paperLevelForTray($tray, $this->loader->getStatus())->shouldReplace()) {
+				$needsPaper = true;
+				$this->recordThat(sprintf('Put paper in tray %s', $tray));
+			}
+		}
+		return $needsPaper;
+		
+	}
+	
+	protected function recordThat($message)
+	{
+		$this->messages[] = $message;
+	}
+	
 }
 
 
-abstract class AbstractPrinterAdapter implements PrinterAdapter, KnowsVendorInformation
+abstract class AbstractPrinterAdapter 
 {
 	const URL = '';
 	const MODEL = '';
@@ -68,44 +113,8 @@ abstract class AbstractPrinterAdapter implements PrinterAdapter, KnowsVendorInfo
 		$this->colors = $colors;
 	}
 	
-	public function requestStatus($status)
-	{
-		$this->status = $status;
-	}
+
 	
-	public function needsToner()
-	{
-		$needsToner = false;
-		foreach ($this->colors as $color) {
-			if ($this->tonerLevelForColor($color)->shouldReplace()) {
-				$needsToner = true;
-				$this->recordThat(sprintf('Replace toner for color %s', $color));
-			}
-		}
-		return $needsToner;
-	}
-	
-	public function needsPaper()
-	{
-		$needsPaper = false;
-		for ($tray=1; $tray <= $this->trays; $tray++) { 
-			if ($this->paperLevelForTray($tray)->shouldReplace()) {
-				$needsPaper = true;
-				$this->recordThat(sprintf('Put paper in tray %s', $tray));
-			}
-		}
-		return $needsPaper;
-	}
-	
-	public function needsService()
-	{
-		$needsService = false;
-		if ($this->detectFail()) {
-			$needsService = true;
-			$this->recordThat(sprintf('Printer needs Service with errors: %s', $this->guessServiceCode() ));
-		}
-		return $needsService;
-	}
 	
 	public function getReport()
 	{
@@ -153,15 +162,7 @@ abstract class AbstractPrinterAdapter implements PrinterAdapter, KnowsVendorInfo
 		$this->details[] = $message;
 	}
 	
-	
-	
-	abstract protected function detectFail();
-	
-	abstract protected function guessServiceCode();
-	
-	abstract protected function tonerLevelForColor($color);
-	
-	abstract protected function paperLevelForTray($tray);
+
 	
 }
 

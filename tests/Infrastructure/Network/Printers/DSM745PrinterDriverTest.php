@@ -2,13 +2,13 @@
 
 namespace Tests\Infrastructure\Network\Printers;
 
-use Milhojas\Infrastructure\Network\Printers\DSM745PrinterAdapter;
+use Milhojas\Infrastructure\Network\Printers\DSM745PrinterDriver;
 use Milhojas\Library\ValueObjects\Technical\Ip;
 
 /**
 * Description
 */
-class DSM745PrinterAdapterTest extends \PHPUnit_Framework_Testcase
+class DSM745PrinterDriverTest extends \PHPUnit_Framework_Testcase
 {
 	public function getFullWorking()
 	{
@@ -48,8 +48,8 @@ class DSM745PrinterAdapterTest extends \PHPUnit_Framework_Testcase
 	
 	public function test_it_works_ok()
 	{
-		// $page = file_get_contents('http://172.16.0.224'.DSM745PrinterAdapter::URL);
-		$printer = new DSM745PrinterAdapter(4, ['K']);
+		// $page = file_get_contents('http://172.16.0.224'.DSM745PrinterDriver::URL);
+		$printer = new DSM745PrinterDriver(4, ['K']);
 		$printer->requestStatus($this->getFullWorking()->getData());
 		$this->assertFalse($printer->needsToner());
 		$this->assertFalse($printer->needsPaper());
@@ -58,27 +58,27 @@ class DSM745PrinterAdapterTest extends \PHPUnit_Framework_Testcase
 	
 	public function test_it_needs_toner()
 	{
-		$printer = new DSM745PrinterAdapter(4, ['K']);
+		$printer = new DSM745PrinterDriver(4, ['K']);
 		$printer->requestStatus($this->getNeedsToner()->getData());
 		$this->assertTrue($printer->needsToner());
 	}
 	public function test_it_needs_service()
 	{
-		$printer = new DSM745PrinterAdapter(4, ['K']);
+		$printer = new DSM745PrinterDriver(4, ['K']);
 		$printer->requestStatus($this->getNeedsService()->getData());
 		$this->assertTrue($printer->needsService());
 	}
 
 	public function test_it_needs_paper()
 	{
-		$printer = new DSM745PrinterAdapter(4, ['K']);
+		$printer = new DSM745PrinterDriver(4, ['K']);
 		$printer->requestStatus($this->getNeedsPaper()->getData());
 		$this->assertTrue($printer->needsPaper());
 	}
 
 	public function test_it_records_details()
 	{
-		$printer = new DSM745PrinterAdapter(4, ['K']);
+		$printer = new DSM745PrinterDriver(4, ['K']);
 		$printer->requestStatus($this->getNeedsPaper()->getData());
 		$printer->needsPaper();
 		$this->assertFalse(empty($printer->getDetails()));

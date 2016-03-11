@@ -9,7 +9,6 @@ use Milhojas\Library\ValueObjects\Technical\Vendor;
 use Milhojas\Infrastructure\Network\Device;
 use Milhojas\Infrastructure\Network\DeviceReporter;
 use Milhojas\Infrastructure\Network\DeviceIdentitiy;
-use Milhojas\Infrastructure\Network\Driver;
 
 /**
 * Description
@@ -18,7 +17,7 @@ class TestingDevice extends BaseDevice
 {
 }
 
-class DumbDriver implements Driver {
+class DumbDriver  {
 	public function needsSupplies() {return 'supplies';}
 	public function needsService() {return 'service';}
 	public function getReport() {return 'report';}

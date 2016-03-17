@@ -13,6 +13,8 @@ use Milhojas\Library\EventBus\EventHandler;
 class EventBusSpy implements EventBus
 {
 	private $busUnderTest;
+	private $recorderHandlers;
+	private $handledEvents;
 	
 	function __construct(EventBus $busUnderTest)
 	{
@@ -28,9 +30,15 @@ class EventBusSpy implements EventBus
 		return $handlers;
 	}
 	
+	public function recordHandler($event, $handler)
+	{
+		$this->recorderHandlers[$event->getName()][] = $handler;
+	}
+	
 	public function handle(Event $event)
 	{
 		$this->busUnderTest->handle($event);
+		$this->handledEvents[] = $event->getName();
 	}
 	
 	public function addHandler($eventName, EventHandler $handler)
@@ -47,6 +55,16 @@ class EventBusSpy implements EventBus
 			}
 		}
 		return false;
+	}
+	
+	public function getHHandledEvents()
+	{
+		return $this->handledEvents;
+	}
+	
+	public function getRecordedHandlers()
+	{
+		return $this->recorderHandlers;
 	}
 	
 }

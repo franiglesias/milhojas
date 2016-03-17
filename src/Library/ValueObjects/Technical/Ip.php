@@ -30,7 +30,7 @@ class Ip
 	protected function isValid($ip)
 	{
 		if (filter_var($ip, FILTER_VALIDATE_IP) === false) {
-			throw new InvalidArgumentException(sprintf('%s is not a valid IP', $ip));
+			throw new \InvalidArgumentException(sprintf('%s is not a valid IP', $ip));
 		}
 	}
 	
@@ -43,9 +43,9 @@ class Ip
 	public function isListening()
 	{
 		if (!$this->port) {
-			return false;
+			$this->port = -1;
 		}
-        if (! @fsockopen($this->ip, $this->port, $errno, $errstr, $timeout) )
+        if (! @fsockopen($this->ip, $this->port) )
         {
             return FALSE;
         }

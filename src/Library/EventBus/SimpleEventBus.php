@@ -14,7 +14,7 @@ class SimpleEventBus implements EventBus
 	
 	public function __construct()
 	{
-		
+		$this->handlers = array();
 	}
 	
 	public function addHandler($eventName, EventHandler $handler)
@@ -24,11 +24,18 @@ class SimpleEventBus implements EventBus
 	
 	public function handle(Event $event)
 	{
-		$name = $event->getName();
-		foreach ($this->handlers[$name] as $handler) {
+		if (! $this->canManageEvent($event)) {
+			return;
+		}
+		foreach ($this->handlers[$event->getName()] as $handler) {
 			$handler->handle($event);
 		}
 
+	}
+	
+	private function canManageEvent($event)
+	{
+		return isset($this->handlers[$event->getName()]);
 	}
 }
 

@@ -30,7 +30,6 @@ class SimpleEventBus implements EventBus
 		foreach ($this->handlers[$event->getName()] as $handler) {
 			$handler->handle($event);
 		}
-
 	}
 	
 	private function canManageEvent($event)

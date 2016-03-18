@@ -5,28 +5,7 @@ namespace Tests\Library\EventBus;
 use Milhojas\Library\EventBus\EventRecorder;
 
 use Milhojas\Library\EventBus\Event;
-
-/**
-* Description
-*/
-class SimpleEvent implements Event
-{
-	private $data;
-	function __construct($data)
-	{
-		$this->data = $data;
-	}
-	
-	public function getName()
-	{
-		return 'simple.event';
-	}
-	
-	public function getData()
-	{
-		return $this->data;
-	}
-}
+use Tests\Library\EventBus\Fixtures\SimpleEvent;
 
 /**
 * Description

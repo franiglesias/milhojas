@@ -9,69 +9,11 @@ use Milhojas\Library\EventBus\EventHandler;
 
 use Tests\Library\EventBus\Utils\EventBusSpy;
 
-/**
-* Description
-*/
-class TestEvent implements Event
-{
-	private $data;
-	
-	function __construct($data)
-	{
-		$this->data = $data;
-	}
-	
-	public function getName()
-	{
-		return 'test.event';
-	}
-	
-	public function getData()
-	{
-		return $this->data;
-	}
-}
-
-
-class TestIgnoredEvent implements Event
-{
-	private $data;
-	
-	function __construct($data)
-	{
-		$this->data = $data;
-	}
-	
-	public function getName()
-	{
-		return 'test.ignored.event';
-	}
-	
-	public function getData()
-	{
-		return $this->data;
-	}
-}
-
-
-
-/**
-* Description
-*/
-class TestEventHandler implements EventHandler
-{
-	private $bus;
-	function __construct($bus)
-	{
-		$this->bus = $bus;
-	}
-	
-	public function handle(Event $event)
-	{
-		$this->bus->recordHandler($event, 'TestEventHandler');
-	}
-}
-
+use Tests\Library\EventBus\Fixtures\TestEvent;
+use Tests\Library\EventBus\Fixtures\IgnoredEvent;
+use Tests\Library\EventBus\Fixtures\SimpleEvent;
+use Tests\Library\EventBus\Fixtures\TestEventHandler;
+use Tests\Library\EventBus\Fixtures\SimpleEventHandler;
 /**
 * Description
 */
@@ -101,8 +43,8 @@ class SimpleEventBusTest extends \PHPUnit_Framework_Testcase
 	{
 		$bus = new EventBusSpy(new SimpleEventBus());
 		$bus->addHandler('test.event', new TestEventHandler($bus));
-		$bus->handle(new TestIgnoredEvent('data'));
-		$this->assertFalse($bus->eventWasHandled('test.ignored.event'));
+		$bus->handle(new IgnoredEvent('data'));
+		$this->assertFalse($bus->eventWasHandled('ignored.event'));
 		
 	}
 	
@@ -111,9 +53,40 @@ class SimpleEventBusTest extends \PHPUnit_Framework_Testcase
 		$bus = new EventBusSpy(new SimpleEventBus());
 		$bus->addHandler('test.event', new TestEventHandler($bus));
 		$bus->handle(new TestEvent('data'));
-		$this->assertFalse($bus->eventWasHandled('test.ignored.event'));
+		$this->assertFalse($bus->eventWasHandled('ignored.event'));
 		$this->assertTrue($bus->eventWasHandled('test.event'));
 	}
+	
+	public function test_it_handles_several_events_with_different_handlers()
+	{
+		$bus = new EventBusSpy(new SimpleEventBus());
+		$bus->addHandler('test.event', new TestEventHandler($bus));
+		$bus->addHandler('simple.event', new SimpleEventHandler($bus));
+		$bus->handle(new TestEvent('data'));
+		$bus->handle(new SimpleEvent('other Data'));
+		$expected = array(
+			'test.event' => array('TestEventHandler'),
+			'simple.event' => array('SimpleEventHandler')
+		);
+		$this->assertEquals($expected, $bus->getRecordedHandlers());
+
+	}
+	
+	public function test_it_handles_several_events_with_same_handler()
+	{
+		$bus = new EventBusSpy(new SimpleEventBus());
+		$bus->addHandler('test.event', new TestEventHandler($bus));
+		$bus->addHandler('simple.event', new TestEventHandler($bus));
+		$bus->handle(new TestEvent('data'));
+		$bus->handle(new SimpleEvent('other Data'));
+		$expected = array(
+			'test.event' => array('TestEventHandler'),
+			'simple.event' => array('TestEventHandler')
+		);
+		$this->assertEquals($expected, $bus->getRecordedHandlers());
+
+	}
+	
 }
 
 ?>

@@ -43,6 +43,10 @@ class Server implements Device
 	public function getReport()
 	{
 	}
+	public function getIdentity()
+	{
+		return $this->device;
+	}
 	
 	protected function recordThat($message)
 	{

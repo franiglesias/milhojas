@@ -26,6 +26,10 @@ class Printer implements Device
 		$this->configuration = $configuration;
 	}
 	
+	public function getIdentity()
+	{
+		return $this->device;
+	}
 	public function isUp()
 	{
 		return $this->status->isUp();

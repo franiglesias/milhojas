@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Application\It\Events;
+namespace Milhojas\Domain\It\Events;
 
 use Milhojas\Library\EventBus\Event;
 use Milhojas\Infrastructure\Network\DeviceIdentity;

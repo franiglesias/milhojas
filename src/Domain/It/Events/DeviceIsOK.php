@@ -1,21 +1,19 @@
 <?php
 
-namespace Milhojas\Application\It\Events;
+namespace Milhojas\Domain\It\Events;
 
 use Milhojas\Library\EventBus\Event;
 use Milhojas\Infrastructure\Network\DeviceIdentity;
 /**
 * Description
 */
-class DeviceNeedsSupplies implements Event
+class DeviceIsOK implements Event
 {
 	private $device;
-	private $details;
 	
-	function __construct(DeviceIdentity $device, $details)
+	function __construct(DeviceIdentity $device)
 	{
 		$this->device = $device;
-		$this->details = $details;
 	}
 	
 	public function getDevice()
@@ -25,12 +23,12 @@ class DeviceNeedsSupplies implements Event
 	
 	public function getDetails()
 	{
-		return $this->details;
+		return '';
 	}
 	
 	public function getName()
 	{
-		return 'milhojas.it.device_needs_supplies';
+		return 'milhojas.it.device_is_ok';
 	}
 }
 

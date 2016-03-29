@@ -5,15 +5,8 @@ namespace Tests\Application\It\Doubles;
 use Milhojas\Infrastructure\Network\Device;
 use Milhojas\Infrastructure\Network\DeviceIdentity;
 
-use Milhojas\Application\It\Events\DeviceIsOK;
-use Milhojas\Application\It\Events\DeviceIsDown;
-use Milhojas\Application\It\Events\DeviceIsNotListening;
-use Milhojas\Application\It\Events\DeviceNeedsSupplies;
-use Milhojas\Application\It\Events\DeviceNeedsService;
-
-
 /**
-* Description
+* Simulates a device under different conditions
 */
 class DeviceSpy implements Device
 {
@@ -25,6 +18,11 @@ class DeviceSpy implements Device
 	private $fails;
 	private $identity;
 	
+	public function getIdentity()
+	{
+		return $this->identity;
+	}
+	
 	function __construct(DeviceIdentity $identity, $up, $listening, $supplies, $service)
 	{
 		$this->identity = $identity;
@@ -33,6 +31,8 @@ class DeviceSpy implements Device
 		$this->supplies = $supplies;
 		$this->service = $service;
 	}
+	
+	# static named constructors define working conditions on the simulaes device
 	
 	static public function working(DeviceIdentity $identity)
 	{
@@ -51,30 +51,38 @@ class DeviceSpy implements Device
 	
 	static public function isDown(DeviceIdentity $identity)
 	{
-		return new static($identity, false, false, false, false);
+		return new static($identity, false, true, false, false);
 	}
+	
+	static public function twoFails(DeviceIdentity $identity) 
+	{
+		return new static($identity, true, true, true, true);
+	}
+	
+	
+	
 	
 	public function isUp() 
 	{
-		$this->reportThat(!$this->up, new DeviceIsDown($this->identity, 'Device is down'));
+		$this->reportThat(!$this->up, 'Device is down');
 		return $this->up;
 	}
 	
 	public function isListening() 
 	{
-		$this->reportThat(!$this->listening, new DeviceIsNotListening($this->identity, 'Device is not listening'));
+		$this->reportThat(!$this->listening, 'Device is not listening');
 		return $this->listening;
 	}
 	
 	public function needsService()
 	{	
-		$this->reportThat($this->service, new DeviceNeedsService($this->identity, 'Device needs service'));
+		$this->reportThat($this->service, 'Device needs service');
 		return $this->supplies;
 	}
 	
 	public function needsSupplies()
 	{
-		$this->reportThat($this->supplies, new DeviceNeedsSupplies($this->identity, 'Device needs supplies'));
+		$this->reportThat($this->supplies, 'Device needs supplies');
 		return $this->service;
 	}
 	
@@ -93,7 +101,7 @@ class DeviceSpy implements Device
 		if ($value) {
 			$this->fails++;
 		}
-		$this->report[] = $value ? $message : '';
+		$this->report = $value ? $message : '';
 	}
 	
 	public function getFails()

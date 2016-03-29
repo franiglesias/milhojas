@@ -17,6 +17,7 @@ interface Device {
 	public function needsService();
 	public function needsSupplies();
 	public function getReport();
+	public function getIdentity();
 }
 
 ?>

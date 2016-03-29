@@ -40,6 +40,19 @@ class EventRecorderTest extends \PHPUnit_Framework_Testcase
 
 	}
 	
+	public function test_it_can_record_several_events_in_batch()
+	{
+		$events = array(
+			new SimpleEvent('1'),
+			new SimpleEvent('2'),
+			new SimpleEvent('3')
+		);
+		$recorder = new EventRecorder();
+		$recorder->recordBatch($events);
+		$this->assertEquals(3, count($recorder->retrieve()));
+
+	}
+	
 	public function test_it_can_return_stored_events_in_the_same_order()
 	{
 		$recorder = new EventRecorder();

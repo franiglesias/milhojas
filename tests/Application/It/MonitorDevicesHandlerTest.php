@@ -4,7 +4,7 @@ namespace Tests\Application\It;
 
 use Milhojas\Application\It\MonitorDevices;
 use Milhojas\Application\It\MonitorDevicesHandler;
-
+use Milhojas\Infrastructure\Network\DeviceIdentity;
 use Tests\Application\It\Doubles\DeviceSpy;
 /**
 * Description
@@ -13,7 +13,7 @@ class MonitorDevicesHandlerTest extends \PHPUnit_Framework_Testcase
 {
 	public function test_it_handles_the_command()
 	{
-		$device = DeviceSpy::isDown();
+		$device = DeviceSpy::isDown(new DeviceIdentity('Device', 'Network'));
 		$command = new MonitorDevices([$device]);
 		
 		$handler = new MonitorDevicesHandler();
@@ -26,7 +26,7 @@ class MonitorDevicesHandlerTest extends \PHPUnit_Framework_Testcase
 	
 	public function test_it_handles_the_command_full_working_device()
 	{
-		$device = DeviceSpy::working();
+		$device = DeviceSpy::working(new DeviceIdentity('Device', 'Network'));
 		$command = new MonitorDevices([$device]);
 		
 		$handler = new MonitorDevicesHandler();
@@ -39,8 +39,8 @@ class MonitorDevicesHandlerTest extends \PHPUnit_Framework_Testcase
 	
 	public function test_it_monitors_several_devices()
 	{
-		$device = DeviceSpy::working();
-		$badSupplies = DeviceSpy::needingSupplies();
+		$device = DeviceSpy::working(new DeviceIdentity('Device', 'Network'));
+		$badSupplies = DeviceSpy::needingSupplies(new DeviceIdentity('Device without supplies', 'Network'));
 		
 		$command = new MonitorDevices([$device, $badSupplies]);
 		

@@ -18,32 +18,7 @@ use Tests\Library\CommandBus\Fixtures\SimpleCommandHandler;
 class CommandBusTest extends \PHPUnit_Framework_Testcase {
 	
 	private $busUnderTest;
-	
-	public function dont_test_it_is_a_command_bus()
-	{
-		$bus = new BasicCommandBus(array(
 			
-		));
-		$this->assertInstanceOf('Milhojas\Library\CommandBus\CommandBus', $bus);
-	}
-	
-	public function dont_test_it_accepts_command_workers()
-	{
-		$bus = new BasicCommandBus(array(
-			new ExecuteCommandFakeWorker()
-		));
-	}
-	
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
-	public function dont_test_it_does_not_accept_other_objetcs()
-	{
-		$bus = new BasicCommandBus(array(
-			new \stdClass()
-		));
-	}
-	
 	public function withBus(CommandBus $busUnderTest)
 	{
 		$this->busUnderTest = new CommandBusSpy($busUnderTest);

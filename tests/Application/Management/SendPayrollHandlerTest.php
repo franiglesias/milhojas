@@ -42,7 +42,7 @@ class SendPayrollHandlerTest extends \PHPUnit_Framework_Testcase
 
 		$handler->handle($command);
 		
-		# assert severals outcomes of the command
+		# assert several outcomes of the command
 		
 		$this->assertRepositoryProducesPayrolls(3);
 

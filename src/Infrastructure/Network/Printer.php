@@ -30,6 +30,7 @@ class Printer implements Device
 	{
 		return $this->device;
 	}
+	
 	public function isUp()
 	{
 		return $this->status->isUp();
@@ -52,6 +53,7 @@ class Printer implements Device
 	
 	public function getReport()
 	{
+		return implode(chr(10), $this->messages);
 	}
 	
 	private function hasFailed()

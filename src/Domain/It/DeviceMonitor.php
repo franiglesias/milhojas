@@ -4,8 +4,9 @@ namespace Milhojas\Domain\It;
 
 use Milhojas\Infrastructure\Network\Device;
 use Milhojas\Domain\It\Events as Events;
+
 /**
-* Description
+* Polls the Device for state and generate events according
 */
 class DeviceMonitor
 {

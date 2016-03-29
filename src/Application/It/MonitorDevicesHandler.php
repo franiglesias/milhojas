@@ -9,7 +9,7 @@ use Milhojas\Library\EventBus\EventRecorder;
 use Milhojas\Domain\It\DeviceMonitor;
 
 /**
-* Description
+* Handles Device Monitorization using a device monitor
 */
 class MonitorDevicesHandler implements CommandHandler
 {

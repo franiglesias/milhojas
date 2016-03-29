@@ -42,6 +42,7 @@ class Server implements Device
 	
 	public function getReport()
 	{
+		return implode(chr(10), $this->messages);
 	}
 	public function getIdentity()
 	{

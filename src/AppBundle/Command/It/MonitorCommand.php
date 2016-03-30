@@ -45,7 +45,7 @@ class MonitorCommand extends Command
 		$command = new \Milhojas\Application\It\MonitorDevices([
 			new \Milhojas\Infrastructure\Network\Printer(
 				new DeviceIdentity('Impresora ESO', 'Sala ESO'),
-				new WebDeviceStatus(new Ip('176.16.0.224'), DSM745PrinterDriver::URL),
+				new WebDeviceStatus(new Ip('172.16.0.224'), DSM745PrinterDriver::URL),
 				new DSM745PrinterDriver(),
 				new PrinterConfiguration(4, ['K'])
 			),

@@ -25,6 +25,7 @@ class Printer implements Device
 		$this->driver = $driver;
 		$this->status = $status;
 		$this->configuration = $configuration;
+		$this->messages = array();
 	}
 	
 	public function getIdentity()

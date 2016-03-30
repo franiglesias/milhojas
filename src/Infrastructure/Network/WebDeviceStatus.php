@@ -41,7 +41,11 @@ class WebDeviceStatus implements DeviceStatus
 	
 	private function requestStatus()
 	{
-		return file_get_contents(sprintf('http://%s/%s', $this->ip->getIp(), $this->url));
+		$url = sprintf('http://%s/%s', $this->ip->getIp(), $this->url);
+		$handler = curl_init($url);  
+		$response = curl_exec($handler);  
+		curl_close($handler);  
+		return $response;  
 	}
 
 	private function shouldReloadStatus($force)

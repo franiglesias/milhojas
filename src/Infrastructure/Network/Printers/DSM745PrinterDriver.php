@@ -11,7 +11,7 @@ use Milhojas\Library\ValueObjects\Technical\Vendor;
 */
 class DSM745PrinterDriver implements PrinterDriver
 {
-	const URL = '/web/guest/es/websys/webArch/topPage.cgi';
+	const URL = 'web/guest/es/websys/webArch/topPage.cgi';
 	const VENDOR = 'Ricoh';
 	const MODEL = 'DSM-745';
 	

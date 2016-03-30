@@ -29,6 +29,7 @@ class EventRecorder implements \IteratorAggregate
 	public function recordBatch(array $events)
 	{
 		foreach ($events as $event) {
+			echo $event->getName().chr(10);
 			$this->recordThat($event);
 		}
 	}

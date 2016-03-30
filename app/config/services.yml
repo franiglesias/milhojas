@@ -70,4 +70,18 @@ services:
         arguments:      ["%payroll.sender%", "@command_bus"]
         tags:
              - {name: console.command}
+# It Command Handlers
+    device_monitor:
+        class:          Milhojas\Domain\It\DeviceMonitor
+    event_recorder:
+        class:          Milhojas\Library\EventBus\EventRecorder
+    monitor_devices_handler:
+        class:          Milhojas\Application\It\MonitorDevicesHandler
+        arguments:      ["@event_recorder", "@device_monitor"]
+# It Monitor command
+    it_monitor:
+        class:          AppBundle\Command\It\MonitorCommand
+        arguments:      ["@command_bus"]
+        tags:
+            - {name: console.command}
         

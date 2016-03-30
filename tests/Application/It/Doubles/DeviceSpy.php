@@ -3,7 +3,7 @@
 namespace Tests\Application\It\Doubles;
 
 use Milhojas\Domain\It\Device;
-use Milhojas\Infrastructure\Network\DeviceIdentity;
+use Milhojas\Domain\It\DeviceIdentity;
 
 /**
 * Simulates a device under different conditions

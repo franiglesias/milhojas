@@ -1,9 +1,9 @@
 <?php
 
-namespace Milhojas\Infrastructure\Network;
+namespace Milhojas\Domain\It;
 
 /**
-* Description
+* Describes the identity of a device for users
 */
 class DeviceIdentity
 {

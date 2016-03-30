@@ -4,7 +4,7 @@ namespace Tests\Infrastructure\Network\Printers;
 
 use Milhojas\Infrastructure\Network\Printer;
 use Milhojas\Infrastructure\Network\Printers\PrinterConfiguration;
-use Milhojas\Infrastructure\Network\DeviceIdentity;
+use Milhojas\Domain\It\DeviceIdentity;
 use Milhojas\Library\ValueObjects\Technical\Ip;
 use Tests\Infrastructure\Network\Printers\Doubles\MockPrinterDriver;
 use Tests\Infrastructure\Network\Printers\Doubles\MockStatus;

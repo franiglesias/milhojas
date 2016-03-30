@@ -3,7 +3,7 @@
 namespace Milhojas\Domain\It\Events;
 
 use Milhojas\Library\EventBus\Event;
-use Milhojas\Infrastructure\Network\DeviceIdentity;
+use Milhojas\Domain\It\DeviceIdentity;
 /**
 * Description
 */

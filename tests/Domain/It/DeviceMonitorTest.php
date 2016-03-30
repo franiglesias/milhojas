@@ -4,7 +4,7 @@ namespace Tests\Domain\It;
 
 use Milhojas\Domain\It\DeviceMonitor;
 use Milhojas\Domain\It\Events as Events;
-use Milhojas\Infrastructure\Network\DeviceIdentity;
+use Milhojas\Domain\It\DeviceIdentity;
 
 use Tests\Application\It\Doubles\DeviceSpy;
 

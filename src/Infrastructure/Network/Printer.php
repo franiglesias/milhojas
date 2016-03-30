@@ -4,7 +4,7 @@ namespace Milhojas\Infrastructure\Network;
 
 use Milhojas\Infrastructure\Network\Printers\PrinterDriver;
 use Milhojas\Infrastructure\Network\Printers\PrinterConfiguration;
-use Milhojas\Infrastructure\Network\DeviceIdentity;
+use Milhojas\Domain\It\DeviceIdentity;
 use Milhojas\Infrastructure\Network\DeviceStatus;
 use Milhojas\Domain\It\Device;
 /**

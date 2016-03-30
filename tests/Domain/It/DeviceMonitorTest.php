@@ -18,7 +18,7 @@ class DeviceMonitorTest extends \PHPUnit_Framework_Testcase {
 		$monitor = new DeviceMonitor();
 		$monitor->poll($device);
 		$result = $monitor->getEvents();
-		$this->assertEquals([new Events\DeviceIsOk($id)], $result);
+		$this->assertEquals([new Events\DeviceWasOk($id)], $result);
 	}
 	
 	public function test_it_monitors_a_device_that_fails()
@@ -42,7 +42,7 @@ class DeviceMonitorTest extends \PHPUnit_Framework_Testcase {
 		$result = $monitor->getEvents();
 		$this->assertEquals([
 			new Events\DeviceNeedsService($id, 'Device needs service'), 
-			new Events\DeviceNeedsSupplies($id, 'Device needs supplies')
+			new Events\DeviceRanOutOfSupplies($id, 'Device needs supplies')
 		], $result);
 	}
 	

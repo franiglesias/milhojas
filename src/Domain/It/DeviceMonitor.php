@@ -27,7 +27,7 @@ class DeviceMonitor
 			$this->events[] = new Events\DeviceNeedsService($this->device->getIdentity(), $this->device->getReport());
 		}
 		if ($this->device->needsSupplies()) {
-			$this->events[] = new Events\DeviceNeedsSupplies($this->device->getIdentity(), $this->device->getReport());
+			$this->events[] = new Events\DeviceRanOutOfSupplies($this->device->getIdentity(), $this->device->getReport());
 		}
 		
 	}
@@ -35,7 +35,7 @@ class DeviceMonitor
 	public function getEvents()
 	{
 		if (empty($this->events)) {
-			return array(new Events\DeviceIsOk($this->device->getIdentity()));
+			return array(new Events\DeviceWasOk($this->device->getIdentity()));
 		}
 		return $this->events;
 	}

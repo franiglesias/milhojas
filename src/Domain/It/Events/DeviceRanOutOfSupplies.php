@@ -7,7 +7,7 @@ use Milhojas\Domain\It\DeviceIdentity;
 /**
 * Description
 */
-class DeviceNeedsSupplies implements Event
+class DeviceRanOutOfSupplies implements Event
 {
 	private $device;
 	private $details;
@@ -30,7 +30,7 @@ class DeviceNeedsSupplies implements Event
 	
 	public function getName()
 	{
-		return 'milhojas.it.device_needs_supplies';
+		return 'milhojas.it.device_ran_out_of_supplies';
 	}
 }
 

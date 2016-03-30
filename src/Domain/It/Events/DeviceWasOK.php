@@ -28,7 +28,7 @@ class DeviceWasOK implements Event
 	
 	public function getName()
 	{
-		return 'milhojas.it.device_is_ok';
+		return 'milhojas.it.device_was_ok';
 	}
 }
 

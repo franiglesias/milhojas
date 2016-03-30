@@ -11,6 +11,11 @@ use Symfony\Component\Console\Helper\ProgressBar;
 
 
 use Milhojas\Library\System\Ping;
+
+use Milhojas\Domain\It\DeviceIdentity;
+use Milhojas\Infrastructure\Network\WebDeviceStatus;
+use Milhojas\Infrastructure\Network\Printers\PrinterConfiguration;
+use Milhojas\Infrastructure\Network\Printers\DSM745PrinterDriver;
 /**
 * Description
 */
@@ -35,6 +40,16 @@ class MonitorCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 		$output->writeln('Starting monitor');
+		$command = \Milhojas\Application\It\MonitorDevices([
+			new Milhojas\Infrastructure\Network\Printer(
+				new DeviceIdentity('Impresora ESO', 'Sala ESO'),
+				new WebDeviceStatus(new Ip('176.16.0.224'), DSM745PrinterDriver::URL),
+				new PrinterConfiguration(4, ['K']),
+				new DSM745PrinterDriver()
+			),
+				
+			// new Milhojas\Infrastructure\Network\Printer()
+		]);
 	}
 	
 

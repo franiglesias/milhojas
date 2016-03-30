@@ -7,7 +7,7 @@ use Milhojas\Domain\It\DeviceIdentity;
 /**
 * Description
 */
-class DeviceIsNotListening implements Event
+class DeviceStoppedListening implements Event
 {
 	private $device;
 	private $details;

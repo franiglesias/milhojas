@@ -21,7 +21,7 @@ class DeviceMonitor
 			$this->events[] = new Events\DeviceWentDown($this->device->getIdentity(), $this->device->getReport());
 		}
 		if (! $this->device->isListening()) {
-			$this->events[] = new Events\DeviceIsNotListening($this->device->getIdentity(), $this->device->getReport());
+			$this->events[] = new Events\DeviceStoppedListening($this->device->getIdentity(), $this->device->getReport());
 		}
 		if ($this->device->needsService()) {
 			$this->events[] = new Events\DeviceNeedsService($this->device->getIdentity(), $this->device->getReport());

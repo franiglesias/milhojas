@@ -2,7 +2,7 @@
 
 namespace Tests\Application\It\Doubles;
 
-use Milhojas\Infrastructure\Network\Device;
+use Milhojas\Domain\It\Device;
 use Milhojas\Infrastructure\Network\DeviceIdentity;
 
 /**

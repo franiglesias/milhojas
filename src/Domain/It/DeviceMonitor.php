@@ -2,7 +2,7 @@
 
 namespace Milhojas\Domain\It;
 
-use Milhojas\Infrastructure\Network\Device;
+use Milhojas\Domain\It\Device;
 use Milhojas\Domain\It\Events as Events;
 
 /**

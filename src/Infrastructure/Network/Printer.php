@@ -6,6 +6,7 @@ use Milhojas\Infrastructure\Network\Printers\PrinterDriver;
 use Milhojas\Infrastructure\Network\Printers\PrinterConfiguration;
 use Milhojas\Infrastructure\Network\DeviceIdentity;
 use Milhojas\Infrastructure\Network\DeviceStatus;
+use Milhojas\Domain\It\Device;
 /**
 * Description
 */

@@ -3,7 +3,8 @@
 namespace Milhojas\Infrastructure\Network;
 
 /**
- * Represents a Device connected to the net. The device can be asked if is up, is listening in a port, nneds service or needs supplies
+ * Represents a Device connected to the net. 
+ * The device can be asked if is up, is listening in a port, nneds service or needs supplies
  * 
  * Also, can generate a Report
  *

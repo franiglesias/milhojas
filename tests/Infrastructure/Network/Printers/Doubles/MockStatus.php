@@ -2,7 +2,7 @@
 
 namespace Tests\Infrastructure\Network\Printers\Doubles;
 
-use Milhojas\Infrastructure\Network\DeviceStatus;
+use Milhojas\Domain\It\DeviceStatus;
 
 /**
 * Description

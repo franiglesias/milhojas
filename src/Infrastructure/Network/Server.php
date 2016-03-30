@@ -3,7 +3,7 @@
 namespace Milhojas\Infrastructure\Network;
 
 use Milhojas\Domain\It\DeviceIdentity;
-use Milhojas\Infrastructure\Network\DeviceStatus;
+use Milhojas\Domain\It\DeviceStatus;
 /**
 * Represents a simple server
 */

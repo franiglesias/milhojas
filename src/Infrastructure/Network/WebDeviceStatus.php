@@ -3,7 +3,7 @@
 namespace Milhojas\Infrastructure\Network;
 
 use  Milhojas\Library\ValueObjects\Technical\Ip;
-use  Milhojas\Infrastructure\Network\DeviceStatus;
+use  Milhojas\Domain\It\DeviceStatus;
 
 /**
 * Retrieves information for a device that show a status web page

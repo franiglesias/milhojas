@@ -4,7 +4,7 @@ namespace Tests\Infrastructure\Network\Printers;
 
 use Milhojas\Infrastructure\Network\Printers\MPC4500PrinterDriver;
 use Milhojas\Library\ValueObjects\Technical\Ip;
-use Milhojas\Infrastructure\Network\DeviceStatus;
+use Milhojas\Domain\It\DeviceStatus;
 /**
 * Description
 */

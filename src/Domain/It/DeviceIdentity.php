@@ -3,7 +3,7 @@
 namespace Milhojas\Domain\It;
 
 /**
-* Describes the identity of a device for users
+* Value Object that describes the identity of a device for users
 */
 class DeviceIdentity
 {

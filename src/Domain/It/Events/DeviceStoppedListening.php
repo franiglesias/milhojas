@@ -7,13 +7,15 @@ use Milhojas\Domain\It\DeviceIdentity;
 /**
 * Description
 */
-class DeviceIsOK implements Event
+class DeviceStoppedListening implements Event
 {
 	private $device;
+	private $details;
 	
-	function __construct(DeviceIdentity $device)
+	function __construct(DeviceIdentity $device, $details)
 	{
 		$this->device = $device;
+		$this->details = $details;
 	}
 	
 	public function getDevice()
@@ -23,12 +25,12 @@ class DeviceIsOK implements Event
 	
 	public function getDetails()
 	{
-		return '';
+		return $this->details;
 	}
 	
 	public function getName()
 	{
-		return 'milhojas.it.device_is_ok';
+		return 'milhojas.it.device_stopped_listening';
 	}
 }
 

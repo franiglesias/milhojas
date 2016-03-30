@@ -90,7 +90,7 @@ class DeviceSpy implements Device
 	public function getReport()
 	{
 		if (! $this->fails) {
-			return [new DeviceIsOK($this->identity)];
+			return [new DeviceWasOK($this->identity)];
 		}
 		return $this->report;
 	}

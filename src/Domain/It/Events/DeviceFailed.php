@@ -7,7 +7,7 @@ use Milhojas\Domain\It\DeviceIdentity;
 /**
 * Description
 */
-class DeviceNeedsService implements Event
+class DeviceFailed implements Event
 {
 	private $device;
 	private $details;
@@ -30,7 +30,7 @@ class DeviceNeedsService implements Event
 	
 	public function getName()
 	{
-		return 'milhojas.it.device_needs_service';
+		return 'milhojas.it.device_failed';
 	}
 }
 

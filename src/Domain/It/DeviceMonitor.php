@@ -24,7 +24,7 @@ class DeviceMonitor
 			$this->events[] = new Events\DeviceStoppedListening($this->device->getIdentity(), $this->device->getReport());
 		}
 		if ($this->device->needsService()) {
-			$this->events[] = new Events\DeviceNeedsService($this->device->getIdentity(), $this->device->getReport());
+			$this->events[] = new Events\DeviceFailed($this->device->getIdentity(), $this->device->getReport());
 		}
 		if ($this->device->needsSupplies()) {
 			$this->events[] = new Events\DeviceRanOutOfSupplies($this->device->getIdentity(), $this->device->getReport());

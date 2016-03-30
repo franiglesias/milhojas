@@ -4,8 +4,9 @@ namespace Milhojas\Domain\It;
 
 /**
  * Interface for a class that can provide status information for a device
+ * Should be implemented in the Infrastructure Layer
  *
- * @package default
+ * @package milhojas.domain.it
  * @author Fran Iglesias
  */
 

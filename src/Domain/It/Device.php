@@ -6,7 +6,7 @@ namespace Milhojas\Domain\It;
  * Represents a Device able to report about its working status. 
  * The device can be asked if is up, is listening in a port, nneds service or needs supplies
  * 
- * If there is a problem, detail can be obtained via getReport()
+ * If there is a problem, details can be obtained via getReport()
  *
  * @package default
  * @author Francisco Iglesias Gómez

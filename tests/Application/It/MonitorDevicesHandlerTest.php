@@ -28,7 +28,7 @@ class MonitorDevicesHandlerTest extends \PHPUnit_Framework_Testcase
 		$handler->handle($command);
 		
 		// assert outcomes
-		$expected = [new Events\DeviceIsDown(new DeviceIdentity('Device', 'Network'), 'Device is down')];
+		$expected = [new Events\DeviceWentDown(new DeviceIdentity('Device', 'Network'), 'Device is down')];
 		$this->assertEquals($expected, $recorder->retrieve());
 	}
 	

@@ -29,7 +29,7 @@ class DeviceMonitorTest extends \PHPUnit_Framework_Testcase {
 		$monitor = new DeviceMonitor();
 		$monitor->poll($device);
 		$result = $monitor->getEvents();
-		$this->assertEquals([new Events\DeviceIsDown($id, 'Device is down')], $result);
+		$this->assertEquals([new Events\DeviceWentDown($id, 'Device is down')], $result);
 	}
 	
 	public function test_it_monitors_a_device_that_has_several_fails()

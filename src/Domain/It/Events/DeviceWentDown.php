@@ -7,7 +7,7 @@ use Milhojas\Domain\It\DeviceIdentity;
 /**
 * Description
 */
-class DeviceIsDown implements Event
+class DeviceWentDown implements Event
 {
 	private $device;
 	private $details;
@@ -20,7 +20,7 @@ class DeviceIsDown implements Event
 	
 	public function getDevice()
 	{
-		return $this->device;
+		return $this->device;	
 	}
 	
 	public function getDetails()
@@ -30,7 +30,7 @@ class DeviceIsDown implements Event
 	
 	public function getName()
 	{
-		return 'milhojas.it.device_is_down';
+		return 'milhojas.it.device_went_down';
 	}
 }
 

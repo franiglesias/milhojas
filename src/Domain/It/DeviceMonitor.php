@@ -18,7 +18,7 @@ class DeviceMonitor
 		$this->device = $device;
 		$fails = 0;
 		if (! $this->device->isUp()) {
-			$this->events[] = new Events\DeviceIsDown($this->device->getIdentity(), $this->device->getReport());
+			$this->events[] = new Events\DeviceWentDown($this->device->getIdentity(), $this->device->getReport());
 		}
 		if (! $this->device->isListening()) {
 			$this->events[] = new Events\DeviceIsNotListening($this->device->getIdentity(), $this->device->getReport());

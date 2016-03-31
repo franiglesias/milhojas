@@ -67,13 +67,8 @@ class MonitorCommand extends Command
 				new DeviceIdentity('Servidor Web', 'Miralba'),
 				new ServerStatus(new Ip('172.16.0.2', 80))
 			),
-
 		]);
 		$this->bus->execute($command);
-		$events = $this->recorder->retrieve();
-		foreach ($events as $event) {
-			$output->writeln($event);
-		}
 	}
 	
 

@@ -70,6 +70,19 @@ services:
         arguments:      ["%payroll.sender%", "@command_bus"]
         tags:
              - {name: console.command}
+    
+    it.report_device_status:
+        class:          Milhojas\Application\It\ReportDeviceStatus
+        arguments:      ['@milhojas.mailer']
+             
+# EventBus
+    event_bus:
+        class:          Milhojas\Library\EventBus\SimpleEventBus
+        calls:
+            - ['addHandler', ['milhojas.it.device_was_ok', '@it.report_device_status']]
+            - ['addHandler', ['milhojas.it.device_ran_out_of_supplies', '@it.report_device_status']]
+            
+
 # It Command Handlers
     device_monitor:
         class:          Milhojas\Domain\It\DeviceMonitor
@@ -78,10 +91,14 @@ services:
     monitor_devices_handler:
         class:          Milhojas\Application\It\MonitorDevicesHandler
         arguments:      ["@event_recorder", "@device_monitor"]
+        
+    event_command_bus:
+        class:          Milhojas\Library\CommandBus\EventAwareCommandBus
+        arguments:      [["@executer_bus_worker"], '@event_bus', '@event_recorder']
 # It Monitor command
     it_monitor:
         class:          AppBundle\Command\It\MonitorCommand
-        arguments:      ["@command_bus", "@event_recorder"]
+        arguments:      ["@event_command_bus", "@event_recorder"]
         tags:
             - {name: console.command}
         

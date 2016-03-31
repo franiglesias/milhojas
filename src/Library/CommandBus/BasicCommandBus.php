@@ -10,7 +10,7 @@ use Milhojas\Library\CommandBus\CommandBus;
 
 class BasicCommandBus implements CommandBus
 {
-	private $workersChain;
+	protected $workersChain;
 	
 	function __construct(array $workers)
 	{
@@ -24,7 +24,7 @@ class BasicCommandBus implements CommandBus
 	 * @return the chain
 	 * @author Francisco Iglesias Gómez
 	 */
-	private function buildWorkersChain($workers)
+	protected function buildWorkersChain($workers)
 	{
 		$chain = array_pop($workers);
 		while (count($workers) > 0) {

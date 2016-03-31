@@ -20,6 +20,9 @@ use Milhojas\Infrastructure\Network\WebDeviceStatus;
 use Milhojas\Infrastructure\Network\Printers\PrinterConfiguration;
 use Milhojas\Infrastructure\Network\Printers\DSM745PrinterDriver;
 use Milhojas\Infrastructure\Network\Printers\MPC4500PrinterDriver;
+
+use Milhojas\Infrastructure\Network\ServerStatus;
+
 use Milhojas\Library\ValueObjects\Technical\Ip;
 /**
 * Description
@@ -60,6 +63,11 @@ class MonitorCommand extends Command
 				new MPC4500PrinterDriver(),
 				new PrinterConfiguration(4, ['C', 'M', 'Y', 'K'])
 			),
+			new \Milhojas\Infrastructure\Network\Server(
+				new DeviceIdentity('Servidor Web', 'Miralba'),
+				new ServerStatus(new Ip('172.16.0.2', 80))
+			),
+
 		]);
 		$this->bus->execute($command);
 		$events = $this->recorder->retrieve();

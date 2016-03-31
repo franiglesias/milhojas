@@ -32,7 +32,7 @@ class DeviceMonitor
 	private function checkIfDeviceWasOk()
 	{
 		if (empty($this->events)) {
-			$this->events = [new Events\DeviceWasOk($this->device->getIdentity())];
+			$this->events = [new Events\DeviceWasOK($this->device->getIdentity())];
 		}
 	}
 

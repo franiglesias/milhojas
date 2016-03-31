@@ -46,15 +46,15 @@ class DeviceMonitorTest extends \PHPUnit_Framework_Testcase {
 		], $result);
 	}
 	
-	public function test_it_should_forget_events_after_retrieve_them()
+	public function test_it_should_forget_events_before_poll_so_pollng_several_time_does_not_acummulate_events()
 	{
 		$id = new DeviceIdentity('Device', 'Network');
 		$device = DeviceSpy::twoFails($id);
 		$monitor = new DeviceMonitor();
 		$monitor->poll($device);
-		$monitor->getEvents();
-		$monitor->forgetEvents();
-		$this->assertTrue(empty($monitor->getEvents()));
+		$monitor->poll($device);
+		$this->assertFalse(count($monitor->getEvents()) == 4);
+		$this->assertTrue(count($monitor->getEvents()) == 2);
 	}
 	
 	

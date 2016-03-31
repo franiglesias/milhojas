@@ -16,7 +16,7 @@ class MonitorDevicesHandler implements CommandHandler
 	private $monitor;
 	private $recorder;
 	
-	function __construct(EventRecorder $recorder, DeviceMonitor $monitor)
+	function __construct(DeviceMonitor $monitor, EventRecorder $recorder)
 	{
 		$this->monitor = $monitor;
 		$this->recorder = $recorder;

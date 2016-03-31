@@ -73,13 +73,13 @@ services:
     
     it.report_device_status:
         class:          Milhojas\Application\It\ReportDeviceStatus
-        arguments:      ['@milhojas.mailer']
+        arguments:      ['@milhojas.mailer', '%device.sender%', '%device.report%']
              
 # EventBus
     event_bus:
         class:          Milhojas\Library\EventBus\SimpleEventBus
         calls:
-            - ['addHandler', ['milhojas.it.device_was_ok', '@it.report_device_status']]
+            # - ['addHandler', ['milhojas.it.device_was_ok', '@it.report_device_status']]
             - ['addHandler', ['milhojas.it.device_ran_out_of_supplies', '@it.report_device_status']]
             
 
@@ -90,7 +90,7 @@ services:
         class:          Milhojas\Library\EventBus\EventRecorder
     monitor_devices_handler:
         class:          Milhojas\Application\It\MonitorDevicesHandler
-        arguments:      ["@event_recorder", "@device_monitor"]
+        arguments:      ["@device_monitor", "@event_recorder"]
         
     event_command_bus:
         class:          Milhojas\Library\CommandBus\EventAwareCommandBus

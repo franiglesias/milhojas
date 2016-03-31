@@ -12,7 +12,6 @@ use Milhojas\Infrastructure\Mail\Mailer;
 # Contracts
 
 use Milhojas\Domain\Management\PayrollRepository;
-use Milhojas\Infrastructure\Templating\Templating;
 
 /**
 * Manages SendPayroll command

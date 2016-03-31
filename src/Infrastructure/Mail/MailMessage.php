@@ -83,6 +83,9 @@ class MailMessage
 	}
 	public function getAttachments()
 	{
+		if (!$this->attachments) {
+			return array();
+		}
 		return $this->attachments;
 	}
 	

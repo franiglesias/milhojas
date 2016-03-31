@@ -6,7 +6,7 @@ namespace Milhojas\Library\EventBus;
 use Milhojas\Library\EventBus\EventBus;
 use Milhojas\Library\EventBus\Event;
 /**
-* Description
+* It's a very simple Event Dispatcher
 */
 class SimpleEventBus implements EventBus
 {

@@ -76,7 +76,7 @@ class Printer implements Device
 		foreach ($this->configuration->getColors() as $color) {
 			if ($this->getTonerLevel($color)->shouldReplace()) {
 				$needsToner = true;
-				$this->recordThat(sprintf('Replace toner for color %s', $color));
+				$this->recordThat(sprintf('Replace toner for color %s (Level: %s)', $color, $this->getTonerLevel($color)->getLevel()));
 			}
 		}
 		return $needsToner;
@@ -93,7 +93,7 @@ class Printer implements Device
 		for ($tray=1; $tray <= $this->configuration->getTrays(); $tray++) { 
 			if ($this->getPaperLevel($tray)->shouldReplace()) {
 				$needsPaper = true;
-				$this->recordThat(sprintf('Put paper in tray %s', $tray));
+				$this->recordThat(sprintf('Put paper in tray %s (Level: %s)', $tray, $this->getPaperLevel($tray)->getLevel()));
 			}
 		}
 		return $needsPaper;

@@ -20,6 +20,10 @@ class DeviceMonitor
 		$this->checkIfDeviceStoppedListening();
 		$this->checkIfDeviceFailed();
 		$this->checkIfDeviceRanOutOfSupplies();
+		if (empty($this->events)) {
+			$this->events = [new Events\DeviceWasOk($this->device->getIdentity())];
+		}
+		
 	}
 
 	private function checkIfDeviceWentDown()
@@ -52,10 +56,12 @@ class DeviceMonitor
 	
 	public function getEvents()
 	{
-		if (empty($this->events)) {
-			return array(new Events\DeviceWasOk($this->device->getIdentity()));
-		}
 		return $this->events;
+	}
+	
+	public function forgetEvents()
+	{
+		$this->events = array();
 	}
 }
 

@@ -29,7 +29,6 @@ class EventRecorder implements \IteratorAggregate
 	public function recordBatch(array $events)
 	{
 		foreach ($events as $event) {
-			echo $event->getName().chr(10);
 			$this->recordThat($event);
 		}
 	}
@@ -42,6 +41,15 @@ class EventRecorder implements \IteratorAggregate
 	public function forget()
 	{
 		$this->events = array();
+	}
+	
+	public function __toString()
+	{
+		$string = '';
+		foreach ($this->events as $event) {
+			$string .= $event->getName().chr(10);
+		}
+		return $string;
 	}
 	
 }

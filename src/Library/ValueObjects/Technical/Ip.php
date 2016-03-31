@@ -22,11 +22,6 @@ class Ip
 		return $this->ip;
 	}
 	
-	public function __toString()
-	{
-		return $this->ip;
-	}
-	
 	protected function isValid($ip)
 	{
 		if (filter_var($ip, FILTER_VALIDATE_IP) === false) {
@@ -43,7 +38,7 @@ class Ip
 	public function isListening()
 	{
 		if (!$this->port) {
-			$this->port = -1;
+			return true;
 		}
         if (! @fsockopen($this->ip, $this->port) )
         {
@@ -53,6 +48,11 @@ class Ip
         {
             return TRUE;
         }
+	}
+	
+	public function __toString()
+	{
+		return $this->ip . ($this->port ? ':'.$this->port : '');
 	}
 }
 

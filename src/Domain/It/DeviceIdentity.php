@@ -16,6 +16,11 @@ class DeviceIdentity
 		$this->location = $location;
 	}
 	
+	public function __toString()
+	{
+		return sprintf('%s at %s', $this->name, $this->location);
+	}
+	
 }
 
 ?>

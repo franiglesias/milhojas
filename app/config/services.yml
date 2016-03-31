@@ -81,7 +81,7 @@ services:
 # It Monitor command
     it_monitor:
         class:          AppBundle\Command\It\MonitorCommand
-        arguments:      ["@command_bus"]
+        arguments:      ["@command_bus", "@event_recorder"]
         tags:
             - {name: console.command}
         

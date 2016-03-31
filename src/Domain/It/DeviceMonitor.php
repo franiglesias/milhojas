@@ -16,14 +16,24 @@ class DeviceMonitor
 	public function poll(Device $device)
 	{
 		$this->device = $device;
+		$this->forgetEvents();
+		$this->performChecks();
+	}
+	
+	private function performChecks()
+	{
 		$this->checkIfDeviceWentDown();
 		$this->checkIfDeviceStoppedListening();
 		$this->checkIfDeviceFailed();
 		$this->checkIfDeviceRanOutOfSupplies();
+		$this->checkIfDeviceWasOk();
+	}
+	
+	private function checkIfDeviceWasOk()
+	{
 		if (empty($this->events)) {
 			$this->events = [new Events\DeviceWasOk($this->device->getIdentity())];
 		}
-		
 	}
 
 	private function checkIfDeviceWentDown()

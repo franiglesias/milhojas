@@ -10,9 +10,12 @@ use  Milhojas\Domain\It\DeviceStatus;
 */
 class WebDeviceStatus implements DeviceStatus
 {
+	const LIFETIME = 30;
+	
 	private $ip;
 	private $status;
 	private $url;
+	private $lastCheck = 0;
 	
 	public function __construct(Ip $ip, $url)
 	{
@@ -35,6 +38,7 @@ class WebDeviceStatus implements DeviceStatus
 	{
 		if ($this->shouldReloadStatus($force)) {
 			$this->status = $this->requestStatus();
+			$this->lastCheck = microtime(true);
 		}
 		return $this->status;
 	}
@@ -51,7 +55,24 @@ class WebDeviceStatus implements DeviceStatus
 
 	private function shouldReloadStatus($force)
 	{
+		if ($this->statusMustBeReloaded($force)) {
+			return true;
+		}
+		return $this->loadedStatusIsTooOld();
+	}
+	
+	private function statusMustBeReloaded($force)
+	{
 		return ($force || empty($this->status));
+	}
+	
+	private function loadedStatusIsTooOld()
+	{
+		$ageInSeconds = microtime(true) - $this->lastCheck;
+		if (($ageInSeconds) > static::LIFETIME ) {
+			return true;
+		}
+		return false;
 	}
 }
 

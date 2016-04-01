@@ -24,10 +24,7 @@ class ReportDeviceStatus implements EventHandler
 	
 	public function handle(Event $event)
 	{
-		$device = $event->getDevice();
-		echo $device.chr(10);
-		echo $event->getDetails().chr(10);
-		$this->sendEmail($device, $event->getDetails());
+		$this->sendEmail($event->getDevice(), $event->getDetails());
 	}
 	
 	private function sendEmail($device, $details)

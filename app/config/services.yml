@@ -74,6 +74,13 @@ services:
     it.report_device_status:
         class:          Milhojas\Application\It\ReportDeviceStatus
         arguments:      ['@milhojas.mailer', '%device.sender%', '%device.report%']
+        
+    cli.output:
+        class:          Symfony\Component\Console\Output\ConsoleOutput
+        
+    it.cli_report_device_status:
+        class:          Milhojas\Application\It\CliReportDeviceStatus
+        arguments:      ['@cli.output']
              
 # EventBus
     event_bus:
@@ -81,6 +88,9 @@ services:
         calls:
             # - ['addHandler', ['milhojas.it.device_was_ok', '@it.report_device_status']]
             - ['addHandler', ['milhojas.it.device_ran_out_of_supplies', '@it.report_device_status']]
+            - ['addHandler', ['milhojas.it.device_was_ok', '@it.cli_report_device_status']]
+            - ['addHandler', ['milhojas.it.device_ran_out_of_supplies', '@it.cli_report_device_status']]
+            - ['addHandler', ['milhojas.it.device_failed', '@it.cli_report_device_status']]
             
 
 # It Command Handlers

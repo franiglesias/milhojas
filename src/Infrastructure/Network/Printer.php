@@ -56,7 +56,7 @@ class Printer extends BaseDevice
 		foreach ($this->configuration->getColors() as $color) {
 			if ($this->getTonerLevel($color)->shouldReplace()) {
 				$needsToner = true;
-				$this->recordThat(sprintf('Replace toner for color %s (Level: %s)', $color, $this->getTonerLevel($color)->getVerboseLevel()));
+				$this->recordThat(sprintf('Replace toner for color %s (Level: %s)', $color, $this->getTonerLevel($color)->verbose()));
 			}
 		}
 		return $needsToner;
@@ -73,7 +73,7 @@ class Printer extends BaseDevice
 		for ($tray=1; $tray <= $this->configuration->getTrays(); $tray++) { 
 			if ($this->getPaperLevel($tray)->shouldReplace()) {
 				$needsPaper = true;
-				$this->recordThat(sprintf('Put paper in tray %s (Level: %s)', $tray, $this->getPaperLevel($tray)->getVerboseLevel()));
+				$this->recordThat(sprintf('Put paper in tray %s (Level: %s)', $tray, $this->getPaperLevel($tray)->verbose()));
 			}
 		}
 		return $needsPaper;

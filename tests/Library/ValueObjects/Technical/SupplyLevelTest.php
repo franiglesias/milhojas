@@ -60,7 +60,7 @@ class SupplyLevelTest extends \PHPUnit_Framework_Testcase
 		);
 		foreach ($levels as $level => $expected) {
 			$testedLevel = new SupplyLevel($level);
-			$this->assertEquals($expected, $testedLevel->getVerboseLevel());
+			$this->assertEquals($expected, $testedLevel->verbose());
 		}
 	}
 }

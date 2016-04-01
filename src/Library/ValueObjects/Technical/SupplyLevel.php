@@ -35,7 +35,7 @@ class SupplyLevel
 		return $this->level;
 	}
 	
-	public function getVerboseLevel()
+	public function verbose()
 	{
 		return $this->verboseLevels[$this->level];
 	}

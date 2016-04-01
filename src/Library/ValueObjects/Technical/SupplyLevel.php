@@ -8,6 +8,14 @@ namespace Milhojas\Library\ValueObjects\Technical;
 class SupplyLevel
 {
 	private $level;
+	private $verboseLevels = array(
+		'exhausted',
+		'almost empty',
+		'low',
+		'medium',
+		'high',
+		'almost full'
+	);
 	
 	function __construct($level)
 	{
@@ -25,6 +33,11 @@ class SupplyLevel
 	public function getLevel()
 	{
 		return $this->level;
+	}
+	
+	public function getVerboseLevel()
+	{
+		return $this->verboseLevels[$this->level];
 	}
 	
 	public function shouldReplace()

@@ -16,7 +16,6 @@ class Printer extends BaseDevice
 {
 	private $driver;
 	private $configuration;
-
 	
 	function __construct(DeviceIdentity $device, DeviceStatus $status, PrinterDriver $driver, PrinterConfiguration $configuration)
 	{
@@ -26,7 +25,6 @@ class Printer extends BaseDevice
 		$this->configuration = $configuration;
 		$this->messages = array();
 	}
-	
 		
 	public function needsSupplies()
 	{
@@ -41,7 +39,6 @@ class Printer extends BaseDevice
 		return $this->hasFailed();
 	}
 	
-	
 	private function hasFailed()
 	{
 		$serviceCodes = $this->driver->guessServiceCode($this->status->updateStatus());
@@ -52,7 +49,6 @@ class Printer extends BaseDevice
 		}
 		return $needsService;
 	}
-	
 	
 	private function needsToner()
 	{
@@ -81,16 +77,12 @@ class Printer extends BaseDevice
 			}
 		}
 		return $needsPaper;
-		
 	}
 	
 	private function getPaperLevel($tray)
 	{
 		return $this->driver->paperLevelForTray($tray, $this->status->updateStatus());
 	}
-	
-	
 }
-
 
 ?>

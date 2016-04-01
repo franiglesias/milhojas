@@ -6,7 +6,7 @@ use Milhojas\Domain\It\DeviceIdentity;
 use Milhojas\Domain\It\DeviceStatus;
 use Milhojas\Domain\It\Device;
 /**
-* Provides some common behavior for devices
+* Abstraction to provide some common behavior for devices
 */
 abstract class BaseDevice implements Device
 {
@@ -34,20 +34,24 @@ abstract class BaseDevice implements Device
 	
 	abstract public function needsService();
 	
+	# Report section
+	
 	public function getReport()
 	{
 		return implode(chr(10), $this->messages);
 	}
-
+	protected function recordThat($message)
+	{
+		$this->messages[] = $message;
+	}
+	
+	# Getters
+	
 	public function getIdentity()
 	{
 		return $this->device;
 	}
 	
-	protected function recordThat($message)
-	{
-		$this->messages[] = $message;
-	}
 	
 }
 

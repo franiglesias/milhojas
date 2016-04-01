@@ -6,7 +6,8 @@ use  Milhojas\Library\ValueObjects\Technical\Ip;
 use  Milhojas\Domain\It\DeviceStatus;
 
 /**
-* Retrieves information for a device that show a status web page
+* Retrieves information for a device that has an status web page
+* Uses a LIFETIME to avoid repeat queries
 */
 class WebDeviceStatus implements DeviceStatus
 {
@@ -75,9 +76,9 @@ class WebDeviceStatus implements DeviceStatus
 		return false;
 	}
 	
-	public function getIp()->getPort()
+	public function getIp()
 	{
-		return $this->ip->getIp()->getPort();
+		return $this->ip;
 	}
 	
 }

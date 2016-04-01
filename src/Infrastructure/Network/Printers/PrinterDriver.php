@@ -2,7 +2,6 @@
 
 namespace Milhojas\Infrastructure\Network\Printers;
 
-
 /**
  * An interface to build Concrete Printer Drivers that can extract some information from $status
  * 

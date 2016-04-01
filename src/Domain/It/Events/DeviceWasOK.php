@@ -15,6 +15,7 @@ class DeviceWasOK implements Event
 	function __construct(DeviceIdentity $device, $details)
 	{
 		$this->device = $device;
+		$this->details = $details;
 	}
 	
 	public function getDevice()

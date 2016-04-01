@@ -86,11 +86,13 @@ services:
     event_bus:
         class:          Milhojas\Library\EventBus\SimpleEventBus
         calls:
-            # - ['addHandler', ['milhojas.it.device_was_ok', '@it.report_device_status']]
             - ['addHandler', ['milhojas.it.device_ran_out_of_supplies', '@it.report_device_status']]
+            - ['addHandler', ['milhojas.it.device_failed', '@it.report_device_status']]
+            - ['addHandler', ['milhojas.it.device_stopped_listening', '@it.report_device_status']]
             - ['addHandler', ['milhojas.it.device_was_ok', '@it.cli_report_device_status']]
             - ['addHandler', ['milhojas.it.device_ran_out_of_supplies', '@it.cli_report_device_status']]
             - ['addHandler', ['milhojas.it.device_failed', '@it.cli_report_device_status']]
+            - ['addHandler', ['milhojas.it.device_stopped_listening', '@it.cli_report_device_status']]
             
 
 # It Command Handlers

@@ -45,7 +45,10 @@ class Printer implements Device
 		
 	public function needsSupplies()
 	{
-		return ($this->needsToner() || $this->needsPaper());
+		// Force that the two tests are performed
+		$needsToner = $this->needsToner();
+		$needsPaper = $this->needsPaper();
+		return ($needsToner || $needsPaper);
 	}
 	
 	public function needsService()

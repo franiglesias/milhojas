@@ -10,8 +10,9 @@ use Milhojas\Domain\It\DeviceIdentity;
 class DeviceWasOK implements Event
 {
 	private $device;
+	private $details;
 	
-	function __construct(DeviceIdentity $device)
+	function __construct(DeviceIdentity $device, $details)
 	{
 		$this->device = $device;
 	}
@@ -23,7 +24,7 @@ class DeviceWasOK implements Event
 	
 	public function getDetails()
 	{
-		return '';
+		return $this->details;
 	}
 	
 	public function getName()

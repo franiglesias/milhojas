@@ -15,27 +15,27 @@ class DSM745PrinterDriverTest extends \PHPUnit_Framework_Testcase
 	public function test_it_works_ok()
 	{
 		$driver = new DSM745PrinterDriver();
-		$this->assertFalse($driver->tonerLevelForColor('K', DSM745Mock::workingFine()->getStatus())->shouldReplace());
-		$this->assertFalse($driver->paperLevelForTray(1, DSM745Mock::workingFine()->getStatus())->shouldReplace());
-		$this->assertTrue(empty($driver->guessServiceCode(DSM745Mock::workingFine()->getStatus())));
+		$this->assertFalse($driver->tonerLevelForColor('K', DSM745Mock::workingFine()->updateStatus())->shouldReplace());
+		$this->assertFalse($driver->paperLevelForTray(1, DSM745Mock::workingFine()->updateStatus())->shouldReplace());
+		$this->assertTrue(empty($driver->guessServiceCode(DSM745Mock::workingFine()->updateStatus())));
 	}
 	
 	public function test_it_needs_toner()
 	{
 		$driver = new DSM745PrinterDriver();
-		$this->assertTrue($driver->tonerLevelForColor('K', DSM745Mock::withoutToner()->getStatus())->shouldReplace());
+		$this->assertTrue($driver->tonerLevelForColor('K', DSM745Mock::withoutToner()->updateStatus())->shouldReplace());
 	}
 
 	public function test_it_needs_service()
 	{
 		$driver = new DSM745PrinterDriver();
-		$this->assertFalse(empty($driver->guessServiceCode(DSM745Mock::needingService()->getStatus())));
+		$this->assertFalse(empty($driver->guessServiceCode(DSM745Mock::needingService()->updateStatus())));
 	}
 
 	public function test_it_needs_paper()
 	{
 		$driver = new DSM745PrinterDriver();
-		$this->assertTrue($driver->paperLevelForTray(1, DSM745Mock::withoutPaper()->getStatus())->shouldReplace());
+		$this->assertTrue($driver->paperLevelForTray(1, DSM745Mock::withoutPaper()->updateStatus())->shouldReplace());
 	}
 
 }
@@ -129,7 +129,7 @@ class DSM745Mock implements DeviceStatus
 		}
 		return $block;
 	}
-	public function getStatus($force = false)
+	public function updateStatus($force = false)
 	{
 		$page = chr(10);
 		$page .= 'Simulated status page'.chr(10);
@@ -147,6 +147,11 @@ class DSM745Mock implements DeviceStatus
 	public function isListening()
 	{
 		return true;
+	}
+	
+	public function getIp()
+	{
+		return new Ip('127.0.0.1');
 	}
 	
 }

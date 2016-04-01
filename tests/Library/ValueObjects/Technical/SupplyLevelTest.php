@@ -46,7 +46,22 @@ class SupplyLevelTest extends \PHPUnit_Framework_Testcase
 
 		$level = new SupplyLevel(0);
 		$this->assertEquals('[     ]', $level->getGraph());
-		
+	}
+	
+	public function test_it_returns_verbose_level()
+	{
+		$levels = array(
+			'exhausted',
+			'almost empty',
+			'low',
+			'medium',
+			'high',
+			'almost full'
+		);
+		foreach ($levels as $level => $expected) {
+			$testedLevel = new SupplyLevel($level);
+			$this->assertEquals($expected, $testedLevel->getVerboseLevel());
+		}
 	}
 }
 ?>

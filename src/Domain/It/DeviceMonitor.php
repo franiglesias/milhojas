@@ -6,7 +6,7 @@ use Milhojas\Domain\It\Device;
 use Milhojas\Domain\It\Events as Events;
 
 /**
-* Polls the Device for state and generate events according
+* Service that can poll Devices for state and generate events according
 */
 class DeviceMonitor
 {
@@ -22,7 +22,9 @@ class DeviceMonitor
 	
 	private function performChecks()
 	{
-		$this->checkIfDeviceWentDown();
+		if ($this->checkIfDeviceWentDown()) {
+			return;
+		}
 		$this->checkIfDeviceStoppedListening();
 		$this->checkIfDeviceFailed();
 		$this->checkIfDeviceRanOutOfSupplies();
@@ -40,7 +42,9 @@ class DeviceMonitor
 	{
 		if (! $this->device->isUp()) {
 			$this->events[] = new Events\DeviceWentDown($this->device->getIdentity(), $this->device->getReport());
+			return true;
 		}
+		return false;
 	}
 	
 	private function checkIfDeviceStoppedListening()

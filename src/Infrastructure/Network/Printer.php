@@ -7,15 +7,14 @@ use Milhojas\Infrastructure\Network\Printers\PrinterConfiguration;
 use Milhojas\Domain\It\DeviceIdentity;
 use Milhojas\Domain\It\DeviceStatus;
 use Milhojas\Domain\It\Device;
+
+use Milhojas\Infrastructure\Network\BaseDevice;
 /**
 * Description
 */
-class Printer implements Device
+class Printer extends BaseDevice
 {
 	private $driver;
-	private $device;
-	private $status;
-	private $messages;
 	private $configuration;
 
 	
@@ -28,20 +27,6 @@ class Printer implements Device
 		$this->messages = array();
 	}
 	
-	public function getIdentity()
-	{
-		return $this->device;
-	}
-	
-	public function isUp()
-	{
-		return $this->status->isUp();
-	}
-	
-	public function isListening()
-	{
-		return $this->status->isListening();
-	}
 		
 	public function needsSupplies()
 	{
@@ -56,14 +41,10 @@ class Printer implements Device
 		return $this->hasFailed();
 	}
 	
-	public function getReport()
-	{
-		return implode(chr(10), $this->messages);
-	}
 	
 	private function hasFailed()
 	{
-		$serviceCodes = $this->driver->guessServiceCode($this->status->getStatus());
+		$serviceCodes = $this->driver->guessServiceCode($this->status->updateStatus());
 		$needsService = false;
 		if ($serviceCodes) {
 			$needsService = true;
@@ -87,7 +68,7 @@ class Printer implements Device
 	
 	private function getTonerLevel($color)
 	{
-		return $this->driver->tonerLevelForColor($color, $this->status->getStatus());
+		return $this->driver->tonerLevelForColor($color, $this->status->updateStatus());
 	}
 	
 	private function needsPaper()
@@ -105,13 +86,9 @@ class Printer implements Device
 	
 	private function getPaperLevel($tray)
 	{
-		return $this->driver->paperLevelForTray($tray, $this->status->getStatus());
+		return $this->driver->paperLevelForTray($tray, $this->status->updateStatus());
 	}
 	
-	protected function recordThat($message)
-	{
-		$this->messages[] = $message;
-	}
 	
 }
 

@@ -32,7 +32,7 @@ class DeviceSpy implements Device
 		$this->service = $service;
 	}
 	
-	# static named constructors define working conditions on the simulaes device
+	# static named constructors define working conditions on the simulates device
 	
 	static public function working(DeviceIdentity $identity)
 	{
@@ -52,6 +52,11 @@ class DeviceSpy implements Device
 	static public function isDown(DeviceIdentity $identity)
 	{
 		return new static($identity, false, true, false, false);
+	}
+	
+	static public function isDownAndNeedingSupplies(DeviceIdentity $identity)
+	{
+		return new static($identity, false, true, false, true);
 	}
 	
 	static public function twoFails(DeviceIdentity $identity) 

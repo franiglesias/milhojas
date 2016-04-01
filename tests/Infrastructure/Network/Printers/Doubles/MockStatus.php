@@ -3,6 +3,7 @@
 namespace Tests\Infrastructure\Network\Printers\Doubles;
 
 use Milhojas\Domain\It\DeviceStatus;
+use Milhojas\Library\ValueObjects\Technical\Ip;
 
 /**
 * Description
@@ -62,10 +63,17 @@ class MockStatus implements DeviceStatus
 		return $this->status['listening'];
 	}
 	
-	public function getStatus($force = false)
+	public function updateStatus($force = false)
 	{
 		return $this->status;
 	}
+	
+	
+	public function getIp()
+	{
+		return new Ip('127.0.0.1');
+	}
+	
 }
 
 ?>

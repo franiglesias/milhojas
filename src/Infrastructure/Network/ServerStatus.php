@@ -29,11 +29,15 @@ class ServerStatus implements DeviceStatus
 		return $this->ip->isListening();
 	}
 	
-	public function getStatus($force = false)
+	public function updateStatus($force = false)
 	{
 		return false;
 	}
 	
+	public function getIp()->getPort()
+	{
+		return $this->ip->getIp()->getPort();
+	}
 }
 
 ?>

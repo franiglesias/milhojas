@@ -13,7 +13,8 @@ namespace Milhojas\Domain\It;
 interface DeviceStatus {
 	public function isUp();
 	public function isListening();
-	public function getStatus($force = false);
+	public function updateStatus($force = false);
+	public function getIp();
 }
 
 ?>

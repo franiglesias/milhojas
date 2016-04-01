@@ -24,7 +24,7 @@ class MonitorDevicesHandlerTest extends \PHPUnit_Framework_Testcase
 		$recorder = new EventRecorder();
 		$monitor = new DeviceMonitor();
 		
-		$handler = new MonitorDevicesHandler($recorder, $monitor);
+		$handler = new MonitorDevicesHandler($monitor, $recorder);
 		$handler->handle($command);
 		
 		// assert outcomes

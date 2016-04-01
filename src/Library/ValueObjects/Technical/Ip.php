@@ -22,6 +22,11 @@ class Ip
 		return $this->ip;
 	}
 	
+	public function getPort()
+	{
+		return $this->port;
+	}
+	
 	protected function isValid($ip)
 	{
 		if (filter_var($ip, FILTER_VALIDATE_IP) === false) {

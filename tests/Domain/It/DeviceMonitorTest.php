@@ -18,7 +18,7 @@ class DeviceMonitorTest extends \PHPUnit_Framework_Testcase {
 		$monitor = new DeviceMonitor();
 		$monitor->poll($device);
 		$result = $monitor->getEvents();
-		$this->assertEquals([new Events\DeviceWasOk($id)], $result);
+		$this->assertEquals([new Events\DeviceWasOk($id, 'Device is up and running')], $result);
 	}
 	
 	public function test_it_monitors_a_device_that_fails()
@@ -56,6 +56,20 @@ class DeviceMonitorTest extends \PHPUnit_Framework_Testcase {
 		$this->assertFalse(count($monitor->getEvents()) == 4);
 		$this->assertTrue(count($monitor->getEvents()) == 2);
 	}
+	
+	public function test_if_device_is_down_does_not_perform_more_checks()
+	{
+		$id = new DeviceIdentity('Device', 'Network');
+		$device = DeviceSpy::isDownAndNeedingSupplies($id);
+		$monitor = new DeviceMonitor();
+		
+		$monitor->poll($device);
+		$result = $monitor->getEvents();
+		$this->assertEquals([
+			new Events\DeviceWentDown($id, 'Device is down'), 
+		], $result);
+	}
+	
 	
 	
 }

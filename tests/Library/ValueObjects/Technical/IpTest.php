@@ -31,5 +31,11 @@ class IpTest extends \PHPUnit_Framework_Testcase
 	{
 		$ip = new Ip('1270.0.1');
 	}
+	
+	public function test_is_Down()
+	{
+		$ip = new Ip('192.168.0.1');
+		$this->assertFalse($ip->isUp());
+	}
 }
 ?>

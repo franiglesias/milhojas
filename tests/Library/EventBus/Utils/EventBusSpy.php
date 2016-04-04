@@ -40,6 +40,11 @@ class EventBusSpy implements EventBus
 		$this->busUnderTest->handle($event);
 	}
 	
+	public function subscribeHandler(EventHandler $subscriber, array $events)
+	{
+		$this->busUnderTest->subscribeHandler($subscriber, $events);
+	}
+	
 	public function addHandler($eventName, EventHandler $handler)
 	{
 		$this->busUnderTest->addHandler($eventName, $handler);

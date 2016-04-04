@@ -84,8 +84,24 @@ class SimpleEventBusTest extends \PHPUnit_Framework_Testcase
 			'simple.event' => array('TestEventHandler')
 		);
 		$this->assertEquals($expected, $bus->getRecordedHandlers());
-
 	}
+	
+	public function test_a_handler_can_subscribe_to_several_events()
+	{
+		$bus = new EventBusSpy(new SimpleEventBus());
+		// $bus->addHandler('test.event', new TestEventHandler($bus));
+		// $bus->addHandler('simple.event', new TestEventHandler($bus));
+		$bus->subscribeHandler(new TestEventHandler($bus), ['test.event', 'simple.event']);
+		$bus->handle(new TestEvent('data'));
+		$bus->handle(new SimpleEvent('other Data'));
+		$expected = array(
+			'test.event' => array('TestEventHandler'),
+			'simple.event' => array('TestEventHandler')
+		);
+		$this->assertEquals($expected, $bus->getRecordedHandlers());
+	}
+	
+	
 	
 }
 

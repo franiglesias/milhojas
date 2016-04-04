@@ -122,10 +122,12 @@ class MPC4500Mock implements DeviceStatus
 			4 => '75_', 
 			5 => '100_'
 		);
-
+		// Introduce a false positive
+		$block = 'deviceStPsave16.gif'.chr(10);
 		foreach ($this->paper as $tray => $level) {
 			$block .= sprintf('deviceStP%s16.gif', $levels[$level]).chr(10);
 		}
+
 		return $block;
 	}
 	public function updateStatus($force = false)

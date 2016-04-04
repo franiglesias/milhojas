@@ -22,6 +22,13 @@ class SimpleEventBus implements EventBus
 		$this->handlers[$eventName][] = $handler;
 	}
 	
+	public function subscribeHandler(EventHandler $subscriber, array $events)
+	{
+		foreach ($events as $event) {
+			$this->addHandler($event, $subscriber);
+		}
+	}
+	
 	public function handle(Event $event)
 	{
 		if (! $this->canManageEvent($event)) {

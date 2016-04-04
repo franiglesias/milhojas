@@ -34,7 +34,6 @@ class MPC4500PrinterDriver implements PrinterDriver
 	public function paperLevelForTray($tray, $status)
 	{
 		preg_match_all('/deviceStP(Nend|end|100|75|50|25)_?16\.gif/', $status, $matches);
-		// Need to filter the save level
 		return new MPC4500SupplyLevel($matches[1][$tray-1]);
 	}
 	

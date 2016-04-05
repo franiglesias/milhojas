@@ -5,7 +5,9 @@ namespace Milhojas\Domain\Management\Events;
 use Milhojas\Library\EventBus\Event;
 use Milhojas\Domain\Management\Payroll;
 /**
-* Description
+* Describes a Payroll that was sent by the system
+* 
+* Delivery could fail if email doesn't exists
 */
 class PayrollWasSent implements Event
 {

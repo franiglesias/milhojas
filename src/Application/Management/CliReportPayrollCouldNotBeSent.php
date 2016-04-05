@@ -8,7 +8,7 @@ use Milhojas\Infrastructure\Mail\MailMessage;
 use Milhojas\Infrastructure\Mail\Mailer;
 use Symfony\Component\Console\Output\OutputInterface;
 /**
-* Handles events related to Device Status
+* Handles the event that payroll could not be sent and reports via CLI
 */
 class CliReportPayrollCouldNotBeSent implements EventHandler
 {
@@ -21,7 +21,7 @@ class CliReportPayrollCouldNotBeSent implements EventHandler
 	
 	public function handle(Event $event)
 	{
-		$this->output->writeln('<error>Payroll for <options=bold>'.$event->getWorker().'</> could not be sent</>');
+		$this->output->writeln('<error>Payroll for <error options=bold>'.$event->getWorker().'</> could not be sent</>');
 	}
 	
 	

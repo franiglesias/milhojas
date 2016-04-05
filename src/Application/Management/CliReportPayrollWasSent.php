@@ -8,7 +8,7 @@ use Milhojas\Infrastructure\Mail\MailMessage;
 use Milhojas\Infrastructure\Mail\Mailer;
 use Symfony\Component\Console\Output\OutputInterface;
 /**
-* Handles events related to Device Status
+* Handles PayrollWasSent and reports via cli
 */
 class CliReportPayrollWasSent implements EventHandler
 {

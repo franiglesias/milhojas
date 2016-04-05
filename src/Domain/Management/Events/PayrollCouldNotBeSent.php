@@ -5,7 +5,7 @@ namespace Milhojas\Domain\Management\Events;
 use Milhojas\Library\EventBus\Event;
 use Milhojas\Domain\Management\Payroll;
 /**
-* Description
+* Describes the conditions of a Payroll that could not be sent because there is no record for it in the email.dat database
 */
 class PayrollCouldNotBeSent implements Event
 {

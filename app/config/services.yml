@@ -2,6 +2,18 @@
 # http://symfony.com/doc/current/book/service_container.html
 parameters:
 #    parameter_name: value
+  milhojas.it.monitor.email.events:
+      - 'milhojas.it.device_ran_out_of_supplies'
+      - 'milhojas.it.device_failed'
+      - 'milhojas.it.device_stopped_listening'
+      - 'milhojas.it.device_went_down'
+  milhojas.it.monitor.all.events:
+      - 'milhojas.it.device_ran_out_of_supplies'
+      - 'milhojas.it.device_failed'
+      - 'milhojas.it.device_stopped_listening'
+      - 'milhojas.it.device_went_down'
+      - 'milhojas.it.device_was_ok'
+    
 
 services:
 #    service_name:
@@ -86,13 +98,8 @@ services:
     event_bus:
         class:          Milhojas\Library\EventBus\SimpleEventBus
         calls:
-            - ['subscribeHandler', ['@it.report_device_status', ['milhojas.it.device_ran_out_of_supplies', 'milhojas.it.device_failed', 'milhojas.it.device_stopped_listening', 'milhojas.it.device_went_down'] ] ] 
-            - ['addHandler', ['milhojas.it.device_was_ok', '@it.cli_report_device_status']]
-            - ['addHandler', ['milhojas.it.device_ran_out_of_supplies', '@it.cli_report_device_status']]
-            - ['addHandler', ['milhojas.it.device_failed', '@it.cli_report_device_status']]
-            - ['addHandler', ['milhojas.it.device_went_down', '@it.cli_report_device_status']]
-            - ['addHandler', ['milhojas.it.device_stopped_listening', '@it.cli_report_device_status']]
-            
+            - ['subscribeHandler', ['@it.report_device_status',  '%milhojas.it.monitor.email.events%'] ] 
+            - ['subscribeHandler', ['@it.cli_report_device_status',  '%milhojas.it.monitor.all.events%'] ] 
 
 # It Command Handlers
     device_monitor:

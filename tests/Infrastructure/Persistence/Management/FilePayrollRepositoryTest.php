@@ -43,7 +43,7 @@ class FilePayrollRepositoryTest extends \PHPUnit_Framework_Testcase
 		
 		$payroll = $repository->get(new PayrollFile(new \SplFileInfo($filepath)));
 		$this->assertInstanceOf('Milhojas\Domain\Management\Payroll', $payroll);
-		$this->assertEquals('130496_010216', $payroll->getId());
+		$this->assertEquals('130496', $payroll->getId());
 	}
 	
 	

@@ -23,8 +23,8 @@ class PayrollDataParserTest extends \PHPUnit_Framework_Testcase
 		$parser = new PayrollDataParser();
 		$parser->createFromTab(vfsStream::url('root/payroll/email.dat'));
 		$expected = array(
-			'130496_010216' => array('email' => 'email1@example.com', 'gender' => 'male'),
-			'130286_010216' => array('email' => 'email2@example.com', 'gender' => 'female')
+			'130496' => array('email' => 'email1@example.com', 'gender' => 'male'),
+			'130286' => array('email' => 'email2@example.com', 'gender' => 'female')
 		);
 		$this->assertEquals($expected, $parser->getData());
 	}

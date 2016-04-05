@@ -37,14 +37,33 @@ class FilePayrollRepository implements PayrollRepository{
 	public function get($payrollFile)
 	{
 		$id = $payrollFile->extractId();
-		$Payroll = new Payroll(
+		if (array_key_exists($id, $this->data)) {
+			return $this->payrollFromDB($id, $payrollFile);
+		}
+		return $this->unknownPayroll($id, $payrollFile);
+	}
+	
+	private function payrollFromDB($id, $payrollFile)
+	{
+		return new Payroll(
 			$id, 
 			$payrollFile->extractName(), 
 			$this->data[$id]['email'],
 			$payrollFile->getRealPath(),
 			$this->data[$id]['gender']
 		);
-		return $Payroll;
+	}
+	
+	private function unknownPayroll($id, $payrollFile)
+	{
+		return new Payroll(
+			$id, 
+			$payrollFile->extractName(), 
+			'',
+			$payrollFile->getRealPath(),
+			''
+		);
+
 	}
 		
 	public function getFiles($month)

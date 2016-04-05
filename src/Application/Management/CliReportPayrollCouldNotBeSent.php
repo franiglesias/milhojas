@@ -21,7 +21,7 @@ class CliReportPayrollCouldNotBeSent implements EventHandler
 	
 	public function handle(Event $event)
 	{
-		$this->output->writeln('<options=bold>'.$event->getPayroll().'</> could not be sent');
+		$this->output->writeln('<error>Payroll for <options=bold>'.$event->getWorker().'</> could not be sent</>');
 	}
 	
 	

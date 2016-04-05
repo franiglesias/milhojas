@@ -21,6 +21,7 @@ use Tests\Application\Management\Doubles\PayrollRepositoryMock;
 use Tests\Application\Management\Doubles\PayrollFinderMock;
 
 
+use Milhojas\Library\EventBus\EventRecorder;
 
 class SendPayrollHandlerTest extends \PHPUnit_Framework_Testcase
 {
@@ -29,6 +30,7 @@ class SendPayrollHandlerTest extends \PHPUnit_Framework_Testcase
 		$this->root = (new PayrollFileSystem())->get();
 		$this->mailer = new MailerStub();
 		$this->repository = new PayrollRepositoryMock(vfsStream::url('root/payroll'), new PayrollFinderMock());
+		$this->recorder = new EventRecorder();
 	}
 
 	public function test_it_handles_the_command()
@@ -37,7 +39,8 @@ class SendPayrollHandlerTest extends \PHPUnit_Framework_Testcase
 
 		$handler = new SendPayrollHandler(
 			$this->repository, 
-			$this->mailer
+			$this->mailer,
+			$this->recorder
 		);
 
 		$handler->handle($command);

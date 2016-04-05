@@ -46,6 +46,22 @@ class FilePayrollRepositoryTest extends \PHPUnit_Framework_Testcase
 		$this->assertEquals('130496', $payroll->getId());
 	}
 	
+	public function test_it_fails_if_a_id_does_not_exists_in_email_data()
+	{
+		$dataPath = vfsStream::url('root/payroll');
+		$filepath = vfsStream::url('root/payroll/test/03_nombre_(apellido1 apellido2, nombre1)_empresa_22308_trabajador_130296_030216_mensual.pdf');
+		
+		$repository = new FilePayrollRepository($dataPath, $this->finder, $this->parser);
+		
+		$payroll = $repository->get(new PayrollFile(new \SplFileInfo($filepath)));
+		$this->assertInstanceOf('Milhojas\Domain\Management\Payroll', $payroll);
+		$this->assertEquals('130296', $payroll->getId());
+		$this->assertEquals('Nombre1 Apellido1 Apellido2', $payroll->getName());
+		$this->assertEquals('n/a', $payroll->getEmail());
+		$this->assertEquals('n/a', $payroll->getGender());
+	}
+	
+	
 	
 	/**
 	 * @expectedException Milhojas\Infrastructure\Persistence\Management\Exceptions\InvalidPayrollData

@@ -42,9 +42,13 @@ class SendPayrollHandler implements CommandHandler
 	{
 		foreach ($this->repository->getFiles($command->getMonth()) as $file) {
 			$payroll = $this->repository->get(new PayrollFile($file));
-			if ($this->sendEmail($payroll, $command->getSender(), $command->getMonth())) {
-				$this->recorder->recordThat(new PayrollWasSent($payroll));
-			    unlink($payroll->getFile());
+			if ($payroll->getEmail()) {
+				if ($this->sendEmail($payroll, $command->getSender(), $command->getMonth())) {
+					$this->recorder->recordThat(new PayrollWasSent($payroll));
+				    unlink($payroll->getFile());
+				}
+			} else {
+				$this->recorder->recordThat(new PayrollCouldNotBeSent($payroll));
 			}
 		}
 	}

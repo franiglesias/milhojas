@@ -9,16 +9,21 @@ use Milhojas\Domain\Management\Payroll;
 */
 class PayrollCouldNotBeSent implements Event
 {
-	private $id;
+	private $payroll;
 	
-	function __construct($id)
+	function __construct($payroll)
 	{
-		$this->id = $id;
+		$this->payroll = $payroll;
 	}
 	
-	public function getId()
+	public function getPayroll()
 	{
-		return $this->id;
+		return $this->payroll;
+	}
+	
+	public function getWorker()
+	{
+		return $this->payroll->getName();
 	}
 	
 	public function getName()

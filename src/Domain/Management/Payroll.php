@@ -56,6 +56,11 @@ class Payroll {
 		return $this->gender;
 	}
 	
+	public function __toString()
+	{
+		return sprintf('Payroll id: %s (%s)', $this->id, $this->email);
+	}
+	
 }
 
 

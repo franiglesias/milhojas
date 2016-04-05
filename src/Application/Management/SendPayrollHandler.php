@@ -9,6 +9,13 @@ use Milhojas\Infrastructure\Persistence\Management\PayrollFile;
 use Milhojas\Infrastructure\Mail\MailMessage;
 use Milhojas\Infrastructure\Mail\Mailer;
 
+use Milhojas\Library\EventBus\EventRecorder;
+
+# Events
+
+use Milhojas\Domain\Management\Events\PayrollWasSent;
+use Milhojas\Domain\Management\Events\PayrollCouldNotBeSent;
+
 # Contracts
 
 use Milhojas\Domain\Management\PayrollRepository;
@@ -22,11 +29,13 @@ class SendPayrollHandler implements CommandHandler
 	private $repository;
 	private $mailer;
 	private $templating;
+	private $recorder;
 	
-	function __construct(PayrollRepository $repository, Mailer $mailer)
+	function __construct(PayrollRepository $repository, Mailer $mailer, EventRecorder $recorder)
 	{
 		$this->repository = $repository;
 		$this->mailer = $mailer;
+		$this->recorder = $recorder;
 	}
 	
 	public function handle(Command $command)
@@ -34,6 +43,7 @@ class SendPayrollHandler implements CommandHandler
 		foreach ($this->repository->getFiles($command->getMonth()) as $file) {
 			$payroll = $this->repository->get(new PayrollFile($file));
 			if ($this->sendEmail($payroll, $command->getSender(), $command->getMonth())) {
+				$this->recorder->recordThat(new PayrollWasSent($payroll));
 			    unlink($payroll->getFile());
 			}
 		}

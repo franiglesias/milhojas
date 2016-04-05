@@ -74,32 +74,31 @@ services:
         arguments:      ["%payroll.dataPath%", "@milhojas.payroll.finder", "@milhojas.payroll.dataparser"]
     send_payroll_handler:
         class:          Milhojas\Application\Management\SendPayrollHandler
-        arguments:      ['@milhojas.payroll.repository', '@milhojas.mailer']
+        arguments:      ['@milhojas.payroll.repository', '@milhojas.mailer',  "@event_recorder"]
         
-# Payroll command
-    payroll_month:
-        class:          AppBundle\Command\Payroll\MonthCommand
-        arguments:      ["%payroll.sender%", "@command_bus"]
-        tags:
-             - {name: console.command}
     
+    cli.output:
+        class:          Symfony\Component\Console\Output\ConsoleOutput
+        
     it.report_device_status:
         class:          Milhojas\Application\It\ReportDeviceStatus
         arguments:      ['@milhojas.mailer', '%device.sender%', '%device.report%']
-        
-    cli.output:
-        class:          Symfony\Component\Console\Output\ConsoleOutput
         
     it.cli_report_device_status:
         class:          Milhojas\Application\It\CliReportDeviceStatus
         arguments:      ['@cli.output']
              
+    management.cli_report_payroll_was_sent:
+        class:          Milhojas\Application\Management\CliReportPayrollWasSent
+        arguments:      ['@cli.output']
+        
 # EventBus
     event_bus:
         class:          Milhojas\Library\EventBus\SimpleEventBus
         calls:
             - ['subscribeHandler', ['@it.report_device_status',  '%milhojas.it.monitor.email.events%'] ] 
             - ['subscribeHandler', ['@it.cli_report_device_status',  '%milhojas.it.monitor.all.events%'] ] 
+            - ['addHandler', ['milhojas.management.payroll_was_sent', '@management.cli_report_payroll_was_sent'] ]
 
 # It Command Handlers
     device_monitor:
@@ -120,4 +119,10 @@ services:
         arguments:      ["@event_command_bus", "@event_recorder"]
         tags:
             - {name: console.command}
-        
+
+# Payroll command
+    payroll_month:
+        class:          AppBundle\Command\Payroll\MonthCommand
+        arguments:      ["%payroll.sender%", "@event_command_bus"]
+        tags:
+             - {name: console.command}

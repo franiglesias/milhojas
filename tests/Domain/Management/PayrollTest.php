@@ -16,6 +16,7 @@ class PayrollTest extends \PHPUnit_Framework_Testcase
 		$this->assertEquals('Nombre Apellido', $payroll->getName());
 		$this->assertEquals('123', $payroll->getId());
 		$this->assertEquals('datafile', $payroll->getFile());
+		$this->assertEquals('Payroll id: 123 (email@example.com)', $payroll->__toString());
 	}
 }
 

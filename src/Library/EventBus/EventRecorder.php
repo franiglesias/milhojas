@@ -14,7 +14,7 @@ use Milhojas\Library\EventBus\Event;
 class EventRecorder implements \IteratorAggregate
 {
 	
-	private $events;
+	private $events = array();
 	
 	public function getIterator()
 	{

@@ -19,7 +19,7 @@ class PostWasPublished implements DomainEvent
 		$this->expiration = $expiration;
 	}
 	
-	public function getEntityId()
+	public function getId()
 	{
 		return $this->id;
 	}

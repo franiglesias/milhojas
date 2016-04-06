@@ -16,9 +16,6 @@ use Milhojas\Library\EventSourcing\EventStream\EventStream;
 
 class EventSourcedPostRepositoryTest extends \PHPUnit_Framework_Testcase
 {
-	
-	
-	
 	public function test_it_can_save_a_post()
 	{
 		$this->start_a_repository();
@@ -60,21 +57,7 @@ class EventSourcedPostRepositoryTest extends \PHPUnit_Framework_Testcase
 	{
 		# code...
 	}
-	
-	private function getPost()
-	{
-		$Post = $this
-			->getMockBuilder('Milhojas\Domain\Contents\Post')
-			->setMockClassName('Post')
-			->disableOriginalConstructor()
-			->getMock();
-		$Stream = $this->prepare_stream_for_entity($this->getEntity(1, 3), 3);
-		$Post->expects($this->once())
-			->method('getEvents')
-			->will($this->returnValue($Stream));
-		return $Post;
-	}
-	
+		
 	public function getRealPost()
 	{
 		$Post = Post::write(new PostId(1), new PostContent('Title', 'Body of the post'), 'author');
@@ -91,11 +74,6 @@ class EventSourcedPostRepositoryTest extends \PHPUnit_Framework_Testcase
 			->getMock();
 	}
 
-	private function getEntity($id = 1, $version = -1)
-	{
-		return new EntityData('Post', $id, $version);
-	}
-	
 	private function prepare_stream_for_entity($entity, $eventCount)
 	{
 		$messages = array();

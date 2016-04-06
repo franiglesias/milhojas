@@ -3,6 +3,7 @@
 namespace Milhojas\Library\EventSourcing\DTO;
 
 use Milhojas\Library\EventSourcing\Domain\EventSourced;
+use Milhojas\Library\ValueObjects\Identity\Id;
 /**
 * Transports information about an individual entity
 */
@@ -11,7 +12,7 @@ class EntityData
 	protected $type;
 	protected $id;
 	
-	function __construct($type, $id)
+	function __construct($type, Id $id)
 	{
 		$this->type = $type;
 		$this->id = $id;
@@ -19,12 +20,12 @@ class EntityData
 	
 	static public function fromEntity(EventSourced $entity)
 	{
-		return new static(get_class($entity), $entity->getEntityId());
+		return new static(get_class($entity), $entity->getId());
 	}
 	
 	static public function fromDTO($dto)
 	{
-		return new static($dto->getEntityType(), $dto->getEntityId());
+		return new static($dto->getEntityType(), $dto->getId());
 	}
 	
 	public function getType()
@@ -40,7 +41,7 @@ class EntityData
 	
 	public function __toString()
 	{
-		return sprintf('Entity: %s::%s', $this->type, $this->id);
+		return sprintf('Entity: %s::%s', $this->type, $this->id->getId());
 	}
 }
 ?>

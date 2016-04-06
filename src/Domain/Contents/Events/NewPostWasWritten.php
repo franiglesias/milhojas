@@ -21,7 +21,7 @@ class NewPostWasWritten implements DomainEvent
 		$this->author = $author;
 	}
 	
-	public function getEntityId()
+	public function getId()
 	{
 		return $this->id;
 	}

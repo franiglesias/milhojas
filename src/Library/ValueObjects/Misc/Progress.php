@@ -3,16 +3,17 @@
 namespace Milhojas\Library\ValueObjects\Misc;
 
 /**
-* Description
+* Describes the progress of a process
 */
 class Progress
 {
 	private $current;
 	private $total;
+	
 	function __construct($current, $total)
 	{
 		if ($current > $total) {
-			throw new OutOfBoundsException(sprintf('Current (%s) should be less or equal to Total (%s)', $current, $total));
+			throw new \OutOfBoundsException(sprintf('Current (%s) should be less or equal to Total (%s)', $current, $total));
 		}
 		$this->current = $current;
 		$this->total = $total;
@@ -31,6 +32,11 @@ class Progress
 	public function getPercent()
 	{
 		return round($this->total * 100/$this->current, 2, PHP_ROUND_HALF_UP);
+	}
+	
+	public function advance()
+	{
+		return new static(++$this->current, $this->total);
 	}
 	
 	public function __toString()

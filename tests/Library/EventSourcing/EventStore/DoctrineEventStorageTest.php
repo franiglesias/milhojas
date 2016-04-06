@@ -9,6 +9,7 @@ use Milhojas\Library\EventSourcing\DTO\EventDTO;
 use Milhojas\Library\EventSourcing\EventStream\EventStream;
 use Milhojas\Library\EventSourcing\EventStream\EventMessage;
 
+use Milhojas\Library\ValueObjects\Identity\Id;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\EntityManager;
@@ -148,7 +149,7 @@ class DoctrineEventStorageTest extends \PHPUnit_Framework_TestCase
 
 	private function getEntity($id = 1, $version = -1)
 	{
-		return new EntityVersionData('Entity', $id, $version);
+		return new EntityVersionData('Entity', new Id($id), $version);
 	}
 	
 	private function prepare_stream_for_entity($entity, $eventCount)

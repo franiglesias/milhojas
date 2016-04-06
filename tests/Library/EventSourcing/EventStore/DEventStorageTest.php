@@ -9,6 +9,8 @@ use Milhojas\Library\EventSourcing\DTO\EntityVersionData;
 use Milhojas\Library\EventSourcing\EventStream\EventMessage;
 use Milhojas\Library\EventSourcing\EventStream\EventMessageEnvelope;
 use Milhojas\Library\EventSourcing\EventStream\EventStream;
+
+use Milhojas\Library\ValueObjects\Identity\Id;
 /**
 * Description
 */
@@ -20,7 +22,7 @@ class DomainEventDouble implements \Milhojas\Library\EventSourcing\Domain\Domain
 	{
 		$this->id = $id;
 	}
-	public function getEntityId()
+	public function getId()
 	{
 		return $this->id;
 	}
@@ -40,21 +42,21 @@ class DEventStorageTest extends DoctrineTestCase
 	public function test_it_loads_stream_with_3_events()
 	{
 		$storage = new DoctrineEventStorage($this->em);
-		$result = $storage->loadStream(new EntityData('Entity', 1));
+		$result = $storage->loadStream(new EntityData('Entity', new Id(1)));
 		$this->assertEquals(3, $result->count());
 	}
 
 	public function test_it_loads_other_stream_with_4_events()
 	{
 		$storage = new DoctrineEventStorage($this->em);
-		$result = $storage->loadStream(new EntityData('Other', 1));
+		$result = $storage->loadStream(new EntityData('Other', new Id(1)));
 		$this->assertEquals(4, $result->count());
 	}
 
 	public function test_it_loads_entity_2_stream_with_6_events()
 	{
 		$storage = new DoctrineEventStorage($this->em);
-		$result = $storage->loadStream(new EntityData('Entity', 2));
+		$result = $storage->loadStream(new EntityData('Entity', new Id(2)));
 		$this->assertEquals(6, $result->count());
 	}
 	
@@ -68,26 +70,26 @@ class DEventStorageTest extends DoctrineTestCase
 	public function test_it_can_count_events_for_an_entity()
 	{
 		$storage = new DoctrineEventStorage($this->em);
-		$this->assertEquals(3, $storage->count(new EntityData('Entity', 1, 0)));
-		$this->assertEquals(4, $storage->count(new EntityData('Other', 1, 0)));
-		$this->assertEquals(6, $storage->count(new EntityData('Entity', 2, 0)));
+		$this->assertEquals(3, $storage->count(new EntityData('Entity', new Id(1), 0)));
+		$this->assertEquals(4, $storage->count(new EntityData('Other', new Id(1), 0)));
+		$this->assertEquals(6, $storage->count(new EntityData('Entity', new Id(2), 0)));
 	}
 	
 	public function test_it_can_store_a_stream()
 	{
 		$storage = new DoctrineEventStorage($this->em);
-		$stream = $this->prepareEventStream('Entity', 3, 5);
+		$stream = $this->prepareEventStream('Entity', new Id(3), 5);
 		$storage->saveStream($stream);
 		$this->assertEquals(3, $storage->countEntitiesOfType('Entity'));
-		$this->assertEquals(5, $storage->count(new EntityData('Entity', 3, 0)));
+		$this->assertEquals(5, $storage->count(new EntityData('Entity', new Id(3), 0)));
 	}
 
 	public function test_it_can_save_a_stream_and_load_it_and_remains_equal()
 	{
 		$storage = new DoctrineEventStorage($this->em);
-		$stream = $this->prepareEventStream('Entity', 3, 5);
+		$stream = $this->prepareEventStream('Entity', new Id(3), 5);
 		$storage->saveStream($stream);
-		$loaded = $storage->loadStream(new EntityData('Entity', 3));
+		$loaded = $storage->loadStream(new EntityData('Entity', new Id(3)));
 		$this->assertEquals($stream, $loaded);
 	}
 

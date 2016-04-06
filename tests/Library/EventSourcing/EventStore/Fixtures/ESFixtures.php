@@ -6,7 +6,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use Milhojas\Library\EventSourcing\DTO\EventDTO;
-
+use Milhojas\Library\ValueObjects\Identity\Id;
 /**
 * Description
 */
@@ -18,7 +18,7 @@ class DomainEventDouble implements \Milhojas\Library\EventSourcing\Domain\Domain
 	{
 		$this->id = $id;
 	}
-	public function getEntityId()
+	public function getId()
 	{
 		return $this->id;
 	}
@@ -41,9 +41,9 @@ class ESFixtures extends AbstractFixture
         $manager->clear();
         gc_collect_cycles(); // Could be useful if you have a lot of fixtures
 		$this->eventId = 0;
-		$this->generateEvents($manager, 'Entity', 1, 3);
-		$this->generateEvents($manager, 'Other', 1, 4);
-		$this->generateEvents($manager, 'Entity', 2, 6);
+		$this->generateEvents($manager, 'Entity', new Id(1), 3);
+		$this->generateEvents($manager, 'Other', new Id(1), 4);
+		$this->generateEvents($manager, 'Entity', new Id(2), 6);
         $manager->flush();
     }
 	
@@ -57,12 +57,12 @@ class ESFixtures extends AbstractFixture
 			$event->setEventType('DomainEventDouble');
 			$event->setEvent(new DomainEventDouble($id));
 			$event->setEntityType($entity);
-			$event->setEntityId($id);
+			$event->setEntityId($id->getId());
 			$event->setVersion($version);
 			$event->setMetadata(array());
 			$event->setTime(new \DateTimeImmutable());
 			
-			$this->addReference(sprintf('test-event-%s-%s-%s', $entity, $id, $version), $event);
+			$this->addReference(sprintf('test-event-%s-%s-%s', $entity, $id->getId(), $version), $event);
 	        $manager->persist($event);
 		}
 		

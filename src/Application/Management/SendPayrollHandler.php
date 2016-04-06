@@ -44,11 +44,8 @@ class SendPayrollHandler implements CommandHandler
 	public function handle(Command $command)
 	{
 		$files = $this->repository->getFiles($command->getMonth());
-		$total = iterator_count($files);
-		$count = 1;
+		$progress = new Progress(0, iterator_count($files));
 		foreach ($files as $file) {
-			$progress = new Progress($count, $total);
-			$count++;
 			$payroll = $this->repository->get(new PayrollFile($file));
 			if ($payroll->getEmail()) {
 				if ($this->sendEmail($payroll, $command->getSender(), $command->getMonth())) {
@@ -58,6 +55,7 @@ class SendPayrollHandler implements CommandHandler
 			} else {
 				$this->recorder->recordThat(new PayrollCouldNotBeSent($payroll, $progress));
 			}
+			$progress = $progress->advance();
 		}
 	}
 	

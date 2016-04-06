@@ -19,7 +19,7 @@ abstract class EventSourcedEntity implements EventSourced
 	protected $events = array();
 	protected $version = 0;
 	
-	abstract public function getEntityId();
+	abstract public function getId();
 	
 	/**
 	 * Recreates an instance of the Entity from a stream of events

@@ -4,7 +4,7 @@ namespace Tests\Library\EventSourcing;
 
 use Milhojas\Library\EventSourcing\Domain\EventSourcedEntity;
 use Milhojas\Library\EventSourcing\Domain\DomainEvent;
-
+use Milhojas\Library\ValueObjects\Identity\Id;
 class TestESEntity extends EventSourcedEntity {
 	
 	private $id;
@@ -12,9 +12,10 @@ class TestESEntity extends EventSourcedEntity {
 	
 	public function __construct()
 	{
+		$this->id = Id::create();
 		$this->counter = 0;
 	}
-	public function getEntityId()
+	public function getId()
 	{
 		return $this->id;
 	}

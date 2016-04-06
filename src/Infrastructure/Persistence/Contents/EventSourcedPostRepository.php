@@ -23,7 +23,7 @@ class EventSourcedPostRepository implements PostRepository
 	
 	public function get(PostId $id) 
 	{
-		$Entity = new EntityData('Milhojas\Domain\Contents\Post', $id->getId());
+		$Entity = new EntityData('Milhojas\Domain\Contents\Post', $id);
 		$Stream = $this->storage->loadStream($Entity);
 		return Post::reconstitute($Stream);
 	}

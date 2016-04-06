@@ -3,7 +3,7 @@
 namespace Milhojas\Library\EventSourcing\Domain;
 
 interface DomainEvent {
-	public function getEntityId();
+	public function getId();
 }
 
 ?>

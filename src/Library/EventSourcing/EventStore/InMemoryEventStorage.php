@@ -30,8 +30,8 @@ class InMemoryEventStorage extends EventStorage
 		if (! $this->thereAreEventsForEntity($entity)) {
 			throw new Exception\EntityNotFound(sprintf('No events found for entity: %s', $entity->getType()), 2);
 		}
-		$events = $this->events[$entity->getType()][$entity->getId()];
-		$stream =  new EventStream($events);
+		$events = $this->events[$entity->getType()][$entity->getId()->getId()];
+		$stream = new EventStream($events);
 		return $stream;
 	}
 	
@@ -39,14 +39,14 @@ class InMemoryEventStorage extends EventStorage
 	{
 		foreach ($stream as $message) {
 			$this->checkVersion($message->getEntity());
-			$this->events[$message->getEntity()->getType()][$message->getEntity()->getId()][] = $message;
+			$this->events[$message->getEntity()->getType()][$message->getEntity()->getId()->getId()][] = $message;
 		}
 	}
 
 	public function count(EntityData $entity)
 	{
 		if ($this->thereAreEventsForEntity($entity)) {
-			return count($this->events[$entity->getType()][$entity->getId()]);
+			return count($this->events[$entity->getType()][$entity->getId()->getId()]);
 		}
 		return 0;
 	}
@@ -61,7 +61,7 @@ class InMemoryEventStorage extends EventStorage
 
 	protected function thereAreEventsForEntity($entity)
 	{
-		return isset($this->events[$entity->getType()][$entity->getId()]);
+		return isset($this->events[$entity->getType()][$entity->getId()->getId()]);
 	}
 
 	protected function getStoredVersion(EntityData $entity)

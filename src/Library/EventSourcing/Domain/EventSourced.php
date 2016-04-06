@@ -26,7 +26,7 @@ interface EventSourced {
 	 * @return Id object
 	 * @author Fran Iglesias
 	 */
-	public function getEntityId();
+	public function getId();
 	
 	/**
 	 * Returns the version number for the entity

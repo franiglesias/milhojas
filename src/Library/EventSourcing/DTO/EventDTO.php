@@ -67,7 +67,7 @@ class EventDTO
 		$event->setEvent($message->getEvent());
 		$event->setEventType(get_class($message->getEvent()));
 		$event->setEntityType($message->getEntity()->getType());
-		$event->setEntityId($message->getEntity()->getId());
+		$event->setEntityId($message->getEntity()->getId()->getId());
 		$event->setVersion($message->getEntity()->getVersion());
 		$event->setMetadata($message->getEnvelope()->getMetadata());
 		$event->setTime($message->getEnvelope()->getTime());

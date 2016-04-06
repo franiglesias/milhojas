@@ -15,7 +15,7 @@ class PostWasRetired implements DomainEvent
 		$this->id = $id;
 	}
 	
-	public function getEntityId()
+	public function getId()
 	{
 		return $this->id;
 	}

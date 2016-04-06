@@ -46,6 +46,11 @@ class PayrollRepositoryMock implements PayrollRepository {
 		$this->finder->getFiles($this->root.'/'.$month);
 		return $this->finder;
 	}
+	
+	public function count($month)
+	{
+		return $this->finder->count($month);
+	}
 }
 
 ?>

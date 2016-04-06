@@ -28,6 +28,11 @@ class PayrollFinder implements \IteratorAggregate
 	{
 		return $this->finder;
 	}
+	
+	public function count()
+	{
+		return iterator_count($this->finder);
+	}
 
 }
 

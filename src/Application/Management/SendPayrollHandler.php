@@ -20,6 +20,9 @@ use Milhojas\Domain\Management\Events\PayrollCouldNotBeSent;
 
 use Milhojas\Domain\Management\PayrollRepository;
 
+# VO
+
+use Milhojas\Library\ValueObjects\Misc\Progress;
 /**
 * Manages SendPayroll command
 */
@@ -40,15 +43,20 @@ class SendPayrollHandler implements CommandHandler
 	
 	public function handle(Command $command)
 	{
-		foreach ($this->repository->getFiles($command->getMonth()) as $file) {
+		$files = $this->repository->getFiles($command->getMonth());
+		$total = iterator_count($files);
+		$count = 1;
+		foreach ($files as $file) {
+			$progress = new Progress($count, $total);
+			$count++;
 			$payroll = $this->repository->get(new PayrollFile($file));
 			if ($payroll->getEmail()) {
 				if ($this->sendEmail($payroll, $command->getSender(), $command->getMonth())) {
-					$this->recorder->recordThat(new PayrollWasSent($payroll));
+					$this->recorder->recordThat(new PayrollWasSent($payroll, $progress));
 				    unlink($payroll->getFile());
 				}
 			} else {
-				$this->recorder->recordThat(new PayrollCouldNotBeSent($payroll));
+				$this->recorder->recordThat(new PayrollCouldNotBeSent($payroll, $progress));
 			}
 		}
 	}

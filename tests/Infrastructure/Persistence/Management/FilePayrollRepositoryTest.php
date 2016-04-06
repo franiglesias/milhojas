@@ -34,6 +34,14 @@ class FilePayrollRepositoryTest extends \PHPUnit_Framework_Testcase
 		$this->assertEquals(3, iterator_count($repository->getFiles('test')));
 	}
 	
+	public function test_it_can_count_the_files()
+	{
+		$pathThatHasFiles = vfsStream::url('root/payroll');
+		$repository = new FilePayrollRepository($pathThatHasFiles, $this->finder, $this->parser);
+		// $repository->getFiles('test');
+		$this->assertEquals(3, $repository->count('test'));
+	}
+	
 	public function test_it_can_return_a_payroll_from_a_file()
 	{
 		$dataPath = vfsStream::url('root/payroll');
@@ -57,8 +65,8 @@ class FilePayrollRepositoryTest extends \PHPUnit_Framework_Testcase
 		$this->assertInstanceOf('Milhojas\Domain\Management\Payroll', $payroll);
 		$this->assertEquals('130296', $payroll->getId());
 		$this->assertEquals('Nombre1 Apellido1 Apellido2', $payroll->getName());
-		$this->assertEquals('n/a', $payroll->getEmail());
-		$this->assertEquals('n/a', $payroll->getGender());
+		$this->assertEquals('', $payroll->getEmail());
+		$this->assertEquals('', $payroll->getGender());
 	}
 	
 	

@@ -21,7 +21,8 @@ class CliReportPayrollWasSent implements EventHandler
 	
 	public function handle(Event $event)
 	{
-		$this->output->writeln('<options=bold>'.$event->getPayroll().'</> was sent');
+		$message = sprintf('%s. <options=bold>%s.</> was sent', $event->getProgress(), $event->getPayroll());
+		$this->output->writeln($message);
 	}
 	
 	

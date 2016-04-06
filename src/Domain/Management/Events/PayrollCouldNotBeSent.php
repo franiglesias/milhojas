@@ -4,16 +4,19 @@ namespace Milhojas\Domain\Management\Events;
 
 use Milhojas\Library\EventBus\Event;
 use Milhojas\Domain\Management\Payroll;
+use Milhojas\Library\ValueObjects\Misc\Progress;
 /**
 * Describes the conditions of a Payroll that could not be sent because there is no record for it in the email.dat database
 */
 class PayrollCouldNotBeSent implements Event
 {
 	private $payroll;
+	private $progress;
 	
-	function __construct($payroll)
+	function __construct(Payroll $payroll, Progress $progress)
 	{
 		$this->payroll = $payroll;
+		$this->progress = $progress;
 	}
 	
 	public function getPayroll()
@@ -25,6 +28,12 @@ class PayrollCouldNotBeSent implements Event
 	{
 		return $this->payroll->getName();
 	}
+	
+	public function getProgress()
+	{
+		return $this->progress;
+	}
+	
 	
 	public function getName()
 	{

@@ -75,6 +75,12 @@ class FilePayrollRepository implements PayrollRepository{
 		return $this->finder;
 	}
 	
+	public function count($month)
+	{
+		$this->getFiles($month);
+		return iterator_count($this->finder);
+	}
+	
 	private function rootExistsInFileSystem($root)
 	{
 		if (! file_exists($root)) {

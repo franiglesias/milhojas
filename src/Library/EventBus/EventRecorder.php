@@ -4,6 +4,7 @@ namespace Milhojas\Library\EventBus;
 
 use Milhojas\Library\EventBus\Event;
 use Milhojas\Library\EventBus\EventStreamInterface;
+use Milhojas\Library\EventBus\Recordable;
 
 /**
  * Records plain events to store them temporary and pass them to an Event Dispatcher
@@ -22,7 +23,7 @@ class EventRecorder implements EventStreamInterface
 		return new \ArrayIterator($this->events);
 	}
 	
-	public function recordThat($event)
+	public function recordThat(Recordable $event)
 	{
 		$this->events[] = $event;
 	}

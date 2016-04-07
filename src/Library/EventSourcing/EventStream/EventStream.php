@@ -2,6 +2,9 @@
 
 namespace Milhojas\Library\EventSourcing\EventStream;
 
+use Milhojas\Library\EventBus\EventStreamInterface;
+use Milhojas\Library\EventBus\Recordable;
+
 /**
  * Keeps a list of event messages. 
  * 
@@ -11,7 +14,7 @@ namespace Milhojas\Library\EventSourcing\EventStream;
  * @package default
  * @author Francisco Iglesias Gómez
  */
-class EventStream implements \IteratorAggregate {
+class EventStream implements EventStreamInterface {
 	
 	private $events;
 	
@@ -34,11 +37,17 @@ class EventStream implements \IteratorAggregate {
 	{
 		$this->events = array();
 	}
-	
-	public function append($event)
+
+	public function recordThat(Recordable $event)
 	{
 		$this->events[] = $event;
 	}
+
+	
+	// public function append($event)
+	// {
+	// 	$this->recordThat($event);
+	// }
 	
 	public function __toString()
 	{

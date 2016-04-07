@@ -3,6 +3,7 @@
 namespace Milhojas\Library\EventSourcing\EventStream;
 
 use Milhojas\Library\EventBus\Event;
+use Milhojas\Library\EventBus\Recordable;
 use Milhojas\Library\EventSourcing\Domain\EventSourced;
 use Milhojas\Library\EventSourcing\DTO\EntityVersionData;
 
@@ -11,7 +12,7 @@ use Milhojas\Library\EventSourcing\DTO\EntityVersionData;
 * Stores an event and metadata needed
 */
 
-class EventMessage
+class EventMessage implements Recordable
 {
 	private $event;
 	private $envelope;

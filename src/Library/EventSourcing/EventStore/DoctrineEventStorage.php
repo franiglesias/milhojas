@@ -35,7 +35,7 @@ class DoctrineEventStorage extends EventStorage
 		}
 		$stream = new EventStream();
 		foreach ($dtos as $dto) {
-			$stream->append(EventMessage::fromDTO($dto));
+			$stream->recordThat(EventMessage::fromDTO($dto));
 		}
 		return $stream;
 	}

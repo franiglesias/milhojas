@@ -5,6 +5,9 @@ namespace Tests\Library\EventSourcing;
 use Milhojas\Library\EventSourcing\EventStream\EventStream;
 use Milhojas\Library\EventBus\Event;
 
+use Tests\Library\EventSourcing\EventStore\Fixtures\EventDouble;
+
+
 class EventStreamTest extends \PHPUnit_Framework_Testcase {
 	
 	public function test_event_stream()
@@ -44,14 +47,14 @@ class EventStreamTest extends \PHPUnit_Framework_Testcase {
 		$this->assertEquals(0, $Stream->count());
 	}
 	
-	public function test_it_can_append_events()
+	public function test_it_can_record_events()
 	{
 		$Stream = new EventStream(array());
-		$Stream->append('event 1');
+		$Stream->recordThat(new EventDouble('event 1'));
 		$this->assertEquals(1, $Stream->count());
-		$Stream->append('event 2');
+		$Stream->recordThat(new EventDouble('event 2'));
 		$this->assertEquals(2, $Stream->count());
-		$Stream->append('event 3');
+		$Stream->recordThat(new EventDouble('event 3'));
 		$this->assertEquals(3, $Stream->count());
 	}
 	

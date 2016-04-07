@@ -2,7 +2,9 @@
 
 namespace Milhojas\Library\EventBus;
 
-interface Event {
+use Milhojas\Library\EventBus\Recordable;
+
+interface Event extends Recordable{
 	public function getName();
 }
 

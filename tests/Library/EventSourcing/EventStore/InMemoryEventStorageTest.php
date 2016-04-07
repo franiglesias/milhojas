@@ -43,7 +43,6 @@ class InMemoryEventStorageTest extends \PHPUnit_Framework_TestCase
 		$this->assertInstanceOf('Milhojas\Library\EventSourcing\EventStream\EventStream', $Stream);
 	}
 	
-	
 	protected function storage_should_return_an_event_stream_with_events($expectedCount)
 	{
 		$Stream = $this->Storage->loadStream($this->getEntity(1));

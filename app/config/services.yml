@@ -14,13 +14,11 @@ parameters:
       - 'milhojas.it.device_stopped_listening'
       - 'milhojas.it.device_went_down'
       - 'milhojas.it.device_was_ok'
-    
 
 services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
-
 
     event_store:
         class:          Milhojas\Library\EventSourcing\EventStore\DoctrineEventStorage
@@ -36,9 +34,13 @@ services:
     executer_bus_worker:
         class:          Milhojas\Library\CommandBus\Workers\ExecuteWorker
         arguments:      ["@handler_container", "@handler_inflector"]
+    event_bus_worker:
+        class:          Milhojas\Library\CommandBus\Workers\DispatchEventsWorker
+        arguments:      ['@event_bus', '@event_recorder']
     command_bus:
         class:          Milhojas\Library\CommandBus\BasicCommandBus
-        arguments:      [["@executer_bus_worker"]]
+        arguments:      [["@executer_bus_worker", '@event_bus_worker']]
+        
 # Contents Post Command Handlers
     write_post_handler:
         class:          Milhojas\Application\Contents\WritePostHandler
@@ -77,7 +79,6 @@ services:
         class:          Milhojas\Application\Management\SendPayrollHandler
         arguments:      ['@milhojas.payroll.repository', '@milhojas.mailer',  "@event_recorder"]
         
-    
     cli.output:
         class:          Symfony\Component\Console\Output\ConsoleOutput
         
@@ -116,20 +117,16 @@ services:
         class:          Milhojas\Application\It\MonitorDevicesHandler
         arguments:      ["@device_monitor", "@event_recorder"]
         
-    event_command_bus:
-        class:          Milhojas\Library\CommandBus\EventAwareCommandBus
-        arguments:      [["@executer_bus_worker"], '@event_bus', '@event_recorder']
-        
 # It Monitor command
     it_monitor:
         class:          AppBundle\Command\It\MonitorCommand
-        arguments:      ["@event_command_bus", "@event_recorder"]
+        arguments:      ["@command_bus", "@event_recorder"]
         tags:
             - {name: console.command}
 
 # Payroll command
     payroll_month:
         class:          AppBundle\Command\Payroll\MonthCommand
-        arguments:      ["%payroll.sender%", "@event_command_bus"]
+        arguments:      ["%payroll.sender%", "@command_bus"]
         tags:
-             - {name: console.command}
+            - {name: console.command}

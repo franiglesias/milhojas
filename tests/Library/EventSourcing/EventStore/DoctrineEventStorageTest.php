@@ -16,7 +16,7 @@ use Milhojas\Library\EventBus\Event;
 use Tests\Library\EventSourcing\EventStore\Fixtures\EventDouble;
 
 
-class DEventStorageTest extends DoctrineTestCase
+class DoctrineEventStorageTest extends DoctrineTestCase
 {
     /**
      * Set up repository test
@@ -79,7 +79,6 @@ class DEventStorageTest extends DoctrineTestCase
 		$loaded = $storage->loadStream(new EntityData('Entity', new Id(3)));
 		$this->assertEquals($stream, $loaded);
 	}
-
 	
 	private function prepareEventStream($entity, $id, $maxVersion)
 	{

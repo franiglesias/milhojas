@@ -46,7 +46,7 @@ class EntityData
 	
 	public function __toString()
 	{
-		return sprintf('Entity: %s::%s', $this->type, $this->id->getId());
+		return sprintf('%s::%s', $this->type, $this->id->getId());
 	}
 }
 ?>

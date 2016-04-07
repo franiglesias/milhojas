@@ -32,7 +32,6 @@ class InMemoryEventStorageTest extends \PHPUnit_Framework_TestCase
 		$this->Storage->saveStream($Stream);
 	}
 
-
 	protected function storage_should_contain_this_number_of_events($expectedEventCount)
 	{
 		$this->assertEquals($expectedEventCount, $this->Storage->count($this->getEntity(1, $expectedEventCount-1)));

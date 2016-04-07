@@ -35,7 +35,7 @@ class EntityVersionData extends EntityData
 	
 	public function __toString()
 	{
-		return sprintf('Entity: %s::%s (%s)', $this->type, $this->id->getId(), $this->version);
+		return sprintf('%s::%s (v. %s)', $this->type, $this->id->getId(), $this->version);
 	}
 }
 ?>

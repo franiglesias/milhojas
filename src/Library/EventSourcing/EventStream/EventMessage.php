@@ -11,7 +11,6 @@ use Milhojas\Library\EventSourcing\DTO\EntityVersionData;
 * Stores an event and metadata needed
 */
 
-
 class EventMessage
 {
 	private $event;

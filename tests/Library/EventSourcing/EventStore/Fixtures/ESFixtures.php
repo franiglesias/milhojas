@@ -23,6 +23,7 @@ class ESFixtures extends AbstractFixture
      * @param \Doctrine\Common\Persistence\ObjectManager $manager
      */
 	private $eventId;
+	
     public function load(ObjectManager $manager)
     {
         $manager->clear();

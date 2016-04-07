@@ -13,7 +13,7 @@ use Milhojas\Library\EventSourcing\DTO\EntityData;
 class EventMessageTest extends \PHPUnit_Framework_TestCase
 {
 	
-	function test_it_creates_an_event_message()
+	public function test_it_creates_an_event_message()
 	{
 	}
 	

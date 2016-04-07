@@ -13,27 +13,7 @@ use Milhojas\Library\EventSourcing\EventStream\EventStream;
 use Milhojas\Library\ValueObjects\Identity\Id;
 use Milhojas\Library\EventBus\Event;
 
-/**
-* Description
-*/
-class EventDouble implements Event
-{
-	private $id;
-	
-	public function __construct($id)
-	{
-		$this->id = $id;
-	}
-	public function getId()
-	{
-		return $this->id;
-	}
-	
-	public function getName()
-	{
-		return 'event_double';
-	}
-}
+use Tests\Library\EventSourcing\EventStore\Fixtures\EventDouble;
 
 
 class DEventStorageTest extends DoctrineTestCase

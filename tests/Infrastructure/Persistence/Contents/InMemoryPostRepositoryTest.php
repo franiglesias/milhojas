@@ -18,6 +18,7 @@ class InMemoryPostRespositoryTest extends \PHPUnit_Framework_Testcase
 		$Post = \Milhojas\Domain\Contents\Post::write(new \Milhojas\Domain\Contents\PostId($id), new \Milhojas\Domain\Contents\PostContent('Title', 'Body'));
 		return $Post;
 	}
+	
 	public function test_Can_Store_A_Post()
 	{
 		$Post = $this->getPost();

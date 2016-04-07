@@ -3,6 +3,7 @@
 namespace Milhojas\Library\EventBus;
 
 use Milhojas\Library\EventBus\Event;
+use Milhojas\Library\EventBus\EventStreamInterface;
 
 /**
  * Records plain events to store them temporary and pass them to an Event Dispatcher
@@ -11,7 +12,7 @@ use Milhojas\Library\EventBus\Event;
  * @author Fran Iglesias
  */
 
-class EventRecorder implements \IteratorAggregate
+class EventRecorder implements EventStreamInterface
 {
 	
 	private $events = array();
@@ -21,7 +22,7 @@ class EventRecorder implements \IteratorAggregate
 		return new \ArrayIterator($this->events);
 	}
 	
-	public function recordThat(Event $event)
+	public function recordThat($event)
 	{
 		$this->events[] = $event;
 	}
@@ -38,9 +39,14 @@ class EventRecorder implements \IteratorAggregate
 		return $this->events;
 	}
 	
-	public function forget()
+	public function flush()
 	{
 		$this->events = array();
+	}
+		
+	public function count()
+	{
+		return count($this->events);
 	}
 	
 	public function __toString()

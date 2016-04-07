@@ -72,7 +72,7 @@ class EventRecorderTest extends \PHPUnit_Framework_Testcase
 		$recorder->recordThat(new SimpleEvent('1'));
 		$recorder->recordThat(new SimpleEvent('2'));
 		$recorder->recordThat(new SimpleEvent('3'));
-		$recorder->forget();
+		$recorder->flush();
 		$this->assertEquals(0, iterator_count($recorder));
 	}
 	

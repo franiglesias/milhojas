@@ -20,7 +20,9 @@ class EventStream implements EventStreamInterface {
 	
 	public function __construct(array $events = array())
 	{
-		$this->events = $events;
+		foreach ($events as $event) {
+			$this->recordThat($event);
+		}
 	}
 	
 	public function getIterator()
@@ -42,12 +44,6 @@ class EventStream implements EventStreamInterface {
 	{
 		$this->events[] = $event;
 	}
-
-	
-	// public function append($event)
-	// {
-	// 	$this->recordThat($event);
-	// }
 	
 	public function __toString()
 	{

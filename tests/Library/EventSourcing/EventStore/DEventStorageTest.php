@@ -11,10 +11,12 @@ use Milhojas\Library\EventSourcing\EventStream\EventMessageEnvelope;
 use Milhojas\Library\EventSourcing\EventStream\EventStream;
 
 use Milhojas\Library\ValueObjects\Identity\Id;
+use Milhojas\Library\EventBus\Event;
+
 /**
 * Description
 */
-class DomainEventDouble implements \Milhojas\Library\EventSourcing\Domain\DomainEvent
+class EventDouble implements Event
 {
 	private $id;
 	
@@ -25,6 +27,11 @@ class DomainEventDouble implements \Milhojas\Library\EventSourcing\Domain\Domain
 	public function getId()
 	{
 		return $this->id;
+	}
+	
+	public function getName()
+	{
+		return 'event_double';
 	}
 }
 
@@ -98,7 +105,7 @@ class DEventStorageTest extends DoctrineTestCase
 	{
 		$stream = new EventStream();
 		for ($version=1; $version <= $maxVersion; $version++) { 
-			$message = new EventMessage(new DomainEventDouble($id), new EntityVersionData($entity, $id, $version), EventMessageEnvelope::now());
+			$message = new EventMessage(new EventDouble($id), new EntityVersionData($entity, $id, $version), EventMessageEnvelope::now());
 			$stream->append($message);
 		}
 		return $stream;

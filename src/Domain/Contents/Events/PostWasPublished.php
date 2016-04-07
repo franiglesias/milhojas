@@ -2,11 +2,11 @@
 
 namespace Milhojas\Domain\Contents\Events;
 
-use Milhojas\Library\EventSourcing\Domain\DomainEvent;
+use Milhojas\Library\EventBus\Event;
 /**
 * A Post was published from a date
 */
-class PostWasPublished implements DomainEvent
+class PostWasPublished implements Event
 {
 	private $id;
 	private $publication;

@@ -1,12 +1,12 @@
 <?php
 
 namespace Milhojas\Domain\Contents\Events;
-use Milhojas\Library\EventSourcing\Domain\DomainEvent;
+use Milhojas\Library\EventBus\Event;
 
 /**
 * A Post Was Written by first time
 */
-class NewPostWasWritten implements DomainEvent
+class NewPostWasWritten implements Event
 {
 	private $id;
 	private $title;

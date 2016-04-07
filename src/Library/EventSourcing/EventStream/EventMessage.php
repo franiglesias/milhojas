@@ -2,7 +2,7 @@
 
 namespace Milhojas\Library\EventSourcing\EventStream;
 
-use Milhojas\Library\EventSourcing\Domain\DomainEvent;
+use Milhojas\Library\EventBus\Event;
 use Milhojas\Library\EventSourcing\Domain\EventSourced;
 use Milhojas\Library\EventSourcing\DTO\EntityVersionData;
 
@@ -18,14 +18,14 @@ class EventMessage
 	private $envelope;
 	private $entity;
 	
-	public function __construct(DomainEvent $event, EntityVersionData $entity, EventMessageEnvelope $envelope)
+	public function __construct(Event $event, EntityVersionData $entity, EventMessageEnvelope $envelope)
 	{
 		$this->event = $event;
 		$this->entity = $entity;
 		$this->envelope = $envelope;
 	}
 	
-	static public function record(DomainEvent $event, EntityVersionData $entity)
+	static public function record(Event $event, EntityVersionData $entity)
 	{
 		return new static(
 			$event, 

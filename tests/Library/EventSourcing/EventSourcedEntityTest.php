@@ -3,7 +3,7 @@
 namespace Tests\Library\EventSourcing;
 
 use Milhojas\Library\EventSourcing\Domain\EventSourcedEntity;
-use Milhojas\Library\EventSourcing\Domain\DomainEvent;
+use Milhojas\Library\EventBus\Event;
 use Milhojas\Library\ValueObjects\Identity\Id;
 class TestESEntity extends EventSourcedEntity {
 	
@@ -35,7 +35,7 @@ class TestESEntity extends EventSourcedEntity {
 		return $this->counter;
 	}
 	
-	public function recordThat(DomainEvent $event)
+	public function recordThat(Event $event)
 	{
 		parent::recordThat($event);
 	}
@@ -97,7 +97,7 @@ class EventSourcedEntityTest extends \PHPUnit_Framework_TestCase {
 	
 	protected function getEvent($name)
 	{
-		return $this->getMockBuilder('Milhojas\Library\EventSourcing\Domain\DomainEvent')
+		return $this->getMockBuilder('Milhojas\Library\EventBus\Event')
 			->setMockClassName($name)->disableOriginalConstructor()
             ->getMock();
 	}

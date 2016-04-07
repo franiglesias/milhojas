@@ -2,11 +2,11 @@
 
 namespace Milhojas\Domain\Contents\Events;
 
-use Milhojas\Library\EventSourcing\Domain\DomainEvent;
+use Milhojas\Library\EventBus\Event;
 /**
 * An existent post was retired
 */
-class PostWasRetired implements DomainEvent
+class PostWasRetired implements Event
 {
 	private $id;
 	

@@ -2,7 +2,7 @@
 
 namespace Milhojas\Library\EventSourcing\Domain;
 
-interface DomainEvent {
+interface Event {
 	public function getId();
 }
 

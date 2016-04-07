@@ -141,7 +141,7 @@ class DoctrineEventStorageTest extends \PHPUnit_Framework_TestCase
 	
 	private function getEvent($name)
 	{
-		return $this->getMockBuilder('Milhojas\Library\EventSourcing\Domain\DomainEvent')
+		return $this->getMockBuilder('Milhojas\Library\EventBus\Event')
 			->setMockClassName($name)
 			->disableOriginalConstructor()
 			->getMock();

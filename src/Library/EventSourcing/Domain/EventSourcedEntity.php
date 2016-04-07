@@ -3,7 +3,10 @@
 namespace Milhojas\Library\EventSourcing\Domain;
 
 use Milhojas\Library\EventSourcing\Domain\EventSourced;
-use Milhojas\Library\EventSourcing\Domain\DomainEvent;
+// use Milhojas\Library\EventBus\Event;
+
+use Milhojas\Library\EventBus\Event;
+
 use Milhojas\Library\EventSourcing\DTO\EntityData;
 use Milhojas\Library\EventSourcing\DTO\EntityVersionData;
 
@@ -58,13 +61,13 @@ abstract class EventSourcedEntity implements EventSourced
 	}
 	
 	/**
-	 * Apply a DomainEvent to the Entity
+	 * Apply a Event to the Entity
 	 *
-	 * @param DomainEvent $event 
+	 * @param Event $event 
 	 * @return void
 	 * @author Francisco Iglesias Gómez
 	 */
-	public function apply(DomainEvent $event)
+	public function apply(Event $event)
 	{
 		$method = $this->getMethod($event);
 		$this->$method($event);
@@ -74,11 +77,11 @@ abstract class EventSourcedEntity implements EventSourced
 	/**
 	 * Apply and record an event
 	 *
-	 * @param DomainEvent $event 
+	 * @param Event $event 
 	 * @return void
 	 * @author Francisco Iglesias Gómez
 	 */
-	protected function recordThat(DomainEvent $event)
+	protected function recordThat(Event $event)
 	{
 		if (!$this->canHandleEvent($event)) {
 			return;
@@ -98,7 +101,7 @@ abstract class EventSourcedEntity implements EventSourced
 		return 'apply'.end($parts);
 	}
 	
-	protected function canHandleEvent(DomainEvent $event)
+	protected function canHandleEvent(Event $event)
 	{
 		return method_exists($this, $this->getMethod($event));
 	}

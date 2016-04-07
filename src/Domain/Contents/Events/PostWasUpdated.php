@@ -2,11 +2,11 @@
 
 namespace Milhojas\Domain\Contents\Events;
 
-use Milhojas\Library\EventSourcing\Domain\DomainEvent;
+use Milhojas\Library\EventBus\Event;
 /**
 * An existent post was updated
 */
-class PostWasUpdated implements DomainEvent
+class PostWasUpdated implements Event
 {
 	private $id;
 	private $title;

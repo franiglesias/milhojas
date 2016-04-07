@@ -7,10 +7,12 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 use Milhojas\Library\EventSourcing\DTO\EventDTO;
 use Milhojas\Library\ValueObjects\Identity\Id;
+use Milhojas\Library\EventBus\Event;
+
 /**
 * Description
 */
-class DomainEventDouble implements \Milhojas\Library\EventSourcing\Domain\DomainEvent
+class EventDouble implements Event
 {
 	private $id;
 	
@@ -21,6 +23,11 @@ class DomainEventDouble implements \Milhojas\Library\EventSourcing\Domain\Domain
 	public function getId()
 	{
 		return $this->id;
+	}
+	
+	public function getName()
+	{
+		return 'event_double';
 	}
 }
 
@@ -54,8 +61,8 @@ class ESFixtures extends AbstractFixture
 			$event = new EventDTO();
 
 			$event->setId($this->eventId);
-			$event->setEventType('DomainEventDouble');
-			$event->setEvent(new DomainEventDouble($id));
+			$event->setEventType('EventDouble');
+			$event->setEvent(new EventDouble($id));
 			$event->setEntityType($entity);
 			$event->setEntityId($id->getId());
 			$event->setVersion($version);

@@ -3,8 +3,8 @@
 namespace Milhojas\Library\EventBus;
 
 use Milhojas\Library\EventSourcing\Domain\Event;
-use Milhojas\Library\EventBus\EventStreamInterface;
-use Milhojas\Library\EventBus\Recordable;
+use Milhojas\Library\EventSourcing\EventStream\EventStreamInterface;
+use Milhojas\Library\EventSourcing\EventStream\Recordable;
 
 /**
  * Records plain events to store them temporary and pass them to an Event Dispatcher

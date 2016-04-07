@@ -2,8 +2,8 @@
 
 namespace Milhojas\Library\EventSourcing\EventStream;
 
-use Milhojas\Library\EventBus\EventStreamInterface;
-use Milhojas\Library\EventBus\Recordable;
+use Milhojas\Library\EventSourcing\EventStream\EventStreamInterface;
+use Milhojas\Library\EventSourcing\EventStream\Recordable;
 
 /**
  * Keeps a list of event messages. 

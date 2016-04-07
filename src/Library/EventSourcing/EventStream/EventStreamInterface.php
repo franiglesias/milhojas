@@ -1,8 +1,8 @@
 <?php
 
-namespace Milhojas\Library\EventBus;
+namespace Milhojas\Library\EventSourcing\EventStream;
 
-use Milhojas\Library\EventBus\Recordable;
+use Milhojas\Library\EventSourcing\EventStream\Recordable;
 
 interface EventStreamInterface extends \IteratorAggregate {
 	public function getIterator();

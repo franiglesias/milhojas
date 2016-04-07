@@ -18,7 +18,7 @@ class MonthCommand extends Command
 	## members
 	private $bus;
 	
-	public function __construct($sender, $bus)
+	public function __construct($bus, $sender)
 	{
 		$this->sender = $sender;
 		$this->bus = $bus;

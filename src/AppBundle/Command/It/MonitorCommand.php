@@ -11,7 +11,7 @@ use Symfony\Component\Console\Helper\ProgressBar;
 
 
 use Milhojas\Library\CommandBus\CommandBus;
-use Milhojas\Library\EventBus\EventRecorder;
+use Milhojas\Library\EventSourcing\EventStream\EventRecorder;
 
 use Milhojas\Library\System\Ping;
 
@@ -32,10 +32,9 @@ class MonitorCommand extends Command
 	private $bus;
 	private $recorder;
 	
-	function __construct(CommandBus $bus, EventRecorder $recorder)
+	function __construct(CommandBus $bus)
 	{
 		$this->bus = $bus;
-		$this->recorder = $recorder;
 		parent::__construct();
 	}
 	

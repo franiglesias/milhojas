@@ -9,7 +9,7 @@ use Milhojas\Infrastructure\Persistence\Management\PayrollFile;
 use Milhojas\Infrastructure\Mail\MailMessage;
 use Milhojas\Infrastructure\Mail\Mailer;
 
-use Milhojas\Library\EventBus\EventRecorder;
+use Milhojas\Library\EventSourcing\EventStream\EventRecorder;
 
 # Events
 

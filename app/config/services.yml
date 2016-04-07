@@ -112,7 +112,7 @@ services:
     device_monitor:
         class:          Milhojas\Domain\It\DeviceMonitor
     event_recorder:
-        class:          Milhojas\Library\EventBus\EventRecorder
+        class:          Milhojas\Library\EventSourcing\EventStream\EventRecorder
     monitor_devices_handler:
         class:          Milhojas\Application\It\MonitorDevicesHandler
         arguments:      ["@device_monitor", "@event_recorder"]
@@ -120,13 +120,13 @@ services:
 # It Monitor command
     it_monitor:
         class:          AppBundle\Command\It\MonitorCommand
-        arguments:      ["@command_bus", "@event_recorder"]
+        arguments:      ["@command_bus"]
         tags:
             - {name: console.command}
 
 # Payroll command
     payroll_month:
         class:          AppBundle\Command\Payroll\MonthCommand
-        arguments:      ["%payroll.sender%", "@command_bus"]
+        arguments:      ["@command_bus", "%payroll.sender%"]
         tags:
             - {name: console.command}

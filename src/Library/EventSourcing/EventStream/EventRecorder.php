@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Library\EventBus;
+namespace Milhojas\Library\EventSourcing\EventStream;
 
 use Milhojas\Library\EventSourcing\Domain\Event;
 use Milhojas\Library\EventSourcing\EventStream\EventStreamInterface;

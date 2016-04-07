@@ -4,7 +4,7 @@ namespace Tests\Library\EventBus;
 
 use Milhojas\Library\EventBus\SimpleEventBus;
 
-use Milhojas\Library\EventBus\Event;
+use Milhojas\Library\EventSourcing\Domain\Event;
 use Milhojas\Library\EventBus\EventHandler;
 
 use Tests\Library\EventBus\Utils\EventBusSpy;

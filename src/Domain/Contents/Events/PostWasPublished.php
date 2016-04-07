@@ -2,7 +2,7 @@
 
 namespace Milhojas\Domain\Contents\Events;
 
-use Milhojas\Library\EventBus\Event;
+use Milhojas\Library\EventSourcing\Domain\Event;
 /**
 * A Post was published from a date
 */

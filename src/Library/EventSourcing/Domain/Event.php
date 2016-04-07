@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Library\EventBus;
+namespace Milhojas\Library\EventSourcing\Domain;
 
 use Milhojas\Library\EventBus\Recordable;
 

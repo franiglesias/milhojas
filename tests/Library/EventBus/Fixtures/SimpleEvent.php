@@ -2,7 +2,7 @@
 
 namespace Tests\Library\EventBus\Fixtures;
 
-use Milhojas\Library\EventBus\Event;
+use Milhojas\Library\EventSourcing\Domain\Event;
 
 /**
 * A simple Event for tests

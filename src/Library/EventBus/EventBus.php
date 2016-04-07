@@ -2,7 +2,7 @@
 
 namespace Milhojas\Library\EventBus;
 
-use Milhojas\Library\EventBus\Event;
+use Milhojas\Library\EventSourcing\Domain\Event;
 use Milhojas\Library\EventBus\EventHandler;
 
 interface EventBus {

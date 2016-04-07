@@ -11,7 +11,7 @@ use Milhojas\Library\EventSourcing\EventStream\EventMessageEnvelope;
 use Milhojas\Library\EventSourcing\EventStream\EventStream;
 
 use Milhojas\Library\ValueObjects\Identity\Id;
-use Milhojas\Library\EventBus\Event;
+use Milhojas\Library\EventSourcing\Domain\Event;
 
 use Tests\Library\EventSourcing\EventStore\Fixtures\EventDouble;
 

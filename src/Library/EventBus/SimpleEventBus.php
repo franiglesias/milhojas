@@ -4,7 +4,7 @@ namespace Milhojas\Library\EventBus;
 
 
 use Milhojas\Library\EventBus\EventBus;
-use Milhojas\Library\EventBus\Event;
+use Milhojas\Library\EventSourcing\Domain\Event;
 /**
 * It's a very simple Event Dispatcher
 */

@@ -51,7 +51,7 @@ class InMemoryEventStorageTest extends \PHPUnit_Framework_TestCase
 	
 	private function getEvent($name)
 	{
-		return $this->getMockBuilder('Milhojas\Library\EventBus\Event')
+		return $this->getMockBuilder('Milhojas\Library\EventSourcing\Domain\Event')
 			->setMockClassName($name)
 			->disableOriginalConstructor()
 			->getMock();

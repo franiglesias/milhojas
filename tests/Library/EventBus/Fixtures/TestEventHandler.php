@@ -3,7 +3,7 @@
 namespace Tests\Library\EventBus\Fixtures;
 
 use Milhojas\Library\EventBus\EventHandler;
-use Milhojas\Library\EventBus\Event;
+use Milhojas\Library\EventSourcing\Domain\Event;
 
 /**
 * A test event handler

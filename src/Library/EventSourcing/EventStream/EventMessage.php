@@ -2,7 +2,7 @@
 
 namespace Milhojas\Library\EventSourcing\EventStream;
 
-use Milhojas\Library\EventBus\Event;
+use Milhojas\Library\EventSourcing\Domain\Event;
 use Milhojas\Library\EventBus\Recordable;
 use Milhojas\Library\EventSourcing\Domain\EventSourced;
 use Milhojas\Library\EventSourcing\DTO\EntityVersionData;

@@ -4,7 +4,7 @@ namespace Milhojas\Library\EventSourcing\Domain;
 
 use Milhojas\Library\EventSourcing\Domain\EventSourced;
 
-use Milhojas\Library\EventBus\Event;
+use Milhojas\Library\EventSourcing\Domain\Event;
 
 use Milhojas\Library\EventSourcing\DTO\EntityData;
 use Milhojas\Library\EventSourcing\DTO\EntityVersionData;

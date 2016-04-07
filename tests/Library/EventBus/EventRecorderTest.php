@@ -4,7 +4,7 @@ namespace Tests\Library\EventBus;
 
 use Milhojas\Library\EventBus\EventRecorder;
 
-use Milhojas\Library\EventBus\Event;
+use Milhojas\Library\EventSourcing\Domain\Event;
 use Tests\Library\EventBus\Fixtures\SimpleEvent;
 
 /**

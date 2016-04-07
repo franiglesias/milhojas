@@ -2,7 +2,7 @@
 
 namespace Tests\Library\EventSourcing\EventStore\Fixtures;
 
-use Milhojas\Library\EventBus\Event;
+use Milhojas\Library\EventSourcing\Domain\Event;
 
 /**
 * Description

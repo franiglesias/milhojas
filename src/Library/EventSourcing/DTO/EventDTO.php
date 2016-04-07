@@ -63,7 +63,7 @@ class EventDTO
 	static public function fromEventMessage(EventMessage $message)
 	{
 		$event = new static();
-		$event->setId($message->getEnvelope()->getId());
+		$event->setId($message->getEnvelope()->getMessageId());
 		$event->setEvent($message->getEvent());
 		$event->setEventType(get_class($message->getEvent()));
 		$event->setEntityType($message->getEntity()->getType());

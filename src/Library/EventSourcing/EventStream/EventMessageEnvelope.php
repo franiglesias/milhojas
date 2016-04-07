@@ -52,7 +52,7 @@ class EventMessageEnvelope
 		$this->metadata += $data;
 	}
 	
-	public function getId()
+	public function getMessageId()
 	{
 		return $this->id;
 	}

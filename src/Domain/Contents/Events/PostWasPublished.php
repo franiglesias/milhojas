@@ -36,7 +36,7 @@ class PostWasPublished implements DomainEvent
 	
 	public function getName()
 	{
-		return 'milhojas.post_was_published'
+		return 'milhojas.post_was_published';
 	}
 }
 ?>

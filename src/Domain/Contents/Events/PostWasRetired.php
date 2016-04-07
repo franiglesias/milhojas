@@ -20,6 +20,11 @@ class PostWasRetired implements DomainEvent
 		return $this->id;
 	}
 	
+	public function getName()
+	{
+		return 'milhojas.post_was_retired';
+	}
+	
 }
 
 ?>

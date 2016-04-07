@@ -38,6 +38,11 @@ class EntityData
 		return $this->id;
 	}
 	
+	public function getPlainId()
+	{
+		return $this->id->getId();
+	}
+	
 	
 	public function __toString()
 	{

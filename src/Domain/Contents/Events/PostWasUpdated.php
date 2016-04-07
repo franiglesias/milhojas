@@ -40,6 +40,11 @@ class PostWasUpdated implements DomainEvent
 	{
 		return $this->author;
 	}
+	
+	public function getName()
+	{
+		return 'milhojas.post_was_updated';
+	}
 }
 
 ?>

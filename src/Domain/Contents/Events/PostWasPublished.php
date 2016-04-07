@@ -33,5 +33,10 @@ class PostWasPublished implements DomainEvent
 	{
 		return $this->expiration;
 	}
+	
+	public function getName()
+	{
+		return 'milhojas.post_was_published'
+	}
 }
 ?>

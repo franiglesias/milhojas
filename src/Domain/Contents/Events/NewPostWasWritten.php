@@ -40,6 +40,11 @@ class NewPostWasWritten implements DomainEvent
 	{
 		return $this->author;
 	}
+	
+	public function getName()
+	{
+		return 'milhojas.contents.new_post_was_written';
+	}
 }
 
 ?>

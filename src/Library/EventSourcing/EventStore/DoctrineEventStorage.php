@@ -28,7 +28,7 @@ class DoctrineEventStorage extends EventStorage
             ->getRepository('EventStore:EventDTO')
 			->findBy(array(
 				'entity_type' => $entity->getType(),
-				'entity_id' => $entity->getId()->getId()
+				'entity_id' => $entity->getPlainId()
 			));
 		if (!$dtos) {
 			throw new Exception\EntityNotFound(sprintf('No events found for entity: %s', $entity->getType()), 2);
@@ -64,7 +64,7 @@ class DoctrineEventStorage extends EventStorage
 		return $this->em
 			->createQuery('SELECT COUNT(events.id) FROM EventStore:EventDTO events WHERE events.entity_type = :entity AND events.entity_id = :id')
 			->setParameter('entity', $entity->getType())
-			->setParameter('id', $entity->getId()->getId())
+			->setParameter('id', $entity->getPlainId())
 			->getSingleScalarResult();
 	}
 	
@@ -73,7 +73,7 @@ class DoctrineEventStorage extends EventStorage
 		return $this->em
 			->createQuery('SELECT MAX(events.version) FROM EventStore:EventDTO events WHERE events.entity_type = :entity AND events.entity_id = :id')
 			->setParameter('entity', $entity->getType())
-			->setParameter('id', $entity->getId()->getId())
+			->setParameter('id', $entity->getPlainId())
 			->getSingleScalarResult();
 	}
 	

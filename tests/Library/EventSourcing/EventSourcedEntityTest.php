@@ -2,10 +2,10 @@
 
 namespace Tests\Library\EventSourcing;
 
-use Milhojas\Library\EventSourcing\Domain\EventSourcedEntity;
 use Milhojas\Library\EventSourcing\Domain\Event;
 use Milhojas\Library\ValueObjects\Identity\Id;
 
+use Milhojas\Library\EventSourcing\Domain\EventSourcedEntity;
 class TestESEntity extends EventSourcedEntity {
 	
 	private $id;

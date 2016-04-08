@@ -17,6 +17,7 @@ use Milhojas\Library\EventSourcing\EventStream\Recordable;
 class EventStream implements EventStreamInterface {
 	
 	private $events;
+	private $entity;
 	
 	public function __construct(array $events = array())
 	{

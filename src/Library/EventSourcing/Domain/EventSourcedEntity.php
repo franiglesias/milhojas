@@ -45,7 +45,8 @@ abstract class EventSourcedEntity implements EventSourced
 	 */
 	public function getEvents()
 	{
-		return new EventStream($this->events);
+		$this->initStream();
+		return $this->events;
 	}
 	
 	/**
@@ -56,7 +57,9 @@ abstract class EventSourcedEntity implements EventSourced
 	 */
 	public function clearEvents()
 	{
-		$this->events = array();
+		// $this->events = array();
+		$this->initStream();
+		$this->events->flush();
 	}
 	
 	/**
@@ -86,7 +89,16 @@ abstract class EventSourcedEntity implements EventSourced
 			return;
 		}
 		$this->apply($event);
-		$this->events[] = EventMessage::record($event, EntityVersionData::fromEntity($this));
+		$this->initStream();
+		$this->events->recordThat(EventMessage::record($event, EntityVersionData::fromEntity($this)));
+	}
+	
+	protected function initStream()
+	{
+		if ($this->events) {
+			return;
+		}
+		$this->events = new EventStream();
 	}
 
 	public function getVersion()

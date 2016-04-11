@@ -30,25 +30,27 @@ class EventStreamTest extends \PHPUnit_Framework_Testcase {
 		}
 	}
 	
-	public function dont_test_it_can_return_the_number_of_events_it_holds()
+	public function test_it_can_return_the_number_of_events_it_holds()
 	{
 		$events = array(
 			new EventDouble('Event 1'),
 			new EventDouble('Event 2'),
 			new EventDouble('Event 3'),
 		);
-		$Stream = new EventStream($events);
+		$Stream = new EventStream(new EntityData('Entity', new Id(1)));
+		$Stream->load($events);
 		$this->assertEquals(3, $Stream->count());
 	}
 	
-	public function dont_test_it_can_flush_events()
+	public function test_it_can_flush_events()
 	{
 		$events = array(
 			new EventDouble('Event 1'),
 			new EventDouble('Event 2'),
 			new EventDouble('Event 3'),
 		);
-		$Stream = new EventStream($events);
+		$Stream = new EventStream(new EntityData('Entity', new Id(1)));
+		$Stream->load($events);
 		$Stream->flush();
 		$this->assertEquals(0, $Stream->count());
 	}
@@ -64,18 +66,18 @@ class EventStreamTest extends \PHPUnit_Framework_Testcase {
 		$this->assertEquals(3, $Stream->count());
 	}
 	
-	public function dont_test_it_can_create_empty_event_stream()
+	public function dont_test_it_ignores_invalid_events()
 	{
-		$Stream = new EventStream();
-		$this->assertEquals(0, $Stream->count());
-	}
-	
-	public function dont_test_it_can_create_empty_event_stream_with_empty_array()
-	{
-		$Stream = new EventStream(array());
-		$this->assertEquals(0, $Stream->count());
-	}
-	
+		$events = array(
+			new EventDouble('Event 1'),
+			'event 2',
+			new EventDouble('Event 3'),
+		);
+		$Stream = new EventStream(new EntityData('Entity', new Id(1)));
+		$Stream->load($events);
+		$this->assertEquals(2, $Stream->count());
+
+	}	
 }
 
 ?>

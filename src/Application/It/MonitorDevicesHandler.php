@@ -27,7 +27,7 @@ class MonitorDevicesHandler implements CommandHandler
 		$devices = $command->getDevices();
 		foreach ($devices as $device) {
 			$this->monitor->poll($device);
-			$this->recorder->recordBatch($this->monitor->getEvents());
+			$this->recorder->load($this->monitor->getEvents());
 		}
 	}
 }

@@ -36,6 +36,18 @@ class EventStream implements EventStreamInterface {
 		return count($this->events);
 	}
 	
+	public function load(array $events)
+	{
+		foreach ($events as $event) {
+			$this->append($event);
+		}
+	}
+	
+	private function append(Recordable $event)
+	{
+		$this->events[] = $event;
+	}
+	
 	public function flush()
 	{
 		$this->events = array();

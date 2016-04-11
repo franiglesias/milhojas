@@ -28,7 +28,7 @@ class EventRecorder implements EventStreamInterface
 		$this->events[] = $event;
 	}
 	
-	public function recordBatch(array $events)
+	public function load(array $events)
 	{
 		foreach ($events as $event) {
 			$this->recordThat($event);

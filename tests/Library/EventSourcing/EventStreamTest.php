@@ -15,14 +15,15 @@ class EventStreamTest extends \PHPUnit_Framework_Testcase {
 		$Stream = new EventStream(new EntityData('Entity', new Id(1)));
 	}
 	
-	public function dont_test_event_stream()
+	public function test_it_can_load_an_array_of_events()
 	{
 		$events = array(
 			new EventDouble('Event 1'),
 			new EventDouble('Event 2'),
 			new EventDouble('Event 3'),
 		);
-		$Stream = new EventStream($events);
+		$Stream = new EventStream(new EntityData('Entity', new Id(1)));
+		$Stream->load($events);
 		foreach ($Stream as $event) {
 			$this->assertEquals(current($events), $event);
 			next($events);

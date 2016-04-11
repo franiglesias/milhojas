@@ -48,7 +48,7 @@ class EventRecorderTest extends \PHPUnit_Framework_Testcase
 			new SimpleEvent('3')
 		);
 		$recorder = new EventRecorder();
-		$recorder->recordBatch($events);
+		$recorder->load($events);
 		$this->assertEquals(3, count($recorder->retrieve()));
 
 	}

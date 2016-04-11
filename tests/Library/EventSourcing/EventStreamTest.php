@@ -4,15 +4,15 @@ namespace Tests\Library\EventSourcing;
 
 use Milhojas\Library\EventSourcing\EventStream\EventStream;
 use Milhojas\Library\EventSourcing\Domain\Event;
-
+use Milhojas\Library\EventSourcing\DTO\EntityData;
+use Milhojas\Library\ValueObjects\Identity\Id;
 use Tests\Library\EventSourcing\EventStore\Fixtures\EventDouble;
-
 
 class EventStreamTest extends \PHPUnit_Framework_Testcase {
 	
 	public function test_event_stream_linked_to_event_sourced_entity()
 	{
-		$Stream = new EventStream(new TestESEntity());
+		$Stream = new EventStream(new EntityData('Entity', new Id(1)));
 	}
 	
 	public function dont_test_event_stream()
@@ -54,7 +54,7 @@ class EventStreamTest extends \PHPUnit_Framework_Testcase {
 	
 	public function test_it_can_record_events()
 	{
-		$Stream = new EventStream(new TestESEntity());
+		$Stream = new EventStream(new EntityData('Entity', new Id(1)));
 		$Stream->recordThat(new EventDouble('event 1'));
 		$this->assertEquals(1, $Stream->count());
 		$Stream->recordThat(new EventDouble('event 2'));

@@ -98,7 +98,7 @@ abstract class EventSourcedEntity implements EventSourced
 		if ($this->events) {
 			return;
 		}
-		$this->events = new EventStream();
+		$this->events = new EventStream(EntityVersionData::fromEntity($this));
 	}
 
 	public function getVersion()

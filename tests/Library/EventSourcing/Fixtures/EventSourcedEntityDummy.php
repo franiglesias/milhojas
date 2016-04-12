@@ -12,9 +12,9 @@ class EventSourcedEntityDummy extends EventSourcedEntity {
 	private $id;
 	private $counter;
 	
-	public function __construct()
+	public function __construct(Id $id)
 	{
-		$this->id = Id::create();
+		$this->id = $id;
 		$this->counter = 0;
 	}
 	public function getId()

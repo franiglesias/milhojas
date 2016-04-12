@@ -1,11 +1,14 @@
 <?php
+namespace Milhojas\Infrastructure\Persistence\Common;
+
+use Milhojas\Infrastructure\Persistence\Common\StorageInterface;
+use Milhojas\Library\ValueObjects\Identity\Id;
+
 /**
  * Simple generic inmemory storage
  *
  * @author Fran Iglesias
  */
-namespace Milhojas\Infrastructure\Persistence\Common;
-use Milhojas\Infrastructure\Persistence\Common\StorageInterface;
 
 class ObjectId {
 	private $id;
@@ -31,33 +34,33 @@ class InMemoryObjectStorage implements StorageInterface{
 		$this->data = new \SPLObjectStorage();
 	}
 	
-	public function load($id)
+	public function load(Id $id)
 	{
 		$this->data->rewind();
 		foreach ($this->data as $object) {
-			if ($this->data->getInfo() == $id) {
+			if ($this->data->getInfo() == $id->getId()) {
 				return $object;
 			}
 		}
-		throw new \OutOfBoundsException(sprintf('Object with id %s doesn\'t exists', $id));
+		throw new \OutOfBoundsException(sprintf('Object with id %s doesn\'t exists', $id->getId()));
 		
 	}
 	
-	public function store($id, $Object)
+	public function store(Id $id, $Object)
 	{
-		$this->data->attach($Object, $id);
+		$this->data->attach($Object, $id->getId());
 	}
 	
-	public function delete($id)
+	public function delete(Id $id)
 	{
 		$this->data->rewind();
 		foreach ($this->data as $object) {
-			if ($this->data->getInfo() == $id) {
+			if ($this->data->getInfo() == $id->getId()) {
 				$this->data->detach($object);
 				return;
 			}
 		}
-		throw new \OutOfBoundsException(sprintf('Object with id %s doesn\'t exists', $id));
+		throw new \OutOfBoundsException(sprintf('Object with id %s doesn\'t exists', $id->getId()));
 	}
 	
 	public function findAll()

@@ -23,6 +23,11 @@ class Id {
 		$uuid4 = Uuid::uuid4();
 		return new static($uuid4->toString());
 	}
+	
+	public function __toString()
+	{
+		return $this->id;
+	}
 }
 
 ?>

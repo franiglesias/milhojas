@@ -3,6 +3,7 @@
 namespace Tests\Infrastructure\Persistence\Common;
 
 use \Milhojas\Infrastructure\Persistence\Common\InMemoryObjectStorage;
+use Milhojas\Library\ValueObjects\Identity\Id;
 
 class MyClass {
 	private $value;
@@ -24,7 +25,7 @@ class InMemoryObjectStorageTest extends \PHPUnit_Framework_Testcase
 	public function test_it_can_store_a_value()
 	{
 		$Storage = new InMemoryObjectStorage();
-		$Storage->store(1, new MyClass(1));
+		$Storage->store(new Id(1), new MyClass(1));
 		$this->assertEquals(1, $Storage->countAll());
 	}
 	
@@ -32,9 +33,9 @@ class InMemoryObjectStorageTest extends \PHPUnit_Framework_Testcase
 	public function test_it_can_store_several_values()
 	{
 		$Storage = new InMemoryObjectStorage();
-		$Storage->store(1, new MyClass(1));
-		$Storage->store(2, new MyClass(2));
-		$Storage->store(3, new MyClass(3));
+		$Storage->store(new Id(1), new MyClass(1));
+		$Storage->store(new Id(2), new MyClass(2));
+		$Storage->store(new Id(3), new MyClass(3));
 		$this->assertEquals(3, $Storage->countAll());
 	}
 	
@@ -44,10 +45,10 @@ class InMemoryObjectStorageTest extends \PHPUnit_Framework_Testcase
 		$Storage = new InMemoryObjectStorage();
 		$count = 10;
 		for ($id=0; $id < $count; $id++) {
-			$Storage->store($id, new MyClass($id));
+			$Storage->store(new Id($id), new MyClass($id));
 		}
 		for ($id=0; $id < $count; $id++) {
-			$this->assertEquals(new MyClass($id), $Storage->load($id));
+			$this->assertEquals(new MyClass($id), $Storage->load(new Id($id)));
 		}
 	}
 
@@ -63,9 +64,9 @@ class InMemoryObjectStorageTest extends \PHPUnit_Framework_Testcase
 		$Storage = new InMemoryObjectStorage();
 		$count = 10;
 		for ($id=0; $id < $count; $id++) {
-			$Storage->store($id, new MyClass($id));
+			$Storage->store(new Id($id), new MyClass($id));
 		}
-		$value = $Storage->load(12);
+		$value = $Storage->load(new Id(12));
 	}
 
 	public function test_it_can_remove_a_value_by_id()
@@ -73,9 +74,9 @@ class InMemoryObjectStorageTest extends \PHPUnit_Framework_Testcase
 		$Storage = new InMemoryObjectStorage();
 		$count = 10;
 		for ($id=0; $id < $count; $id++) {
-			$Storage->store($id,  new MyClass($id));
+			$Storage->store(new Id($id),  new MyClass($id));
 		}
-		$Storage->delete(2);
+		$Storage->delete(new Id(2));
 		$this->assertEquals(9, $Storage->countAll());
 	}
 
@@ -90,9 +91,9 @@ class InMemoryObjectStorageTest extends \PHPUnit_Framework_Testcase
 		$Storage = new InMemoryObjectStorage();
 		$count = 10;
 		for ($id=0; $id < $count; $id++) {
-			$Storage->store($id,  new MyClass($id));
+			$Storage->store(new Id($id),  new MyClass($id));
 		}
-		$Storage->delete(12);
+		$Storage->delete(new Id(12));
 	}
 
 }

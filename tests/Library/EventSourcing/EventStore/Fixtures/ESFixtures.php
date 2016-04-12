@@ -13,7 +13,6 @@ use Tests\Library\EventSourcing\EventStore\Fixtures\EventDouble;
 
 // https://vincent.composieux.fr/article/test-your-doctrine-repository-using-a-sqlite-database
 /**
- * Loads countries data
  */
 class ESFixtures extends AbstractFixture
 {

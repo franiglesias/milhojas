@@ -1,8 +1,9 @@
 <?php
 
-namespace Milhojas\Library\EventSourcing\EventStore;
+namespace Milhojas\Library\EventSourcing\EventStore\Drivers;
 
-use Milhojas\Library\EventSourcing\EventStore\EventStorage;
+use Milhojas\Library\EventSourcing\EventStore\EventBasedStorageDriver;
+
 use Milhojas\Library\EventSourcing\DTO\EntityData;
 use Milhojas\Library\EventSourcing\EventStream\EventStream;
 use Milhojas\Library\EventSourcing\Exceptions as Exception;
@@ -10,7 +11,7 @@ use Milhojas\Library\EventSourcing\Exceptions as Exception;
 /**
 * A simple in memory event storage.
 */
-class InMemoryEventStorage extends EventStorage
+class InMemoryEventStorageDriver implements EventBasedStorageDriver
 {
 	/**
 	 * Store the events

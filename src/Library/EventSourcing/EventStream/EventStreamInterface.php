@@ -5,6 +5,7 @@ namespace Milhojas\Library\EventSourcing\EventStream;
 use Milhojas\Library\EventSourcing\EventStream\Recordable;
 
 interface EventStreamInterface extends \IteratorAggregate {
+	
 	public function getIterator();
 	
 	/**

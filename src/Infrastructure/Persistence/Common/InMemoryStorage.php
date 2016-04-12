@@ -1,31 +1,32 @@
 <?php
+namespace Milhojas\Infrastructure\Persistence\Common;
+
+use Milhojas\Infrastructure\Persistence\Common\StorageInterface;
+use Milhojas\Library\ValueObjects\Identity\Id;
 /**
  * Simple generic inmemory storage
  *
  * @author Fran Iglesias
  */
-namespace Milhojas\Infrastructure\Persistence\Common;
-use Milhojas\Infrastructure\Persistence\Common\StorageInterface;
-
 class InMemoryStorage implements StorageInterface{
 
 	private $data;
 	
-	public function load($id)
+	public function load(Id $id)
 	{
 		$this->keyExists($id);
-		return $this->data[$id];
+		return $this->data[$id->getId()];
 	}
 	
-	public function store($id, $Object)
+	public function store(Id $id, $Object)
 	{
-		$this->data[$id] = $Object;
+		$this->data[$id->getId()] = $Object;
 	}
 	
-	public function delete($id)
+	public function delete(Id $id)
 	{
 		$this->keyExists($id);
-		unset($this->data[$id]);
+		unset($this->data[$id->getId()]);
 	}
 	
 	public function findAll()
@@ -38,10 +39,10 @@ class InMemoryStorage implements StorageInterface{
 		return count($this->data);
 	}
 	
-	private function keyExists($id)
+	private function keyExists(Id $id)
 	{
-		if (! isset($this->data[$id])) {
-			throw new \OutOfBoundsException($id.' doesn\'t exists.');
+		if (! isset($this->data[$id->getId()])) {
+			throw new \OutOfBoundsException($id->getId().' doesn\'t exists.');
 		}
 	}
 	

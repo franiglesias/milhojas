@@ -28,6 +28,9 @@ class MPC4500PrinterDriver implements PrinterDriver
 	public function tonerLevelForColor($color, $status)
 	{
 		preg_match_all('/deviceStToner('.$color.')\.gif/', $status, $matches);
+		if ($color == 'K' && count($matches[1]) === 0) {
+			return $this->tonerLevelForColor('U', $status);
+		}
 		return new SupplyLevel(count($matches[1]));
 	}
 	

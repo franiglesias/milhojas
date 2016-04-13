@@ -3,8 +3,9 @@
 namespace Milhojas\Infrastructure\Persistence\Storage;
 
 use Milhojas\Infrastructure\Persistence\Common\StorageInterface;
-
+use Milhojas\Infrastructure\Persistence\Storage\Drivers\StorageDriver;
 use Milhojas\Library\ValueObjects\Identity\Id;
+use Milhojas\Library\EventSourcing\DTO\EventDTO;
 
 class EventBasedStorage implements StorageInterface
 {
@@ -26,7 +27,10 @@ class EventBasedStorage implements StorageInterface
 		// Guess the key
 		// Get Event Stream
 		// Save object usind driver
-		
+		$stream = $object->getEvents();
+		foreach ($stream as $message) {
+			$this->driver->save($message->getEntity()->getKey(true), EventDTO::fromEventMessage($message));
+		}
 	}
 	public function delete(Id $id)
 	{

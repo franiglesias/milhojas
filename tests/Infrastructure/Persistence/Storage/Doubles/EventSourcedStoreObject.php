@@ -10,21 +10,23 @@ use Tests\Infrastructure\Persistence\Storage\Doubles\StoreEvent;
 class EventSourcedStoreObject extends EventSourcedEntity
 {
 	private $value;
+	private $id;
 	
 	function __construct()
 	{
 	}
 	
-	static public function create($value)
+	static public function create(Id $id, $value)
 	{
 		$object = new static();
+		$object->id = $id;
 		$object->recordThat(new StoreEvent($value));
 		return $object;
 	}
 	
 	public function getId()
 	{
-		return new Id($this->value);
+		return $this->id;
 	}
 	
 	public function getValue()

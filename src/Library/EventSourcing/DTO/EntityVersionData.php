@@ -33,9 +33,13 @@ class EntityVersionData extends EntityData
 		return $this->version;
 	}
 	
-	public function __toString()
+	public function getKey($unique = false)
 	{
-		return sprintf('%s::%s (v. %s)', $this->type, $this->id->getId(), $this->version);
+		if (!$unique) {
+			return parent::getKey();
+		}
+		return sprintf('%s:%s:%s', $this->type, $this->id->getId(), $this->version);
 	}
+	
 }
 ?>

@@ -5,7 +5,7 @@ namespace Milhojas\Infrastructure\Persistence\Storage\Drivers;
 
 use Milhojas\Infrastructure\Persistence\Storage\Drivers\StorageDriver;
 /**
-* Description
+* Simple In Memory Based Storage Driver
 */
 class InMemoryStorageDriver implements StorageDriver
 {
@@ -16,32 +16,39 @@ class InMemoryStorageDriver implements StorageDriver
 		$this->data = array();
 	}
 	
-	public function load($id)
+	public function load($key)
 	{
-		$this->checkStorageKeyExists($id);
-		return $this->data[$id];
+		$this->checkStorageKeyExists($key);
+		return $this->data[$key];
 	}
-	public function save($id, $object) 
+	public function save($key, $object) 
 	{
-		$this->data[$id] = $object;
+		$this->data[$key] = $object;
 	}
-	public function delete($id)
+	public function delete($key)
 	{
-		$this->checkStorageKeyExists($id);
-		unset($this->data[$id]);
+		$this->checkStorageKeyExists($key);
+		unset($this->data[$key]);
 	}
-	public function findAll()
+	public function findAll($key = null)
 	{
-		return $this->data;
-	}
-	public function countAll() {
-		return count($this->data);
+		if (!$key) {
+			return $this->data;
+		}
+		$filterByKey = function($value, $k) use($key) {
+			return preg_match('/'.$key.'/', $k);
+		};
+		return array_filter($this->data, $filterByKey, ARRAY_FILTER_USE_BOTH);
 	}
 	
-	private function checkStorageKeyExists($id)
+	public function countAll($key = null) {
+		return count($this->findAll($key));
+	}
+	
+	private function checkStorageKeyExists($key)
 	{
-		if (!array_key_exists($id, $this->data)) {
-			throw new \OutOfBoundsException(sprintf('Key %s doesn\'t exist.', $id), 1);
+		if (!array_key_exists($key, $this->data)) {
+			throw new \OutOfBoundsException(sprintf('Key %s doesn\'t exist.', $key), 1);
 		}
 	}
 }

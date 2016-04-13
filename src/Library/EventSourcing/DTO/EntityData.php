@@ -43,10 +43,14 @@ class EntityData
 		return $this->id->getId();
 	}
 	
+	public function getKey()
+	{
+		return sprintf('%s:%s', $this->type, $this->id->getId());
+	}
 	
 	public function __toString()
 	{
-		return sprintf('%s::%s', $this->type, $this->id->getId());
+		return $this->getKey(true);
 	}
 }
 ?>

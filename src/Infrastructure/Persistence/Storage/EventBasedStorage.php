@@ -2,33 +2,46 @@
 
 namespace Milhojas\Infrastructure\Persistence\Storage;
 
-use Milhojas\Infrastructure\Persistence\Common\StorageInterface;
+use Milhojas\Infrastructure\Persistence\Storage\StorageInterface;
+
 use Milhojas\Infrastructure\Persistence\Storage\Drivers\StorageDriver;
 use Milhojas\Library\ValueObjects\Identity\Id;
 use Milhojas\Library\EventSourcing\DTO\EventDTO;
+use Milhojas\Library\EventSourcing\DTO\EntityData;
+use Milhojas\Library\EventSourcing\EventStream\EventStream;
+use Milhojas\Library\EventSourcing\EventStream\EventMessage;
 
 class EventBasedStorage implements StorageInterface
 {
 	private $driver;
+	private $entityType;
 	
-	function __construct(StorageDriver $driver)
+	function __construct(StorageDriver $driver, $entity_type)
 	{
 		$this->driver = $driver;
+		$this->entityType = $entity_type;
 	}
 	
 	public function load(Id $id)
 	{
-		// Guess the key based on id and managed entity
-		// Load stream of events
-		// Return object
+		$entity = new EntityData($this->entityType, $id);
+		$dtos = $this->driver->findAll($entity->getKey());
+		$stream = $this->buildStream($dtos, $entity);
+		return forward_static_call_array(array($this->entityType, 'reconstitute'), array($stream));
 	}
-	public function store(Id $id, $object)
+	
+	private function buildStream($dtos, $entity)
 	{
-		// Guess the key
-		// Get Event Stream
-		// Save object usind driver
-		$stream = $object->getEvents();
-		foreach ($stream as $message) {
+		$stream = new EventStream($entity);
+		foreach ($dtos as $dto) {
+		 	$stream->recordThat(EventMessage::fromDTO($dto));
+		}
+		return $stream;
+	}
+	
+	public function store($object)
+	{
+		foreach ($object->getEvents() as $message) {
 			$this->driver->save($message->getEntity()->getKey(true), EventDTO::fromEventMessage($message));
 		}
 	}

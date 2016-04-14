@@ -4,6 +4,7 @@ namespace Tests\Infrastructure\Persistence\Storage\Doubles;
 use Milhojas\Library\EventSourcing\Domain\EventSourcedEntity;
 use Milhojas\Library\ValueObjects\Identity\Id;
 use Tests\Infrastructure\Persistence\Storage\Doubles\StoreEvent;
+use Tests\Infrastructure\Persistence\Storage\Doubles\StoreCreateEvent;
 /**
 * A simple object to use in tests
 */
@@ -20,7 +21,7 @@ class EventSourcedStoreObject extends EventSourcedEntity
 	{
 		$object = new static();
 		$object->id = $id;
-		$object->recordThat(new StoreEvent($value));
+		$object->recordThat(new StoreCreateEvent($id, $value));
 		return $object;
 	}
 	
@@ -41,6 +42,12 @@ class EventSourcedStoreObject extends EventSourcedEntity
 	
 	public function applyStoreEvent(StoreEvent $event)
 	{
+		$this->value = $event->getValue();
+	}
+	
+	public function applyStoreCreateEvent(StoreCreateEvent $event)
+	{
+		$this->id = $event->getId();
 		$this->value = $event->getValue();
 	}
 }

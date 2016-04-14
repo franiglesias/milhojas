@@ -13,12 +13,38 @@ class EventBasedStorageTest extends \PHPUnit_Framework_Testcase {
 	public function test__EventBasedStorage()
 	{
 		$driver = new InMemoryStorageDriver();
-		$storage = new EventBasedStorage($driver);
+		$storage = new EventBasedStorage($driver, 'Tests\Infrastructure\Persistence\Storage\Doubles\EventSourcedStoreObject');
 		$object = EventSourcedStoreObject::create(new Id(1), 5);
 		$object->doSomething(10);
-		$storage->store(new Id(1), $object);
+		$storage->store($object);
 		$this->assertEquals(2, $driver->countAll());
-		print_r($driver->findAll());
+	}
+	
+	public function test_it_loads_an_object_by_id()
+	{
+		$storage = $this->getStorageWithSavedElements();
+		$object = $storage->load(new Id(2));
+		$expected = EventSourcedStoreObject::create(new Id(2), 6);
+		$expected->doSomething(12);
+		$expected->clearEvents();
+		$this->assertEquals($expected, $object);
+	}
+	
+	private function getStorageWithSavedElements()
+	{
+		$driver = new InMemoryStorageDriver();
+		$storage = new EventBasedStorage($driver, 'Tests\Infrastructure\Persistence\Storage\Doubles\EventSourcedStoreObject');
+		$storage->store($this->getObject(1, 5, 10));
+		$storage->store($this->getObject(2, 6, 12));
+		$storage->store($this->getObject(3, 10, 20));
+		return $storage;
+	}
+	
+	private function getObject($id, $value, $finalValue)
+	{
+		$object = EventSourcedStoreObject::create(new Id($id), $value);
+		$object->doSomething($finalValue);
+		return $object;
 	}
 }
 ?>

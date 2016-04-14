@@ -24,6 +24,7 @@ class EventStream implements EventStreamInterface {
 	public function __construct(EntityData $entity)
 	{
 		$this->entity = $entity;
+		$this->events = array();
 	}
 	
 	public function getIterator()

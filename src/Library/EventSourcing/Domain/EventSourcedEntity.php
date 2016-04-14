@@ -35,6 +35,7 @@ abstract class EventSourcedEntity implements EventSourced
 		foreach ($stream as $message) {
 			$entity->apply($message->getEvent());
 		}
+		$entity->initStream(true);
 		return $entity;
 	}
 	
@@ -93,12 +94,11 @@ abstract class EventSourcedEntity implements EventSourced
 		$this->events->recordThat(EventMessage::record($event, EntityVersionData::fromEntity($this)));
 	}
 	
-	protected function initStream()
+	protected function initStream($force = false)
 	{
-		if ($this->events) {
-			return;
+		if (!$this->events || $force) {
+			$this->events = new EventStream(EntityVersionData::fromEntity($this));
 		}
-		$this->events = new EventStream(EntityVersionData::fromEntity($this));
 	}
 
 	public function getVersion()

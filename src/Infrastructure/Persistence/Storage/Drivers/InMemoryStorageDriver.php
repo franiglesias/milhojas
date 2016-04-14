@@ -36,7 +36,7 @@ class InMemoryStorageDriver implements StorageDriver
 			return $this->data;
 		}
 		$filterByKey = function($value, $k) use($key) {
-			return preg_match('/'.$key.'/', $k);
+			return preg_match('/'.str_replace('\\', '\\\\', $key).'/', $k);
 		};
 		return array_filter($this->data, $filterByKey, ARRAY_FILTER_USE_BOTH);
 	}

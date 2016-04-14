@@ -19,11 +19,9 @@ use Milhojas\Library\EventSourcing\DTO\EntityData;
 class EventStream implements EventStreamInterface {
 	
 	private $events;
-	private $entity;
 	
-	public function __construct(EntityData $entity)
+	public function __construct()
 	{
-		$this->entity = $entity;
 		$this->events = array();
 	}
 	

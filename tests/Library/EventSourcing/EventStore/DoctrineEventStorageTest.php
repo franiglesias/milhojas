@@ -82,7 +82,7 @@ class DoctrineEventStorageTest extends DoctrineTestCase
 	
 	private function prepareEventStream($entity, $id, $maxVersion)
 	{
-		$stream = new EventStream(new EntityData($entity, $id));
+		$stream = new EventStream();
 		for ($version=1; $version <= $maxVersion; $version++) { 
 			$message = new EventMessage(new EventDouble($id), new EntityVersionData($entity, $id, $version), EventMessageEnvelope::now());
 			$stream->recordThat($message);

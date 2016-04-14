@@ -97,7 +97,7 @@ abstract class EventSourcedEntity implements EventSourced
 	protected function initStream($force = false)
 	{
 		if (!$this->events || $force) {
-			$this->events = new EventStream(EntityVersionData::fromEntity($this));
+			$this->events = new EventStream();
 		}
 	}
 

@@ -12,7 +12,7 @@ class EventStreamTest extends \PHPUnit_Framework_Testcase {
 	
 	public function test_event_stream_linked_to_event_sourced_entity()
 	{
-		$Stream = new EventStream(new EntityData('Entity', new Id(1)));
+		$Stream = new EventStream();
 	}
 	
 	public function test_it_can_load_an_array_of_events()
@@ -22,7 +22,7 @@ class EventStreamTest extends \PHPUnit_Framework_Testcase {
 			new EventDouble('Event 2'),
 			new EventDouble('Event 3'),
 		);
-		$Stream = new EventStream(new EntityData('Entity', new Id(1)));
+		$Stream = new EventStream();
 		$Stream->load($events);
 		foreach ($Stream as $event) {
 			$this->assertEquals(current($events), $event);
@@ -37,7 +37,7 @@ class EventStreamTest extends \PHPUnit_Framework_Testcase {
 			new EventDouble('Event 2'),
 			new EventDouble('Event 3'),
 		);
-		$Stream = new EventStream(new EntityData('Entity', new Id(1)));
+		$Stream = new EventStream();
 		$Stream->load($events);
 		$this->assertEquals(3, $Stream->count());
 	}
@@ -49,7 +49,7 @@ class EventStreamTest extends \PHPUnit_Framework_Testcase {
 			new EventDouble('Event 2'),
 			new EventDouble('Event 3'),
 		);
-		$Stream = new EventStream(new EntityData('Entity', new Id(1)));
+		$Stream = new EventStream();
 		$Stream->load($events);
 		$Stream->flush();
 		$this->assertEquals(0, $Stream->count());
@@ -57,7 +57,7 @@ class EventStreamTest extends \PHPUnit_Framework_Testcase {
 	
 	public function test_it_can_record_events()
 	{
-		$Stream = new EventStream(new EntityData('Entity', new Id(1)));
+		$Stream = new EventStream();
 		$Stream->recordThat(new EventDouble('event 1'));
 		$this->assertEquals(1, $Stream->count());
 		$Stream->recordThat(new EventDouble('event 2'));
@@ -73,7 +73,7 @@ class EventStreamTest extends \PHPUnit_Framework_Testcase {
 			'event 2',
 			new EventDouble('Event 3'),
 		);
-		$Stream = new EventStream(new EntityData('Entity', new Id(1)));
+		$Stream = new EventStream();
 		$Stream->load($events);
 		$this->assertEquals(2, $Stream->count());
 

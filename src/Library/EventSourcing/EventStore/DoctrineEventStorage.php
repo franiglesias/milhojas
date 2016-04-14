@@ -33,7 +33,7 @@ class DoctrineEventStorage extends EventStorage
 		if (!$dtos) {
 			throw new Exception\EntityNotFound(sprintf('No events found for entity: %s', $entity->getType()), 2);
 		}
-		$stream = new EventStream($entity);
+		$stream = new EventStream();
 		foreach ($dtos as $dto) {
 			$stream->recordThat(EventMessage::fromDTO($dto));
 		}

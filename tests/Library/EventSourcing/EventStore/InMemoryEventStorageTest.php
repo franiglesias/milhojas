@@ -64,7 +64,7 @@ class InMemoryEventStorageTest extends \PHPUnit_Framework_TestCase
 	
 	private function prepare_stream_for_entity($entity, $eventCount)
 	{
-		$stream = new EventStream($entity);
+		$stream = new EventStream();
 		for ($i=0; $i < $eventCount; $i++) { 
 			$event = $this->getEvent('Event_'.$i);
 			$stream->recordThat(EventMessage::record($event, $entity));

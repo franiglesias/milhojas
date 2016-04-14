@@ -8,6 +8,7 @@ use Milhojas\Infrastructure\Persistence\Storage\Drivers\StorageDriver;
 use Milhojas\Library\ValueObjects\Identity\Id;
 use Milhojas\Library\EventSourcing\DTO\EventDTO;
 use Milhojas\Library\EventSourcing\DTO\EntityData;
+use Milhojas\Library\EventSourcing\DTO\EntityVersionData;
 use Milhojas\Library\EventSourcing\EventStream\EventStream;
 use Milhojas\Library\EventSourcing\EventStream\EventMessage;
 
@@ -26,13 +27,13 @@ class EventBasedStorage implements StorageInterface
 	{
 		$entity = new EntityData($this->entityType, $id);
 		$dtos = $this->driver->findAll($entity->getKey());
-		$stream = $this->buildStream($dtos, $entity);
+		$stream = $this->buildStream($dtos);
 		return forward_static_call_array(array($this->entityType, 'reconstitute'), array($stream));
 	}
 	
-	private function buildStream($dtos, $entity)
+	private function buildStream($dtos)
 	{
-		$stream = new EventStream($entity);
+		$stream = new EventStream();
 		foreach ($dtos as $dto) {
 		 	$stream->recordThat(EventMessage::fromDTO($dto));
 		}

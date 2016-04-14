@@ -90,6 +90,11 @@ class EventSourcedEntityTest extends \PHPUnit_Framework_TestCase {
 		unset($this->Entity);
 		$this->Entity = TestESEntity::reconstitute($original->getEvents());
 	}
+	
+	protected function entity_clears_events()
+	{
+		$this->Entity->clearEvents();
+	}
 
 	protected function entity_has_changed_state_to($expectedState)
 	{
@@ -136,6 +141,14 @@ class EventSourcedEntityTest extends \PHPUnit_Framework_TestCase {
 		$this->entity_receives_a_failing_event();
 	}
 	
+	public function test_it_can_forget_events()
+	{
+		$this->start_with_a_new_entity();
+		$this->entity_receives_events(3);
+		$this->entity_clears_events();
+		$this->entity_should_have_version_number_of(3);
+		
+	}
 
 	public function test_it_can_reconstitute()
 	{

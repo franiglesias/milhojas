@@ -30,9 +30,12 @@ class EventBasedStorage implements StorageInterface
 		$stream = $this->buildStream($dtos);
 		return forward_static_call_array(array($this->entityType, 'reconstitute'), array($stream));
 	}
-	
+
 	private function buildStream($dtos)
 	{
+		if (empty($dtos)) {
+			throw new \OutOfBoundsException("No data found", 1);
+		}
 		$stream = new EventStream();
 		foreach ($dtos as $dto) {
 		 	$stream->recordThat(EventMessage::fromDTO($dto));
@@ -48,16 +51,17 @@ class EventBasedStorage implements StorageInterface
 	}
 	public function delete(Id $id)
 	{
+		$entity = new EntityData($this->entityType, $id);
+		$dtos = $this->driver->findAll($entity->getKey());
+		if (empty($dtos)) {
+			throw new \OutOfBoundsException("No data found", 1);
+		}
+		foreach ($dtos as $key => $dto) {
+			$this->driver->delete($key);
+		}
 		
 	}
-	public function findAll()
-	{
-		
-	}
-	public function countAll()
-	{
-		
-	}
+	
 }
 
 ?>

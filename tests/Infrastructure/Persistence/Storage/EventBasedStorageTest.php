@@ -30,6 +30,28 @@ class EventBasedStorageTest extends \PHPUnit_Framework_Testcase {
 		$this->assertEquals($expected, $object);
 	}
 	
+	/**
+	 * @expectedException \OutOfBoundsException
+	 */
+	public function test_it_throws_exception_if_object_not_found()
+	{
+		$storage = $this->getStorageWithSavedElements();
+		$object = $storage->load(new Id(5));
+	}
+
+	/**
+	 * @expectedException \OutOfBoundsException
+	 */
+	public function test_it_deletes_an_object_by_id()
+	{
+		$storage = $this->getStorageWithSavedElements();
+		$storage->delete(new Id(2));
+		$object = $storage->load(new Id(2));
+		$this->assertNull($object);
+	}
+	
+	# data provider methods
+	
 	private function getStorageWithSavedElements()
 	{
 		$driver = new InMemoryStorageDriver();

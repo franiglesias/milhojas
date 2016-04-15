@@ -38,7 +38,6 @@ class InMemoryPostRespositoryTest extends \PHPUnit_Framework_Testcase
 	
 	/**
 	 * @expectedException Milhojas\Domain\Contents\Exceptions\PostWasNotFound
-	 *
 	 */
 	public function test_if_id_does_not_exists_throws_exception()
 	{

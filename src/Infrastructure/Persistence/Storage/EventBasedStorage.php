@@ -59,7 +59,6 @@ class EventBasedStorage implements StorageInterface
 		foreach ($dtos as $key => $dto) {
 			$this->driver->delete($key);
 		}
-		
 	}
 	
 }

@@ -6,8 +6,9 @@ use Milhojas\Domain\Contents\PostRepository;
 use Milhojas\Domain\Contents\Post;
 use Milhojas\Domain\Contents\PostId;
 
+use Milhojas\Domain\Contents\Exceptions\PostWasNotFound;
+
 use Milhojas\Infrastructure\Persistence\Storage\StorageInterface;
-use Milhojas\Library\EventSourcing\DTO\EntityData;
 
 /**
 * Repository based on Event Sourcing
@@ -23,7 +24,11 @@ class EventBasedPostRepository implements PostRepository
 	
 	public function get(PostId $id) 
 	{
-		return $this->storage->load($id);
+		try {
+			return $this->storage->load($id);
+		} catch (\OutOfBoundsException $e) {
+			throw new PostWasNotFound($e->getMessage());
+		}
 	}
 	
 	public function save(Post $Post)

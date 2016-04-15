@@ -22,27 +22,45 @@ class EventBasedPostRepositoryTest extends \PHPUnit_Framework_Testcase
 	public function test_it_can_save_a_post()
 	{
 		$this->start_a_repository();
-		$this->save_a_post_in_the_repository();
-		// $this->repository_should_have_a_post();
+		
+		$Post = $this->getRealPost();
+		$this->Repository->save($Post);
 	}
 	
 	public function test_it_can_load_a_saved_post()
 	{
 		$this->start_a_repository();
-		$this->save_a_post_in_the_repository();
-		$this->load_a_post_from_the_repository();
-		$this->loaded_post_should_be_the_same_as_expected();
+		
+		$Post = $this->getRealPost();
+		$this->Repository->save($Post);
+
+		$expected = $this->getRealPost();
+		$expected->clearEvents();
+		
+		$Post = $this->Repository->get(new PostId(1));
+		
+
+		$this->assertInstanceOf('Milhojas\Domain\Contents\Post', $Post);
+		$this->assertEquals($expected, $Post);
+	}
+	
+	/**
+	 * @expectedException Milhojas\Domain\Contents\Exceptions\PostWasNotFound
+	 */
+	public function test_exception_if_Post_does_not_exist()
+	{
+		$this->start_a_repository();
+		$Post = $this->Repository->get(new PostId(1));
 	}
 	
 	private function start_a_repository()
 	{
-		$this->Repository = new EventBasedPostRepository(new EventBasedStorage(new InMemoryStorageDriver(), 'Milhojas\Domain\Contents\Post'));
-	}
-	
-	private function save_a_post_in_the_repository()
-	{
-		$Post = $this->getRealPost();
-		$this->Repository->save($Post);
+		$this->Repository = new EventBasedPostRepository(
+			new EventBasedStorage(
+				new InMemoryStorageDriver(), 
+				'Milhojas\Domain\Contents\Post'
+			)
+		);
 	}
 	
 	public function repository_should_have_a_post()
@@ -56,10 +74,6 @@ class EventBasedPostRepositoryTest extends \PHPUnit_Framework_Testcase
 		$this->assertInstanceOf('Milhojas\Domain\Contents\Post', $Post);
 	}
 	
-	private function loaded_post_should_be_the_same_as_expected()
-	{
-		# code...
-	}
 		
 	public function getRealPost()
 	{
@@ -67,24 +81,6 @@ class EventBasedPostRepositoryTest extends \PHPUnit_Framework_Testcase
 		$Post->update(new PostContent('Updated title', 'Updated body'), 'new author');
 		$Post->publish(DateRange::open(new \DateTimeImmutable()));
 		return $Post;
-	}
-	
-	private function getEvent()
-	{
-		return $this->getMockBuilder('Milhojas\Domain\Contents\Events\PostWasUpdated')
-			->setMockClassName('PostWasUpdated')
-			->disableOriginalConstructor()
-			->getMock();
-	}
-
-	private function prepare_stream_for_entity($entity, $eventCount)
-	{
-		$messages = array();
-		$event = $this->getEvent();
-		for ($i=0; $i < $eventCount; $i++) { 
-			$messages[] = EventMessage::record($event, $entity);
-		}
-		return new EventStream($messages);
 	}
 	
 	

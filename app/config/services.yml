@@ -20,9 +20,9 @@ services:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
     in_memory_storage_driver:
-        class:          Milhojas\Infrastructure\Storage\Drivers\InMemoryStorageDriver   
+        class:          Milhojas\Infrastructure\Persistence\Storage\Drivers\InMemoryStorageDriver
     event_store:
-        class:          Milhojas\Infrastructure\Storage\EventBasedStorage
+        class:          Milhojas\Infrastructure\Persistence\Storage\EventBasedStorage
         arguments:      ["@in_memory_storage_driver", "Milhojas\\Domain\\Contents\\Post"]
     post_repository:
         class:          Milhojas\Infrastructure\Persistence\Contents\EventBasedPostRepository

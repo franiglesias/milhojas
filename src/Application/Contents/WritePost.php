@@ -7,7 +7,7 @@ use Milhojas\Library\CommandBus\Command;
 /**
 * Description
 */
-class UpdatePost implements Command
+class WritePost implements Command
 {
 	private $id;
 	private $title;

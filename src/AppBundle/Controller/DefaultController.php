@@ -62,4 +62,18 @@ class DefaultController extends Controller
 		return new Response('Update job done!');
 	}
 	
+	/**
+	 * @Route("/create")
+	 */
+	public function createAction()
+	{
+		$command = new \Milhojas\Application\Contents\WritePost(3, 'Post number 3', 'The body for this post');
+		$bus = new \Milhojas\Library\CommandBus\BasicCommandBus(array(
+			new \Milhojas\Library\CommandBus\Workers\ExecuteWorker($this->get('handler_container'), $this->get('handler_inflector'))
+		));
+		$bus->execute($command);
+		return new Response('Create post done!');
+	
+	}
+	
 }

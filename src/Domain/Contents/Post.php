@@ -31,7 +31,6 @@ class Post extends EventSourcedEntity
 	protected function __construct()
 	{
 		$this->state = new States\DraftPostState();
-		$this->flags = new Flags\FlagCollection(new \SplObjectStorage());
 		$this->publication = new DateRange(new \DateTimeImmutable());
 	}
 	

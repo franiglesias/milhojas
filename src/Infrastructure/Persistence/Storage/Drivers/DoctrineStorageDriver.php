@@ -3,6 +3,11 @@
 namespace Milhojas\Infrastructure\Persistence\Storage\Drivers;
 
 class DoctrineStorageDriver implements StorageDriver {
+
+	public function __construct()
+	{
+
+	}
 	public function load($key) {}
 	public function save($key, $object) {}
 	public function delete($key) {}

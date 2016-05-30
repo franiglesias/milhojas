@@ -5,8 +5,7 @@ namespace Tests\Infrastructure\Persistence\Contents\Fixtures;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
-use Milhojas\Library\EventSourcing\DTO\EventDTO;
-use Milhojas\Library\ValueObjects\Identity\Id;
+// Aquí poner una Entidad que se pueda usar para Test
 
 use Tests\Library\EventSourcing\EventStore\Fixtures\EventDouble;
 
@@ -29,9 +28,9 @@ class ESFixtures extends AbstractFixture
         $manager->clear();
         gc_collect_cycles(); // Could be useful if you have a lot of fixtures
 		$this->eventId = 0;
-		$this->generateEvents($manager, 'Entity', new Id(1), 3);
-		$this->generateEvents($manager, 'Other', new Id(1), 4);
-		$this->generateEvents($manager, 'Entity', new Id(2), 6);
+		// $this->generateEvents($manager, 'Entity', new Id(1), 3);
+		// $this->generateEvents($manager, 'Other', new Id(1), 4);
+		// $this->generateEvents($manager, 'Entity', new Id(2), 6);
         $manager->flush();
     }
 	

@@ -72,6 +72,12 @@ doctrine:
                 dir: "%kernel.root_dir%/../src/Library/EventSourcing/DTO"
                 prefix: Milhojas\Library\EventSourcing\DTO
                 alias: EventStore
+            StoreObject:
+                type: annotation
+                is_bundle: false
+                dir: "%kernel.root_dir%/../tests/Infrastructure/Persistence/Storage/Doubles"
+                prefix: Tests\Infrastructure\Persistence\Storage\Doubles
+                alias: StoreObject
 
 # Swiftmailer Configuration
 swiftmailer:

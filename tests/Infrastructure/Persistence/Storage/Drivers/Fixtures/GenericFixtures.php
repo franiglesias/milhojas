@@ -6,14 +6,15 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
 // Aquí poner una Entidad que se pueda usar para Test
+use Tests\Infrastructure\Persistence\Storage\Doubles\StoreObject;
 
-use Tests\Library\EventSourcing\EventStore\Fixtures\EventDouble;
+
 
 
 // https://vincent.composieux.fr/article/test-your-doctrine-repository-using-a-sqlite-database
 /**
  */
-class ESFixtures extends AbstractFixture
+class GenericFixtures extends AbstractFixture
 {
 	private $eventId;
 
@@ -27,32 +28,17 @@ class ESFixtures extends AbstractFixture
     {
         $manager->clear();
         gc_collect_cycles(); // Could be useful if you have a lot of fixtures
-		$this->eventId = 0;
-		// $this->generateEvents($manager, 'Entity', new Id(1), 3);
-		// $this->generateEvents($manager, 'Other', new Id(1), 4);
-		// $this->generateEvents($manager, 'Entity', new Id(2), 6);
-        $manager->flush();
+		$this->generateFixtures($manager, 10);
     }
-	
-	private function generateEvents($manager, $entity, $id, $maxVersion)
-	{
-		for ($version=1; $version <= $maxVersion; $version++) { 
-			$this->eventId++;
-			$event = new EventDTO();
 
-			$event->setId($this->eventId);
-			$event->setEventType('EventDouble');
-			$event->setEvent(new EventDouble($id));
-			$event->setEntityType($entity);
-			$event->setEntityId($id->getId());
-			$event->setVersion($version);
-			$event->setMetadata(array());
-			$event->setTime(new \DateTimeImmutable());
-			
-			$this->addReference(sprintf('test-event-%s-%s-%s', $entity, $id->getId(), $version), $event);
-	        $manager->persist($event);
+	private function generateFixtures($manager, $total = 5)
+	{
+		for ($i=1; $i <= $total ; $i++) { 
+			$object = new StoreObject($i, 'Object '.$i);
+			$manager->persist($object);
+			$manager->flush();
+			$this->addReference('object-'.$i, $object);
 		}
-		
 	}
 	
 }

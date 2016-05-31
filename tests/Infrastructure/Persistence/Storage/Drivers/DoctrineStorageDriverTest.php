@@ -15,30 +15,29 @@ class DoctrineStorageDriverTest extends DoctrineTestCase {
         $this->loadFixturesFromDirectory(__DIR__ . '/Fixtures');
     }
 	
-	
 	public function test_it_can_store_something()
 	{
-		$storage = new DoctrineStorageDriver();
-		
-		$storage->save(1, new StoreObject(1));
-		$this->assertEquals(1, $storage->countAll());
+		$storage = new DoctrineStorageDriver($this->em, 'StoreObject:StoreObject');
+		$storage->save('11', new StoreObject('11', 'Object 11'));
+		$this->assertEquals(11, $storage->countAll());
 	}
 	
-	// public function test_it_can_load_stored_data_by_id()
-	// {
-	// 	$storage = $this->getStorageWithSavedElements(5);
-	// 	$this->assertEquals(new StoreObject(2), $storage->load(2));
-	// }
-	//
-	// /**
-	//  * @expectedException \OutOfBoundsException
-	//  */
-	// public function test_it_throws_exception_if_id_does_not_exist()
-	// {
-	// 	$storage = $this->getStorageWithSavedElements(5);
-	// 	$storage->load(15);
-	// }
-	//
+	public function test_it_can_load_stored_data_by_id()
+	{
+		$storage = new DoctrineStorageDriver($this->em, 'StoreObject:StoreObject');
+		$this->assertEquals(new StoreObject(2, 'Object 2'), $storage->load(2));
+		$this->assertEquals(new StoreObject(10, 'Object 10'), $storage->load(10));
+	}
+
+	/**
+	 * @expectedException \OutOfBoundsException
+	 */
+	public function test_it_throws_exception_if_id_does_not_exist()
+	{
+		$storage = new DoctrineStorageDriver($this->em, 'StoreObject:StoreObject');
+		$storage->load(15);
+	}
+
 	// public function test_it_replaces_a_key_with_new_content_when_saving()
 	// {
 	// 	$storage = $this->getStorageWithSavedElements(5);

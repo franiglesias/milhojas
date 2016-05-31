@@ -45,21 +45,22 @@ class DoctrineStorageDriverTest extends DoctrineTestCase {
 	// 	$this->assertEquals(new StoreObject(10), $storage->load(3));
 	// }
 	//
-	// public function test_it_can_delete_a_key()
-	// {
-	// 	$storage = $this->getStorageWithSavedElements(5);
-	// 	$storage->delete(3);
-	// 	$this->assertEquals(4, $storage->countAll());
-	// }
-	//
-	// /**
-	//  * @expectedException \OutOfBoundsException
-	//  */
-	// public function test_it_throws_exception_if_id_does_not_exists_on_delete()
-	// {
-	// 	$storage = $this->getStorageWithSavedElements(5);
-	// 	$storage->delete(15);
-	// }
+	public function test_it_can_delete_a_key()
+	{
+		$storage = new DoctrineStorageDriver($this->em, 'StoreObject:StoreObject');
+		$storage->delete(3);
+		$this->assertEquals(9, $storage->countAll());
+	}
+	
+
+	/**
+	 * @expectedException \OutOfBoundsException
+	 */
+	public function test_it_throws_exception_if_id_does_not_exists_on_delete()
+	{
+		$storage = new DoctrineStorageDriver($this->em, 'StoreObject:StoreObject');
+		$storage->delete(15);
+	}
 	//
 	// public function test_it_can_return_all_objects()
 	// {

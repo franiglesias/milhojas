@@ -30,7 +30,11 @@ class DoctrineStorageDriver implements StorageDriver {
 		$this->em->clear();
 	}
 	
-	public function delete($key) {}
+	public function delete($key) {
+		$object = $this->load($key);
+		$this->em->remove($object);
+		$this->em->flush();
+	}
 	public function findAll($key = null)
 	{
 		return $this->em->getRepository($this->entity)->findAll();

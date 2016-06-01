@@ -10,7 +10,7 @@ class InMemoryStorageDriverTest extends \PHPUnit_Framework_Testcase {
 	public function test_it_can_store_something()
 	{
 		$storage = new InMemoryStorageDriver();
-		$storage->save(1, new StoreObject(1));
+		$storage->save(new StoreObject(1));
 		$this->assertEquals(1, $storage->countAll());
 	}
 	
@@ -32,14 +32,17 @@ class InMemoryStorageDriverTest extends \PHPUnit_Framework_Testcase {
 	public function test_it_replaces_a_key_with_new_content_when_saving()
 	{
 		$storage = $this->getStorageWithSavedElements(5);
-		$storage->save(3, new StoreObject(10));
-		$this->assertEquals(new StoreObject(10), $storage->load(3));
+		$object = $storage->load(3);
+		$object->setValue(10);
+		$storage->save($object);
+		$this->assertEquals($object, $storage->load(3));
 	}
 	
 	public function test_it_can_delete_a_key()
 	{
 		$storage = $this->getStorageWithSavedElements(5);
-		$storage->delete(3);
+		$object = $storage->load(3);
+		$storage->delete($object);
 		$this->assertEquals(4, $storage->countAll());
 	}
 	
@@ -49,7 +52,7 @@ class InMemoryStorageDriverTest extends \PHPUnit_Framework_Testcase {
 	public function test_it_throws_exception_if_id_does_not_exists_on_delete()
 	{
 		$storage = $this->getStorageWithSavedElements(5);
-		$storage->delete(15);
+		$storage->delete($storage->load(15));
 	}
 	
 	public function test_it_can_return_all_objects()
@@ -74,9 +77,9 @@ class InMemoryStorageDriverTest extends \PHPUnit_Framework_Testcase {
 	public function test_it_returns_empty_array_if_all_data_was_deleted()
 	{
 		$storage = $this->getStorageWithSavedElements(3);
-		$storage->delete(1);
-		$storage->delete(2);
-		$storage->delete(3);
+		$storage->delete($storage->load(1));
+		$storage->delete($storage->load(2));
+		$storage->delete($storage->load(3));
 		$this->assertEquals(array(), $storage->findAll());
 	}
 	
@@ -130,7 +133,7 @@ class InMemoryStorageDriverTest extends \PHPUnit_Framework_Testcase {
 	{
 		$storage = new InMemoryStorageDriver();
 		for ($i=1; $i <= $elements; $i++) { 
-			$storage->save($i, new StoreObject($i));
+			$storage->save(new StoreObject($i));
 		}
 		return $storage;
 	}
@@ -141,7 +144,7 @@ class InMemoryStorageDriverTest extends \PHPUnit_Framework_Testcase {
 		foreach ($keys as $key) {
 			for ($i=1; $i <= $elements; $i++) { 
 				$fullKey = sprintf('%s:%s', $key, $i);
-				$storage->save($fullKey, new StoreObject($fullKey));
+				$storage->save(new StoreObject($fullKey));
 			}
 		}
 		return $storage;

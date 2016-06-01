@@ -21,12 +21,13 @@ class InMemoryStorageDriver implements StorageDriver
 		$this->checkStorageKeyExists($key);
 		return $this->data[$key];
 	}
-	public function save($key, $object) 
+	public function save($object) 
 	{
-		$this->data[$key] = $object;
+		$this->data[$object->getId()] = $object;
 	}
-	public function delete($key)
+	public function delete($object)
 	{
+		$key = $object->getId();
 		$this->checkStorageKeyExists($key);
 		unset($this->data[$key]);
 	}

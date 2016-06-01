@@ -46,7 +46,7 @@ class EventBasedStorage implements StorageInterface
 	public function store($object)
 	{
 		foreach ($object->getEvents() as $message) {
-			$this->driver->save($message->getEntity()->getKey(true), EventDTO::fromEventMessage($message));
+			$this->driver->save(EventDTO::fromEventMessage($message));
 		}
 	}
 	public function delete(Id $id)
@@ -57,7 +57,7 @@ class EventBasedStorage implements StorageInterface
 			throw new \OutOfBoundsException("No data found", 1);
 		}
 		foreach ($dtos as $key => $dto) {
-			$this->driver->delete($key);
+			$this->driver->delete($dto);
 		}
 	}
 	

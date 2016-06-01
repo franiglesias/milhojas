@@ -24,21 +24,22 @@ class DoctrineStorageDriver implements StorageDriver {
 		return $result;
 	}
 	
-	public function save($key, $object) {
+	public function save($object) {
 		$this->em->persist($object);
 		$this->em->flush();
 		$this->em->clear();
 	}
 	
-	public function delete($key) {
-		$object = $this->load($key);
+	public function delete($object) {
 		$this->em->remove($object);
 		$this->em->flush();
 	}
+	
 	public function findAll($key = null)
 	{
 		return $this->em->getRepository($this->entity)->findAll();
 	}
+	
 	public function countAll($key = null)
 	{
 		return $this->em

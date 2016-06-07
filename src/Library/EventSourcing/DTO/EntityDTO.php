@@ -7,7 +7,7 @@ use Milhojas\Library\ValueObjects\Identity\Id;
 /**
 * Transports information about entity type, id, and version
 */
-class EntityData
+class EntityDTO
 {
 	private $version;
 	
@@ -50,9 +50,11 @@ class EntityData
 	
 	public function getKey($unique = false)
 	{
-		if (!$unique) {
-			return sprintf('%s:%s', $this->type, $this->id->getId());
-		}
+		return sprintf('%s:%s', $this->type, $this->id->getId());
+	}
+	
+	public function getVersionKey()
+	{
 		return sprintf('%s:%s:%s', $this->type, $this->id->getId(), $this->version);
 	}
 	

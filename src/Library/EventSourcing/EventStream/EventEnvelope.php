@@ -3,11 +3,11 @@
 namespace Milhojas\Library\EventSourcing\EventStream;
 
 use Rhumsaa\Uuid\Uuid;
-use Milhojas\Library\EventSourcing\DTO\EntityData;
+use Milhojas\Library\EventSourcing\DTO\EntityDTO;
 /**
 * Contains metadata for event messages
 */
-class EventMessageEnvelope
+class EventEnvelope
 {
 	private $id;
 	private $time;

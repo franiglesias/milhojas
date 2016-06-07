@@ -3,7 +3,7 @@
 namespace Milhojas\Library\EventSourcing\EventStore;
 
 use Milhojas\Library\EventSourcing\EventStore\EventStorage;
-use Milhojas\Library\EventSourcing\DTO\EntityData;
+use Milhojas\Library\EventSourcing\DTO\EntityDTO;
 use Milhojas\Library\EventSourcing\EventStream\EventStream;
 use Milhojas\Library\EventSourcing\Exceptions as Exception;
 
@@ -25,7 +25,7 @@ class InMemoryEventStorage extends EventStorage
 		$this->events = array();
 	}
 	
-	public function loadStream(EntityData $entity) 
+	public function loadStream(EntityDTO $entity) 
 	{
 		if (! $this->thereAreEventsForEntity($entity)) {
 			throw new Exception\EntityNotFound(sprintf('No events found for entity: %s', $entity->getType()), 2);
@@ -44,7 +44,7 @@ class InMemoryEventStorage extends EventStorage
 		}
 	}
 
-	public function count(EntityData $entity)
+	public function count(EntityDTO $entity)
 	{
 		if ($this->thereAreEventsForEntity($entity)) {
 			return count($this->events[$entity->getType()][$entity->getPlainId()]);
@@ -65,7 +65,7 @@ class InMemoryEventStorage extends EventStorage
 		return isset($this->events[$entity->getType()][$entity->getPlainId()]);
 	}
 
-	protected function getStoredVersion(EntityData $entity)
+	protected function getStoredVersion(EntityDTO $entity)
 	{
 		return $this->count($entity);
 	}

@@ -6,7 +6,6 @@ use Milhojas\Library\EventSourcing\Domain\EventSourced;
 
 use Milhojas\Library\EventSourcing\Domain\Event;
 
-use Milhojas\Library\EventSourcing\DTO\EntityData;
 use Milhojas\Library\EventSourcing\DTO\EntityVersionData;
 
 use Milhojas\Library\EventSourcing\EventStream\EventStream;

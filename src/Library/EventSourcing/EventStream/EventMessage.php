@@ -73,6 +73,11 @@ class EventMessage implements Recordable
 		return sprintf('%s with %s', get_class($this->event), $this->entity);
 	}
 	
+	public function getId()
+	{
+		return $this->entity->getKey();
+	}
+	
 }
 
 ?>

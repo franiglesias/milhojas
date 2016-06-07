@@ -13,7 +13,7 @@ use Milhojas\Infrastructure\Persistence\Storage\EventBasedStorage;
 use Milhojas\Infrastructure\Persistence\Storage\Drivers\InMemoryStorageDriver;
 
 
-use Milhojas\Library\EventSourcing\DTO\EntityData;
+use Milhojas\Library\EventSourcing\DTO\EntityVersionData;
 use Milhojas\Library\EventSourcing\EventStream\EventMessage;
 use Milhojas\Library\EventSourcing\EventStream\EventStream;
 

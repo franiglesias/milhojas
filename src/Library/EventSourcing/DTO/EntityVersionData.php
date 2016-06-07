@@ -7,11 +7,11 @@ use Milhojas\Library\ValueObjects\Identity\Id;
 /**
 * Transports information about entity type, id, and version
 */
-class EntityVersionData extends EntityData
+class EntityVersionData
 {
 	private $version;
 	
-	function __construct($type, Id $id, $version)
+	function __construct($type, Id $id, $version = 1)
 	{
 		$this->type = $type;
 		$this->id = $id;
@@ -27,7 +27,22 @@ class EntityVersionData extends EntityData
 	{
 		return new static($dto->getEntityType(), new Id($dto->getEntityId()), $dto->getVersion());
 	}
-		
+	
+	public function getType()
+	{
+		return $this->type;
+	}
+	
+	public function getId()
+	{
+		return $this->id;
+	}
+	
+	public function getPlainId()
+	{
+		return $this->id->getId();
+	}
+			
 	public function getVersion()
 	{
 		return $this->version;
@@ -36,10 +51,14 @@ class EntityVersionData extends EntityData
 	public function getKey($unique = false)
 	{
 		if (!$unique) {
-			return parent::getKey();
+			return sprintf('%s:%s', $this->type, $this->id->getId());
 		}
 		return sprintf('%s:%s:%s', $this->type, $this->id->getId(), $this->version);
 	}
 	
+	public function __toString()
+	{
+		return $this->getKey();
+	}
 }
 ?>

@@ -5,7 +5,7 @@ namespace Milhojas\Library\EventSourcing\EventStream;
 use Milhojas\Library\EventSourcing\EventStream\EventStreamInterface;
 use Milhojas\Library\EventSourcing\EventStream\Recordable;
 
-use Milhojas\Library\EventSourcing\DTO\EntityData;
+use Milhojas\Library\EventSourcing\DTO\EntityVersionData;
 
 /**
  * Keeps a list of event messages. 

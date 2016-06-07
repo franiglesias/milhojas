@@ -6,7 +6,7 @@ use Milhojas\Library\EventSourcing\EventStream\EventStream;
 use Milhojas\Library\EventSourcing\EventStream\EventMessage;
 
 use Milhojas\Library\EventSourcing\EventStore\EventStorage;
-use Milhojas\Library\EventSourcing\DTO\EntityData;
+use Milhojas\Library\EventSourcing\DTO\EntityVersionData;
 use Milhojas\Library\EventSourcing\DTO\EventDTO;
 
 use Milhojas\Library\EventSourcing\Exceptions as Exception;
@@ -22,7 +22,7 @@ class DoctrineEventStorage extends EventStorage
 		$this->em = $em;
 	}
 	
-	public function loadStream(EntityData $entity) 
+	public function loadStream(EntityVersionData $entity) 
 	{
 		$dtos = $this->em
             ->getRepository('EventStore:EventDTO')
@@ -59,7 +59,7 @@ class DoctrineEventStorage extends EventStorage
 	}
 	
 	
-	public function count(EntityData $entity)
+	public function count(EntityVersionData $entity)
 	{
 		return $this->em
 			->createQuery('SELECT COUNT(events.id) FROM EventStore:EventDTO events WHERE events.entity_type = :entity AND events.entity_id = :id')
@@ -68,7 +68,7 @@ class DoctrineEventStorage extends EventStorage
 			->getSingleScalarResult();
 	}
 	
-	protected function getStoredVersion(EntityData $entity)
+	protected function getStoredVersion(EntityVersionData $entity)
 	{
 		return $this->em
 			->createQuery('SELECT MAX(events.version) FROM EventStore:EventDTO events WHERE events.entity_type = :entity AND events.entity_id = :id')

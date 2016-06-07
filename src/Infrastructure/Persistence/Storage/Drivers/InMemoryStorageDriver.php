@@ -24,7 +24,7 @@ class InMemoryStorageDriver implements StorageDriver
 	public function save($object) 
 	{
 		$this->data[$object->getId()] = $object;
-	}
+	} 
 	public function delete($object)
 	{
 		$key = $object->getId();
@@ -37,8 +37,7 @@ class InMemoryStorageDriver implements StorageDriver
 			return $this->data;
 		}
 		$filterByKey = function($value, $k) use($key) {
-			$test = sprintf('%s:%s', $value->getEntityType(), $value->getId());
-			return $test == $key;
+			return strpos($k, $key) !== false;
 		};
 		return array_filter($this->data, $filterByKey, ARRAY_FILTER_USE_BOTH);
 	}

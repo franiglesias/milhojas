@@ -5,7 +5,7 @@ namespace Milhojas\Library\EventSourcing\EventStream;
 use Milhojas\Library\EventSourcing\Domain\Event;
 use Milhojas\Library\EventSourcing\EventStream\Recordable;
 use Milhojas\Library\EventSourcing\Domain\EventSourced;
-use Milhojas\Library\EventSourcing\DTO\EntityVersionData;
+use Milhojas\Library\EventSourcing\DTO\EntityData;
 
 
 /**
@@ -18,14 +18,14 @@ class EventMessage implements Recordable
 	private $envelope;
 	private $entity;
 	
-	public function __construct(Event $event, EntityVersionData $entity, EventMessageEnvelope $envelope)
+	public function __construct(Event $event, EntityData $entity, EventMessageEnvelope $envelope)
 	{
 		$this->event = $event;
 		$this->entity = $entity;
 		$this->envelope = $envelope;
 	}
 	
-	static public function record(Event $event, EntityVersionData $entity)
+	static public function record(Event $event, EntityData $entity)
 	{
 		return new static(
 			$event, 
@@ -38,7 +38,7 @@ class EventMessage implements Recordable
 	{
 		return new static(
 			$dto->getEvent(),
-			EntityVersionData::fromDTO($dto),
+			EntityData::fromDTO($dto),
 			EventMessageEnvelope::fromDTO($dto)
 		);
 	}

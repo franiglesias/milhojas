@@ -7,7 +7,7 @@ use Milhojas\Library\ValueObjects\Identity\Id;
 /**
 * Transports information about entity type, id, and version
 */
-class EntityVersionData
+class EntityData
 {
 	private $version;
 	

@@ -6,7 +6,7 @@ use Milhojas\Library\EventSourcing\Domain\EventSourced;
 
 use Milhojas\Library\EventSourcing\Domain\Event;
 
-use Milhojas\Library\EventSourcing\DTO\EntityVersionData;
+use Milhojas\Library\EventSourcing\DTO\EntityData;
 
 use Milhojas\Library\EventSourcing\EventStream\EventStream;
 use Milhojas\Library\EventSourcing\EventStream\EventMessage;
@@ -90,7 +90,7 @@ abstract class EventSourcedEntity implements EventSourced
 		}
 		$this->apply($event);
 		$this->initStream();
-		$this->events->recordThat(EventMessage::record($event, EntityVersionData::fromEntity($this)));
+		$this->events->recordThat(EventMessage::record($event, EntityData::fromEntity($this)));
 	}
 	
 	protected function initStream($force = false)

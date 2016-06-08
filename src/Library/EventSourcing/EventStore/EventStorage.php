@@ -4,7 +4,6 @@ namespace Milhojas\Library\EventSourcing\EventStore;
 
 use Milhojas\Library\EventSourcing\EventStream\EventStream;
 use Milhojas\Library\EventSourcing\DTO\EntityDTO;
-use Milhojas\Library\EventSourcing\EventStore\EventStore;
 use Milhojas\Library\EventSourcing\Exceptions as Exception;
 
 /**
@@ -13,7 +12,7 @@ use Milhojas\Library\EventSourcing\Exceptions as Exception;
  *
  * @package default
  */
-abstract class EventStorage implements EventStore{
+abstract class EventStorage{
 	/**
 	 * Load an stream of events, representing the history of an aggregate
 	 *

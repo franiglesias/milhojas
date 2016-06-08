@@ -19,7 +19,7 @@ class EventMessageTest extends \PHPUnit_Framework_TestCase
 	public function test_it_creates_an_event_message()
 	{
 		$message = EventMessage::record(new EventDouble(1), new EntityDTO('Entity', new Id(1), 1));
-		$this->assertEquals('Tests\Library\EventSourcing\EventStore\Fixtures\EventDouble with Entity:1:1', (string)$message);
+		$this->assertEquals('Tests\Library\EventSourcing\EventStore\Fixtures\EventDouble with Entity:1', (string)$message);
 	}
 	
 	public function test_it_can_return_the_event()

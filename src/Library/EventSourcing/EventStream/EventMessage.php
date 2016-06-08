@@ -75,7 +75,7 @@ class EventMessage implements Recordable
 	
 	public function getId()
 	{
-		return $this->entity->getKey();
+		return $this->envelope->getMessageId();
 	}
 	
 }

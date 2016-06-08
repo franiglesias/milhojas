@@ -11,20 +11,22 @@ class EventSourcedEntityDummy extends EventSourcedEntity {
 	
 	private $id;
 	private $counter;
+	private $value;
 	
-	public function __construct(Id $id)
+	public function __construct()
 	{
-		$this->id = $id;
 		$this->counter = 0;
+		$this->value = 0;
 	}
+	
 	public function getId()
 	{
 		return $this->id;
 	}
 	
-	public function applyHandled()
+	public function getValue()
 	{
-		$this->counter++;
+		return $this->value;
 	}
 	
 	public function applyFailed()
@@ -40,6 +42,20 @@ class EventSourcedEntityDummy extends EventSourcedEntity {
 	public function recordThat(Event $event)
 	{
 		parent::recordThat($event);
+	}
+	
+	public function applyEventDouble(Event $event)
+	{
+	}
+	
+	public function applyCreationEvent(Event $event)
+	{
+		$this->id = $event->getId();
+	}
+
+	public function applyModificationEvent(Event $event)
+	{
+		$this->value = $event->getValue();
 	}
 }
 

@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Library\EventSourcing\EventStore\Fixtures;
+namespace Tests\Library\EventSourcing\Fixtures;
 
 use Milhojas\Library\EventSourcing\Domain\Event;
 
 /**
 * Description
 */
-class EventDouble implements Event
+class CreationEvent implements Event
 {
 	private $id;
 	
@@ -22,7 +22,7 @@ class EventDouble implements Event
 	
 	public function getName()
 	{
-		return 'event_double';
+		return 'creation_event';
 	}
 }
 

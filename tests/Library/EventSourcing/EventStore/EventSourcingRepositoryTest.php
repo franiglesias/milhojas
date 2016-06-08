@@ -5,11 +5,90 @@ namespace Tests\Library\EventSourcing\EventStore;
 use Milhojas\Library\EventSourcing\EventStore\EventSourcingRepository;
 use Milhojas\Library\EventSourcing\EventStore\InMemoryEventStorage;
 
+use Milhojas\Library\EventSourcing\EventStream\EventStream;
+use Milhojas\Library\EventSourcing\EventStream\EventMessage;
+use Milhojas\Library\EventSourcing\DTO\EntityDTO;
+
+use Milhojas\Library\ValueObjects\Identity\Id;
+
+use Tests\Library\EventSourcing\EventStore\Fixtures\EventDouble;
+
+use Tests\Library\EventSourcing\Fixtures\EventSourcedEntityDummy;
+use Tests\Library\EventSourcing\Fixtures\CreationEvent;
+use Tests\Library\EventSourcing\Fixtures\ModificationEvent;
+
 class EventSourcingRepositoryTest extends \PHPUnit_Framework_TestCase {
 	
-	public function test_it_creates_an_event_sourcing_repository()
+	private $repo;
+	private $storage;
+	private $entityType;
+	
+	public function setUp()
 	{
-		$repo = new EventSourcingRepository(new InMemoryEventStorage(), 'Entity');
+		$entity = get_class(new EventSourcedEntityDummy(new Id(1)));
+		$this->storage = new InMemoryEventStorage();
+		$this->createFixtures($entity, new Id(1));
+		$this->createFixtures($entity, new Id(2));
+		$this->repo = new EventSourcingRepository($this->storage, $entity);
 	}
+	
+	public function test_it_reconstitutes_right_object_from_repository()
+	{
+		$object = $this->repo->load(new Id(1));
+		$this->assertInstanceOf('\Tests\Library\EventSourcing\Fixtures\EventSourcedEntityDummy', $object);
+	}
+	
+	public function test_it_retrieves_the_right_id()
+	{
+		$object = $this->repo->load(new Id(1));
+		$this->assertEquals(new Id(1), $object->getId());
+	}
+	
+	public function test_it_retrieves_the_right_version()
+	{
+		$object = $this->repo->load(new Id(1));
+		$this->assertEquals(3, $object->getVersion());
+	}
+	
+	public function test_it_retrieves_the_last_changes_in_entity($value='')
+	{
+		$object = $this->repo->load(new Id(1));
+		$this->assertEquals('last value', $object->getValue());
+		
+	}
+	
+	public function test_it_saves_and_object_to_event_sourced_storage()
+	{
+		$objectToStore = $this->createObject(new Id(2));
+		$this->assertEquals(2, $objectToStore->getVersion());
+		$this->assertEquals(new Id(2), $objectToStore->getId());
+		$this->repo->store($objectToStore);
+		
+		
+		$object = $this->repo->load(new Id(2));
+		print_R($object);
+		$this->assertInstanceOf('\Tests\Library\EventSourcing\Fixtures\EventSourcedEntityDummy', $object);
+		$this->assertEquals(new Id(2), $object->getId());
+		$this->assertEquals(2, $object->getVersion());
+	}
+	
+	private function createFixtures($entity, $id)
+	{
+		$stream = new EventStream();
+		$stream->recordThat(EventMessage::record(new CreationEvent($id), new EntityDTO($entity, $id)));
+		$stream->recordThat(EventMessage::record(new ModificationEvent('new value'), new EntityDTO($entity, $id, 2)));
+		$stream->recordThat(EventMessage::record(new ModificationEvent('last value'), new EntityDTO($entity, $id, 3)));
+		$this->storage->saveStream($stream);
+	}
+	
+	private function createObject($id)
+	{
+		$object = new EventSourcedEntityDummy();
+		$object->apply(new CreationEvent($id));
+		$object->apply(new ModificationEvent('new value'));
+		return $object;
+	}
+	
+	
 }
 ?>

@@ -6,6 +6,10 @@ use Milhojas\Infrastructure\Persistence\Storage\StorageInterface;
 use Milhojas\Library\ValueObjects\Identity\Id;
 use Milhojas\Library\EventSourcing\EventStore\EventStorage;
 
+// use Milhojas\Library\EventSourcing\EventStream\EventStream;
+// use Milhojas\Library\EventSourcing\EventStream\EventMessage;
+use Milhojas\Library\EventSourcing\DTO\EntityDTO;
+
 class EventSourcingRepository implements StorageInterface
 {
 	private $store;
@@ -18,12 +22,16 @@ class EventSourcingRepository implements StorageInterface
 	}
 	public function load(Id $id)
 	{
-		# code...
+		$entity = new EntityDTO($this->entityType, $id);
+		$stream = $this->store->loadStream($entity);
+		$object = call_user_func($this->entityType .'::reconstitute', $stream);
+		return $object;
 	}
 	
 	public function store($object)
 	{
-		# code...
+		$this->store->saveStream($object->getEvents());
+		$object->clearEvents();
 	}
 	
 	public function delete($object)

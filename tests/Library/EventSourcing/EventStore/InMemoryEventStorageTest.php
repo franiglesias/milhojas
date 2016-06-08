@@ -14,6 +14,50 @@ class InMemoryEventStorageTest extends \PHPUnit_Framework_TestCase
 {
 	private $Storage;
 	
+	
+	public function test_a_new_storage_has_no_events()
+	{
+		$this->start_a_new_storage();
+		$this->storage_should_contain_this_number_of_events(0);
+	}
+	
+	/**
+	 * @expectedException Milhojas\Library\EventSourcing\Exceptions\EntityNotFound
+	 */
+	public function test_throw_exception_if_there_id_no_info_for_entity()
+	{
+		$this->start_a_new_storage();
+		$this->storage_should_contain_this_number_of_events(0);
+		$this->storage_should_return_an_event_stream();
+	}
+	
+	public function test_it_can_store_an_event_strem_for_an_entity()
+	{
+		$this->start_a_new_storage();
+		$this->store_an_event_stream_with_this_number_of_events(3);
+		$this->storage_should_contain_this_number_of_events(3);
+	}
+	
+	public function test_it_can_retrieve_an_event_stream_for_an_entity()
+	{
+		$this->start_a_new_storage();
+		$this->store_an_event_stream_with_this_number_of_events(3);
+		$this->storage_should_return_an_event_stream();
+		$this->storage_should_return_an_event_stream_with_events(3);
+	}
+
+	/**
+	 * @expectedException Milhojas\Library\EventSourcing\Exceptions\ConflictingVersion
+	 */
+	public function test_it_detects_a_conflicting_version()
+	{
+		$this->start_a_new_storage();
+		$this->store_an_event_stream_with_this_number_of_events(5);
+		$this->store_an_event_stream_with_conflicting_version(3, 3);
+	}
+		
+	
+	
 	protected function start_a_new_storage()
 	{
 		$this->Storage = new InMemoryEventStorage();
@@ -71,47 +115,7 @@ class InMemoryEventStorageTest extends \PHPUnit_Framework_TestCase
 		return $stream;
 	}
 	
-	public function test_a_new_storage_has_no_events()
-	{
-		$this->start_a_new_storage();
-		$this->storage_should_contain_this_number_of_events(0);
-	}
-	
-	/**
-	 * @expectedException Milhojas\Library\EventSourcing\Exceptions\EntityNotFound
-	 */
-	public function test_throw_exception_if_there_id_no_info_for_entity()
-	{
-		$this->start_a_new_storage();
-		$this->storage_should_contain_this_number_of_events(0);
-		$this->storage_should_return_an_event_stream();
-	}
-	
-	public function test_it_can_store_an_event_strem_for_an_entity()
-	{
-		$this->start_a_new_storage();
-		$this->store_an_event_stream_with_this_number_of_events(3);
-		$this->storage_should_contain_this_number_of_events(3);
-	}
-	
-	public function test_it_can_retrieve_an_event_stream_for_an_entity()
-	{
-		$this->start_a_new_storage();
-		$this->store_an_event_stream_with_this_number_of_events(3);
-		$this->storage_should_return_an_event_stream();
-		$this->storage_should_return_an_event_stream_with_events(3);
-	}
 
-	/**
-	 * @expectedException Milhojas\Library\EventSourcing\Exceptions\ConflictingVersion
-	 */
-	public function test_it_detects_a_conflicting_version()
-	{
-		$this->start_a_new_storage();
-		$this->store_an_event_stream_with_this_number_of_events(5);
-		$this->store_an_event_stream_with_conflicting_version(3, 3);
-	}
-		
 }
 
 ?>

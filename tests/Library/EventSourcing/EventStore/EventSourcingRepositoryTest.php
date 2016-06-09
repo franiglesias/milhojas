@@ -54,16 +54,12 @@ class EventSourcingRepositoryTest extends \PHPUnit_Framework_TestCase {
 	{
 		$object = $this->repo->load(new Id(1));
 		$this->assertEquals('last value', $object->getValue());
-		
 	}
 	
 	public function test_it_saves_and_object_to_event_sourced_storage()
 	{
 		$id = new Id(3);
-		
 		$this->repo->store($this->createObject($id));
-		
-		
 		$object = $this->repo->load($id);
 		$this->assertInstanceOf('\Tests\Library\EventSourcing\Fixtures\EventSourcedEntityDummy', $object);
 		$this->assertEquals($id, $object->getId());

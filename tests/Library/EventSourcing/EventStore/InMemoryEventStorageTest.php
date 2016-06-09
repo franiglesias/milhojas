@@ -24,7 +24,7 @@ class InMemoryEventStorageTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * @expectedException Milhojas\Library\EventSourcing\Exceptions\EntityNotFound
 	 */
-	public function test_throw_exception_if_there_id_no_info_for_entity()
+	public function test_throw_exception_if_there_is_no_info_for_entity()
 	{
 		$this->start_a_new_storage();
 		$this->storage_should_contain_this_number_of_events(0);
@@ -57,6 +57,12 @@ class InMemoryEventStorageTest extends \PHPUnit_Framework_TestCase
 	}
 		
 	
+	public function test_it_can_load_a_stream_for_a_specific_version()
+	{
+		$this->start_a_new_storage();
+		$this->store_an_event_stream_with_this_number_of_events(5);
+		$this->should_retrieve_partial_stream_for_version(3);
+	}
 	
 	protected function start_a_new_storage()
 	{
@@ -92,6 +98,13 @@ class InMemoryEventStorageTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals($expectedCount, $Stream->count());
 	}
 	
+	protected function should_retrieve_partial_stream_for_version($version)
+	{
+		$Stream = $this->Storage->loadStream($this->getEntity(1, $version));
+		$this->assertEquals($version, $Stream->count());
+	}
+	
+	
 	private function getEvent($name)
 	{
 		return $this->getMockBuilder('Milhojas\Library\EventSourcing\Domain\Event')
@@ -100,7 +113,7 @@ class InMemoryEventStorageTest extends \PHPUnit_Framework_TestCase
 			->getMock();
 	}
 
-	private function getEntity($id = 1, $version = -1)
+	private function getEntity($id = 1, $version = null)
 	{
 		return new EntityDTO('Entity', new Id($id), $version);
 	}

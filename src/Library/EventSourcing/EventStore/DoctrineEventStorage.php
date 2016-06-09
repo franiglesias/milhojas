@@ -25,19 +25,40 @@ class DoctrineEventStorage extends EventStorage
 	public function loadStream(EntityDTO $entity) 
 	{
 		$dtos = $this->em
-            ->getRepository('EventStore:EventDTO')
-			->findBy(array(
-				'entity_type' => $entity->getType(),
-				'entity_id' => $entity->getPlainId()
-			));
+			->createQuery($this->buildDQL($entity))
+			->setParameters($this->buildParameters($entity))
+			->getResult();
+		
 		if (!$dtos) {
 			throw new Exception\EntityNotFound(sprintf('No events found for entity: %s', $entity->getType()), 2);
 		}
+		
 		$stream = new EventStream();
 		foreach ($dtos as $dto) {
 			$stream->recordThat(EventMessage::fromDTO($dto));
 		}
 		return $stream;
+	}
+	
+	private function buildDQL(EntityDTO $entity)
+	{
+		$query = 'SELECT events FROM EventStore:EventDTO events WHERE events.entity_type = :entity AND events.entity_id = :id';
+		if ($entity->getVersion()) {
+			$query .= ' AND events.version <= :version';
+		}
+		return $query;
+	}
+	
+	private function buildParameters(EntityDTO $entity)
+	{
+		$params = array(
+			'entity' => $entity->getType(),
+			'id' => $entity->getPlainId()
+		);
+		if ($entity->getVersion()) {
+			$params['version'] = $entity->getVersion();
+		}
+		return $params;
 	}
 	
 	public function saveStream(EventStream $stream)

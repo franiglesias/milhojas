@@ -30,10 +30,22 @@ class InMemoryEventStorage extends EventStorage
 		if (! $this->thereAreEventsForEntity($entity)) {
 			throw new Exception\EntityNotFound(sprintf('No events found for entity: %s', $entity->getType()), 2);
 		}
-		$events = $this->events[$entity->getType()][$entity->getPlainId()];
+		$events = $this->getEventsForEntity($entity);
 		$stream = new EventStream();
 		$stream->load($events);
 		return $stream;
+	}
+	
+	private function getEventsForEntity($entity)
+	{
+		if (!$entity->getVersion()) {
+			return $this->events[$entity->getType()][$entity->getPlainId()];
+		}
+		$events = array();
+		for ($i=0; $i < $entity->getVersion(); $i++) { 
+			$events[] = $this->events[$entity->getType()][$entity->getPlainId()][$i];
+		}
+		return $events;
 	}
 	
 	public function saveStream(EventStream $stream)

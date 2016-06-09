@@ -11,7 +11,7 @@ class EntityDTO
 {
 	private $version;
 	
-	function __construct($type, Id $id, $version = 1)
+	function __construct($type, Id $id, $version = null)
 	{
 		$this->type = $type;
 		$this->id = $id;

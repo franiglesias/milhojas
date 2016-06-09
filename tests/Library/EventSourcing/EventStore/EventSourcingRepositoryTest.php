@@ -59,23 +59,29 @@ class EventSourcingRepositoryTest extends \PHPUnit_Framework_TestCase {
 	
 	public function test_it_saves_and_object_to_event_sourced_storage()
 	{
-		$objectToStore = $this->createObject(new Id(2));
-		$this->assertEquals(2, $objectToStore->getVersion());
-		$this->assertEquals(new Id(2), $objectToStore->getId());
-		$this->repo->store($objectToStore);
+		$id = new Id(3);
+		
+		$this->repo->store($this->createObject($id));
 		
 		
-		$object = $this->repo->load(new Id(2));
-		print_R($object);
+		$object = $this->repo->load($id);
 		$this->assertInstanceOf('\Tests\Library\EventSourcing\Fixtures\EventSourcedEntityDummy', $object);
-		$this->assertEquals(new Id(2), $object->getId());
+		$this->assertEquals($id, $object->getId());
+		$this->assertEquals(2, $object->getVersion());
+	}
+	
+	public function test_it_can_retrieve_a_specific_version()
+	{
+		$object = $this->repo->load(new Id(1), 2);
+		$this->assertInstanceOf('\Tests\Library\EventSourcing\Fixtures\EventSourcedEntityDummy', $object);
+		$this->assertEquals('new value', $object->getValue());
 		$this->assertEquals(2, $object->getVersion());
 	}
 	
 	private function createFixtures($entity, $id)
 	{
 		$stream = new EventStream();
-		$stream->recordThat(EventMessage::record(new CreationEvent($id), new EntityDTO($entity, $id)));
+		$stream->recordThat(EventMessage::record(new CreationEvent($id), new EntityDTO($entity, $id, 1)));
 		$stream->recordThat(EventMessage::record(new ModificationEvent('new value'), new EntityDTO($entity, $id, 2)));
 		$stream->recordThat(EventMessage::record(new ModificationEvent('last value'), new EntityDTO($entity, $id, 3)));
 		$this->storage->saveStream($stream);
@@ -84,8 +90,8 @@ class EventSourcingRepositoryTest extends \PHPUnit_Framework_TestCase {
 	private function createObject($id)
 	{
 		$object = new EventSourcedEntityDummy();
-		$object->apply(new CreationEvent($id));
-		$object->apply(new ModificationEvent('new value'));
+		$object->recordThat(new CreationEvent($id));
+		$object->recordThat(new ModificationEvent('new value'));
 		return $object;
 	}
 	

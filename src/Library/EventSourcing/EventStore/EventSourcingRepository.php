@@ -20,12 +20,19 @@ class EventSourcingRepository implements StorageInterface
 		$this->store = $store;
 		$this->entityType = $entity_type;
 	}
-	public function load(Id $id)
+	public function load(Id $id, $version = null)
 	{
-		$entity = new EntityDTO($this->entityType, $id);
-		$stream = $this->store->loadStream($entity);
+		$stream = $this->store->loadStream($this->getEntity($id, $version));
 		$object = call_user_func($this->entityType .'::reconstitute', $stream);
 		return $object;
+	}
+	
+	private function getEntity(Id $id, $version)
+	{
+		if ($version) {
+			return new EntityDTO($this->entityType, $id, $version);
+		}
+		return new EntityDTO($this->entityType, $id);
 	}
 	
 	public function store($object)

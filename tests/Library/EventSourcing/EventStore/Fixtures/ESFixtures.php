@@ -8,7 +8,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Milhojas\Library\EventSourcing\DTO\EventDTO;
 use Milhojas\Library\ValueObjects\Identity\Id;
 
-use Tests\Library\EventSourcing\EventStore\Fixtures\EventDouble;
+use Tests\Library\EventSourcing\Fixtures\EventDouble;
 
 
 // https://vincent.composieux.fr/article/test-your-doctrine-repository-using-a-sqlite-database

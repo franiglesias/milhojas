@@ -11,7 +11,7 @@ use Milhojas\Library\EventSourcing\DTO\EntityDTO;
 
 use Milhojas\Library\ValueObjects\Identity\Id;
 
-use Tests\Library\EventSourcing\EventStore\Fixtures\EventDouble;
+use Tests\Library\EventSourcing\Fixtures\EventDouble;
 
 use Tests\Library\EventSourcing\Fixtures\EventSourcedEntityDummy;
 use Tests\Library\EventSourcing\Fixtures\CreationEvent;

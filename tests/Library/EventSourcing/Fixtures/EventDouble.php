@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Library\EventSourcing\EventStore\Fixtures;
+namespace Tests\Library\EventSourcing\Fixtures;
 
 use Milhojas\Library\EventSourcing\Domain\Event;
 

@@ -12,7 +12,7 @@ use Milhojas\Library\EventSourcing\EventStream\EventStream;
 use Milhojas\Library\ValueObjects\Identity\Id;
 use Milhojas\Library\EventSourcing\Domain\Event;
 
-use Tests\Library\EventSourcing\EventStore\Fixtures\EventDouble;
+use Tests\Library\EventSourcing\Fixtures\EventDouble;
 
 
 class DoctrineEventStorageTest extends DoctrineTestCase

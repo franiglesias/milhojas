@@ -6,7 +6,7 @@ use Milhojas\Library\EventSourcing\EventStream\EventStream;
 use Milhojas\Library\EventSourcing\Domain\Event;
 use Milhojas\Library\EventSourcing\DTO\EntityDTO;
 use Milhojas\Library\ValueObjects\Identity\Id;
-use Tests\Library\EventSourcing\EventStore\Fixtures\EventDouble;
+use Tests\Library\EventSourcing\Fixtures\EventDouble;
 
 class EventStreamTest extends \PHPUnit_Framework_Testcase {
 	

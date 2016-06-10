@@ -4,6 +4,7 @@ namespace Milhojas\Library\EventSourcing\DTO;
 
 use Milhojas\Library\EventSourcing\Domain\EventSourced;
 use Milhojas\Library\ValueObjects\Identity\Id;
+use Milhojas\Library\EventSourcing\DTO\EventDTO;
 /**
 * Transports information about entity type, id, and version
 */
@@ -23,7 +24,7 @@ class EntityDTO
 		return new static(get_class($entity), $entity->getId(), $entity->getVersion());
 	}
 	
-	static public function fromDTO($dto)
+	static public function fromEventDTO(EventDTO $dto)
 	{
 		return new static($dto->getEntityType(), new Id($dto->getEntityId()), $dto->getVersion());
 	}

@@ -38,7 +38,7 @@ class EventMessage implements Recordable
 	{
 		return new static(
 			$dto->getEvent(),
-			EntityDTO::fromDTO($dto),
+			EntityDTO::fromEventDTO($dto),
 			EventEnvelope::fromEventDTO($dto)
 		);
 	}

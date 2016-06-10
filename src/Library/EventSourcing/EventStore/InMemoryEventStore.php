@@ -2,7 +2,7 @@
 
 namespace Milhojas\Library\EventSourcing\EventStore;
 
-use Milhojas\Library\EventSourcing\EventStore\EventStorage;
+use Milhojas\Library\EventSourcing\EventStore\EventStore;
 use Milhojas\Library\EventSourcing\DTO\EntityDTO;
 use Milhojas\Library\EventSourcing\EventStream\EventStream;
 use Milhojas\Library\EventSourcing\Exceptions as Exception;
@@ -10,7 +10,7 @@ use Milhojas\Library\EventSourcing\Exceptions as Exception;
 /**
 * A simple in memory event storage.
 */
-class InMemoryEventStorage extends EventStorage
+class InMemoryEventStore extends EventStore
 {
 	/**
 	 * Store the events

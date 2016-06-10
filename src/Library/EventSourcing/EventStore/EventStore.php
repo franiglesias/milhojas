@@ -12,7 +12,7 @@ use Milhojas\Library\EventSourcing\Exceptions as Exception;
  *
  * @package default
  */
-abstract class EventStorage{
+abstract class EventStore{
 	/**
 	 * Load an stream of events, representing the history of an aggregate
 	 *

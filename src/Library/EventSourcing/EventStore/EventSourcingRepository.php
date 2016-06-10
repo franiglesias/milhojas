@@ -4,7 +4,7 @@ namespace Milhojas\Library\EventSourcing\EventStore;
 
 use Milhojas\Infrastructure\Persistence\Storage\StorageInterface;
 use Milhojas\Library\ValueObjects\Identity\Id;
-use Milhojas\Library\EventSourcing\EventStore\EventStorage;
+use Milhojas\Library\EventSourcing\EventStore\EventStore;
 
 use Milhojas\Library\EventSourcing\DTO\EntityDTO;
 
@@ -13,7 +13,7 @@ class EventSourcingRepository implements StorageInterface
 	private $store;
 	private $entityType;
 
-	public function __construct(EventStorage $store, $entity_type)
+	public function __construct(EventStore $store, $entity_type)
 	{
 		$this->store = $store;
 		$this->entityType = $entity_type;

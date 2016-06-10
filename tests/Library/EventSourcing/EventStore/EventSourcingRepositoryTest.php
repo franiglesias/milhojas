@@ -3,7 +3,7 @@
 namespace Tests\Library\EventSourcing\EventStore;
 
 use Milhojas\Library\EventSourcing\EventStore\EventSourcingRepository;
-use Milhojas\Library\EventSourcing\EventStore\InMemoryEventStorage;
+use Milhojas\Library\EventSourcing\EventStore\InMemoryEventStore;
 
 use Milhojas\Library\EventSourcing\EventStream\EventStream;
 use Milhojas\Library\EventSourcing\EventStream\EventMessage;
@@ -26,7 +26,7 @@ class EventSourcingRepositoryTest extends \PHPUnit_Framework_TestCase {
 	public function setUp()
 	{
 		$entity = get_class(new EventSourcedEntityDummy(new Id(1)));
-		$this->storage = new InMemoryEventStorage();
+		$this->storage = new InMemoryEventStore();
 		$this->createFixtures($entity, new Id(1));
 		$this->createFixtures($entity, new Id(2));
 		$this->repo = new EventSourcingRepository($this->storage, $entity);

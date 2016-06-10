@@ -5,7 +5,7 @@ namespace Milhojas\Library\EventSourcing\EventStore;
 use Milhojas\Library\EventSourcing\EventStream\EventStream;
 use Milhojas\Library\EventSourcing\EventStream\EventMessage;
 
-use Milhojas\Library\EventSourcing\EventStore\EventStorage;
+use Milhojas\Library\EventSourcing\EventStore\EventStore;
 use Milhojas\Library\EventSourcing\DTO\EntityDTO;
 use Milhojas\Library\EventSourcing\DTO\EventDTO;
 
@@ -13,7 +13,7 @@ use Milhojas\Library\EventSourcing\Exceptions as Exception;
 
 use Doctrine\ORM\Entitymanager;
 
-class DoctrineEventStorage extends EventStorage
+class DoctrineEventStore extends EventStore
 {
 	private $em;
 	
@@ -24,6 +24,15 @@ class DoctrineEventStorage extends EventStorage
 	
 	public function loadStream(EntityDTO $entity) 
 	{
+		$stream = new EventStream();
+		foreach ($this->getStoredData($entity) as $dto) {
+			$stream->recordThat(EventMessage::fromDTO($dto));
+		}
+		return $stream;
+	}
+	
+	private function getStoredData(EntityDTO $entity)
+	{
 		$dtos = $this->em
 			->createQuery($this->buildDQL($entity))
 			->setParameters($this->buildParameters($entity))
@@ -32,12 +41,7 @@ class DoctrineEventStorage extends EventStorage
 		if (!$dtos) {
 			throw new Exception\EntityNotFound(sprintf('No events found for entity: %s', $entity->getType()), 2);
 		}
-		
-		$stream = new EventStream();
-		foreach ($dtos as $dto) {
-			$stream->recordThat(EventMessage::fromDTO($dto));
-		}
-		return $stream;
+		return $dtos;
 	}
 	
 	private function buildDQL(EntityDTO $entity)

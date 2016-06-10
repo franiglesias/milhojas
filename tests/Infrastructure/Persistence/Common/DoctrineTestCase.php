@@ -65,6 +65,10 @@ class DoctrineTestCase extends WebTestCase
         $this->em = $this->getEntityManager();
     }
 
+	public function test_nothing()
+	{
+		# code...
+	}
     /**
      * Executes fixtures
      *

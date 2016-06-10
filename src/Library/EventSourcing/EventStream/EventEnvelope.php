@@ -3,7 +3,7 @@
 namespace Milhojas\Library\EventSourcing\EventStream;
 
 use Rhumsaa\Uuid\Uuid;
-use Milhojas\Library\EventSourcing\DTO\EntityDTO;
+use Milhojas\Library\EventSourcing\DTO\EventDTO;
 /**
 * Contains metadata for event messages
 */
@@ -29,7 +29,7 @@ class EventEnvelope
 		);
 	}
 	
-	static public function fromDTO($dto)
+	static public function fromEventDTO(EventDTO $dto)
 	{
 		return new static(
 			$dto->getId(),

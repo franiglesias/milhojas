@@ -7,7 +7,7 @@ use Milhojas\Library\EventSourcing\DTO\EntityDTO;
 use Milhojas\Library\EventSourcing\Exceptions as Exception;
 
 /**
- * An event storage stores event streams and allow us to recover the full stream for an entity.
+ * An event store stores event streams and allow us to recover the full stream for an entity.
  * Use an event based storage in repositories to create event based ones
  *
  * @package default

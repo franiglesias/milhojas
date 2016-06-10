@@ -6,7 +6,7 @@ use Milhojas\Library\EventSourcing\Domain\Event;
 use Milhojas\Library\EventSourcing\EventStream\Recordable;
 use Milhojas\Library\EventSourcing\Domain\EventSourced;
 use Milhojas\Library\EventSourcing\DTO\EntityDTO;
-
+use Milhojas\Library\EventSourcing\DTO\EventDTO;
 
 /**
 * Stores an event and metadata needed
@@ -34,12 +34,12 @@ class EventMessage implements Recordable
 		);
 	}
 	
-	static public function fromDTO($dto)
+	static public function fromEventDTO(EventDTO $dto)
 	{
 		return new static(
 			$dto->getEvent(),
 			EntityDTO::fromDTO($dto),
-			EventEnvelope::fromDTO($dto)
+			EventEnvelope::fromEventDTO($dto)
 		);
 	}
 	

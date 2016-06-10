@@ -26,7 +26,7 @@ class DoctrineEventStore extends EventStore
 	{
 		$stream = new EventStream();
 		foreach ($this->getStoredData($entity) as $dto) {
-			$stream->recordThat(EventMessage::fromDTO($dto));
+			$stream->recordThat(EventMessage::fromEventDTO($dto));
 		}
 		return $stream;
 	}

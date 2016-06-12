@@ -25,3 +25,7 @@ parameters:
         webmaster@miralba.org: Webmaster
     payroll.dataPath: "%kernel.root_dir%/../payroll"
     
+    device.sender:     webmaster@miralba.org
+    device.report:     webmaster@miralba.org
+    
+        

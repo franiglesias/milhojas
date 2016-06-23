@@ -22,6 +22,7 @@ class PostDTO
 	
 	/** @ORM\Column(type="datetime", nullable=TRUE) */
 	protected $pubDate;
+	
 	/** @ORM\Column(type="datetime", nullable=TRUE) */
 	protected $expiration;
 	
@@ -95,8 +96,6 @@ class PostDTO
     {
         return $this->expiration;
     }
-
-
 
     /**
      * Set content

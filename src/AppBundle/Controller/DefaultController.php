@@ -54,9 +54,13 @@ class DefaultController extends Controller
 	 */
 	public function updateAction()
 	{
-		$command = new \Milhojas\Application\Contents\UpdatePost(8, 'New Title of a Post', 'New Body of the first Post');
+		$command = new \Milhojas\Application\Contents\UpdatePost(3, 'New Title of a Post', 'New Body of the first Post');
 		$bus = new \Milhojas\Library\CommandBus\BasicCommandBus(array(
-			new \Milhojas\Library\CommandBus\Workers\ExecuteWorker($this->get('handler_container'), $this->get('handler_inflector'))
+			new \Milhojas\Library\CommandBus\Workers\ExecuteWorker($this->get('handler_container'), $this->get('handler_inflector')),
+			new \Milhojas\Library\CommandBus\Workers\DispatchEventsWorker(
+				$this->get('event_bus'),
+				$this->get('event_recorder')
+			)
 		));
 		$bus->execute($command);
 		return new Response('Update job done!');

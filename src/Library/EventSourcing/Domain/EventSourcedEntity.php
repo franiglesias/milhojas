@@ -46,6 +46,16 @@ abstract class EventSourcedEntity implements EventSourced
 		return $this->events;
 	}
 	
+	public function retrieveEvents()
+	{
+		$this->initStream();
+		$events = [];
+		foreach ($this->events as $message) {
+			$events[] = $message->getEvent();
+		}
+		return $events;
+	}
+	
 	/**
 	 * Clears the stored list of events
 	 *
@@ -60,7 +70,7 @@ abstract class EventSourcedEntity implements EventSourced
 	}
 	
 	/**
-	 * Apply a Event to the Entity
+	 * Apply an Event to the Entity
 	 *
 	 * @param Event $event 
 	 * @return void

@@ -28,4 +28,7 @@ parameters:
     device.sender:     webmaster@miralba.org
     device.report:     webmaster@miralba.org
     
-        
+    contents.report:
+        webmaster@miralba.org: Webmaster
+    contents.sender:
+        sistema@miralba.org: CMS

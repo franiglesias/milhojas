@@ -43,7 +43,7 @@ class PostWasUpdated implements Event
 	
 	public function getName()
 	{
-		return 'milhojas.post_was_updated';
+		return 'contents.post_was_updated';
 	}
 }
 

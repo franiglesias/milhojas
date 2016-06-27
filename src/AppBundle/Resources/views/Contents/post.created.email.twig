@@ -1,0 +1,17 @@
+{% block subject 'Creado el artículo ' ~ id ~ title %}
+
+{% block body_html %}
+    <p>El artículo <strong>{{ title }}</strong> con id <strong>{{ id }}</strong> ha sido creado</p>
+	<p>Atte.</p>
+	<p>Monitor de mantenimiento</p>
+{% endblock %}
+
+{% block body_text %}
+	
+	El artículo {{ title }} con id {{ id }} ha sido creado.
+	
+	Atte.
+	
+	Monitor de mantenimiento
+{% endblock %}
+

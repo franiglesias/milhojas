@@ -11,10 +11,12 @@ use Milhojas\Library\EventSourcing\Domain\Event;
 class SimpleEventBus implements EventBus
 {
 	private $handlers;
+	private $logger;
 	
-	public function __construct()
+	public function __construct($logger)
 	{
 		$this->handlers = array();
+		$this->logger = $logger;
 	}
 	
 	public function addHandler($eventName, EventHandler $handler)
@@ -32,6 +34,7 @@ class SimpleEventBus implements EventBus
 	public function handle(Event $event)
 	{
 		if (! $this->canManageEvent($event)) {
+			$this->logger->error(sprintf('Event %s can not be handled', $event->getName() ));
 			return;
 		}
 		foreach ($this->handlers[$event->getName()] as $handler) {

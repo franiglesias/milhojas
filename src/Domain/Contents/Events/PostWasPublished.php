@@ -36,7 +36,7 @@ class PostWasPublished implements Event
 	
 	public function getName()
 	{
-		return 'milhojas.post_was_published';
+		return 'contents.post_was_published';
 	}
 }
 ?>

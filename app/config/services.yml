@@ -51,7 +51,7 @@ services:
 # Contents Post Command Handlers
     write_post_handler:
         class:          Milhojas\Application\Contents\WritePostHandler
-        arguments:      ["@post_repository"]
+        arguments:      ["@post_repository", "@event_recorder"]
     update_post_handler:
         class:          Milhojas\Application\Contents\UpdatePostHandler
         arguments:      ["@post_repository", "@event_recorder"]
@@ -106,19 +106,22 @@ services:
         arguments:      ['@cli.output']
     
     contents.reporter:
-        class:          Milhojas\Application\Contents\EmailPostWasUpdated
+        class:          Milhojas\Application\Contents\PostEmailReporter
         arguments:      ['@milhojas.mailer', '%contents.sender%', '%contents.report%']
         
 # EventBus
     event_bus:
         class:          Milhojas\Library\EventBus\SimpleEventBus
+        arguments:      ['@logger']
         calls:
             - ['subscribeHandler', ['@it.report_device_status',  '%milhojas.it.monitor.email.events%'] ] 
             - ['subscribeHandler', ['@it.cli_report_device_status',  '%milhojas.it.monitor.all.events%'] ] 
             - ['addHandler', ['milhojas.management.payroll_was_sent', '@management.cli_report_payroll_was_sent'] ]
             - ['addHandler', ['milhojas.management.payroll_could_not_be_sent', '@management.cli_report_payroll_could_not_be_sent'] ]
-            - ['addHandler', ['milhojas.post_was_updated', '@contents.reporter'] ]
-
+            - ['addHandler', ['contents.post_was_updated', '@contents.reporter'] ]
+            - ['addHandler', ['contents.new_post_was_written', '@contents.reporter'] ]
+        tags:
+            - { name: monolog.logger, channel: eventbus }
 # It Command Handlers
     device_monitor:
         class:          Milhojas\Domain\It\DeviceMonitor

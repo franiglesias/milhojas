@@ -43,7 +43,7 @@ class NewPostWasWritten implements Event
 	
 	public function getName()
 	{
-		return 'milhojas.contents.new_post_was_written';
+		return 'contents.new_post_was_written';
 	}
 }
 

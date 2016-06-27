@@ -10,21 +10,26 @@ use Milhojas\Domain\Contents\Post;
 use Milhojas\Domain\Contents\PostId;
 use Milhojas\Domain\Contents\PostContent;
 
+use Milhojas\Library\EventSourcing\EventStream\EventRecorder;
+
 /**
 * Description
 */
 class WritePostHandler implements CommandHandler
 {
 	private $repository;
+	private $recorder;
 	
-	public function __construct(PostRepository $repository)
+	public function __construct(PostRepository $repository, EventRecorder $recorder)
 	{
 		$this->repository = $repository;
+		$this->recorder = $recorder;
 	}
 	
 	public function handle(Command $command)
 	{
 		$Post = Post::write(new PostId($command->getId()), new PostContent($command->getTitle(), $command->getBody()));
+		$this->recorder->load($Post->retrieveEvents());
 		$this->repository->save($Post);
 	}
 }

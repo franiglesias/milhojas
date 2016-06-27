@@ -22,7 +22,7 @@ class PostWasRetired implements Event
 	
 	public function getName()
 	{
-		return 'milhojas.post_was_retired';
+		return 'contents.post_was_retired';
 	}
 	
 }

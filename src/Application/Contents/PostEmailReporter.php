@@ -9,7 +9,7 @@ use Milhojas\Infrastructure\Mail\Mailer;
 /**
 * Handles events related to Device Status
 */
-class EmailPostWasUpdated implements EventHandler
+class PostEmailReporter implements EventHandler
 {
 	private $mailer;
 	private $sender;
@@ -24,18 +24,35 @@ class EmailPostWasUpdated implements EventHandler
 	
 	public function handle(Event $event)
 	{
-		$this->sendEmail($event->getTitle(), $event->getAuthor());
+		$this->sendEmail($event);
 	}
 	
-	private function sendEmail($title, $author)
+	private function sendEmail($event)
 	{
 		$message = new MailMessage();
 		$message
 			->setTo($this->report)
 			->setSender($this->sender)
-			->setTemplate('AppBundle:Contents:post.email.twig', array('title' => $title, 'author' => $author));
+			->setTemplate($this->useTemplate($event), array(
+				'id' => $event->getId(), 
+				'title' => $event->getTitle(), 
+				'author' => $event->getAuthor()
+			));
 		return $this->mailer->send($message);
 	}
 	
+	private function useTemplate($event)
+	{
+		$eventName = $event->getName();
+		switch ($eventName) {
+			case 'contents.new_post_was_written':
+				return 'AppBundle:Contents:post.created.email.twig';
+				break;
+				
+			default:
+				return 'AppBundle:Contents:post.updated.email.twig';
+				break;
+		}
+	}
 }
 ?>

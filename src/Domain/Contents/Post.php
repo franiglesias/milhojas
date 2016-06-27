@@ -96,11 +96,6 @@ class Post extends EventSourcedEntity
 		return $this->id;
 	}
 	
-	// public function getId()
-	// {
-	// 	return $this->id->getId();
-	// }
-	
 	public function getState()
 	{
 		return $this->state;

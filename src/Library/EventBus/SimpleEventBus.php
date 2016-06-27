@@ -37,6 +37,7 @@ class SimpleEventBus implements EventBus
 			$this->logger->error(sprintf('Event %s can not be handled', $event->getName() ));
 			return;
 		}
+		$this->logger->info($event);
 		foreach ($this->handlers[$event->getName()] as $handler) {
 			$handler->handle($event);
 		}

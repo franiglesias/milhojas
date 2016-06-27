@@ -52,7 +52,7 @@ abstract class EventStore{
 		$newVersion = $entity->getVersion();
 		$storedVersion = $this->getStoredVersion($entity);
 		if ($newVersion <= $storedVersion) {
-			throw new Exception\ConflictingVersion(sprintf('Stored version found to be %s, trying to save version %s', $storedVersion, $newVersion), 1);
+			throw new Exception\ConflictingVersion(sprintf('Stored version for %s found to be %s, trying to save version %s', $entity, $storedVersion, $newVersion), 1);
 		}
 	}
 	

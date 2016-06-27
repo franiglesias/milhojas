@@ -25,6 +25,11 @@ class SimpleEvent implements Event
 	{
 		return $this->data;
 	}
+	
+	public function __toString()
+	{
+		return '';
+	}
 }
 
 

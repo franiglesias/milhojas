@@ -45,6 +45,11 @@ class NewPostWasWritten implements Event
 	{
 		return 'contents.new_post_was_written';
 	}
+	
+	public function __toString()
+	{
+		return sprintf('Post %s, with title %s by %s', $this->id, $this->title, $this->author);
+	}
 }
 
 ?>

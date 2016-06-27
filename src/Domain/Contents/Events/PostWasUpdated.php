@@ -45,6 +45,12 @@ class PostWasUpdated implements Event
 	{
 		return 'contents.post_was_updated';
 	}
+	
+	public function __toString()
+	{
+		return sprintf('Post %s, with title %s by %s updated', $this->id, $this->title, $this->author);
+	}
+	
 }
 
 ?>

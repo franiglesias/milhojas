@@ -25,6 +25,12 @@ class TestEvent implements Event
 	{
 		return $this->data;
 	}
+	
+	public function __toString()
+	{
+		return '';
+	}
+
 }
 
 

@@ -88,6 +88,15 @@ class DoctrineEventStoreTest extends DoctrineTestCase
 		$this->assertEquals($stream, $loaded);
 	}
 	
+	public function test_it_can_save_a_new_stream()
+	{
+		$storage = new DoctrineEventStore($this->em);
+		$stream = $this->prepareEventStream('Model', new Id(1), 1);
+		$storage->saveStream($stream);
+		$loaded = $storage->loadStream(new EntityDTO('Model', new Id(1)));
+		$this->assertEquals($stream, $loaded);
+	}
+	
 	/**
 	 * @expectedException Milhojas\Library\EventSourcing\Exceptions\ConflictingVersion
 	 */

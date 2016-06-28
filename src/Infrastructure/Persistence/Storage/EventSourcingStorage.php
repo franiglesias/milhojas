@@ -1,14 +1,23 @@
 <?php
 
-namespace Milhojas\Library\EventSourcing\EventStore;
+namespace  Milhojas\Infrastructure\Persistence\Storage;
 
-use Milhojas\Infrastructure\Persistence\Storage\StorageInterface;
+use Milhojas\Infrastructure\Persistence\Storage\EventSourcingStorageInterface;
+
 use Milhojas\Library\ValueObjects\Identity\Id;
 use Milhojas\Library\EventSourcing\EventStore\EventStore;
-
 use Milhojas\Library\EventSourcing\DTO\EntityDTO;
 
-class EventSourcingStorage implements StorageInterface
+/**
+ * A EventSourcing based Storage. Accepts and returns objects using a EventStore to save and retrieve event streams
+ * 
+ * It assumes that Entities has a reconstitute static method
+ *
+ * @package default
+ * @author Fran Iglesias
+ */
+
+class EventSourcingStorage implements EventSourcingStorageInterface
 {
 	private $store;
 	private $entityType;
@@ -31,6 +40,10 @@ class EventSourcingStorage implements StorageInterface
 	
 	private function getEntity(Id $id, $version)
 	{
+		if (!$this->entityType) {
+			throw new \InvalidArgumentException('EntityType not defined for EventSourcingStorage. Repository should set Storage->setEntityType(Entity)');
+		}
+
 		if ($version) {
 			return new EntityDTO($this->entityType, $id, $version);
 		}

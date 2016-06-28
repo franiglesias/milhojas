@@ -8,7 +8,7 @@ use Milhojas\Domain\Contents\PostId;
 
 use Milhojas\Domain\Contents\Exceptions\PostWasNotFound;
 
-use Milhojas\Infrastructure\Persistence\Storage\StorageInterface;
+use Milhojas\Infrastructure\Persistence\Storage\EventSourcingStorageInterface;
 
 /**
 * Repository based on Event Sourcing
@@ -17,7 +17,7 @@ class EventBasedPostRepository implements PostRepository
 {
 	private $storage;
 	
-	function __construct(StorageInterface $storage)
+	function __construct(EventSourcingStorageInterface $storage)
 	{
 		$this->storage = $storage;
 		$this->storage->setEntityType('Milhojas\Domain\Contents\Post');

@@ -2,7 +2,7 @@
 
 namespace Tests\Library\EventSourcing\EventStore;
 
-use Milhojas\Library\EventSourcing\EventStore\EventSourcingStorage;
+use Milhojas\Infrastructure\Persistence\Storage\EventSourcingStorage;
 use Milhojas\Library\EventSourcing\EventStore\InMemoryEventStore;
 
 use Milhojas\Library\EventSourcing\EventStream\EventStream;
@@ -29,8 +29,18 @@ class EventSourcingStorageTest extends \PHPUnit_Framework_TestCase {
 		$this->storage = new InMemoryEventStore();
 		$this->createFixtures($entity, new Id(1));
 		$this->createFixtures($entity, new Id(2));
-		$this->repo = new EventSourcingStorage($this->storage, $entity);
+		$this->repo = new EventSourcingStorage($this->storage);
 		$this->repo->setEntityType($entity);
+	}
+	
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function test_it_fails_if_not_entity_defined()
+	{
+		$this->storage = new InMemoryEventStore();
+		$this->repo = new EventSourcingStorage($this->storage);
+		$object = $this->repo->load(new Id(1));
 	}
 	
 	public function test_it_reconstitutes_right_object_from_repository()

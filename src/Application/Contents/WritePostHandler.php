@@ -13,7 +13,7 @@ use Milhojas\Domain\Contents\PostContent;
 use Milhojas\Library\EventSourcing\EventStream\EventRecorder;
 
 /**
-* Description
+* Write a new Post with title and content
 */
 class WritePostHandler implements CommandHandler
 {

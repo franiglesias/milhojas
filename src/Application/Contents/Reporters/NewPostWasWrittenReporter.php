@@ -7,7 +7,7 @@ use Milhojas\Library\EventBus\EventHandler;
 use Milhojas\Infrastructure\Mail\MailMessage;
 use Milhojas\Infrastructure\Mail\Mailer;
 /**
-* Respond to NewPostWasWritten Event
+* Responds to NewPostWasWritten Event
 * 
 * Sends an email message to notify that a new post was written
 */

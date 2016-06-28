@@ -7,10 +7,9 @@ use Milhojas\Library\EventBus\EventHandler;
 use Milhojas\Infrastructure\Mail\MailMessage;
 use Milhojas\Infrastructure\Mail\Mailer;
 /**
-* Respond to NewPostWasWritten Event
+* Responds to PostWasUpdated Event
 * 
-* Sends an e
-* mail message to notify that a new post was written
+* Sends an e email message to notify that a post has been updated
 */
 class PostWasUpdatedReporter implements EventHandler
 {

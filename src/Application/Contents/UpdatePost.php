@@ -5,7 +5,7 @@ namespace Milhojas\Application\Contents;
 use Milhojas\Library\CommandBus\Command;
 
 /**
-* Description
+* Update a post, identified by id, with new data for title and body
 */
 class UpdatePost implements Command
 {

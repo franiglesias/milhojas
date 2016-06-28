@@ -5,7 +5,7 @@ namespace Milhojas\Application\Contents;
 use Milhojas\Library\CommandBus\Command;
 
 /**
-* Description
+* Write a new Post with title and content
 */
 class WritePost implements Command
 {

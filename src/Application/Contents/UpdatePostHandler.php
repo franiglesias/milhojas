@@ -15,8 +15,10 @@ use Milhojas\Library\EventSourcing\EventStream\EventRecorder;
 
 
 /**
-* Description
+* Update a post, identified by id, with new data for title and body
+* Records domain events
 */
+
 class UpdatePostHandler implements CommandHandler
 {
 	private $repository;

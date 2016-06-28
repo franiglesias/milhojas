@@ -27,7 +27,7 @@ services:
         class:          Milhojas\Library\EventSourcing\EventStore\DoctrineEventStore
         arguments:      ["@doctrine.orm.entity_manager"]
     event_sourcing_repository:
-        class:          Milhojas\Library\EventSourcing\EventStore\EventSourcingRepository
+        class:          Milhojas\Library\EventSourcing\EventStore\EventSourcingStorage
         arguments:      ["@event_store", Milhojas\Domain\Contents\Post]      
     post_repository:
         class:          Milhojas\Infrastructure\Persistence\Contents\EventBasedPostRepository

@@ -8,7 +8,7 @@ use Milhojas\Library\EventSourcing\EventStore\EventStore;
 
 use Milhojas\Library\EventSourcing\DTO\EntityDTO;
 
-class EventSourcingRepository implements StorageInterface
+class EventSourcingStorage implements StorageInterface
 {
 	private $store;
 	private $entityType;

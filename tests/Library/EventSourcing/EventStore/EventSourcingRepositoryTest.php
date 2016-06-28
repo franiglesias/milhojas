@@ -2,7 +2,7 @@
 
 namespace Tests\Library\EventSourcing\EventStore;
 
-use Milhojas\Library\EventSourcing\EventStore\EventSourcingRepository;
+use Milhojas\Library\EventSourcing\EventStore\EventSourcingStorage;
 use Milhojas\Library\EventSourcing\EventStore\InMemoryEventStore;
 
 use Milhojas\Library\EventSourcing\EventStream\EventStream;
@@ -17,7 +17,7 @@ use Tests\Library\EventSourcing\Fixtures\EventSourcedEntityDummy;
 use Tests\Library\EventSourcing\Fixtures\CreationEvent;
 use Tests\Library\EventSourcing\Fixtures\ModificationEvent;
 
-class EventSourcingRepositoryTest extends \PHPUnit_Framework_TestCase {
+class EventSourcingStorageTest extends \PHPUnit_Framework_TestCase {
 	
 	private $repo;
 	private $storage;
@@ -29,7 +29,7 @@ class EventSourcingRepositoryTest extends \PHPUnit_Framework_TestCase {
 		$this->storage = new InMemoryEventStore();
 		$this->createFixtures($entity, new Id(1));
 		$this->createFixtures($entity, new Id(2));
-		$this->repo = new EventSourcingRepository($this->storage, $entity);
+		$this->repo = new EventSourcingStorage($this->storage, $entity);
 	}
 	
 	public function test_it_reconstitutes_right_object_from_repository()

@@ -1,15 +1,18 @@
 <?php
 
-namespace Milhojas\Application\Contents;
+namespace Milhojas\Application\Contents\Reporters;
 
 use Milhojas\Library\EventSourcing\Domain\Event;
 use Milhojas\Library\EventBus\EventHandler;
 use Milhojas\Infrastructure\Mail\MailMessage;
 use Milhojas\Infrastructure\Mail\Mailer;
 /**
-* Handles events related to Device Status
+* Respond to NewPostWasWritten Event
+* 
+* Sends an e
+* mail message to notify that a new post was written
 */
-class PostEmailReporter implements EventHandler
+class PostWasUpdatedReporter implements EventHandler
 {
 	private $mailer;
 	private $sender;
@@ -33,7 +36,7 @@ class PostEmailReporter implements EventHandler
 		$message
 			->setTo($this->report)
 			->setSender($this->sender)
-			->setTemplate($this->useTemplate($event), array(
+			->setTemplate('AppBundle:Contents:post.updated.email.twig', array(
 				'id' => $event->getId(), 
 				'title' => $event->getTitle(), 
 				'author' => $event->getAuthor()
@@ -41,18 +44,5 @@ class PostEmailReporter implements EventHandler
 		return $this->mailer->send($message);
 	}
 	
-	private function useTemplate($event)
-	{
-		$eventName = $event->getName();
-		switch ($eventName) {
-			case 'contents.new_post_was_written':
-				return 'AppBundle:Contents:post.created.email.twig';
-				break;
-				
-			default:
-				return 'AppBundle:Contents:post.updated.email.twig';
-				break;
-		}
-	}
 }
 ?>

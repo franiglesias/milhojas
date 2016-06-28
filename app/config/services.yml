@@ -105,8 +105,12 @@ services:
         class:          Milhojas\Application\Management\CliReportPayrollCouldNotBeSent
         arguments:      ['@cli.output']
     
-    contents.reporter:
-        class:          Milhojas\Application\Contents\PostEmailReporter
+    contents.post_created.reporter:
+        class:          Milhojas\Application\Contents\Reporters\NewPostWasWrittenReporter
+        arguments:      ['@milhojas.mailer', '%contents.sender%', '%contents.report%']
+        
+    contents.post_updated.reporter:
+        class:          Milhojas\Application\Contents\Reporters\PostWasUpdatedReporter
         arguments:      ['@milhojas.mailer', '%contents.sender%', '%contents.report%']
         
 # EventBus
@@ -118,8 +122,8 @@ services:
             - ['subscribeHandler', ['@it.cli_report_device_status',  '%milhojas.it.monitor.all.events%'] ] 
             - ['addHandler', ['milhojas.management.payroll_was_sent', '@management.cli_report_payroll_was_sent'] ]
             - ['addHandler', ['milhojas.management.payroll_could_not_be_sent', '@management.cli_report_payroll_could_not_be_sent'] ]
-            - ['addHandler', ['contents.post_was_updated', '@contents.reporter'] ]
-            - ['addHandler', ['contents.new_post_was_written', '@contents.reporter'] ]
+            - ['addHandler', ['contents.post_was_updated', '@contents.post_updated.reporter'] ]
+            - ['addHandler', ['contents.new_post_was_written', '@contents.post_created.reporter'] ]
         tags:
             - { name: monolog.logger, channel: eventbus }
 # It Command Handlers

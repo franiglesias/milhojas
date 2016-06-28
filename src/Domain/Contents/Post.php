@@ -4,7 +4,7 @@ namespace Milhojas\Domain\Contents;
 
 use Milhojas\Domain\Contents\PostId;
 use Milhojas\Domain\Contents\PostStates as States;
-use Milhojas\Domain\Contents\DTO\PostDTO as PostDTO;
+// use Milhojas\Domain\Contents\DTO\PostDTO as PostDTO;
 
 use Milhojas\Library\ValueObjects\Dates\DateRange;
 

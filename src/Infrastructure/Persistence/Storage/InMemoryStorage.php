@@ -30,6 +30,11 @@ class InMemoryStorage implements StorageInterface{
 		unset($this->data[$Object->getId()->getId()]);
 	}
 	
+	public function countAll()
+	{
+		return count($this->data);
+	}
+	
 	private function keyExists(Id $id)
 	{
 		if (! isset($this->data[$id->getId()])) {

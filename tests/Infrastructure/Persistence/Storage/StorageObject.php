@@ -3,9 +3,11 @@
 namespace Tests\Infrastructure\Persistence\Storage;
 
 use Milhojas\Library\ValueObjects\Identity\Id;
+
 /**
 * Simple Dummy Object to Store
 */
+
 class StorageObject
 {
 	

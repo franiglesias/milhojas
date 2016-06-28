@@ -4,15 +4,16 @@ namespace Milhojas\Domain\Contents;
 
 use Milhojas\Domain\Contents\PostId;
 use Milhojas\Domain\Contents\PostStates as States;
-// use Milhojas\Domain\Contents\DTO\PostDTO as PostDTO;
 
 use Milhojas\Library\ValueObjects\Dates\DateRange;
 
 use Milhojas\Library\EventSourcing\Domain\EventSourcedEntity;
 use Milhojas\Library\EventSourcing\EventStream\EventStream;
+
 /**
-* Represents a Post (an article)
+* Represents a Post or article
 */
+
 class Post extends EventSourcedEntity
 {
 	private $id;

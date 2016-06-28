@@ -126,6 +126,7 @@ services:
             - ['addHandler', ['contents.new_post_was_written', '@contents.post_created.reporter'] ]
         tags:
             - { name: monolog.logger, channel: eventbus }
+            
 # It Command Handlers
     device_monitor:
         class:          Milhojas\Domain\It\DeviceMonitor

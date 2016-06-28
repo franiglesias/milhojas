@@ -1,4 +1,4 @@
-{% block subject 'Cambio en el artículo ' ~ title %}
+{% block subject 'Cambio en el artículo ' ~ id ~ ' ' ~ title %}
 
 {% block body_html %}
     <p>El artículo <strong>{{ title }}</strong> con id <strong>{{ id }}</strong> ha sido actualizado</p>

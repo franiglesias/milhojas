@@ -30,6 +30,7 @@ class EventSourcingStorageTest extends \PHPUnit_Framework_TestCase {
 		$this->createFixtures($entity, new Id(1));
 		$this->createFixtures($entity, new Id(2));
 		$this->repo = new EventSourcingStorage($this->storage, $entity);
+		$this->repo->setEntityType($entity);
 	}
 	
 	public function test_it_reconstitutes_right_object_from_repository()

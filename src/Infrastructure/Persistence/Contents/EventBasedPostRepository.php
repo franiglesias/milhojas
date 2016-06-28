@@ -20,6 +20,7 @@ class EventBasedPostRepository implements PostRepository
 	function __construct(StorageInterface $storage)
 	{
 		$this->storage = $storage;
+		$this->storage->setEntityType('Milhojas\Domain\Contents\Post');
 	}
 	
 	public function get(PostId $id) 

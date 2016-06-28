@@ -13,9 +13,13 @@ class EventSourcingStorage implements StorageInterface
 	private $store;
 	private $entityType;
 
-	public function __construct(EventStore $store, $entity_type)
+	public function __construct(EventStore $store)
 	{
 		$this->store = $store;
+	}
+	
+	public function setEntityType($entity_type)
+	{
 		$this->entityType = $entity_type;
 	}
 	

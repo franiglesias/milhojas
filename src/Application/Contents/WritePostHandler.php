@@ -10,7 +10,7 @@ use Milhojas\Domain\Contents\Post;
 use Milhojas\Domain\Contents\PostId;
 use Milhojas\Domain\Contents\PostContent;
 
-use Milhojas\Library\EventSourcing\EventStream\EventRecorder;
+use Milhojas\Library\EventBus\EventRecorder;
 
 /**
 * Write a new Post with title and content

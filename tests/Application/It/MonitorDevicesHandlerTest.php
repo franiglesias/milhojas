@@ -7,7 +7,7 @@ use Milhojas\Application\It\MonitorDevicesHandler;
 use Milhojas\Domain\It\DeviceIdentity;
 use Tests\Application\It\Doubles\DeviceSpy;
 
-use Milhojas\Library\EventSourcing\EventStream\EventRecorder;
+use Milhojas\Library\EventBus\EventRecorder;
 use Milhojas\Domain\It\DeviceMonitor;
 use Milhojas\Domain\It\Events as Events;
 /**

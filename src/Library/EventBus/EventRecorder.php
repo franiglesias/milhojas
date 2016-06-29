@@ -1,21 +1,21 @@
 <?php
 
-namespace Milhojas\Library\EventSourcing\EventStream;
+namespace Milhojas\Library\EventBus;
 
 use Milhojas\Library\EventBus\Event;
-use Milhojas\Library\EventSourcing\EventStream\EventStreamInterface;
-use Milhojas\Library\EventSourcing\EventStream\Recordable;
 
 /**
- * Records plain events to store them temporary and pass them to an Event Dispatcher
+ * Records plain events to store them temporary and pass them later to an Event Dispatcher
  *
- * @package default
+ * @package milhojas.library.eventbus
  * @author Fran Iglesias
  */
 
-class EventRecorder implements EventStreamInterface
+class EventRecorder implements \IteratorAggregate
 {
-	
+	/**
+	 * Array of stored events
+	 */
 	private $events = array();
 	
 	public function getIterator()
@@ -23,11 +23,17 @@ class EventRecorder implements EventStreamInterface
 		return new \ArrayIterator($this->events);
 	}
 	
-	public function recordThat(Recordable $event)
+	/**
+	 * Records an Event, appending it to the stored ones
+	 */
+	public function recordThat(Event $event)
 	{
 		$this->events[] = $event;
 	}
 	
+	/**
+	 * Records an array of events
+	 */
 	public function load(array $events)
 	{
 		foreach ($events as $event) {
@@ -35,16 +41,25 @@ class EventRecorder implements EventStreamInterface
 		}
 	}
 	
+	/**
+	 * Retrieves a plain array of events
+	 */
 	public function retrieve()
 	{
 		return $this->events;
 	}
 	
+	/**
+	 * Empties the array of events. Use after currents events are dispatched
+	 */
 	public function flush()
 	{
 		$this->events = array();
 	}
-		
+	
+	/**
+	 * Counts the events stored in the Recorder
+	 */	
 	public function count()
 	{
 		return count($this->events);

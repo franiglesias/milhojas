@@ -5,7 +5,7 @@ namespace Milhojas\Library\CommandBus;
 use Milhojas\Library\CommandBus\Command;
 use Milhojas\Library\CommandBus\CommandHandler;
 
-use Milhojas\Library\EventSourcing\EventStream\EventRecorder;
+use Milhojas\Library\EventBus\EventRecorder;
 
 /**
 * Broadcasts an event

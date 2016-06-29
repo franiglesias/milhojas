@@ -21,7 +21,7 @@ use Tests\Application\Management\Doubles\PayrollRepositoryMock;
 use Tests\Application\Management\Doubles\PayrollFinderMock;
 
 
-use Milhojas\Library\EventSourcing\EventStream\EventRecorder;
+use Milhojas\Library\EventBus\EventRecorder;
 
 class SendPayrollHandlerTest extends \PHPUnit_Framework_Testcase
 {

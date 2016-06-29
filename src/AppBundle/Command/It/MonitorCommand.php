@@ -11,7 +11,7 @@ use Symfony\Component\Console\Helper\ProgressBar;
 
 
 use Milhojas\Library\CommandBus\CommandBus;
-use Milhojas\Library\EventSourcing\EventStream\EventRecorder;
+use Milhojas\Library\EventBus\EventRecorder;
 
 use Milhojas\Library\System\Ping;
 

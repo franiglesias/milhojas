@@ -5,7 +5,7 @@ namespace Milhojas\Library\CommandBus\Workers;
 use Milhojas\Library\CommandBus\Command;
 
 use Milhojas\Library\EventBus\EventBus;
-use Milhojas\Library\EventSourcing\EventStream\EventRecorder;
+use Milhojas\Library\EventBus\EventRecorder;
 
 /**
 * Collects events and dispatches them

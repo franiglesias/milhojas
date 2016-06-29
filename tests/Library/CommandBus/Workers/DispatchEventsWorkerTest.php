@@ -5,7 +5,7 @@ namespace Tests\Library\CommandBus\Workers;
 use Milhojas\Library\CommandBus\Workers\DispatchEventsWorker;
 use Milhojas\Library\EventBus\EventBus;
 use Milhojas\Library\EventBus\SimpleEventBus;
-use Milhojas\Library\EventSourcing\EventStream\EventRecorder;
+use Milhojas\Library\EventBus\EventRecorder;
 
 # Doubles and Fixtures
 

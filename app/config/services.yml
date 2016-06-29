@@ -82,9 +82,14 @@ services:
     milhojas.payroll.repository:
         class:          Milhojas\Infrastructure\Persistence\Management\FilePayrollRepository
         arguments:      ["%payroll.dataPath%", "@milhojas.payroll.finder", "@milhojas.payroll.dataparser"]
+        
     send_payroll_handler:
         class:          Milhojas\Application\Management\SendPayrollHandler
         arguments:      ['@milhojas.payroll.repository', '@milhojas.mailer',  "@event_recorder"]
+        
+    email_payroll_handler:
+        class:          Milhojas\Application\Management\EmailPayrollHandler
+        arguments:      ['@milhojas.mailer',  "@event_recorder"]
         
     cli.output:
         class:          Symfony\Component\Console\Output\ConsoleOutput
@@ -156,3 +161,13 @@ services:
         arguments:      ["@command_bus", "%payroll.sender%"]
         tags:
             - {name: console.command}
+            
+
+# Payroll command
+    payroll_send:
+        class:          AppBundle\Command\Payroll\SendCommand
+        arguments:      ["@command_bus", "%payroll.sender%", '@milhojas.payroll.repository']
+        tags:
+            - {name: console.command}
+            
+

@@ -27,6 +27,7 @@ class DispatchEventsWorker extends CommandWorker
 		foreach ($this->recorder as $event) {
 			$this->eventBus->handle($event);
 		}
+		$this->recorder->flush();
 	}
 }
 

@@ -10,7 +10,7 @@ use Milhojas\Library\EventSourcing\EventStream\EventEnvelope;
 use Milhojas\Library\EventSourcing\EventStream\EventStream;
 
 use Milhojas\Library\ValueObjects\Identity\Id;
-use Milhojas\Library\EventSourcing\Domain\Event;
+use Milhojas\Library\EventBus\Event;
 
 use Tests\Library\EventSourcing\Fixtures\EventDouble;
 

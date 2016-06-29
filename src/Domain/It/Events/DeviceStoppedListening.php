@@ -2,7 +2,7 @@
 
 namespace Milhojas\Domain\It\Events;
 
-use Milhojas\Library\EventSourcing\Domain\Event;
+use Milhojas\Library\EventBus\Event;
 use Milhojas\Domain\It\DeviceIdentity;
 /**
 * Description

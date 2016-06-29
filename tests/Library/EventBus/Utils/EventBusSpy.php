@@ -3,7 +3,7 @@
 namespace Tests\Library\EventBus\Utils;
 
 use Milhojas\Library\EventBus\EventBus;
-use Milhojas\Library\EventSourcing\Domain\Event;
+use Milhojas\Library\EventBus\Event;
 use Milhojas\Library\EventBus\EventHandler;
 
 

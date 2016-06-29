@@ -2,7 +2,7 @@
 
 namespace Tests\Library\EventSourcing\Fixtures;
 
-use Milhojas\Library\EventSourcing\Domain\Event;
+use Milhojas\Library\EventBus\Event;
 use Milhojas\Library\ValueObjects\Identity\Id;
 
 use Milhojas\Library\EventSourcing\Domain\EventSourcedEntity;

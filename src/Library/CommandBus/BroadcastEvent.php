@@ -3,7 +3,7 @@
 namespace Milhojas\Library\CommandBus;
 
 use Milhojas\Library\CommandBus\Command;
-use Milhojas\Library\EventSourcing\Domain\Event;
+use Milhojas\Library\EventBus\Event;
 
 /**
 * Broadcasts an arbitrary event

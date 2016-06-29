@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Library\EventSourcing\Domain;
+namespace Milhojas\Library\EventBus;
 
 use Milhojas\Library\EventSourcing\EventStream\Recordable;
 

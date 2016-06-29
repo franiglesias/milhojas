@@ -2,7 +2,7 @@
 
 namespace Tests\Library\EventSourcing;
 
-use Milhojas\Library\EventSourcing\Domain\Event;
+use Milhojas\Library\EventBus\Event;
 use Milhojas\Library\ValueObjects\Identity\Id;
 use Milhojas\Library\EventSourcing\Domain\EventSourcedEntity;
 
@@ -103,7 +103,7 @@ class EventSourcedEntityTest extends \PHPUnit_Framework_TestCase {
 	
 	protected function getEvent($name)
 	{
-		return $this->getMockBuilder('Milhojas\Library\EventSourcing\Domain\Event')
+		return $this->getMockBuilder('Milhojas\Library\EventBus\Event')
 			->setMockClassName($name)->disableOriginalConstructor()
             ->getMock();
 	}

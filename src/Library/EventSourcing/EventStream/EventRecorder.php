@@ -2,7 +2,7 @@
 
 namespace Milhojas\Library\EventSourcing\EventStream;
 
-use Milhojas\Library\EventSourcing\Domain\Event;
+use Milhojas\Library\EventBus\Event;
 use Milhojas\Library\EventSourcing\EventStream\EventStreamInterface;
 use Milhojas\Library\EventSourcing\EventStream\Recordable;
 

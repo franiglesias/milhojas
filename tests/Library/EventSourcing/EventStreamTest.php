@@ -3,7 +3,7 @@
 namespace Tests\Library\EventSourcing;
 
 use Milhojas\Library\EventSourcing\EventStream\EventStream;
-use Milhojas\Library\EventSourcing\Domain\Event;
+use Milhojas\Library\EventBus\Event;
 use Milhojas\Library\EventSourcing\DTO\EntityDTO;
 use Milhojas\Library\ValueObjects\Identity\Id;
 use Tests\Library\EventSourcing\Fixtures\EventDouble;

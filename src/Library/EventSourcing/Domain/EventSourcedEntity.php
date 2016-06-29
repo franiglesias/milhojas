@@ -3,7 +3,7 @@
 namespace Milhojas\Library\EventSourcing\Domain;
 
 use Milhojas\Library\EventSourcing\Domain\EventSourced;
-use Milhojas\Library\EventSourcing\Domain\Event;
+use Milhojas\Library\EventBus\Event;
 use Milhojas\Library\EventSourcing\DTO\EntityDTO;
 use Milhojas\Library\EventSourcing\EventStream\EventStream;
 use Milhojas\Library\EventSourcing\EventStream\EventMessage;

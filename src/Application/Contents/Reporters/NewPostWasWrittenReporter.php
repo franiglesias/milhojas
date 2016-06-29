@@ -2,7 +2,7 @@
 
 namespace Milhojas\Application\Contents\Reporters;
 
-use Milhojas\Library\EventSourcing\Domain\Event;
+use Milhojas\Library\EventBus\Event;
 use Milhojas\Library\EventBus\EventHandler;
 use Milhojas\Infrastructure\Mail\MailMessage;
 use Milhojas\Infrastructure\Mail\Mailer;

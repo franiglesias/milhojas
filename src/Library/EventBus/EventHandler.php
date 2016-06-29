@@ -2,7 +2,7 @@
 
 namespace Milhojas\Library\EventBus;
 
-use Milhojas\Library\EventSourcing\Domain\Event;
+use Milhojas\Library\EventBus\Event;
 
 interface EventHandler {
 	public function handle(Event $event);

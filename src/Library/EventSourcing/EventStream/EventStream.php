@@ -18,51 +18,51 @@ use Milhojas\Library\EventSourcing\DTO\EntityDTO;
  */
 class EventStream implements \IteratorAggregate {
 	
-	private $events;
+	private $messages;
 	
 	public function __construct()
 	{
-		$this->events = array();
+		$this->messages = array();
 	}
 	
 	public function getIterator()
 	{
-		return new \ArrayIterator($this->events);
+		return new \ArrayIterator($this->messages);
 	}
 	
 	public function count()
 	{
-		return count($this->events);
+		return count($this->messages);
 	}
 	
-	public function load(array $events)
+	public function load(array $messages)
 	{
-		foreach ($events as $event) {
-			$this->append($event);
+		foreach ($messages as $message) {
+			$this->append($message);
 		}
 	}
 	
-	private function append(EventMessage $event)
+	private function append(EventMessage $message)
 	{
-		$this->events[] = $event;
+		$this->messages[] = $message;
 	}
 	
 	public function flush()
 	{
-		$this->events = array();
+		$this->messages = array();
 	}
 
-	public function recordThat(EventMessage $event)
+	public function recordThat(EventMessage $message)
 	{
-		$this->events[] = $event;
+		$this->messages[] = $message;
 	}
 	
 	public function __toString()
 	{
-		$buffer[] = sprintf('Stream has %s events', count($this->events));
+		$buffer[] = sprintf('Stream has %s messages', count($this->messages));
 		$counter = 0;
-		foreach ($this->events as $event) {
-			$buffer[] = sprintf('[%s] %s', $counter, $event);
+		foreach ($this->messages as $message) {
+			$buffer[] = sprintf('[%s] %s', $counter, $message);
 			$counter++;
 		}
 		return implode(chr(10), $buffer);

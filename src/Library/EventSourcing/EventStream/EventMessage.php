@@ -3,7 +3,6 @@
 namespace Milhojas\Library\EventSourcing\EventStream;
 
 use Milhojas\Library\EventBus\Event;
-use Milhojas\Library\EventSourcing\EventStream\Recordable;
 use Milhojas\Library\EventSourcing\Domain\EventSourced;
 use Milhojas\Library\EventSourcing\DTO\EntityDTO;
 use Milhojas\Library\EventSourcing\DTO\EventDTO;
@@ -12,7 +11,7 @@ use Milhojas\Library\EventSourcing\DTO\EventDTO;
 * Stores an event and metadata needed
 */
 
-class EventMessage implements Recordable
+class EventMessage
 {
 	private $event;
 	private $envelope;

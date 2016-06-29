@@ -15,10 +15,12 @@ class PayrollDataParser {
 	{
 		$this->dataFileExistsInFileSystem($path);
 		foreach (file($path) as $line) {
-			list($id, $email, $gender) = explode(chr(9), $line);
+			list($id, $email, $gender, $name, $last) = explode(chr(9), $line);
 			$this->data[$id] = array(
 				'email' => trim($email),
-				'gender' => trim($gender)
+				'gender' => trim($gender),
+				'name' => trim($name),
+				'last' => trim($last)
 			);
 		}
 	}

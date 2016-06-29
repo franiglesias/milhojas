@@ -36,6 +36,11 @@ class PayrollWasSent implements Event
 	{
 		return 'milhojas.management.payroll_was_sent';
 	}
+	
+	public function __toString()
+	{
+		return $this->getName();
+	}
 }
 
 ?>

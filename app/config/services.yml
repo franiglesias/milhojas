@@ -78,7 +78,7 @@ services:
         arguments:      ["@finder"]
     milhojas.payroll.dataparser:
         class:          Milhojas\Infrastructure\Utilities\TabDataParser
-        arguments:      [['id', 'email', 'gender']]
+        arguments:      [['id', 'email', 'gender', 'name', 'last']]
     milhojas.payroll.repository:
         class:          Milhojas\Infrastructure\Persistence\Management\FilePayrollRepository
         arguments:      ["%payroll.dataPath%", "@milhojas.payroll.finder", "@milhojas.payroll.dataparser"]

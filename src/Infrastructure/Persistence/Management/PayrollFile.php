@@ -26,11 +26,11 @@ class PayrollFile
 		return $matches[1];
 	}
 	
-	public function extractName()
-	{
-		preg_match($this->namePattern, $this->file->getBaseName(), $matches);
-		return mb_convert_case($matches[2].' '.$matches[1], MB_CASE_TITLE);
-	}
+	// public function extractName()
+	// {
+	// 	preg_match($this->namePattern, $this->file->getBaseName(), $matches);
+	// 	return mb_convert_case($matches[2].' '.$matches[1], MB_CASE_TITLE);
+	// }
 	
 	public function getRealPath()
 	{
@@ -48,9 +48,9 @@ class PayrollFile
 		if (! preg_match($this->idPattern, $filename, $matches)) {
 			throw new MalformedPayrollFileName(sprintf('Unable to recognize id in: %s', $filename), 1);
 		}
-		if (! preg_match($this->namePattern, $filename, $matches)) {
-			throw new MalformedPayrollFileName(sprintf('Unable to recognize name in: %s', $filename), 2);
-		}
+		// if (! preg_match($this->namePattern, $filename, $matches)) {
+		// 	throw new MalformedPayrollFileName(sprintf('Unable to recognize name in: %s', $filename), 2);
+		// }
 	}
 }
 

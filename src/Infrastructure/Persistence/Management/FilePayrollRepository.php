@@ -47,7 +47,7 @@ class FilePayrollRepository implements PayrollRepository{
 	{
 		return new Payroll(
 			$id, 
-			$payrollFile->extractName(), 
+			$this->data[$id]['last'].', '.$this->data[$id]['name'], 
 			$this->data[$id]['email'],
 			$payrollFile->getRealPath(),
 			$this->data[$id]['gender']
@@ -58,7 +58,7 @@ class FilePayrollRepository implements PayrollRepository{
 	{
 		return new Payroll(
 			$id, 
-			$payrollFile->extractName(), 
+			'Failed',
 			'',
 			$payrollFile->getRealPath(),
 			''

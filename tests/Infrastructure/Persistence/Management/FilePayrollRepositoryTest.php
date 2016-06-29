@@ -24,14 +24,14 @@ class FilePayrollRepositoryTest extends \PHPUnit_Framework_Testcase
     {
 		$this->root = (new PayrollFileSystem())->get();
 		$this->finder = new PayrollFinder(new Finder());
-		$this->parser = new TabDataParser(['id', 'email', 'gender']);
+		$this->parser = new TabDataParser(['id', 'email', 'gender', 'name', 'last']);
     }
 	
 	public function test_it_can_find_the_files()
 	{
 		$pathThatHasFiles = vfsStream::url('root/payroll');
 		$repository = new FilePayrollRepository($pathThatHasFiles, $this->finder, $this->parser);
-		$this->assertEquals(3, iterator_count($repository->getFiles('test')));
+		$this->assertEquals(4, iterator_count($repository->getFiles('test')));
 	}
 	
 	public function test_it_can_count_the_files()
@@ -39,7 +39,7 @@ class FilePayrollRepositoryTest extends \PHPUnit_Framework_Testcase
 		$pathThatHasFiles = vfsStream::url('root/payroll');
 		$repository = new FilePayrollRepository($pathThatHasFiles, $this->finder, $this->parser);
 		// $repository->getFiles('test');
-		$this->assertEquals(3, $repository->count('test'));
+		$this->assertEquals(4, $repository->count('test'));
 	}
 	
 	public function test_it_can_return_a_payroll_from_a_file()
@@ -57,14 +57,14 @@ class FilePayrollRepositoryTest extends \PHPUnit_Framework_Testcase
 	public function test_it_fails_if_a_id_does_not_exists_in_email_data()
 	{
 		$dataPath = vfsStream::url('root/payroll');
-		$filepath = vfsStream::url('root/payroll/test/03_nombre_(apellido1 apellido2, nombre1)_empresa_22308_trabajador_130296_030216_mensual.pdf');
+		$filepath = vfsStream::url('root/payroll/test/03_nombre_(apellido1 apellido2, nombre1)_empresa_22308_trabajador_130796_030216_mensual.pdf');
 		
 		$repository = new FilePayrollRepository($dataPath, $this->finder, $this->parser);
 		
 		$payroll = $repository->get(new PayrollFile(new \SplFileInfo($filepath)));
 		$this->assertInstanceOf('Milhojas\Domain\Management\Payroll', $payroll);
-		$this->assertEquals('130296', $payroll->getId());
-		$this->assertEquals('Nombre1 Apellido1 Apellido2', $payroll->getName());
+		$this->assertEquals('130796', $payroll->getId());
+		$this->assertEquals('Failed', $payroll->getName());
 		$this->assertEquals('', $payroll->getEmail());
 		$this->assertEquals('', $payroll->getGender());
 	}

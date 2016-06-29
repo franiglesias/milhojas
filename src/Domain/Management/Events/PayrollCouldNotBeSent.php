@@ -39,6 +39,12 @@ class PayrollCouldNotBeSent implements Event
 	{
 		return 'milhojas.management.payroll_could_not_be_sent';
 	}
+	
+	public function __toString()
+	{
+		return $this->getName();
+	}
+	
 }
 
 ?>

@@ -6,7 +6,9 @@ use Milhojas\Library\EventSourcing\EventStream\EventStream;
 use Milhojas\Library\EventBus\Event;
 use Milhojas\Library\EventSourcing\DTO\EntityDTO;
 use Milhojas\Library\ValueObjects\Identity\Id;
+
 use Tests\Library\EventSourcing\Fixtures\EventDouble;
+use Milhojas\Library\EventSourcing\EventStream\EventMessage;
 
 class EventStreamTest extends \PHPUnit_Framework_Testcase {
 	
@@ -18,9 +20,9 @@ class EventStreamTest extends \PHPUnit_Framework_Testcase {
 	public function test_it_can_load_an_array_of_events()
 	{
 		$events = array(
-			new EventDouble('Event 1'),
-			new EventDouble('Event 2'),
-			new EventDouble('Event 3'),
+			EventMessage::record(new EventDouble('Event 1'), new EntityDTO('Entity', new Id(1)) ),
+			EventMessage::record(new EventDouble('Event 2'), new EntityDTO('Entity', new Id(1)) ),
+			EventMessage::record(new EventDouble('Event 3'), new EntityDTO('Entity', new Id(1)) ),
 		);
 		$Stream = new EventStream();
 		$Stream->load($events);
@@ -33,9 +35,9 @@ class EventStreamTest extends \PHPUnit_Framework_Testcase {
 	public function test_it_can_return_the_number_of_events_it_holds()
 	{
 		$events = array(
-			new EventDouble('Event 1'),
-			new EventDouble('Event 2'),
-			new EventDouble('Event 3'),
+			EventMessage::record(new EventDouble('Event 1'), new EntityDTO('Entity', new Id(1)) ),
+			EventMessage::record(new EventDouble('Event 2'), new EntityDTO('Entity', new Id(1)) ),
+			EventMessage::record(new EventDouble('Event 3'), new EntityDTO('Entity', new Id(1)) ),
 		);
 		$Stream = new EventStream();
 		$Stream->load($events);
@@ -45,9 +47,9 @@ class EventStreamTest extends \PHPUnit_Framework_Testcase {
 	public function test_it_can_flush_events()
 	{
 		$events = array(
-			new EventDouble('Event 1'),
-			new EventDouble('Event 2'),
-			new EventDouble('Event 3'),
+			EventMessage::record(new EventDouble('Event 1'), new EntityDTO('Entity', new Id(1)) ),
+			EventMessage::record(new EventDouble('Event 2'), new EntityDTO('Entity', new Id(1)) ),
+			EventMessage::record(new EventDouble('Event 3'), new EntityDTO('Entity', new Id(1)) ),
 		);
 		$Stream = new EventStream();
 		$Stream->load($events);
@@ -58,20 +60,20 @@ class EventStreamTest extends \PHPUnit_Framework_Testcase {
 	public function test_it_can_record_events()
 	{
 		$Stream = new EventStream();
-		$Stream->recordThat(new EventDouble('event 1'));
+		$Stream->recordThat(EventMessage::record(new EventDouble('event 1'), new EntityDTO('Entity', new Id(1)) ));
 		$this->assertEquals(1, $Stream->count());
-		$Stream->recordThat(new EventDouble('event 2'));
+		$Stream->recordThat(EventMessage::record(new EventDouble('event 2'), new EntityDTO('Entity', new Id(1)) ));
 		$this->assertEquals(2, $Stream->count());
-		$Stream->recordThat(new EventDouble('event 3'));
+		$Stream->recordThat(EventMessage::record(new EventDouble('event 3'), new EntityDTO('Entity', new Id(1)) ));
 		$this->assertEquals(3, $Stream->count());
 	}
 	
 	public function dont_test_it_ignores_invalid_events()
 	{
 		$events = array(
-			new EventDouble('Event 1'),
+			EventMessage::record(new EventDouble('Event 1'), new EntityDTO('Entity', new Id(1)) ),
 			'event 2',
-			new EventDouble('Event 3'),
+			EventMessage::record(new EventDouble('Event 3'), new EntityDTO('Entity', new Id(1)) ),
 		);
 		$Stream = new EventStream();
 		$Stream->load($events);

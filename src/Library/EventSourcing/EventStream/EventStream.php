@@ -2,8 +2,8 @@
 
 namespace Milhojas\Library\EventSourcing\EventStream;
 
-use Milhojas\Library\EventSourcing\EventStream\EventStreamInterface;
-use Milhojas\Library\EventSourcing\EventStream\Recordable;
+use Milhojas\Library\EventSourcing\EventStream\EventMessage;
+// use Milhojas\Library\EventSourcing\EventStream\Recordable;
 
 use Milhojas\Library\EventSourcing\DTO\EntityDTO;
 
@@ -16,7 +16,7 @@ use Milhojas\Library\EventSourcing\DTO\EntityDTO;
  * @package default
  * @author Francisco Iglesias Gómez
  */
-class EventStream implements EventStreamInterface {
+class EventStream implements \IteratorAggregate {
 	
 	private $events;
 	
@@ -42,7 +42,7 @@ class EventStream implements EventStreamInterface {
 		}
 	}
 	
-	private function append(Recordable $event)
+	private function append(EventMessage $event)
 	{
 		$this->events[] = $event;
 	}
@@ -52,7 +52,7 @@ class EventStream implements EventStreamInterface {
 		$this->events = array();
 	}
 
-	public function recordThat(Recordable $event)
+	public function recordThat(EventMessage $event)
 	{
 		$this->events[] = $event;
 	}

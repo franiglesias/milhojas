@@ -143,7 +143,7 @@ services:
     device_monitor:
         class:          Milhojas\Domain\It\DeviceMonitor
     event_recorder:
-        class:          Milhojas\Library\EventSourcing\EventStream\EventRecorder
+        class:          Milhojas\Library\EventBus\EventRecorder
     monitor_devices_handler:
         class:          Milhojas\Application\It\MonitorDevicesHandler
         arguments:      ["@device_monitor", "@event_recorder"]

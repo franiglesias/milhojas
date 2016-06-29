@@ -5,7 +5,7 @@ namespace Milhojas\Library\EventSourcing\Domain;
 /**
  * An entity that can be Event Sourced
  *
- * @package default
+ * @package milhojas.library.eventsourcing
  * @author Francisco Iglesias Gómez
  */
 

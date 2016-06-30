@@ -3,8 +3,10 @@
 namespace Milhojas\Library\EventSourcing\DTO;
 
 use Milhojas\Library\EventSourcing\Domain\EventSourced;
-use Milhojas\Library\ValueObjects\Identity\Id;
 use Milhojas\Library\EventSourcing\DTO\EventDTO;
+
+use Milhojas\Library\ValueObjects\Identity\Id;
+
 /**
 * Transports information about entity type, id, and version
 */

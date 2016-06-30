@@ -3,6 +3,7 @@
 namespace Milhojas\Library\EventSourcing\DTO;
 
 use Doctrine\ORM\Mapping as ORM;
+
 use Milhojas\Library\EventSourcing\EventStream\EventMessage;
 
 /**

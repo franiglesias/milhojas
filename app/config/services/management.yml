@@ -1,0 +1,49 @@
+parameters:
+    
+    payroll.sender:
+        administracion@miralba.org: 'Administración Colegio Miralba'
+    payroll.report:
+        administracion@miralba.org: 'Administración Colegio Miralba'
+        webmaster@miralba.org: 'Webmaster'
+    payroll.dataPath: '%kernel.root_dir%/../payroll'
+    
+
+services:
+
+    milhojas.payroll.finder:
+        class:          Milhojas\Infrastructure\Persistence\Management\PayrollFinder
+        arguments:      ["@finder"]
+    milhojas.payroll.dataparser:
+        class:          Milhojas\Infrastructure\Utilities\TabDataParser
+        arguments:      [['id', 'email', 'gender', 'name', 'last']]
+    milhojas.payroll.repository:
+        class:          Milhojas\Infrastructure\Persistence\Management\FilePayrollRepository
+        arguments:      ["%payroll.dataPath%", "@milhojas.payroll.finder", "@milhojas.payroll.dataparser"]
+    
+    send_payroll_handler:
+        class:          Milhojas\Application\Management\SendPayrollHandler
+        arguments:      ['@milhojas.payroll.repository', '@milhojas.mailer',  "@event_recorder"]
+    
+    email_payroll_handler:
+        class:          Milhojas\Application\Management\EmailPayrollHandler
+        arguments:      ['@milhojas.mailer',  "@event_recorder"]
+
+    management.cli_report_payroll_was_sent:
+        class:          Milhojas\Application\Management\CliReportPayrollWasSent
+        arguments:      ['@cli.output']
+    
+    management.cli_report_payroll_could_not_be_sent:
+        class:          Milhojas\Application\Management\CliReportPayrollCouldNotBeSent
+        arguments:      ['@cli.output']
+
+    management.email_report_all_payrolls_were_sent:
+        class:          Milhojas\Application\Management\Reporters\AllPayrollsWereSentEmailReporter
+        arguments:      ['@milhojas.mailer', '%payroll.sender%', '%payroll.report%']
+        
+# Payroll command
+    payroll_send:
+        class:          AppBundle\Command\Payroll\SendCommand
+        arguments:      ["@command_bus", "%payroll.sender%", '@milhojas.payroll.repository']
+        tags:
+            - {name: console.command}
+    

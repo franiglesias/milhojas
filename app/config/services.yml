@@ -55,6 +55,10 @@ services:
     update_post_handler:
         class:          Milhojas\Application\Contents\UpdatePostHandler
         arguments:      ["@post_repository", "@event_recorder"]
+        
+    broadcast_event_handler:
+        class:          Milhojas\Library\CommandBus\Commands\BroadcastEventHandler
+        arguments:      ['@event_recorder']
 
 # Mailer
     milhojas.templating.engine:
@@ -122,6 +126,10 @@ services:
         class:          Milhojas\Application\Contents\Projectors\PostListProjector
         arguments:      ["@doctrine.orm.entity_manager"]
         
+    management.email_report_all_payrolls_were_sent:
+        class:          Milhojas\Application\Management\Reporters\AllPayrollsWereSentEmailReporter
+        arguments:      ['@milhojas.mailer', '%contents.sender%', '%contents.report%']
+        
 # EventBus
     event_bus:
         class:          Milhojas\Library\EventBus\SimpleEventBus
@@ -131,6 +139,7 @@ services:
             - ['subscribeHandler', ['@it.cli_report_device_status',  '%milhojas.it.monitor.all.events%'] ] 
             - ['addHandler', ['milhojas.management.payroll_was_sent', '@management.cli_report_payroll_was_sent'] ]
             - ['addHandler', ['milhojas.management.payroll_could_not_be_sent', '@management.cli_report_payroll_could_not_be_sent'] ]
+            - ['addHandler', ['milhojas.management.all_payrolls_were_sent', '@management.email_report_all_payrolls_were_sent'] ]
             - ['addHandler', ['contents.new_post_was_written', '@contents.post_created.reporter'] ]
             - ['addHandler', ['contents.new_post_was_written', '@contents.post_list.projector'] ]
             - ['addHandler', ['contents.post_was_updated', '@contents.post_updated.reporter'] ]

@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Library\CommandBus;
+namespace Milhojas\Library\CommandBus\Commands;
 
 use Milhojas\Library\CommandBus\Command;
 use Milhojas\Library\EventBus\Event;

@@ -17,6 +17,8 @@ use Milhojas\Infrastructure\Persistence\Management\PayrollFile;
 use Milhojas\Domain\Management\PayrollRepository;
 
 use Milhojas\Library\ValueObjects\Misc\Progress;
+use Milhojas\Library\CommandBus\Commands\BroadcastEvent;
+use Milhojas\Domain\Management\Events\AllPayrollsWereSent;
 
 class SendCommand extends Command
 {
@@ -59,6 +61,7 @@ class SendCommand extends Command
 			$this->bus->execute($command);
 		}
 		
+		$this->bus->execute(new BroadcastEvent(new AllPayrollsWereSent($progress, $input->getArgument('month'))));
 		$output->writeln('Task end.');
     }
 		

@@ -36,7 +36,6 @@ class PostListProjectorTest extends DoctrineTestCase
 		$projector->handle( new NewPostWasWritten(10, 'The title', 'The content', 'Author') );
 		$projector->handle( new NewPostWasWritten(12, 'Title 12', 'Content for 12', 'Author') );
 		$result = $this->em->getRepository('Contents:PostList')->findAll();
-		print_r($result);
 		$this->assertEquals(2, count($result));
 	}
 	

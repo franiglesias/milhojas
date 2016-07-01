@@ -26,7 +26,5 @@ class CliReportDeviceStatus implements EventHandler
 		$this->output->writeln( explode(chr(10), $event->getDetails() ) );
 		$this->output->writeln('</>');
 	}
-	
-	
 }
 ?>

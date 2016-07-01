@@ -11,7 +11,6 @@ use Symfony\Component\Console\Helper\ProgressBar;
 
 use Milhojas\Library\System\Ping;
 
-
 use Milhojas\Application\Management\EmailPayroll;
 use Milhojas\Infrastructure\Persistence\Management\PayrollFile;
 use Milhojas\Domain\Management\PayrollRepository;
@@ -34,18 +33,18 @@ class SendCommand extends Command
 		parent::__construct();
 	}
 	
-    protected function configure()
-    {
-        $this
-            ->setName('payroll:send')
-            ->setDescription('Sends payroll PDFs via email.')
-            ->addArgument(
-                'month',
-                InputArgument::OPTIONAL,
-                'What month is this payroll?'
-            )
-        ;
-    }
+	protected function configure()
+	{
+		$this
+			->setName('payroll:send')
+			->setDescription('Sends payroll PDFs via email.')
+			->addArgument(
+				'month',
+				InputArgument::OPTIONAL,
+				'What month is this payroll?'
+			)
+		;
+	}
 	
     protected function execute(InputInterface $input, OutputInterface $output)
     {

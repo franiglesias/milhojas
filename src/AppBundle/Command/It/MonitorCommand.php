@@ -9,21 +9,20 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
 
-
 use Milhojas\Library\CommandBus\CommandBus;
 use Milhojas\Library\EventBus\EventRecorder;
 
 use Milhojas\Library\System\Ping;
 
-use Milhojas\Domain\It\DeviceIdentity;
 use Milhojas\Infrastructure\Network\WebDeviceStatus;
 use Milhojas\Infrastructure\Network\Printers\PrinterConfiguration;
 use Milhojas\Infrastructure\Network\Printers\DSM745PrinterDriver;
 use Milhojas\Infrastructure\Network\Printers\MPC4500PrinterDriver;
-
 use Milhojas\Infrastructure\Network\ServerStatus;
 
 use Milhojas\Library\ValueObjects\Technical\Ip;
+
+use Milhojas\Domain\It\DeviceIdentity;
 /**
 * Description
 */
@@ -38,13 +37,13 @@ class MonitorCommand extends Command
 		parent::__construct();
 	}
 	
-    protected function configure()
-    {
-        $this
-            ->setName('it:monitor')
-            ->setDescription('Checks devices status.')
-        ;
-    }
+	protected function configure()
+	{
+		$this
+			->setName('it:monitor')
+			->setDescription('Checks devices status.')
+		;
+	}
 	
     protected function execute(InputInterface $input, OutputInterface $output)
     {

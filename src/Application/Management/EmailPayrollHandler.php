@@ -23,6 +23,7 @@ use Milhojas\Domain\Management\PayrollRepository;
 # VO
 
 use Milhojas\Library\ValueObjects\Misc\Progress;
+
 /**
 * Manages SendPayroll command
 */

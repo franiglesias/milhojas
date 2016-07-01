@@ -5,13 +5,15 @@ namespace Tests\Library\CommandBus\Utils;
 use Milhojas\Library\CommandBus\CommandBus;
 use Milhojas\Library\CommandBus\Command;
 use Milhojas\Library\CommandBus\Workers\CommandWorker;
+
 /**
 * A simple test spy
 */
+
 class CommandBusSpy implements CommandBus
 {
-	private $busUnderTest;
 	public $workersChain;
+	private $busUnderTest;
 	private $commands;
 	private $pipeline;
 	private $log;

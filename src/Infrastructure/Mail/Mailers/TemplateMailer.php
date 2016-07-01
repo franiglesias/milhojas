@@ -41,5 +41,4 @@ class TemplateMailer implements Mailer
 	
 }
 
-
 ?>

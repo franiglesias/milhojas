@@ -13,7 +13,6 @@ use Milhojas\Domain\Contents\PostContent;
 
 use Milhojas\Library\EventBus\EventRecorder;
 
-
 /**
 * Update a post, identified by id, with new data for title and body
 * Records domain events
@@ -29,7 +28,7 @@ class UpdatePostHandler implements CommandHandler
 		$this->repository = $repository;
 		$this->recorder = $recorder;
 	}
-	
+
 	public function handle(Command $command)
 	{
 		$Post = $this->repository->get(new PostId($command->getId()));
@@ -38,6 +37,5 @@ class UpdatePostHandler implements CommandHandler
 		$this->repository->save($Post);
 	}
 }
-
 
 ?>

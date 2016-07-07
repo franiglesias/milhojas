@@ -1,5 +1,4 @@
 parameters:
-
     payroll.sender:
         administracion@miralba.org: 'Administración Colegio Miralba'
     payroll.report:
@@ -37,7 +36,7 @@ services:
 
     management.email_report_all_payrolls_were_sent:
         class:          Milhojas\Application\Management\Reporters\AllPayrollsWereSentEmailReporter
-        arguments:      ['@milhojas.mailer', '%payroll.sender%', '%payroll.report%']
+        arguments:      ['@milhojas.mailer', '%payroll.sender%', '%payroll.report%', 'AppBundle:Management:all_payrolls.sent.email.twig']
 
 # Payroll command
     payroll_send:

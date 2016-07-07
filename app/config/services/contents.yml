@@ -1,0 +1,24 @@
+services:
+    post_repository:
+        class:          Milhojas\Infrastructure\Persistence\Contents\EventBasedPostRepository
+        arguments:      ["@event_sourcing_repository"]
+
+# Contents Post Command Handlers
+    write_post_handler:
+        class:          Milhojas\Application\Contents\WritePostHandler
+        arguments:      ["@post_repository", "@event_recorder"]
+    update_post_handler:
+        class:          Milhojas\Application\Contents\UpdatePostHandler
+        arguments:      ["@post_repository", "@event_recorder"]
+
+    contents.post_created.reporter:
+        class:          Milhojas\Application\Contents\Reporters\NewPostWasWrittenReporter
+        arguments:      ['@milhojas.mailer', '%contents.sender%', '%contents.report%', 'AppBundle:Contents:post.created.email.twig']
+        
+    contents.post_updated.reporter:
+        class:          Milhojas\Application\Contents\Reporters\PostWasUpdatedReporter
+        arguments:      ['@milhojas.mailer', '%contents.sender%', '%contents.report%', 'AppBundle:Contents:post.updated.email.twig']
+        
+    contents.post_list.projector:
+        class:          Milhojas\Application\Contents\Projectors\PostListProjector
+        arguments:      ["@doctrine.orm.entity_manager"]

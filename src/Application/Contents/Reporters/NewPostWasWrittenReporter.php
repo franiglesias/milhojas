@@ -2,46 +2,24 @@
 
 namespace Milhojas\Application\Contents\Reporters;
 
+use Milhojas\Library\EventBus\Reporters\EmailReporter;
 use Milhojas\Library\EventBus\Event;
-use Milhojas\Library\EventBus\EventHandler;
-use Milhojas\Infrastructure\Mail\MailMessage;
-use Milhojas\Infrastructure\Mail\Mailer;
+
 /**
 * Responds to NewPostWasWritten Event
 * 
 * Sends an email message to notify that a new post was written
 */
-class NewPostWasWrittenReporter implements EventHandler
+class NewPostWasWrittenReporter extends EmailReporter
 {
-	private $mailer;
-	private $sender;
-	private $report;
 	
-	function __construct(Mailer $mailer, $sender, $report)
+	public function prepareTemplateParameters(Event $event)
 	{
-		$this->mailer = $mailer;
-		$this->sender = $sender;
-		$this->report = $report;
+		return array(
+			'id' => $event->getId(),
+			'title' => $event->getTitle(),
+			'author' => $event->getAuthor()
+		);
 	}
-	
-	public function handle(Event $event)
-	{
-		$this->sendEmail($event);
-	}
-	
-	private function sendEmail($event)
-	{
-		$message = new MailMessage();
-		$message
-			->setTo($this->report)
-			->setSender($this->sender)
-			->setTemplate('AppBundle:Contents:post.created.email.twig', array(
-				'id' => $event->getId(), 
-				'title' => $event->getTitle(), 
-				'author' => $event->getAuthor()
-			));
-		return $this->mailer->send($message);
-	}
-	
 }
 ?>

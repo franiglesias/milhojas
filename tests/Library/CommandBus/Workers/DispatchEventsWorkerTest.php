@@ -18,13 +18,13 @@ use Tests\Library\EventBus\Fixtures\SimpleEvent;
 use Tests\Library\EventBus\Fixtures\TestEventHandler;
 use Tests\Library\EventBus\Fixtures\SimpleEventHandler;
 
-use Monolog\Logger;
+use Tests\Utils\DummyLogger;
 
 class DispatchEventsWorkerTest extends \PHPUnit_Framework_Testcase {
 	
 	public function test__DispatchEventsWorker()
 	{
-		$bus = new EventBusSpy(new SimpleEventBus(new Logger('Test')));
+		$bus = new EventBusSpy(new SimpleEventBus(new DummyLogger('Test')));
 		$bus->addHandler('test.event', new TestEventHandler($bus));
 		
 		$this->assertTrue($bus->assertWasRegistered('test.event', new TestEventHandler($bus)));

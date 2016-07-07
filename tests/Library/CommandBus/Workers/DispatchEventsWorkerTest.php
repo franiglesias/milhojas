@@ -26,11 +26,11 @@ class DispatchEventsWorkerTest extends \PHPUnit_Framework_Testcase {
 	{
 		$bus = new EventBusSpy(new SimpleEventBus(new Logger('Test')));
 		$bus->addHandler('test.event', new TestEventHandler($bus));
+		
 		$this->assertTrue($bus->assertWasRegistered('test.event', new TestEventHandler($bus)));
 		
 		$recorder = new EventRecorder();
 		$recorder->recordThat(new TestEvent('data'));
-
 		
 		$worker = new DispatchEventsWorker($bus, $recorder);
 		$worker->execute(new SimpleCommand('Example'));

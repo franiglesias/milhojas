@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Application;
+namespace Tests\Library\CommandBus;
 
 use Milhojas\Library\CommandBus\BasicCommandBus;
 use Milhojas\Library\CommandBus\CommandBus;
@@ -9,33 +9,14 @@ use Milhojas\Library\CommandBus\CommandHandler;
 
 
 use Tests\Library\CommandBus\Utils\CommandBusSpy;
+use Tests\Library\CommandBus\Utils\CommandBusTestCase;
 use Tests\Library\CommandBus\Fixtures\ExecuteCommandFakeWorker;
 use Tests\Library\CommandBus\Fixtures\IntactCommandFakeWorker;
 use Tests\Library\CommandBus\Fixtures\SimpleCommand;
 use Tests\Library\CommandBus\Fixtures\SimpleCommandHandler;
 
 
-class CommandBusTest extends \PHPUnit_Framework_Testcase {
-	
-	private $busUnderTest;
-			
-	public function withBus(CommandBus $busUnderTest)
-	{
-		$this->busUnderTest = new CommandBusSpy($busUnderTest);
-		return $this;
-	}
-	
-	public function sendingCommand(Command $command)
-	{
-		$this->busUnderTest->execute($command);
-		return $this;
-	}
-	
-	public function producesPipeline(array $expectedPipeline)
-	{
-		$this->assertEquals($expectedPipeline, $this->busUnderTest->getPipeline());
-		return $this;
-	}
+class BasicCommandBusTest extends CommandBusTestCase {
 	
 	public function test_executes_a_command_passing_trough_loaded_command_workers()
 	{
@@ -49,7 +30,8 @@ class CommandBusTest extends \PHPUnit_Framework_Testcase {
 					'IntactCommandFakeWorker',
 					'ExecuteCommandFakeWorker',
 					'IntactCommandFakeWorker'
-				]);
+				])
+				->executes(['SimpleCommand']);
 	}
 }
 

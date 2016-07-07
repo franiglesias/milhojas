@@ -94,4 +94,4 @@ class CommandBusSpy implements CommandBus
 	}
 }
 
- ?>
+?>

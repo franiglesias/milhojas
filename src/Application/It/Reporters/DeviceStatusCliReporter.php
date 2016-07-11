@@ -1,24 +1,14 @@
 <?php
 
-namespace Milhojas\Application\It;
+namespace Milhojas\Application\It\Reporters;
 
 use Milhojas\Library\EventBus\Event;
-use Milhojas\Library\EventBus\EventHandler;
-use Milhojas\Infrastructure\Mail\MailMessage;
-use Milhojas\Infrastructure\Mail\Mailer;
-use Symfony\Component\Console\Output\OutputInterface;
+use Milhojas\Library\EventBus\Reporters\CliReporter;
 /**
 * Handles events related to Device Status
 */
-class CliReportDeviceStatus implements EventHandler
+class DeviceStatusCliReporter extends CliReporter
 {
-	private $output;
-	
-	function __construct(OutputInterface $output)
-	{
-		$this->output = $output;
-	}
-	
 	public function handle(Event $event)
 	{
 		$this->output->writeln('<options=bold>'.$event->getDevice().'</> reports the following:');

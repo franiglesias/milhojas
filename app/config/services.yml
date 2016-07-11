@@ -82,8 +82,8 @@ services:
         class:          Milhojas\Library\EventBus\SimpleEventBus
         arguments:      ['@logger']
         calls:
-            - ['subscribeHandler', ['@it.report_device_status',  '%milhojas.it.monitor.email.events%'] ] 
-            - ['subscribeHandler', ['@it.cli_report_device_status',  '%milhojas.it.monitor.all.events%'] ] 
+            - ['subscribeHandler', ['@it.device_status.email.reporter',  '%milhojas.it.monitor.email.events%'] ] 
+            - ['subscribeHandler', ['@it.device_status.cli.reporter',  '%milhojas.it.monitor.all.events%'] ] 
             - ['addHandler', ['milhojas.management.payroll_was_sent', '@management.cli_report_payroll_was_sent'] ]
             - ['addHandler', ['milhojas.management.payroll_could_not_be_sent', '@management.cli_report_payroll_could_not_be_sent'] ]
             - ['addHandler', ['milhojas.management.all_payrolls_were_sent', '@management.email_report_all_payrolls_were_sent'] ]

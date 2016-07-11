@@ -14,19 +14,17 @@ parameters:
       - 'milhojas.it.device_was_ok'
 
 services:
-    it.report_device_status:
-        class:          Milhojas\Application\It\ReportDeviceStatus
-        arguments:      ['@milhojas.mailer', '%device.sender%', '%device.report%']
+    it.device_status.email.reporter:
+        class:          Milhojas\Application\It\Reporters\DeviceStatusEmailReporter
+        arguments:      ['@milhojas.mailer', '%device.sender%', '%device.report%', 'AppBundle:It:device.email.twig']
         
-    it.cli_report_device_status:
-        class:          Milhojas\Application\It\CliReportDeviceStatus
+    it.device_status.cli.reporter:
+        class:          Milhojas\Application\It\Reporters\DeviceStatusCliReporter
         arguments:      ['@cli.output']
 
 # It Command Handlers
     device_monitor:
         class:          Milhojas\Domain\It\DeviceMonitor
-        
-
         
     monitor_devices_handler:
         class:          Milhojas\Application\It\MonitorDevicesHandler

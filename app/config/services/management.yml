@@ -8,19 +8,19 @@ parameters:
 
 services:
 
-    milhojas.payroll.finder:
+    management.payroll.finder:
         class:          Milhojas\Infrastructure\Persistence\Management\PayrollFinder
         arguments:      ["@finder"]
-    milhojas.payroll.dataparser:
+    management.payroll.dataparser:
         class:          Milhojas\Infrastructure\Utilities\TabDataParser
         arguments:      [['id', 'email', 'gender', 'name', 'last']]
-    milhojas.payroll.repository:
+    management.payroll.repository:
         class:          Milhojas\Infrastructure\Persistence\Management\FilePayrollRepository
-        arguments:      ["%payroll.dataPath%", "@milhojas.payroll.finder", "@milhojas.payroll.dataparser"]
+        arguments:      ["%payroll.dataPath%", "@management.payroll.finder", "@management.payroll.dataparser"]
 
     send_payroll_handler:
         class:          Milhojas\Application\Management\SendPayrollHandler
-        arguments:      ['@milhojas.payroll.repository', '@milhojas.mailer',  "@event_recorder"]
+        arguments:      ['@management.payroll.repository', '@milhojas.mailer',  "@event_recorder"]
 
     email_payroll_handler:
         class:          Milhojas\Application\Management\EmailPayrollHandler
@@ -41,6 +41,6 @@ services:
 # Payroll command
     payroll_send:
         class:          AppBundle\Command\Payroll\SendCommand
-        arguments:      ["@command_bus", "%payroll.sender%", '@milhojas.payroll.repository']
+        arguments:      ["@command_bus", "%payroll.sender%", '@management.payroll.repository']
         tags:
             - {name: console.command}

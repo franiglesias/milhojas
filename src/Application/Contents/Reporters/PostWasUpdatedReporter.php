@@ -12,7 +12,7 @@ use Milhojas\Library\EventBus\Event;
 class PostWasUpdatedReporter extends EmailReporter
 {
 	
-	public function prepareTemplateParameters(Event $event)
+	protected function prepareTemplateParameters(Event $event)
 	{
 		return array(
 				'id' => $event->getId(), 

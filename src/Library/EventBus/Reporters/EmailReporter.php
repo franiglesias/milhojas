@@ -15,26 +15,43 @@ abstract class EmailReporter implements EventHandler
 {
 	private $mailer;
 	private $sender;
-	private $report;
+	private $recipient;
 	private $template;
 	
-	function __construct(Mailer $mailer, $sender, $report, $template)
+	/**
+	 * If you need to overwrite the constructor don't forget to call the parent
+	 *
+	 * @param Mailer $mailer 
+	 * @param string $sender 
+	 * @param string $recipient 
+	 * @param string $template 
+	 * @author Francisco Iglesias Gómez
+	 */
+	public function __construct(Mailer $mailer, $sender, $recipient, $template)
 	{
 		$this->mailer = $mailer;
 		$this->sender = $sender;
-		$this->report = $report;
+		$this->recipient = $recipient;
 		$this->template = $template;
 	}
 	
+	/**
+	 * Handles the Event, it's the same for all, so you don't need to overwrite
+	 *
+	 * @param Event $event 
+	 * @return void
+	 * @author Francisco Iglesias Gómez
+	 */
 	public function handle(Event $event)
 	{
 		$this->sendEmail($event);
 	}
+	
 	/**
 	 * Returns array of template parameters
 	 *
 	 * @param Event $event 
-	 * @return void
+	 * @return keyed array where keys are the name of template variables and value are the value
 	 * @author Francisco Iglesias Gómez
 	 */
 	abstract protected function prepareTemplateParameters(Event $event);
@@ -43,7 +60,7 @@ abstract class EmailReporter implements EventHandler
 	{
 		$message = new MailMessage();
 		$message
-			->setTo($this->report)
+			->setTo($this->recipient)
 			->setSender($this->sender)
 			->setTemplate($this->template, $this->prepareTemplateParameters($event));
 		return $this->mailer->send($message);

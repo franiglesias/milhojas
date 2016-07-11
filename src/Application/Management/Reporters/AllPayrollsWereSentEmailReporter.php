@@ -11,7 +11,7 @@ use Milhojas\Library\EventBus\Event;
 */
 class AllPayrollsWereSentEmailReporter extends EmailReporter
 {	
-	public function prepareTemplateParameters(Event $event)
+	protected function prepareTemplateParameters(Event $event)
 	{
 		return array(
 				'month' => $event->getMonth(), 

@@ -12,7 +12,7 @@ use Milhojas\Library\EventBus\Event;
 class DeviceStatusEmailReporter extends EmailReporter
 {
 	
-	private function prepareTemplateParameters(Event $event)
+	protected function prepareTemplateParameters(Event $event)
 	{
 		return array(
 			'device' => $event->getDevice(),

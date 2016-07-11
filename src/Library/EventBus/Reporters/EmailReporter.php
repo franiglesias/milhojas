@@ -37,7 +37,7 @@ abstract class EmailReporter implements EventHandler
 	 * @return void
 	 * @author Francisco Iglesias Gómez
 	 */
-	abstract public function prepareTemplateParameters(Event $event);
+	abstract protected function prepareTemplateParameters(Event $event);
 	
 	private function sendEmail($event)
 	{

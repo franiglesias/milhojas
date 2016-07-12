@@ -27,11 +27,11 @@ services:
         arguments:      ['@milhojas.mailer',  "@event_recorder"]
 
     management.payroll_was_sent.cli.reporter:
-        class:          Milhojas\Application\Management\CliReportPayrollWasSent
+        class:          Milhojas\Application\Management\Reporters\PayrollWasSentCliReporter
         arguments:      ['@cli.output']
 
     management.payroll_could_not_be_sent.cli.reporter:
-        class:          Milhojas\Application\Management\CliReportPayrollCouldNotBeSent
+        class:          Milhojas\Application\Management\Reporters\PayrollCouldNotBeSentCliReporter
         arguments:      ['@cli.output']
 
     management.email_report_all_payrolls_were_sent:

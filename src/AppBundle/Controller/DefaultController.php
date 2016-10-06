@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,7 +22,7 @@ class DefaultController extends Controller
     }
 	/**
 	 * @Route("/welcome", name="welcome")
-	 *
+	 * @Security("has_role('ROLE_USER')")
 	 * @return void
 	 * @author Fran Iglesias
 	 */
@@ -29,12 +30,13 @@ class DefaultController extends Controller
 	{
 		$session = $request->getSession();
 		
-		return new Response('Welcome to Symfony 3, '.$session->get('name'));
+		return $this->render('default/welcome.html.twig');
 	}
 	
 	/**
 	 * @Route("/hello/{name}.{_format}", defaults={"_format"="html"}, name="hello")
 	 *
+	 * @Security("has_role('ROLE_ADMIN')")
 	 * @param string $name 
 	 * @return void
 	 * @author Fran Iglesias

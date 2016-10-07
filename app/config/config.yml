@@ -131,4 +131,5 @@ hwi_oauth:
             client_secret:       a9YahjquaFlfWdiN1lu8FsHa
             scope:               "email profile"
             options:
-                csrf: true
+                csrf:   true
+                hd:     'miralba.org, alumnos.miralba.org'

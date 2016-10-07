@@ -15,8 +15,16 @@ hwi_oauth_login:
 google_login:
     path: /login/check-google
 
+milhojas_users:
+    resource: "@MilhojasUsersBundle/Resources/config/routing.yml"
+    prefix:   /
+
+
 # Ohter routing
 
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
+
+logout:
+    path: /logout

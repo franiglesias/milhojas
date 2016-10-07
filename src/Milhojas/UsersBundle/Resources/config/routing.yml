@@ -1,0 +1,3 @@
+milhojas_users_homepage:
+    path:     /
+    defaults: { _controller: MilhojasUsersBundle:Default:index }

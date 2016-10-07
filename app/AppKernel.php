@@ -18,6 +18,7 @@ class AppKernel extends Kernel
 			// Added to use OAuth for Google Apps
 			new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
             new AppBundle\AppBundle(),
+            new Milhojas\UsersBundle\MilhojasUsersBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

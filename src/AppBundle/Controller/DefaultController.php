@@ -51,44 +51,5 @@ class DefaultController extends Controller
 		));
 	}
 	
-	/**
-	 * @Route("/update/{id}")
-	 */
-	public function updateAction($id)
-	{
-		$command = new \Milhojas\Application\Contents\UpdatePost($id, 'New Title of a Post', 'New Body of the Post '.$id);
-		$bus = new \Milhojas\Library\CommandBus\BasicCommandBus(array(
-			new \Milhojas\Library\CommandBus\Workers\ExecuteWorker(
-				$this->get('handler_container'), 
-				$this->get('handler_inflector')
-			),
-			new \Milhojas\Library\CommandBus\Workers\DispatchEventsWorker(
-				$this->get('event_bus'),
-				$this->get('event_recorder')
-			)
-		));
-		$bus->execute($command);
-		return new Response('Update job done!');
-	}
-	
-	/**
-	 * @Route("/create/{id}")
-	 */
-	public function createAction($id)
-	{
-		$command = new \Milhojas\Application\Contents\WritePost($id, 'Post number '.$id, 'The body for this post');
-		$bus = new \Milhojas\Library\CommandBus\BasicCommandBus(array(
-			new \Milhojas\Library\CommandBus\Workers\ExecuteWorker(
-				$this->get('handler_container'), 
-				$this->get('handler_inflector')
-			),
-			new \Milhojas\Library\CommandBus\Workers\DispatchEventsWorker(
-				$this->get('event_bus'),
-				$this->get('event_recorder')
-			)
-		));
-		$bus->execute($command);
-		return new Response('Create post done!');
-	}
 	
 }

@@ -16,8 +16,9 @@ security:
                         
         # Configure hwi as provider
         # Probably we need a custom user provider
-        hwi:                               
-            id: hwi_oauth.user.provider                    
+        milhojas:
+            id: milhojas.users.provider
+            
     encoders:
             Symfony\Component\Security\Core\User\User: plaintext
 
@@ -36,9 +37,12 @@ security:
                 login_path:        /login
                 use_forward:       false
                 failure_path:      /login
-
+                
                 oauth_user_provider:
-                    service: my.oauth_aware.user_provider.service
+                    service: milhojas.users.provider
+            logout:
+                path:   /logout
+                target: /
 
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }

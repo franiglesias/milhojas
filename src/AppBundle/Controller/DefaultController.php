@@ -36,7 +36,7 @@ class DefaultController extends Controller
 	/**
 	 * @Route("/hello/{name}.{_format}", defaults={"_format"="html"}, name="hello")
 	 *
-	 * @Security("has_role('ROLE_ADMIN')")
+	 * @Security("has_role('ROLE_OAUTH_USER')")
 	 * @param string $name 
 	 * @return void
 	 * @author Fran Iglesias

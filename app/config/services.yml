@@ -94,3 +94,12 @@ services:
             
         tags:
             - { name: monolog.logger, channel: eventbus }
+
+# HWI Oauth Bundle needs this, we could need another provider
+
+    my.oauth_aware.user_provider.service:
+            class: HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUserProvider
+            # arguments:
+           #      userManager: "@fos_user.user_manager"
+           #      properties: ["pass properties as array"]
+

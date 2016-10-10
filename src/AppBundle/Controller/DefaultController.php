@@ -16,10 +16,9 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', [
-            'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
-        ]);
+        return $this->render('AppBundle:Default:index.html.twig');
     }
+	
 	/**
 	 * @Route("/welcome", name="welcome")
 	 * @Security("has_role('ROLE_USER')")
@@ -29,7 +28,6 @@ class DefaultController extends Controller
 	public function welcomeAction(Request $request)
 	{
 		$session = $request->getSession();
-		
 		return $this->render('default/welcome.html.twig');
 	}
 	

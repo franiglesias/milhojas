@@ -1,3 +1,4 @@
-milhojas_users_homepage:
-    path:     /
-    defaults: { _controller: MilhojasUsersBundle:Default:index }
+# If we want to use the Users Bundle Default Controller we uncomment this
+# milhojas_users_homepage:
+#     path:     /
+#     defaults: { _controller: MilhojasUsersBundle:Default:index }

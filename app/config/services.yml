@@ -97,9 +97,6 @@ services:
 
 # HWI Oauth Bundle needs this, we could need another provider
 
-    my.oauth_aware.user_provider.service:
-        class: HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUserProvider
-        
     milhojas.users.provider:
         class:  Milhojas\UsersBundle\Provider\Provider
         tags:

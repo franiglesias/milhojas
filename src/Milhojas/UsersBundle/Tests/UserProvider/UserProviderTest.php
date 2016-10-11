@@ -10,8 +10,8 @@ use Milhojas\UsersBundle\UserProvider\MilhojasUser;
 */
 use Milhojas\UsersBundle\Infrastructure\UserManager\InMemoryUserManager;
 
-use Milhojas\UsersBundle\Tests\UserProvider\Doubles\UserResponseDouble;
 use Milhojas\UsersBundle\Tests\UserProvider\Doubles\SessionDouble;
+use Milhojas\UsersBundle\Tests\UserProvider\Doubles\UserResponseDouble;
 
 
 class UserProviderTest extends \PHPUnit_Framework_Testcase
@@ -19,8 +19,10 @@ class UserProviderTest extends \PHPUnit_Framework_Testcase
 	public function testItReturnsUserFromValidResponse()
 	{
 		$UserProvider = new UserProvider($this->getSession(), $this->getUserManager());
-		$respomse = $this->getValidUserResponse();
+		$response = $this->getValidUserResponse();
 		$user = $UserProvider->loadUserByOAuthUserResponse($response);
+		$this->assertInstanceOf('\Milhojas\UsersBundle\UserProvider\MilhojasUser', $user);
+		$this->assertEquals('user1@example.com', $user->getUsername());
 	}
 	
 	public function testItThrowsExeceptionFormInvalidResponse()
@@ -67,8 +69,7 @@ class UserProviderTest extends \PHPUnit_Framework_Testcase
 	
 	public function getInvalidUserResponse()
 	{
-		$response = new UserResponseDouble();
-		return $response;
+		return new UserResponseDouble();
 	}
 	
 	public function getValidUnknownUserResponse()

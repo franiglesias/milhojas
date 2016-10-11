@@ -3,11 +3,12 @@
 namespace Milhojas\UsersBundle\Tests\UserProvider\Doubles;
 
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
-
+use HWI\Bundle\OAuthBundle\OAuth\ResourceOwnerInterface;
+use HWI\Bundle\OAuthBundle\Security\Core\Authentication\Token\OAuthToken;
 /**
 * A UserResponse class to simulate data responses from auth providers
 */
-class UserReponseDouble implements UserResponseInterface
+class UserResponseDouble implements UserResponseInterface
 {
 	// We set this properties public to manage them easily
 	public $username;
@@ -104,6 +105,29 @@ class UserReponseDouble implements UserResponseInterface
      * @return OAuthToken
      */
     public function getOAuthToken() { return null; }	
+	
+    public function getResponse() { return null; }
+
+    /**
+     * Set the raw api response.
+     *
+     * @param string|array $response
+     */
+    public function setResponse($response) {}
+
+    /**
+     * Get the resource owner responsible for the response.
+     *
+     * @return ResourceOwnerInterface
+     */
+    public function getResourceOwner() {}
+
+    /**
+     * Set the resource owner for the response.
+     *
+     * @param ResourceOwnerInterface $resourceOwner
+     */
+    public function setResourceOwner(ResourceOwnerInterface $resourceOwner) {}
 	
 }
 ?>

@@ -75,7 +75,7 @@ class UserProvider extends OAuthUserProvider
 		//
 		//
 		//         //parent:: returned value
-        return $this->loadUserByUsername($response->getNickname());
+        return $this->loadUserByUsername($response->getUsername());
     }
 
     public function supportsClass($class)

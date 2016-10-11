@@ -79,6 +79,11 @@ class MilhojasUser implements UserInterface
 	{
 		$this->roles = array_unique(array_merge($this->roles, (array) $role));
 	}
+	
+	public function getId()
+	{
+		return $this->username;
+	}
 }
 
 ?>

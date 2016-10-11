@@ -4,7 +4,6 @@ namespace Milhojas\UsersBundle\Provider;
 
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUserProvider;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
-// use Acme\DemoBundle\Entity\User;
 use Milhojas\UsersBundle\Provider\OAuthUser;
 
 class Provider extends OAuthUserProvider

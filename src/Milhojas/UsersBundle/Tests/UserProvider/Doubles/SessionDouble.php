@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Milhojas\UsersBundle\UserProvider;
+namespace Milhojas\UsersBundle\Tests\UserProvider\Doubles;
 
 /**
 * Simulates a simple Symfony Session object

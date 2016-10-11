@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Milhojas\UsersBundle\UserProvider;
+namespace Milhojas\UsersBundle\Tests\UserProvider;
 
 use Milhojas\UsersBundle\UserProvider\UserProvider;
 use Milhojas\UsersBundle\UserProvider\MilhojasUser;
@@ -10,9 +10,8 @@ use Milhojas\UsersBundle\UserProvider\MilhojasUser;
 */
 use Milhojas\UsersBundle\Infrastructure\UserManager\InMemoryUserManager;
 
-
-use Tests\Milhojas\UsersBundle\UserProvider\UserResponseDouble as UserResponse;
-use Tests\Milhojas\UsersBundle\UserProvider\SessionDouble;
+use Milhojas\UsersBundle\Tests\UserProvider\Doubles\UserResponseDouble;
+use Milhojas\UsersBundle\Tests\UserProvider\Doubles\SessionDouble;
 
 
 class UserProviderTest extends \PHPUnit_Framework_Testcase
@@ -55,7 +54,7 @@ class UserProviderTest extends \PHPUnit_Framework_Testcase
 	
 	public function getValidUserResponse()
 	{
-		$response = new UserResponse();
+		$response = new UserResponseDouble();
 		$response->username = 'user1@example.com';
 		$response->nickname = 'User 1';
 		$response->firstName = 'User 1';
@@ -68,13 +67,13 @@ class UserProviderTest extends \PHPUnit_Framework_Testcase
 	
 	public function getInvalidUserResponse()
 	{
-		$response = new UserResponse();
+		$response = new UserResponseDouble();
 		return $response;
 	}
 	
 	public function getValidUnknownUserResponse()
 	{
-		$response = new UserResponse();
+		$response = new UserResponseDouble();
 		$response->username = 'user5@example.com';
 		$response->nickname = 'User 5';
 		$response->firstName = 'User 5';
@@ -87,7 +86,7 @@ class UserProviderTest extends \PHPUnit_Framework_Testcase
 	
 	public function getInvalidDomainUserResponse()
 	{
-		$response = new UserResponse();
+		$response = new UserResponseDouble();
 		$response->username = 'user8@invalid.com';
 		$response->nickname = 'User 8';
 		$response->firstName = 'User 8';

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Milhojas\UsersBundle\UserProvider;
+namespace Milhojas\UsersBundle\Tests\UserProvider;
 
 use Milhojas\UsersBundle\UserProvider\MilhojasUser;
 

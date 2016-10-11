@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Milhojas\UsersBundle\Infrastructure\UserManager;
+namespace Milhojas\UsersBundle\Tests\Infrastructure\UserManager;
 
 use Milhojas\UsersBundle\Infrastructure\UserManager\InMemoryUserManager;
 use Milhojas\UsersBundle\UserProvider\MilhojasUser;

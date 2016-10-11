@@ -1,10 +1,11 @@
 <?php
 
-namespace Tests\Milhojas\UsersBundle\UserProvider\Doubles;
+namespace Tests\Milhojas\UsersBundle\UserProvider;
 
 /**
-* Mocks a simple Symfony Session object
+* Simulates a simple Symfony Session object
 */
+
 class SessionDouble
 {
 	private $content;

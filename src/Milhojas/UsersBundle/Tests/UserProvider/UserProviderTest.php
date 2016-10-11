@@ -3,14 +3,18 @@
 namespace Tests\Milhojas\UsersBundle\UserProvider;
 
 use Milhojas\UsersBundle\UserProvider\UserProvider;
+use Milhojas\UsersBundle\UserProvider\MilhojasUser;
 /**
 * We need a UserManager with SomeData
 * We need a UserResponseInterface object with a valid response and an invalid one.
 */
 use Milhojas\UsersBundle\Infrastructure\UserManager\InMemoryUserManager;
-use Tests\Milhojas\UsersBundle\UserProvider\Doubles\SessionDouble;
-use Tests\Milhojas\UsersBundle\UserProvider\Doubles\UserResponseDouble as UserResponse;
-	
+
+
+use Tests\Milhojas\UsersBundle\UserProvider\UserResponseDouble as UserResponse;
+use Tests\Milhojas\UsersBundle\UserProvider\SessionDouble;
+
+
 class UserProviderTest extends \PHPUnit_Framework_Testcase
 {
 	public function testItReturnsUserFromValidResponse()

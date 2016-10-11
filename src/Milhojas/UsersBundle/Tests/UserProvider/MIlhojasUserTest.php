@@ -18,10 +18,10 @@ class MilhojasUserTest extends \PHPUnit_Framework_Testcase {
 	{
 		$user = new MilhojasUser('test@example.com');
 		$otherUser = new MilhojasUser('test@example.com');
-		$this->assertTrue($user->equals($otherUser));
+		$this->assertTrue($user->isEqualTo($otherUser));
 		
 		$differentUser = new MilhojasUser('other@example.com');
-		$this->assertFalse($user->equals($differentUser));
+		$this->assertFalse($user->isEqualTo($differentUser));
 	}
 	
 	public function testUserCanGetRoles()

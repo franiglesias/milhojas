@@ -5,16 +5,20 @@ namespace Tests\Milhojas\UsersBundle\UserProvider\Doubles;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 
 /**
-* Description
+* A UserResponse class to simulate data responses from auth providers
 */
-class UserReponseForTesting implements UserResponseInterface
+class UserReponseDouble implements UserResponseInterface
 {
+	// We set this properties public to manage them easily
+	public $username;
+	public $nickname;
+	public $firstName;
+	public $lastName;
+	public $realName;
+	public $email;
+	public $picture;
 	
-	function __construct()
-	{
-		# code...
-	}
-	
+
     /**
      * Get the unique user identifier.
      *
@@ -24,48 +28,51 @@ class UserReponseForTesting implements UserResponseInterface
      *
      * @return string
      */
-    public function getUsername() { return null; }
+    public function getUsername() { return $this->username; }
     /**
      * Get the username to display.
      *
      * @return string
      */
-    public function getNickname() { return null; }
+    public function getNickname() { return $this->nickname; }
     /**
      * Get the first name of user.
      *
      * @return null|string
      */
-    public function getFirstName() { return null; }
+    public function getFirstName() { return $this->firstName; }
     /**
      * Get the last name of user.
      *
      * @return null|string
      */
-    public function getLastName() { return null; }
+    public function getLastName() { return $this->lastName; }
     /**
      * Get the real name of user.
      *
      * @return null|string
      */
-    public function getRealName() { return null; }
+    public function getRealName() { return $this->realName; }
     /**
      * Get the email address.
      *
      * @return null|string
      */
-    public function getEmail() { return null; }
+    public function getEmail() { return $this->email; }
     /**
      * Get the url to the profile picture.
      *
      * @return null|string
      */
-    public function getProfilePicture() { return null; }
+    public function getProfilePicture() { return $this->picture; }
     /**
      * Get the access token used for the request.
      *
      * @return string
      */
+	
+	# We don't want this methods for testing
+	
     public function getAccessToken() { return null; }
     /**
      * Get the access token used for the request.

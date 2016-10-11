@@ -50,7 +50,7 @@ class InMemoryUserManagerTest extends \PHPUnit_Framework_TestCase
 	private function assertManagerHoldsThisUser($username)
 	{
 		$User = $this->manager->getUser($username);
-		$this->assertTrue($User->equals(new MilhojasUser($username)));
+		$this->assertTrue($User->isEqualTo(new MilhojasUser($username)));
 	}
 }
 

@@ -3,6 +3,7 @@
 namespace Milhojas\UsersBundle\UserProvider;
 
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\EquatableInterface;
 
 class MilhojasUser implements UserInterface
 {
@@ -70,7 +71,7 @@ class MilhojasUser implements UserInterface
     /**
      * {@inheritDoc}
      */
-    public function equals(UserInterface $user)
+    public function isEqualTo(UserInterface $user)
     {
         return $user->getUsername() === $this->username;
     }

@@ -1,13 +1,13 @@
 <?php
 
-namespace Milhojas\UsersBundle\Provider;
+namespace Milhojas\UsersBundle\UserProvider;
 
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUserProvider;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use Milhojas\UsersBundle\UserProvider\MilhojasUser;
 use Milhojas\UsersBundle\Domain\User\UserManagerInterface;
 
-class Provider extends OAuthUserProvider
+class UserProvider extends OAuthUserProvider
 {
     protected $session, $UserManager;
 	

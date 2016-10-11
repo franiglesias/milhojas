@@ -23,6 +23,7 @@ class UserProviderTest extends \PHPUnit_Framework_Testcase
 		$user = $UserProvider->loadUserByOAuthUserResponse($response);
 		$this->assertInstanceOf('\Milhojas\UsersBundle\UserProvider\MilhojasUser', $user);
 		$this->assertEquals('user1@example.com', $user->getUsername());
+		$this->assertEquals('user1@example.com', $user->getId());
 	}
 	
 	public function testItThrowsExeceptionFormInvalidResponse()

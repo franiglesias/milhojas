@@ -4,6 +4,8 @@ namespace Milhojas\UsersBundle\Tests\UserProvider;
 
 use Milhojas\UsersBundle\UserProvider\MilhojasUser;
 
+use Milhojas\UsersBundle\Tests\UserProvider\Doubles\UserResponseDouble;
+
 class MilhojasUserTest extends \PHPUnit_Framework_Testcase {
 	
 	
@@ -12,6 +14,16 @@ class MilhojasUserTest extends \PHPUnit_Framework_Testcase {
 		$username = 'test@example.com';
 		$user = new MilhojasUser($username);
 		$this->assertEquals($username, $user->getUsername());
+	}
+	
+	public function testInitWithUserResponse()
+	{
+		$user = MilhojasUser::fromUserResponse($this->getValidUserResponse());
+		$this->assertEquals('user1@example.com', $user->getUsername());
+		$this->assertEquals('User Tests 1', $user->getFullName());
+		$this->assertEquals('User 1', $user->getNickName());
+		$this->assertEquals('User 1', $user->getFirstName());
+		$this->assertEquals('Tests', $user->getLastName());
 	}
 	
 	public function testUserEqualityBasedOnUsername()
@@ -54,6 +66,21 @@ class MilhojasUserTest extends \PHPUnit_Framework_Testcase {
 		$expected = array('ROLE_USER', 'ROLE_BLOGGER');
 		$this->assertEquals($expected, $user->getRoles());
 	}
+	
+	
+	public function getValidUserResponse()
+	{
+		$response = new UserResponseDouble();
+		$response->username = 'user1@example.com';
+		$response->nickname = 'User 1';
+		$response->firstName = 'User 1';
+		$response->lastName = 'Tests';
+		$response->realName = 'User Tests 1';
+		$response->email = 'user1@example.com';
+		$response->picture = 'picture1.png';
+		return $response;
+	}
+	
 	
 }
 

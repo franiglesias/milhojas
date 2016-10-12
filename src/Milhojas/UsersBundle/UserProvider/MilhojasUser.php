@@ -5,12 +5,19 @@ namespace Milhojas\UsersBundle\UserProvider;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 
+use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
+
 class MilhojasUser implements UserInterface
 {
     /**
      * @var string
      */
     protected $username;
+	protected $fullName;
+	protected $nickname;
+	protected $firstName;
+	protected $lastName;
+	protected $avatar;
 	
 	/**
 	 * stores a list of roles assigned to this user
@@ -27,6 +34,18 @@ class MilhojasUser implements UserInterface
         $this->username = $username;
 		$this->roles = ['ROLE_USER'];
     }
+
+	static public function fromUserResponse(UserResponseInterface $UserResponse)
+	{
+		$user = new self($UserResponse->getUsername());
+		$user->username = $UserResponse->getUsername();
+		$user->fullName = $UserResponse->getRealName();
+		$user->nickname = $UserResponse->getNickname();
+		$user->firstName = $UserResponse->getFirstName();
+		$user->lastName = $UserResponse->getLastName();
+		$user->avatar = $UserResponse->getProfilePicture();
+		return $user;
+	}
 
     /**
      * {@inheritDoc}
@@ -84,6 +103,26 @@ class MilhojasUser implements UserInterface
 	public function getId()
 	{
 		return $this->username;
+	}
+	
+	public function getFullName()
+	{
+		return $this->fullName;
+	}
+	
+	public function getNickName()
+	{
+		return $this->nickname;
+	}
+	
+	public function getFirstName()
+	{
+		return $this->firstName;
+	}
+	
+	public function getLastName()
+	{
+		return $this->lastName;
 	}
 }
 

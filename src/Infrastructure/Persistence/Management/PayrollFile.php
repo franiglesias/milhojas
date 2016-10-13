@@ -10,7 +10,6 @@ class PayrollFile
 {
 	private $file;
 	private $idPattern;
-	private $namePattern;
 	
 	public function __construct(\SplFileInfo $file)
 	{

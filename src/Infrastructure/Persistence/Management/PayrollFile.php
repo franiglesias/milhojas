@@ -15,7 +15,6 @@ class PayrollFile
 	public function __construct(\SplFileInfo $file)
 	{
 		$this->idPattern = '/trabajador_(\d+)/';
-		$this->namePattern = '/nombre_\((.*), (.*)\)/';
 		$this->isWellFormedFileName($file);
 		$this->file = $file;
 	}

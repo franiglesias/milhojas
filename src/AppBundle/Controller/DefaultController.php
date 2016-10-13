@@ -27,7 +27,6 @@ class DefaultController extends Controller
 	 */
 	public function welcomeAction(Request $request)
 	{
-		$session = $request->getSession();
 		return $this->render('default/welcome.html.twig');
 	}
 	

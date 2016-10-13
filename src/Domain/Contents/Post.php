@@ -17,17 +17,11 @@ use Milhojas\Library\EventSourcing\EventStream\EventStream;
 class Post extends EventSourcedEntity
 {
 	private $id;
-	private $content;
 	
 	private $state;
 	
 	private $publication;
 	
-	private $flags;
-	
-	private $tags;
-	private $authors;
-	private $attachments;
 	
 	protected function __construct()
 	{

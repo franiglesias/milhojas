@@ -11,12 +11,10 @@ use  Milhojas\Domain\It\DeviceStatus;
 class ServerStatus implements DeviceStatus
 {
 	private $ip;
-	private $status;
 	
 	public function __construct(Ip $ip)
 	{
 		$this->ip = $ip;
-		$this->status = false;
 	}
 	
 	public function isUp()

@@ -29,7 +29,6 @@ use Milhojas\Domain\It\DeviceIdentity;
 class MonitorCommand extends Command
 {
 	private $bus;
-	private $recorder;
 	
 	function __construct(CommandBus $bus)
 	{

@@ -27,7 +27,6 @@ class Provider extends OAuthUserProvider
 
     public function loadUserByOAuthUserResponse(UserResponseInterface $response)
     {
-        $facebook_id = $response->getUsername();
         $nickname = $response->getNickname();
         $realname = $response->getRealName();
         $email    = $response->getEmail();

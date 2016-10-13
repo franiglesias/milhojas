@@ -31,7 +31,6 @@ use Milhojas\Library\ValueObjects\Misc\Progress;
 class EmailPayrollHandler implements CommandHandler
 {
 	private $mailer;
-	private $templating;
 	private $recorder;
 	
 	function __construct(Mailer $mailer, EventRecorder $recorder)

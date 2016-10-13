@@ -48,10 +48,6 @@ class WebDeviceStatus implements DeviceStatus
 	{
 		$url = sprintf('http://%s/%s', $this->ip->getIp(), $this->url);
 		return file_get_contents($url);
-		// $handler = curl_init($url);
-		// $response = curl_exec($handler);
-		// curl_close($handler);
-		// return $response;
 	}
 
 	private function shouldReloadStatus($force)

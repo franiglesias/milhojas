@@ -65,7 +65,6 @@ abstract class EventSourcedEntity implements EventSourced
 	 */
 	public function clearEvents()
 	{
-		// $this->events = array();
 		$this->initStream();
 		$this->events->flush();
 	}

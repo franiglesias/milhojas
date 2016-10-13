@@ -3,7 +3,6 @@
 namespace Milhojas\Library\EventSourcing\EventStream;
 
 use Milhojas\Library\EventSourcing\EventStream\EventMessage;
-// use Milhojas\Library\EventSourcing\EventStream\Recordable;
 
 use Milhojas\Library\EventSourcing\DTO\EntityDTO;
 

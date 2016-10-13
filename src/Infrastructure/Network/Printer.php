@@ -28,7 +28,6 @@ class Printer extends BaseDevice
 		
 	public function needsSupplies()
 	{
-		// Force that the two tests are performed
 		$needsToner = $this->needsToner();
 		$needsPaper = $this->needsPaper();
 		return ($needsToner || $needsPaper);

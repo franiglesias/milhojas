@@ -7,9 +7,16 @@ use Milhojas\UsersBundle\UserProvider\MilhojasUser;
 
 class YamlUserManagerTest extends \PHPUnit_Framework_TestCase
 {
+	private $testFile;
+	
+	public function setUp()
+	{
+		$this->testFile = getcwd().'/src/Milhojas/UsersBundle/Tests/Infrastructure/UserManager/Fixtures/users.yml';
+	}
+	
 	public function testItCanLoadUser()
 	{
-		$Manager = new YamlUserManager('/Library/WebServer/Documents/milhojas/src/Milhojas/UsersBundle/Tests/Infrastructure/UserManager/Fixtures/users.yml');
+		$Manager = new YamlUserManager($this->testFile);
 		$User = $Manager->getUser('frankie@miralba.org');
 		$this->assertEquals('frankie@miralba.org', $User->getUsername());
 		$this->assertEquals(array('ROLE_USER', 'ROLE_ROOT'), $User->getRoles());
@@ -18,7 +25,7 @@ class YamlUserManagerTest extends \PHPUnit_Framework_TestCase
 	
 	public function testItCanAddUser()
 	{
-		$Manager = new YamlUserManager('/Library/WebServer/Documents/milhojas/src/Milhojas/UsersBundle/Tests/Infrastructure/UserManager/Fixtures/users.yml');
+		$Manager = new YamlUserManager($this->testFile);
 		$User = new MilhojasUser('new@example.com');
 		$User->setNickName('new@example.com');
 		$User->setEmail('new@example.com');

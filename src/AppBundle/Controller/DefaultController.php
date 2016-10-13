@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/", name="homepage", method="GET")
+     * @Route("/", name="homepage")
      */
     public function indexAction(Request $request)
     {
@@ -19,7 +19,7 @@ class DefaultController extends Controller
     }
 	
 	/**
-	 * @Route("/welcome", name="welcome", method="GET")
+	 * @Route("/welcome", name="welcome")
 	 * @Security("has_role('ROLE_USER')")
 	 * @return void
 	 * @author Fran Iglesias
@@ -30,7 +30,7 @@ class DefaultController extends Controller
 	}
 	
 	/**
-	 * @Route("/hello/{name}.{_format}", defaults={"_format"="html"}, name="hello", method="GET")
+	 * @Route("/hello/{name}.{_format}", defaults={"_format"="html"}, name="hello")
 	 *
 	 * @Security("has_role('ROLE_OAUTH_USER')")
 	 * @param string $name 

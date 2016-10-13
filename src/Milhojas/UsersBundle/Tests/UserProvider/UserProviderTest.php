@@ -19,7 +19,7 @@ class UserProviderTest extends \PHPUnit_Framework_Testcase
 {
 	public function testItReturnsUserFromValidResponse()
 	{
-		$UserProvider = new UserProvider($this->getSession(), $this->getUserManager());
+		$UserProvider = new UserProvider($this->getUserManager());
 		$response = $this->getValidUserResponse();
 		$user = $UserProvider->loadUserByOAuthUserResponse($response);
 		$this->assertInstanceOf('\Milhojas\UsersBundle\UserProvider\MilhojasUser', $user);
@@ -32,7 +32,7 @@ class UserProviderTest extends \PHPUnit_Framework_Testcase
 	 */
 	public function testItThrowsExceptionIfUserNotFound()
 	{
-		$UserProvider = new UserProvider($this->getSession(), $this->getUserManager());
+		$UserProvider = new UserProvider($this->getUserManager());
 		$response = $this->getValidUnknownUserResponse();
 		$user = $UserProvider->loadUserByOAuthUserResponse($response);
 	}
@@ -42,7 +42,7 @@ class UserProviderTest extends \PHPUnit_Framework_Testcase
 	 */
 	public function testItThrowsExeceptionFormInvalidResponse()
 	{
-		$UserProvider = new UserProvider($this->getSession(), $this->getUserManager());
+		$UserProvider = new UserProvider($this->getUserManager());
 		$response = $this->getInvalidUserResponse();
 		$user = $UserProvider->loadUserByOAuthUserResponse($response);
 	}
@@ -52,7 +52,7 @@ class UserProviderTest extends \PHPUnit_Framework_Testcase
 	 */
 	public function testItThrowsExceptionForNotManagedDomains()
 	{
-		$UserProvider = new UserProvider($this->getSession(), $this->getUserManager(), array('miralba.org'));
+		$UserProvider = new UserProvider($this->getUserManager(), array('miralba.org'));
 		$response = $this->getInvalidDomainUserResponse();
 		$user = $UserProvider->loadUserByOAuthUserResponse($response);
 	}
@@ -69,7 +69,7 @@ class UserProviderTest extends \PHPUnit_Framework_Testcase
 	
 	private function getUserManager()
 	{
-		$Manager = new YamlUserManager('/Library/WebServer/Documents/milhojas/src/Milhojas/UsersBundle/Tests/Infrastructure/UserManager/Fixtures/user_provider.yml');
+		$Manager = new YamlUserManager(getcwd().'/src/Milhojas/UsersBundle/Tests/Infrastructure/UserManager/Fixtures/user_provider.yml');
 		return $Manager;
 	}
 	

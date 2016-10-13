@@ -28,7 +28,7 @@ class Post extends EventSourcedEntity
 		$this->publication = new DateRange(new \DateTimeImmutable());
 	}
 	
-	static function write(PostId $id, PostContent $content, $author = '')
+	public static function write(PostId $id, PostContent $content, $author = '')
 	{
 		$post = new self();
 		$post->id = $id;

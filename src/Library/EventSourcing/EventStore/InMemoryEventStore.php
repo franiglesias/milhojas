@@ -42,7 +42,8 @@ class InMemoryEventStore extends EventStore
 			return $this->events[$entity->getType()][$entity->getPlainId()];
 		}
 		$events = array();
-		for ($i=0; $i < $entity->getVersion(); $i++) { 
+		$lastVersion = $entity->getVersion();
+		for ($i=0; $i < $lastVersion; $i++) { 
 			$events[] = $this->events[$entity->getType()][$entity->getPlainId()][$i];
 		}
 		return $events;

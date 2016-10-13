@@ -69,7 +69,8 @@ class Printer extends BaseDevice
 	private function needsPaper()
 	{
 		$needsPaper = false;
-		for ($tray=1; $tray <= $this->configuration->getTrays(); $tray++) { 
+		$maxTrays = $this->configuration->getTrays();
+		for ($tray=1; $tray <= $maxTrays; $tray++) { 
 			if ($this->getPaperLevel($tray)->shouldReplace()) {
 				$needsPaper = true;
 				$this->recordThat(sprintf('Put paper in tray %s (Level: %s)', $tray, $this->getPaperLevel($tray)->verbose()));

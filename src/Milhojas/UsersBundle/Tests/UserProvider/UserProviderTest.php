@@ -9,10 +9,12 @@ use Milhojas\UsersBundle\UserProvider\MilhojasUser;
 * We need a UserResponseInterface object with a valid response and an invalid one.
 */
 use Milhojas\UsersBundle\Infrastructure\UserManager\InMemoryUserManager;
+use Milhojas\UsersBundle\Infrastructure\UserManager\YamlUserManager;
 
 use Milhojas\UsersBundle\Tests\UserProvider\Doubles\SessionDouble;
 use Milhojas\UsersBundle\Tests\UserProvider\Doubles\UserResponseDouble;
 
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 
 class UserProviderTest extends \PHPUnit_Framework_Testcase
 {
@@ -22,8 +24,19 @@ class UserProviderTest extends \PHPUnit_Framework_Testcase
 		$response = $this->getValidUserResponse();
 		$user = $UserProvider->loadUserByOAuthUserResponse($response);
 		$this->assertInstanceOf('\Milhojas\UsersBundle\UserProvider\MilhojasUser', $user);
-		$this->assertEquals('user1@example.com', $user->getUsername());
-		$this->assertEquals('user1@example.com', $user->getId());
+		$this->assertEquals('frankie@miralba.org', $user->getUsername());
+		$this->assertEquals('frankie@miralba.org', $user->getId());
+	}
+	
+	/**
+	 * undocumented function
+	 * @expectedException \Symfony\Component\Security\Core\Exception\UsernameNotFoundException\UsernameNotFoundException
+	 */
+	public function testItThrowsExceptionIfUserNotFound()
+	{
+		$UserProvider = new UserProvider($this->getSession(), $this->getUserManager());
+		$response = $this->getInvalidDomainUserResponse();
+		$user = $UserProvider->loadUserByOAuthUserResponse($response);
 	}
 	
 	public function testItThrowsExeceptionFormInvalidResponse()
@@ -48,22 +61,19 @@ class UserProviderTest extends \PHPUnit_Framework_Testcase
 	
 	private function getUserManager()
 	{
-		$Manager = new InMemoryUserManager();
-		$Manager->addUser(new MilhojasUser('user1@example.com'));
-		$Manager->addUser(new MilhojasUser('user2@example.com'));
-		$Manager->addUser(new MilhojasUser('user3@example.com'));
+		$Manager = new YamlUserManager('/Library/WebServer/Documents/milhojas/src/Milhojas/UsersBundle/Tests/Infrastructure/UserManager/Fixtures/user_provider.yml');
 		return $Manager;
 	}
 	
 	public function getValidUserResponse()
 	{
 		$response = new UserResponseDouble();
-		$response->username = 'user1@example.com';
-		$response->nickname = 'User 1';
-		$response->firstName = 'User 1';
-		$response->lastName = 'Tests';
-		$response->realName = 'User Tests 1';
-		$response->email = 'user1@example.com';
+		$response->username = 'frankie@miralba.org';
+		$response->nickname = 'frankie@miralba.org';
+		$response->firstName = 'Fran';
+		$response->lastName = 'Iglesias';
+		$response->realName = 'Fran Iglesias';
+		$response->email = 'frankie@miralba.org';
 		$response->picture = 'picture1.png';
 		return $response;
 	}
@@ -76,12 +86,12 @@ class UserProviderTest extends \PHPUnit_Framework_Testcase
 	public function getValidUnknownUserResponse()
 	{
 		$response = new UserResponseDouble();
-		$response->username = 'user5@example.com';
-		$response->nickname = 'User 5';
-		$response->firstName = 'User 5';
-		$response->lastName = 'Unknown';
-		$response->realName = 'User Unknown 5';
-		$response->email = 'user5@example.com';
+		$response->username = 'profe@miralba.org';
+		$response->nickname = 'profe@miralba.org';
+		$response->firstName = 'Profesor';
+		$response->lastName = 'Pruebas';
+		$response->realName = 'Profesor Pruebas';
+		$response->email = 'profe@miralba.org';
 		$response->picture = 'picture5.png';
 		return $response;
 	}

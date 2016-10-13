@@ -6,6 +6,7 @@ use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUserProvider;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use Milhojas\UsersBundle\UserProvider\MilhojasUser;
 use Milhojas\UsersBundle\Domain\User\UserManagerInterface;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 
 class UserProvider extends OAuthUserProvider
 {
@@ -18,6 +19,9 @@ class UserProvider extends OAuthUserProvider
 
     public function loadUserByUsername($username)
     {
+		if (!$this->UserManager->exists($username)) {
+			throw new UsernameNotFoundException();
+		}
 		return $this->UserManager->getUser($username);
     }
 

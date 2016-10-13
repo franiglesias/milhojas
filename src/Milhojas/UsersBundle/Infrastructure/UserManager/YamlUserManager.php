@@ -58,6 +58,14 @@ class YamlUserManager implements UserManagerInterface
 		$data = Yaml::dump($this->users);
 		file_put_contents($this->file, $data);
 	}
+	
+	public function exists($username)
+	{
+		if (isset($this->users[$username])) {
+			return true;
+		}
+		return false;
+	}
 }
 
 ?>

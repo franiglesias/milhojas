@@ -1,0 +1,10 @@
+frankie@miralba.org:
+    password: null
+    roles: [ROLE_ROOT]
+    firstname: Fran
+    lastname: Iglesias
+example@miralba.org:
+    password: null
+    roles: [ROLE_TEST]
+    firstname: Ejemplo
+    lastname: Usuario

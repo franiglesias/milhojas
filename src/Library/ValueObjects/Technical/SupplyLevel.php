@@ -16,8 +16,7 @@ class SupplyLevel
 		'high',
 		'almost full'
 	);
-	
-	function __construct($level)
+public function __construct($level)
 	{
 		$this->isValidLevel($level);
 		$this->level = $level;

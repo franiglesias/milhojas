@@ -10,8 +10,7 @@ use Milhojas\Library\Specification\AbstractSpecification;
 class NotSpecification extends AbstractSpecification
 {
 	protected $spec;
-	
-	function __construct($spec)
+public function __construct($spec)
 	{
 		$this->spec = $spec;
 	}

@@ -13,8 +13,7 @@ class AllPayrollsWereSent implements Event
 {
 	private $month;
 	private $progress;
-	
-	function __construct(Progress $progress, $month)
+public function __construct(Progress $progress, $month)
 	{
 		$this->month = $month;
 		$this->progress = $progress;

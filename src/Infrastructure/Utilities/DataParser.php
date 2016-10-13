@@ -14,8 +14,7 @@ abstract class DataParser
 {
 	protected $fields;
 	protected $id;
-	
-	function __construct(array $fields = array())
+public function __construct(array $fields = array())
 	{
 		$this->fields = $fields;
 		$this->id = $this->fields[0];

@@ -13,8 +13,7 @@ use Milhojas\Library\ValueObjects\Identity\Id;
 class EntityDTO
 {
 	private $version;
-	
-	function __construct($type, Id $id, $version = null)
+public function __construct($type, Id $id, $version = null)
 	{
 		$this->type = $type;
 		$this->id = $id;

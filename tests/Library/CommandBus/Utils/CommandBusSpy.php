@@ -17,8 +17,7 @@ class CommandBusSpy implements CommandBus
 	private $commands;
 	private $pipeline;
 	private $log;
-	
-	function __construct(CommandBus $busUnderTest)
+public function __construct(CommandBus $busUnderTest)
 	{
 		$this->busUnderTest = $busUnderTest;
 		$this->extractWorkers();

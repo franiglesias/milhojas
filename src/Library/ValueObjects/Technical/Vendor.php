@@ -9,8 +9,7 @@ class Vendor
 {
 	private $vendor;
 	private $model;
-	
-	function __construct($vendor, $model)
+public function __construct($vendor, $model)
 	{
 		$this->vendor = $vendor;
 		$this->model = $model;

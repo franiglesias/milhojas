@@ -14,8 +14,7 @@ class EventBusSpy implements EventBus
 {
 	private $busUnderTest;
 	private $recordedHandlers;
-	
-	function __construct(EventBus $busUnderTest)
+public function __construct(EventBus $busUnderTest)
 	{
 		$this->busUnderTest = $busUnderTest;
 		$this->recordedHandlers = array();

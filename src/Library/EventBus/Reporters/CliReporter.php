@@ -11,8 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 abstract class CliReporter implements EventHandler
 {
 	protected $output;
-	
-	function __construct(OutputInterface $output)
+public function __construct(OutputInterface $output)
 	{
 		$this->output = $output;
 	}

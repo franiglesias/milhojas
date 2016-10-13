@@ -16,8 +16,7 @@ use Milhojas\Infrastructure\Persistence\Storage\EventSourcingStorageInterface;
 class EventBasedPostRepository implements PostRepository
 {
 	private $storage;
-	
-	function __construct(EventSourcingStorageInterface $storage)
+public function __construct(EventSourcingStorageInterface $storage)
 	{
 		$this->storage = $storage;
 		$this->storage->setEntityType('Milhojas\Domain\Contents\Post');

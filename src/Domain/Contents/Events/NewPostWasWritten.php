@@ -12,8 +12,7 @@ class NewPostWasWritten implements Event
 	private $title;
 	private $body;
 	private $author;
-	
-	function __construct($id, $title, $body, $author)
+public function __construct($id, $title, $body, $author)
 	{
 		$this->id = $id;
 		$this->title = $title;

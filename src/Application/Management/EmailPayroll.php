@@ -13,8 +13,7 @@ class EmailPayroll implements Command
 	private $month;
 	private $sender;
 	private $progress;
-	
-	function __construct($payroll, $sender, $month, $progress)
+public function __construct($payroll, $sender, $month, $progress)
 	{
 		$this->payroll = $payroll;
 		$this->month = $month;

@@ -10,8 +10,7 @@ class DateRange
 {
 	private $start;
 	private $end;
-	
-	function __construct(\DateTimeImmutable $Start, \DateTimeImmutable $End = null)
+public function __construct(\DateTimeImmutable $Start, \DateTimeImmutable $End = null)
 	{
 		$this->start = $Start;
 		$this->validEnd($End);

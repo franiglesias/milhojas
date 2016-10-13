@@ -23,8 +23,7 @@ use Milhojas\Domain\It\DeviceIdentity;
 class MonitorCommand extends Command
 {
 	private $bus;
-	
-	function __construct(CommandBus $bus)
+public function __construct(CommandBus $bus)
 	{
 		$this->bus = $bus;
 		parent::__construct();

@@ -11,8 +11,7 @@ class PostWasPublished implements Event
 	private $id;
 	private $publication;
 	private $expiration;
-	
-	function __construct($id, \DateTimeImmutable $publication, \DateTimeImmutable $expiration = null)
+public function __construct($id, \DateTimeImmutable $publication, \DateTimeImmutable $expiration = null)
 	{
 		$this->id = $id;
 		$this->publication = $publication;

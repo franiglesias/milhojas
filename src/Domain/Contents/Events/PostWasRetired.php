@@ -9,8 +9,7 @@ use Milhojas\Library\EventBus\Event;
 class PostWasRetired implements Event
 {
 	private $id;
-	
-	function __construct($id)
+public function __construct($id)
 	{
 		$this->id = $id;
 	}

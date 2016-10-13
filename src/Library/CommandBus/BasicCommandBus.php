@@ -11,8 +11,7 @@ use Milhojas\Library\CommandBus\CommandBus;
 class BasicCommandBus implements CommandBus
 {
 	protected $workersChain;
-	
-	function __construct(array $workers)
+public function __construct(array $workers)
 	{
 		$this->workersChain = $this->buildWorkersChain($workers);
 	}

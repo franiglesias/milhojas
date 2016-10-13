@@ -11,8 +11,7 @@ use Milhojas\Library\ValueObjects\Technical\Ip;
 class MockStatus implements DeviceStatus
 {
 	private $status;
-	
-	function __construct($service, $toner, $paper, $up = true, $listening = true)
+public function __construct($service, $toner, $paper, $up = true, $listening = true)
 	{
 		$this->status = array(
 			'service' => $service,

@@ -9,8 +9,7 @@ use Milhojas\Library\CommandBus\Containers\Container;
 class HandlerContainer implements Container
 {
 	private $container;
-	
-	function __construct($container)
+public function __construct($container)
 	{
 		$this->container = $container;
 	}

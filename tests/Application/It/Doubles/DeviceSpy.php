@@ -22,8 +22,7 @@ class DeviceSpy implements Device
 	{
 		return $this->identity;
 	}
-	
-	function __construct(DeviceIdentity $identity, $up, $listening, $supplies, $service)
+public function __construct(DeviceIdentity $identity, $up, $listening, $supplies, $service)
 	{
 		$this->identity = $identity;
 		$this->up = $up;

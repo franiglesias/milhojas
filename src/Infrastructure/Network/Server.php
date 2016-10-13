@@ -12,8 +12,7 @@ use Milhojas\Infrastructure\Network\BaseDevice;
 */
 class Server extends BaseDevice
 {
-	
-	function __construct(DeviceIdentity $device, DeviceStatus $status)
+public function __construct(DeviceIdentity $device, DeviceStatus $status)
 	{
 		$this->device = $device;
 		$this->status = $status;

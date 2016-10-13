@@ -11,8 +11,7 @@ class BothSpecification extends AbstractSpecification
 {
 	protected $left;
 	protected $right;
-	
-	function __construct($left, $right)
+public function __construct($left, $right)
 	{
 		$this->left = $left;
 		$this->right = $right;

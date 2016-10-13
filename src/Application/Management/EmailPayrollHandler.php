@@ -24,8 +24,7 @@ class EmailPayrollHandler implements CommandHandler
 {
 	private $mailer;
 	private $recorder;
-	
-	function __construct(Mailer $mailer, EventRecorder $recorder)
+public function __construct(Mailer $mailer, EventRecorder $recorder)
 	{
 		$this->mailer = $mailer;
 		$this->recorder = $recorder;

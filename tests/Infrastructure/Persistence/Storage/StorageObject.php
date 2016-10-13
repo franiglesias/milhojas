@@ -10,8 +10,7 @@ use Milhojas\Library\ValueObjects\Identity\Id;
 
 class StorageObject
 {
-	
-	function __construct(Id $id)
+public function __construct(Id $id)
 	{
 		$this->id = $id;
 	}

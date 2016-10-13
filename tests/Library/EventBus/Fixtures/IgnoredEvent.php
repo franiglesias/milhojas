@@ -10,8 +10,7 @@ use Milhojas\Library\EventBus\Event;
 class IgnoredEvent implements Event
 {
 	private $data;
-	
-	function __construct($data)
+public function __construct($data)
 	{
 		$this->data = $data;
 	}

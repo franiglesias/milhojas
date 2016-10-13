@@ -56,8 +56,7 @@ class EventDTO
      * @ORM\Column(type="array")
      */
 	private $metadata;
-	
-	function __construct()
+public function __construct()
 	{
 	}
 	

@@ -11,7 +11,7 @@ use Milhojas\Library\EventBus\Event;
 class TestEventHandler implements EventHandler
 {
 	private $bus;
-	function __construct($bus)
+public function __construct($bus)
 	{
 		$this->bus = $bus;
 	}

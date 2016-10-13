@@ -9,8 +9,7 @@ class Ip
 {
 	private $ip;
 	private $port;
-	
-	function __construct($ip, $port = false)
+public function __construct($ip, $port = false)
 	{
 		$this->isValid($ip);
 		$this->ip = $ip;

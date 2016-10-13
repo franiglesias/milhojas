@@ -15,17 +15,7 @@ class MilhojasUserTest extends \PHPUnit_Framework_Testcase {
 		$user = new MilhojasUser($username);
 		$this->assertEquals($username, $user->getUsername());
 	}
-	
-	public function testInitWithUserResponse()
-	{
-		$user = MilhojasUser::fromUserResponse($this->getValidUserResponse());
-		$this->assertEquals('user1@example.com', $user->getUsername());
-		$this->assertEquals('User Tests 1', $user->getFullName());
-		$this->assertEquals('User 1', $user->getNickName());
-		$this->assertEquals('User 1', $user->getFirstName());
-		$this->assertEquals('Tests', $user->getLastName());
-	}
-	
+		
 	public function testUserEqualityBasedOnUsername()
 	{
 		$user = new MilhojasUser('test@example.com');
@@ -39,6 +29,7 @@ class MilhojasUserTest extends \PHPUnit_Framework_Testcase {
 	public function testUserCanGetRoles()
 	{
 		$user = new MilhojasUser('test@example.com');
+		$user->assignNewRole('ROLE_USER');
 		$expected = array('ROLE_USER');
 		$this->assertEquals($expected, $user->getRoles());
 	}

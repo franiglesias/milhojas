@@ -18,63 +18,22 @@ class UserProvider extends OAuthUserProvider
 
     public function loadUserByUsername($username)
     {
-        return new MilhojasUser($username); //look at the class below
+		return $this->UserManager->getUser($username);
     }
 
 
     public function loadUserByOAuthUserResponse(UserResponseInterface $response)
     {
-		// // Write data in session
-		//
-		// // Load an return user
-		//
-		//         //data from facebook response
-		//         $googleId = $response->getUsername();
-		//         $nickname = $response->getNickname();
-		//         $realname = $response->getRealName();
-		//         $email    = $response->getEmail();
-		//         $avatar   = $response->getProfilePicture();
-		//
-		//         //set data in session
-		// $this->session->set('id', $googleId);
-		//         $this->session->set('nickname', $nickname);
-		//         $this->session->set('realname', $realname);
-		// $this->session->set('firstname', $this->getFirstName());
-		// $this->session->set('lastname', $this->getLastName());
-		//         $this->session->set('email', $email);
-		//         $this->session->set('avatar', $avatar);
-		//
-		//         //get user by fid
-		//         // $qb = $this->doctrine->getManager()->createQueryBuilder();
-		//        //  $qb ->select('u.id')
-		//        //      ->from('AcmeDemoBundle:User', 'u')
-		//        //      ->where('u.fid = :fid')
-		//        //      ->setParameter('fid', $facebook_id)
-		//        //      ->setMaxResults(1);
-		//        //  $result = $qb->getQuery()->getResult();
-		//
-		//         //add to database if doesn't exists
-		//         // if ( !count($result) ) {
-		//        //      $User = new User();
-		//        //      $User->setCreatedAt(new \DateTime());
-		//        //      $User->setNickname($nickname);
-		//        //      $User->setRealname($realname);
-		//        //      $User->setEmail($email);
-		//        //      $User->setAvatar($avatar);
-		//        //      $User->setFID($facebook_id);
-		//        //
-		//        //      $em = $this->doctrine->getManager();
-		//        //      $em->persist($User);
-		//        //      $id = $em->flush();
-		//        //  } else {
-		//        //      $id = $result[0]['id'];
-		//        //  }
-		//
-		//         //set id
-		//         // $this->session->set('id', $id);
-		//
-		//
-		//         //parent:: returned value
+		// Load User Data From Response
+		
+		// Check Allowed Domain
+		
+		// Check Valid User
+		
+		// Data in session ???
+		
+		// Append User if valid but not in Manager???
+		
         return $this->loadUserByUsername($response->getUsername());
     }
 
@@ -83,6 +42,17 @@ class UserProvider extends OAuthUserProvider
 		// This should be changed to match the User Class
         return $class === 'Milhojas\\UsersBundle\\UserProvider\\MilhojasUser';
     }
+	
+	private function getUserFromResponse(UserResponseInterface $response)
+	{
+		$User = new MilhojasUser($response->getUsername());
+		$User->setEmail($response->getEmail());
+		$User->setFirstName($response->getFirstName());
+		$User->setLastName($response->getLastName());
+		$User->setFullName($response->getRealName());
+		$User->setAvatar($response->getProfilePicture());
+		return $User;
+	}
 }
 
 

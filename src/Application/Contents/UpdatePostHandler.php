@@ -39,3 +39,4 @@ class UpdatePostHandler implements CommandHandler
 }
 
 ?>
+

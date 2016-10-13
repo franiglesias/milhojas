@@ -34,7 +34,7 @@ class PayrollFile
 		return $path;
 	}
 	
-	private function isWellFormedFileName($file)
+	private function isWellFormedFileName(\SplFileInfo $file)
 	{
 		$filename = $file->getBaseName();
 		if (! preg_match($this->idPattern, $filename, $matches)) {

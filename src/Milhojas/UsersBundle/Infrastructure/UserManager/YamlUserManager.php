@@ -23,13 +23,10 @@ class YamlUserManager implements UserManagerInterface
 	}
 	
 	public function getUser($email) {
-		$User = new MilhojasUser($email);
-		$User->setEmail($email);
-		$User->setFirstName($this->users[$email]['firstname']);
-		$User->setLastName($this->users[$email]['lastname']);
-		$User->setFullName($this->users[$email]['firstname'].' '.$this->users[$email]['lastname']);
-		$User->assignNewRole($this->users[$email]['roles']);
-		return $User;
+		if ($this->userExists($email)) {
+			return $this->readUser($email);
+		}
+		return false;
 	}
 	
 	public function addUser($User) {
@@ -46,7 +43,6 @@ class YamlUserManager implements UserManagerInterface
 		return count($this->users);
 	}
 	
-	
 	private function loadUsers()
 	{
 		$users = Yaml::parse(file_get_contents($this->file));
@@ -59,7 +55,18 @@ class YamlUserManager implements UserManagerInterface
 		file_put_contents($this->file, $data);
 	}
 	
-	public function exists($username)
+	private function readUser($email)
+	{
+		$User = new MilhojasUser($email);
+		$User->setEmail($email);
+		$User->setFirstName($this->users[$email]['firstname']);
+		$User->setLastName($this->users[$email]['lastname']);
+		$User->setFullName($this->users[$email]['firstname'].' '.$this->users[$email]['lastname']);
+		$User->assignNewRole($this->users[$email]['roles']);
+		return $User;
+	}
+	
+	private function userExists($username)
 	{
 		if (isset($this->users[$username])) {
 			return true;

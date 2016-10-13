@@ -14,7 +14,6 @@ use Milhojas\UsersBundle\Infrastructure\UserManager\YamlUserManager;
 use Milhojas\UsersBundle\Tests\UserProvider\Doubles\SessionDouble;
 use Milhojas\UsersBundle\Tests\UserProvider\Doubles\UserResponseDouble;
 
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 
 class UserProviderTest extends \PHPUnit_Framework_Testcase
 {
@@ -29,24 +28,33 @@ class UserProviderTest extends \PHPUnit_Framework_Testcase
 	}
 	
 	/**
-	 * undocumented function
-	 * @expectedException \Symfony\Component\Security\Core\Exception\UsernameNotFoundException\UsernameNotFoundException
+	 * @expectedException Symfony\Component\Security\Core\Exception\UsernameNotFoundException
 	 */
 	public function testItThrowsExceptionIfUserNotFound()
 	{
 		$UserProvider = new UserProvider($this->getSession(), $this->getUserManager());
-		$response = $this->getInvalidDomainUserResponse();
+		$response = $this->getValidUnknownUserResponse();
 		$user = $UserProvider->loadUserByOAuthUserResponse($response);
 	}
-	
+
+	/**
+	 * @expectedException Symfony\Component\Security\Core\Exception\UsernameNotFoundException
+	 */
 	public function testItThrowsExeceptionFormInvalidResponse()
 	{
-		# code...
+		$UserProvider = new UserProvider($this->getSession(), $this->getUserManager());
+		$response = $this->getInvalidUserResponse();
+		$user = $UserProvider->loadUserByOAuthUserResponse($response);
 	}
-	
+
+	/**
+	 * @expectedException Symfony\Component\Security\Core\Exception\UnsupportedUserException
+	 */
 	public function testItThrowsExceptionForNotManagedDomains()
 	{
-		# code...
+		$UserProvider = new UserProvider($this->getSession(), $this->getUserManager(), array('miralba.org'));
+		$response = $this->getInvalidDomainUserResponse();
+		$user = $UserProvider->loadUserByOAuthUserResponse($response);
 	}
 	
 	public function testItAddsUserIfValidButUnknown()

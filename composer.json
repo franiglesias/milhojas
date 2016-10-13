@@ -1,6 +1,7 @@
 {
     "name": "miralba/milhojas",
     "license": "proprietary",
+	"description": "Intranet application for a School", 
     "type": "project",
     "autoload": {
         "psr-4": {

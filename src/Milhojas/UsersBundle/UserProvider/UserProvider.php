@@ -11,12 +11,10 @@ use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 
 class UserProvider extends OAuthUserProvider
 {
-    protected $session;
 	protected $UserManager;
 	protected $managedDomains;
 	
-    public function __construct($session, UserManagerInterface $UserManager, $managedDomains = array()) {
-        $this->session = $session;
+    public function __construct(UserManagerInterface $UserManager, $managedDomains = array()) {
 		$this->UserManager = $UserManager;
 		$this->managedDomains = $managedDomains;
     }
@@ -33,28 +31,24 @@ class UserProvider extends OAuthUserProvider
 
     public function loadUserByOAuthUserResponse(UserResponseInterface $response)
     {
-        return $this->loadUserByUsername($response->getUsername());
+        return $this->loadUserByUsername($response->getEmail());
     }
 
+	// This should be changed to match the User Class
     public function supportsClass($class)
     {
-		// This should be changed to match the User Class
         return $class === 'Milhojas\\UsersBundle\\UserProvider\\MilhojasUser';
     }
 	
 	# PRIVATE REGION #
 
-	private function getUserFromResponse(UserResponseInterface $response)
-	{
-		$User = new MilhojasUser($response->getUsername());
-		$User->setEmail($response->getEmail());
-		$User->setFirstName($response->getFirstName());
-		$User->setLastName($response->getLastName());
-		$User->setFullName($response->getRealName());
-		$User->setAvatar($response->getProfilePicture());
-		return $User;
-	}
-	
+	/**
+	 * If $managedDomains is provided, checks the $username against the list and throws an Exception if domain is not managed
+	 *
+	 * @param string $username 
+	 * @return void | Exception
+	 * @author Fran Iglesias
+	 */
 	private function checkManagedDomain($username)
 	{
 		if (!$this->managedDomains) {
@@ -66,6 +60,13 @@ class UserProvider extends OAuthUserProvider
 		}
 	}
 	
+	/**
+	 * Extract domain from username (usually email)
+	 *
+	 * @param string $username 
+	 * @return string user's domain
+	 * @author Fran Iglesias
+	 */
 	private function extractDomain($username)
 	{
 		preg_match('/@(.+)$/', $username, $match);

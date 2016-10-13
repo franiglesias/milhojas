@@ -97,9 +97,13 @@ services:
 
 # HWI Oauth Bundle needs this, we could need another provider
 
+    milhojas.users.manager:
+        class: Milhojas\UsersBundle\Infrastructure\UserManager\YamlUserManager
+        arguments: ['%users.file%']
+
     milhojas.users.provider:
-        class:  Milhojas\UsersBundle\Provider\Provider
+        class:  Milhojas\UsersBundle\UserProvider\UserProvider
         tags:
             - { name: user.provider }
-        arguments:  ['@session', '@doctrine']
+        arguments:  ['@milhojas.users.manager', ['miralba.org', 'alumnos.miralba.org']]
         

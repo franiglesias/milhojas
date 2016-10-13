@@ -33,3 +33,6 @@ parameters:
         webmaster@miralba.org: Webmaster
     contents.sender:
         sistema@miralba.org: CMS
+    
+    # Where are managed users stored
+    users.file: '%kernel.root_dir%/../extras/users/users.yml'

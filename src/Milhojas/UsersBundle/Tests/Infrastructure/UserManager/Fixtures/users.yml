@@ -3,9 +3,12 @@ frankie@miralba.org:
     roles: [ROLE_ROOT]
     firstname: Fran
     lastname: Iglesias
-
 test@example.com:
     password: null
-    roles: ['ROLE_USER', 'ROLE_APP']
+    roles: [ROLE_USER, ROLE_APP]
     firstname: Usuario
     lastname: Pruebas
+new@example.com:
+    firstname: New
+    lastname: User
+    roles: [ROLE_USER]

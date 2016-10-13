@@ -15,6 +15,20 @@ class YamlUserManagerTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals(array('ROLE_USER', 'ROLE_ROOT'), $User->getRoles());
 		$this->assertEquals('Fran Iglesias', $User->getFullName());
 	}
+	
+	public function testItCanAddUser()
+	{
+		$Manager = new YamlUserManager('/Library/WebServer/Documents/milhojas/src/Milhojas/UsersBundle/Tests/Infrastructure/UserManager/Fixtures/users.yml');
+		$User = new MilhojasUser('new@example.com');
+		$User->setNickName('new@example.com');
+		$User->setEmail('new@example.com');
+		$User->setFirstName('New');
+		$User->setLastName('User');
+		$Manager->addUser($User);
+		$User = $Manager->getUser('new@example.com');
+		$this->assertEquals('new@example.com', $User->getUsername());
+		
+	}
 }
 
 ?>

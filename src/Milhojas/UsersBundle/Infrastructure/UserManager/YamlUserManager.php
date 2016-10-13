@@ -16,9 +16,9 @@ class YamlUserManager implements UserManagerInterface
 	private $users;
 	private $file;
 	
-	public function __construct($yaml)
+	public function __construct($yaml_users_file)
 	{
-		$this->file = $yaml;
+		$this->file = $yaml_users_file;
 		$this->users = $this->loadUsers();
 	}
 	
@@ -33,7 +33,12 @@ class YamlUserManager implements UserManagerInterface
 	}
 	
 	public function addUser($User) {
-		$this->users[$User->getId()] = $User;
+		$this->users[$User->getId()] = array(
+			'firstname' => $User->getFirstName(),
+			'lastname' => $User->getLastName(),
+			'roles' => $User->getRoles()
+		);
+		$this->update();
 	}
 	
 	public function countAll()
@@ -46,6 +51,12 @@ class YamlUserManager implements UserManagerInterface
 	{
 		$users = Yaml::parse(file_get_contents($this->file));
 		return $users;
+	}
+	
+	private function update()
+	{
+		$data = Yaml::dump($this->users);
+		file_put_contents($this->file, $data);
 	}
 }
 

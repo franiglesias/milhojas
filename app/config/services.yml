@@ -106,4 +106,3 @@ services:
         tags:
             - { name: user.provider }
         arguments:  ['@milhojas.users.manager', ['miralba.org', 'alumnos.miralba.org']]
-        

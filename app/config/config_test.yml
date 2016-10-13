@@ -25,7 +25,7 @@ doctrine:
         connections:
             default:
                 driver:  pdo_sqlite
-                user:    test
+                user:    '%database_test_user%'
                 path:    %kernel.root_dir%/../extras/sqlite/sqlite.db.cache
                 #memory: true
                 charset: utf8

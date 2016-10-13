@@ -4,16 +4,6 @@ security:
 
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory:
-            memory:
-                users:
-                    fran:
-                        password: 123456
-                        roles: 'ROLE_USER'
-                    quino:
-                        password: isa
-                        roles: 'ROLE_ADMIN'
-                        
         # Configure hwi as provider
         # Probably we need a custom user provider
         milhojas:

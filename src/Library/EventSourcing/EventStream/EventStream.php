@@ -4,8 +4,6 @@ namespace Milhojas\Library\EventSourcing\EventStream;
 
 use Milhojas\Library\EventSourcing\EventStream\EventMessage;
 
-use Milhojas\Library\EventSourcing\DTO\EntityDTO;
-
 /**
  * Keeps a list of event messages. 
  * 

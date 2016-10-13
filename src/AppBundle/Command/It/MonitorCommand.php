@@ -3,16 +3,10 @@
 namespace AppBundle\Command\It;
 
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Helper\ProgressBar;
 
 use Milhojas\Library\CommandBus\CommandBus;
-use Milhojas\Library\EventBus\EventRecorder;
-
-use Milhojas\Library\System\Ping;
 
 use Milhojas\Infrastructure\Network\WebDeviceStatus;
 use Milhojas\Infrastructure\Network\Printers\PrinterConfiguration;

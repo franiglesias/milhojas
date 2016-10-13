@@ -2,8 +2,6 @@
 
 namespace Milhojas\Infrastructure\Network;
 
-use Milhojas\Domain\It\DeviceIdentity;
-use Milhojas\Domain\It\DeviceStatus;
 use Milhojas\Domain\It\Device;
 /**
 * Abstraction to provide some common behavior for devices

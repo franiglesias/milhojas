@@ -4,7 +4,6 @@ namespace Milhojas\Infrastructure\Persistence\Management;
 
 use Milhojas\Domain\Management\PayrollRepository;
 use Milhojas\Domain\Management\Payroll;
-use Milhojas\Infrastructure\Persistence\Management\PayrollFile;
 use Milhojas\Infrastructure\Persistence\Management\PayrollFinder;
 use Milhojas\Infrastructure\Utilities\DataParser;
 

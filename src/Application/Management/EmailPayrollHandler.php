@@ -5,7 +5,6 @@ namespace Milhojas\Application\Management;
 use Milhojas\Library\CommandBus\Command;
 use Milhojas\Library\CommandBus\CommandHandler;
 
-use Milhojas\Infrastructure\Persistence\Management\PayrollFile;
 use Milhojas\Infrastructure\Mail\MailMessage;
 use Milhojas\Infrastructure\Mail\Mailer;
 
@@ -16,13 +15,6 @@ use Milhojas\Library\EventBus\EventRecorder;
 use Milhojas\Domain\Management\Events\PayrollWasSent;
 use Milhojas\Domain\Management\Events\PayrollCouldNotBeSent;
 
-# Contracts
-
-use Milhojas\Domain\Management\PayrollRepository;
-
-# VO
-
-use Milhojas\Library\ValueObjects\Misc\Progress;
 
 /**
 * Manages SendPayroll command

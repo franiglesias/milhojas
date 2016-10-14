@@ -37,7 +37,7 @@ class UserProvider extends OAuthUserProvider
 	// This should be changed to match the User Class
     public function supportsClass($class)
     {
-        return $class === 'Milhojas\\UsersBundle\\UserProvider\\MilhojasUser';
+        return $class === 'Milhojas\\UsersBundle\\UserProvider\\User';
     }
 	
 	# PRIVATE REGION #

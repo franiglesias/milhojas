@@ -2,33 +2,33 @@
 
 namespace Milhojas\UsersBundle\Tests\UserProvider;
 
-use Milhojas\UsersBundle\UserProvider\MilhojasUser;
+use Milhojas\UsersBundle\UserProvider\User;
 
 use Milhojas\UsersBundle\Tests\UserProvider\Doubles\UserResponseDouble;
 
-class MilhojasUserTest extends \PHPUnit_Framework_Testcase {
+class UserTest extends \PHPUnit_Framework_Testcase {
 	
 	
 	public function testInitUserWithEmail()
 	{
 		$username = 'test@example.com';
-		$user = new MilhojasUser($username);
+		$user = new User($username);
 		$this->assertEquals($username, $user->getUsername());
 	}
 		
 	public function testUserEqualityBasedOnUsername()
 	{
-		$user = new MilhojasUser('test@example.com');
-		$otherUser = new MilhojasUser('test@example.com');
+		$user = new User('test@example.com');
+		$otherUser = new User('test@example.com');
 		$this->assertTrue($user->isEqualTo($otherUser));
 		
-		$differentUser = new MilhojasUser('other@example.com');
+		$differentUser = new User('other@example.com');
 		$this->assertFalse($user->isEqualTo($differentUser));
 	}
 	
 	public function testUserCanGetRoles()
 	{
-		$user = new MilhojasUser('test@example.com');
+		$user = new User('test@example.com');
 		$user->assignNewRole('ROLE_USER');
 		$expected = array('ROLE_USER');
 		$this->assertEquals($expected, $user->getRoles());
@@ -36,7 +36,7 @@ class MilhojasUserTest extends \PHPUnit_Framework_Testcase {
 	
 	public function testWeCanAssignNewRolesToUser()
 	{
-		$user = new MilhojasUser('test@example.com');
+		$user = new User('test@example.com');
 		$user->assignNewRole('ROLE_BLOGGER');
 		$expected = array('ROLE_USER', 'ROLE_BLOGGER');
 		$this->assertEquals($expected, $user->getRoles());
@@ -44,7 +44,7 @@ class MilhojasUserTest extends \PHPUnit_Framework_Testcase {
 	
 	public function testAssignNewRoleAcceptsArray()
 	{
-		$user = new MilhojasUser('test@example.com');
+		$user = new User('test@example.com');
 		$user->assignNewRole(['ROLE_BLOGGER', 'ROLE_EDITOR']);
 		$expected = array('ROLE_USER', 'ROLE_BLOGGER', 'ROLE_EDITOR');
 		$this->assertEquals($expected, $user->getRoles());
@@ -52,7 +52,7 @@ class MilhojasUserTest extends \PHPUnit_Framework_Testcase {
 	
 	public function testAssignNewRoleIgnoresDuplicates()
 	{
-		$user = new MilhojasUser('test@example.com');
+		$user = new User('test@example.com');
 		$user->assignNewRole(['ROLE_BLOGGER', 'ROLE_USER']);
 		$expected = array('ROLE_USER', 'ROLE_BLOGGER');
 		$this->assertEquals($expected, $user->getRoles());

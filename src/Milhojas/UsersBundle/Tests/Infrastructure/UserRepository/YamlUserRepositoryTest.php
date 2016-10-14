@@ -3,7 +3,7 @@
 namespace Milhojas\UsersBundle\Tests\Infrastructure\UserRepository;
 
 use Milhojas\UsersBundle\Infrastructure\UserRepository\YamlUserRepository;
-use Milhojas\UsersBundle\UserProvider\MilhojasUser;
+use Milhojas\UsersBundle\UserProvider\User;
 
 class YamlUserRepositoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -26,7 +26,7 @@ class YamlUserRepositoryTest extends \PHPUnit_Framework_TestCase
 	public function testItCanAddUser()
 	{
 		$Manager = new YamlUserRepository($this->testFile);
-		$User = new MilhojasUser('new@example.com');
+		$User = new User('new@example.com');
 		$User->setNickName('new@example.com');
 		$User->setEmail('new@example.com');
 		$User->setFirstName('New');

@@ -5,7 +5,7 @@ namespace Milhojas\UsersBundle\UserProvider;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 
-class MilhojasUser implements UserInterface, EquatableInterface
+class User implements UserInterface, EquatableInterface
 {
     /**
      * @var string

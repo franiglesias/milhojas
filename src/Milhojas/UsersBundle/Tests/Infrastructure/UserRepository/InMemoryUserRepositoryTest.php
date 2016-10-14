@@ -3,7 +3,7 @@
 namespace Milhojas\UsersBundle\Tests\Infrastructure\UserRepository;
 
 use Milhojas\UsersBundle\Infrastructure\UserRepository\InMemoryUserRepository;
-use Milhojas\UsersBundle\UserProvider\MilhojasUser;
+use Milhojas\UsersBundle\UserProvider\User;
 
 class InMemoryUserRepositoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -38,7 +38,7 @@ class InMemoryUserRepositoryTest extends \PHPUnit_Framework_TestCase
 	private function populateWithUsers($quantity)
 	{
 		for ($i=1; $i <= $quantity; $i++) { 
-			$this->manager->addUser(new MilhojasUser('user'.$i.'@example.com'));
+			$this->manager->addUser(new User('user'.$i.'@example.com'));
 		}
 	}
 	
@@ -50,7 +50,7 @@ class InMemoryUserRepositoryTest extends \PHPUnit_Framework_TestCase
 	private function assertManagerHoldsThisUser($username)
 	{
 		$User = $this->manager->getUser($username);
-		$this->assertTrue($User->isEqualTo(new MilhojasUser($username)));
+		$this->assertTrue($User->isEqualTo(new User($username)));
 	}
 }
 

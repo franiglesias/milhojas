@@ -3,7 +3,7 @@
 namespace Milhojas\UsersBundle\Tests\UserProvider;
 
 use Milhojas\UsersBundle\UserProvider\UserProvider;
-use Milhojas\UsersBundle\UserProvider\MilhojasUser;
+use Milhojas\UsersBundle\UserProvider\User;
 /**
 * We need a UserRepository with SomeData
 * We need a UserResponseInterface object with a valid response and an invalid one.
@@ -22,7 +22,7 @@ class UserProviderTest extends \PHPUnit_Framework_Testcase
 		$UserProvider = new UserProvider($this->getUserRepository());
 		$response = $this->getValidUserResponse();
 		$user = $UserProvider->loadUserByOAuthUserResponse($response);
-		$this->assertInstanceOf('\Milhojas\UsersBundle\UserProvider\MilhojasUser', $user);
+		$this->assertInstanceOf('\Milhojas\UsersBundle\UserProvider\User', $user);
 		$this->assertEquals('frankie@miralba.org', $user->getUsername());
 		$this->assertEquals('frankie@miralba.org', $user->getId());
 	}

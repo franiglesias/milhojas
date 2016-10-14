@@ -3,7 +3,7 @@
 namespace Milhojas\UsersBundle\Infrastructure\UserRepository;
 
 use Milhojas\UsersBundle\Domain\User\UserRepositoryInterface;
-use Milhojas\UsersBundle\UserProvider\MilhojasUser;
+use Milhojas\UsersBundle\UserProvider\User;
 
 
 use Symfony\Component\Yaml\Yaml;
@@ -57,7 +57,7 @@ class YamlUserRepository implements UserRepositoryInterface
 	
 	private function readUser($email)
 	{
-		$User = new MilhojasUser($email);
+		$User = new User($email);
 		$User->setEmail($email);
 		$User->setFirstName($this->users[$email]['firstname']);
 		$User->setLastName($this->users[$email]['lastname']);

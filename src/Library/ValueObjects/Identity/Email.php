@@ -10,7 +10,7 @@ class Email
 	private $email;
 	private $domain;
 	
-	function __construct($email)
+	public function __construct($email)
 	{
 		$this->isValidEmail($email);
 		$this->email = $email;

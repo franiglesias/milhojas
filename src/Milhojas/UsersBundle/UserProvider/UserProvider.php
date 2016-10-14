@@ -8,6 +8,8 @@ use Milhojas\UsersBundle\Domain\User\UserRepositoryInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Milhojas\UsersBundle\Exceptions\UserBelongsToUnmanagedDomain;
 
+use Milhojas\Library\ValueObjects\Identity\Username;
+
 class UserProvider extends OAuthUserProvider
 {
 	protected $UserRepository;
@@ -20,8 +22,9 @@ class UserProvider extends OAuthUserProvider
 
     public function loadUserByUsername($username)
     {
-		$this->checkIfUserBelongsToManagedDomain($username);
-		$User = $this->UserRepository->getUser($username);
+		$theUsername = new Username($username);
+		$this->checkIfUserBelongsToManagedDomain($theUsername);
+		$User = $this->UserRepository->getUser( $theUsername->get() );
 		if (!$User) {
 			throw new UsernameNotFoundException(sprintf('User %s does not exists.', $username), 1);
 		}
@@ -48,29 +51,16 @@ class UserProvider extends OAuthUserProvider
 	 * @return void | Exception
 	 * @author Fran Iglesias
 	 */
-	private function checkIfUserBelongsToManagedDomain($username)
+	private function checkIfUserBelongsToManagedDomain($Username)
 	{
-		if (!$this->managedDomains) {
+		if (! $this->managedDomains) {
 			return false;
 		}
-		$domain = $this->extractDomain($username);
-		if (!in_array($domain, $this->managedDomains)) {
-			throw new UserBelongsToUnmanagedDomain(sprintf('Domain %s is not supported by this application.', $domain));
+		if (! $Username->belongsToDomain($this->managedDomains)) {
+			throw new UserBelongsToUnmanagedDomain(sprintf('Domain %s is not supported by this application.', $Username->getDomain() ));
 		}
 	}
 	
-	/**
-	 * Extract domain from username (usually email)
-	 *
-	 * @param string $username 
-	 * @return string user's domain
-	 * @author Fran Iglesias
-	 * https://www.sanwebe.com/2012/07/get-only-domain-name-from-email-using-php
-	 */
-	private function extractDomain($username)
-	{
-		return substr(strrchr($username, "@"), 1);
-	}
 }
 
 

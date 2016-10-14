@@ -5,8 +5,8 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-			"": "src/",
-            "Milhojas\\": "src/"
+            "Milhojas\\": "src/",
+			"": "src/"
         },
         "classmap": [
             "app/AppKernel.php",

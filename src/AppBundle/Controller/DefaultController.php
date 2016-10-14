@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -11,6 +12,7 @@ class DefaultController extends Controller
 {
     /**
      * @Route("/", name="homepage")
+     * @Method({"GET","HEAD"})
      */
     public function indexAction(Request $request)
     {
@@ -21,6 +23,7 @@ class DefaultController extends Controller
 	/**
 	 * @Route("/welcome", name="welcome")
 	 * @Security("has_role('ROLE_USER')")
+	 * @Method({"GET","HEAD"})
 	 * @return void
 	 * @author Fran Iglesias
 	 */
@@ -31,7 +34,7 @@ class DefaultController extends Controller
 	
 	/**
 	 * @Route("/hello/{name}.{_format}", defaults={"_format"="html"}, name="hello")
-	 *
+	 * @Method({"GET","HEAD"})
 	 * @Security("has_role('ROLE_OAUTH_USER')")
 	 * @param string $name 
 	 * @return void

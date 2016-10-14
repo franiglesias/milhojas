@@ -14,7 +14,7 @@ class Email
 	{
 		$this->isValidEmail($email);
 		$this->email = $email;
-		$this->domain = substr(strrchr($this->username, "@"), 1);
+		$this->domain = substr(strrchr($this->email, "@"), 1);
 	}
 	
 	public function get()
@@ -32,6 +32,11 @@ class Email
 		if (! filter_var($email, FILTER_VALIDATE_EMAIL)) {
 			throw new \InvalidArgumentException(sprintf('%s is an invalid email.', $email));
 		} 
+	}
+	
+	public function belongsToDomain($domain)
+	{
+		return in_array($this->domain, (array)$domain);
 	}
 	
 	public function __toString()

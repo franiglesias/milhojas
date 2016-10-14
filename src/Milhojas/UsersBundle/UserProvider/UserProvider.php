@@ -20,13 +20,13 @@ class UserProvider extends OAuthUserProvider
 		$this->managedDomains = $managedDomains;
     }
 
-    public function loadUserByUsername($username)
+    public function loadUserByUsername($identifier)
     {
-		$theUsername = new Username($username);
-		$this->checkIfUserBelongsToManagedDomain($theUsername);
-		$User = $this->UserRepository->getUser( $theUsername->get() );
+		$Username = new Username($identifier);
+		$this->checkIfUserBelongsToManagedDomain($Username);
+		$User = $this->UserRepository->getUser( $Username->get() );
 		if (!$User) {
-			throw new UsernameNotFoundException(sprintf('User %s does not exists.', $username), 1);
+			throw new UsernameNotFoundException(sprintf('User %s does not exists.', $Username->get()), 1);
 		}
 		return $User;
     }

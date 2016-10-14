@@ -1,22 +1,22 @@
 <?php
 
-namespace Milhojas\UsersBundle\Tests\Infrastructure\UserManager;
+namespace Milhojas\UsersBundle\Tests\Infrastructure\UserRepository;
 
-use Milhojas\UsersBundle\Infrastructure\UserManager\YamlUserManager;
+use Milhojas\UsersBundle\Infrastructure\UserRepository\YamlUserRepository;
 use Milhojas\UsersBundle\UserProvider\MilhojasUser;
 
-class YamlUserManagerTest extends \PHPUnit_Framework_TestCase
+class YamlUserRepositoryTest extends \PHPUnit_Framework_TestCase
 {
 	private $testFile;
 	
 	public function setUp()
 	{
-		$this->testFile = getcwd().'/src/Milhojas/UsersBundle/Tests/Infrastructure/UserManager/Fixtures/users.yml';
+		$this->testFile = getcwd().'/src/Milhojas/UsersBundle/Tests/Infrastructure/UserRepository/Fixtures/users.yml';
 	}
 	
 	public function testItCanLoadUser()
 	{
-		$Manager = new YamlUserManager($this->testFile);
+		$Manager = new YamlUserRepository($this->testFile);
 		$User = $Manager->getUser('frankie@miralba.org');
 		$this->assertEquals('frankie@miralba.org', $User->getUsername());
 		$this->assertEquals(array('ROLE_USER', 'ROLE_ROOT'), $User->getRoles());
@@ -25,7 +25,7 @@ class YamlUserManagerTest extends \PHPUnit_Framework_TestCase
 	
 	public function testItCanAddUser()
 	{
-		$Manager = new YamlUserManager($this->testFile);
+		$Manager = new YamlUserRepository($this->testFile);
 		$User = new MilhojasUser('new@example.com');
 		$User->setNickName('new@example.com');
 		$User->setEmail('new@example.com');

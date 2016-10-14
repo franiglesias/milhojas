@@ -1,11 +1,11 @@
 <?php
 
-namespace Milhojas\UsersBundle\Tests\Infrastructure\UserManager;
+namespace Milhojas\UsersBundle\Tests\Infrastructure\UserRepository;
 
-use Milhojas\UsersBundle\Infrastructure\UserManager\InMemoryUserManager;
+use Milhojas\UsersBundle\Infrastructure\UserRepository\InMemoryUserRepository;
 use Milhojas\UsersBundle\UserProvider\MilhojasUser;
 
-class InMemoryUserManagerTest extends \PHPUnit_Framework_TestCase
+class InMemoryUserRepositoryTest extends \PHPUnit_Framework_TestCase
 {
 	public function testItCanAddAUser()
 	{
@@ -32,7 +32,7 @@ class InMemoryUserManagerTest extends \PHPUnit_Framework_TestCase
 	
 	private function startWithEmptyManager()
 	{
-		$this->manager = new InMemoryUserManager();
+		$this->manager = new InMemoryUserRepository();
 	}
 	
 	private function populateWithUsers($quantity)

@@ -5,11 +5,11 @@ namespace Milhojas\UsersBundle\Tests\UserProvider;
 use Milhojas\UsersBundle\UserProvider\UserProvider;
 use Milhojas\UsersBundle\UserProvider\MilhojasUser;
 /**
-* We need a UserManager with SomeData
+* We need a UserRepository with SomeData
 * We need a UserResponseInterface object with a valid response and an invalid one.
 */
-use Milhojas\UsersBundle\Infrastructure\UserManager\InMemoryUserManager;
-use Milhojas\UsersBundle\Infrastructure\UserManager\YamlUserManager;
+use Milhojas\UsersBundle\Infrastructure\UserRepository\InMemoryUserRepository;
+use Milhojas\UsersBundle\Infrastructure\UserRepository\YamlUserRepository;
 
 use Milhojas\UsersBundle\Tests\UserProvider\Doubles\SessionDouble;
 use Milhojas\UsersBundle\Tests\UserProvider\Doubles\UserResponseDouble;
@@ -19,7 +19,7 @@ class UserProviderTest extends \PHPUnit_Framework_Testcase
 {
 	public function testItReturnsUserFromValidResponse()
 	{
-		$UserProvider = new UserProvider($this->getUserManager());
+		$UserProvider = new UserProvider($this->getUserRepository());
 		$response = $this->getValidUserResponse();
 		$user = $UserProvider->loadUserByOAuthUserResponse($response);
 		$this->assertInstanceOf('\Milhojas\UsersBundle\UserProvider\MilhojasUser', $user);
@@ -32,7 +32,7 @@ class UserProviderTest extends \PHPUnit_Framework_Testcase
 	 */
 	public function testItThrowsExceptionIfUserNotFound()
 	{
-		$UserProvider = new UserProvider($this->getUserManager());
+		$UserProvider = new UserProvider($this->getUserRepository());
 		$response = $this->getValidUnknownUserResponse();
 		$user = $UserProvider->loadUserByOAuthUserResponse($response);
 	}
@@ -42,7 +42,7 @@ class UserProviderTest extends \PHPUnit_Framework_Testcase
 	 */
 	public function testItThrowsExeceptionFormInvalidResponse()
 	{
-		$UserProvider = new UserProvider($this->getUserManager());
+		$UserProvider = new UserProvider($this->getUserRepository());
 		$response = $this->getInvalidUserResponse();
 		$user = $UserProvider->loadUserByOAuthUserResponse($response);
 	}
@@ -52,7 +52,7 @@ class UserProviderTest extends \PHPUnit_Framework_Testcase
 	 */
 	public function testItThrowsExceptionForNotManagedDomains()
 	{
-		$UserProvider = new UserProvider($this->getUserManager(), array('miralba.org'));
+		$UserProvider = new UserProvider($this->getUserRepository(), array('miralba.org'));
 		$response = $this->getInvalidDomainUserResponse();
 		$user = $UserProvider->loadUserByOAuthUserResponse($response);
 	}
@@ -67,9 +67,9 @@ class UserProviderTest extends \PHPUnit_Framework_Testcase
 		return new SessionDouble();
 	}
 	
-	private function getUserManager()
+	private function getUserRepository()
 	{
-		$Manager = new YamlUserManager(getcwd().'/src/Milhojas/UsersBundle/Tests/Infrastructure/UserManager/Fixtures/user_provider.yml');
+		$Manager = new YamlUserRepository(getcwd().'/src/Milhojas/UsersBundle/Tests/Infrastructure/UserRepository/Fixtures/user_provider.yml');
 		return $Manager;
 	}
 	

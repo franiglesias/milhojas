@@ -4,24 +4,24 @@ namespace Milhojas\UsersBundle\UserProvider;
 
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUserProvider;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
-use Milhojas\UsersBundle\Domain\User\UserManagerInterface;
+use Milhojas\UsersBundle\Domain\User\UserRepositoryInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 
 class UserProvider extends OAuthUserProvider
 {
-	protected $UserManager;
+	protected $UserRepository;
 	protected $managedDomains;
 	
-    public function __construct(UserManagerInterface $UserManager, $managedDomains = array()) {
-		$this->UserManager = $UserManager;
+    public function __construct(UserRepositoryInterface $UserRepository, $managedDomains = array()) {
+		$this->UserRepository = $UserRepository;
 		$this->managedDomains = $managedDomains;
     }
 
     public function loadUserByUsername($username)
     {
 		$this->checkManagedDomain($username);
-		$User = $this->UserManager->getUser($username);
+		$User = $this->UserRepository->getUser($username);
 		if (!$User) {
 			throw new UsernameNotFoundException(sprintf('User %s does not exists.', $username), 1);
 		}

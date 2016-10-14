@@ -1,12 +1,12 @@
 <?php
 
-namespace Milhojas\UsersBundle\Infrastructure\UserManager;
+namespace Milhojas\UsersBundle\Infrastructure\UserRepository;
 
-use Milhojas\UsersBundle\Domain\User\UserManagerInterface;
+use Milhojas\UsersBundle\Domain\User\UserRepositoryInterface;
 /**
 * Description
 */
-class InMemoryUserManager implements UserManagerInterface
+class InMemoryUserRepository implements UserRepositoryInterface
 {
 	private $users;
 	

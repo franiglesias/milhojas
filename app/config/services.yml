@@ -98,7 +98,7 @@ services:
 # HWI Oauth Bundle needs this, we could need another provider
 
     milhojas.users.manager:
-        class: Milhojas\UsersBundle\Infrastructure\UserManager\YamlUserManager
+        class: Milhojas\UsersBundle\Infrastructure\UserRepository\YamlUserRepository
         arguments: ['%users.file%']
 
     milhojas.users.provider:

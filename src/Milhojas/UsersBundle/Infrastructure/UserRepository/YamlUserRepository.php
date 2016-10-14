@@ -1,8 +1,8 @@
 <?php
 
-namespace Milhojas\UsersBundle\Infrastructure\UserManager;
+namespace Milhojas\UsersBundle\Infrastructure\UserRepository;
 
-use Milhojas\UsersBundle\Domain\User\UserManagerInterface;
+use Milhojas\UsersBundle\Domain\User\UserRepositoryInterface;
 use Milhojas\UsersBundle\UserProvider\MilhojasUser;
 
 
@@ -11,7 +11,7 @@ use Symfony\Component\Yaml\Yaml;
 /**
 * Description
 */
-class YamlUserManager implements UserManagerInterface
+class YamlUserRepository implements UserRepositoryInterface
 {
 	private $users;
 	private $file;

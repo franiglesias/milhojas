@@ -34,7 +34,6 @@ class YamlUserRepositoryTest extends \PHPUnit_Framework_TestCase
 		$Manager->addUser($User);
 		$User = $Manager->getUser('new@example.com');
 		$this->assertEquals('new@example.com', $User->getUsername());
-		
 	}
 }
 

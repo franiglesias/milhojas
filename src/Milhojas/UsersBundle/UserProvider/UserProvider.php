@@ -20,7 +20,7 @@ class UserProvider extends OAuthUserProvider
 
     public function loadUserByUsername($username)
     {
-		$this->checkManagedDomain($username);
+		$this->checkIfUserBelongsToManagedDomain($username);
 		$User = $this->UserRepository->getUser($username);
 		if (!$User) {
 			throw new UsernameNotFoundException(sprintf('User %s does not exists.', $username), 1);
@@ -48,7 +48,7 @@ class UserProvider extends OAuthUserProvider
 	 * @return void | Exception
 	 * @author Fran Iglesias
 	 */
-	private function checkManagedDomain($username)
+	private function checkIfUserBelongsToManagedDomain($username)
 	{
 		if (!$this->managedDomains) {
 			return false;

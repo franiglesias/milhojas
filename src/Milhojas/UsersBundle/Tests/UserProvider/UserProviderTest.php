@@ -48,7 +48,7 @@ class UserProviderTest extends \PHPUnit_Framework_Testcase
 	}
 
 	/**
-	 * @expectedException Symfony\Component\Security\Core\Exception\UnsupportedUserException
+	 * @expectedException Milhojas\UsersBundle\Exceptions\UserBelongsToUnmanagedDomain
 	 */
 	public function testItThrowsExceptionForNotManagedDomains()
 	{

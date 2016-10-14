@@ -11,7 +11,8 @@ class PayrollFinder implements \IteratorAggregate
 {
 
 	private $finder;
-public function __construct($finder)
+	
+	public function __construct($finder)
 	{
 		$this->finder = $finder;
 	}

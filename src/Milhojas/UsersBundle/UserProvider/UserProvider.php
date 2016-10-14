@@ -7,6 +7,7 @@ use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use Milhojas\UsersBundle\Domain\User\UserRepositoryInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
+use Milhojas\UsersBundle\Exceptions\UserBelongsToUnmanagedDomain;
 
 class UserProvider extends OAuthUserProvider
 {
@@ -55,7 +56,7 @@ class UserProvider extends OAuthUserProvider
 		}
 		$domain = $this->extractDomain($username);
 		if (!in_array($domain, $this->managedDomains)) {
-			throw new UnsupportedUserException(sprintf('Domain %s is not supported by this application.', $domain));
+			throw new UserBelongsToUnmanagedDomain(sprintf('Domain %s is not supported by this application.', $domain));
 		}
 	}
 	
@@ -65,11 +66,11 @@ class UserProvider extends OAuthUserProvider
 	 * @param string $username 
 	 * @return string user's domain
 	 * @author Fran Iglesias
+	 * https://www.sanwebe.com/2012/07/get-only-domain-name-from-email-using-php
 	 */
 	private function extractDomain($username)
 	{
-		preg_match('/@(.+)$/', $username, $match);
-		return $match[1];
+		return substr(strrchr($username, "@"), 1);
 	}
 }
 

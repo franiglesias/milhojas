@@ -6,7 +6,6 @@ use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUserProvider;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use Milhojas\UsersBundle\Domain\User\UserRepositoryInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
-use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Milhojas\UsersBundle\Exceptions\UserBelongsToUnmanagedDomain;
 
 class UserProvider extends OAuthUserProvider

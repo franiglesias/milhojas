@@ -2,7 +2,6 @@
 
 namespace Milhojas\Infrastructure\Persistence\Management;
 
-
 /**
 * Iterator to access payroll files. Uses Symfony Finder Component to access the available files
 */

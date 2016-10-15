@@ -64,4 +64,5 @@ class SupplyLevelTest extends \PHPUnit_Framework_Testcase
 		}
 	}
 }
+
 ?>

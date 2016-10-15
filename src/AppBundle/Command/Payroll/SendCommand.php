@@ -17,6 +17,12 @@ use Milhojas\Library\ValueObjects\Misc\Progress;
 use Milhojas\Library\CommandBus\Commands\BroadcastEvent;
 use Milhojas\Domain\Management\Events\AllPayrollsWereSent;
 
+/**
+ * Console command to send payrolls pdf to staff
+ *
+ * @package default
+ * @author Francisco Iglesias Gómez
+ */
 class SendCommand extends Command
 {
 	private $sender;

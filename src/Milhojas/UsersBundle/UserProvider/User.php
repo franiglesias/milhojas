@@ -11,8 +11,6 @@ class User implements UserInterface, EquatableInterface
      * @var string
      */
     protected $username;
-	protected $fullName;
-	protected $nickName;
 	protected $firstName;
 	protected $lastName;
 	protected $avatar;
@@ -99,25 +97,7 @@ class User implements UserInterface, EquatableInterface
 	{
 		return $this->username;
 	}
-	
-	public function setFullName($fullName)
-	{
-		$this->fullName = $fullName;
-	}
-	public function getFullName()
-	{
-		return $this->fullName;
-	}
-	
-	public function setNickName($nickName)
-	{
-		$this->nickName = $nickName;
-	}
-	public function getNickName()
-	{
-		return $this->nickName;
-	}
-	
+
 	public function setFirstName($firstName)
 	{
 		$this->firstName = $firstName;
@@ -153,6 +133,9 @@ class User implements UserInterface, EquatableInterface
 	{
 		return $this->avatar;
 	}
+	
+	public function getFullName() { return sprintf('%s %s', $this->firstName, $this->lastName); }
+
 }
 
 ?>

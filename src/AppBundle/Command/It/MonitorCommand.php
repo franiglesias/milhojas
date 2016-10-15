@@ -18,12 +18,15 @@ use Milhojas\Library\ValueObjects\Technical\Ip;
 
 use Milhojas\Domain\It\DeviceIdentity;
 /**
-* Description
+* Console command to monitor devices in the net.
+* 
+* Should accept configuration of devices from a file or similar configuration
 */
 class MonitorCommand extends Command
 {
 	private $bus;
-public function __construct(CommandBus $bus)
+	
+	public function __construct(CommandBus $bus)
 	{
 		$this->bus = $bus;
 		parent::__construct();

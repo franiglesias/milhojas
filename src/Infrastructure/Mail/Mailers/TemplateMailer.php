@@ -17,7 +17,8 @@ class TemplateMailer implements Mailer
 {
 	private $templating;
 	private $mailer;
-public function __construct(Mailer $mailer, Templating $templating)
+	
+	public function __construct(Mailer $mailer, Templating $templating)
 	{
 		$this->mailer = $mailer;
 		$this->templating = $templating;

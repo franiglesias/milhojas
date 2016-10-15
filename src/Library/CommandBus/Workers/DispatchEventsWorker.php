@@ -15,7 +15,8 @@ class DispatchEventsWorker extends CommandWorker
 {
 	private $eventBus;
 	private $recorder;
-public function __construct(EventBus $eventBus, EventRecorder $recorder)
+	
+	public function __construct(EventBus $eventBus, EventRecorder $recorder)
 	{
 		$this->eventBus = $eventBus;
 		$this->recorder = $recorder;

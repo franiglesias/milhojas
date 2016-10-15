@@ -9,7 +9,8 @@ class Progress
 {
 	private $current;
 	private $total;
-public function __construct($current, $total)
+
+	public function __construct($current, $total)
 	{
 		if ($current > $total) {
 			throw new \OutOfBoundsException(sprintf('Current (%s) should be less or equal to Total (%s)', $current, $total));

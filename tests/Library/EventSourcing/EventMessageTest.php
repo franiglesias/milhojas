@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Tests\Library\EventSourcing;
 
 use Milhojas\Library\EventSourcing\EventStream\EventMessage;
@@ -45,7 +44,7 @@ class EventMessageTest extends \PHPUnit_Framework_TestCase
 		$message->addMetadata($metadata);
 		$this->assertEquals($metadata, $message->getMetadata());
 	}
-	
+
 }
 
 ?>

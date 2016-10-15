@@ -10,6 +10,7 @@ namespace Milhojas\Domain\Management;
  * @package default
  * @author Francisco Iglesias Gómez
  */
+
 class Payroll {
 	private $id; // Identifies the employee
 	private $name; // Name of the employee

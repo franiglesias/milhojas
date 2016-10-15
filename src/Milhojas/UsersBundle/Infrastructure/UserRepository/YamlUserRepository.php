@@ -61,7 +61,6 @@ class YamlUserRepository implements UserRepositoryInterface
 		$User->setEmail($email);
 		$User->setFirstName($this->users[$email]['firstname']);
 		$User->setLastName($this->users[$email]['lastname']);
-		$User->setFullName($this->users[$email]['firstname'].' '.$this->users[$email]['lastname']);
 		$User->assignNewRole($this->users[$email]['roles']);
 		return $User;
 	}

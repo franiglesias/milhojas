@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Milhojas\Library\ValueObjects\Dates;
 
 /**
@@ -10,7 +9,8 @@ class DateRange
 {
 	private $start;
 	private $end;
-public function __construct(\DateTimeImmutable $Start, \DateTimeImmutable $End = null)
+	
+	public function __construct(\DateTimeImmutable $Start, \DateTimeImmutable $End = null)
 	{
 		$this->start = $Start;
 		$this->validEnd($End);

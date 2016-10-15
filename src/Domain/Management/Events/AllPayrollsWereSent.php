@@ -3,8 +3,8 @@
 namespace Milhojas\Domain\Management\Events;
 
 use Milhojas\Library\EventBus\Event;
-
 use Milhojas\Library\ValueObjects\Misc\Progress;
+
 /**
 * All payrolls were sent
 * 
@@ -13,7 +13,8 @@ class AllPayrollsWereSent implements Event
 {
 	private $month;
 	private $progress;
-public function __construct(Progress $progress, $month)
+	
+	public function __construct(Progress $progress, $month)
 	{
 		$this->month = $month;
 		$this->progress = $progress;

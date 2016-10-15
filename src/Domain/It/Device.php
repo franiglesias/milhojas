@@ -32,7 +32,7 @@ interface Device {
 	 */
 	public function needsService();
 	/**
-	 * Device needs supplies (it is not woring because some supplies are exhausted or near of been exhausted)
+	 * Device needs supplies (it is not working because some supplies are exhausted or near of being exhausted)
 	 *
 	 * @return boolean true if it needs supplies
 	 */

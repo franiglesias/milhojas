@@ -11,7 +11,8 @@ class DeviceWasOK implements Event
 {
 	private $device;
 	private $details;
-public function __construct(DeviceIdentity $device, $details)
+	
+	public function __construct(DeviceIdentity $device, $details)
 	{
 		$this->device = $device;
 		$this->details = $details;

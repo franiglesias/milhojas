@@ -35,8 +35,7 @@ class MailerStub implements Mailer
 	{
 		return isset($this->message[$email]);
 	}
-	
-	
+
 }
 
 

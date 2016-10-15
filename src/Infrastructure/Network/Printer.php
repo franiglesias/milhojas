@@ -16,7 +16,8 @@ class Printer extends BaseDevice
 {
 	private $driver;
 	private $configuration;
-public function __construct(DeviceIdentity $device, DeviceStatus $status, PrinterDriver $driver, PrinterConfiguration $configuration)
+	
+	public function __construct(DeviceIdentity $device, DeviceStatus $status, PrinterDriver $driver, PrinterConfiguration $configuration)
 	{
 		$this->device = $device;
 		$this->driver = $driver;

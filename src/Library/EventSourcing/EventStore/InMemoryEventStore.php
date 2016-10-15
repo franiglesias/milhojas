@@ -19,7 +19,8 @@ class InMemoryEventStore extends EventStore
 	 * $events[$entity][$entity_id] = foreach eventStream
 	 */
 	private $events;
-public function __construct()
+	
+	public function __construct()
 	{
 		$this->events = array();
 	}

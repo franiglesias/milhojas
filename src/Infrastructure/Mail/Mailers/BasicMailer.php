@@ -13,7 +13,8 @@ use Milhojas\Infrastructure\Mail\MailMessage;
 class BasicMailer implements Mailer
 {
 	private $engine;
-public function __construct(MailerEngine $engine)
+	
+	public function __construct(MailerEngine $engine)
 	{
 		$this->engine = $engine;
 	}

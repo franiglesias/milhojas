@@ -27,7 +27,6 @@ class YamlUserRepositoryTest extends \PHPUnit_Framework_TestCase
 	{
 		$Manager = new YamlUserRepository($this->testFile);
 		$User = new User('new@example.com');
-		$User->setNickName('new@example.com');
 		$User->setEmail('new@example.com');
 		$User->setFirstName('New');
 		$User->setLastName('User');

@@ -53,5 +53,4 @@ abstract class BaseDevice implements Device
 	
 }
 
-
 ?>

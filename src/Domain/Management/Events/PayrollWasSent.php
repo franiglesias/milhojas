@@ -4,8 +4,8 @@ namespace Milhojas\Domain\Management\Events;
 
 use Milhojas\Library\EventBus\Event;
 use Milhojas\Domain\Management\Payroll;
-
 use Milhojas\Library\ValueObjects\Misc\Progress;
+
 /**
 * Describes a Payroll that was sent by the system
 * 
@@ -15,7 +15,8 @@ class PayrollWasSent implements Event
 {
 	private $payroll;
 	private $progress;
-public function __construct(Payroll $payroll, Progress $progress)
+	
+	public function __construct(Payroll $payroll, Progress $progress)
 	{
 		$this->payroll = $payroll;
 		$this->progress = $progress;

@@ -9,7 +9,8 @@ class DeviceIdentity
 {
 	protected $name;
 	protected $location;
-public function __construct($name, $location)
+	
+	public function __construct($name, $location)
 	{
 		$this->name = $name;
 		$this->location = $location;

@@ -16,7 +16,8 @@ class ExecuteWorker extends CommandWorker
 {
 	private $container;
 	private $inflector;
-public function __construct(Container $container, Inflector $inflector)
+	
+	public function __construct(Container $container, Inflector $inflector)
 	{
 		$this->container = $container;
 		$this->inflector = $inflector;

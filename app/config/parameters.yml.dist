@@ -19,6 +19,7 @@ parameters:
     # A secret key that's used to generate certain security-related tokens
     secret:            71869bf57b5c5ad3691b6a41af10fa5d417245eb
 
+    session.name:       MHSESSID
     payroll.sender:
         administracion@miralba.org: Administración Colegio Miralba
     payroll.report:

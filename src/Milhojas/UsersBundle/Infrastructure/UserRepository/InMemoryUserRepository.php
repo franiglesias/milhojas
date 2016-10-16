@@ -30,4 +30,3 @@ class InMemoryUserRepository implements UserRepositoryInterface
 }
 
 ?>
-

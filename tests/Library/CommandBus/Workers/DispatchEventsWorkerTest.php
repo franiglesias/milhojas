@@ -39,4 +39,3 @@ class DispatchEventsWorkerTest extends \PHPUnit_Framework_Testcase {
 	}
 }
 ?>
-

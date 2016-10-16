@@ -5,7 +5,7 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "Milhojas\\": "src/",
+            "Milhojas\\": ["src/", "src/Milhojas/"],
 			"": "src/"
         },
         "classmap": [

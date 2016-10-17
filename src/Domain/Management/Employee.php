@@ -38,6 +38,16 @@ class Employee
 		return $this->firstname.' '.$this->lastname;
 	}
 	
+	public function getEmail()
+	{
+		return $this->email;
+	}
+	
+	public function getTreatment()
+	{
+		$treatment = $this->gender == 'female' ? 'Estimada' : 'Estimado';
+		return sprintf('%s %s', $treatment, $this->firstname);
+	}
 }
 
 ?>

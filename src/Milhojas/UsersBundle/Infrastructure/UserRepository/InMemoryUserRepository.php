@@ -27,6 +27,11 @@ class InMemoryUserRepository implements UserRepositoryInterface
 	{
 		return count($this->users);
 	}
+	
+	public function findAll()
+	{
+		return $this->users;
+	}
 }
 
 ?>

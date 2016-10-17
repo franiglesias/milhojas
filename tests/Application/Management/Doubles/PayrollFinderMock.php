@@ -9,7 +9,8 @@ use Milhojas\Infrastructure\Persistence\Management\PayrollFinder;
 class PayrollFinderMock implements \IteratorAggregate
 {
 	private $files;
-public function __construct()
+	
+	public function __construct()
 	{
 		$this->files = array(
 			new \SplFileInfo(vfsStream::url('root/payroll/test/01_nombre_(apellido1 apellido2, nombre1 nombre2)_empresa_22308_trabajador_130496_030216_mensual.pdf')),

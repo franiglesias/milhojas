@@ -28,6 +28,14 @@ class InMemoryUserRepositoryTest extends \PHPUnit_Framework_TestCase
 		$this->assertManagerHoldsThisUser('user2@example.com');
 	}
 	
+	public function testItCanRetrieveAllRecords()
+	{
+		$this->manager = new InMemoryUserRepository();
+		$this->populateWithUsers(4);
+		$all = $this->manager->findAll();
+		$this->assertEquals(4, count($all));
+	}
+	
 	# PRIVATE REGION #
 	
 	private function startWithEmptyManager()

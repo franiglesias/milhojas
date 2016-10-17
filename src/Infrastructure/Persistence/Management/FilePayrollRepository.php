@@ -42,6 +42,7 @@ class FilePayrollRepository implements PayrollRepository{
 		return $this->unknownPayroll($id, $payrollFile);
 	}
 	
+
 	private function payrollFromDB($id, $payrollFile)
 	{
 		return new Payroll(
@@ -52,6 +53,8 @@ class FilePayrollRepository implements PayrollRepository{
 			$this->data[$id]['gender']
 		);
 	}
+	
+	
 	
 	private function unknownPayroll($id, $payrollFile)
 	{

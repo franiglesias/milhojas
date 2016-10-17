@@ -34,6 +34,32 @@ class YamlUserRepositoryTest extends \PHPUnit_Framework_TestCase
 		$User = $Manager->getUser('new@example.com');
 		$this->assertEquals('new@example.com', $User->getUsername());
 	}
+	
+	public function testItCanRetrieveAllRecords()
+	{
+		$Manager = new YamlUserRepository($this->testFile);
+		$all = $Manager->findAll();
+		$expected = array(
+			'frankie@miralba.org'=> [
+			    'password'=> null,
+			    'roles'=> ['ROLE_ROOT'],
+			    'firstname'=> 'Fran',
+			    'lastname'=> 'Iglesias',
+				],
+			'test@example.com'=>[
+			    'password'=> null,
+			    'roles'=> ['ROLE_USER', 'ROLE_APP'],
+			    'firstname'=> 'Usuario',
+			    'lastname'=> 'Pruebas',
+				],
+			'new@example.com'=>[
+			    'firstname'=> 'New',
+			    'lastname'=> 'User',
+			    'roles'=> ['ROLE_USER']
+				]
+			);
+		$this->assertEquals($expected, $all);
+	}
 }
 
 ?>

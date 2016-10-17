@@ -43,6 +43,11 @@ class YamlUserRepository implements UserRepositoryInterface
 		return count($this->users);
 	}
 	
+	public function findAll()
+	{
+		return $this->users;
+	}
+	
 	private function loadUsers()
 	{
 		$users = Yaml::parse(file_get_contents($this->file));

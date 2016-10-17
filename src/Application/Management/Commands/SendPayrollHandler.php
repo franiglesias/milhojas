@@ -2,22 +2,24 @@
 
 namespace Milhojas\Application\Management\Commands;
 
+use Milhojas\Domain\Management\Payrolls;
+
 use Milhojas\Library\CommandBus\Command;
 use Milhojas\Library\CommandBus\CommandHandler;
+use Milhojas\Library\EventBus\EventRecorder;
 
 use Milhojas\Infrastructure\Mail\MailMessage;
 use Milhojas\Infrastructure\Mail\Mailer;
-
-use Milhojas\Library\EventBus\EventRecorder;
-
-use Milhojas\Domain\Management\Payrolls;
 
 # Events
 
 use Milhojas\Domain\Management\Events\PayrollEmailWasSent;
 use Milhojas\Domain\Management\Events\PayrollEmailCouldNotBeSent;
-use Milhojas\Domain\Management\Events\PayrollCouldNotBeSent;
+use Milhojas\Domain\Management\Events\PayrollCouldNotBeFound;
 
+# Exceptions
+
+use Milhojas\Infrastructure\Persistence\Management\Exceptions\EmployeeHasNoPayrollFiles;
 
 /**
 * Manages SendPayroll command
@@ -39,14 +41,16 @@ class SendPayrollHandler implements CommandHandler
 	public function handle(Command $command)
 	{
 		$employee = $command->getEmployee();
-		$files = $this->payrolls->getByMonthAndEmployee($command->getMonth(), $employee);
-		
-		if ($this->sendEmail($employee, $files, $command->getSender(), $command->getMonth())) {
-			$this->recorder->recordThat(new PayrollEmailWasSent($employee, $command->getProgress()));
-			return;
+		try {
+			$files = $this->payrolls->getByMonthAndEmployee($command->getMonth(), $employee);
+			if ($this->sendEmail($employee, $files, $command->getSender(), $command->getMonth())) {
+				$this->recorder->recordThat(new PayrollEmailWasSent($employee, $command->getProgress()));
+				return;
+			}
+			$this->recorder->recordThat(new PayrollEmailCouldNotBeSent($employee, $command->getProgress()));
+		} catch (EmployeeHasNoPayrollFiles $e) {
+			$this->recorder->recordThat(new PayrollCouldNotBeFound($employee, $command->getProgress()));
 		}
-
-		$this->recorder->recordThat(new PayrollEmailCouldNotBeSent($employee, $command->getProgress()));
 	}
 	
 	private function sendEmail($employee, $files, $sender, $month)

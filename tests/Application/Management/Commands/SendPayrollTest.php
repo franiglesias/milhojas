@@ -17,34 +17,63 @@ use Symfony\Component\Finder\Finder;
 use Milhojas\Library\ValueObjects\Misc\Progress;
 
 use Milhojas\Infrastructure\Persistence\Management\FileSystemPayrolls;
-/**
-* Description
-*/
+
 class SendPayrollTest extends \PHPUnit_Framework_Testcase
 {
 	private $mailer;
 	private $recorder;
-    private $root;
+	private $root;
 	private $payrolls;
-	
-	
+
 	public function setUp()
 	{
 		$this->mailer = new MailerStub();
 		$this->recorder = new EventRecorder();
 		$this->root = (new NewPayrollFileSystem())->get();
 		$this->payrolls = new FileSystemPayrolls(vfsStream::url('root/payroll/'), new Finder());
-		
 	}
 	
-	public function testHandler()
+	public function testItHandlesEmployeeWithOnePayrollDocument()
 	{
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(130496));
 		$command = new SendPayroll($employee, 'email@example.com', 'test', new Progress(1,2));
 		$handler = new SendPayrollHandler($this->payrolls, $this->mailer, $this->recorder);
 		$handler->handle($command);
-		$this->assertMailerIsCalledOneTime();
-		$this->assertMessageWasSentToThisEmail('user@example.com');
+		$this->assertTrue($this->mailer->wasCalled());
+		$this->assertTrue($this->mailer->aMessageWasSentTo('user@example.com'));
+		$this->assertEquals(1, $this->mailer->attachmentsInMessage());
+		$this->assertEvent('PayrollEmailWasSent');
+	}
+	
+	public function testItHandlesEmployeeWithNoDocuments()
+	{
+		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(109231));
+		$command = new SendPayroll($employee, 'email@example.com', 'test', new Progress(1,2));
+		$handler = new SendPayrollHandler($this->payrolls, $this->mailer, $this->recorder);
+		$handler->handle($command);
+		$this->assertEvent('PayrollCouldNotBeFound');
+	}
+	
+	public function testItHandlesMessageCouldNotBeSent()
+	{
+		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(130496));
+		$command = new SendPayroll($employee, 'email@example.com', 'test', new Progress(1,2));
+		$handler = new SendPayrollHandler($this->payrolls, $this->mailer, $this->recorder);
+		$this->mailer->makeFail();
+		$handler->handle($command);
+		$this->assertEvent('PayrollEmailCouldNotBeSent');
+	}
+	
+	public function testItHandlesEmployeeWithSeveralFiles()
+	{
+		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(130496, 130296));
+		$command = new SendPayroll($employee, 'email@example.com', 'test', new Progress(1,2));
+		$handler = new SendPayrollHandler($this->payrolls, $this->mailer, $this->recorder);
+		$handler->handle($command);
+		$this->assertTrue($this->mailer->wasCalled());
+		$this->assertTrue($this->mailer->aMessageWasSentTo('user@example.com'));
+		$this->assertEquals(2, $this->mailer->attachmentsInMessage());
+		$this->assertEvent('PayrollEmailWasSent');
 	}
 	
 	private function assertMailerIsCalledOneTime()
@@ -55,6 +84,12 @@ class SendPayrollTest extends \PHPUnit_Framework_Testcase
 	private function assertMessageWasSentToThisEmail($email)
 	{
 		$this->assertTrue($this->mailer->messageTo($email));
+	}
+	
+	public function assertEvent($event)
+	{
+		$events = $this->recorder->retrieve();
+		$this->assertInstanceOf('\Milhojas\Domain\Management\Events\\'.$event, $events[0]);
 	}
 }
 

@@ -7,7 +7,7 @@ use Milhojas\Library\CommandBus\Command;
 /**
 * It send a employeee its payrolls for a month
 */
-class EmailPayroll implements Command
+class SendPayroll implements Command
 {
 	private $employee;
 	private $month;

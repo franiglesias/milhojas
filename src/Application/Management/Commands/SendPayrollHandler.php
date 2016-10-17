@@ -11,9 +11,11 @@ use Milhojas\Infrastructure\Mail\Mailer;
 use Milhojas\Library\EventBus\EventRecorder;
 
 use Milhojas\Domain\Management\Payrolls;
+
 # Events
 
-use Milhojas\Domain\Management\Events\PayrollWasSent;
+use Milhojas\Domain\Management\Events\PayrollEmailWasSent;
+use Milhojas\Domain\Management\Events\PayrollEmailCouldNotBeSent;
 use Milhojas\Domain\Management\Events\PayrollCouldNotBeSent;
 
 
@@ -21,7 +23,7 @@ use Milhojas\Domain\Management\Events\PayrollCouldNotBeSent;
 * Manages SendPayroll command
 */
 
-class EmailPayrollHandler implements CommandHandler
+class SendPayrollHandler implements CommandHandler
 {
 	private $mailer;
 	private $recorder;
@@ -37,15 +39,14 @@ class EmailPayrollHandler implements CommandHandler
 	public function handle(Command $command)
 	{
 		$employee = $command->getEmployee();
-		$files = $this->payrolls->getByMonthAndEmployee($command->getMonth());
+		$files = $this->payrolls->getByMonthAndEmployee($command->getMonth(), $employee);
 		
 		if ($this->sendEmail($employee, $files, $command->getSender(), $command->getMonth())) {
-			$this->recorder->recordThat(new PayrollWasSent($payroll, $command->getProgress()));
-		    unlink($payroll->getFile());
+			$this->recorder->recordThat(new PayrollEmailWasSent($employee, $command->getProgress()));
 			return;
 		}
 
-		$this->recorder->recordThat(new PayrollCouldNotBeSent($payroll, $command->getProgress()));
+		$this->recorder->recordThat(new PayrollEmailCouldNotBeSent($employee, $command->getProgress()));
 	}
 	
 	private function sendEmail($employee, $files, $sender, $month)
@@ -54,7 +55,7 @@ class EmailPayrollHandler implements CommandHandler
 		$message
 			->setTo($employee->getEmail())
 			->setSender($sender)
-			->setTemplate('AppBundle:Management:payroll.email.twig', array('payroll' => $payroll, 'month' => $month));
+			->setTemplate('AppBundle:Management:payroll_document.email.twig', array('payroll' => $payroll, 'month' => $month));
 		foreach ($files as $file) {
 			$message->attach($file->getPath());
 		}

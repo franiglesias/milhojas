@@ -14,7 +14,7 @@ class PayrollEmailCouldNotBeSent implements Event
 	private $employee;
 	private $progress;
 	
-	public function __construct(Payroll $employee, Progress $progress)
+	public function __construct(Employee $employee, Progress $progress)
 	{
 		$this->employee = $employee;
 		$this->progress = $progress;

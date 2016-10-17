@@ -53,7 +53,7 @@ class SendPayrollHandler implements CommandHandler
 	{
 		$message = new MailMessage();
 		$message
-			->setTo($employee->getEmail())
+			->setTo([$employee->getEmail()])
 			->setSender($sender)
 			->setTemplate('AppBundle:Management:payroll_document.email.twig', array('employee' => $employee, 'month' => $month));
 		foreach ($files as $file) {

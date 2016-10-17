@@ -11,11 +11,13 @@ class MailerStub implements Mailer
 {
 	private $times;
 	private $message;
+	private $to;
 	
 	public function send(MailMessage $message)
 	{
 		$this->times++;
-		$this->message = array_merge((array)$this->message, $message->getTo());
+		$this->message = $message;
+		$this->to = $message->getTo();
 		return true;
 	}
 	
@@ -33,7 +35,7 @@ class MailerStub implements Mailer
 	
 	public function messageTo($email)
 	{
-		return isset($this->message[$email]);
+		return in_array($email, $this->to);
 	}
 
 }

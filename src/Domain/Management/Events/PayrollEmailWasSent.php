@@ -11,12 +11,12 @@ use Milhojas\Library\ValueObjects\Misc\Progress;
 * 
 * Delivery could fail if email doesn't exists
 */
-class PayrolEmaillWasSent implements Event
+class PayrollEmailWasSent implements Event
 {
 	private $employee;
 	private $progress;
 	
-	public function __construct(Epoloyee $employee, Progress $progress)
+	public function __construct(Employee $employee, Progress $progress)
 	{
 		$this->employee = $employee;
 		$this->progress = $progress;

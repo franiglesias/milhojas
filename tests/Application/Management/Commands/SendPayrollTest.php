@@ -40,12 +40,21 @@ class SendPayrollTest extends \PHPUnit_Framework_Testcase
 	public function testHandler()
 	{
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(130496));
-		
 		$command = new SendPayroll($employee, 'email@example.com', 'test', new Progress(1,2));
 		$handler = new SendPayrollHandler($this->payrolls, $this->mailer, $this->recorder);
-		
 		$handler->handle($command);
-		
+		$this->assertMailerIsCalledOneTime();
+		$this->assertMessageWasSentToThisEmail('user@example.com');
+	}
+	
+	private function assertMailerIsCalledOneTime()
+	{
+		$this->assertEquals(1, $this->mailer->getTimesCalled());
+	}
+	
+	private function assertMessageWasSentToThisEmail($email)
+	{
+		$this->assertTrue($this->mailer->messageTo($email));
 	}
 }
 

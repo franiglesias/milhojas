@@ -50,7 +50,7 @@ class MailMessage
 	}
 	
 	public function setTo($to) {
-		$this->to = $to;
+		$this->to = (array)$to;
 		return $this;
 	}
 	public function getTo()

@@ -16,7 +16,7 @@ class PayrollCouldNotBeFound implements Event
 	
 	public function __construct(Employee $employee, Progress $progress)
 	{
-		$this->payroll = $employee;
+		$this->employee = $employee;
 		$this->progress = $progress;
 	}
 	

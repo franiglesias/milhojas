@@ -48,6 +48,11 @@ class Employee
 		$treatment = $this->gender == 'female' ? 'Estimada' : 'Estimado';
 		return sprintf('%s %s', $treatment, $this->firstname);
 	}
+	
+	public function __toString()
+	{
+		return $this->getFullName();
+	}
 }
 
 ?>

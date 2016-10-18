@@ -38,7 +38,7 @@ class PayrollEmailCouldNotBeSent implements Event
 	
 	public function getName()
 	{
-		return 'milhojas.management.employee_could_not_be_sent';
+		return 'milhojas.management.payroll_email_could_not_be_sent';
 	}
 	
 	public function __toString()

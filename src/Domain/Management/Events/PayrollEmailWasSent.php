@@ -22,7 +22,7 @@ class PayrollEmailWasSent implements Event
 		$this->progress = $progress;
 	}
 	
-	public function getPayroll()
+	public function getEmployee()
 	{
 		return $this->employee;
 	}

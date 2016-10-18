@@ -18,9 +18,6 @@ services:
         class:          Milhojas\Infrastructure\Persistence\Management\FilePayrollRepository
         arguments:      ["%payroll.dataPath%", "@management.payroll.finder", "@management.payroll.dataparser"]
 
-    send_payroll_handler:
-        class:          Milhojas\Application\Management\SendPayrollHandler
-        arguments:      ['@management.payroll.repository', '@milhojas.mailer',  "@event_recorder"]
 
     email_payroll_handler:
         class:          Milhojas\Application\Management\EmailPayrollHandler
@@ -38,9 +35,27 @@ services:
         class:          Milhojas\Application\Management\Reporters\AllPayrollsWereSentEmailReporter
         arguments:      ['@milhojas.mailer', '%payroll.sender%', '%payroll.report%', 'AppBundle:Management:all_payrolls.sent.email.twig']
 
+    management.staff:
+        class:          Milhojas\Infrastructure\Persistence\Management\YamlStaff
+        arguments:      ['%staff.file%']
+
+    management.payrolls:
+        class:          Milhojas\Infrastructure\Persistence\Management\FileSystemPayrolls
+        arguments:      ["%payroll.dataPath%"]
+
+    send_payroll_handler:
+        class:          Milhojas\Application\Management\Commands\SendPayrollHandler
+        arguments:      ['@management.payrolls', '@milhojas.mailer',  "@event_recorder"]
+
 # Payroll command
     payroll_send:
         class:          AppBundle\Command\Payroll\SendCommand
         arguments:      ["@command_bus", "%payroll.sender%", '@management.payroll.repository']
+        tags:
+            - {name: console.command}
+
+    payroll_month:
+        class:          AppBundle\Command\Payroll\MonthCommand
+        arguments:      ["@command_bus", "%payroll.sender%", '@management.staff']
         tags:
             - {name: console.command}

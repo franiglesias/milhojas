@@ -2,6 +2,8 @@
 
 namespace Milhojas\Domain\Management;
 
+use Milhojas\Library\ValueObjects\Identity\Username;
+
 /**
  * Represents the list of employees
  *
@@ -10,7 +12,7 @@ namespace Milhojas\Domain\Management;
  */
 
 interface Staff {
-	public function getEmployeeByUsername($username);
+	public function getEmployeeByUsername(Username $username);
 }
 
 ?>

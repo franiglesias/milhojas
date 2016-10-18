@@ -84,8 +84,9 @@ services:
         calls:
             - ['subscribeHandler', ['@it.device_status.email.reporter',  '%milhojas.it.monitor.email.events%'] ] 
             - ['subscribeHandler', ['@it.device_status.cli.reporter',  '%milhojas.it.monitor.all.events%'] ] 
-            - ['addHandler', ['milhojas.management.payroll_was_sent', '@management.payroll_was_sent.cli.reporter'] ]
-            - ['addHandler', ['milhojas.management.payroll_could_not_be_sent', '@management.payroll_could_not_be_sent.cli.reporter'] ]
+            - ['addHandler', ['milhojas.management.payroll_email_was_sent', '@management.payroll_was_sent.cli.reporter'] ]
+            - ['addHandler', ['milhojas.management.payroll_email_could_not_be_sent', '@management.payroll_could_not_be_sent.cli.reporter'] ]
+            - ['addHandler', ['milhojas.management.payroll_could_not_be_found', '@management.payroll_could_not_be_sent.cli.reporter'] ]
             - ['addHandler', ['milhojas.management.all_payrolls_were_sent', '@management.email_report_all_payrolls_were_sent'] ]
             - ['addHandler', ['contents.new_post_was_written', '@contents.post_created.reporter'] ]
             - ['addHandler', ['contents.new_post_was_written', '@contents.post_list.projector'] ]

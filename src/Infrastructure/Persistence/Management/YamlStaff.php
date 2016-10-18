@@ -7,6 +7,8 @@ namespace Milhojas\Infrastructure\Persistence\Management;
 use Milhojas\Domain\Management\Staff;
 use Milhojas\Domain\Management\Employee;
 
+use Milhojas\Library\ValueObjects\Identity\Username;
+
 # Exceptions
 
 use Milhojas\Infrastructure\Persistence\Management\Exceptions\EmployeeCouldNotBeFound;
@@ -15,11 +17,12 @@ use Milhojas\Infrastructure\Persistence\Management\Exceptions\EmployeeCouldNotBe
 
 use Symfony\Component\Yaml\Yaml;
 
+
 /**
 * Implements a Staff repository over a Yaml file
 */
 
-class YamlStaff implements Staff
+class YamlStaff implements Staff, \IteratorAggregate
 {
 	private $path;
 	private $employees;
@@ -27,7 +30,7 @@ class YamlStaff implements Staff
 	public function __construct($path)
 	{
 		$this->path = $path;
-		$this->employees = $this->loadEmployees();
+		$this->loadEmployees();
 	}
 	
 	/**
@@ -37,16 +40,26 @@ class YamlStaff implements Staff
 	 * @return Employee
 	 * @author Fran Iglesias
 	 */
-	public function getEmployeeByUsername($username)
+	public function getEmployeeByUsername(Username $username)
 	{
-		$this->checkUsername($username);
-		return new Employee(
-			$username, 
-			$this->employees[$username]['firstname'],
-			$this->employees[$username]['lastname'],
-			$this->employees[$username]['gender'],
-			$this->employees[$username]['payroll']
-		);
+		$this->checkUsername($username->get());
+		return $this->employees[$username->get()];
+	}
+	
+	public function getIterator()
+	{
+		return new \ArrayIterator($this->employees);
+	}
+	
+	/**
+	 * Retrieves all employess
+	 *
+	 * @return array
+	 * @author Fran Iglesias
+	 */
+	public function findAll()
+	{
+		return $this->employees;
 	}
 	
 	/**
@@ -68,8 +81,17 @@ class YamlStaff implements Staff
 	 */
 	private function loadEmployees()
 	{
+		$this->employees = array();
 		$employees = Yaml::parse(file_get_contents($this->path));
-		return $employees;
+		foreach ($employees as $username => $data) {
+			$this->employees[$username] = new Employee(
+				$username, 
+				$data['firstname'],
+				$data['lastname'],
+				$data['gender'],
+				$data['payroll']
+				);
+		}
 	}
 	
 	/**

@@ -37,3 +37,4 @@ parameters:
     
     # Where are managed users stored
     users.file: '%kernel.root_dir%/../extras/users/users.yml'
+    staff.file: '%kernel.root_dir%/../extras/users/staff.yml'

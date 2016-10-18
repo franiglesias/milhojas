@@ -42,8 +42,7 @@ class SendPayrollHandler implements CommandHandler
 	{
 		$employee = $command->getEmployee();
 		try {
-			$files = $this->payrolls->getByMonthAndEmployee($command->getMonth(), $employee);
-			if ($this->sendEmail($employee, $files, $command->getSender(), $command->getMonth())) {
+			if ($this->sendEmail($employee, $command->getSender(), $command->getMonth())) {
 				$this->recorder->recordThat(new PayrollEmailWasSent($employee, $command->getProgress()));
 				return;
 			}
@@ -53,8 +52,9 @@ class SendPayrollHandler implements CommandHandler
 		}
 	}
 	
-	private function sendEmail($employee, $files, $sender, $month)
+	private function sendEmail($employee, $sender, $month)
 	{
+		$files = $this->payrolls->getByMonthAndEmployee($month, $employee);
 		$message = new MailMessage();
 		$message
 			->setTo($employee->getEmail())
@@ -62,6 +62,7 @@ class SendPayrollHandler implements CommandHandler
 			->setTemplate('AppBundle:Management:payroll_document.email.twig', array('employee' => $employee, 'month' => $month));
 		foreach ($files as $file) {
 			$message->attach($file->getPath());
+			//unlink($file->getPath());
 		}
 		return $this->mailer->send($message);
 	}

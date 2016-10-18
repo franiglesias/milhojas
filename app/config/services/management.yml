@@ -8,21 +8,6 @@ parameters:
 
 services:
 
-    management.payroll.finder:
-        class:          Milhojas\Infrastructure\Persistence\Management\PayrollFinder
-        arguments:      ["@finder"]
-    management.payroll.dataparser:
-        class:          Milhojas\Infrastructure\Utilities\TabDataParser
-        arguments:      [['id', 'email', 'gender', 'name', 'last']]
-    management.payroll.repository:
-        class:          Milhojas\Infrastructure\Persistence\Management\FilePayrollRepository
-        arguments:      ["%payroll.dataPath%", "@management.payroll.finder", "@management.payroll.dataparser"]
-
-
-    email_payroll_handler:
-        class:          Milhojas\Application\Management\EmailPayrollHandler
-        arguments:      ['@milhojas.mailer',  "@event_recorder"]
-
     management.payroll_was_sent.cli.reporter:
         class:          Milhojas\Application\Management\Reporters\PayrollWasSentCliReporter
         arguments:      ['@cli.output']
@@ -48,12 +33,6 @@ services:
         arguments:      ['@management.payrolls', '@milhojas.mailer',  "@event_recorder"]
 
 # Payroll command
-    payroll_send:
-        class:          AppBundle\Command\Payroll\SendCommand
-        arguments:      ["@command_bus", "%payroll.sender%", '@management.payroll.repository']
-        tags:
-            - {name: console.command}
-
     payroll_month:
         class:          AppBundle\Command\Payroll\MonthCommand
         arguments:      ["@command_bus", "%payroll.sender%", '@management.staff']

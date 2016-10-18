@@ -62,7 +62,6 @@ class SendPayrollHandler implements CommandHandler
 			->setTemplate('AppBundle:Management:payroll_document.email.twig', array('employee' => $employee, 'month' => $month));
 		foreach ($files as $file) {
 			$message->attach($file->getPath());
-			//unlink($file->getPath());
 		}
 		return $this->mailer->send($message);
 	}

@@ -5,7 +5,6 @@ namespace AppBundle\Command\Payroll;
 # Domain concepts
 
 use Milhojas\Domain\Management\Staff;
-use Milhojas\Domain\Management\Employee;
 
 # Commands
 

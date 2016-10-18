@@ -40,7 +40,6 @@ class YamlStaff implements Staff
 	public function getEmployeeByUsername($username)
 	{
 		$this->checkUsername($username);
-		$data = $this->employees[$username];
 		return new Employee(
 			$username, 
 			$this->employees[$username]['firstname'],

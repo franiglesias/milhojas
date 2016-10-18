@@ -11,9 +11,7 @@ class NewPayrollFileSystem {
 	public function __construct()
 	{
 		$structure = array(
-			'email.dat' => '130496'.chr(9).'email1@example.com'.chr(9).'male'.chr(9).'Nombre'.chr(9).'Apellido'.chr(10)
-							.'130286'.chr(9).'email2@example.com'.chr(9).'female'.chr(9).'Nombre. 2'.chr(9).'Apellido. 2'.chr(10)
-							.'130296'.chr(9).'email3@example.com'.chr(9).'female'.chr(9).'Nombre 3'.chr(9).'Apellido 3'.chr(10),
+			'staff.yml' => $this->loadStaffFile(),
 			'test' => array(
 				'01_nombre_(apellido1 apellido2, nombre1 nombre2)_empresa_22308_trabajador_130496_030216_mensual.pdf' => 'valid' ,
 				'02_nombre_(apellido3 apellido4, nombre3)_empresa_22308_trabajador_130286_010216_mensual.pdf' => 'valid',
@@ -37,6 +35,27 @@ class NewPayrollFileSystem {
 	public function get()
 	{
 		return $this->root;
+	}
+	
+	private function loadStaffFile()
+	{
+		$file  = $this->encodeUser('email1@example.com', 'Nombre 1', 'Apellido 1', 'male', array(130496, 130296));
+		$file .= $this->encodeUser('email2@example.com', 'Nombre 2', 'Apellido 2', 'female', array(130286));
+		$file .= $this->encodeUser('email3@example.com', 'Nombre 3', 'Apellido 3', 'female', array(110000));
+		return $file;
+	}
+	
+	private function encodeUser($email, $firstname, $lastname, $gender, $payroll)
+	{
+		$pattern = '    %s:  \'%s\''.chr(10);
+		$result  = $email.':'.chr(10);
+		$result .= sprintf($pattern, 'username', $email);
+		$result .= sprintf($pattern, 'email', $email);
+		$result .= sprintf($pattern, 'firstname', $firstname);
+		$result .= sprintf($pattern, 'lastname', $lastname);
+		$result .= sprintf($pattern, 'gender', $gender);
+		$result .= '    payroll: ['.implode(', ', $payroll).']'.chr(10);
+		return $result;
 	}
 }
 

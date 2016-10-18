@@ -10,7 +10,7 @@ namespace Milhojas\Domain\Management;
  */
 
 interface Staff {
-	public function getEmployeeByUsername();
+	public function getEmployeeByUsername($username);
 }
 
 ?>

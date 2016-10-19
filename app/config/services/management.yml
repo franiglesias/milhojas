@@ -5,6 +5,7 @@ parameters:
         administracion@miralba.org: 'Administración Colegio Miralba'
         webmaster@miralba.org: 'Webmaster'
     payroll.dataPath: '%kernel.root_dir%/../payroll'
+    payroll.email.template: 'AppBundle:Management:payroll_document.email.twig'
 
 services:
 
@@ -30,7 +31,7 @@ services:
 
     send_payroll_handler:
         class:          Milhojas\Application\Management\Commands\SendPayrollHandler
-        arguments:      ['@management.payrolls', '@milhojas.mailer',  "@event_recorder"]
+        arguments:      ['@management.payrolls', '%payroll.email.template%', '@milhojas.mailer',  "@event_recorder"]
 
 # Payroll command
     payroll_month:

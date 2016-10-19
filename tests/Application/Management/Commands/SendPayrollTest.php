@@ -37,7 +37,7 @@ class SendPayrollTest extends \PHPUnit_Framework_Testcase
 	{
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(130496));
 		$command = new SendPayroll($employee, 'email@example.com', 'test', new Progress(1,2));
-		$handler = new SendPayrollHandler($this->payrolls, $this->mailer, $this->recorder);
+		$handler = new SendPayrollHandler($this->payrolls, 'AppBundle:Management:payroll_document.email.twig', $this->mailer, $this->recorder);
 		$handler->handle($command);
 		$this->assertTrue($this->mailer->wasCalled());
 		$this->assertTrue($this->mailer->aMessageWasSentTo('user@example.com'));
@@ -49,7 +49,7 @@ class SendPayrollTest extends \PHPUnit_Framework_Testcase
 	{
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(109231));
 		$command = new SendPayroll($employee, 'email@example.com', 'test', new Progress(1,2));
-		$handler = new SendPayrollHandler($this->payrolls, $this->mailer, $this->recorder);
+		$handler = new SendPayrollHandler($this->payrolls, 'AppBundle:Management:payroll_document.email.twig', $this->mailer, $this->recorder);
 		$handler->handle($command);
 		$this->assertEvent('PayrollCouldNotBeFound');
 	}
@@ -58,7 +58,7 @@ class SendPayrollTest extends \PHPUnit_Framework_Testcase
 	{
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(130496));
 		$command = new SendPayroll($employee, 'email@example.com', 'test', new Progress(1,2));
-		$handler = new SendPayrollHandler($this->payrolls, $this->mailer, $this->recorder);
+		$handler = new SendPayrollHandler($this->payrolls, 'AppBundle:Management:payroll_document.email.twig', $this->mailer, $this->recorder);
 		$this->mailer->makeFail();
 		$handler->handle($command);
 		$this->assertEvent('PayrollEmailCouldNotBeSent');
@@ -68,7 +68,7 @@ class SendPayrollTest extends \PHPUnit_Framework_Testcase
 	{
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(130496, 130296));
 		$command = new SendPayroll($employee, 'email@example.com', 'test', new Progress(1,2));
-		$handler = new SendPayrollHandler($this->payrolls, $this->mailer, $this->recorder);
+		$handler = new SendPayrollHandler($this->payrolls, 'AppBundle:Management:payroll_document.email.twig', $this->mailer, $this->recorder);
 		$handler->handle($command);
 		$this->assertTrue($this->mailer->wasCalled());
 		$this->assertTrue($this->mailer->aMessageWasSentTo('user@example.com'));

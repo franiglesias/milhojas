@@ -36,12 +36,14 @@ class SendPayrollHandler implements CommandHandler
 	private $mailer;
 	private $recorder;
 	private $payrolls;
+	private $template;
 	
-	public function __construct(Payrolls $payrolls, Mailer $mailer, EventRecorder $recorder)
+	public function __construct(Payrolls $payrolls, $template, Mailer $mailer, EventRecorder $recorder)
 	{
 		$this->mailer = $mailer;
 		$this->recorder = $recorder;
 		$this->payrolls = $payrolls;
+		$this->template = $template;
 	}
 	
 	public function handle(Command $command)
@@ -73,7 +75,7 @@ class SendPayrollHandler implements CommandHandler
 		$message
 			->setTo($employee->getEmail())
 			->setSender($sender)
-			->setTemplate('AppBundle:Management:payroll_document.email.twig', array('employee' => $employee, 'month' => $month))
+			->setTemplate($this->template, array('employee' => $employee, 'month' => $month))
 			->attach($this->getPayrollDocuments($employee, $month));
 		return $this->mailer->send($message);
 	}

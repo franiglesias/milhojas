@@ -23,6 +23,5 @@ class AllPayrollsWereSentEmailReporter extends EmailReporter
 				'failed' => $event->getProgress()->getFailed()
 			);
 	}
-	
-}
+ }
 ?>

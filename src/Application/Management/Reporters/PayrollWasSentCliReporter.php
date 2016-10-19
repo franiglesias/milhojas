@@ -9,13 +9,10 @@ use Milhojas\Library\EventBus\Reporters\CliReporter;
 */
 class PayrollWasSentCliReporter extends CliReporter
 {
-	
 	public function handle(Event $event)
 	{
 		$message = sprintf('%s. <options=bold>%s.</> was sent', $event->getProgress(), $event->getEmployee());
 		$this->output->writeln($message);
 	}
-	
-	
 }
 ?>

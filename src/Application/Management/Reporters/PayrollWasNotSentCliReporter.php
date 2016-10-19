@@ -9,13 +9,10 @@ use Milhojas\Library\EventBus\Reporters\CliReporter;
 */
 class PayrollWasNotSentCliReporter extends CliReporter
 {
-	
 	public function handle(Event $event)
 	{
 		$message = sprintf('%s. <options=bold>%s.</> <error>could not be sent</>. Error: %s', $event->getProgress(), $event->getEmployee(), $event->getError());
 		$this->output->writeln($message);
 	}
-	
-	
 }
 ?>

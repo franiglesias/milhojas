@@ -22,6 +22,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 use Milhojas\Library\System\Ping;
 
@@ -60,8 +61,11 @@ class MonthCommand extends Command
 	
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-		$output->writeln( $this->checkServer() );
-		
+		$io = new SymfonyStyle($input, $output);
+		$io->title('Payroll sending for '.$input->getArgument('month'));
+		$io->section('Checking server');
+		$io->success($this->checkServer());
+		$io->section('Processing Employee list');
 		try {
 			$progress = new PayrollReporter(0, $this->staff->countAll());
 			foreach ($this->staff as $employee) {
@@ -70,20 +74,20 @@ class MonthCommand extends Command
 				$this->bus->execute($command);
 			}
 			$this->bus->execute(new BroadcastEvent(new AllPayrollsWereSent($progress, $input->getArgument('month'))));
+			$io->success('Task ended.');
 		} catch (\Milhojas\Infrastructure\Persistence\Management\Exceptions\PayrollRepositoryDoesNotExist $e) {
-			$output->writeln('');
-			$output->writeln(sprintf('<error>%s</error>', $e->getMessage() ));
-			$output->writeln('Please, review config/services/management.yml parameter: payroll.dataPath');
-			$output->writeln('Use a path to a valid folder containing payroll files or payroll zip archives.');
-			$output->writeln('');
+			$io->warning(array(
+				sprintf($e->getMessage() ),
+				'Please, review config/services/management.yml parameter: payroll.dataPath',
+				'Use a path to a valid folder containing payroll files or payroll zip archives.'
+			));
 		} catch (\Milhojas\Infrastructure\Persistence\Management\Exceptions\PayrollRepositoryForMonthDoesNotExist $e) {
-			$output->writeln('');
-			$output->writeln(sprintf('<error>%s</error>', $e->getMessage() ));
-			$output->writeln('Please, add the needed folder or zip archives for month data.');
-			$output->writeln('Use a path to a valid folder containing payroll files.');
-			$output->writeln('');
+			$io->error(array(
+				sprintf($e->getMessage() ),
+				'Please, add the needed folder or zip archives for month data.',
+				'Use a path to a valid folder containing payroll files.'
+			));
 		}
-		$output->writeln('Task end.');
     }
 		
 	public function checkServer()

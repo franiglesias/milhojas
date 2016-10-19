@@ -34,7 +34,7 @@ services:
         arguments:      ['%staff.file%']
 
     management.payrolls:
-        class:          Milhojas\Infrastructure\Persistence\Management\ZipPayrolls
+        class:          Milhojas\Infrastructure\Persistence\Management\FileSystemPayrolls
         arguments:      ["%payroll.dataPath%"]
 
     # Command Handlers

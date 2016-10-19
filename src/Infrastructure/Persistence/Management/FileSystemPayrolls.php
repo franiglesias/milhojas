@@ -11,13 +11,14 @@ use Milhojas\Domain\Management\Employee;
 # Exceptions
 
 use Milhojas\Infrastructure\Persistence\Management\Exceptions\EmployeeHasNoPayrollFiles;
-
+use Milhojas\Infrastructure\Persistence\Management\Exceptions\PayrollRepositoryDoesNotExist;
+use Milhojas\Infrastructure\Persistence\Management\Exceptions\PayrollRepositoryForMonthDoesNotExist;
 # Utils
 
 use Symfony\Component\Finder\Finder;
-
+use Symfony\Component\Filesystem\Filesystem;
 /**
-* Retrieve PayrollDocuments from the filesystem, actings as a Repository
+* Retrieve PayrollDocuments from the filesystem, acting as a Repository
 */
 class FileSystemPayrolls implements Payrolls
 {
@@ -25,6 +26,7 @@ class FileSystemPayrolls implements Payrolls
 	
 	public function __construct($basePath)
 	{
+		$this->checkRepositoryExists($basePath);
 		$this->basePath = $basePath;
 	}
 	
@@ -47,6 +49,7 @@ class FileSystemPayrolls implements Payrolls
 	 */
 	private function getFiles($month, Employee $employee)
 	{
+		$this->checkRepositoryForMonthExists($month);
 		$pattern = sprintf('/_trabajador_(%s)_/', implode('|', $employee->getPayrolls()));
 		$finder = new Finder();
 		$finder->files()->in( $this->basePath.'/'.$month )->name($pattern);
@@ -54,6 +57,22 @@ class FileSystemPayrolls implements Payrolls
 			throw new EmployeeHasNoPayrollFiles(sprintf('Employee %s has no payroll files for month %s', $employee->getFullName(), $month));
 		}
 		return $finder;
+	}
+	
+	private function checkRepositoryExists($path)
+	{
+		$fs = new FileSystem();
+		if (! $fs->exists($path)) {
+			throw new PayrollRepositoryDoesNotExist(sprintf('Path: %s does not exist.', $path));
+		}
+	}
+	
+	private function checkRepositoryForMonthExists($month)
+	{
+		$fs = new FileSystem();
+		if (! $fs->exists($this->basePath.'/'.$month)) {
+			throw new PayrollRepositoryForMonthDoesNotExist(sprintf('Folder: %s or %s.zip does not exist in %s.', $month, $month, $this->basePath));
+		}
 	}
 	
 }

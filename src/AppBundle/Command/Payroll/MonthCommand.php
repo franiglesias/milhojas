@@ -62,15 +62,27 @@ class MonthCommand extends Command
     {
 		$output->writeln( $this->checkServer() );
 		
-		$progress = new PayrollReporter(0, $this->staff->countAll());
-		
-		foreach ($this->staff as $employee) {
-			$progress = $progress->advance();
-			$command = new SendPayroll($employee, $this->sender, $input->getArgument('month'), $progress);
-			$this->bus->execute($command);
+		try {
+			$progress = new PayrollReporter(0, $this->staff->countAll());
+			foreach ($this->staff as $employee) {
+				$progress = $progress->advance();
+				$command = new SendPayroll($employee, $this->sender, $input->getArgument('month'), $progress);
+				$this->bus->execute($command);
+			}
+			$this->bus->execute(new BroadcastEvent(new AllPayrollsWereSent($progress, $input->getArgument('month'))));
+		} catch (\Milhojas\Infrastructure\Persistence\Management\Exceptions\PayrollRepositoryDoesNotExist $e) {
+			$output->writeln('');
+			$output->writeln(sprintf('<error>%s</error>', $e->getMessage() ));
+			$output->writeln('Please, review config/services/management.yml parameter: payroll.dataPath');
+			$output->writeln('Use a path to a valid folder containing payroll files or payroll zip archives.');
+			$output->writeln('');
+		} catch (\Milhojas\Infrastructure\Persistence\Management\Exceptions\PayrollRepositoryForMonthDoesNotExist $e) {
+			$output->writeln('');
+			$output->writeln(sprintf('<error>%s</error>', $e->getMessage() ));
+			$output->writeln('Please, add the needed folder or zip archives for month data.');
+			$output->writeln('Use a path to a valid folder containing payroll files.');
+			$output->writeln('');
 		}
-		
-		$this->bus->execute(new BroadcastEvent(new AllPayrollsWereSent($progress, $input->getArgument('month'))));
 		$output->writeln('Task end.');
     }
 		

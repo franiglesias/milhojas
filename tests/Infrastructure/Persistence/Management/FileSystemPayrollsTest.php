@@ -50,7 +50,32 @@ class FileSystemPayrollsTest extends \PHPUnit_Framework_Testcase
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(110324));
 		$files = $payrolls->getByMonthAndEmployee('test', $employee);
 	}
-	
+
+	/**
+	 * @expectedException Milhojas\Infrastructure\Persistence\Management\Exceptions\PayrollRepositoryDoesNotExist
+	 *
+	 * @return void
+	 * @author Fran Iglesias
+	 */
+	public function test_it_throw_exception_if_no_repository_is_found()
+	{
+		$payrolls = new FileSystemPayrolls(vfsStream::url('root/another/'));
+	}
+
+	/**
+	 * @expectedException \Milhojas\Infrastructure\Persistence\Management\Exceptions\PayrollRepositoryForMonthDoesNotExist
+	 *
+	 * @return void
+	 * @author Fran Iglesias
+	 */
+	public function test_it_throw_exception_if_no_repository_for_month_is_found()
+	{
+		$payrolls = new FileSystemPayrolls(vfsStream::url('root/payroll'));
+		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(130496));
+		$files = $payrolls->getByMonthAndEmployee('invalid', $employee);
+	}
+
+
 }
 
 ?>

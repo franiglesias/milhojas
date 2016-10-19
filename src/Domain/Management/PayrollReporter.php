@@ -5,7 +5,7 @@ namespace Milhojas\Domain\Management;
 use Milhojas\Library\ValueObjects\Misc\Progress;
 
 /**
-* INfo for reporting
+* Is a Progress ValueObject descendant that can store statistical information about the Payroll sending process to generate a final report
 */
 class PayrollReporter extends Progress
 {

@@ -3,8 +3,9 @@
 namespace Milhojas\Domain\Management;
 
 /**
-* Represents a PayRoll Document, usually a PDF files
+* Represents a PayRoll Document, usually a PDF file
 */
+
 class PayrollDocument
 {
 	/**

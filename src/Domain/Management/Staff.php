@@ -5,9 +5,9 @@ namespace Milhojas\Domain\Management;
 use Milhojas\Library\ValueObjects\Identity\Username;
 
 /**
- * Represents the list of employees
+ * Represents a list of employees in Management Bounded Context
  *
- * @package default
+ * @package management.milhojas
  * @author Fran Iglesias
  */
 

@@ -37,7 +37,6 @@ class Progress
 		$this->checkLimits($this->current + 1, $this->total);
 		$this->current++;
 		return clone $this;
-		// return new static(++$this->current, $this->total);
 	}
 	
 	public function __toString()

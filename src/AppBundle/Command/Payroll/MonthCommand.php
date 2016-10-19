@@ -24,7 +24,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use Milhojas\Library\System\Ping;
-use Milhojas\Library\ValueObjects\Misc\Progress;
 
 /**
  * Console command to send payrolls pdf to staff

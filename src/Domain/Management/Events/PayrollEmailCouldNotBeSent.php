@@ -13,21 +13,23 @@ class PayrollEmailCouldNotBeSent implements Event
 {
 	private $employee;
 	private $progress;
+	private $errorMessage;
 	
-	public function __construct(Employee $employee, Progress $progress)
+	public function __construct(Employee $employee, $error_message, Progress $progress)
 	{
 		$this->employee = $employee;
 		$this->progress = $progress;
+		$this->errorMessage = $error_message;
 	}
 	
-	public function getPayroll()
+	public function getEmployee()
 	{
 		return $this->employee;
 	}
 	
-	public function getWorker()
+	public function getError()
 	{
-		return $this->employee->getName();
+		return $this->errorMessage;
 	}
 	
 	public function getProgress()

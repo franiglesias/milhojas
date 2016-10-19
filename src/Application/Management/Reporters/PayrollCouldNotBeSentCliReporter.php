@@ -11,7 +11,7 @@ class PayrollCouldNotBeSentCliReporter extends CliReporter
 {	
 	public function handle(Event $event)
 	{
-		$message = sprintf('%s. <error><options=bold>%s.</> could not be sent</>', $event->getProgress(), $event->getEmployee());
+		$message = sprintf('%s. <options=bold>%s.</> No payroll document found for this employee.', $event->getProgress(), $event->getEmployee());
 		$this->output->writeln($message);
 	}
 }

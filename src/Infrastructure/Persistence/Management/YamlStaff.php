@@ -85,7 +85,7 @@ class YamlStaff implements Staff, \IteratorAggregate
 		$employees = Yaml::parse(file_get_contents($this->path));
 		foreach ($employees as $username => $data) {
 			$this->employees[$username] = new Employee(
-				$username, 
+				$data['email'], 
 				$data['firstname'],
 				$data['lastname'],
 				$data['gender'],

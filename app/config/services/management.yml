@@ -9,6 +9,8 @@ parameters:
 
 services:
 
+    # Reporters
+    
     management.payroll_was_sent.cli.reporter:
         class:          Milhojas\Application\Management\Reporters\PayrollWasSentCliReporter
         arguments:      ['@cli.output']
@@ -17,9 +19,15 @@ services:
         class:          Milhojas\Application\Management\Reporters\PayrollCouldNotBeSentCliReporter
         arguments:      ['@cli.output']
 
+    management.email_was_not_sent.cli.reporter:
+        class:          Milhojas\Application\Management\Reporters\PayrollWasNotSentCliReporter
+        arguments:      ['@cli.output']
+
     management.email_report_all_payrolls_were_sent:
         class:          Milhojas\Application\Management\Reporters\AllPayrollsWereSentEmailReporter
         arguments:      ['@milhojas.mailer', '%payroll.sender%', '%payroll.report%', 'AppBundle:Management:all_payrolls.sent.email.twig']
+
+    # Repositories
 
     management.staff:
         class:          Milhojas\Infrastructure\Persistence\Management\YamlStaff
@@ -28,6 +36,8 @@ services:
     management.payrolls:
         class:          Milhojas\Infrastructure\Persistence\Management\FileSystemPayrolls
         arguments:      ["%payroll.dataPath%"]
+
+    # Command Handlers
 
     send_payroll_handler:
         class:          Milhojas\Application\Management\Commands\SendPayrollHandler

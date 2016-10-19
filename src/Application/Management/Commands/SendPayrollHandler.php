@@ -33,10 +33,10 @@ use Milhojas\Infrastructure\Persistence\Management\Exceptions\EmployeeHasNoPayro
 
 class SendPayrollHandler implements CommandHandler
 {
-	private $mailer;
-	private $recorder;
 	private $payrolls;
 	private $template;
+	private $mailer;
+	private $recorder;
 	
 	public function __construct(Payrolls $payrolls, $template, Mailer $mailer, EventRecorder $recorder)
 	{
@@ -46,17 +46,25 @@ class SendPayrollHandler implements CommandHandler
 		$this->template = $template;
 	}
 	
+	/**
+	 * Gets the employee, prepares and sends an email message with the payrolls attached
+	 *
+	 * @param Command $command 
+	 * @return Events
+	 * @author Fran Iglesias
+	 */
 	public function handle(Command $command)
 	{
 		$employee = $command->getEmployee();
 		try {
-			if ($this->sendEmail($employee, $command->getSender(), $command->getMonth())) {
-				$this->recorder->recordThat(new PayrollEmailWasSent($employee, $command->getProgress()));
-				return;
-			}
-			$this->recorder->recordThat(new PayrollEmailCouldNotBeSent($employee, $command->getProgress()));
-		} catch (EmployeeHasNoPayrollFiles $e) {
+			$this->sendEmail($employee, $command->getSender(), $command->getMonth());
+			$this->recorder->recordThat(new PayrollEmailWasSent($employee, $command->getProgress()));
+		} 
+		catch (EmployeeHasNoPayrollFiles $e) {
 			$this->recorder->recordThat(new PayrollCouldNotBeFound($employee, $command->getProgress()));
+		}
+		catch (\Swift_SwiftException $e) {
+			$this->recorder->recordThat(new PayrollEmailCouldNotBeSent($employee, $e->getMessage(), $command->getProgress()));
 		}
 	}
 	

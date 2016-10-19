@@ -19,6 +19,8 @@ class MailerStub implements Mailer
 	public function send(MailMessage $message)
 	{
 		if (! $this->success) {
+			throw new \Swift_SwiftException("Problem sending email.", 1);
+			
 			return false;
 		}
 		$this->times++;

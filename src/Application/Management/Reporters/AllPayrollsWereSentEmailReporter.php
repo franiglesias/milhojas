@@ -16,7 +16,11 @@ class AllPayrollsWereSentEmailReporter extends EmailReporter
 		return array(
 				'month' => $event->getMonth(), 
 				'sent'  => $event->getProgress()->getCurrent(), 
-				'total' => $event->getProgress()->getTotal()
+				'total' => $event->getProgress()->getTotal(),
+				'employees' => $event->getProgress()->getTotal(),
+				'ok' => $event->getProgress()->getSent(),
+				'not_found' => $event->getProgress()->getNotFound(),
+				'failed' => $event->getProgress()->getFailed()
 			);
 	}
 	

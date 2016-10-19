@@ -5,6 +5,7 @@ namespace AppBundle\Command\Payroll;
 # Domain concepts
 
 use Milhojas\Domain\Management\Staff;
+use Milhojas\Domain\Management\PayrollReporter;
 
 # Commands
 
@@ -62,7 +63,7 @@ class MonthCommand extends Command
     {
 		$output->writeln( $this->checkServer() );
 		
-		$progress = new Progress(0, $this->staff->countAll());
+		$progress = new PayrollReporter(0, $this->staff->countAll());
 		
 		foreach ($this->staff as $employee) {
 			$progress = $progress->advance();

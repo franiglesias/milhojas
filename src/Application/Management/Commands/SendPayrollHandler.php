@@ -2,20 +2,26 @@
 
 namespace Milhojas\Application\Management\Commands;
 
+# Domain concepts
+
 use Milhojas\Domain\Management\Payrolls;
-
-use Milhojas\Library\CommandBus\Command;
-use Milhojas\Library\CommandBus\CommandHandler;
-use Milhojas\Library\EventBus\EventRecorder;
-
-use Milhojas\Infrastructure\Mail\MailMessage;
-use Milhojas\Infrastructure\Mail\Mailer;
 
 # Events
 
 use Milhojas\Domain\Management\Events\PayrollEmailWasSent;
 use Milhojas\Domain\Management\Events\PayrollEmailCouldNotBeSent;
 use Milhojas\Domain\Management\Events\PayrollCouldNotBeFound;
+
+# Application Messaging infrastructure
+
+use Milhojas\Library\CommandBus\Command;
+use Milhojas\Library\CommandBus\CommandHandler;
+use Milhojas\Library\EventBus\EventRecorder;
+
+# Mailer
+
+use Milhojas\Infrastructure\Mail\MailMessage;
+use Milhojas\Infrastructure\Mail\Mailer;
 
 # Exceptions
 
@@ -52,18 +58,42 @@ class SendPayrollHandler implements CommandHandler
 		}
 	}
 	
+	/**
+	 * Builds and send the email message to the employee
+	 *
+	 * @param string $employee 
+	 * @param string $sender 
+	 * @param string $month 
+	 * @return boolean true on success
+	 * @author Fran Iglesias
+	 */
 	private function sendEmail($employee, $sender, $month)
 	{
-		$files = $this->payrolls->getByMonthAndEmployee($month, $employee);
 		$message = new MailMessage();
 		$message
 			->setTo($employee->getEmail())
 			->setSender($sender)
-			->setTemplate('AppBundle:Management:payroll_document.email.twig', array('employee' => $employee, 'month' => $month));
-		foreach ($files as $file) {
-			$message->attach($file->getPath());
-		}
+			->setTemplate('AppBundle:Management:payroll_document.email.twig', array('employee' => $employee, 'month' => $month))
+			->attach($this->getPayrollDocuments($employee, $month));
 		return $this->mailer->send($message);
+	}
+	
+	/**
+	 * Gets an array of paths to the payroll documents associated to employee
+	 *
+	 * @param string $employee 
+	 * @param string $month 
+	 * @return array
+	 * @author Fran Iglesias
+	 */
+	private function getPayrollDocuments($employee, $month)
+	{
+		$files = $this->payrolls->getByMonthAndEmployee($month, $employee);
+		$paths = array();
+		foreach ($files as $file) {
+			$paths[] = $file->getPath();
+		}
+		return $paths;
 	}
 	
 }

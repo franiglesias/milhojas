@@ -19,6 +19,7 @@ class MailMessage
 	
 	public function __construct()
 	{
+		$this->attachments = array();
 		return $this;
 	}
 	
@@ -78,7 +79,7 @@ class MailMessage
 	}
 	
 	public function attach($path) {
-		$this->attachments[] = $path;
+		$this->attachments = array_merge($this->attachments, (array)$path);
 		return $this;
 	}
 	public function getAttachments()

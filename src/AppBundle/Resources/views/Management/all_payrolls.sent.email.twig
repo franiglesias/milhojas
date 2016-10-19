@@ -2,9 +2,9 @@
 
 {% block body_html %}
 	<p>Te informamos de que se ha completado el envío de los documentos de nómina correspondientes al mes de <strong>{{ month }}</strong></p>
-    <p>Se han enviado <strong>{{ ok }}</strong> mensajes de un total de {{ total }} de empleados.</p>
-	<p>No se han encontrado nóminas para {{ not_found }} empleado(s), por lo que no se han enviado {{ not_found}} mensajes.</p>
-	<p>No se ha podido enviar el mensaje a {{failed}} empleado(s) por algún problema con el correo electrónico.</p>
+    <p>Se han enviado <strong>{{ ok }}</strong> mensajes de un total de {{ total }} empleados.</p>
+	<p>No se han encontrado nóminas para {{ not_found }} empleado(s), por lo que no se les ha enviado mensaje.</p>
+	{% if failed > 0 %}<p>No se ha podido enviar el mensaje a {{failed}} empleado(s) por algún problema con el correo electrónico.</p>{% endif %}
 	<p>Atte.</p>
 	<p>Departamento Técnico</p>
 {% endblock %}
@@ -12,9 +12,10 @@
 {% block body_text %}
 	Te informamos de que se ha completado el envío de los documentos de nómina correspondientes al mes de {{ month }}.
     
-    Se han enviado {{ ok }} mensajes de un total de {{ total }} de empleados.
-	No se han encontrado nóminas para {{ not_found }} empleado(s), por lo que no se han enviado {{ not_found}} mensajes.
-	No se ha podido enviar el mensaje a {{failed}} empleado(s) por algún problema con el correo electrónico.
+    Se han enviado {{ ok }} mensajes de un total de {{ total }} empleados.
+	No se han encontrado nóminas para {{ not_found }} empleado(s), por lo que no se ls ha enviado mensaje.
+	
+	{% if failed > 0 %}No se ha podido enviar el mensaje a {{failed}} empleado(s) por algún problema con el correo electrónico.{% endif %}
 	
 	Atte.
 	

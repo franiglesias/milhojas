@@ -22,9 +22,9 @@ parameters:
     
     # Authentication
     
-    google.client_id:           ~
-    google.client_secret:       ~
-    google.hd:                  ~
+    google.client_id:           googleclientid
+    google.client_secret:       googleclientsecret
+    google.hd:                  googlehd
     
     # Management
     

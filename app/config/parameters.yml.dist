@@ -18,29 +18,34 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            71869bf57b5c5ad3691b6a41af10fa5d417245eb
-    session.name:       MHSESSID
+    session.name:      MHSESSID
     
     # Authentication
     
-    google.client_id:           '739001446852-d5hfnhi2g8gikhd946ssaim6720b7k8t.apps.googleusercontent.com'
-    google.client_secret:       'a9YahjquaFlfWdiN1lu8FsHa'
-    google.hd:                  'miralba.org'
+    google.client_id:           ~
+    google.client_secret:       ~
+    google.hd:                  ~
+    
+    # Management
     
     payroll.sender:
-        administracion@miralba.org: Administración Colegio Miralba
+        email@example.com: 'Payroll Sender'
     payroll.report:
-        administracion@miralba.org: Administración Colegio Miralba
-        webmaster@miralba.org: Webmaster
-    payroll.dataPath: "%kernel.root_dir%/../payroll"
+        email@example.com: 'Payroll Report To'
+    payroll.dataPath: "%kernel.root_dir%/../"
+    staff.file: '%kernel.root_dir%/../'
     
-    device.sender:     webmaster@miralba.org
-    device.report:     webmaster@miralba.org
+    # It
+    
+    device.sender:     email@example.com
+    device.report:     email@example.com
+    
+    # Contents
     
     contents.report:
-        webmaster@miralba.org: Webmaster
+        email@example.com: 'Contents Report To'
     contents.sender:
-        sistema@miralba.org: CMS
+        email@example.com: 'Milhojas CMS'
     
     # Where are managed users stored
-    users.file: '%kernel.root_dir%/../extras/users/users.yml'
-    staff.file: '%kernel.root_dir%/../extras/users/staff.yml'
+    users.file: '%kernel.root_dir%/../'

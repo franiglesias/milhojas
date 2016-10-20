@@ -52,8 +52,7 @@ class FileSystemPayrolls implements Payrolls
 	{
 		$this->checkRepositoryForMonthExists($month);
 		$pattern = sprintf('/_trabajador_(%s)_/', implode('|', $employee->getPayrolls()));
-		$finder = new Finder();
-		$finder->files()->in( $this->basePath.'/'.$month )->name($pattern);
+		$finder = (new Finder())->files()->in( $this->basePath.'/'.$month )->name($pattern);
 		if (! iterator_count($finder)) {
 			throw new EmployeeHasNoPayrollFiles(sprintf('Employee %s has no payroll files for month %s', $employee->getFullName(), $month));
 		}
@@ -64,7 +63,7 @@ class FileSystemPayrolls implements Payrolls
 	{
 		$fs = new FileSystem();
 		if (! $fs->exists($path)) {
-			throw new PayrollRepositoryDoesNotExist(sprintf('Path: %s does not exist.', $path));
+			throw new PayrollRepositoryDoesNotExist(sprintf('Path %s does not exist.', $path));
 		}
 	}
 	
@@ -72,7 +71,7 @@ class FileSystemPayrolls implements Payrolls
 	{
 		$fs = new FileSystem();
 		if (! $fs->exists($this->basePath.'/'.$month)) {
-			throw new PayrollRepositoryForMonthDoesNotExist(sprintf('Folder: %s or %s.zip does not exist in %s.', $month, $month, $this->basePath));
+			throw new PayrollRepositoryForMonthDoesNotExist(sprintf('Folder %s does not exist in %s.', $month, $this->basePath));
 		}
 	}
 	

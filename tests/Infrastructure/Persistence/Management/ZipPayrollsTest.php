@@ -24,7 +24,6 @@ class ZipPayrollsTest extends \PHPUnit_Framework_Testcase
 
     public function setUp()
     {
-		$this->root = (new NewPayrollFileSystem())->get();
 		$this->root = '/Library/WebServer/Documents/milhojas/payroll';
     }
 	
@@ -36,11 +35,20 @@ class ZipPayrollsTest extends \PHPUnit_Framework_Testcase
 		$this->assertEquals(1, count($files));
 	}
 
+	public function test_it_works_with_a_unique_archive()
+	{
+		$payrolls = new ZipPayrolls($this->root);
+		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(130065));
+		$files = $payrolls->getByMonthAndEmployee('unique', $employee);
+		$this->assertEquals(1, count($files));
+	}
+
+
 	public function test_it_loads_two_files_for_an_employee_with_two_payroll_codes()
 	{
 		$payrolls = new ZipPayrolls($this->root);
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(110011, 110024));
-		$files = $payrolls->getByMonthAndEmployee('prueba', $employee);
+		$files = $payrolls->getByMonthAndEmployee('prueba', $employee);	
 		$this->assertEquals(2, count($files));
 	}
 
@@ -56,6 +64,31 @@ class ZipPayrollsTest extends \PHPUnit_Framework_Testcase
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(555555));
 		$files = $payrolls->getByMonthAndEmployee('prueba', $employee);
 	}
+	
+	/**
+	 * @expectedException Milhojas\Infrastructure\Persistence\Management\Exceptions\PayrollRepositoryDoesNotExist
+	 *
+	 * @return void
+	 * @author Fran Iglesias
+	 */
+	public function test_it_throw_exception_if_no_repository_is_found()
+	{
+		$payrolls = new ZipPayrolls('/this/is/an/invalid/path');
+	}
+
+	/**
+	 * @expectedException \Milhojas\Infrastructure\Persistence\Management\Exceptions\PayrollRepositoryForMonthDoesNotExist
+	 *
+	 * @return void
+	 * @author Fran Iglesias
+	 */
+	public function test_it_throw_exception_if_no_repository_for_month_is_found()
+	{
+		$payrolls = new ZipPayrolls($this->root);
+		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(130496));
+		$files = $payrolls->getByMonthAndEmployee('invalid', $employee);
+	}
+	
 	
 }
 

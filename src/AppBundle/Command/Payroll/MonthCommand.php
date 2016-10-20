@@ -63,10 +63,10 @@ class MonthCommand extends Command
     {
 		$io = new SymfonyStyle($input, $output);
 		$io->title('Payroll sending for '.$input->getArgument('month'));
-		$io->section('Checking server');
-		$io->success($this->checkServer());
-		$io->section('Processing Employee list');
 		try {
+			$io->section('Checking server');
+			$io->success($this->checkServer());
+			$io->section('Processing Employee list');
 			$progress = new PayrollReporter(0, $this->staff->countAll());
 			foreach ($this->staff as $employee) {
 				$progress = $progress->advance();
@@ -82,20 +82,26 @@ class MonthCommand extends Command
 				'Use a path to a valid folder containing payroll files or payroll zip archives.'
 			));
 		} catch (\Milhojas\Infrastructure\Persistence\Management\Exceptions\PayrollRepositoryForMonthDoesNotExist $e) {
-			$io->error(array(
+			$io->warning(array(
 				sprintf($e->getMessage() ),
 				'Please, add the needed folder or zip archives for month data.',
 				'Use a path to a valid folder containing payroll files.'
 			));
+		} catch (\RuntimeException $e) {
+			$io->error(array(
+				sprintf($e->getMessage() ),
+				'Check Internet connectivity and try again later.'
+				)
+			);
 		}
     }
 		
-	public function checkServer()
+	protected function checkServer()
 	{
 		if (!Ping::check('smtp.gmail.com')) {
-			throw new \RuntimeException('Mail Server unavailable. Check Internet connectivity.', 1);
+			throw new \RuntimeException('Mail Server unavailable.', 1);
 		}
-		return 'Mail Server is Up.';
+		return 'Mail Server is Up and accepts connections.';
 	}
 }
 ?>

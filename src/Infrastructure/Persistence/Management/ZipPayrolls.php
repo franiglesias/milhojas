@@ -11,6 +11,8 @@ use Milhojas\Domain\Management\Employee;
 # Exceptions
 
 use Milhojas\Infrastructure\Persistence\Management\Exceptions\EmployeeHasNoPayrollFiles;
+use Milhojas\Infrastructure\Persistence\Management\Exceptions\PayrollRepositoryDoesNotExist;
+use Milhojas\Infrastructure\Persistence\Management\Exceptions\PayrollRepositoryForMonthDoesNotExist;
 
 # Utils
 
@@ -24,7 +26,7 @@ use Mmoreram\Extractor\Resolver\ExtensionResolver;
 use Mmoreram\Extractor\Extractor;
 
 /**
-* Retrieve PayrollDocuments from the filesystem, actings as a Repository
+* Retrieve PayrollDocuments from zip archives, acting as a Repository
 */
 class ZipPayrolls implements Payrolls
 {
@@ -32,8 +34,18 @@ class ZipPayrolls implements Payrolls
 	
 	public function __construct($basePath)
 	{
+		$this->checkThatBasePathExists($basePath);
 		$this->basePath = $basePath;
 	}
+	
+	/**
+	 * Gets the PayrollDocument for an Employee
+	 *
+	 * @param string $month 
+	 * @param Employee $employee 
+	 * @return array of PayrollDocument
+	 * @author Fran Iglesias
+	 */
 	
 	public function getByMonthAndEmployee($month, Employee $employee) {
 		$files = $this->getFiles($month, $employee);
@@ -45,7 +57,7 @@ class ZipPayrolls implements Payrolls
 	}
 	
 	/**
-	 * Retrieves related files from a ZIP file
+	 * Retrieves related files from the ZIP archive
 	 *
 	 * @param string $month 
 	 * @param Employee $employee 
@@ -55,8 +67,7 @@ class ZipPayrolls implements Payrolls
 	private function getFiles($month, Employee $employee)
 	{
 		$pattern = sprintf('/_trabajador_(%s)_/', implode('|', $employee->getPayrolls()));
-		$finder = $this->getExtractor($month);
-		$finder->name($pattern);
+		$finder = $this->getPayrollFiles($month)->name($pattern);
 		if (! iterator_count($finder)) {
 			throw new EmployeeHasNoPayrollFiles(sprintf('Employee %s has no payroll files for month %s', $employee->getFullName(), $month));
 		}
@@ -70,22 +81,21 @@ class ZipPayrolls implements Payrolls
 	 * @return Finder
 	 * @author Fran Iglesias
 	 */
-	private function getExtractor($month)
+	private function getPayrollFiles($month)
 	{
-		$dir = $this->createDirectory($month);
+		$paths = $this->getPathToArchives($month);
 		$extractor = new Extractor(
-		    $dir,
+		    $this->createDirectory($month),
 		    new ExtensionResolver
 		);
-		$extractor->extractFromFile($this->basePath.'/'.$month.'-concertado.zip');
-		$extractor->extractFromFile($this->basePath.'/'.$month.'-no-concertado.zip');
-		$finder = new Finder();
-		$finder->files()->in($this->basePath.'/'.$month);
-		return $finder;
+		foreach ($paths as $path) {
+			$extractor->extractFromFile($path);
+		}
+		return (new Finder())->files()->in($this->basePath.'/'.$month);
 	}
 	
 	/**
-	 * Created the directory to extract compressed files
+	 * Creates the directory to extract compressed files
 	 * 
 	 * Should be removed after completion
 	 *
@@ -98,6 +108,42 @@ class ZipPayrolls implements Payrolls
 		$fs = new FileSystem();
 		$fs->mkdir($this->basePath.'/'.$month);
 		return new SpecificDirectory($this->basePath.'/'.$month);
+	}
+	
+	/**
+	 * Checks that the base route to the repository exists
+	 *
+	 * @param string $basePath 
+	 * @return void
+	 * @throws PayrollRepositoryDoesNotExist if route is not found
+	 * @author Fran Iglesias
+	 */
+	private function checkThatBasePathExists($basePath)
+	{
+		$fs = new FileSystem();
+		if (! $fs->exists($basePath)) {
+			throw new PayrollRepositoryDoesNotExist(sprintf('Path %s does not exist.', $basePath));
+		}
+	}
+	
+	/**
+	 * Gets the paths to the zip archives. This archives should start with the name of the desired month
+	 *
+	 * @param string $month 
+	 * @return array of strings
+	 * @throws PayrollRepositoryForMonthDoesNotExist if no files are foun
+	 * @author Fran Iglesias
+	 */
+	private function getPathToArchives($month)
+	{
+		$finder = (new Finder())->files()->in($this->basePath)->name('/^'.$month.'([^\.]*)?\.zip$/');
+		if (! count($finder)) {
+			throw new PayrollRepositoryForMonthDoesNotExist(sprintf('Archive(s) %s.zip do(es) not exist in %s.', $month, $this->basePath));
+		}
+		foreach ($finder as $file) {
+			$paths[] = $file->getPathName();
+		}
+		return $paths;
 	}
 	
 }

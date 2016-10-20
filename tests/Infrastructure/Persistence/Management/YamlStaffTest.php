@@ -52,7 +52,7 @@ class YamlStaffTest extends \PHPUnit_Framework_Testcase
 			'Nombre 1', 
 			'Apellido 1', 
 			'male', 
-			array(130496, 130296)
+			array(12345, 67890)
 		);
 		$this->assertEquals($expected, $staff->getEmployeeByUsername(new Username('email1@example.com')));
 	}

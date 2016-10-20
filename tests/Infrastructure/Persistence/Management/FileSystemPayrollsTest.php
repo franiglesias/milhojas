@@ -25,7 +25,7 @@ class FileSystemPayrollsTest extends \PHPUnit_Framework_Testcase
 	public function test_it_loads_one_file_for_an_employee_with_one_payroll_codes()
 	{
 		$payrolls = new FileSystemPayrolls(vfsStream::url('root/payroll/'));
-		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(130496));
+		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345));
 		$files = $payrolls->getByMonthAndEmployee('test', $employee);
 		$this->assertEquals(1, count($files));
 	}
@@ -33,7 +33,7 @@ class FileSystemPayrollsTest extends \PHPUnit_Framework_Testcase
 	public function test_it_loads_two_files_for_an_employee_with_two_payroll_codes()
 	{
 		$payrolls = new FileSystemPayrolls(vfsStream::url('root/payroll/'));
-		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(130286, 130496));
+		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345, 67890));
 		$files = $payrolls->getByMonthAndEmployee('test', $employee);
 		$this->assertEquals(2, count($files));
 	}
@@ -47,7 +47,7 @@ class FileSystemPayrollsTest extends \PHPUnit_Framework_Testcase
 	public function test_it_throws_exception_is_employee_has_no_payroll_files()
 	{
 		$payrolls = new FileSystemPayrolls(vfsStream::url('root/payroll/'));
-		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(110324));
+		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(555555));
 		$files = $payrolls->getByMonthAndEmployee('test', $employee);
 	}
 
@@ -71,7 +71,7 @@ class FileSystemPayrollsTest extends \PHPUnit_Framework_Testcase
 	public function test_it_throw_exception_if_no_repository_for_month_is_found()
 	{
 		$payrolls = new FileSystemPayrolls(vfsStream::url('root/payroll'));
-		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(130496));
+		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345));
 		$files = $payrolls->getByMonthAndEmployee('invalid', $employee);
 	}
 

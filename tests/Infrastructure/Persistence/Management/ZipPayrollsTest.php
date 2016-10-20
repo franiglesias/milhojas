@@ -9,6 +9,7 @@ use Tests\Infrastructure\Persistence\Management\Fixtures\NewPayrollFileSystem;
 
 use org\bovigo\vfs\vfsStream;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Filesystem\Filesystem;
 
 use Mmoreram\Extractor\Filesystem\SpecificDirectory;
 use Mmoreram\Extractor\Resolver\ExtensionResolver;
@@ -19,36 +20,36 @@ use Mmoreram\Extractor\Extractor;
 */
 class ZipPayrollsTest extends \PHPUnit_Framework_Testcase
 {
-	
     private $root;
 
     public function setUp()
     {
-		$this->root = '/Library/WebServer/Documents/milhojas/payroll';
+		$this->root = getcwd().'/tests/Infrastructure/Persistence/Management/Fixtures/payroll';
     }
 	
 	public function test_it_loads_one_file_for_an_employee_with_one_payroll_codes()
 	{
 		$payrolls = new ZipPayrolls($this->root);
-		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(130065));
-		$files = $payrolls->getByMonthAndEmployee('prueba', $employee);
+		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345));
+		$files = $payrolls->getByMonthAndEmployee('zipmonth', $employee);
 		$this->assertEquals(1, count($files));
 	}
 
 	public function test_it_works_with_a_unique_archive()
 	{
 		$payrolls = new ZipPayrolls($this->root);
-		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(130065));
+		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345));
 		$files = $payrolls->getByMonthAndEmployee('unique', $employee);
 		$this->assertEquals(1, count($files));
+		
 	}
 
 
 	public function test_it_loads_two_files_for_an_employee_with_two_payroll_codes()
 	{
 		$payrolls = new ZipPayrolls($this->root);
-		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(110011, 110024));
-		$files = $payrolls->getByMonthAndEmployee('prueba', $employee);	
+		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345, 67890));
+		$files = $payrolls->getByMonthAndEmployee('zipmonth', $employee);	
 		$this->assertEquals(2, count($files));
 	}
 
@@ -62,7 +63,8 @@ class ZipPayrollsTest extends \PHPUnit_Framework_Testcase
 	{
 		$payrolls = new ZipPayrolls($this->root);
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(555555));
-		$files = $payrolls->getByMonthAndEmployee('prueba', $employee);
+		$files = $payrolls->getByMonthAndEmployee('zipmonth', $employee);
+		
 	}
 	
 	/**
@@ -87,6 +89,12 @@ class ZipPayrollsTest extends \PHPUnit_Framework_Testcase
 		$payrolls = new ZipPayrolls($this->root);
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(130496));
 		$files = $payrolls->getByMonthAndEmployee('invalid', $employee);
+	}
+	
+	public function tearDown()
+	{
+		(new FileSystem())->remove($this->root.'/zipmonth');
+		(new FileSystem())->remove($this->root.'/unique');
 	}
 	
 	

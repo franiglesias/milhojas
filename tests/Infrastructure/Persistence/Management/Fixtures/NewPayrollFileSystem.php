@@ -13,11 +13,11 @@ class NewPayrollFileSystem {
 		$structure = array(
 			'staff.yml' => $this->loadStaffFile(),
 			'test' => array(
-				'01_nombre_(apellido1 apellido2, nombre1 nombre2)_empresa_22308_trabajador_130496_030216_mensual.pdf' => 'valid' ,
-				'02_nombre_(apellido3 apellido4, nombre3)_empresa_22308_trabajador_130286_010216_mensual.pdf' => 'valid',
-				'03_nombre_(apellido1 apellido2, nombre1)_empresa_22308_trabajador_130296_030216_mensual.pdf'=> 'valid single name',
-				'04_nom_(apellido1 apellido2, nombre1)_empresa_22308_trabajador_130196_030216_mensual.pdf' => 'valid no name',
-				'05_nombre_(apellido1 apellido2, nombre1)_empresa_22308_trabajador_45asdf_020216_mensual.pdf' => 'invalid id'
+				'01_trabajador_12345_030216_mensual.pdf' => 'valid' ,
+				'02_trabajador_67890_010216_mensual.pdf' => 'valid',
+				'03_trabajador_54321_030216_mensual.pdf'=> 'valid single name',
+				'04_trabajador_130196_030216_mensual.pdf' => 'valid no name',
+				'05_trabajador_45asdf_020216_mensual.pdf' => 'invalid id'
 			),
 			'empty' => array()
 		);
@@ -39,9 +39,9 @@ class NewPayrollFileSystem {
 	
 	private function loadStaffFile()
 	{
-		$file  = $this->encodeUser('email1@example.com', 'Nombre 1', 'Apellido 1', 'male', array(130496, 130296));
-		$file .= $this->encodeUser('email2@example.com', 'Nombre 2', 'Apellido 2', 'female', array(130286));
-		$file .= $this->encodeUser('email3@example.com', 'Nombre 3', 'Apellido 3', 'female', array(110000));
+		$file  = $this->encodeUser('email1@example.com', 'Nombre 1', 'Apellido 1', 'male', array(12345, 67890));
+		$file .= $this->encodeUser('email2@example.com', 'Nombre 2', 'Apellido 2', 'female', array(54321));
+		$file .= $this->encodeUser('email3@example.com', 'Nombre 3', 'Apellido 3', 'female', array(55555));
 		return $file;
 	}
 	

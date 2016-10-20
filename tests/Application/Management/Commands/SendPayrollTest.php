@@ -43,7 +43,7 @@ class SendPayrollTest extends \PHPUnit_Framework_Testcase
 	
 	public function testItHandlesEmployeeWithOnePayrollDocument()
 	{
-		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(130496));
+		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345));
 		$command = new SendPayroll($employee, 'email@example.com', 'test', new PayrollReporter(1,2));
 		$handler = new SendPayrollHandler($this->payrolls, 'AppBundle:Management:payroll_document.email.twig', $this->mailer, $this->recorder);
 		$handler->handle($command);
@@ -55,7 +55,7 @@ class SendPayrollTest extends \PHPUnit_Framework_Testcase
 	
 	public function testItHandlesEmployeeWithNoDocuments()
 	{
-		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(109231));
+		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(55555));
 		$command = new SendPayroll($employee, 'email@example.com', 'test', new PayrollReporter(1,2));
 		$handler = new SendPayrollHandler($this->payrolls, 'AppBundle:Management:payroll_document.email.twig', $this->mailer, $this->recorder);
 		$handler->handle($command);
@@ -64,7 +64,7 @@ class SendPayrollTest extends \PHPUnit_Framework_Testcase
 	
 	public function testItHandlesMessageCouldNotBeSent()
 	{
-		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(130496));
+		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345));
 		$command = new SendPayroll($employee, 'email@example.com', 'test', new PayrollReporter(1,2));
 		$handler = new SendPayrollHandler($this->payrolls, 'AppBundle:Management:payroll_document.email.twig', $this->mailer, $this->recorder);
 		$this->mailer->makeFail();
@@ -74,7 +74,7 @@ class SendPayrollTest extends \PHPUnit_Framework_Testcase
 	
 	public function testItHandlesEmployeeWithSeveralFiles()
 	{
-		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(130496, 130296));
+		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345, 67890));
 		$command = new SendPayroll($employee, 'email@example.com', 'test', new PayrollReporter(1,2));
 		$handler = new SendPayrollHandler($this->payrolls, 'AppBundle:Management:payroll_document.email.twig', $this->mailer, $this->recorder);
 		$handler->handle($command);

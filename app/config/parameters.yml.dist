@@ -18,8 +18,14 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            71869bf57b5c5ad3691b6a41af10fa5d417245eb
-
     session.name:       MHSESSID
+    
+    # Authentication
+    
+    google.client_id:           '739001446852-d5hfnhi2g8gikhd946ssaim6720b7k8t.apps.googleusercontent.com'
+    google.client_secret:       'a9YahjquaFlfWdiN1lu8FsHa'
+    google.hd:                  'miralba.org'
+    
     payroll.sender:
         administracion@miralba.org: Administración Colegio Miralba
     payroll.report:

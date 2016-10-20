@@ -71,9 +71,6 @@ services:
         class:          Milhojas\Infrastructure\Mail\Mailers\TemplateMailer
         arguments:      ['@milhojas.mailer.basic', '@milhojas.templating.engine']
         
-    finder:
-        class:          Symfony\Component\Finder\Finder
-        
     cli.output:
         class:          Symfony\Component\Console\Output\ConsoleOutput
         

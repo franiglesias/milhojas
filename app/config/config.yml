@@ -129,9 +129,9 @@ hwi_oauth:
     resource_owners:
         google:
             type:                google
-            client_id:           739001446852-d5hfnhi2g8gikhd946ssaim6720b7k8t.apps.googleusercontent.com
-            client_secret:       a9YahjquaFlfWdiN1lu8FsHa
+            client_id:           '%google.client_id%'
+            client_secret:       '%google.client_secret%'
             scope:               "email profile"
             options:
-                hd:     "miralba.org"
+                hd:     '%google.hd%'
                 csrf:   true

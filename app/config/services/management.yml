@@ -19,6 +19,11 @@ services:
         class:          Milhojas\Application\Management\Reporters\PayrollCouldNotBeSentCliReporter
         arguments:      ['@cli.output']
 
+    management.all_payrolls_were_sent.cli.reporter:
+        class:          Milhojas\Application\Management\Reporters\AllPayrollsWereSentCliReporter
+        arguments:      ['@cli.output']
+
+
     management.email_was_not_sent.cli.reporter:
         class:          Milhojas\Application\Management\Reporters\PayrollWasNotSentCliReporter
         arguments:      ['@cli.output']

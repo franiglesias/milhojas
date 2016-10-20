@@ -91,6 +91,7 @@ services:
             - ['addHandler', ['milhojas.management.payroll_email_could_not_be_sent', '@management.email_was_not_sent.cli.reporter']]
             - ['addHandler', ['milhojas.management.payroll_could_not_be_found', '@management.payroll_could_not_be_sent.cli.reporter'] ]
             - ['addHandler', ['milhojas.management.all_payrolls_were_sent', '@management.email_report_all_payrolls_were_sent'] ]
+            - ['addHandler', ['milhojas.management.all_payrolls_were_sent', '@management.all_payrolls_were_sent.cli.reporter'] ]
             
             # Contents
             - ['addHandler', ['contents.new_post_was_written', '@contents.post_created.reporter'] ]

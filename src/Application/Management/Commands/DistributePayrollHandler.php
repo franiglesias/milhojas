@@ -16,12 +16,13 @@ use Milhojas\Library\CommandBus\Commands\BroadcastEvent;
 
 use Milhojas\Library\CommandBus\Command;
 use Milhojas\Library\CommandBus\CommandHandler;
+
 # Events
 
 use Milhojas\Domain\Management\Events\AllPayrollsWereSent;
 
 /**
-* Description
+* Distributes payroll documents for a month
 */
 class DistributePayrollHandler implements CommandHandler
 {

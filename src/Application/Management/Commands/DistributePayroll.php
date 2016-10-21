@@ -10,8 +10,6 @@ use Milhojas\Library\CommandBus\Command;
 class DistributePayroll implements Command
 {
 	private $month;
-	private $files;
-	private $path;
 	
 	public function __construct($month)
 	{

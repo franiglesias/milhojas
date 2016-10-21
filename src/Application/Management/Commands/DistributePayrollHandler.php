@@ -2,8 +2,6 @@
 
 namespace Milhojas\Application\Management\Commands;
 
-use Milhojas\Application\Management\Commands\DistributePayroll;
-
 # Domain concepts
 
 use Milhojas\Domain\Management\Staff;

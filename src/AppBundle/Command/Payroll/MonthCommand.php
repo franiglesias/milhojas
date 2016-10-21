@@ -24,9 +24,7 @@ use Milhojas\Library\System\Ping;
  */
 class MonthCommand extends Command
 {
-	private $sender;
 	private $bus;
-	private $staff;
 	
 	public function __construct($bus)
 	{

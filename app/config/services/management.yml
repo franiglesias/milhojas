@@ -47,10 +47,15 @@ services:
     send_payroll_handler:
         class:          Milhojas\Application\Management\Commands\SendPayrollHandler
         arguments:      ['@management.payrolls', '%payroll.email.template%', '@milhojas.mailer',  "@event_recorder"]
+    
+    distribute_payroll_handler:
+        class:          Milhojas\Application\Management\Commands\DistributePayrollHandler
+        arguments:      ['@management.staff', '%payroll.sender%', '@command_bus']
+    
 
 # Payroll command
     payroll_month:
         class:          AppBundle\Command\Payroll\MonthCommand
-        arguments:      ["@command_bus", "%payroll.sender%", '@management.staff']
+        arguments:      ["@command_bus"]
         tags:
             - {name: console.command}

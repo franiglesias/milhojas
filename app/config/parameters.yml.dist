@@ -34,7 +34,7 @@ parameters:
         email@example.com: 'Payroll Report To'
     payroll.dataPath: "%kernel.root_dir%/../"
     staff.file: '%kernel.root_dir%/../'
-    
+
     # It
     
     device.sender:     email@example.com

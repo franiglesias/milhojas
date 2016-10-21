@@ -17,6 +17,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
 			// Added to use OAuth for Google Apps
 			new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
+			// Milhojas Application Bundles
             new AppBundle\AppBundle(),
             new Milhojas\UsersBundle\MilhojasUsersBundle(),
         ];

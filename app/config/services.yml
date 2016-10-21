@@ -110,3 +110,7 @@ services:
         tags:
             - { name: user.provider }
         arguments:  ['@milhojas.users.manager', ['miralba.org', 'alumnos.miralba.org']]
+
+    milhojas.uploader:
+        class: Milhojas\Infrastructure\Uploader\FileUploader
+        arguments: ['%kernel.root_dir%/../extras/inbox']

@@ -2,19 +2,9 @@
 
 namespace AppBundle\Command\Payroll;
 
-# Domain concepts
-
-use Milhojas\Domain\Management\Staff;
-use Milhojas\Domain\Management\PayrollReporter;
-
 # Commands
 
-use Milhojas\Application\Management\Commands\SendPayroll;
-use Milhojas\Library\CommandBus\Commands\BroadcastEvent;
-
-# Events
-
-use Milhojas\Domain\Management\Events\AllPayrollsWereSent;
+use Milhojas\Application\Management\Commands\DistributePayroll;
 
 # Utils
 
@@ -38,11 +28,9 @@ class MonthCommand extends Command
 	private $bus;
 	private $staff;
 	
-	public function __construct($bus, $sender, Staff $staff)
+	public function __construct($bus)
 	{
-		$this->sender = $sender;
 		$this->bus = $bus;
-		$this->staff = $staff;
 		parent::__construct();
 	}
 	
@@ -67,13 +55,7 @@ class MonthCommand extends Command
 			$io->section('Checking server');
 			$io->success($this->checkServer());
 			$io->section('Processing Employee list');
-			$progress = new PayrollReporter(0, $this->staff->countAll());
-			foreach ($this->staff as $employee) {
-				$progress = $progress->advance();
-				$command = new SendPayroll($employee, $this->sender, $input->getArgument('month'), $progress);
-				$this->bus->execute($command);
-			}
-			$this->bus->execute(new BroadcastEvent(new AllPayrollsWereSent($progress, $input->getArgument('month'))));
+			$this->bus->execute( new DistributePayroll($input->getArgument('month')) );
 			$io->success('Task ended.');
 		} catch (\Milhojas\Infrastructure\Persistence\Management\Exceptions\PayrollRepositoryDoesNotExist $e) {
 			$io->warning(array(

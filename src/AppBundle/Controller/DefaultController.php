@@ -14,7 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 
-use Milhojas\Application\Management\Form\PayrollType;
+use Milhojas\Application\Management\Form\Type\PayrollType;
 
 class DefaultController extends Controller
 {

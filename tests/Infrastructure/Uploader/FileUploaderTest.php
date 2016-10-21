@@ -19,6 +19,11 @@ class TestUploadedFile extends UploadedFile
 	{
 		return '.ext';
 	}
+	
+	public function getName($name)
+	{
+		return 'photo.jpg';
+	}
 }
 
 
@@ -42,7 +47,8 @@ class FileUploaderTest extends \PHPUnit_Framework_Testcase
 				true
 		    );
 		$uploader = new FileUploader(dirname(__FILE__).'/destination');
-		$uploader->upload($image);
+		$file = $uploader->upload($image);
+		$this->assertEquals('photo.jpeg', $file);
 	}
 }
 

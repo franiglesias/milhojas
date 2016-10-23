@@ -64,7 +64,7 @@ class PayrollDistributor
 	
 	public function setFileName ($fileName)
 	{
-		$this->fileName = $fileName;
+		$this->fileName[] = $fileName;
 		return $this;
 	}
 	

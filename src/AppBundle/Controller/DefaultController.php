@@ -76,14 +76,12 @@ class DefaultController extends Controller
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid()) {
-	        echo '<pre>';
-			print_r($form->getData());
-			echo '</pre>';
-			die();
 			$payrollDist = $form->getData();
-			
-			$fileName = $this->get('milhojas.uploader')->upload($payrollDist->getFile());
-			$payrollDist->setFileName($fileName);
+			foreach ($payrollDist->getFile() as $file) {
+				$fileName = $this->get('milhojas.uploader')->upload($file);
+				$payrollDist->setFileName($fileName);
+			}
+
 	        return $this->redirectToRoute('homepage');
 	    }
 

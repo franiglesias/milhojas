@@ -9,7 +9,7 @@ class UniqueNamer
 {
 	private $generator;
 	
-	function __construct($generator)
+	public function __construct($generator)
 	{
 		$this->generator = $generator;
 	}

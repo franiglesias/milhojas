@@ -13,14 +13,23 @@ class SendPayroll implements Command
 	private $month;
 	private $sender;
 	private $progress;
+	private $paths;
 	
-	public function __construct($employee, $sender, $month, $progress)
+	public function __construct($employee, $paths, $sender, $month, $progress)
 	{
 		$this->employee = $employee;
 		$this->month = $month;
 		$this->sender = $sender;
 		$this->progress = $progress;
+		$this->paths = $paths;
 	}
+	
+	public function getPaths ()
+	{
+		return $this->paths;
+	}
+	
+	
 	
 	public function getEmployee()
 	{

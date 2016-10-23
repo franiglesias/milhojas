@@ -19,6 +19,10 @@ class NewPayrollFileSystem {
 				'04_trabajador_130196_030216_mensual.pdf' => 'valid no name',
 				'05_trabajador_45asdf_020216_mensual.pdf' => 'invalid id'
 			),
+			'other' => array(
+				'02_trabajador_67890_010216_mensual.pdf' => 'valid',
+				'03_trabajador_54321_030216_mensual.pdf'=> 'valid single name',
+			),
 			'empty' => array()
 		);
 		$structure = array(

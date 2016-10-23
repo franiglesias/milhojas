@@ -38,13 +38,13 @@ class SendPayrollTest extends \PHPUnit_Framework_Testcase
 		$this->mailer = new MailerStub();
 		$this->recorder = new EventRecorder();
 		$this->root = (new NewPayrollFileSystem())->get();
-		$this->payrolls = new FileSystemPayrolls(vfsStream::url('root/payroll/'), new Finder());
+		$this->payrolls = new FileSystemPayrolls(vfsStream::url('root/payroll/'));
 	}
 	
 	public function testItHandlesEmployeeWithOnePayrollDocument()
 	{
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345));
-		$command = new SendPayroll($employee, 'email@example.com', 'test', new PayrollReporter(1,2));
+		$command = new SendPayroll($employee, 'email@example.com', 'test', 'test', new PayrollReporter(1,2));
 		$handler = new SendPayrollHandler($this->payrolls, 'AppBundle:Management:payroll_document.email.twig', $this->mailer, $this->recorder);
 		$handler->handle($command);
 		$this->assertTrue($this->mailer->wasCalled());
@@ -56,7 +56,7 @@ class SendPayrollTest extends \PHPUnit_Framework_Testcase
 	public function testItHandlesEmployeeWithNoDocuments()
 	{
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(55555));
-		$command = new SendPayroll($employee, 'email@example.com', 'test', new PayrollReporter(1,2));
+		$command = new SendPayroll($employee, 'email@example.com', 'test', 'test', new PayrollReporter(1,2));
 		$handler = new SendPayrollHandler($this->payrolls, 'AppBundle:Management:payroll_document.email.twig', $this->mailer, $this->recorder);
 		$handler->handle($command);
 		$this->assertEvent('PayrollCouldNotBeFound');
@@ -65,7 +65,7 @@ class SendPayrollTest extends \PHPUnit_Framework_Testcase
 	public function testItHandlesMessageCouldNotBeSent()
 	{
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345));
-		$command = new SendPayroll($employee, 'email@example.com', 'test', new PayrollReporter(1,2));
+		$command = new SendPayroll($employee, 'email@example.com', 'test', 'test', new PayrollReporter(1,2));
 		$handler = new SendPayrollHandler($this->payrolls, 'AppBundle:Management:payroll_document.email.twig', $this->mailer, $this->recorder);
 		$this->mailer->makeFail();
 		$handler->handle($command);
@@ -75,7 +75,7 @@ class SendPayrollTest extends \PHPUnit_Framework_Testcase
 	public function testItHandlesEmployeeWithSeveralFiles()
 	{
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345, 67890));
-		$command = new SendPayroll($employee, 'email@example.com', 'test', new PayrollReporter(1,2));
+		$command = new SendPayroll($employee, 'email@example.com', 'test', 'test', new PayrollReporter(1,2));
 		$handler = new SendPayrollHandler($this->payrolls, 'AppBundle:Management:payroll_document.email.twig', $this->mailer, $this->recorder);
 		$handler->handle($command);
 		$this->assertTrue($this->mailer->wasCalled());

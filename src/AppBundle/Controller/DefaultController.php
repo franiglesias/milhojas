@@ -61,7 +61,7 @@ class DefaultController extends Controller
 	
 	/**
 	 * @Route("/upload", name="upload")
-	 * @Method({"POST"})
+	 * @Method({"GET", "POST"})
 	 * @param Request $request 
 	 * @return void
 	 * @author Fran Iglesias
@@ -77,9 +77,8 @@ class DefaultController extends Controller
 
 		if ($form->isSubmitted() && $form->isValid()) {
 	        $payrollDist = $form->getData();
-			$file = $payrollDist->getFile();
-			$fileName = $this->get('milhojas.uploader')->upload($file);
-			$payrollDist->setFile($fileName);
+			$fileName = $this->get('milhojas.uploader')->upload($payrollDist->getFile());
+			$payrollDist->setFileName($fileName);
 	        return $this->redirectToRoute('homepage');
 	    }
 

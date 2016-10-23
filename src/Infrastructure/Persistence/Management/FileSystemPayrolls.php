@@ -12,7 +12,6 @@ use Milhojas\Domain\Management\Employee;
 
 use Milhojas\Infrastructure\Persistence\Management\Exceptions\EmployeeHasNoPayrollFiles;
 use Milhojas\Infrastructure\Persistence\Management\Exceptions\PayrollRepositoryDoesNotExist;
-use Milhojas\Infrastructure\Persistence\Management\Exceptions\PayrollRepositoryForMonthDoesNotExist;
 
 # Utils
 
@@ -30,14 +29,29 @@ class FileSystemPayrolls implements Payrolls
 		$this->checkRepositoryExists($basePath);
 		$this->basePath = $basePath;
 	}
-	
-	public function getByMonthAndEmployee($month, Employee $employee) {
-		$files = $this->getFiles($month, $employee);
+		
+	public function getForEmployee(Employee $employee, $repositories, $month)
+	{
+		$repositories = $this->prepareRepositories($repositories);
 		$documents = [];
-		foreach ($files as $file) {
-			$documents[] = new PayrollDocument($file);
+		foreach ($repositories as $repo) {
+			$files = $this->retrieveFiles($employee, $repo, $month);
+			foreach ($files as $file) {
+				$documents[] = new PayrollDocument($file);
+			}
 		}
 		return $documents;
+	}
+	
+	private function prepareRepositories($repositories)
+	{
+		foreach ((array)$repositories as $repo) {
+			if (substr($repo, 1) !== '/') {
+				$repo = $this->basePath.'/'.$repo;
+			}
+			$paths[] = $repo;
+		}
+		return $paths;
 	}
 	
 	/**
@@ -48,11 +62,11 @@ class FileSystemPayrolls implements Payrolls
 	 * @return Files Iterator
 	 * @author Fran Iglesias
 	 */
-	private function getFiles($month, Employee $employee)
+	public function retrieveFiles(Employee $employee, $path, $month)
 	{
-		$this->checkRepositoryForMonthExists($month);
+		$this->checkRepositoryExists($path);
 		$pattern = sprintf('/_trabajador_(%s)_/', implode('|', $employee->getPayrolls()));
-		$finder = (new Finder())->files()->in( $this->basePath.'/'.$month )->name($pattern);
+		$finder = (new Finder())->files()->in( $path )->name($pattern);
 		if (! iterator_count($finder)) {
 			throw new EmployeeHasNoPayrollFiles(sprintf('Employee %s has no payroll files for month %s', $employee->getFullName(), $month));
 		}
@@ -66,15 +80,7 @@ class FileSystemPayrolls implements Payrolls
 			throw new PayrollRepositoryDoesNotExist(sprintf('Path %s does not exist.', $path));
 		}
 	}
-	
-	private function checkRepositoryForMonthExists($month)
-	{
-		$fs = new FileSystem();
-		if (! $fs->exists($this->basePath.'/'.$month)) {
-			throw new PayrollRepositoryForMonthDoesNotExist(sprintf('Folder %s does not exist in %s.', $month, $this->basePath));
-		}
-	}
-	
+		
 }
 
 ?>

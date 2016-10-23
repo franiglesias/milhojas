@@ -12,7 +12,6 @@ use Milhojas\Domain\Management\Employee;
 
 use Milhojas\Infrastructure\Persistence\Management\Exceptions\EmployeeHasNoPayrollFiles;
 use Milhojas\Infrastructure\Persistence\Management\Exceptions\PayrollRepositoryDoesNotExist;
-use Milhojas\Infrastructure\Persistence\Management\Exceptions\PayrollRepositoryForMonthDoesNotExist;
 
 # Utils
 
@@ -41,33 +40,56 @@ class ZipPayrolls implements Payrolls
 	/**
 	 * Gets the PayrollDocument for an Employee
 	 *
-	 * @param string $month 
 	 * @param Employee $employee 
+	 * @param array|string $repositories paths to the zip archives to proccess
+	 * @param string $month 
 	 * @return array of PayrollDocument
 	 * @author Fran Iglesias
 	 */
 	
-	public function getByMonthAndEmployee($month, Employee $employee) {
-		$files = $this->getFiles($month, $employee);
+	public function getForEmployee(Employee $employee, $repositories, $month)
+	{
+		$repositories = $this->prepareRepositories($repositories);
 		$documents = [];
-		foreach ($files as $file) {
-			$documents[] = new PayrollDocument($file);
+			$files = $this->retrieveFiles($employee, $repositories, $month);
+			foreach ($files as $file) {
+				$documents[] = new PayrollDocument($file);
+			}
+			return $documents;
+	}
+
+	/**
+	 * Normalizes all paths to absolute paths
+	 *
+	 * @param string $repositories 
+	 * @return void
+	 * @author Francisco Iglesias Gómez
+	 */
+	private function prepareRepositories($repositories)
+	{
+		foreach ((array)$repositories as $repo) {
+			if (substr($repo, 1) !== '/') {
+				$repo = $this->basePath.'/'.$repo;
+			}
+			$this->checkRepositoryExists($repo);
+			$paths[] = $repo;
 		}
-		return $documents;
+		return $paths;
 	}
 	
 	/**
-	 * Retrieves related files from the ZIP archive
+	 * Retrieves the files
 	 *
-	 * @param string $month 
 	 * @param Employee $employee 
-	 * @return Files Iterator
-	 * @author Fran Iglesias
+	 * @param string $paths 
+	 * @param string $month 
+	 * @return void
+	 * @author Francisco Iglesias Gómez
 	 */
-	private function getFiles($month, Employee $employee)
+	public function retrieveFiles(Employee $employee, $paths, $month)
 	{
 		$pattern = sprintf('/_trabajador_(%s)_/', implode('|', $employee->getPayrolls()));
-		$finder = $this->getPayrollFiles($month)->name($pattern);
+		$finder = $this->getAllPayrollFiles($paths, $month)->name($pattern);
 		if (! iterator_count($finder)) {
 			throw new EmployeeHasNoPayrollFiles(sprintf('Employee %s has no payroll files for month %s', $employee->getFullName(), $month));
 		}
@@ -81,9 +103,8 @@ class ZipPayrolls implements Payrolls
 	 * @return Finder
 	 * @author Fran Iglesias
 	 */
-	private function getPayrollFiles($month)
+	private function getAllPayrollFiles($paths, $month)
 	{
-		$paths = $this->getPathToArchives($month);
 		$extractor = new Extractor(
 		    $this->createDirectory($month),
 		    new ExtensionResolver
@@ -126,26 +147,15 @@ class ZipPayrolls implements Payrolls
 		}
 	}
 	
-	/**
-	 * Gets the paths to the zip archives. This archives should start with the name of the desired month
-	 *
-	 * @param string $month 
-	 * @return array of strings
-	 * @throws PayrollRepositoryForMonthDoesNotExist if no files are foun
-	 * @author Fran Iglesias
-	 */
-	private function getPathToArchives($month)
-	{
-		$finder = (new Finder())->files()->in($this->basePath)->name('/^'.$month.'([^\.]*)?\.zip$/');
-		if (! count($finder)) {
-			throw new PayrollRepositoryForMonthDoesNotExist(sprintf('Archive(s) %s.zip do(es) not exist in %s.', $month, $this->basePath));
-		}
-		foreach ($finder as $file) {
-			$paths[] = $file->getPathName();
-		}
-		return $paths;
-	}
 	
+	private function checkRepositoryExists($repo)
+	{
+		$fs = new FileSystem();
+		if (! $fs->exists($repo)) {
+			throw new PayrollRepositoryDoesNotExist(sprintf('Archive %s does not exist.', $repo));
+		}
+	}
+		
 }
 
 ?>

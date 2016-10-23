@@ -40,7 +40,7 @@ class DistributePayrollHandler implements CommandHandler
 		$progress = new PayrollReporter(0, $this->staff->countAll());
 		foreach ($this->staff as $employee) {
 			$progress = $progress->advance();
-			$this->bus->execute( new SendPayroll($employee, $this->sender, $command->getMonth(), $progress) );
+			$this->bus->execute( new SendPayroll($employee, $command->getPaths(), $this->sender, $command->getMonth(), $progress) );
 		}
 		$this->bus->execute(new BroadcastEvent(new AllPayrollsWereSent($progress, $command->getMonth())));
 	}

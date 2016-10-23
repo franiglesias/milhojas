@@ -57,7 +57,7 @@ class SendPayrollHandler implements CommandHandler
 	{
 		$employee = $command->getEmployee();
 		try {
-			$this->sendEmail($employee, $command->getSender(), $command->getMonth());
+			$this->sendEmail($employee, $command->getMonth(), $command->getSender(), $command->getMonth());
 			$this->recorder->recordThat(new PayrollEmailWasSent($employee, $command->getProgress()->addSent()));
 		} 
 		catch (EmployeeHasNoPayrollFiles $e) {
@@ -77,14 +77,14 @@ class SendPayrollHandler implements CommandHandler
 	 * @return boolean true on success
 	 * @author Fran Iglesias
 	 */
-	private function sendEmail($employee, $sender, $month)
+	private function sendEmail($employee, $sender, $paths, $month)
 	{
 		$message = new MailMessage();
 		$message
 			->setTo($employee->getEmail())
 			->setSender($sender)
 			->setTemplate($this->template, array('employee' => $employee, 'month' => $month))
-			->attach($this->getPayrollDocuments($employee, $month));
+			->attach($this->getPayrollDocuments($employee, $paths, $month));
 		return $this->mailer->send($message);
 	}
 	
@@ -96,9 +96,9 @@ class SendPayrollHandler implements CommandHandler
 	 * @return array
 	 * @author Fran Iglesias
 	 */
-	private function getPayrollDocuments($employee, $month)
+	private function getPayrollDocuments($employee, $paths, $month)
 	{
-		$files = $this->payrolls->getByMonthAndEmployee($month, $employee);
+		$files = $this->payrolls->getForEmployee($employee, $paths, $month);
 		$paths = array();
 		foreach ($files as $file) {
 			$paths[] = $file->getPath();

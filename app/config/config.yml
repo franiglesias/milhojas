@@ -135,3 +135,16 @@ hwi_oauth:
             options:
                 hd:     '%google.hd%'
                 csrf:   true
+
+# Uploader
+
+vich_uploader:
+    db_driver: orm # or mongodb or propel or phpcr
+    storage: file_system
+    
+    mappings:
+            payroll_file:
+                uri_prefix:         /payroll/month
+                upload_destination: '%kernel.root_dir%/../extras/inbox'
+                
+    

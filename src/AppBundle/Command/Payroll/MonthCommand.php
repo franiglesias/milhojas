@@ -42,6 +42,11 @@ class MonthCommand extends Command
 				InputArgument::OPTIONAL,
 				'What month is this payroll?'
 			)
+			->addArgument(
+				'paths',
+				InputArgument::IS_ARRAY,
+				'Locations of payroll files'
+			)
 		;
 	}
 	
@@ -53,7 +58,7 @@ class MonthCommand extends Command
 			$io->section('Checking server');
 			$io->success($this->checkServer());
 			$io->section('Processing Employee list');
-			$this->bus->execute( new DistributePayroll($input->getArgument('month')) );
+			$this->bus->execute( new DistributePayroll($input->getArgument('month'), $input->getArgument('paths')) );
 			$io->success('Task ended.');
 		} catch (\Milhojas\Infrastructure\Persistence\Management\Exceptions\PayrollRepositoryDoesNotExist $e) {
 			$io->warning(array(
@@ -63,13 +68,13 @@ class MonthCommand extends Command
 			));
 		} catch (\Milhojas\Infrastructure\Persistence\Management\Exceptions\PayrollRepositoryForMonthDoesNotExist $e) {
 			$io->warning(array(
-				sprintf($e->getMessage() ),
+				$e->getMessage(),
 				'Please, add the needed folder or zip archives for month data.',
 				'Use a path to a valid folder containing payroll files.'
 			));
 		} catch (\RuntimeException $e) {
 			$io->error(array(
-				sprintf($e->getMessage() ),
+				$e->getMessage(),
 				'Check Internet connectivity and try again later.'
 				)
 			);

@@ -31,25 +31,15 @@ class ZipPayrollsTest extends \PHPUnit_Framework_Testcase
 	{
 		$payrolls = new ZipPayrolls($this->root);
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345));
-		$files = $payrolls->getByMonthAndEmployee('zipmonth', $employee);
+		$files = $payrolls->getForEmployee($employee, 'unique.zip', 'zipmonth');
 		$this->assertEquals(1, count($files));
 	}
-
-	public function test_it_works_with_a_unique_archive()
-	{
-		$payrolls = new ZipPayrolls($this->root);
-		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345));
-		$files = $payrolls->getByMonthAndEmployee('unique', $employee);
-		$this->assertEquals(1, count($files));
-		
-	}
-
 
 	public function test_it_loads_two_files_for_an_employee_with_two_payroll_codes()
 	{
 		$payrolls = new ZipPayrolls($this->root);
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345, 67890));
-		$files = $payrolls->getByMonthAndEmployee('zipmonth', $employee);	
+		$files = $payrolls->getForEmployee($employee, ['zipmonth-1.zip', 'zipmonth-2.zip'], 'zipmonth');	
 		$this->assertEquals(2, count($files));
 	}
 
@@ -63,7 +53,7 @@ class ZipPayrollsTest extends \PHPUnit_Framework_Testcase
 	{
 		$payrolls = new ZipPayrolls($this->root);
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(555555));
-		$files = $payrolls->getByMonthAndEmployee('zipmonth', $employee);
+		$files = $payrolls->getForEmployee($employee, 'zipmonth-1.zip', 'zipmonth');
 		
 	}
 	
@@ -79,7 +69,7 @@ class ZipPayrollsTest extends \PHPUnit_Framework_Testcase
 	}
 
 	/**
-	 * @expectedException \Milhojas\Infrastructure\Persistence\Management\Exceptions\PayrollRepositoryForMonthDoesNotExist
+	 * @expectedException \Milhojas\Infrastructure\Persistence\Management\Exceptions\PayrollRepositoryDoesNotExist
 	 *
 	 * @return void
 	 * @author Fran Iglesias
@@ -88,7 +78,7 @@ class ZipPayrollsTest extends \PHPUnit_Framework_Testcase
 	{
 		$payrolls = new ZipPayrolls($this->root);
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(130496));
-		$files = $payrolls->getByMonthAndEmployee('invalid', $employee);
+		$files = $payrolls->getForEmployee($employee, 'invalid.zip', 'zipmonth');
 	}
 	
 	public function tearDown()

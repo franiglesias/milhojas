@@ -10,7 +10,7 @@ use Milhojas\Domain\Management\Employee;
  * @author Fran Iglesias
  */
 interface Payrolls {
-	public function getByMonthAndEmployee($month, Employee $employee);
+	public function getForEmployee(Employee $employee, $repositories, $month);
 }
 
 ?>

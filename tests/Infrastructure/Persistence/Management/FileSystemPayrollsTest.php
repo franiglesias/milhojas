@@ -24,17 +24,42 @@ class FileSystemPayrollsTest extends \PHPUnit_Framework_Testcase
 	
 	public function test_it_loads_one_file_for_an_employee_with_one_payroll_codes()
 	{
+		$payrolls = new FileSystemPayrolls(vfsStream::url('root/payroll/test/'));
+		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345));
+		$files = $payrolls->getForEmployee($employee, '', 'test');
+		$this->assertEquals(1, count($files));
+	}
+
+	public function test_payroll_repo_can_be_defined_relative_to_base_path()
+	{
 		$payrolls = new FileSystemPayrolls(vfsStream::url('root/payroll/'));
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345));
-		$files = $payrolls->getByMonthAndEmployee('test', $employee);
+		$files = $payrolls->getForEmployee($employee, 'test', 'test');
+		$this->assertEquals(1, count($files));
+	}
+
+	public function test_several_repos_can_be_defined()
+	{
+		$payrolls = new FileSystemPayrolls(vfsStream::url('root/payroll/'));
+		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345, 67890));
+		$files = $payrolls->getForEmployee($employee, array('test', 'other'), 'test');
+		$this->assertEquals(3, count($files));
+	}
+
+
+	public function test_payroll_repo_can_be_defined_as_absolute_path()
+	{
+		$payrolls = new FileSystemPayrolls(vfsStream::url('root'));
+		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345));
+		$files = $payrolls->getForEmployee($employee, '/payroll/test', 'test');
 		$this->assertEquals(1, count($files));
 	}
 
 	public function test_it_loads_two_files_for_an_employee_with_two_payroll_codes()
 	{
-		$payrolls = new FileSystemPayrolls(vfsStream::url('root/payroll/'));
+		$payrolls = new FileSystemPayrolls(vfsStream::url('root/payroll/test'));
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345, 67890));
-		$files = $payrolls->getByMonthAndEmployee('test', $employee);
+		$files = $payrolls->getForEmployee($employee, '', 'test');
 		$this->assertEquals(2, count($files));
 	}
 
@@ -46,9 +71,9 @@ class FileSystemPayrollsTest extends \PHPUnit_Framework_Testcase
 	 */
 	public function test_it_throws_exception_is_employee_has_no_payroll_files()
 	{
-		$payrolls = new FileSystemPayrolls(vfsStream::url('root/payroll/'));
+		$payrolls = new FileSystemPayrolls(vfsStream::url('root/payroll/test'));
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(555555));
-		$files = $payrolls->getByMonthAndEmployee('test', $employee);
+		$files = $payrolls->getForEmployee($employee, '', 'test');
 	}
 
 	/**
@@ -63,7 +88,7 @@ class FileSystemPayrollsTest extends \PHPUnit_Framework_Testcase
 	}
 
 	/**
-	 * @expectedException \Milhojas\Infrastructure\Persistence\Management\Exceptions\PayrollRepositoryForMonthDoesNotExist
+	 * @expectedException \Milhojas\Infrastructure\Persistence\Management\Exceptions\PayrollRepositoryDoesNotExist
 	 *
 	 * @return void
 	 * @author Fran Iglesias
@@ -72,7 +97,7 @@ class FileSystemPayrollsTest extends \PHPUnit_Framework_Testcase
 	{
 		$payrolls = new FileSystemPayrolls(vfsStream::url('root/payroll'));
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345));
-		$files = $payrolls->getByMonthAndEmployee('invalid', $employee);
+		$files = $payrolls->getForEmployee($employee, 'invalid', 'test');
 	}
 
 

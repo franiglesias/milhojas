@@ -48,10 +48,10 @@ class PayrollDistributor
 		return $this->date;
 	}
 	
-	public function setFile (File $file = null)
+	public function setFile ($files)
 	{
-		$this->file = $file;
-		if ($file) {
+		$this->file = $files;
+		if ($files) {
 			$this->completed = new \DateTime('now');
 		}
 		return $this;

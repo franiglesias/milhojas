@@ -29,9 +29,18 @@ class TestCommandBus implements CommandBus
 		$this->commands[] = get_class($command);
 	}
 	
-	public function wasReceived($command)
+	/**
+	 * Checks if a command was receiven $times times
+	 *
+	 * @param string $command 
+	 * @param string $times default 1
+	 * @return boolean
+	 * @author Fran Iglesias
+	 */
+	public function wasReceived($command, $times = 1)
 	{
-		return in_array($command, $this->commands);
+		$stat = array_count_values($this->commands);
+		return $stat[$command] === $times;
 	}
 }
 ?>

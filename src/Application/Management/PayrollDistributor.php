@@ -50,7 +50,11 @@ class PayrollDistributor
 	
 	public function setFile ($files)
 	{
-		$this->file = $files;
+		foreach ($files as $file) {
+			if ($file instanceof File) {
+				$this->file = $files;
+			}
+		}
 		if ($files) {
 			$this->completed = new \DateTime('now');
 		}

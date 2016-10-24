@@ -146,5 +146,3 @@ vich_uploader:
             payroll_file:
                 uri_prefix:         /payroll/month
                 upload_destination: '%kernel.root_dir%/../extras/inbox'
-                
-    

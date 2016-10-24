@@ -14,7 +14,7 @@ class TestCommandBus implements CommandBus
 	
 	public function __construct()
 	{
-		$commands = array();
+		$this->commands = array();
 	}
 	
 	/**

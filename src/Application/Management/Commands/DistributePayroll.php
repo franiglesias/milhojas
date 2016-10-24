@@ -22,8 +22,6 @@ class DistributePayroll implements Command
 		return $this->paths;
 	}
 	
-	
-	
 	public function getMonth()
 	{
 		return $this->month;

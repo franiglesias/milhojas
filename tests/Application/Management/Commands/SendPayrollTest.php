@@ -17,26 +17,23 @@ use Milhojas\Infrastructure\Persistence\Management\FileSystemPayrolls;
 # Components
 use Symfony\Component\Finder\Finder;
 
-# Application Messaging
-use Milhojas\Library\EventBus\EventRecorder;
-
 # Fixtures and Doubles
 
+use Tests\Application\Utils\CommandScenario;
 use Tests\Infrastructure\Persistence\Management\Fixtures\NewPayrollFileSystem; 
 use org\bovigo\vfs\vfsStream;
 use Tests\Utils\MailerStub;
 
-class SendPayrollTest extends \PHPUnit_Framework_Testcase
+class SendPayrollTest extends CommandScenario
 {
 	private $mailer;
-	private $recorder;
 	private $root;
 	private $payrolls;
 
 	public function setUp()
 	{
+		parent::setUp();
 		$this->mailer = new MailerStub();
-		$this->recorder = new EventRecorder();
 		$this->root = (new NewPayrollFileSystem())->get();
 		$this->payrolls = new FileSystemPayrolls(vfsStream::url('root/payroll/'));
 	}
@@ -46,11 +43,15 @@ class SendPayrollTest extends \PHPUnit_Framework_Testcase
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345));
 		$command = new SendPayroll($employee, 'email@example.com', 'test', 'test', new PayrollReporter(1,2));
 		$handler = new SendPayrollHandler($this->payrolls, 'AppBundle:Management:payroll_document.email.twig', $this->mailer, $this->recorder);
-		$handler->handle($command);
-		$this->assertTrue($this->mailer->wasCalled());
-		$this->assertTrue($this->mailer->aMessageWasSentTo('user@example.com'));
-		$this->assertEquals(1, $this->mailer->attachmentsInMessage());
-		$this->assertEvent('PayrollEmailWasSent');
+		
+		$this->sending($command)
+			->toHandler($handler)
+			->raisesEvent('Milhojas\Domain\Management\Events\PayrollEmailWasSent')
+			->produces($this->mailer->wasCalled())
+			->produces($this->mailer->aMessageWasSentTo('user@example.com'))
+			->produces($this->mailer->attachmentsInMessage() === 1)
+		;
+					
 	}
 	
 	public function testItHandlesEmployeeWithNoDocuments()
@@ -58,8 +59,10 @@ class SendPayrollTest extends \PHPUnit_Framework_Testcase
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(55555));
 		$command = new SendPayroll($employee, 'email@example.com', 'test', 'test', new PayrollReporter(1,2));
 		$handler = new SendPayrollHandler($this->payrolls, 'AppBundle:Management:payroll_document.email.twig', $this->mailer, $this->recorder);
-		$handler->handle($command);
-		$this->assertEvent('PayrollCouldNotBeFound');
+
+		$this->sending($command)
+			->toHandler($handler)
+			->raisesEvent('Milhojas\Domain\Management\Events\PayrollCouldNotBeFound');
 	}
 	
 	public function testItHandlesMessageCouldNotBeSent()
@@ -68,8 +71,10 @@ class SendPayrollTest extends \PHPUnit_Framework_Testcase
 		$command = new SendPayroll($employee, 'email@example.com', 'test', 'test', new PayrollReporter(1,2));
 		$handler = new SendPayrollHandler($this->payrolls, 'AppBundle:Management:payroll_document.email.twig', $this->mailer, $this->recorder);
 		$this->mailer->makeFail();
-		$handler->handle($command);
-		$this->assertEvent('PayrollEmailCouldNotBeSent');
+
+		$this->sending($command)
+			->toHandler($handler)
+			->raisesEvent('\Milhojas\Domain\Management\Events\PayrollEmailCouldNotBeSent');
 	}
 	
 	public function testItHandlesEmployeeWithSeveralFiles()
@@ -77,28 +82,14 @@ class SendPayrollTest extends \PHPUnit_Framework_Testcase
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345, 67890));
 		$command = new SendPayroll($employee, 'email@example.com', 'test', 'test', new PayrollReporter(1,2));
 		$handler = new SendPayrollHandler($this->payrolls, 'AppBundle:Management:payroll_document.email.twig', $this->mailer, $this->recorder);
-		$handler->handle($command);
-		$this->assertTrue($this->mailer->wasCalled());
-		$this->assertTrue($this->mailer->aMessageWasSentTo('user@example.com'));
-		$this->assertEquals(2, $this->mailer->attachmentsInMessage());
-		$this->assertEvent('PayrollEmailWasSent');
+		$this->sending($command)
+			->toHandler($handler)
+			->raisesEvent('Milhojas\Domain\Management\Events\PayrollEmailWasSent')
+			->produces($this->mailer->wasCalled())
+			->produces($this->mailer->aMessageWasSentTo('user@example.com'))
+			->produces($this->mailer->attachmentsInMessage() === 2);
 	}
 	
-	private function assertMailerIsCalledOneTime()
-	{
-		$this->assertEquals(1, $this->mailer->getTimesCalled());
-	}
-	
-	private function assertMessageWasSentToThisEmail($email)
-	{
-		$this->assertTrue($this->mailer->messageTo($email));
-	}
-	
-	public function assertEvent($event)
-	{
-		$events = $this->recorder->retrieve();
-		$this->assertInstanceOf('\Milhojas\Domain\Management\Events\\'.$event, $events[0]);
-	}
 }
 
 ?>

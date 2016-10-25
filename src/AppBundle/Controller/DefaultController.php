@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Component\Process\Process;
-
+use Milhojas\Infrastructure\Process\CommandLineBuilder;
 
 use Milhojas\Application\Management\Form\Type\PayrollType;
 
@@ -93,9 +93,13 @@ class DefaultController extends Controller
 	
 	private function launchCommand($payrollDist)
 	{
-		$line = 'nohup php bin/console payroll:month '.$payrollDist->getMonth().' '.implode(' ', $payrollDist->getFileName());
-		$line .= ' --env='. $this->get('kernel')->getEnvironment().' > results.txt';
-		$process = new Process($line);
+		$clb = (new CommandLineBuilder('payroll:month'))
+			->withArgument( $payrollDist->getMonth() )
+			->withArgument( implode(' ', $payrollDist->getFileName()) )
+			->outputTo('results.txt')
+			->environment( $this->get('kernel')->getEnvironment() );
+
+		$process = new Process($clb->line());
 		$process->setWorkingDirectory('/Library/Webserver/Documents/milhojas');
 		$process->start(function ($type, $buffer) {
 		    if ('err' === $type) {

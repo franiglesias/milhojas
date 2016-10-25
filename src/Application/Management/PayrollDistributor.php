@@ -7,12 +7,6 @@ use Symfony\Component\HttpFoundation\File\File;
 * Represents Distribution of Payroll for a month
 */
 
-/**
- * @Vich\Uploadable
- *
- * @package default
- * @author Francisco Iglesias Gómez
- */
 class PayrollDistributor
 {
 	protected $month;

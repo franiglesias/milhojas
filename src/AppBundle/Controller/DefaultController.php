@@ -5,13 +5,15 @@ namespace AppBundle\Controller;
 
 use Milhojas\Application\Management\PayrollDistributor;
 
-
+use Milhojas\Application\Management\Commands\DistributePayroll;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+
+use Symfony\Component\Process\Process;
 
 
 use Milhojas\Application\Management\Form\Type\PayrollType;
@@ -81,8 +83,19 @@ class DefaultController extends Controller
 				$fileName = $this->get('milhojas.uploader')->upload($file);
 				$payrollDist->setFileName($fileName);
 			}
-
-	        return $this->redirectToRoute('homepage');
+			
+			$line = 'nohup php bin/console payroll:month '.$payrollDist->getMonth().' '.implode(' ', $payrollDist->getFileName());
+			$line .= ' --env='. $this->get('kernel')->getEnvironment().' > results.txt';
+			$process = new Process($line);
+			$process->setWorkingDirectory('/Library/Webserver/Documents/milhojas');
+			$process->start(function ($type, $buffer) {
+			    if ('err' === $type) {
+			        echo 'ERR > '.$buffer;
+			    } else {
+			        echo 'OUT > '.$buffer;
+			    }
+			});
+			return $this->redirectToRoute('homepage');
 	    }
 
         return $this->render('default/upload.html.twig', array(

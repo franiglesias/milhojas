@@ -58,6 +58,17 @@ class CommandScenario extends \PHPUnit_Framework_Testcase
 		$handler->handle($this->command);
 		return $this;
 	}
+	/**
+	 * Synonym
+	 *
+	 * @param CommandHandler $handler 
+	 * @return void
+	 * @author Fran Iglesias
+	 */
+	protected function to(CommandHandler $handler)
+	{
+		return $this->toHandler($handler);
+	}
 	
 	/**
 	 * Asserts if this event is raised to the Event Recorder

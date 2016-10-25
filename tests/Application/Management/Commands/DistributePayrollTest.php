@@ -11,6 +11,7 @@ use Milhojas\Application\Management\Commands\DistributePayrollHandler;
 // use Milhojas\Domain\Management\Employee;
 // use Milhojas\Domain\Management\PayrollReporter;
 use Milhojas\Domain\Management\Staff;
+use Milhojas\Domain\Management\PayrollMonth;
 
 # Repositories
 use Milhojas\Infrastructure\Persistence\Management\YamlStaff;
@@ -46,7 +47,7 @@ class DistributePayrollTest extends CommandScenario
 	
 	public function test_It_Handles_a_regular_distribution()
 	{
-		$command = new DistributePayroll('month', array('test'));
+		$command = new DistributePayroll(new PayrollMonth('enero', '2016'), array('test'));
 		$handler = new DistributePayrollHandler($this->staff, $this->sender, $this->bus);
 		$this->sending($command)
 			->toHandler($handler)

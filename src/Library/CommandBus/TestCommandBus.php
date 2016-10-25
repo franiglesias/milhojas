@@ -5,7 +5,7 @@ namespace Milhojas\Library\CommandBus;
 use Milhojas\Library\CommandBus\CommandBus;
 
 /**
-* A very Basic Command Bus that builds a chain of responsibility with an array of workers
+* A very Basic Command Bus that simply registes the commands received
 */
 
 class TestCommandBus implements CommandBus

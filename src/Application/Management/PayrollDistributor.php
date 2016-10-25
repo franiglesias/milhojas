@@ -3,7 +3,6 @@
 namespace Milhojas\Application\Management;
 
 use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
 * Represents Distribution of Payroll for a month
 */
@@ -18,12 +17,6 @@ class PayrollDistributor
 {
 	protected $month;
 	protected $completed;
-	
-	/**
-	 * @Vich\UploadableField(mapping="payroll_file", fileNameProperty="fileName")
-	 *
-	 * @var string
-	 */
 	protected $file;
 	
 	protected $fileName;

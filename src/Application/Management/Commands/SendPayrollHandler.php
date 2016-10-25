@@ -57,7 +57,7 @@ class SendPayrollHandler implements CommandHandler
 	{
 		$employee = $command->getEmployee();
 		try {
-			$this->sendEmail($employee, $command->getMonth(), $command->getSender(), $command->getMonth());
+			$this->sendEmail($employee, $command->getSender(), $command->getPaths(), $command->getMonth());
 			$this->recorder->recordThat(new PayrollEmailWasSent($employee, $command->getProgress()->addSent()));
 		} 
 		catch (EmployeeHasNoPayrollFiles $e) {

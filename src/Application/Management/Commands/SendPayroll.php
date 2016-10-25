@@ -5,7 +5,7 @@ namespace Milhojas\Application\Management\Commands;
 use Milhojas\Library\CommandBus\Command;
 use Milhojas\Domain\Management\Employee;
 use Milhojas\Domain\Management\PayrollReporter;
-
+use Milhojas\Domain\Management\PayrollMonth;
 /**
 * It sends employee's payroll for a month
 */
@@ -17,7 +17,7 @@ class SendPayroll implements Command
 	private $progress;
 	private $paths;
 	
-	public function __construct(Employee $employee, $paths, $sender, $month, PayrollReporter $progress)
+	public function __construct(Employee $employee, PayrollMonth $month, $paths, $sender, PayrollReporter $progress)
 	{
 		$this->employee = $employee;
 		$this->month = $month;

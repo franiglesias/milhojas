@@ -4,7 +4,7 @@ namespace Tests\Infrastructure\Persistence\Management;
 
 use Milhojas\Infrastructure\Persistence\Management\FileSystemPayrolls;
 use Milhojas\Domain\Management\Employee;
-
+use Milhojas\Domain\Management\PayrollMonth;
 use Tests\Infrastructure\Persistence\Management\Fixtures\NewPayrollFileSystem; 
 
 use org\bovigo\vfs\vfsStream;
@@ -26,7 +26,7 @@ class FileSystemPayrollsTest extends \PHPUnit_Framework_Testcase
 	{
 		$payrolls = new FileSystemPayrolls(vfsStream::url('root/payroll/test/'));
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345));
-		$files = $payrolls->getForEmployee($employee, '', 'test');
+		$files = $payrolls->getForEmployee($employee, new PayrollMonth('enero', '2016'), '');
 		$this->assertEquals(1, count($files));
 	}
 
@@ -34,7 +34,7 @@ class FileSystemPayrollsTest extends \PHPUnit_Framework_Testcase
 	{
 		$payrolls = new FileSystemPayrolls(vfsStream::url('root/payroll/'));
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345));
-		$files = $payrolls->getForEmployee($employee, 'test', 'test');
+		$files = $payrolls->getForEmployee($employee, new PayrollMonth('enero', '2016'), 'test');
 		$this->assertEquals(1, count($files));
 	}
 
@@ -42,7 +42,7 @@ class FileSystemPayrollsTest extends \PHPUnit_Framework_Testcase
 	{
 		$payrolls = new FileSystemPayrolls(vfsStream::url('root/payroll/'));
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345, 67890));
-		$files = $payrolls->getForEmployee($employee, array('test', 'other'), 'test');
+		$files = $payrolls->getForEmployee($employee, new PayrollMonth('enero', '2016'), array('test', 'other'));
 		$this->assertEquals(3, count($files));
 	}
 
@@ -51,7 +51,7 @@ class FileSystemPayrollsTest extends \PHPUnit_Framework_Testcase
 	{
 		$payrolls = new FileSystemPayrolls(vfsStream::url('root'));
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345));
-		$files = $payrolls->getForEmployee($employee, '/payroll/test', 'test');
+		$files = $payrolls->getForEmployee($employee, new PayrollMonth('enero', '2016'), 'payroll/test');
 		$this->assertEquals(1, count($files));
 	}
 
@@ -59,7 +59,7 @@ class FileSystemPayrollsTest extends \PHPUnit_Framework_Testcase
 	{
 		$payrolls = new FileSystemPayrolls(vfsStream::url('root/payroll/test'));
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345, 67890));
-		$files = $payrolls->getForEmployee($employee, '', 'test');
+		$files = $payrolls->getForEmployee($employee, new PayrollMonth('enero', '2016'), '');
 		$this->assertEquals(2, count($files));
 	}
 
@@ -71,9 +71,9 @@ class FileSystemPayrollsTest extends \PHPUnit_Framework_Testcase
 	 */
 	public function test_it_throws_exception_is_employee_has_no_payroll_files()
 	{
-		$payrolls = new FileSystemPayrolls(vfsStream::url('root/payroll/test'));
+		$payrolls = new FileSystemPayrolls(vfsStream::url('root/payroll'));
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(555555));
-		$files = $payrolls->getForEmployee($employee, '', 'test');
+		$files = $payrolls->getForEmployee($employee, new PayrollMonth('enero', '2016'), 'test');
 	}
 
 	/**
@@ -97,7 +97,7 @@ class FileSystemPayrollsTest extends \PHPUnit_Framework_Testcase
 	{
 		$payrolls = new FileSystemPayrolls(vfsStream::url('root/payroll'));
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345));
-		$files = $payrolls->getForEmployee($employee, 'invalid', 'test');
+		$files = $payrolls->getForEmployee($employee, new PayrollMonth('enero', '2016'), 'invalid');
 	}
 
 

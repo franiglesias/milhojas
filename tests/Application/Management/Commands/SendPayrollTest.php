@@ -10,7 +10,7 @@ use Milhojas\Application\Management\Commands\SendPayrollHandler;
 # Domain concepts
 use Milhojas\Domain\Management\Employee;
 use Milhojas\Domain\Management\PayrollReporter;
-
+use Milhojas\Domain\Management\PayrollMonth;
 # Repositories
 use Milhojas\Infrastructure\Persistence\Management\FileSystemPayrolls;
 
@@ -41,7 +41,7 @@ class SendPayrollTest extends CommandScenario
 	public function testItHandlesEmployeeWithOnePayrollDocument()
 	{
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345));
-		$command = new SendPayroll($employee, 'test', 'email@example.com', 'test', new PayrollReporter(1,2));
+		$command = new SendPayroll($employee, new PayrollMonth('enero', '2016'), 'test', 'email@example.com', new PayrollReporter(1,2));
 		$handler = new SendPayrollHandler($this->payrolls, 'AppBundle:Management:payroll_document.email.twig', $this->mailer, $this->recorder);
 		
 		$this->sending($command)
@@ -57,7 +57,7 @@ class SendPayrollTest extends CommandScenario
 	public function testItHandlesEmployeeWithNoDocuments()
 	{
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(55555));
-		$command = new SendPayroll($employee, 'test', 'email@example.com', 'test', new PayrollReporter(1,2));
+		$command = new SendPayroll($employee, new PayrollMonth('enero', '2016'), 'test', 'email@example.com', new PayrollReporter(1,2));
 		$handler = new SendPayrollHandler($this->payrolls, 'AppBundle:Management:payroll_document.email.twig', $this->mailer, $this->recorder);
 
 		$this->sending($command)
@@ -68,7 +68,7 @@ class SendPayrollTest extends CommandScenario
 	public function testItHandlesMessageCouldNotBeSent()
 	{
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345));
-		$command = new SendPayroll($employee, 'test', 'email@example.com', 'test', new PayrollReporter(1,2));
+		$command = new SendPayroll($employee, new PayrollMonth('enero', '2016'), 'test', 'email@example.com', new PayrollReporter(1,2));
 		$handler = new SendPayrollHandler($this->payrolls, 'AppBundle:Management:payroll_document.email.twig', $this->mailer, $this->recorder);
 		$this->mailer->makeFail();
 
@@ -80,7 +80,7 @@ class SendPayrollTest extends CommandScenario
 	public function testItHandlesEmployeeWithSeveralFiles()
 	{
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345, 67890));
-		$command = new SendPayroll($employee, 'test', 'email@example.com', 'test',  new PayrollReporter(1,2));
+		$command = new SendPayroll($employee, new PayrollMonth('enero', '2016'), 'test', 'email@example.com', new PayrollReporter(1,2));
 		$handler = new SendPayrollHandler($this->payrolls, 'AppBundle:Management:payroll_document.email.twig', $this->mailer, $this->recorder);
 		$this->sending($command)
 			->toHandler($handler)

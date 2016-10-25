@@ -5,7 +5,8 @@ namespace Milhojas\Application\Management\Commands;
 # Domain concepts
 
 use Milhojas\Domain\Management\Payrolls;
-
+use Milhojas\Domain\Management\PayrollMonth;
+use Milhojas\Domain\Management\Employee;
 # Events
 
 use Milhojas\Domain\Management\Events\PayrollEmailWasSent;
@@ -77,7 +78,7 @@ class SendPayrollHandler implements CommandHandler
 	 * @return boolean true on success
 	 * @author Fran Iglesias
 	 */
-	private function sendEmail($employee, $sender, $paths, $month)
+	private function sendEmail(Employee $employee, $sender, $paths, PayrollMonth $month)
 	{
 		$message = new MailMessage();
 		$message
@@ -96,9 +97,9 @@ class SendPayrollHandler implements CommandHandler
 	 * @return array
 	 * @author Fran Iglesias
 	 */
-	private function getPayrollDocuments($employee, $paths, $month)
+	private function getPayrollDocuments(Employee $employee, $paths, PayrollMonth $month)
 	{
-		$files = $this->payrolls->getForEmployee($employee, $paths, $month);
+		$files = $this->payrolls->getForEmployee($employee, $month, $paths);
 		$paths = array();
 		foreach ($files as $file) {
 			$paths[] = $file->getPath();

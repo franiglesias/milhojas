@@ -2,8 +2,11 @@
 
 namespace Tests\Infrastructure\Persistence\Management;
 
-use Milhojas\Infrastructure\Persistence\Management\ZipPayrolls;
 use Milhojas\Domain\Management\Employee;
+use Milhojas\Domain\Management\PayrollMonth;
+
+use Milhojas\Infrastructure\Persistence\Management\ZipPayrolls;
+
 
 use Tests\Infrastructure\Persistence\Management\Fixtures\NewPayrollFileSystem; 
 
@@ -31,7 +34,7 @@ class ZipPayrollsTest extends \PHPUnit_Framework_Testcase
 	{
 		$payrolls = new ZipPayrolls($this->root);
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345));
-		$files = $payrolls->getForEmployee($employee, 'unique.zip', 'zipmonth');
+		$files = $payrolls->getForEmployee($employee, new PayrollMonth('enero', '2016'), 'unique.zip');
 		$this->assertEquals(1, count($files));
 	}
 
@@ -39,7 +42,7 @@ class ZipPayrollsTest extends \PHPUnit_Framework_Testcase
 	{
 		$payrolls = new ZipPayrolls($this->root);
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345, 67890));
-		$files = $payrolls->getForEmployee($employee, ['zipmonth-1.zip', 'zipmonth-2.zip'], 'zipmonth');	
+		$files = $payrolls->getForEmployee($employee, new PayrollMonth('enero', '2016'), ['zipmonth-1.zip', 'zipmonth-2.zip']);	
 		$this->assertEquals(2, count($files));
 	}
 
@@ -53,7 +56,7 @@ class ZipPayrollsTest extends \PHPUnit_Framework_Testcase
 	{
 		$payrolls = new ZipPayrolls($this->root);
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(555555));
-		$files = $payrolls->getForEmployee($employee, 'zipmonth-1.zip', 'zipmonth');
+		$files = $payrolls->getForEmployee($employee, new PayrollMonth('enero', '2016'), 'zipmonth-1.zip');
 		
 	}
 	
@@ -78,13 +81,14 @@ class ZipPayrollsTest extends \PHPUnit_Framework_Testcase
 	{
 		$payrolls = new ZipPayrolls($this->root);
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(130496));
-		$files = $payrolls->getForEmployee($employee, 'invalid.zip', 'zipmonth');
+		$files = $payrolls->getForEmployee($employee, new PayrollMonth('enero', '2016'), 'invalid.zip');
 	}
 	
 	public function tearDown()
 	{
 		(new FileSystem())->remove($this->root.'/zipmonth');
 		(new FileSystem())->remove($this->root.'/unique');
+		(new FileSystem())->remove($this->root.'/enero-2016');
 	}
 	
 	

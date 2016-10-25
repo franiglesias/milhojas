@@ -2,10 +2,7 @@
 
 namespace AppBundle\Controller;
 
-
 use Milhojas\Application\Management\PayrollDistributor;
-
-use Milhojas\Application\Management\Commands\DistributePayroll;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -83,18 +80,7 @@ class DefaultController extends Controller
 				$fileName = $this->get('milhojas.uploader')->upload($file);
 				$payrollDist->setFileName($fileName);
 			}
-			
-			$line = 'nohup php bin/console payroll:month '.$payrollDist->getMonth().' '.implode(' ', $payrollDist->getFileName());
-			$line .= ' --env='. $this->get('kernel')->getEnvironment().' > results.txt';
-			$process = new Process($line);
-			$process->setWorkingDirectory('/Library/Webserver/Documents/milhojas');
-			$process->start(function ($type, $buffer) {
-			    if ('err' === $type) {
-			        echo 'ERR > '.$buffer;
-			    } else {
-			        echo 'OUT > '.$buffer;
-			    }
-			});
+			$this->launchCommand($payrollDist);
 			return $this->redirectToRoute('homepage');
 	    }
 
@@ -104,5 +90,20 @@ class DefaultController extends Controller
 		
     }
 	
+	
+	private function launchCommand($payrollDist)
+	{
+		$line = 'nohup php bin/console payroll:month '.$payrollDist->getMonth().' '.implode(' ', $payrollDist->getFileName());
+		$line .= ' --env='. $this->get('kernel')->getEnvironment().' > results.txt';
+		$process = new Process($line);
+		$process->setWorkingDirectory('/Library/Webserver/Documents/milhojas');
+		$process->start(function ($type, $buffer) {
+		    if ('err' === $type) {
+		        echo 'ERR > '.$buffer;
+		    } else {
+		        echo 'OUT > '.$buffer;
+		    }
+		});
+	}
 	
 }

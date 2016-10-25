@@ -7,6 +7,7 @@ namespace Milhojas\Infrastructure\Persistence\Management;
 use Milhojas\Domain\Management\Payrolls;
 use Milhojas\Domain\Management\PayrollDocument;
 use Milhojas\Domain\Management\Employee;
+use Milhojas\Domain\Management\PayrollMonth;
 
 # Exceptions
 
@@ -47,7 +48,7 @@ class ZipPayrolls implements Payrolls
 	 * @author Fran Iglesias
 	 */
 	
-	public function getForEmployee(Employee $employee, $repositories, $month)
+	public function getForEmployee(Employee $employee, PayrollMonth $month, $repositories)
 	{
 		$repositories = $this->prepareRepositories($repositories);
 		$documents = [];

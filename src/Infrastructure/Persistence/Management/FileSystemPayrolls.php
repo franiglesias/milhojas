@@ -7,6 +7,7 @@ namespace Milhojas\Infrastructure\Persistence\Management;
 use Milhojas\Domain\Management\Payrolls;
 use Milhojas\Domain\Management\PayrollDocument;
 use Milhojas\Domain\Management\Employee;
+use Milhojas\Domain\Management\PayrollMonth;
 
 # Exceptions
 
@@ -30,7 +31,7 @@ class FileSystemPayrolls implements Payrolls
 		$this->basePath = $basePath;
 	}
 		
-	public function getForEmployee(Employee $employee, $repositories, $month)
+	public function getForEmployee(Employee $employee, PayrollMonth $month, $repositories)
 	{
 		$repositories = $this->prepareRepositories($repositories);
 		$documents = [];
@@ -46,12 +47,20 @@ class FileSystemPayrolls implements Payrolls
 	private function prepareRepositories($repositories)
 	{
 		foreach ((array)$repositories as $repo) {
-			if (substr($repo, 1) !== '/') {
-				$repo = $this->basePath.'/'.$repo;
-			}
-			$paths[] = $repo;
+			$paths[] = $this->normalizePath($repo);
 		}
 		return $paths;
+	}
+	
+	private function normalizePath($path)
+	{
+		if (strlen($path) === 0) {
+			return $this->basePath;
+		}
+		if ($path[0] !== '/') {
+			$path = $this->basePath.'/'.$path;
+		}
+		return $path;
 	}
 	
 	/**

@@ -5,12 +5,11 @@ namespace Milhojas\Infrastructure\Process;
 use Symfony\Component\Process\Process;
 use Milhojas\Infrastructure\Process\CommandLine;
 /**
-* Description
+* Process decorator/adapter
 */
 class CommandLineProcess implements CommandLine
 {
 	private $process;
-	private $output;
 	
 	public function __construct($line)
 	{

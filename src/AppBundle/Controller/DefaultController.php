@@ -93,7 +93,7 @@ class DefaultController extends Controller
 	
 	private function launchCommand($payrollDist)
 	{
-		$clb = (new CommandLineBuilder('payroll:month'))
+		(new CommandLineBuilder('payroll:month'))
 			->withArgument( $payrollDist->getMonth() )
 			->withArgument( $payrollDist->getYear() )
 			->withArgument( implode(' ', $payrollDist->getFileName()) )

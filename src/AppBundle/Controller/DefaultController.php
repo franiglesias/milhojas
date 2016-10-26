@@ -10,7 +10,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-use Symfony\Component\Process\Process;
 use Milhojas\Infrastructure\Process\CommandLineBuilder;
 
 use Milhojas\Application\Management\Form\Type\PayrollType;
@@ -69,6 +68,7 @@ class DefaultController extends Controller
     {
         $payrollDist = new PayrollDistributor();
         $payrollDist->setMonth('septiembre');
+		$payrollDist->setYear('2016');
         $payrollDist->setCompleted(new \DateTime('today'));
         $form = $this->createForm(PayrollType::class, $payrollDist);
 
@@ -95,19 +95,13 @@ class DefaultController extends Controller
 	{
 		$clb = (new CommandLineBuilder('payroll:month'))
 			->withArgument( $payrollDist->getMonth() )
+			->withArgument( $payrollDist->getYear() )
 			->withArgument( implode(' ', $payrollDist->getFileName()) )
-			->outputTo('results.txt')
-			->environment( $this->get('kernel')->getEnvironment() );
-
-		$process = new Process($clb->line());
-		$process->setWorkingDirectory('/Library/Webserver/Documents/milhojas');
-		$process->start(function ($type, $buffer) {
-		    if ('err' === $type) {
-		        echo 'ERR > '.$buffer;
-		    } else {
-		        echo 'OUT > '.$buffer;
-		    }
-		});
+			->outputTo('payroll-month-output.log')
+			->environment( $this->get('kernel')->getEnvironment() )
+			->setWorkingDirectory( $this->get('kernel')->getRootDir().'/../' )
+			->start();
+		;
 	}
 	
 }

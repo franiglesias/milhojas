@@ -2,6 +2,8 @@
 
 namespace AppBundle\Command\Payroll;
 
+use Milhojas\Domain\Management\PayrollMonth;
+
 # Commands
 
 use Milhojas\Application\Management\Commands\DistributePayroll;
@@ -43,6 +45,11 @@ class MonthCommand extends Command
 				'What month is this payroll?'
 			)
 			->addArgument(
+				'year',
+				InputArgument::OPTIONAL,
+				'What year?'
+			)
+			->addArgument(
 				'paths',
 				InputArgument::IS_ARRAY,
 				'Locations of payroll files'
@@ -58,7 +65,7 @@ class MonthCommand extends Command
 			$io->section('Checking server');
 			$io->success($this->checkServer());
 			$io->section('Processing Employee list');
-			$this->bus->execute( new DistributePayroll($input->getArgument('month'), $input->getArgument('paths')) );
+			$this->bus->execute( new DistributePayroll(new PayrollMonth($input->getArgument('month'), $input->getArgument('year')), $input->getArgument('paths')) );
 			$io->success('Task ended.');
 		} catch (\Milhojas\Infrastructure\Persistence\Management\Exceptions\PayrollRepositoryDoesNotExist $e) {
 			$io->warning(array(

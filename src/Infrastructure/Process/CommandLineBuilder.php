@@ -2,6 +2,8 @@
 
 namespace Milhojas\Infrastructure\Process;
 
+use Milhojas\Infrastructure\Process\CommandLine;
+use Milhojas\Infrastructure\Process\CommandLineProcess;
 /**
 * Builds command lines to execute with Process component
 */
@@ -9,14 +11,13 @@ class CommandLineBuilder
 {
 	private $command;
 	private $arguments;
-	private $output;
 	private $environment;
+	private $workingDir;
 	
 	public function __construct($command)
 	{
 		$this->command = $command;
 		$this->arguments = [];
-		$this->output = '';
 		return $this;
 	}	
 	
@@ -75,7 +76,33 @@ class CommandLineBuilder
 		if (!$this->output) {
 			return false;
 		}
-		return sprintf(' > %s', $this->output);
+		return sprintf(' > var/logs/%s', $this->output);
+	}
+	
+	public function setWorkingDirectory ($workingDir)
+	{
+		$this->workingDir = $workingDir;
+		return $this;
+	}
+	
+	public function setProcess(CommandLine $process = null)
+	{
+		$this->process = $process ? $process : new CommandLineProcess($this->line());
+		return $this;
+	}
+	
+	public function start()
+	{
+		$this->setProcess();
+		$this->process->setWorkingDirectory($this->workingDir);
+		$this->process->start(function ($type, $buffer) {
+		    if ('err' === $type) {
+		        echo 'ERR > '.$buffer;
+		    } else {
+		        echo 'OUT > '.$buffer;
+		    }
+		});
+		return $this;
 	}
 
 }

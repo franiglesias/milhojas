@@ -19,6 +19,7 @@ class PayrollType extends AbstractType
     {
         $builder
             ->add('month', TextType::class)
+			->add('year', TextType::class)
             ->add('completed', DateType::class)
 			->add('file', FileType::class, array(
 				'label' => 'ZIP File', 

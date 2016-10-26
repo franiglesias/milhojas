@@ -39,6 +39,12 @@ class CommandLineBuilderTest extends \PHPUnit_Framework_Testcase
 		$clb = (new CommandLineBuilder('console:command'))->withNamedArgument('name', 'value');
 		$this->assertEquals('nohup php bin/console console:command name:value', $clb->line());
 	}
+	
+	public function test_It_accepts_working_dir()
+	{
+		$clb = (new CommandLineBuilder('console:command'))->setWorkingDirectory('/root/dir');
+		$this->assertEquals('nohup php bin/console console:command', $clb->line());
+	}
 }
 
 ?>

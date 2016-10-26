@@ -12,6 +12,7 @@ class PayrollDistributor
 	protected $month;
 	protected $completed;
 	protected $file;
+	protected $year;
 	
 	protected $fileName;
 	
@@ -24,6 +25,18 @@ class PayrollDistributor
 	{
 		return $this->month;
 	}
+	
+	public function setYear ($year)
+	{
+		$this->year = $year;
+	}
+	
+	public function getYear ()
+	{
+		return $this->year;
+	}
+	
+	
 	
 	public function setCompleted ($date)
 	{

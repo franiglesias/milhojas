@@ -34,6 +34,11 @@ class CommandLineBuilderTest extends \PHPUnit_Framework_Testcase
 		$this->assertEquals('nohup php bin/console console:command --env=dev', $clb->line());
 	}
 	
+	public function test_It_creates_a_line_with_named_argument()
+	{
+		$clb = (new CommandLineBuilder('console:command'))->withNamedArgument('name', 'value');
+		$this->assertEquals('nohup php bin/console console:command name:value', $clb->line());
+	}
 }
 
 ?>

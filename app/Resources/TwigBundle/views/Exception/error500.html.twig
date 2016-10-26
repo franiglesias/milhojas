@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+        <h1>Oops! Ha ocurrido un error</h1>
+        <h2>El servidor ha dicho: "{{ status_code }} {{ status_text }}".</h2>
+        <div>
+            Este error significa algo ha fallado en la aplicación o el servidor.
+        </div>
+{% endblock %}

@@ -7,7 +7,6 @@ namespace Milhojas\Infrastructure\Process;
 */
 class CommandLineBuilder
 {
-	private $process;
 	private $command;
 	private $arguments;
 	private $output;
@@ -24,6 +23,12 @@ class CommandLineBuilder
 	public function withArgument($argument)
 	{
 		$this->arguments[] = trim($argument);
+		return $this;
+	}
+	
+	public function withNamedArgument($name, $argument)
+	{
+		$this->arguments[] = trim(sprintf('%s:%s', $name, $argument));
 		return $this;
 	}
 	

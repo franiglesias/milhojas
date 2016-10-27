@@ -20,7 +20,6 @@ class PayrollType extends AbstractType
         $builder
             ->add('month', TextType::class)
 			->add('year', TextType::class)
-            ->add('completed', DateType::class)
 			->add('file', FileType::class, array(
 				'label' => 'ZIP File', 
 				'multiple' => true, 
@@ -35,7 +34,7 @@ class PayrollType extends AbstractType
 				)
  
 			))
-            ->add('save', SubmitType::class, array('label' => 'Start Payroll'))
+            ->add('save', SubmitType::class, array('label' => 'Start Payroll', 'attr' => array('class' => 'button expanded')))
         ;
     }
 }

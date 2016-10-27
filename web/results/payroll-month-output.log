@@ -1,0 +1,116 @@
+
+Payroll sending for septiembre
+==============================
+
+Checking server
+---------------
+
+ [OK] Mail Server is Up and accepts connections.                                                                        
+
+Processing Employee list
+------------------------
+
+ 1 / 89. Adriana Balboa. No payroll document found for this employee.
+ 2 / 89. Alberto López. No payroll document found for this employee.
+ 3 / 89. Alejandra Martínez. No payroll document found for this employee.
+ 4 / 89. Amelia Novoa. was sent
+ 5 / 89. Ana Arcilla. No payroll document found for this employee.
+ 6 / 89. Ana María Armada. was sent
+ 7 / 89. Ana Sanromán. No payroll document found for this employee.
+ 8 / 89. Ana Paula López. was sent
+ 9 / 89. Andrea Taboada. was sent
+10 / 89. Ángel Rogríguez. was sent
+11 / 89. Antonio Seara. was sent
+12 / 89. Aurora Elissetche. No payroll document found for this employee.
+13 / 89. Beatriz Tenorio. No payroll document found for this employee.
+14 / 89. Cándido Paniagua. No payroll document found for this employee.
+15 / 89. Carla Machado. was sent
+16 / 89. Carmen Fernández. was sent
+17 / 89. Carmen Vázquez. No payroll document found for this employee.
+18 / 89. Carolina Collazo. was sent
+19 / 89. Carolina García. was sent
+20 / 89. Celso Alonso. was sent
+21 / 89. Chelo Rizo. No payroll document found for this employee.
+22 / 89. Cristina Galindo. was sent
+23 / 89. Diana Otero. No payroll document found for this employee.
+24 / 89. Eduardo Crespo. No payroll document found for this employee.
+25 / 89. Elena Areal. was sent
+26 / 89. Elena López. No payroll document found for this employee.
+27 / 89. Elinor Cal. was sent
+28 / 89. Estefanía Costas. No payroll document found for this employee.
+29 / 89. Esther Fernández. was sent
+30 / 89. Fini Álvarez. was sent
+31 / 89. Francisca Pérez. No payroll document found for this employee.
+32 / 89. Francisco Fernández. No payroll document found for this employee.
+33 / 89. Francisco Iglesias. No payroll document found for this employee.
+34 / 89. Geni López. No payroll document found for this employee.
+35 / 89. Iria Asla. was sent
+36 / 89. Isabel Vázquez. was sent
+37 / 89. Javier Martínez. No payroll document found for this employee.
+38 / 89. Javier Salgado. was sent
+39 / 89. Jorge Prelch. No payroll document found for this employee.
+40 / 89. José Menduiña. No payroll document found for this employee.
+41 / 89. José Manuel Suárez. was sent
+42 / 89. Juan M. Rivas. was sent
+43 / 89. Julia Novoa. was sent
+44 / 89. Laura Pereiro. No payroll document found for this employee.
+45 / 89. Lidia Piñeiro. was sent
+46 / 89. Lisardo Villanueva. No payroll document found for this employee.
+47 / 89. Loreto Soto. was sent
+48 / 89. Mª Luz Rey. No payroll document found for this employee.
+49 / 89. Luis Fariña. No payroll document found for this employee.
+50 / 89. Manoli Pereiro. No payroll document found for this employee.
+51 / 89. Manuel Escudero. was sent
+52 / 89. María Ferral. was sent
+53 / 89. María José Sánchez. was sent
+54 / 89. María Luisa González. No payroll document found for this employee.
+55 / 89. Marian Santiago. No payroll document found for this employee.
+56 / 89. Mª Concepción Alba. No payroll document found for this employee.
+57 / 89. Marta Escobar. was sent
+58 / 89. Marta Galovart. was sent
+59 / 89. Mary Carmen Rey. No payroll document found for this employee.
+60 / 89. Mercedes Rial. No payroll document found for this employee.
+61 / 89. Miguel Ángel Rivas. was sent
+62 / 89. Mónica Núñez. was sent
+63 / 89. Mónica Rodríguez. was sent
+64 / 89. J. Ignacio Parajó. No payroll document found for this employee.
+65 / 89. Naria Barrio. No payroll document found for this employee.
+66 / 89. Nuria Álvarez. No payroll document found for this employee.
+67 / 89. Nuria Del Río. No payroll document found for this employee.
+68 / 89. Óscar Franco. No payroll document found for this employee.
+69 / 89. Pablo Labandeira. was sent
+70 / 89. Pablo Muñiz. No payroll document found for this employee.
+71 / 89. Patricia Rial. No payroll document found for this employee.
+72 / 89. Paula Bermúdez. was sent
+73 / 89. Pilar González. No payroll document found for this employee.
+74 / 89. Ramiro Taboada. was sent
+75 / 89. Rocío Fernández. was sent
+76 / 89. Román Vieito. was sent
+77 / 89. Rosa Mª Vega. was sent
+78 / 89. Rubén Álvarez. No payroll document found for this employee.
+79 / 89. Rubén Martínez. was sent
+80 / 89. Sara Fontenla. No payroll document found for this employee.
+81 / 89. Susana Pérez. was sent
+82 / 89. Maite Carneiro. was sent
+83 / 89. Vanesa Freaza. was sent
+84 / 89. Victoria Hervella. was sent
+85 / 89. Victoria Suárez. No payroll document found for this employee.
+86 / 89. Victoria Valeiras. was sent
+87 / 89. Xosé Antón Quiroga. was sent
+88 / 89. Xosé Ramón Alonso. was sent
+89 / 89. Yolanda Seoane. No payroll document found for this employee.
+
+Payroll sending report
+----------------------
+
+ -------------------- ----------------- 
+  Month                septiembre-2016  
+ -------------------- ----------------- 
+  Employees            89               
+  Sent emails          46               
+  Payrolls not found   43               
+  Emails Failed        0                
+ -------------------- ----------------- 
+
+ [OK] Task ended.                                                                                                       
+

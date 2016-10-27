@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="row">
+	<div class="medium-6 medium-centered large-4 large-centered columns">	
+		<p>Las nóminas se están distribuyendo. No hace falta que permanezcas en esta pantalla.</p>
+		<p>El cuadro inferior se actualiza automáticamente.</p>
+		<p><a href="{{ path('upload') }}" class="button expanded">¿Deseas enviar otra nómina?</a></p>
+	</div>
+	<div class="medium-10 medium-centered columns">
+		<div class="callout secondary">
+			<p><strong>Seguimiento del envío de nóminas.</strong></p>
+			<pre id="payroll-upload-result"></pre>
+		</div>	
+	</div>
+</div>
+{% endblock %}
+{% block pagescripts %}
+<script type="text/javascript">
+(function worker() {
+  $.get('results/payroll-month-output.log', function(data) {
+	  $('#payroll-upload-result').html ( data );
+    setTimeout(worker, 1000);
+  });
+})();
+</script>
+{% endblock %}
+

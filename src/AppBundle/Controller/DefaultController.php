@@ -69,7 +69,6 @@ class DefaultController extends Controller
         $payrollDist = new PayrollDistributor();
         $payrollDist->setMonth('septiembre');
 		$payrollDist->setYear('2016');
-        $payrollDist->setCompleted(new \DateTime('today'));
         $form = $this->createForm(PayrollType::class, $payrollDist);
 
 		$form->handleRequest($request);
@@ -81,7 +80,7 @@ class DefaultController extends Controller
 				$payrollDist->setFileName($fileName);
 			}
 			$this->launchCommand($payrollDist);
-			return $this->redirectToRoute('homepage');
+			return $this->redirectToRoute('payroll-results');
 	    }
 
         return $this->render('default/upload.html.twig', array(
@@ -89,7 +88,17 @@ class DefaultController extends Controller
         ));
 		
     }
-	
+	/**
+	 * @Route("/results", name="payroll-results")
+	 * @Method({"GET"})
+	 * @param Request $request 
+	 * @return void
+	 * @author Fran Iglesias
+	 */
+	public function resultsAction(Request $request)
+	{
+		return $this->render('default/payroll-upload-result.html.twig');
+	}
 	
 	private function launchCommand($payrollDist)
 	{
@@ -97,7 +106,7 @@ class DefaultController extends Controller
 			->withArgument( $payrollDist->getMonth() )
 			->withArgument( $payrollDist->getYear() )
 			->withArgument( implode(' ', $payrollDist->getFileName()) )
-			->outputTo('payroll-month-output.log')
+			->outputTo('web/results/payroll-month-output.log')
 			->environment( $this->get('kernel')->getEnvironment() )
 			->setWorkingDirectory( $this->get('kernel')->getRootDir().'/../' )
 			->start();

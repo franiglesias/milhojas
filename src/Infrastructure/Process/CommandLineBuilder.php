@@ -76,7 +76,7 @@ class CommandLineBuilder
 		if (!$this->output) {
 			return false;
 		}
-		return sprintf(' > var/logs/%s', $this->output);
+		return sprintf(' > %s', $this->output);
 	}
 	
 	public function setWorkingDirectory ($workingDir)
@@ -93,6 +93,9 @@ class CommandLineBuilder
 	
 	public function start()
 	{
+		if (file_exists($this->output)) {
+			unlink($this->output);
+		}
 		$this->setProcess();
 		$this->process->setWorkingDirectory($this->workingDir);
 		$this->process->start(function ($type, $buffer) {

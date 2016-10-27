@@ -10,10 +10,8 @@ use Symfony\Component\HttpFoundation\File\File;
 class PayrollDistributor
 {
 	protected $month;
-	protected $completed;
-	protected $file;
 	protected $year;
-	
+	protected $file;
 	protected $fileName;
 	
 	public function setMonth ($month)
@@ -34,18 +32,6 @@ class PayrollDistributor
 	public function getYear ()
 	{
 		return $this->year;
-	}
-	
-	
-	
-	public function setCompleted ($date)
-	{
-		$this->date = $date;
-	}
-	
-	public function getCompleted ()
-	{
-		return $this->date;
 	}
 	
 	public function setFile ($files)

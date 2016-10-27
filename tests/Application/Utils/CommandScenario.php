@@ -114,7 +114,7 @@ class CommandScenario extends \PHPUnit_Framework_Testcase
 	protected function sendsCommand($command, $times = 1)
 	{
 		$command = $this->normalizeFQN($command);
-		$this->assertTrue($this->bus->wasReceived($command, $times) > 0, sprintf('%s command not sent.', $command));
+		$this->assertTrue($this->bus->wasReceived($command, $times), sprintf('%s command not sent.', $command));
 		return $this;
 	}
 	

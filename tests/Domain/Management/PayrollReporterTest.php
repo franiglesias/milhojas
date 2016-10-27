@@ -53,7 +53,14 @@ class PayrollReporterTest extends \PHPUnit_Framework_Testcase
 	public function testItReturnsJson()
 	{
 		$reporter = new PayrollReporter(5, 25);
-		$this->assertEquals(json_encode(array('current' => 5, 'total' => 25)), $reporter->asJson());
+		$expected = array(
+			'current' => 5, 
+			'total' => 25,
+			'sent' => 0,
+			'notFound' => 0,
+			'failed' => 0
+		);
+		$this->assertEquals(json_encode($expected), $reporter->asJson());
 	}
 
 

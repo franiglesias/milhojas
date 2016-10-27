@@ -13,11 +13,13 @@ class CommandLineBuilder
 	private $arguments;
 	private $environment;
 	private $workingDir;
+	private $output;
 	
 	public function __construct($command)
 	{
 		$this->command = $command;
 		$this->arguments = [];
+		$this->output = '';
 		return $this;
 	}	
 	

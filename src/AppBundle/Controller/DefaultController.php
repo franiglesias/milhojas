@@ -95,7 +95,7 @@ class DefaultController extends Controller
 	 * @return void
 	 * @author Fran Iglesias
 	 */
-	public function resultsAction(Request $request)
+	public function resultsAction()
 	{
 		return $this->render('default/payroll-upload-result.html.twig');
 	}

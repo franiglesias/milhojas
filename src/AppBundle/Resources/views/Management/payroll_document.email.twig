@@ -1,14 +1,14 @@
 {% block subject 'Nómina del mes de ' ~ month %}
 
 {% block body_html %}
-	<p>{{ employee.getTreatment() }}</p>
+	<p>{% if employee.getGender() == 'male' %}Estimado{% else %}Estimada{% endif %} {{ employee.getName() }}:</p>
     <p>Te adjuntamos la nómina correspondiente al mes de <strong>{{ month }}</strong></p>
 	<p>Atte.</p>
 	<p>Departamento de Administración</p>
 {% endblock %}
 
 {% block body_text %}
-    {{ employee.getTreatment() }}
+    {% if employee.getGender() == 'male' %}Estimado{% else %}Estimada{% endif %} {{ employee.getName() }}:
 	
 	Te adjuntamos la nómina correspondiente al mes de {{ month }}
 	

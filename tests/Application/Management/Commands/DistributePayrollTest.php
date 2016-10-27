@@ -8,16 +8,12 @@ use Milhojas\Application\Management\Commands\DistributePayroll;
 use Milhojas\Application\Management\Commands\DistributePayrollHandler;
 
 # Domain concepts
-// use Milhojas\Domain\Management\Employee;
-// use Milhojas\Domain\Management\PayrollReporter;
 use Milhojas\Domain\Management\Staff;
 use Milhojas\Domain\Management\PayrollMonth;
 
 # Repositories
 use Milhojas\Infrastructure\Persistence\Management\YamlStaff;
 
-# Components
-// use Symfony\Component\Finder\Finder;
 
 # Fixtures and Doubles
 

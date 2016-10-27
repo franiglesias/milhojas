@@ -23,8 +23,8 @@ class MonitorDevicesHandlerTest extends CommandScenario
 
 		$this
 			->sending(new MonitorDevices([$device]))
-				->toHandler(new MonitorDevicesHandler(new DeviceMonitor(), $this->recorder))
-					->raisesEvent('Milhojas\Domain\It\Events\DeviceWentDown');
+			->toHandler(new MonitorDevicesHandler(new DeviceMonitor(), $this->recorder))
+			->raisesEvent('Milhojas\Domain\It\Events\DeviceWentDown');
 	}
 	
 }

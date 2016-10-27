@@ -23,7 +23,7 @@ class PayrollType extends AbstractType
 				'label' => 'ZIP File', 
 				'multiple' => true, 
 		        'constraints' => array(
-		             new All(array( // Validates each an every entry in the array that is uploaded with the given constraints.
+		             new All(array(
 		                 'constraints' => array(
 		                     new File(array(
 		                         'maxSize' => 6000000

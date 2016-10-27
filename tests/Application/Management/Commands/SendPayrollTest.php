@@ -3,7 +3,6 @@
 namespace Tests\Application\Management\Commands;
 
 # SUT
-
 use Milhojas\Application\Management\Commands\SendPayroll;
 use Milhojas\Application\Management\Commands\SendPayrollHandler;
 
@@ -11,6 +10,7 @@ use Milhojas\Application\Management\Commands\SendPayrollHandler;
 use Milhojas\Domain\Management\Employee;
 use Milhojas\Domain\Management\PayrollReporter;
 use Milhojas\Domain\Management\PayrollMonth;
+
 # Repositories
 use Milhojas\Infrastructure\Persistence\Management\FileSystemPayrolls;
 
@@ -43,7 +43,6 @@ class SendPayrollTest extends CommandScenario
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(12345));
 		$command = new SendPayroll($employee, new PayrollMonth('enero', '2016'), 'test', 'email@example.com', new PayrollReporter(1,2));
 		$handler = new SendPayrollHandler($this->payrolls, 'AppBundle:Management:payroll_document.email.twig', $this->mailer, $this->recorder);
-		
 		$this->sending($command)
 			->toHandler($handler)
 			->raisesEvent('Milhojas\Application\Management\Events\PayrollEmailWasSent')
@@ -59,7 +58,6 @@ class SendPayrollTest extends CommandScenario
 		$employee = new Employee('user@example.com', 'Fran', 'Iglesias', 'male', array(55555));
 		$command = new SendPayroll($employee, new PayrollMonth('enero', '2016'), 'test', 'email@example.com', new PayrollReporter(1,2));
 		$handler = new SendPayrollHandler($this->payrolls, 'AppBundle:Management:payroll_document.email.twig', $this->mailer, $this->recorder);
-
 		$this->sending($command)
 			->toHandler($handler)
 			->raisesEvent('Milhojas\Application\Management\Events\PayrollCouldNotBeFound');
@@ -71,7 +69,6 @@ class SendPayrollTest extends CommandScenario
 		$command = new SendPayroll($employee, new PayrollMonth('enero', '2016'), 'test', 'email@example.com', new PayrollReporter(1,2));
 		$handler = new SendPayrollHandler($this->payrolls, 'AppBundle:Management:payroll_document.email.twig', $this->mailer, $this->recorder);
 		$this->mailer->makeFail();
-
 		$this->sending($command)
 			->toHandler($handler)
 			->raisesEvent('\Milhojas\Application\Management\Events\PayrollEmailCouldNotBeSent');

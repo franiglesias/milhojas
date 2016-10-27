@@ -9,9 +9,9 @@ use Milhojas\Domain\Management\PayrollMonth;
 use Milhojas\Domain\Management\Employee;
 # Events
 
-use Milhojas\Domain\Management\Events\PayrollEmailWasSent;
-use Milhojas\Domain\Management\Events\PayrollEmailCouldNotBeSent;
-use Milhojas\Domain\Management\Events\PayrollCouldNotBeFound;
+use Milhojas\Application\Management\Events\PayrollEmailWasSent;
+use Milhojas\Application\Management\Events\PayrollEmailCouldNotBeSent;
+use Milhojas\Application\Management\Events\PayrollCouldNotBeFound;
 
 # Application Messaging infrastructure
 

@@ -1,22 +1,28 @@
 <?php
 
-namespace Milhojas\Domain\Management\Events;
+namespace Milhojas\Application\Management\Events;
 
 use Milhojas\Library\EventBus\Event;
 use Milhojas\Library\ValueObjects\Misc\Progress;
 
 /**
-* Describes a Payroll that was sent by the system
+* All payrolls were sent
 * 
-* Delivery could fail if email doesn't exists
 */
-class PayrollDistributionStarted implements Event
+class AllPayrollsWereSent implements Event
 {
+	private $month;
 	private $progress;
 	
-	public function __construct(Progress $progress)
+	public function __construct(Progress $progress, $month)
 	{
+		$this->month = $month;
 		$this->progress = $progress;
+	}
+	
+	public function getMonth()
+	{
+		return $this->month;
 	}
 	
 	public function getProgress()
@@ -26,7 +32,7 @@ class PayrollDistributionStarted implements Event
 	
 	public function getName()
 	{
-		return 'milhojas.management.payroll_distribution_started';
+		return 'milhojas.management.all_payrolls_were_sent';
 	}
 	
 	public function __toString()

@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Domain\Management\Events;
+namespace Milhojas\Application\Management\Events;
 
 use Milhojas\Library\EventBus\Event;
 use Milhojas\Domain\Management\Employee;

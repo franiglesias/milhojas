@@ -17,8 +17,8 @@ use Milhojas\Library\CommandBus\CommandHandler;
 
 # Events
 
-use Milhojas\Domain\Management\Events\AllPayrollsWereSent;
-use Milhojas\Domain\Management\Events\PayrollDistributionStarted;
+use Milhojas\Application\Management\Events\AllPayrollsWereSent;
+use Milhojas\Application\Management\Events\PayrollDistributionStarted;
 
 /**
 * Distributes payroll documents for a month

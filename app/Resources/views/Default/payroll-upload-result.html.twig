@@ -1,28 +1,62 @@
 {% extends 'base.html.twig' %}
 {% block body %}
 <div class="row">
-	<div class="medium-6 medium-centered large-4 large-centered columns">
-		<h2>Las nóminas se están distribuyendo.</h2>
+	<div class="medium-6 medium-centered large-6 large-centered columns">
+		<h2>Las nóminas se están distribuyendo</h2>
 		<p>No hace falta que permanezcas en esta pantalla.</p>
 		<p>El cuadro inferior se actualiza automáticamente para mostrar el proceso de envío y sus resultados.</p>
 		<p><a href="{{ path('upload') }}" class="button expanded">¿Deseas enviar otra nómina?</a></p>
 	</div>
-	<div class="medium-10 medium-centered columns">
-		<div class="callout secondary">
-			<p><strong>Seguimiento del envío de nóminas.</strong></p>
-			<pre id="payroll-upload-result"></pre>
-		</div>	
+	<div class="medium-6 medium-centered columns">
+		<p><strong>Seguimiento del envío de nóminas.</strong></p>
+		<div id="payroll-progress" class="success progress" role="progressbar" tabindex="0" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+		  <span class="progress-meter" style="width: 0%"><p class="progress-meter-text">0%</p></span>
+		</div>
+		<div class="row small-up-2 medium-up-4 large-up-4 collapse">
+		  <div class="column stats-display">
+			  <p class="info header">Empleados</p>
+			  <p id='payroll-employee' class="body"></p>
+		  </div>
+		  <div class="column stats-display">
+			  <p class="success header">Enviados</p>
+			  <p id='payroll-sent' class="body"></p>
+
+		  </div>
+		  <div class="column stats-display">
+			  <p class="warning header">No se encontró</p>
+			  <p id='payroll-not-found' class="body"></p>
+
+		  </div>
+		  <div class="column stats-display">
+			  <p class="alert header">No se emvió</p>
+			  <p id='payroll-failed' class="body"></p>
+
+		  </div>
+		</div>
 	</div>
 </div>
 {% endblock %}
 {% block pagescripts %}
 <script type="text/javascript">
-(function worker() {
-  $.get('results/payroll-month-output.log', function(data) {
-	  $('#payroll-upload-result').html ( data );
-    setTimeout(worker, 1000);
-  });
-})();
+	window.setTimeout(function () {var i= 1;}, 1500);
+		(function worker() {
+			$.getJSON('results/payroll-progress.json', function(data) {
+				$('#payroll-progress').attr ('aria-valuenow', data.current );
+				$('#payroll-progress').attr ('aria-valuemax', data.total );
+				var pct = Math.round(100*data.current/data.total);
+				var progress = pct.toString()+'%';
+				$('.progress-meter').width(progress);
+				$('.progress-meter-text').html(progress);
+				$('#payroll-employee').html(data.current);
+				$('#payroll-sent').html(data.sent);
+				$('#payroll-not-found').html(data.notFound);
+				$('#payroll-failed').html(data.failed);
+				if (data.current < data.total) {
+				  setTimeout(worker, 1000);				
+				}
+			});
+		})();
+		
 </script>
 {% endblock %}
 

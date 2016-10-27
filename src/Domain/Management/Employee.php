@@ -64,6 +64,16 @@ class Employee
 		return $this->email;
 	}
 	
+	public function getGender()
+	{
+		return $this->gender;
+	}
+	
+	public function getName()
+	{
+		return $this->firstname;
+	}
+	
 	public function getTreatment()
 	{
 		$treatment = $this->gender == 'female' ? 'Estimada' : 'Estimado';

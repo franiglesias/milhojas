@@ -32,6 +32,10 @@ services:
         class:          Milhojas\Application\Management\Reporters\AllPayrollsWereSentEmailReporter
         arguments:      ['@milhojas.mailer', '%payroll.sender%', '%payroll.report%', 'AppBundle:Management:all_payrolls.sent.email.twig']
 
+    management.payroll_progress.reporter:
+        class:          Milhojas\Application\Management\Reporters\PayrollProgressReporter
+        arguments:      ['web/results/payroll-progress.json']
+
     # Repositories
 
     management.staff:

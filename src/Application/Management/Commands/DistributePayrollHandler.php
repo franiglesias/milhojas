@@ -18,6 +18,7 @@ use Milhojas\Library\CommandBus\CommandHandler;
 # Events
 
 use Milhojas\Domain\Management\Events\AllPayrollsWereSent;
+use Milhojas\Domain\Management\Events\PayrollDistributionStarted;
 
 /**
 * Distributes payroll documents for a month
@@ -38,6 +39,7 @@ class DistributePayrollHandler implements CommandHandler
 	public function handle(Command $command)
 	{
 		$progress = new PayrollReporter(0, $this->staff->countAll());
+		$this->bus->execute(new BroadcastEvent(new PayrollDistributionStarted($progress)));
 		foreach ($this->staff as $employee) {
 			$progress = $progress->advance();
 			$this->bus->execute( new SendPayroll($employee, $command->getMonth(), $command->getPaths(), $this->sender, $progress) );

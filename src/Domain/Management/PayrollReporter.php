@@ -58,7 +58,10 @@ class PayrollReporter extends Progress
 	{
 		$data = array(
 			'current' => $this->current,
-			'total' => $this->total
+			'total' => $this->total,
+			'sent' => $this->sent,
+			'notFound' => $this->notFound,
+			'failed' => $this->failed
 		);
 		return json_encode($data);
 	}

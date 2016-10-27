@@ -10,3 +10,39 @@
 		text-align: center;
 	}
 }
+
+
+.stats-display {
+	
+	.header {
+		background-color: $primary-color;
+		color: $white;
+		font: {
+			size: $small-font-size;
+			weight: bold;
+		};
+		text-align: center;
+		height: 2em;
+	}
+	
+	.alert.header {
+		background-color: $alert-color;
+	}
+	
+	.success.header {
+		background-color: $success-color;
+	}
+	
+	.warning.header {
+		background-color: $warning-color;
+	}
+	
+	.body {
+		color: $black;
+		font: {
+			size: $stat-font-size;
+			weight: bold;
+		};
+		text-align: center;
+	}
+}

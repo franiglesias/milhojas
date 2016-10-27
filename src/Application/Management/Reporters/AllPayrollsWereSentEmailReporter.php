@@ -4,11 +4,12 @@ namespace Milhojas\Application\Management\Reporters;
 
 use Milhojas\Library\EventBus\Reporters\EmailReporter;
 use Milhojas\Library\EventBus\Event;
+
 /**
-* Responds to PostWasUpdated Event
+* Creates an send an email report when all payrolls are sent
 * 
-* Sends an e email message to notify that a post has been updated
 */
+
 class AllPayrollsWereSentEmailReporter extends EmailReporter
 {	
 	protected function prepareTemplateParameters(Event $event)

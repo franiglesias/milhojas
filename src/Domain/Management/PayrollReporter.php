@@ -65,6 +65,8 @@ class PayrollReporter extends Progress
 		);
 		return json_encode($data);
 	}
+	
+	
 }
 
 ?>

@@ -7,9 +7,8 @@ use Milhojas\Library\EventBus\Event;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Input\StringInput;
 /**
-* Responds to PostWasUpdated Event
+* Creates a cli report when all payrolls are sent
 * 
-* Sends an e email message to notify that a post has been updated
 */
 class AllPayrollsWereSentCliReporter extends CliReporter
 {	

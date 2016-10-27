@@ -35,6 +35,10 @@ services:
     management.payroll_progress.reporter:
         class:          Milhojas\Application\Management\Reporters\PayrollProgressReporter
         arguments:      ['web/results/payroll-progress.json']
+        
+    management.payroll_progress.resetter:
+        class:          Milhojas\Application\Management\Handlers\ResetPayrollProgress
+        arguments:      ['web/results/payroll-progress.json']
 
     # Repositories
 

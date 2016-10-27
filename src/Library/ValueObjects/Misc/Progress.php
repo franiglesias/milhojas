@@ -51,6 +51,11 @@ class Progress
 			throw new \OutOfBoundsException(sprintf('Current (%s) should be less or equal to Total (%s)', $current, $total));
 		}
 	}
+	
+	public function reset()
+	{
+		return new self(0, 0);
+	}
 }
 
 ?>

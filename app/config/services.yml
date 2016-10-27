@@ -97,7 +97,8 @@ services:
             
             - ['addHandler', ['milhojas.management.all_payrolls_were_sent', '@management.email_report_all_payrolls_were_sent'] ]
             - ['addHandler', ['milhojas.management.all_payrolls_were_sent', '@management.all_payrolls_were_sent.cli.reporter'] ]
-            
+            - ['addHandler', ['milhojas.management.all_payrolls_were_sent', '@management.payroll_progress.resetter'] ]
+             
             # Contents
             - ['addHandler', ['contents.new_post_was_written', '@contents.post_created.reporter'] ]
             - ['addHandler', ['contents.new_post_was_written', '@contents.post_list.projector'] ]

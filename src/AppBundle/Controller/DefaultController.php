@@ -58,48 +58,6 @@ class DefaultController extends Controller
 		));
 	}
 	
-	/**
-	 * @Route("/upload", name="upload")
-	 * @Method({"GET", "POST"})
-	 * @param Request $request 
-	 * @return void
-	 * @author Fran Iglesias
-	 */
-    public function uploadAction(Request $request)
-    {
-        $payrollDist = new PayrollDistributor();
-        $payrollDist->setMonth('septiembre');
-		$payrollDist->setYear('2016');
-        $form = $this->createForm(PayrollType::class, $payrollDist);
-
-		$form->handleRequest($request);
-
-		if ($form->isSubmitted() && $form->isValid()) {
-			$payrollDist = $form->getData();
-			foreach ($payrollDist->getFile() as $file) {
-				$fileName = $this->get('milhojas.uploader')->upload($file);
-				$payrollDist->setFileName($fileName);
-			}
-			$this->launchCommand($payrollDist);
-			return $this->redirectToRoute('payroll-results');
-	    }
-
-        return $this->render('default/upload.html.twig', array(
-            'form' => $form->createView(),
-        ));
-		
-    }
-	/**
-	 * @Route("/results", name="payroll-results")
-	 * @Method({"GET"})
-	 * @param Request $request 
-	 * @return void
-	 * @author Fran Iglesias
-	 */
-	public function resultsAction()
-	{
-		return $this->render('default/payroll-upload-result.html.twig');
-	}
 	
 	/**
 	 * @Route("/exchange/{file}.{_format}", defaults={"_format"="json"}, name="exchange")
@@ -118,17 +76,5 @@ class DefaultController extends Controller
 		return $response;
 	}
 	
-	private function launchCommand($payrollDist)
-	{
-		(new CommandLineBuilder('payroll:month'))
-			->withArgument( $payrollDist->getMonth() )
-			->withArgument( $payrollDist->getYear() )
-			->withArgument( implode(' ', $payrollDist->getFileName()) )
-			->outputTo('var/logs/payroll-month-output.log')
-			->environment( $this->get('kernel')->getEnvironment() )
-			->setWorkingDirectory( $this->get('kernel')->getRootDir().'/../' )
-			->start();
-		;
-	}
-	
+
 }

@@ -2,18 +2,14 @@
 
 namespace AppBundle\Controller;
 
-use Milhojas\Application\Management\PayrollDistributor;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-
-use Milhojas\Infrastructure\Process\CommandLineBuilder;
-
-use Milhojas\Application\Management\Form\Type\PayrollType;
 
 class DefaultController extends Controller
 {
@@ -26,7 +22,6 @@ class DefaultController extends Controller
         // replace this example code with whatever you need
         return $this->render('AppBundle:Default:index.html.twig');
     }
-	
 	
 	/**
 	 * @Route("/welcome", name="welcome")

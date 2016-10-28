@@ -10,7 +10,8 @@ use Milhojas\Library\CommandBus\Command;
 class MonitorDevices implements Command
 {
 	private $devices;
-public function __construct(array $devices)
+	
+	public function __construct(array $devices)
 	{
 		$this->devices = $devices;
 	}

@@ -9,7 +9,8 @@ class PrinterConfiguration
 {
 	private $trays;
 	private $colors;
-public function __construct($trays, $colors)
+
+	public function __construct($trays, $colors)
 	{
 		$this->trays = $trays;
 		$this->colors = $colors;

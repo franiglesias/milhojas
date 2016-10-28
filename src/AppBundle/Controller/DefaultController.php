@@ -9,7 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 use Milhojas\Infrastructure\Process\CommandLineBuilder;
 
@@ -112,8 +112,9 @@ class DefaultController extends Controller
 	public function exchangeAction($file)
 	{
 		$file = $this->get('kernel')->getRootDir().'/../var/exchange/'.$file.'.json';
-		$response = new JsonResponse();
-		$response->setData(json_decode(file_get_contents($file)));
+		$response = new BinaryFileResponse($file);
+		$response->setTtl(0);
+		$response->headers->set('Content-Type', 'application/json');
 		return $response;
 	}
 	

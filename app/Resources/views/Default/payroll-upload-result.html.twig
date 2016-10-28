@@ -56,7 +56,7 @@
 			var progress = pct.toString()+'%';
 			$('.progress-meter').width(progress);
 			$('.progress-meter-text').html(progress);
-			$('#payroll-employee').html(data.current);
+			$('#payroll-employee').html(data.current+'<small>/'+data.total+'</small>');
 			$('#payroll-sent').html(data.sent);
 			$('#payroll-not-found').html(data.notFound);
 			$('#payroll-failed').html(data.failed);

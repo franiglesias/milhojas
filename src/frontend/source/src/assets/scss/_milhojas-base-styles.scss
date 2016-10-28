@@ -11,7 +11,18 @@
 	}
 }
 
-
+@mixin stat-box ($color) {
+	.header {
+		background-color: $color;
+		color: foreground($color, $white);
+	}
+	
+	.body {
+		background-color: scale-color($color, $lightness: +85%);
+		color: $color;
+		border-bottom: 2px solid $color;
+	}
+}
 .stats-display {
 	
 	.header {
@@ -25,17 +36,7 @@
 		height: 2em;
 	}
 	
-	.alert.header {
-		background-color: $alert-color;
-	}
-	
-	.success.header {
-		background-color: $success-color;
-	}
-	
-	.warning.header {
-		background-color: $warning-color;
-	}
+	p {margin-bottom: 0;}
 	
 	.body {
 		color: $black;
@@ -44,5 +45,23 @@
 			weight: bold;
 		};
 		text-align: center;
+		background-color: scale-color($primary-color, $lightness: +75%);
 	}
+	
+	&.alert {
+		@include stat-box($alert-color);
+	}
+
+	&.success {
+		@include stat-box($success-color);
+	}
+	&.warning {
+		@include stat-box($warning-color);
+	}
+
+	&.info {
+		@include stat-box($primary-color);
+	}
+	
+	
 }

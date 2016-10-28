@@ -54,7 +54,7 @@ class Progress
 	
 	public function reset()
 	{
-		return new self(0, 0);
+		return new static(0, 0);
 	}
 }
 

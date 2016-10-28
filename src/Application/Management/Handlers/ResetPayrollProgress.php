@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Application\Management\Reporters;
+namespace Milhojas\Application\Management\Handlers;
 
 use Milhojas\Library\EventBus\EventHandler;
 use Milhojas\Library\EventBus\Event;

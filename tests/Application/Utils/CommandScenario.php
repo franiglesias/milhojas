@@ -130,6 +130,13 @@ class CommandScenario extends \PHPUnit_Framework_Testcase
 		return $name[0] == '\\'? substr($name, 1) : $name;
 	}
 	
+	protected function producesCommandHistory($expected)
+	{
+		$this->assertEquals($expected, $this->bus->getReceived());
+		return $this;
+
+	}
+	
 }
 
 ?>

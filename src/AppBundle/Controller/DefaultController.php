@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Milhojas\Infrastructure\Process\CommandLineBuilder;
 
@@ -100,13 +101,29 @@ class DefaultController extends Controller
 		return $this->render('default/payroll-upload-result.html.twig');
 	}
 	
+	/**
+	 * @Route("/exchange/{file}.{_format}", defaults={"_format"="json"}, name="exchange")
+	 * @Method({"GET"})
+	 *
+	 * @param string $file 
+	 * @return void
+	 * @author Fran Iglesias
+	 */
+	public function exchangeAction($file)
+	{
+		$file = $this->get('kernel')->getRootDir().'/../var/exchange/'.$file.'.json';
+		$response = new JsonResponse();
+		$response->setData(json_decode(file_get_contents($file)));
+		return $response;
+	}
+	
 	private function launchCommand($payrollDist)
 	{
 		(new CommandLineBuilder('payroll:month'))
 			->withArgument( $payrollDist->getMonth() )
 			->withArgument( $payrollDist->getYear() )
 			->withArgument( implode(' ', $payrollDist->getFileName()) )
-			->outputTo('web/results/payroll-month-output.log')
+			->outputTo('var/logs/payroll-month-output.log')
 			->environment( $this->get('kernel')->getEnvironment() )
 			->setWorkingDirectory( $this->get('kernel')->getRootDir().'/../' )
 			->start();

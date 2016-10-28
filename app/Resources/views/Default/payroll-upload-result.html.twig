@@ -3,8 +3,9 @@
 <div class="row">
 	<div class="medium-6 medium-centered large-6 large-centered columns">
 		<h2>Las nóminas se están distribuyendo</h2>
-		<p>No hace falta que permanezcas en esta pantalla.</p>
+		<p>El proceso durará varios minutos y no es necesario que permanezcas en esta pantalla. Se enviará un email con el resultado.</p>
 		<p>El cuadro inferior se actualiza automáticamente para mostrar el proceso de envío y sus resultados.</p>
+		<p class="info callout">El proceso puede experimentar pausas, que son necesarias para evitar la sobrecarga del servidor de correo.</p>
 		<p><a href="{{ path('upload') }}" class="button expanded">¿Deseas enviar otra nómina?</a></p>
 	</div>
 	<div class="medium-6 medium-centered columns">
@@ -13,22 +14,22 @@
 		  <span class="progress-meter" style="width: 0%"><p class="progress-meter-text">0%</p></span>
 		</div>
 		<div class="row small-up-2 medium-up-4 large-up-4 collapse">
-		  <div class="column stats-display">
-			  <p class="info header">Empleados</p>
+		  <div class="column stats-display info">
+			  <p class="header">Empleados</p>
 			  <p id='payroll-employee' class="body">0</p>
 		  </div>
-		  <div class="column stats-display">
-			  <p class="success header">Enviados</p>
+		  <div class="column stats-display success">
+			  <p class="header">Enviados</p>
 			  <p id='payroll-sent' class="body">0</p>
 
 		  </div>
-		  <div class="column stats-display">
-			  <p class="warning header">No se encontró</p>
+		  <div class="column stats-display warning">
+			  <p class=" header">No se encontró</p>
 			  <p id='payroll-not-found' class="body">0</p>
 
 		  </div>
-		  <div class="column stats-display">
-			  <p class="alert header">No se emvió</p>
+		  <div class="column stats-display alert">
+			  <p class="header">No se envió</p>
 			  <p id='payroll-failed' class="body">0</p>
 
 		  </div>
@@ -38,9 +39,17 @@
 {% endblock %}
 {% block pagescripts %}
 <script type="text/javascript">
-	window.setTimeout(function () {var i= 1;}, 1500);
-	(function worker() {
-		$.getJSON('results/payroll-progress.json', function(data) {
+	function wait() {
+		$.getJSON("{{ path('exchange', {'file': 'management-payroll-reporter'}) }}", function(data) {
+			if (data.total == 0) {
+				setTimeout(wait, 1000);
+			} else {
+				setTimeout(update, 1000);
+			}
+		});
+	};
+	function update() {
+		$.getJSON("{{ path('exchange', {'file': 'management-payroll-reporter'}) }}", function(data) {
 			$('#payroll-progress').attr ('aria-valuenow', data.current );
 			$('#payroll-progress').attr ('aria-valuemax', data.total );
 			var pct = Math.round(100*data.current/data.total);
@@ -52,10 +61,11 @@
 			$('#payroll-not-found').html(data.notFound);
 			$('#payroll-failed').html(data.failed);
 			if (data.current < data.total) {
-			  setTimeout(worker, 1000);				
+				setTimeout(update, 1000);
 			}
 		});
-	})();
+	};
+	wait();
 </script>
 {% endblock %}
 

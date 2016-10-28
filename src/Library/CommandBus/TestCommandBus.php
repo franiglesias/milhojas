@@ -42,5 +42,10 @@ class TestCommandBus implements CommandBus
 		$stat = array_count_values($this->commands);
 		return $stat[$command] === $times;
 	}
+	
+	public function getReceived()
+	{
+		return $this->commands;
+	}
 }
 ?>

@@ -18,6 +18,7 @@ class ManagementController extends Controller
 {
     /**
      * @Route("/management", name="management-home")
+	 * @Security("has_role('ROLE_ADMIN')")
      * @Method({"GET","HEAD"})
      */
     public function indexAction(Request $request)
@@ -30,6 +31,7 @@ class ManagementController extends Controller
 	/**
 	 * @Route("/management/payroll/upload", name="payroll-upload")
 	 * @Method({"GET", "POST"})
+	 * @Security("has_role('ROLE_ADMIN')")
 	 * @param Request $request 
 	 * @return void
 	 * @author Fran Iglesias
@@ -61,6 +63,7 @@ class ManagementController extends Controller
 	/**
 	 * @Route("/management/payroll/results", name="payroll-results")
 	 * @Method({"GET"})
+	 * @Security("has_role('ROLE_ADMIN')")
 	 * @param Request $request 
 	 * @return void
 	 * @author Fran Iglesias

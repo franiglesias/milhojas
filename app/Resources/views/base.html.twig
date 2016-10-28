@@ -17,8 +17,9 @@
 			<h1><small>Welcome to</small> Milhojas Intranet</h1>
 			<p>Powered by Symfony {{ constant('Symfony\\Component\\HttpKernel\\Kernel::VERSION') }}</p>
 		</header>			
-		{% endblock header %}
-		{% block body %}{% endblock %}
+		{% endblock %}
+		{% block body %}
+		{% endblock %}
         {% block javascripts %}
 		<script src="{{ asset('assets/js/app.js') }}"></script>
 		{% endblock %}

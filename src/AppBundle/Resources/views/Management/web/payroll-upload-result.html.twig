@@ -32,24 +32,39 @@
 			  <p class="header">No se envió</p>
 			  <p id='payroll-failed' class="body">0</p>
 
-		  </div>
+		  </div>tax c
 		</div>
 	</div>
 </div>
 {% endblock %}
 {% block pagescripts %}
 <script type="text/javascript">
-	function wait() {
-		$.getJSON("{{ path('exchange', {'file': 'management-payroll-reporter'}) }}", function(data) {
-			if (data.total == 0) {
-				setTimeout(wait, 1000);
-			} else {
-				setTimeout(update, 1000);
-			}
-		});
-	};
+	// function wait() {
+	// 	$.getJSON("{{ path('exchange', {'file': 'management-payroll-reporter'}) }}", function(data) {
+	// 		if (data.total == 0) {
+	// 			setTimeout(wait, 1000);
+	// 		} else {
+	// 			setTimeout(update, 1000);
+	// 		}
+	// 	});
+	// };
 	function update() {
 		$.getJSON("{{ path('exchange', {'file': 'management-payroll-reporter'}) }}", function(data) {
+			// $('#payroll-progress').attr ('aria-valuenow', data.current );
+			// $('#payroll-progress').attr ('aria-valuemax', data.total );
+			// var pct = Math.round(100*data.current/data.total);
+			// var progress = pct.toString()+'%';
+			// $('.progress-meter').width(progress);
+			// $('.progress-meter-text').html(progress);
+			// $('#payroll-employee').html(data.current+'<small>/'+data.total+'</small>');
+			// $('#payroll-sent').html(data.sent);
+			// $('#payroll-not-found').html(data.notFound);
+			// $('#payroll-failed').html(data.failed);
+			// if (data.current < data.total) {
+			// 	setTimeout(update, 1000);
+			// }
+		})
+		.done(function(data) {
 			$('#payroll-progress').attr ('aria-valuenow', data.current );
 			$('#payroll-progress').attr ('aria-valuemax', data.total );
 			var pct = Math.round(100*data.current/data.total);
@@ -63,9 +78,13 @@
 			if (data.current < data.total) {
 				setTimeout(update, 1000);
 			}
-		});
+		})
+		.fail( function (data) {
+			setTimeout(update, 1000);
+		})
+		.always();
 	};
-	wait();
+	update();
 </script>
 {% endblock %}
 

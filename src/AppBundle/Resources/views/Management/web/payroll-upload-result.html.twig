@@ -5,14 +5,15 @@
 		<h2>Las nóminas se están distribuyendo</h2>
 		<p>El proceso durará varios minutos y no es necesario que permanezcas en esta pantalla. Se enviará un email con el resultado.</p>
 		<p>El cuadro inferior se actualiza automáticamente para mostrar el proceso de envío y sus resultados.</p>
-		<p class="info callout">El proceso puede experimentar pausas, que son necesarias para evitar la sobrecarga del servidor de correo.</p>
-		<p><a href="{{ path('payroll-upload') }}" class="button expanded">¿Deseas enviar otra nómina?</a></p>
+		<p id="feedback"></p>
+		<p id="allow-new"><a href="{{ path('payroll-upload') }}" class="button expanded">¿Deseas enviar otra nómina?</a></p>
 	</div>
 	<div class="medium-6 medium-centered columns">
 		<p><strong>Seguimiento del envío de nóminas.</strong></p>
 		<div id="payroll-progress" class="success progress" role="progressbar" tabindex="0" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
 		  <span class="progress-meter" style="width: 0%"><p class="progress-meter-text">0%</p></span>
 		</div>
+
 		<div class="row small-up-2 medium-up-4 large-up-4 collapse">
 		  <div class="column stats-display info">
 			  <p class="header">Empleados</p>
@@ -31,52 +32,87 @@
 		  <div class="column stats-display alert">
 			  <p class="header">No se envió</p>
 			  <p id='payroll-failed' class="body">0</p>
-
-		  </div>tax c
+		  </div>
 		</div>
+
 	</div>
 </div>
 {% endblock %}
 {% block pagescripts %}
 <script type="text/javascript">
-	// function wait() {
-	// 	$.getJSON("{{ path('exchange', {'file': 'management-payroll-reporter'}) }}", function(data) {
-	// 		if (data.total == 0) {
-	// 			setTimeout(wait, 1000);
-	// 		} else {
-	// 			setTimeout(update, 1000);
-	// 		}
-	// 	});
-	// };
+	function Progress(data) {
+		this.current = data.current;
+		this.total = data.total;
+		this.sent = data.sent;
+		this.notFound = data.notFound;
+		this.failed = data.failed;
+
+		this.asPCT = function() {
+			return Math.round(100*this.current/this.total).toString()+'%';
+		};
+
+		this.employeeCount = function() {
+			return this.current+'<small>/'+this.total+'</small>';
+		};
+
+		this.thereArePending = function() {
+			return this.current < this.total;
+		}
+
+		this.updateBar = function(selector) {
+			$(selector).attr('aria-valuenow', this.current);
+			$(selector).attr('aria-valuemax', this.total);
+			$(selector+' .progress-meter').width(this.asPCT());
+			$(selector+' .progress-meter .progress-meter-text').html(this.asPCT());
+		}
+
+		this.updateStats = function () {
+			$('#payroll-employee').html(this.employeeCount());
+			$('#payroll-sent').html(this.sent);
+			$('#payroll-not-found').html(this.notFound);
+			$('#payroll-failed').html(this.failed);
+		}
+
+	};
+
+	function Feedback(selector, initial, running, ended) {
+		this.selector = selector;
+		this.initial = initial;
+		this.running = running;
+		this.ended = ended;
+
+		this.start = function() {
+			$(this.selector).addClass('alert').addClass('callout');
+			$(this.selector).html(this.initial).fadeIn();
+		}
+
+		this.run = function () {
+			$(this.selector).fadeOut('slow', function () {
+				$(this.selector).removeClass('alert').addClass('info');
+				$(this.selector).html(this.running).fadeIn();
+			})
+		}
+
+		this.end = function () {
+			$(this.selector).fadeOut().fadeIn('slow', function () {
+				$(this).removeClass('info').addClass('success').html(this.ended);
+			})
+		}
+	}
+
 	function update() {
 		$.getJSON("{{ path('exchange', {'file': 'management-payroll-reporter'}) }}", function(data) {
-			// $('#payroll-progress').attr ('aria-valuenow', data.current );
-			// $('#payroll-progress').attr ('aria-valuemax', data.total );
-			// var pct = Math.round(100*data.current/data.total);
-			// var progress = pct.toString()+'%';
-			// $('.progress-meter').width(progress);
-			// $('.progress-meter-text').html(progress);
-			// $('#payroll-employee').html(data.current+'<small>/'+data.total+'</small>');
-			// $('#payroll-sent').html(data.sent);
-			// $('#payroll-not-found').html(data.notFound);
-			// $('#payroll-failed').html(data.failed);
-			// if (data.current < data.total) {
-			// 	setTimeout(update, 1000);
-			// }
 		})
 		.done(function(data) {
-			$('#payroll-progress').attr ('aria-valuenow', data.current );
-			$('#payroll-progress').attr ('aria-valuemax', data.total );
-			var pct = Math.round(100*data.current/data.total);
-			var progress = pct.toString()+'%';
-			$('.progress-meter').width(progress);
-			$('.progress-meter-text').html(progress);
-			$('#payroll-employee').html(data.current+'<small>/'+data.total+'</small>');
-			$('#payroll-sent').html(data.sent);
-			$('#payroll-not-found').html(data.notFound);
-			$('#payroll-failed').html(data.failed);
-			if (data.current < data.total) {
+			theMessage.run();
+			var theProgress = new Progress(data);
+			theProgress.updateBar('#payroll-progress');
+			theProgress.updateStats();
+			if (theProgress.thereArePending()) {
 				setTimeout(update, 1000);
+			} else {
+				theMessage.end();
+				$('#allow-new').fadeIn("slow");
 			}
 		})
 		.fail( function (data) {
@@ -84,7 +120,9 @@
 		})
 		.always();
 	};
+	var theMessage = new Feedback('#feedback', 'Esperando', 'Corriendo', 'Terminado');
+	theMessage.start();
+	$('#allow-new').hide();
 	update();
 </script>
 {% endblock %}
-

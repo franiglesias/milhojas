@@ -13,98 +13,98 @@ services:
 
     # in_memory_storage_driver:
     #     class:          Milhojas\Infrastructure\Persistence\Storage\Drivers\InMemoryStorageDriver
-    
+
     # EventSourcing Services
-    
+
     event_store:
         class:          Milhojas\Library\EventSourcing\EventStore\DoctrineEventStore
         arguments:      ["@doctrine.orm.entity_manager"]
-        
+
     event_sourcing_repository:
         class:          Milhojas\Infrastructure\Persistence\Storage\EventSourcingStorage
         arguments:      ["@event_store"]
-        
+
     event_recorder:
         class:          Milhojas\Library\EventBus\EventRecorder
-        
+
     # CommandBus Services
-        
+
     handler_container:
         class:          Milhojas\Library\CommandBus\Containers\HandlerContainer
         arguments:      ["@service_container"]
-        
+
     handler_inflector:
         class:          Milhojas\Library\CommandBus\Inflectors\HandlerInflector
-        
+
     command_bus:
         class:          Milhojas\Library\CommandBus\BasicCommandBus
         arguments:      [["@executer_bus_worker", '@event_bus_worker']]
-        
+
     broadcast_event_handler:
         class:          Milhojas\Library\CommandBus\Commands\BroadcastEventHandler
         arguments:      ['@event_recorder']
-    
+
     # CommandBus Workers
-        
+
     executer_bus_worker:
         class:          Milhojas\Library\CommandBus\Workers\ExecuteWorker
         arguments:      ["@handler_container", "@handler_inflector"]
-        
+
     event_bus_worker:
         class:          Milhojas\Library\CommandBus\Workers\DispatchEventsWorker
         arguments:      ['@event_bus', '@event_recorder']
-        
+
 # Mailer
     milhojas.templating.engine:
         class:          Milhojas\Infrastructure\Templating\Adapters\TwigTemplating
         arguments:      ['@twig']
-        
+
     milhojas.mailer.engine:
         class:          Milhojas\Infrastructure\Mail\Adapters\SwiftMailerEngineAdapter
         arguments:      ['@mailer']
-        
+
     milhojas.mailer.basic:
         class:          Milhojas\Infrastructure\Mail\Mailers\BasicMailer
         arguments:      ['@milhojas.mailer.engine']
-        
+
     milhojas.mailer:
         class:          Milhojas\Infrastructure\Mail\Mailers\TemplateMailer
         arguments:      ['@milhojas.mailer.basic', '@milhojas.templating.engine']
-        
+
     cli.output:
         class:          Symfony\Component\Console\Output\ConsoleOutput
-        
+
 # EventBus
     event_bus:
         class:          Milhojas\Library\EventBus\SimpleEventBus
         arguments:      ['@logger']
         calls:
             # It
-            - ['subscribeHandler', ['@it.device_status.email.reporter',  '%milhojas.it.monitor.email.events%'] ] 
-            - ['subscribeHandler', ['@it.device_status.cli.reporter',  '%milhojas.it.monitor.all.events%'] ] 
+            - ['subscribeHandler', ['@it.device_status.email.reporter',  '%milhojas.it.monitor.email.events%'] ]
+            - ['subscribeHandler', ['@it.device_status.cli.reporter',  '%milhojas.it.monitor.all.events%'] ]
 
             # Management
             - ['addHandler', ['milhojas.management.payroll_distribution_started', '@management.payroll_progress.reporter'] ]
-            
+
             - ['addHandler', ['milhojas.management.payroll_email_was_sent', '@management.payroll_was_sent.cli.reporter'] ]
             - ['addHandler', ['milhojas.management.payroll_email_was_sent', '@management.payroll_progress.reporter'] ]
-            
+
             - ['addHandler', ['milhojas.management.payroll_email_could_not_be_sent', '@management.email_was_not_sent.cli.reporter']]
             - ['addHandler', ['milhojas.management.payroll_email_could_not_be_sent', '@management.payroll_progress.reporter']]
-            
+
             - ['addHandler', ['milhojas.management.payroll_could_not_be_found', '@management.payroll_could_not_be_sent.cli.reporter'] ]
             - ['addHandler', ['milhojas.management.payroll_could_not_be_found', '@management.payroll_progress.reporter'] ]
-            
+
             - ['addHandler', ['milhojas.management.all_payrolls_were_sent', '@management.email_report_all_payrolls_were_sent'] ]
             - ['addHandler', ['milhojas.management.all_payrolls_were_sent', '@management.all_payrolls_were_sent.cli.reporter'] ]
             - ['addHandler', ['milhojas.management.all_payrolls_were_sent', '@management.payroll_progress.resetter'] ]
-             
+
             # Contents
             - ['addHandler', ['contents.new_post_was_written', '@contents.post_created.reporter'] ]
             - ['addHandler', ['contents.new_post_was_written', '@contents.post_list.projector'] ]
             - ['addHandler', ['contents.post_was_updated', '@contents.post_updated.reporter'] ]
             - ['addHandler', ['contents.post_was_updated', '@contents.post_list.projector'] ]
-            
+
         tags:
             - { name: monolog.logger, channel: eventbus }
 

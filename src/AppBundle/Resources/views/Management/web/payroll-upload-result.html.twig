@@ -135,36 +135,52 @@
 		}
 	}
 
-// Waits for json file and updates information for the user
 
-	function update() {
-		$.getJSON("{{ path('exchange', {'file': 'management-payroll-reporter'}) }}", function(data) {
-		})
-		.done(function(data) {
-			theMessage.run();
-			theProgress.update(data);
-			theProgressBar.update();
-			theStatsViewer.update();
-			if (theProgress.thereArePending()) {
+function PayrollResults (progress, bar, viewer, message) {
+		this.progress = progress;
+		this.progressBar = bar;
+		this.statsViewer = viewer;
+		this.message = message;
+
+		this.run = function () {
+			this.message.start();
+			$('#allow-new').hide();
+			this.update();
+		}
+
+		this.update = function() {
+			my = this;
+			$.getJSON("{{ path('exchange', {'file': 'management-payroll-reporter'}) }}", function(data) {
+			})
+			.done(function(data) {
+				my.message.run();
+				my.progress.update(data);
+				my.progressBar.update();
+				my.statsViewer.update();
+				if (my.progress.thereArePending()) {
+					setTimeout(update, 1000);
+				} else {
+					my.message.end();
+					$('#allow-new').fadeIn("slow");
+				}
+			})
+			.fail( function (data) {
 				setTimeout(update, 1000);
-			} else {
-				theMessage.end();
-				$('#allow-new').fadeIn("slow");
-			}
-		})
-		.fail( function (data) {
-			setTimeout(update, 1000);
-		})
-		.always();
-	};
+			})
+			.always();
+		}
 
-	var theProgress = new Progress();
-	var theProgressBar = new ProgressBar('#payroll-progress', theProgress);
-	var theStatsViewer = new Stats(theProgress);
-	var theMessage = new Feedback('#feedback', 'Esperando', 'Corriendo', 'Terminado');
-	theMessage.start();
-	$('#allow-new').hide();
-	update();
+};
+
+var theProgress = new Progress();
+var results = new PayrollResults(
+	theProgress,
+	new ProgressBar('#payroll-progress', theProgress),
+	new Stats(theProgress),
+	new Feedback('#feedback', 'Esperando', 'Corriendo', 'Terminado')
+);
+
+results.run();
 
 </script>
 {% endblock %}

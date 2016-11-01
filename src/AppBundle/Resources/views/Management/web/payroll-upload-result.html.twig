@@ -116,22 +116,25 @@
 		this.initial = initial;
 		this.running = running;
 		this.ended = ended;
+		this.start();
 
 		this.start = function() {
-			$(this.selector).html(this.initial);
+			$(this.selector).hide();
 			$(this.selector).addClass('alert callout')
+			$(this.selector).html(this.initial);
+			$(this.selector).fadeIn();
 		}
 
 		this.run = function () {
-			$(this.selector).html(this.running);
 			$(this.selector).removeClass('alert callout')
 			$(this.selector).addClass('info callout');
+			$(this.selector).html(this.running);
 		}
 
 		this.end = function () {
-			$(this.selector).html(this.ended);
 			$(this.selector).removeClass('info callout')
 			$(this.selector).addClass('success callout');
+			$(this.selector).html(this.ended);
 		}
 	}
 
@@ -149,23 +152,21 @@ function PayrollResults (progress, bar, viewer, message) {
 		}
 
 		this.update = function() {
-			my = this;
-			$.getJSON("{{ path('exchange', {'file': 'management-payroll-reporter'}) }}", function(data) {
-			})
+			$.getJSON("{{ path('exchange', {'file': 'management-payroll-reporter'}) }}", function(data) {})
 			.done(function(data) {
-				my.message.run();
-				my.progress.update(data);
-				my.progressBar.update();
-				my.statsViewer.update();
-				if (my.progress.thereArePending()) {
-					setTimeout(update, 1000);
+				results.message.run();
+				results.progress.update(data);
+				results.progressBar.update();
+				results.statsViewer.update();
+				if (results.progress.thereArePending()) {
+					setTimeout(results.update, 1000);
 				} else {
-					my.message.end();
+					results.message.end();
 					$('#allow-new').fadeIn("slow");
 				}
 			})
 			.fail( function (data) {
-				setTimeout(update, 1000);
+				setTimeout(results.update, 1000);
 			})
 			.always();
 		}

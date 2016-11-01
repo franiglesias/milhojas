@@ -20,8 +20,8 @@ class PayrollType extends AbstractType
             ->add('month', TextType::class)
 			->add('year', TextType::class)
 			->add('file', FileType::class, array(
-				'label' => 'ZIP File', 
-				'multiple' => true, 
+				'label' => 'ZIP File',
+				'multiple' => true,
 		        'constraints' => array(
 		             new All(array(
 		                 'constraints' => array(
@@ -31,9 +31,9 @@ class PayrollType extends AbstractType
 		                 ),
 		             )),
 				)
- 
+
 			))
-            ->add('save', SubmitType::class, array('label' => 'Start Payroll', 'attr' => array('class' => 'button expanded')))
+            ->add('save', SubmitType::class, array('label' => 'Comenzar el envío', 'attr' => array('class' => 'button expanded')))
         ;
     }
 }

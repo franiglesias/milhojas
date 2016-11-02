@@ -197,10 +197,31 @@ As you've probably noticed in the examples above, you have access to a small, me
   </div>
 </div>
 
+
+
 # Typography
 
-<p class="lead">This design uses <strong>Montserrat</strong> for headings and Open Sans for paragraph text.</p>
+<p class="lead typography">This design uses <span class="headings"></span> for headings and <span class="body"></span> for paragraph text.</p>
 
+---
+
+<div class="row">
+    <div class="small-12 medium-6 columns">
+        <h1>H1 Heading</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <h2>H2 Heading</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+    <div class="small-12 medium-6 columns">
+        <h3>H3 Heading</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+        <h4>H4 Heading</h4>
+        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+        <h5>H5 Heading</h5><p>Excepteur sint occae catupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <h6>H6 Heading</h6>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    </div>
+</div>
 ---
 
 ## Headings

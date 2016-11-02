@@ -1,8 +1,11 @@
 @charset 'utf-8';
 
-@import url('https://fonts.googleapis.com/css?family=Open+Sans');
-@import url('https://fonts.googleapis.com/css?family=Oswald');
-@import url('https://fonts.googleapis.com/css?family=Montserrat:700');
+// @import url('https://fonts.googleapis.com/css?family=Open+Sans');
+// @import url('https://fonts.googleapis.com/css?family=Oswald');
+// @import url('https://fonts.googleapis.com/css?family=Montserrat');
+@import url('https://fonts.googleapis.com/css?family=Signika:400,600&subset=latin-ext');
+@import url('https://fonts.googleapis.com/css?family=Merriweather:300,300i,700,700i&subset=latin-ext');
+
 @import 'settings';
 @import 'foundation';
 @import 'motion-ui';
@@ -54,3 +57,4 @@
 
 @import 'milhojas-base-styles';
 @import 'milhojas-payroll';
+@import 'milhojas-style-guide';

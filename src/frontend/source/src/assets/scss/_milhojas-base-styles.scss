@@ -1,40 +1,8 @@
-.color-block {
-	.primary {
-		background-color: get-color('primary');
-	}
-	.secondary {
-		background-color: get-color('secondary');
-	}
-	.success {
-		background-color: $success-color;
-	}
-	.warning {
-		background-color: $warning-color;
-	}
-	.alert {
-		background-color: $alert-color;
-	}
-	.black {
-		background-color: $black;
-	}
-	.dark-gray {
-		background-color: $dark-gray;
-	}
-	.medium-gray {
-		background-color: $medium-gray;
-	}
-	.light-gray {
-		background-color: $light-gray;
-	}
-	.white {
-		background-color: $white;
-	}
-}
-
 .main-header {
 	background-color: $success-color;
 	color: $white;
 	padding: $global-padding;
+	margin-bottom: $global-padding;
 	h1 {
 		text-align: center;
 	}
@@ -42,6 +10,19 @@
 	p {
 		text-align: center;
 	}
+
+	.button {
+		@include button(false, $white, auto, auto, hollow);
+	}
+
+	.secondary.button {
+		@include button(false, transparentize($white, 0.4), auto, auto, hollow);
+	}
+}
+
+.button {
+	@extend button;
+	font-family: $header-font-family;
 }
 
 @mixin stat-box ($color) {
@@ -57,11 +38,15 @@
 	}
 }
 .stats-display {
+	font: {
+		family: $header-font-family;
+	}
 
 	.header {
 		background-color: $primary-color;
 		color: $white;
 		font: {
+
 			size: $small-font-size;
 			weight: bold;
 		};

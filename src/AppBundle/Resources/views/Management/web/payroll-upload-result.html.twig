@@ -13,7 +13,7 @@
 <!-- This button only appears when the delivery is over -->
 
 
-		<p id="allow-new"><a href="{{ path('payroll-upload') }}" class="button expanded">¿Deseas enviar otra nómina?</a></p>
+		<p id="allow-new"><a href="{{ path('payroll-upload') }}" class="hollow button expanded">¿Deseas enviar otra nómina?</a></p>
 	</div>
 
 <!-- results of monitoring -->
@@ -31,7 +31,7 @@
 
 		<div class="row small-up-2 medium-up-4 large-up-4 collapse">
 		  <div class="column stats-display info">
-			  <p class="header">Empleados</p>
+			  <p class="header"><i class="fi-torsos-all"></i>Empleados</p>
 			  <p id='payroll-employee' class="body">0</p>
 		  </div>
 		  <div class="column stats-display success">
@@ -71,15 +71,25 @@
 		}
 
 		this.asPCT = function() {
+			if (this.notStarted()) {
+				return '0%';
+			}
 			return Math.round(100*this.current/this.total).toString()+'%';
 		};
 
 		this.employeeCount = function() {
+			if (this.notStarted()) {
+				return '?';
+			}
 			return this.current+'<small>/'+this.total+'</small>';
 		};
 
 		this.thereArePending = function() {
 			return this.current < this.total;
+		}
+
+		this.notStarted = function () {
+			return (typeof this.total === 'undefined');
 		}
 	};
 
@@ -116,7 +126,7 @@
 		this.initial = initial;
 		this.running = running;
 		this.ended = ended;
-		
+
 		this.start = function() {
 			$(this.selector).hide();
 			$(this.selector).addClass('alert callout')

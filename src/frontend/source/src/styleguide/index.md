@@ -134,41 +134,72 @@ As you've probably noticed in the examples above, you have access to a small, me
 <div class="row up-1 medium-up-3 large-up-5">
   <div class="column">
     <div class="color-block">
-      <span style="background: #2199e8"></span>
-      #2199e8
+      <span class="primary"></span>
+      Primary
     </div>
   </div>
   <div class="column">
     <div class="color-block">
-      <span style="background: #3adb76"></span>
-      #3adb76
+      <span class="secondary"></span>
+      Secondary
     </div>
   </div>
   <div class="column">
     <div class="color-block">
-      <span style="background: #ffae00"></span>
-      #ffae00
+      <span class="success"></span>
+      Success
     </div>
   </div>
   <div class="column">
     <div class="color-block">
-      <span style="background: #ec5840"></span>
-      #ec5840
+      <span class="warning"></span>
+      Warning
     </div>
   </div>
   <div class="column">
     <div class="color-block">
-      <span style="background: #0a0a0a"></span>
-      #0a0a0a
+      <span class="alert"></span>
+      Alert
     </div>
   </div>
 </div>
 
-
+<div class="row up-1 medium-up-3 large-up-5">
+  <div class="column">
+    <div class="color-block">
+      <span class="black"></span>
+      black
+    </div>
+  </div>
+  <div class="column">
+    <div class="color-block">
+      <span class="dark-gray"></span>
+      Dark gray
+    </div>
+  </div>
+  <div class="column">
+    <div class="color-block">
+      <span class="medium-gray"></span>
+      Medium gray
+    </div>
+  </div>
+  <div class="column">
+    <div class="color-block">
+      <span class="light-gray"></span>
+      Medium gray
+    </div>
+  </div>
+  <div class="column">
+    <div class="color-block">
+      <span class="white"></span>
+      White
+    </div>
+  </div>
+</div>
 
 # Typography
 
-<p class="lead">This design uses Helvetica Neue for headings and paragraph text.</p>
+<p class="lead">This design uses <strong>Montserrat</strong> for headings and Open Sans for paragraph text.</p>
 
 ---
 

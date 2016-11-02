@@ -10,7 +10,7 @@ parameters:
 services:
 
     # Reporters
-    
+
     management.payroll_was_sent.cli.reporter:
         class:          Milhojas\Application\Management\Reporters\PayrollWasSentCliReporter
         arguments:      ['@cli.output']
@@ -28,14 +28,14 @@ services:
         class:          Milhojas\Application\Management\Reporters\PayrollWasNotSentCliReporter
         arguments:      ['@cli.output']
 
-    management.email_report_all_payrolls_were_sent:
+    management.all_payrolls_were_sent.email.reporter:
         class:          Milhojas\Application\Management\Reporters\AllPayrollsWereSentEmailReporter
         arguments:      ['@milhojas.mailer', '%payroll.sender%', '%payroll.report%', 'AppBundle:Management:all_payrolls.sent.email.twig']
 
     management.payroll_progress.reporter:
         class:          Milhojas\Application\Management\Reporters\PayrollProgressReporter
         arguments:      ['var/exchange/management-payroll-reporter.json']
-        
+
     management.payroll_progress.resetter:
         class:          Milhojas\Application\Management\Handlers\ResetPayrollProgress
         arguments:      ['var/exchange/management-payroll-reporter.json']
@@ -55,11 +55,11 @@ services:
     send_payroll_handler:
         class:          Milhojas\Application\Management\Commands\SendPayrollHandler
         arguments:      ['@management.payrolls', '%payroll.email.template%', '@milhojas.mailer',  "@event_recorder"]
-    
+
     distribute_payroll_handler:
         class:          Milhojas\Application\Management\Commands\DistributePayrollHandler
         arguments:      ['@management.staff', '%payroll.sender%', '@command_bus']
-    
+
 
 # Payroll command
     payroll_month:

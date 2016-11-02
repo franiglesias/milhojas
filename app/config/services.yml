@@ -95,7 +95,7 @@ services:
             - ['addHandler', ['milhojas.management.payroll_could_not_be_found', '@management.payroll_could_not_be_sent.cli.reporter'] ]
             - ['addHandler', ['milhojas.management.payroll_could_not_be_found', '@management.payroll_progress.reporter'] ]
 
-            - ['addHandler', ['milhojas.management.all_payrolls_were_sent', '@management.email_report_all_payrolls_were_sent'] ]
+            - ['addHandler', ['milhojas.management.all_payrolls_were_sent', '@management.all_payrolls_were_sent.email.reporter'] ]
             - ['addHandler', ['milhojas.management.all_payrolls_were_sent', '@management.all_payrolls_were_sent.cli.reporter'] ]
             - ['addHandler', ['milhojas.management.all_payrolls_were_sent', '@management.payroll_progress.resetter'] ]
 

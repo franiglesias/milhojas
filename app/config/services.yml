@@ -84,7 +84,7 @@ services:
             - ['subscribeHandler', ['@it.device_status.cli.reporter',  '%milhojas.it.monitor.all.events%'] ]
 
             # Management
-            - ['addHandler', ['milhojas.management.payroll_distribution_started', '@management.payroll_progress.reporter'] ]
+            - ['addHandler', ['milhojas.management.payroll_distribution_started', '@management.payroll_progress.resetter'] ]
 
             - ['addHandler', ['milhojas.management.payroll_email_was_sent', '@management.payroll_was_sent.cli.reporter'] ]
             - ['addHandler', ['milhojas.management.payroll_email_was_sent', '@management.payroll_progress.reporter'] ]

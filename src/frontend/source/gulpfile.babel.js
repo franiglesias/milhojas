@@ -96,13 +96,13 @@ function sass() {
 // In production, the file is minified
 function javascript() {
   return gulp.src(PATHS.javascript)
-    .pipe($.sourcemaps.init())
+    // .pipe($.sourcemaps.init())
     .pipe($.babel())
     .pipe($.concat('app.js'))
     .pipe($.if(PRODUCTION, $.uglify()
       .on('error', e => { console.log(e); })
     ))
-    .pipe($.if(!PRODUCTION, $.sourcemaps.write()))
+    // .pipe($.if(!PRODUCTION, $.sourcemaps.write()))
     .pipe(gulp.dest(PATHS.dist + '/js'));
 }
 

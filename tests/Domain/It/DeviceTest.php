@@ -3,21 +3,20 @@
 namespace Tests\Domain\It;
 
 use Milhojas\Domain\It\Device;
-
+use Milhojas\Library\ValueObjects\Technical\Ip;
+use Milhojas\Library\ValueObjects\Technical\Mac;
 /**
  *
  */
-class DeviceTests extends \PHPUnit_Framework_Testcase
+class DeviceTest extends \PHPUnit_Framework_Testcase
 {
     /**
-     * undocumented function summary
      *
      * @expectedException \InvalidArgumentException
-     *
      */
     public function testValidIp()
     {
-        $device = new Device('Test device', '172.16.0', 'a1:a1:a1:a1:a1:a1');
+        $device = new Device('Test device', new Ip('172.16.0'), new Mac('a1:a1:a1:a1:a1:a1'));
     }
 
     /**
@@ -26,28 +25,11 @@ class DeviceTests extends \PHPUnit_Framework_Testcase
      * @expectedException \InvalidArgumentException
      *
      */
-
     public function testValidMac()
     {
-        $device = new Device('Test Device', '172.16.0.2', 'invalid-mac');
-
+        $device = new Device('Test Device', new Ip('172.16.0.2'), new Mac('invalid-mac'));
     }
 
-    public function testCanGetMACFromIP()
-    {
-        $result = exec("arp -n 172.16.0.2");
-        preg_match('/(?:[a-f0-9]{1,2}:){5,5}[a-f0-9]{1,2}/', $result, $matches);
-        $mac = $matches[0];
-        $device = new Device('Test Device', '172.16.0.2', $this->Normalize($mac));
-    }
-
-    public function Normalize($mac)
-    {
-        return implode(':', array_map(function ($i)
-        {
-            return str_pad($i, 2, '0');
-        }, explode(':', $mac)));
-    }
 }
 
 

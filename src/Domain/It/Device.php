@@ -2,6 +2,9 @@
 
 namespace Milhojas\Domain\It;
 
+use Milhojas\Library\ValueObjects\Technical\Ip;
+use Milhojas\Library\ValueObjects\Technical\Mac;
+
 /**
  * Represents a Device managed by this application
  */
@@ -11,29 +14,14 @@ class Device
     private $ip;
     private $mac;
 
-    public function __construct($name, $ip, $mac)
+    public function __construct($name, Ip $ip, Mac $mac)
     {
-        $this->checkValidIp($ip);
-        $this->checkValidMac($mac);
         $this->name = $name;
         $this->ip = $ip;
         $this->mac = $mac;
     }
 
-    private function checkValidIp($ip)
-    {
-        if (! filter_var($ip, FILTER_VALIDATE_IP)) {
-            throw new \InvalidArgumentException(sprintf('%s is not a valid IP', $ip));
-        }
-    }
 
-    private function checkValidMac($mac)
-    {
-        if (! filter_var($mac, FILTER_VALIDATE_MAC)) {
-            throw new \InvalidArgumentException(sprintf('%s is not a valid MAC address', $mac));
-
-        }
-    }
 }
 
 

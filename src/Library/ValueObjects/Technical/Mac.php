@@ -18,7 +18,7 @@ class Mac
 
     static public function fromIP(Ip $ip)
     {
-        return new static(self::getMacFromIp($ip));
+        return new static(self::getMacFromIp($ip->getIp()));
     }
 
     public function get()
@@ -44,16 +44,27 @@ class Mac
     {
         $result = exec(sprintf('arp -n %s', $ip));
         preg_match('/(?:[a-f0-9]{1,2}:){5,5}[a-f0-9]{1,2}/', $result, $matches);
-        print_r($matches);
+        if (!$matches) {
+            throw new \InvalidArgumentException(sprintf('Can\'t find a Device at %s', $ip));
+
+        }
         return $matches[0];
     }
 
+    /**
+     * normalize MAC string by converting it to array, and padding every element with 00 compacting again
+     *
+     * Undocumented function long description
+     *
+     * @param string $mac a MAC string
+     * @return return type
+     */
     private function normalize($mac)
     {
         return implode(':', array_map(function ($i)
         {
             return str_pad($i, 2, '0', STR_PAD_LEFT);
-        }, explode(':', $mac)));
+        }, explode(':', strtolower($mac))));
 
     }
 

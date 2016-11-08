@@ -3,6 +3,7 @@
 namespace Milhojas\Domain\School;
 
 use Milhojas\Domain\School\EducationStage;
+use Milhojas\Library\ValueObjects\Identity\Name;
 
 /**
  * Represents an Education System defined by the Education Laws
@@ -23,19 +24,19 @@ class EducationSystem
      */
     private $stages;
 
-    public function __construct($education_system_name)
+    public function __construct(Name $education_system_name)
     {
         $this->name = $education_system_name;
     }
 
     public function getName()
     {
-        return $this->name;
+        return $this->name->get();
     }
 
     public function equals(EducationSystem $system)
     {
-        return $this->name == $system->getName();
+        return $this->getName() == $system->getName();
     }
 
     public function addStage($stage_name, $stage_short_name, $levels_in_stage)

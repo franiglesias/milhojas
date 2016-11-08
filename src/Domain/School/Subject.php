@@ -23,12 +23,12 @@ class Subject
 
     public function __construct($subject_name, $optional = false)
     {
-        $this->checkIsValidName($subject_name);
+        $this->checkIsName($subject_name);
         $this->name = $subject_name;
         $this->optional = $optional;
     }
 
-    private function checkIsValidName($name)
+    private function checkIsName($name)
     {
         if (strlen($name) < 3) {
             throw new \InvalidArgumentException(sprintf('"%s" does not seem to be a good name for a subject.', $name));

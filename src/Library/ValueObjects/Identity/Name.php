@@ -5,8 +5,9 @@ namespace Milhojas\Library\ValueObjects\Identity;
 /**
  * Represents a name that have at least some characters
  */
-class ValidName
+class Name
 {
+    const MINIMUM_LENGHT = 2;
     /**
      * The name
      *
@@ -14,9 +15,9 @@ class ValidName
      */
     private $name;
 
-    public function __construct($name, $minimum_lenght = 3)
+    public function __construct($name)
     {
-        $this->checkIsValidName($name, $minimum_lenght);
+        $this->checkIsName($name);
         $this->name = $name;
     }
 
@@ -25,9 +26,9 @@ class ValidName
         return $this->name;
     }
 
-    private function checkIsValidName($name_to_check, $minimun_length)
+    private function checkIsName($name_to_check)
     {
-        if (strlen($name_to_check) < $minimun_length) {
+        if (strlen($name_to_check) < self::MINIMUM_LENGHT) {
             throw new \InvalidArgumentException(sprintf('"%s" seems to be a bad name for that.', $name_to_check));
         }
     }

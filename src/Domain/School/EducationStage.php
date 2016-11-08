@@ -4,9 +4,10 @@ namespace Milhojas\Domain\School;
 
 use Milhojas\Domain\School\EducationLevel;
 use Milhojas\Domain\School\EducationSystem;
+use Milhojas\Library\ValueObjects\Identity\Name;
 
 /**
- * Describes an Education Stage (primary, secondary, etc...)
+ * Describes an Education Stage (primary, secondary, etc...) whitin an Education System
  */
 class EducationStage
 {
@@ -45,10 +46,8 @@ class EducationStage
      */
     private $maxLevels;
 
-    public function __construct(EducationSystem $system, $stage_name, $stage_short_name, $levels_in_stage)
+    public function __construct(EducationSystem $system, Name $stage_name, Name $stage_short_name, $levels_in_stage)
     {
-        $this->checkIsValidName($stage_name);
-        $this->checkIsValidName($stage_short_name, 2);
         $this->checkIsValidNumberOfLevels($levels_in_stage);
 
         $this->systen = $system;
@@ -89,13 +88,6 @@ class EducationStage
     private function addLevel($level)
     {
         $this->levels[] = new EducationLevel($this, $level);
-    }
-
-    private function checkIsValidName($name, $min_lenght = 3)
-    {
-        if (strlen($name) < $min_lenght) {
-            throw new \InvalidArgumentException(sprintf('"%s" is not a valid name. It should have at least three characters.', $name));
-        }
     }
 
     private function checkIsValidNumberOfLevels($levels)

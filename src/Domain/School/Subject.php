@@ -1,6 +1,7 @@
 <?php
 
 namespace Milhojas\Domain\School;
+use Milhojas\Library\ValueObjects\Identity\Name;
 
 /**
  * Represents a subject within a Stage in an Education System
@@ -21,18 +22,28 @@ class Subject
      */
     private $optional;
 
-    public function __construct($subject_name, $optional = false)
+    private $levels;
+
+    public function __construct(Name $subject_name, $optional = false, $levels = [])
     {
-        $this->checkIsName($subject_name);
         $this->name = $subject_name;
         $this->optional = $optional;
+        $this->levels = $levels;
     }
 
-    private function checkIsName($name)
+    public function isOptional()
     {
-        if (strlen($name) < 3) {
-            throw new \InvalidArgumentException(sprintf('"%s" does not seem to be a good name for a subject.', $name));
-        }
+        return $this->optional;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function existsInLevel($level_to_check)
+    {
+        return in_array($level_to_check, $this->levels);
     }
 }
 

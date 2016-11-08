@@ -34,12 +34,21 @@ class EducationStageTest extends \PHPUnit_Framework_Testcase
         $this->assertEquals(4, $stage->hasLevels());
     }
 
-    public function test_it_has_a_collection_of_level_objects()
+    public function test_it_holds_a_collection_of_level_objects()
     {
         $stage = new EducationStage($this->system, new Name('Bachillerato'), new Name('Bach'), 2);
         $expected = [new EducationLevel($stage, 1), new EducationLevel($stage, 2)];
         $this->assertEquals($expected, $stage->getLevels());
     }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function test_it_must_have_a_name()
+    {
+        $stage = new EducationStage($this->system, new Name('B'), new Name('Bach'), 2);
+    }
+
 
     /**
      * @expectedException \InvalidArgumentException

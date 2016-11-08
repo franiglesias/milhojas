@@ -3,12 +3,20 @@
 namespace Milhojas\Domain\School;
 
 use Milhojas\Domain\School\EducationLevel;
+use Milhojas\Domain\School\EducationSystem;
 
 /**
  * Describes an Education Stage (primary, secondary, etc...)
  */
 class EducationStage
 {
+    /**
+     * Every education stage belongs to an education system
+     *
+     * @var EducationSystem
+     */
+    private $system;
+
     /**
      * the collection of levels in this stage
      *
@@ -37,11 +45,14 @@ class EducationStage
      */
     private $maxLevels;
 
-    public function __construct($stage_name, $stage_short_name, $levels_in_stage)
+    public function __construct(EducationSystem $system, $stage_name, $stage_short_name, $levels_in_stage)
     {
         $this->checkIsValidName($stage_name);
+        $this->checkIsValidName($stage_short_name, 2);
+        $this->checkIsValidNumberOfLevels($levels_in_stage);
+
+        $this->systen = $system;
         $this->name = $stage_name;
-        $this->checkIsValidName($stage_short_name);
         $this->shortname = $stage_short_name;
         $this->maxLevels = $levels_in_stage;
         for ($i=1; $i <= $this->maxLevels; $i++) {
@@ -74,9 +85,9 @@ class EducationStage
         $this->levels[] = new EducationLevel($this, $level);
     }
 
-    private function checkIsValidName($name)
+    private function checkIsValidName($name, $min_lenght = 3)
     {
-        if (strlen($name) < 3) {
+        if (strlen($name) < $min_lenght) {
             throw new \InvalidArgumentException(sprintf('"%s" is not a valid name. It should have at least three characters.', $name));
         }
     }

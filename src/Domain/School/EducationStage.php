@@ -11,7 +11,7 @@ use Milhojas\Domain\School\EducationSystem;
 class EducationStage
 {
     /**
-     * Every education stage belongs to an education system
+     * Every education stage belongs to an education system. Provides context.
      *
      * @var EducationSystem
      */
@@ -78,6 +78,12 @@ class EducationStage
     public function getLevels()
     {
         return $this->levels;
+    }
+
+    public function getSystem()
+    {
+        return $this->system;
+
     }
 
     private function addLevel($level)

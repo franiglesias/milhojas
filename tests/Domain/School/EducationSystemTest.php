@@ -32,8 +32,8 @@ class EducationSystemTest extends \PHPUnit_Framework_Testcase
     public function test_it_can_hold_one_or_more_stages()
     {
         $system = new EducationSystem('LOMCE');
-        $system->addStage(new EducationStage($system, 'Infantil', 'EI', 3));
-        $system->addStage(new EducationStage($system, 'Primary', 'EP', 6));
+        $system->addStage('Infantil', 'EI', 3);
+        $system->addStage('Primary', 'EP', 6);
         $this->assertEquals(2, $system->hasStages());
     }
 }

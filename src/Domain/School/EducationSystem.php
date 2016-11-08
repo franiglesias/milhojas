@@ -38,9 +38,9 @@ class EducationSystem
         return $this->name == $system->getName();
     }
 
-    public function addStage(EducationStage $stage)
+    public function addStage($stage_name, $stage_short_name, $levels_in_stage)
     {
-        $this->stages[] = $stage;
+        $this->stages[] = new EducationStage($this, $stage_name, $stage_short_name, $levels_in_stage);
     }
 
     public function hasStages()

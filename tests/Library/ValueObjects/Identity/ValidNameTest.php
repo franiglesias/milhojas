@@ -21,6 +21,12 @@ class ValidNameTest extends \PHPUnit_Framework_Testcase
     {
         $aName = new ValidName('nv');
     }
+
+    public function test_it_can_be_used_as_string()
+    {
+        $aName = new ValidName('A long name');
+        $this->assertEquals('A long name', (string)$aName);
+    }
 }
 
 

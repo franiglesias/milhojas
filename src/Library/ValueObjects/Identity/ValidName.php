@@ -3,7 +3,7 @@
 namespace Milhojas\Library\ValueObjects\Identity;
 
 /**
- * Represents a name that have at least some characteristics
+ * Represents a name that have at least some characters
  */
 class ValidName
 {
@@ -30,6 +30,11 @@ class ValidName
         if (strlen($name_to_check) < $minimun_length) {
             throw new \InvalidArgumentException(sprintf('"%s" seems to be a bad name for that.', $name_to_check));
         }
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }
 

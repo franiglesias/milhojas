@@ -8,7 +8,7 @@ use Milhojas\Domain\School\EducationSystem;
 use Milhojas\Library\ValueObjects\Identity\Name;
 
 /**
- *
+ * Tests the Subject class.
  */
 class SubjectTest extends \PHPUnit_Framework_Testcase
 {
@@ -23,9 +23,12 @@ class SubjectTest extends \PHPUnit_Framework_Testcase
             4);
     }
 
-    public function test_it_must_belong_to_stage()
+    /**
+     * @expectedException \PHPUnit_Framework_Error
+     */
+    public function test_it_must_belong_to_a_stage()
     {
-    # code...
+        $subject = new Subject('Stage', new Name('Francés'));
     }
 
     /**
@@ -33,28 +36,25 @@ class SubjectTest extends \PHPUnit_Framework_Testcase
      */
     public function test_it_must_have_a_name()
     {
-        $subject = new Subject(new Name(''));
+        $subject = new Subject($this->stage, new Name(''));
     }
 
     public function test_it_can_be_optional()
     {
-        $subject = new Subject(new Name('Francés') , true);
+        $subject = new Subject($this->stage, new Name('Francés'), true);
         $this->assertTrue($subject->isOptional());
     }
 
     public function tests_it_has_a_name()
     {
-        $subject = new Subject(new Name('Science'));
+        $subject = new Subject($this->stage, new Name('Science'));
         $this->assertEquals('Science', $subject->getName());
     }
 
-    public function test_it_could_be_limited_to_specific_levels_in_stage()
+    public function test_it_could_be_limited_to_specific_levels_in_the_stage()
     {
-        $subject = new Subject(new Name('Cultura Clásica'), false, [3, 4]);
+        $subject = new Subject($this->stage, new Name('Cultura Clásica'), false, [3, 4]);
         $this->assertTrue($subject->existsInLevel(3));
         $this->assertFalse($subject->existsInLevel(2));
-
     }
 }
-
- ?>

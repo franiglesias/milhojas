@@ -1,13 +1,14 @@
 <?php
+
 namespace Tests\Domain\School;
 
-use Milhojas\Domain\School\EducationStage;
 use Milhojas\Domain\School\EducationLevel;
+use Milhojas\Domain\School\EducationStage;
 use Milhojas\Domain\School\EducationSystem;
 use Milhojas\Library\ValueObjects\Identity\Name;
 
 /**
- * Test EducationStage class
+ * Test EducationStage class.
  */
 class EducationStageTest extends \PHPUnit_Framework_Testcase
 {
@@ -31,14 +32,13 @@ class EducationStageTest extends \PHPUnit_Framework_Testcase
         $stage = new EducationStage($this->system, new Name('Educación Secundaria Obligatoria'), new Name('ESO'), 4);
         $this->assertEquals('Educación Secundaria Obligatoria', $stage->getName());
         $this->assertEquals('ESO', $stage->getShortName());
-        $this->assertEquals(4, $stage->hasLevels());
+        $this->assertEquals(4, $stage->getMaxLevels());
     }
 
     public function test_it_holds_a_collection_of_level_objects()
     {
         $stage = new EducationStage($this->system, new Name('Bachillerato'), new Name('Bach'), 2);
-        $expected = [new EducationLevel($stage, 1), new EducationLevel($stage, 2)];
-        $this->assertEquals($expected, $stage->getLevels());
+        $this->assertInstanceOf('\ArrayObject', $stage->getLevels());
     }
 
     /**
@@ -48,7 +48,6 @@ class EducationStageTest extends \PHPUnit_Framework_Testcase
     {
         $stage = new EducationStage($this->system, new Name('B'), new Name('Bach'), 2);
     }
-
 
     /**
      * @expectedException \InvalidArgumentException
@@ -66,7 +65,28 @@ class EducationStageTest extends \PHPUnit_Framework_Testcase
         $stage = new EducationStage($this->system, new Name('Bachillerato'), new Name('Bach'), 0);
     }
 
+    public function test_it_can_have_several_subjects()
+    {
+        $stage = new EducationStage($this->system, new Name('Bachillerato'), new Name('Bach'), 2);
+        $stage->addSubject(new Name('Matemáticas'));
+        $stage->addSubject(new Name('Francés'), true);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function test_it_should_not_accept_invalid_subjects()
+    {
+        $stage = new EducationStage($this->system, new Name('Bachillerato'), new Name('Bach'), 2);
+        $stage->addSubject(new Name('z'));
+    }
+
+    /**
+     * @expectedException \PHPUnit_Framework_Error
+     */
+    public function test_it_should_not_accept_invalid_names_for_subjects()
+    {
+        $stage = new EducationStage($this->system, new Name('Bachillerato'), new Name('Bach'), 2);
+        $stage->addSubject('Francés');
+    }
 }
-
-
- ?>

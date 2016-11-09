@@ -2,12 +2,10 @@
 
 namespace Milhojas\Domain\School;
 
-use Milhojas\Domain\School\EducationLevel;
-use Milhojas\Domain\School\EducationSystem;
 use Milhojas\Library\ValueObjects\Identity\Name;
 
 /**
- * Describes an Education Stage (primary, secondary, etc...) whitin an Education System
+ * Describes an Education Stage (primary, secondary, etc...) whitin an Education System.
  */
 class EducationStage
 {
@@ -19,43 +17,58 @@ class EducationStage
     private $system;
 
     /**
-     * the collection of levels in this stage
+     * the collection of levels in this stage.
      *
-     * @var array
+     * @var \ArrayObject
      */
     private $levels;
 
     /**
-     * The long name for this stage
+     * Subjects in this stage
+     * @var \ArrayObject
+     */
+    private $subjects;
+
+    /**
+     * The long name for this stage.
      *
      * @var string
      */
     private $name;
 
     /**
-     * Short name for this stage
+     * Short name for this stage.
      *
      * @var string
      */
     private $shortname;
 
     /**
-     * Max number of levels in this stage. We need this to allow the building of the level collection
+     * Max number of levels in this stage. We need this to allow the building of the level collection.
      *
-     * @var integer
+     * @var int
      */
     private $maxLevels;
 
     public function __construct(EducationSystem $system, Name $stage_name, Name $stage_short_name, $levels_in_stage)
     {
         $this->checkIsValidNumberOfLevels($levels_in_stage);
-
+        $this->maxLevels = $levels_in_stage;
         $this->systen = $system;
         $this->name = $stage_name;
         $this->shortname = $stage_short_name;
-        $this->maxLevels = $levels_in_stage;
-        for ($i=1; $i <= $this->maxLevels; $i++) {
-            $this->addLevel($i);
+        $this->levels = new \ArrayObject();
+        $this->subjects = new \ArrayObject();
+        $this->createAllNeccesaryLevels();
+    }
+
+    /**
+     * Populates the level collection
+     */
+    private function createAllNeccesaryLevels()
+    {
+        for ($level = 1; $level <= $this->maxLevels; ++$level) {
+            $this->levels->offsetSet($level, new EducationLevel($this, $level));
         }
     }
 
@@ -69,7 +82,7 @@ class EducationStage
         return $this->shortname;
     }
 
-    public function hasLevels()
+    public function getMaxLevels()
     {
         return $this->maxLevels;
     }
@@ -82,12 +95,12 @@ class EducationStage
     public function getSystem()
     {
         return $this->system;
-
     }
 
-    private function addLevel($level)
+    public function addSubject(Name $subject_name, $optional = false, $levels = [])
     {
-        $this->levels[] = new EducationLevel($this, $level);
+        $subject = new Subject($this, $subject_name, $optional, $levels);
+        $this->subjects->offsetSet($subject_name, $subject);
     }
 
     private function checkIsValidNumberOfLevels($levels)
@@ -97,6 +110,3 @@ class EducationStage
         }
     }
 }
-
-
- ?>

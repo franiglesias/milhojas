@@ -89,4 +89,14 @@ class EducationStageTest extends \PHPUnit_Framework_Testcase
         $stage = new EducationStage($this->system, new Name('Bachillerato'), new Name('Bach'), 2);
         $stage->addSubject('Francés');
     }
+
+    public function test_it_can_say_it_has_some_subject()
+    {
+        $stage = new EducationStage($this->system, new Name('Bachillerato'), new Name('Bach'), 2);
+        $stage->addSubject(new Name('Matemáticas'));
+        $stage->addSubject(new Name('Francés'), true);
+        $this->assertTrue($stage->hasSubject('Francés'));
+        $this->assertFalse($stage->hasSubject('Cultura Clásica'));
+    }
+
 }

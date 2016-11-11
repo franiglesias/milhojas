@@ -58,19 +58,10 @@ class EducationStage
         $this->name = $stage_name;
         $this->shortname = $stage_short_name;
         $this->levels = new \ArrayObject();
-        $this->subjects = new \ArrayObject();
+        $this->subjects = new \SplObjectStorage();
         $this->createAllNeccesaryLevels();
     }
 
-    /**
-     * Populates the level collection
-     */
-    private function createAllNeccesaryLevels()
-    {
-        for ($level = 1; $level <= $this->maxLevels; ++$level) {
-            $this->levels->offsetSet($level, new EducationLevel($this, $level));
-        }
-    }
 
     public function getName()
     {
@@ -100,7 +91,17 @@ class EducationStage
     public function addSubject(Name $subject_name, $optional = false, $levels = [])
     {
         $subject = new Subject($this, $subject_name, $optional, $levels);
-        $this->subjects->offsetSet($subject_name, $subject);
+        $this->subjects->attach($subject);
+    }
+
+    public function hasSubject($subject_name)
+    {
+        foreach ($this->subjects as $subject) {
+            if ($subject->getName() == $subject_name) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private function checkIsValidNumberOfLevels($levels)
@@ -109,4 +110,15 @@ class EducationStage
             throw new \InvalidArgumentException(sprintf('There must be at leat one level in a stage. You specified %s.', $levels));
         }
     }
+
+    /**
+     * Populates the level collection
+     */
+    private function createAllNeccesaryLevels()
+    {
+        for ($level = 1; $level <= $this->maxLevels; ++$level) {
+            $this->levels->offsetSet($level, new EducationLevel($this, $level));
+        }
+    }
+
 }

@@ -35,6 +35,12 @@ class EducationLevel
         $this->checkIfLevelIsWhitinStageLimits($level);
         $this->level = $level;
     }
+
+    public function getFullName()
+    {
+        return sprintf('%2$s %1$s', $this->stage->getName(), $this->level);
+    }
+
     public function getShortName()
     {
         return sprintf('%1$s %2$s', $this->stage->getShortName(), $this->level);
@@ -42,7 +48,7 @@ class EducationLevel
 
     public function getName()
     {
-        return sprintf('%2$s %1$s', $this->stage->getName(), $this->level);
+        return $this->level;
     }
 
     /**

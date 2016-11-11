@@ -3,6 +3,7 @@
 namespace Milhojas\Domain\School;
 
 use Milhojas\Library\ValueObjects\Identity\Name;
+use Milhojas\Domain\School\EducationLevel;
 
 /**
  * Describes an Education Stage (primary, secondary, etc...) whitin an Education System.
@@ -54,7 +55,7 @@ class EducationStage
     {
         $this->checkIsValidNumberOfLevels($levels_in_stage);
         $this->maxLevels = $levels_in_stage;
-        $this->systen = $system;
+        $this->system = $system;
         $this->name = $stage_name;
         $this->shortname = $stage_short_name;
         $this->levels = new \ArrayObject();
@@ -103,6 +104,17 @@ class EducationStage
         }
         return false;
     }
+
+    public function getSubject($subject_name)
+    {
+        foreach ($this->subjects as $subject) {
+            if ($subject->getName() == $subject_name) {
+                return $subject;
+            }
+        }
+        return false;
+    }
+
 
     private function checkIsValidNumberOfLevels($levels)
     {

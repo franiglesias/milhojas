@@ -47,4 +47,17 @@ class EducationSystemTest extends \PHPUnit_Framework_Testcase
         $system->addStage(new Name('Infantil'), new Name('EI'), 3);
         $this->assertEquals(1, $system->hasStages());
     }
+
+    public function test_it_can_add_a_subject()
+    {
+        $system = new EducationSystem(new Name('LOMCE'));
+        $system->addStage(new Name('Infantil'), new Name('EI'), 3);
+        $system->addStage(new Name('Primaria'), new Name('EP'), 3);
+        $system->addSubject(new Name('EP'), new Name('Matemáticas'));
+    }
+
+    public function test_it_can_generate_courses()
+    {
+        # code...
+    }
 }

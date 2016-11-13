@@ -94,16 +94,6 @@ class Subject
         return in_array($level_to_check, $this->onlyThisLevels);
     }
 
-    public function createCourse($level)
-    {
-        if (! $this->existsInLevel($level)) {
-            throw new \InvalidArgumentException(sprintf('"%s level is not valid for %s in stage %s"', $level, $this->name, $this->stage->getName()));
-        }
-        $course = new Course(
-            $this,
-            new EducationLevel($this->stage, $level));
-        return $course;
-    }
 
     public function __toString()
     {

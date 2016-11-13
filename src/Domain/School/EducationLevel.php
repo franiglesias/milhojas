@@ -36,6 +36,12 @@ class EducationLevel
         $this->level = $level;
     }
 
+    /**
+     * Long compound name for this level
+     *
+     *
+     * @return string
+     */
     public function getFullName()
     {
         return sprintf('%2$s %1$s', $this->stage->getName(), $this->level);

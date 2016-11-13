@@ -64,19 +64,4 @@ class SubjectTest extends \PHPUnit_Framework_Testcase
         $this->assertFalse($subject->existsInLevel(2));
     }
 
-    public function test_it_can_create_a_course()
-    {
-        $subject = new Subject($this->stage, new Name('Science'));
-        $course = $subject->createCourse(1);
-        $this->assertEquals('Science 1 Secundaria (LOMCE)', $course->getName());
-    }
-
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function test_it_can_not_create_a_course_if_invalid_level()
-    {
-        $subject = new Subject($this->stage, new Name('Cultura Clásica'), false, [3, 4]);
-        $course = $subject->createCourse(2);
-    }
 }

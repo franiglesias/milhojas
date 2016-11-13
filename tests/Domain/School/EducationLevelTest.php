@@ -38,7 +38,7 @@ class EducationLevelTest extends \PHPUnit_Framework_Testcase
     public function test_it_must_have_full_name()
     {
         $level = new EducationLevel($this->stage, 2);
-        $this->assertEquals('2 Primaria', $level->getName());
+        $this->assertEquals('2 Primaria', $level->getFullName());
     }
 
     /**
@@ -52,6 +52,6 @@ class EducationLevelTest extends \PHPUnit_Framework_Testcase
     public function test_it_cast_to_string_as_full_name()
     {
         $level = new EducationLevel($this->stage, 2);
-        $this->assertEquals('2 Primaria', $level->getName());
+        $this->assertEquals('2 Primaria', $level->getFullName());
     }
 }

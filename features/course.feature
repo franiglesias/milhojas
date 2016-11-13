@@ -8,10 +8,9 @@ Feature: Course creation
   - A course has a Teacher
 
   Scenario: Creating a course from first time
-    Given there is a "Educación Primaria" EducationStage
+    Given there is a "Matemáticas" Subject
     And there is a "1º EP" EducationLevel
-    And there is a "Matemáticas" Subject
+    And there is a CourseBuilder
     When I create a new Course
     Then I should have a new Course
     And the name of the Course should be "Matemáticas 1º EP"
-    

@@ -3,7 +3,6 @@
 namespace spec\Milhojas\Domain\Cantine;
 
 use Milhojas\Domain\Cantine\TicketCantineUser;
-use Milhojas\Domain\Cantine\CantineUser;
 
 use Milhojas\Domain\School\StudentId;
 use PhpSpec\ObjectBehavior;

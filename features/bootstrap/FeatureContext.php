@@ -5,6 +5,8 @@ use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 
+use Milhojas\Domain\Cantine\CantineRule;
+use Milhojas\Domain\Cantine\RegularCantineUser;
 /**
  * Defines application features from the specific context.
  */
@@ -21,51 +23,42 @@ class FeatureContext implements Context
     {
     }
 
+
+
     /**
-     * @Given there is a :arg1 EducationStage
+     * @Given there is a CantineRule that applies on weekday :arg1 to CantineGroup :arg2
      */
-    public function thereIsAEducationstage($arg1)
+    public function thereIsACantineruleThatAppliesOnWeekdayToCantinegroup($arg1, $arg2)
     {
-        throw new PendingException();
+        $this->rule = new CantineRule([$arg1], [$arg2]);
+    }
+
+
+    /**
+     * @When I ask for Turn on :arg1
+     */
+    public function iAskForTurnOn($arg1)
+    {
+        $this->rule->getAssignedTurn($this->regularUser, $arg1);
     }
 
     /**
-     * @Given there is a :arg1 EducationLevel
+     * @Then I should Get :arg1 as the Turn
      */
-    public function thereIsAEducationlevel($arg1)
+    public function iShouldGetAsTheTurn($arg1)
     {
-        throw new PendingException();
+        $turn = $this->rule->getAssignedTurn($this->regularUser, '11/14/2016');
+        if ($turn != '1') {
+            throw new Exception(sprintf('Got %s and expecting %s', $turn, $arg1));
+
+        }
     }
 
     /**
-     * @Given there is a :arg1 Subject
+     * @Given there is a RegularCantineUser that has StudentId :arg1 that eats on :arg2 and belongs to CantineGroup :arg3
      */
-    public function thereIsASubject($arg1)
+    public function thereIsARegularcantineuserThatHasStudentidThatEatsOnAndBelongsToCantinegroup($arg1, $arg2, $arg3)
     {
-        throw new PendingException();
-    }
-
-    /**
-     * @When I create a new Course
-     */
-    public function iCreateANewCourse()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then I should have a new Course
-     */
-    public function iShouldHaveANewCourse()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then the name of the Course should be :arg1
-     */
-    public function theNameOfTheCourseShouldBe($arg1)
-    {
-        throw new PendingException();
+        $this->regularUser = new RegularCantineUser($arg1, $arg2, $arg3);
     }
 }

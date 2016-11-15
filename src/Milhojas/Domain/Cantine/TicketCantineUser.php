@@ -1,7 +1,7 @@
 <?php
 
 namespace Milhojas\Domain\Cantine;
-use Milhojas\Domain\Cantine\CantineUser;
+
 use Milhojas\Domain\School\StudentId;
 
 class TicketCantineUser implements CantineUser
@@ -18,5 +18,13 @@ class TicketCantineUser implements CantineUser
     public function isEatingOnDate(\DateTime $date)
     {
         return in_array($date, $this->dates);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getStudentId()
+    {
+        return $this->studentId;
     }
 }

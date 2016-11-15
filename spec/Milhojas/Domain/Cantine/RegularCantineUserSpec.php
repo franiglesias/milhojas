@@ -6,7 +6,6 @@ use Milhojas\Domain\Cantine\RegularCantineUser;
 use Milhojas\Domain\School\StudentId;
 use Milhojas\Domain\Utils\MonthWeekSchedule;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class RegularCantineUserSpec extends ObjectBehavior
 {
@@ -24,7 +23,6 @@ class RegularCantineUserSpec extends ObjectBehavior
     {
         $this->shouldImplement('Milhojas\Domain\Cantine\CantineUser');
     }
-
 
     public function it_can_say_if_user_is_going_to_eat_on_a_scheduled_date(MonthWeekSchedule $schedule, \DateTime $date)
     {
@@ -45,5 +43,10 @@ class RegularCantineUserSpec extends ObjectBehavior
         $schedule->isScheduledDate($date)->shouldBeCalled();
         $schedule->isScheduledDate($date)->willReturn(false);
         $this->shouldNotBeEatingOnDate($date);
+    }
+
+    public function it_can_return_student_id(StudentId $student_id)
+    {
+        $this->getStudentId()->shouldReturn($student_id);
     }
 }

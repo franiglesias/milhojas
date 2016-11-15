@@ -22,4 +22,10 @@ class DailyMenu
     {
         return count(array_intersect($this->allergens, $list_of_allergens)) > 0;
     }
+
+    public function getDishes()
+    {
+        return explode('\n', $this->dishes);
+    }
+
 }

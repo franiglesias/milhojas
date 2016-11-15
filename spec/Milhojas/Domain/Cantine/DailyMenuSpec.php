@@ -41,4 +41,12 @@ class DailyMenuSpec extends ObjectBehavior
         $this->shouldNotHaveAllergens(['almonds']);
     }
 
+    public function it_can_return_dishes_as_array()
+    {
+        $this->getDishes()->shouldBeArray();
+        $this->getDishes()->shouldContain('First');
+        $this->getDishes()->shouldContain('Second');
+        $this->getDishes()->shouldContain('Dessert');
+    }
+
 }

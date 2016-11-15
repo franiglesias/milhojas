@@ -4,17 +4,14 @@ namespace spec\Milhojas\Domain\Cantine;
 
 use Milhojas\Domain\Cantine\RegularCantineUser;
 use Milhojas\Domain\School\StudentId;
+use Milhojas\Domain\Utils\MonthWeekSchedule;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class RegularCantineUserSpec extends ObjectBehavior
 {
-    public function let(StudentId $student_id)
+    public function let(StudentId $student_id, MonthWeekSchedule $schedule)
     {
-        $schedule = [
-            'november' => ['monday', 'wednesday', 'friday'],
-            'december' => ['tuesday', 'thursday']
-        ];
         $this->beConstructedWith($student_id, $schedule);
     }
 
@@ -29,18 +26,24 @@ class RegularCantineUserSpec extends ObjectBehavior
     }
 
 
-    public function it_can_say_if_user_is_going_to_eat_on_a_scheduled_date()
+    public function it_can_say_if_user_is_going_to_eat_on_a_scheduled_date(MonthWeekSchedule $schedule, \DateTime $date)
     {
-        $this->shouldBeEatingOnDate(new \DateTime('11/14/2016'));
+        $schedule->isScheduledDate($date)->shouldBeCalled();
+        $schedule->isScheduledDate($date)->willReturn(true);
+        $this->shouldBeEatingOnDate($date);
     }
 
-    public function it_can_say_that_user_is_not_going_to_eat_on_a_day_not_suscripted()
+    public function it_can_say_that_user_is_not_going_to_eat_on_a_day_not_suscripted(MonthWeekSchedule $schedule, \DateTime $date)
     {
-        $this->shouldNotBeEatingOnDate(new \DateTime('11/15/2016'));
+        $schedule->isScheduledDate($date)->shouldBeCalled();
+        $schedule->isScheduledDate($date)->willReturn(false);
+        $this->shouldNotBeEatingOnDate($date);
     }
 
-    public function it_can_say_that_user_is_not_going_to_eat_on_a_month_not_scheduled()
+    public function it_can_say_that_user_is_not_going_to_eat_on_a_month_not_scheduled(MonthWeekSchedule $schedule, \DateTime $date)
     {
-        $this->shouldNotBeEatingOnDate(new \DateTime('1/15/2017'));
+        $schedule->isScheduledDate($date)->shouldBeCalled();
+        $schedule->isScheduledDate($date)->willReturn(false);
+        $this->shouldNotBeEatingOnDate($date);
     }
 }

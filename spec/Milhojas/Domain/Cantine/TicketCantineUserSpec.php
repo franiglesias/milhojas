@@ -20,7 +20,7 @@ class TicketCantineUserSpec extends ObjectBehavior
         $this->beConstructedWith($student_id, $days);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(TicketCantineUser::class);
     }

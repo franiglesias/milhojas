@@ -2,13 +2,21 @@
 
 namespace Milhojas\Domain\Cantine;
 use Milhojas\Domain\Cantine\CantineUser;
+use Milhojas\Domain\Utils\MonthWeekSchedule;
 
+/**
+ * Represents a Regular Cantine User that uses the Cantine in a week/month basis
+ */
 class RegularCantineUser implements CantineUser
 {
     private $studentId;
     private $schedule;
 
-    public function __construct($student_id, $schedule)
+/**
+ * @param $student_id StudentId the student_id
+ * @param $schedule month => [week days] array to define the schedule
+ */
+    public function __construct($student_id, MonthWeekSchedule $schedule)
     {
         $this->studentId = $student_id;
         $this->schedule = $schedule;
@@ -16,13 +24,6 @@ class RegularCantineUser implements CantineUser
 
     public function isEatingOnDate(\DateTime $date)
     {
-        list($dayOfWeek, $month) = explode(' ', strtolower($date->format('l F')));
-        if (!isset($this->schedule[($month)])) {
-            return false;
-        }
-        if (!in_array($dayOfWeek, $this->schedule[$month])) {
-            return false;
-        }
-        return true;
+        return $this->schedule->isScheduledDate($date);
     }
 }

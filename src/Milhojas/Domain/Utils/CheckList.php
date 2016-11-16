@@ -24,7 +24,9 @@ class CheckList implements \ArrayAccess, \Countable
      */
     public function offsetGet($offset)
     {
-        return $this->items[$offset];
+        if ($this->offsetExists($offset)) {
+          return $this->items[$offset];
+        }
     }
 
     /**
@@ -97,7 +99,17 @@ class CheckList implements \ArrayAccess, \Countable
 
     public function intersect(CheckList $compare)
     {
-        foreach ($compare as $item => $checked) {
+        $intersection = [];
+        foreach ($compare->items as $item => $checked) {
+          if (!$checked) {
+            continue;
+          }
+          if ($this->isChecked($item)) {
+            $intersection[] = $item;
+          }
         }
+        $intersection = new self($intersection);
+        $intersection->checkAll();
+        return $intersection;
     }
 }

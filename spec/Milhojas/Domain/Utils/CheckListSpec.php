@@ -17,6 +17,18 @@ class CheckListSpec extends ObjectBehavior
         $this->shouldHaveType(CheckList::class);
     }
 
+    public function it_is_not_initializable_with_empty_data()
+    {
+      $this->beConstructedWith();
+      $this->shouldThrow('PhpSpec\Exception\Example\ErrorException')->duringInstantiation();
+    }
+
+    public function it_is_not_initializable_with_string_as_unique_item()
+    {
+      $this->beConstructedWith('Item');
+      $this->shouldThrow('PhpSpec\Exception\Example\ErrorException')->duringInstantiation();
+    }
+
     public function its_items_are_accesible()
     {
         $this['strawberry']->shouldBe(false);
@@ -41,18 +53,19 @@ class CheckListSpec extends ObjectBehavior
         $this->areChecked(['strawberry', 'apple'])->shouldBe(true);
     }
 
-    public function it_can_check_all()
-    {
-        $this->checkAll();
-        $this->shouldBeChecked('orange');
-        $this->shouldBeChecked('apple');
-    }
 
     public function it_can_check_several_items_at_once()
     {
         $this->check(['banana', 'apple']);
         $this->shouldBeChecked('banana');
         $this->shouldBeChecked('apple');
+    }
+
+    public function it_can_check_all()
+    {
+      $this->checkAll();
+      $this->shouldBeChecked('orange');
+      $this->shouldBeChecked('apple');
     }
 
     public function it_returns_checked_items_as_checklist()
@@ -62,21 +75,15 @@ class CheckListSpec extends ObjectBehavior
         $this->getChecked()->shouldHaveCount(2);
     }
 
-    public function it_is_not_initializable_with_empty_data()
-    {
-        $this->beConstructedWith();
-        $this->shouldThrow('PhpSpec\Exception\Example\ErrorException')->duringInstantiation();
-    }
-
-    public function it_is_not_initializable_with_string_as_unique_item()
-    {
-        $this->beConstructedWith('Item');
-        $this->shouldThrow('PhpSpec\Exception\Example\ErrorException')->duringInstantiation();
-    }
 
     public function it_can_intersect_with_another_CheckList_and_return_coincidences()
     {
         $compare = new CheckList(['apple', 'banana', 'pineapple']);
+        $compare->check('apple');
+        $compare->check('banana');
+        $this->check('apple');
+        $this->check('banana');
+        $this->check('strawberry');
         $this->intersect($compare)->shouldHaveCount(2);
     }
 }

@@ -6,6 +6,7 @@ class DailyMenu
 {
     private $dishes;
     private $allergens;
+    private $nutritionFacts;
 
     public function __construct($dishes, $allergens)
     {
@@ -28,4 +29,13 @@ class DailyMenu
         return explode('\n', $this->dishes);
     }
 
+    public function setNutritionFacts(NutritionFacts $nutritionFacts)
+    {
+        $this->nutritionFacts = $nutritionFacts;
+    }
+
+    public function getNutritionFacts()
+    {
+        return $this->nutritionFacts;
+    }
 }

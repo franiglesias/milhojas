@@ -3,8 +3,8 @@
 namespace spec\Milhojas\Domain\Cantine;
 
 use Milhojas\Domain\Cantine\DailyMenu;
+use Milhojas\Domain\Cantine\NutritionFacts;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class DailyMenuSpec extends ObjectBehavior
 {
@@ -49,4 +49,9 @@ class DailyMenuSpec extends ObjectBehavior
         $this->getDishes()->shouldContain('Dessert');
     }
 
+    public function it_can_be_injected_with_Nutrition_Facts(NutritionFacts $nutritionFacts)
+    {
+        $this->setNutritionFacts($nutritionFacts);
+        $this->getNutritionFacts()->shouldBe($nutritionFacts);
+    }
 }

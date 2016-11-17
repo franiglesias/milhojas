@@ -4,6 +4,7 @@ namespace spec\Milhojas\Domain\Cantine;
 
 use Milhojas\Domain\Cantine\TicketCantineUser;
 use Milhojas\Domain\School\StudentId;
+use Milhojas\Library\Collections\Checklist;
 use PhpSpec\ObjectBehavior;
 
 class TicketCantineUserSpec extends ObjectBehavior
@@ -41,5 +42,11 @@ class TicketCantineUserSpec extends ObjectBehavior
     public function it_can_return_student_id(StudentId $student_id)
     {
         $this->getStudentId()->shouldReturn($student_id);
+    }
+
+    public function it_can_say_to_what_allergens_is_sensible(Checklist $allergens)
+    {
+        $this->setAllergies($allergens);
+        $this->allergicTo()->shouldBe($allergens);
     }
 }

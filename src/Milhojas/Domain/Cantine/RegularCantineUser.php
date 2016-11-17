@@ -8,9 +8,8 @@ use Milhojas\Domain\School\StudentId;
 /**
  * Represents a Regular Cantine User that uses the Cantine in a week/month basis.
  */
-class RegularCantineUser implements CantineUser
+class RegularCantineUser extends CantineUser
 {
-    private $studentId;
     private $schedule;
 
     /**
@@ -26,10 +25,5 @@ class RegularCantineUser implements CantineUser
     public function isEatingOnDate(\DateTime $date)
     {
         return $this->schedule->isScheduledDate($date);
-    }
-
-    public function getStudentId()
-    {
-        return $this->studentId;
     }
 }

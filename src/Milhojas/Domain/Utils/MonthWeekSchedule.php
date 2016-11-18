@@ -19,12 +19,25 @@ class MonthWeekSchedule
     private function thereIsAppointmentToThisDate(\DateTime $date)
     {
         list($dayOfWeek, $month) = explode(' ', strtolower($date->format('l F')));
-        if (! isset($this->schedule[($month)])) {
+        if (!isset($this->schedule[($month)])) {
             return false;
         }
-        if (! in_array($dayOfWeek, $this->schedule[$month])) {
+        if (!in_array($dayOfWeek, $this->schedule[$month])) {
             return false;
         }
+
         return true;
+    }
+
+    public function update($delta_schedule)
+    {
+        $updated = array_merge($this->schedule, $delta_schedule);
+
+        return new static($updated);
+    }
+
+    public function replace($new_schedule)
+    {
+        return new static($new_schedule);
     }
 }

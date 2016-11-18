@@ -8,11 +8,10 @@ use Milhojas\Domain\Utils\MonthWeekSchedule;
 use Milhojas\Domain\School\Student;
 use Milhojas\Domain\School\StudentId;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class CantineUserManagerSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(CantineUserManager::class);
     }
@@ -21,5 +20,10 @@ class CantineUserManagerSpec extends ObjectBehavior
     {
         $student->getStudentId()->willReturn(new StudentId('student-01'));
         $this->applyAsRegular($student, $schedule)->shouldHaveType(RegularCantineUser::class);
+    }
+
+    public function it_can_return_a_cantine_user_given_student_id()
+    {
+        // code...
     }
 }

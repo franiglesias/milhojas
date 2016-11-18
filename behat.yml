@@ -1,0 +1,12 @@
+default:
+    suites:
+        cantine_users:
+            contexts:
+                - StudentContext
+            filter:
+                role: student
+        cantine_admins:
+            contexts:
+                - AdminContext
+            filter:
+                role: admin

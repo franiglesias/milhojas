@@ -2,7 +2,7 @@
 
 namespace Milhojas\Domain\Utils;
 
-class MonthWeekSchedule
+class MonthWeekSchedule implements Schedule
 {
     private $schedule;
 

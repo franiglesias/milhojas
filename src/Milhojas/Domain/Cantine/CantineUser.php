@@ -2,19 +2,23 @@
 
 namespace Milhojas\Domain\Cantine;
 
+use Milhojas\Domain\School\Student;
 use Milhojas\Domain\School\StudentId;
+use Milhojas\Domain\Utils\Schedule;
 
 /**
- * Interface to represent a CantineUser.
+ * Represents a CantineUser.
  */
-abstract class CantineUser
+class CantineUser
 {
     protected $studentId;
     protected $allergens;
+    protected $schedule;
 
-    public function __construct(StudentId $student_id)
+    public function __construct(Student $student, Schedule $schedule)
     {
-        $this->studentId = $student_id;
+        $this->studentId = $student->getStudentId();
+        $this->schedule = $schedule;
     }
     /**
      * Tells if the User is expected to use the cantine on date provided.
@@ -23,7 +27,10 @@ abstract class CantineUser
      *
      * @return bool
      */
-    abstract public function isEatingOnDate(\DateTime $date);
+    public function isEatingOnDate(\DateTime $date)
+    {
+        $this->schedule->isScheduledDate($date);
+    }
     /**
      * Tells what Student is associate to this CantineUser.
      *

@@ -10,7 +10,7 @@ use Milhojas\Domain\School\StudentId;
  */
 class RegularCantineUser extends CantineUser
 {
-    private $schedule;
+    protected $schedule;
 
     /**
      * @param StudentId         $student_id

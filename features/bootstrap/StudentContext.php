@@ -2,6 +2,7 @@
 
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
+use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\TableNode;
 use Milhojas\Domain\Cantine\TicketCantineUser;
 use Milhojas\Domain\Cantine\CantineUserManager;
@@ -14,7 +15,7 @@ use Milhojas\Domain\School\Student;
 /**
  * Defines application features from the specific context.
  */
-class StudentContext implements Context
+class StudentContext implements SnippetAcceptingContext
 {
     /**
      * Initializes context.

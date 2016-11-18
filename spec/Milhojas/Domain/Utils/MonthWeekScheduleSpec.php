@@ -34,26 +34,36 @@ class MonthWeekScheduleSpec extends ObjectBehavior
     public function it_can_update_schedule()
     {
         $changes = [
-            'january' => ['tuedsay', 'thursday'],
+            'january' => ['tuesday', 'thursday'],
             'november' => ['monday', 'tuesday'],
         ];
         $updated = $this->update($changes);
         $updated->shouldBeScheduledDate(new \DateTime('11/14/2016'));
         $updated->shouldBeScheduledDate(new \DateTime('11/15/2016'));
-        $updated->shouldBeScheduledDate(new \DateTime('01/10/2016'));
-        $updated->shouldNotBeScheduledDate(new \DateTime('01/11/2016'));
+        $updated->shouldBeScheduledDate(new \DateTime('01/10/2017'));
+        $updated->shouldNotBeScheduledDate(new \DateTime('01/11/2017'));
     }
 
     public function it_can_reset_schedule()
     {
         $newSchedule = [
-            'january' => ['tuedsay', 'thursday'],
+            'january' => ['tuesday', 'thursday'],
             'november' => ['monday', 'tuesday'],
         ];
         $updated = $this->replace($newSchedule);
         $updated->shouldBeScheduledDate(new \DateTime('11/14/2016'));
         $updated->shouldBeScheduledDate(new \DateTime('11/15/2016'));
-        // $updated->shouldBeScheduledDate(new \DateTime('01/10/2016'));
-        // $updated->shouldNotBeScheduledDate(new \DateTime('01/11/2016'));
+        $updated->shouldBeScheduledDate(new \DateTime('01/10/2017'));
+        $updated->shouldNotBeScheduledDate(new \DateTime('01/11/2017'));
+    }
+
+    public function it_is_immutable_for_update()
+    {
+        $changes = [
+            'november' => ['monday', 'tuesday'],
+        ];
+        $this->update($changes);
+        $this->shouldBeScheduledDate(new \DateTime('11/14/2016'));
+        $this->shouldNotBeScheduledDate(new \DateTime('11/15/2016'));
     }
 }

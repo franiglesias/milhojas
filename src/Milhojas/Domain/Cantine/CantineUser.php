@@ -29,7 +29,7 @@ class CantineUser
      */
     public function isEatingOnDate(\DateTime $date)
     {
-        $this->schedule->isScheduledDate($date);
+        return $this->schedule->isScheduledDate($date);
     }
     /**
      * Tells what Student is associate to this CantineUser.
@@ -46,8 +46,13 @@ class CantineUser
         $this->allergens = $allergens;
     }
 
-    public function allergicTo()
+    public function isAllergicTo()
     {
         return $this->allergens;
+    }
+
+    public function updateSchedule(Schedule $new_schedule)
+    {
+        $this->schedule = $this->schedule->update($new_schedule);
     }
 }

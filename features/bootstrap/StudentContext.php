@@ -222,4 +222,60 @@ class CantineUserRepositoryMock
         $id = $user->getStudentId()->getId();
         $this->users[$id] = $user;
     }
+
+    /**
+     * @Then Student with StudentId :arg1 should be registered as Cantine User with schedule
+     */
+    public function studentWithStudentidShouldBeRegisteredAsCantineUserWithSchedule($arg1, TableNode $table)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Given There is a CantineUser with StudentId :arg1 and previous schedule
+     */
+    public function thereIsACantineuserWithStudentidAndPreviousSchedule($arg1, TableNode $table)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then Student with StudentId :arg1 should update its Cantine User schedule to
+     */
+    public function studentWithStudentidShouldUpdateItsCantineUserScheduleTo($arg1, TableNode $table)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @When Student with StudentId :arg1 buys a ticket to eat on date :arg2
+     */
+    public function studentWithStudentidBuysATicketToEatOnDate($arg1, $arg2)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then StudentId :arg1 should be registered as Cantine User with scheduled date :arg2
+     */
+    public function studentidShouldBeRegisteredAsCantineUserWithScheduledDate($arg1, $arg2)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Given There is a CantineUser with StudentId :arg1 and has a prior ticket for date :arg2
+     */
+    public function thereIsACantineuserWithStudentidAndHasAPriorTicketForDate($arg1, $arg2)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then Student with StudentId :arg1 should update its Cantine User schedule to date :arg2
+     */
+    public function studentWithStudentidShouldUpdateItsCantineUserScheduleToDate($arg1, $arg2)
+    {
+        throw new PendingException();
+    }
 }

@@ -7,7 +7,7 @@ namespace Milhojas\Library\Collections;
  */
 class Checklist
 {
-    private $items;
+    protected $items;
 
     /**
      * @param mixed $elements The elements of the check list

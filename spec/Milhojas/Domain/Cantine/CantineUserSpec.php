@@ -3,6 +3,7 @@
 namespace spec\Milhojas\Domain\Cantine;
 
 use Milhojas\Domain\Cantine\CantineUser;
+use Milhojas\Domain\Cantine\Allergens;
 use Milhojas\Domain\School\Student;
 use Milhojas\Domain\School\StudentId;
 use Milhojas\Domain\Utils\Schedule;
@@ -31,11 +32,16 @@ class CantineUserSpec extends ObjectBehavior
         $this->getStudentId()->shouldReturn($id);
     }
 
-    public function it_can_update_schedule(Schedule $schedule, Schedule $new_schedule)
+    public function it_can_update_schedule(Schedule $schedule, Schedule $update_schedule, Schedule $final_schedule)
     {
-        $schedule->update($new_schedule)->willReturn($new_schedule);
-        $new_schedule->isScheduledDate(new \DateTime('11/15/2016'))->willReturn(false);
-        $this->updateSchedule($new_schedule);
+        $schedule->update($update_schedule)->willReturn($final_schedule);
+        $final_schedule->isScheduledDate(new \DateTime('11/15/2016'))->willReturn(false);
+        $this->updateSchedule($update_schedule);
         $this->shouldNotBeEatingOnDate(new \DateTime('11/15/2016'));
+    }
+
+    public function it_knows_about_allergies(Allergens $allergens)
+    {
+        $this->updateAllergiesInformation($allergens);    
     }
 }

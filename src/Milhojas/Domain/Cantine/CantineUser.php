@@ -41,18 +41,13 @@ class CantineUser
         return $this->studentId;
     }
 
-    public function setAllergies($allergens)
-    {
-        $this->allergens = $allergens;
-    }
-
-    public function isAllergicTo()
-    {
-        return $this->allergens;
-    }
-
     public function updateSchedule(Schedule $new_schedule)
     {
         $this->schedule = $this->schedule->update($new_schedule);
+    }
+
+    public function updateAllergiesInformation($argument1)
+    {
+        // TODO: write logic here
     }
 }

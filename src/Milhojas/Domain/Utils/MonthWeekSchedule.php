@@ -29,15 +29,10 @@ class MonthWeekSchedule implements Schedule
         return true;
     }
 
-    public function update($delta_schedule)
+    public function update(Schedule $delta)
     {
-        $updated = array_merge($this->schedule, $delta_schedule);
+        $updated = array_merge($this->schedule, $delta->schedule);
 
         return new static($updated);
-    }
-
-    public function replace($new_schedule)
-    {
-        return new static($new_schedule);
     }
 }

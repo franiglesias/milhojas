@@ -4,13 +4,12 @@ use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\TableNode;
-use Milhojas\Domain\Cantine\TicketCantineUser;
-use Milhojas\Domain\Cantine\CantineUserManager;
-use Milhojas\Domain\Cantine\RegularCantineUser;
-use Milhojas\Domain\Cantine\CantineUser;
-use Milhojas\Domain\Utils\MonthWeekSchedule;
-use Milhojas\Domain\School\StudentId;
 use Milhojas\Domain\School\Student;
+use Milhojas\Domain\School\StudentId;
+use Milhojas\Domain\Utils\Schedule;
+use Milhojas\Domain\Utils\MonthWeekSchedule;
+use Milhojas\Domain\Cantine\CantineUserRepository;
+use Milhojas\Domain\Cantine\CantineUser;
 
 /**
  * Defines application features from the specific context.
@@ -26,34 +25,6 @@ class StudentContext implements SnippetAcceptingContext
      */
     public function __construct()
     {
-    }
-
-    /**
-     * @Transform table:month,weekdays
-     */
-    public function castScheduleTable(TableNode $scheduleTable)
-    {
-        $data = array();
-        foreach ($scheduleTable->getHash() as $monthHash) {
-            $data[$monthHash['month']] = explode(', ', $monthHash['weekdays']);
-        }
-
-        return new MonthWeekSchedule($data);
-    }
-
-    /**
-     * @Given there is a CantineUserManager
-     */
-    public function thereIsACantineusermanager()
-    {
-        $this->CantineUserManager = new CantineUserManager();
-    }
-
-    /**
-     * @Given there is a CantineUserRepository
-     */
-    public function thereIsACantineuserrepository()
-    {
         $this->CantineUserRepository = new CantineUserRepositoryMock();
     }
 
@@ -66,216 +37,191 @@ class StudentContext implements SnippetAcceptingContext
     }
 
     /**
-     * @Given There is no CantineUser associated to StudentId :arg1
+     * @Given There is no CantineUser associated to it
      */
-    public function thereIsNoCantineuserAssociatedToStudentid($arg1)
+    public function thereIsNoCantineuserAssociatedToIt()
     {
-        if ($this->CantineUserRepository->exists($this->Student->getStudentId())) {
-            throw new \Exception('A User should not exist for this student');
+        $this->User = $this->CantineUserRepository->retrieve($this->Student->getStudentId());
+        if (!is_null($this->User)) {
+            throw new \Exception('There is a previous user, and should not!');
         }
     }
 
     /**
-     * @When Student with StudentId :arg1 applies to Cantine with schedule
+     * @When Student applies to Cantine with schedule
      */
-    public function studentWithStudentidAppliesToCantineWithSchedule($arg1, MonthWeekSchedule $schedule)
+    public function studentAppliesToCantineWithSchedule(Schedule $schedule)
     {
-        $this->User = $this->CantineUserManager->applyAsRegular($this->Student, $schedule);
+        $this->User = CantineUser::apply($this->Student, $schedule);
     }
 
     /**
-     * @Then RegularCantineUser with StudentId :arg1 should be created with schedule
+     * @Then Student should be registered as Cantine User
      */
-    public function regularcantineuserWithStudentidShouldBeCreatedWithSchedule($arg1, MonthWeekSchedule $schedule)
+    public function studentShouldBeRegisteredAsCantineUser()
     {
-        \PHPUnit_Framework_Assert::assertInstanceOf(RegularCantineUser::class, $this->User);
-        \PHPUnit_Framework_Assert::assertEquals(new StudentId($arg1), $this->User->getStudentId());
+        $this->CantineUserRepository->store($this->User);
     }
+
     /**
-     * @Then RegularCantineUser with StudentId :student_id should be eating on date :date
+     * @Then Student should be eating on date :date
      */
-    public function regularcantineuserWithStudentidShouldBeEatingOnDate($student_id, $date)
+    public function studentShouldBeEatingOnDate($date)
     {
-        if (!$this->User->isEatingOnDate(new \DateTime($date))) {
-            throw new \Exception('Student had a bad schedule');
+        if (!$this->User->isEatingOnDate($date)) {
+            throw new \Exception('Student should be eating on date, but not.');
         }
     }
 
     /**
-     * @Then That CantineUser with StudentId :student_id should be added to CantineUsers Repository
+     * @Given There is a CantineUser associated and previous schedule
      */
-    public function thatCantineuserWithStudentidShouldBeAddedToCantineusersRepository($student_id)
+    public function thereIsACantineuserAssociatedAndPreviousSchedule(Schedule $schedule)
     {
-        $this->CantineUserRepository->save($this->User);
-        if (!$this->CantineUserRepository->exists(new StudentId($student_id))) {
-            throw new Exception('Cantine User was not saved');
+        $this->User = $this->CantineUserRepository->retrieve($this->Student->getStudentId());
+        if (!$this->User) {
+            throw new \Exception('There is no User with id: '.$this->Student->getStudentId());
         }
     }
 
     /**
-     * @Given there is a CantineUser with StudentId :student_id and schedule
+     * @When Student modifies its schedule with
      */
-    public function thereIsACantineuserWithStudentidAndSchedule($student_id, MonthWeekSchedule $schedule)
+    public function studentModifiesItsScheduleWith(Schedule $schedule)
     {
-        if (!$this->CantineUserRepository->exists(new StudentId($student_id))) {
-            throw new Exception('Cantine User does not exists yet');
+        $this->User->updateSchedule($schedule);
+    }
+
+    /**
+     * @Then Cantine User updates schedule should be
+     */
+    public function cantineUserUpdatesScheduleShouldBe(Schedule $schedule)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @When Student buys a ticket to eat on date :date
+     */
+    public function studentBuysATicketToEatOnDate($date)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then Student should not be eating on dates
+     */
+    public function studentShouldNotBeEatingOnDates(TableNode $dates)
+    {
+        foreach ($dates->getHash() as $row) {
+            if ($this->User->isEatingOnDate(new \DateTime($row['dates']))) {
+                throw new \Exception(sprintf('Student should NOT be eating on date %s, but not.', $row['dates']));
+            }
         }
     }
 
     /**
-     * @Then RegularCantineUser with StudentId :arg1 should update its schedule to
+     * @Then Cantine User updated schedule should be
      */
-    public function regularcantineuserWithStudentidShouldUpdateItsScheduleTo($arg1, MonthWeekSchedule $schedule)
-    {
-        $User = $this->CantineUserRepository->load(new StudentId($arg1));
-        $User->updateSchedule($schedule);
-        throw new PendingException();
-    }
-
-    /**
-     * @When Student with StudentId :arg1 applies to Cantine to eat on date :arg2
-     */
-    public function studentWithStudentidAppliesToCantineToEatOnDate($arg1, $arg2)
+    public function cantineUserUpdatedScheduleShouldBe(Schedule $schedule)
     {
         throw new PendingException();
     }
 
     /**
-     * @Then A TicketCantineUser with StudentId :arg1 and date :arg2 should be created
+     * @Then Student should be registered as Cantine User with scheduled date :arg1
      */
-    public function aTicketcantineuserWithStudentidAndDateShouldBeCreated($arg1, $arg2)
+    public function studentShouldBeRegisteredAsCantineUserWithScheduledDate($arg1)
     {
         throw new PendingException();
     }
 
     /**
-     * @Then CantineUser with StudentId :arg1 should be added to CantineUsers Repository
+     * @Given There is a CantineUser associated and has a prior ticket for date :arg1
      */
-    public function cantineuserWithStudentidShouldBeAddedToCantineusersRepository($arg1)
+    public function thereIsACantineuserAssociatedAndHasAPriorTicketForDate($arg1)
     {
         throw new PendingException();
     }
 
     /**
-     * @Given There is a CantineUser with StudentId :arg1 and date :arg2
+     * @Then Student should update its Cantine User schedule to date :arg1
      */
-    public function thereIsACantineuserWithStudentidAndDate($arg1, $arg2)
+    public function studentShouldUpdateItsCantineUserScheduleToDate($arg1)
     {
         throw new PendingException();
     }
 
     /**
-     * @Then TicketCantineUser with StudentId :arg1 should update its dates
+     * @Then Student should be eating on dates
      */
-    public function ticketcantineuserWithStudentidShouldUpdateItsDates($arg1, MonthWeekSchedule $schedule)
+    public function studentShouldBeEatingOnDates(TableNode $dates)
     {
-        throw new PendingException();
+        foreach ($dates->getHash() as $row) {
+            if (!$this->User->isEatingOnDate(new \DateTime($row['dates']))) {
+                throw new \Exception(sprintf('Student should be eating on date %s, but not.', $row['dates']));
+            }
+        }
     }
 
     /**
-     * @Then Student with StudentId :arg1 should be eating on date :arg2
+     * @Transform table:month,weekdays
      */
-    public function studentWithStudentidShouldBeEatingOnDate($arg1, $arg2)
+    public function castToSchedule(TableNode $scheduleTable)
     {
-        throw new PendingException();
+        $schedule = array();
+        foreach ($scheduleTable->getHash() as $month) {
+            $schedule[$month['month']] = explode(', ', $month['weekdays']);
+        }
+
+        return new MonthWeekSchedule($schedule);
     }
 
     /**
-     * @Then Student with StudentId :arg1 should be eating on dates
+     * @Transform :date
      */
-    public function studentWithStudentidShouldBeEatingOnDates($arg1, TableNode $table)
+    public function castToDate($date)
     {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then Student with Student :arg1 should not be eating on date :arg2
-     */
-    public function studentWithStudentShouldNotBeEatingOnDate($arg1, $arg2)
-    {
-        throw new PendingException();
+        return new \DateTime($date);
     }
 }
 
-class CantineUserRepositoryMock
+class CantineUserRepositoryMock implements CantineUserRepository
 {
     private $users;
-
     public function __construct()
     {
-        $this->users = [
-            'student-02' => new RegularCantineUser(new StudentId('student-02'), new MonthWeekSchedule(array(
-                'october' => ['monday', 'tuesday'],
-                'november' => ['monday', 'wednesday', 'friday'],
-            ))),
-            'student-04' => new TicketCantineUser(new StudentId('student-03'), '11-15-2016'),
-        ];
+        $this->users = array(
+            'student-02' => CantineUser::apply(
+                new Student(new StudentId('student-02')),
+                new MonthWeekSchedule(
+                    array(
+                        'october' => ['monday', 'tuesday'],
+                        'november' => ['monday', 'wednesday', 'friday'],
+                    )
+                )
+            ),
+        );
     }
-
-    public function exists($id)
-    {
-        return isset($this->users[$id->getId()]);
-    }
-
-    public function save(CantineUser $user)
+    /**
+     * {@inheritdoc}
+     */
+    public function store(CantineUser $user)
     {
         $id = $user->getStudentId()->getId();
         $this->users[$id] = $user;
     }
 
     /**
-     * @Then Student with StudentId :arg1 should be registered as Cantine User with schedule
+     * {@inheritdoc}
      */
-    public function studentWithStudentidShouldBeRegisteredAsCantineUserWithSchedule($arg1, TableNode $table)
+    public function retrieve($id)
     {
-        throw new PendingException();
-    }
+        $id = $id->getId();
+        if (!isset($this->users[$id])) {
+            return null;
+        }
 
-    /**
-     * @Given There is a CantineUser with StudentId :arg1 and previous schedule
-     */
-    public function thereIsACantineuserWithStudentidAndPreviousSchedule($arg1, TableNode $table)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then Student with StudentId :arg1 should update its Cantine User schedule to
-     */
-    public function studentWithStudentidShouldUpdateItsCantineUserScheduleTo($arg1, TableNode $table)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @When Student with StudentId :arg1 buys a ticket to eat on date :arg2
-     */
-    public function studentWithStudentidBuysATicketToEatOnDate($arg1, $arg2)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then StudentId :arg1 should be registered as Cantine User with scheduled date :arg2
-     */
-    public function studentidShouldBeRegisteredAsCantineUserWithScheduledDate($arg1, $arg2)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Given There is a CantineUser with StudentId :arg1 and has a prior ticket for date :arg2
-     */
-    public function thereIsACantineuserWithStudentidAndHasAPriorTicketForDate($arg1, $arg2)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then Student with StudentId :arg1 should update its Cantine User schedule to date :arg2
-     */
-    public function studentWithStudentidShouldUpdateItsCantineUserScheduleToDate($arg1, $arg2)
-    {
-        throw new PendingException();
+        return $this->users[$id];
     }
 }

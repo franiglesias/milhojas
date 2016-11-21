@@ -15,7 +15,7 @@ class RandomDaysSchedule implements Schedule
     /**
      * {@inheritdoc}
      */
-    public function update($delta_schedule)
+    public function update(Schedule $delta)
     {
         throw new \LogicException('Not implemented'); // TODO
     }

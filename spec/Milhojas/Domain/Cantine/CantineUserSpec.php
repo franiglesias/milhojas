@@ -13,7 +13,7 @@ class CantineUserSpec extends ObjectBehavior
 {
     public function let(Student $student, Schedule $schedule)
     {
-        $this->beConstructedWith($student, $schedule);
+        $this->beConstructedThrough('apply', [$student, $schedule]);
     }
     public function it_is_initializable()
     {
@@ -42,6 +42,6 @@ class CantineUserSpec extends ObjectBehavior
 
     public function it_knows_about_allergies(Allergens $allergens)
     {
-        $this->updateAllergiesInformation($allergens);    
+        $this->updateAllergiesInformation($allergens);
     }
 }

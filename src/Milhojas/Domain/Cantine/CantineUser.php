@@ -20,6 +20,13 @@ class CantineUser
         $this->studentId = $student->getStudentId();
         $this->schedule = $schedule;
     }
+
+    public static function apply(Student $student, Schedule $schedule)
+    {
+        $cantineUser = new self($student, $schedule);
+
+        return $cantineUser;
+    }
     /**
      * Tells if the User is expected to use the cantine on date provided.
      *

@@ -48,9 +48,14 @@ class CantineUser
         return $this->studentId;
     }
 
-    public function updateSchedule(Schedule $new_schedule)
+    /**
+     * Updates the schedule merging data with another schedule.
+     *
+     * @param Schedule $delta
+     */
+    public function updateSchedule(Schedule $delta)
     {
-        $this->schedule = $this->schedule->update($new_schedule);
+        $this->schedule = $this->schedule->update($delta);
     }
 
     public function updateAllergiesInformation($argument1)

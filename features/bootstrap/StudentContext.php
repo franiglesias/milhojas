@@ -8,6 +8,7 @@ use Milhojas\Domain\School\Student;
 use Milhojas\Domain\School\StudentId;
 use Milhojas\Domain\Utils\Schedule;
 use Milhojas\Domain\Utils\MonthWeekSchedule;
+use Milhojas\Domain\Utils\RandomDaysSchedule;
 use Milhojas\Domain\Cantine\CantineUserRepository;
 use Milhojas\Domain\Cantine\CantineUser;
 
@@ -56,6 +57,14 @@ class StudentContext implements SnippetAcceptingContext
     }
 
     /**
+     * @When Student applies to Cantine with a ticket to eat on date :date
+     */
+    public function studentAppliesToCantineWithATicketToEatOnDate($date)
+    {
+        $this->User = CantineUser::apply($this->Student, new RandomDaysSchedule([$date]));
+    }
+
+    /**
      * @Then Student should be registered as Cantine User
      */
     public function studentShouldBeRegisteredAsCantineUser()
@@ -93,19 +102,11 @@ class StudentContext implements SnippetAcceptingContext
     }
 
     /**
-     * @Then Cantine User updates schedule should be
-     */
-    public function cantineUserUpdatesScheduleShouldBe(Schedule $schedule)
-    {
-        throw new PendingException();
-    }
-
-    /**
      * @When Student buys a ticket to eat on date :date
      */
     public function studentBuysATicketToEatOnDate($date)
     {
-        throw new PendingException();
+        $this->User->updateSchedule(new RandomDaysSchedule([$date]));
     }
 
     /**
@@ -121,35 +122,11 @@ class StudentContext implements SnippetAcceptingContext
     }
 
     /**
-     * @Then Cantine User updated schedule should be
-     */
-    public function cantineUserUpdatedScheduleShouldBe(Schedule $schedule)
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then Student should be registered as Cantine User with scheduled date :arg1
-     */
-    public function studentShouldBeRegisteredAsCantineUserWithScheduledDate($arg1)
-    {
-        throw new PendingException();
-    }
-
-    /**
      * @Given There is a CantineUser associated and has a prior ticket for date :arg1
      */
     public function thereIsACantineuserAssociatedAndHasAPriorTicketForDate($arg1)
     {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then Student should update its Cantine User schedule to date :arg1
-     */
-    public function studentShouldUpdateItsCantineUserScheduleToDate($arg1)
-    {
-        throw new PendingException();
+        $this->User = $this->CantineUserRepository->retrieve($this->Student->getStudentId());
     }
 
     /**
@@ -194,13 +171,15 @@ class CantineUserRepositoryMock implements CantineUserRepository
         $this->users = array(
             'student-02' => CantineUser::apply(
                 new Student(new StudentId('student-02')),
-                new MonthWeekSchedule(
-                    array(
+                new MonthWeekSchedule([
                         'october' => ['monday', 'tuesday'],
                         'november' => ['monday', 'wednesday', 'friday'],
-                    )
-                )
-            ),
+                    ])
+                ),
+            'student-04' => CantineUser::apply(
+                new Student(new StudentId('student-04')),
+                new RandomDaysSchedule([new \DateTime('11/15/2016')])
+                ),
         );
     }
     /**

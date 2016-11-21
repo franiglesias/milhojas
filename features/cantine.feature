@@ -66,16 +66,15 @@ Feature: Students use the Cantine
     Scenario: Student wants to buy a Cantine Ticket for First Time
         Given Student with StudentId 'student-03'
         And There is no CantineUser associated to it
-        When Student buys a ticket to eat on date '11/14/2016'
-        Then Student should be registered as Cantine User with scheduled date '11-14-2016'
+        When Student applies to Cantine with a ticket to eat on date '11/14/2016'
+        Then Student should be registered as Cantine User
         And Student should be eating on date '11/14/2016'
 
     Scenario: Student wants to buy a Cantine Ticket
         Given Student with StudentId 'student-04'
         And There is a CantineUser associated and has a prior ticket for date '11-15-2016'
-        When Student buys a ticket to eat on date '11-20-2016'
-        Then Student should update its Cantine User schedule to date '11-20-2016n'
-        And Student should be eating on dates
+        When Student buys a ticket to eat on date '11/20/2016'
+        Then Student should be eating on dates
             | dates |
-            | 11-15-2016 |
-            | 11-20-2016 |
+            | 11/15/2016 |
+            | 11/20/2016 |

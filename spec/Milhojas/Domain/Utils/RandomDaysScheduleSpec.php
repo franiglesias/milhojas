@@ -42,4 +42,9 @@ class RandomDaysScheduleSpec extends ObjectBehavior
         $updated->shouldBeScheduledDate(new \DateTime('11/16/2016'));
         $updated->shouldBeScheduledDate(new \DateTime('11/25/2016'));
     }
+
+    public function it_accepts_unique_date()
+    {
+        $this->beConstructedWith(new \DateTime('11/14/2016'));
+    }
 }

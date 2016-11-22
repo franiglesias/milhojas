@@ -10,6 +10,7 @@ use Milhojas\Domain\Utils\MonthWeekSchedule;
 use Milhojas\Domain\Utils\RandomDaysSchedule;
 use Milhojas\Domain\Cantine\CantineUserRepository;
 use Milhojas\Domain\Cantine\CantineUser;
+use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
 
 /**
  * Defines application features from the specific context.
@@ -25,7 +26,18 @@ class StudentContext implements SnippetAcceptingContext
      */
     public function __construct()
     {
-        $this->CantineUserRepository = new CantineUserRepositoryMock();
+        $this->CantineUserRepository = new CantineUserInMemoryRepository();
+        $this->CantineUserRepository->store(CantineUser::apply(
+            new Student(new StudentId('student-02')),
+            new MonthWeekSchedule([
+                    'october' => ['monday', 'tuesday'],
+                    'november' => ['monday', 'wednesday', 'friday'],
+                ])
+            ));
+        $this->CantineUserRepository->store(CantineUser::apply(
+            new Student(new StudentId('student-04')),
+            new RandomDaysSchedule([new \DateTime('11/15/2016')])
+            ));
     }
 
     /**
@@ -159,47 +171,5 @@ class StudentContext implements SnippetAcceptingContext
     public function castToDate($date)
     {
         return new \DateTime($date);
-    }
-}
-
-class CantineUserRepositoryMock implements CantineUserRepository
-{
-    private $users;
-    public function __construct()
-    {
-        $this->users = array(
-            'student-02' => CantineUser::apply(
-                new Student(new StudentId('student-02')),
-                new MonthWeekSchedule([
-                        'october' => ['monday', 'tuesday'],
-                        'november' => ['monday', 'wednesday', 'friday'],
-                    ])
-                ),
-            'student-04' => CantineUser::apply(
-                new Student(new StudentId('student-04')),
-                new RandomDaysSchedule([new \DateTime('11/15/2016')])
-                ),
-        );
-    }
-    /**
-     * {@inheritdoc}
-     */
-    public function store(CantineUser $user)
-    {
-        $id = $user->getStudentId()->getId();
-        $this->users[$id] = $user;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function retrieve($id)
-    {
-        $id = $id->getId();
-        if (!isset($this->users[$id])) {
-            return null;
-        }
-
-        return $this->users[$id];
     }
 }

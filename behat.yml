@@ -11,6 +11,6 @@ default:
             paths:
                 - %paths.base%/features/cantine
             contexts:
-                - cantine/AdminContext
+                - AdminContext
             filters:
                 role: admin

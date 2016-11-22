@@ -10,7 +10,7 @@ Feature: Get the list of today's cantine users
             | student-02 | ticket | 11/14/2016 |
             | student-03 | regular | november: tuesday, friday |
             | student-04 | ticket | 11/25/2016 |
-        And Today is '11/14/2011'
+        And Today is '11/14/2016'
         When Admin asks for the list
         Then the list should contain this Cantine Users
             | student_id |

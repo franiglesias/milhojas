@@ -1,15 +1,21 @@
 <?php
 
 use Behat\Gherkin\Node\TableNode;
-use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
+use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
+use Milhojas\Domain\Cantine\CantineUser;
+use Milhojas\Domain\Utils\MonthWeekSchedule;
+use Milhojas\Domain\Utils\RandomDaysSchedule;
+use Milhojas\Domain\School\Student;
+use Milhojas\Domain\School\StudentId;
 
 /**
  * Defines application features from the specific context.
  */
 class AdminContext implements SnippetAcceptingContext
 {
+    private $CantineUserRepository;
     /**
      * Initializes context.
      *
@@ -19,6 +25,7 @@ class AdminContext implements SnippetAcceptingContext
      */
     public function __construct()
     {
+        $this->CantineUserRepository = new CantineUserInMemoryRepository();
     }
 
     /**
@@ -26,15 +33,45 @@ class AdminContext implements SnippetAcceptingContext
      */
     public function thereAreSomeCantineUsersRegistered(TableNode $table)
     {
-        throw new PendingException();
+        foreach ($table->getHash() as $row) {
+            switch ($row['type']) {
+                case 'regular':
+                    $schedule = $this->buildMonthWeekSchedule($row);
+                    break;
+                case 'ticket':
+                    $date = new \DateTime($row['schedule']);
+                    $schedule = new RandomDaysSchedule([$date]);
+                    break;
+                default:
+                    // code...
+                    break;
+            }
+            $student = new Student(new StudentId($row['student_id']));
+            $this->CantineUserRepository->store(CantineUser::apply($student, $schedule));
+        }
     }
 
     /**
-     * @Given Today is :arg1
+     * Convert a row of table data into a schedule.
+     *
+     * @param [type] $row [Description]
+     *
+     * @return MonthWeekSchedule
      */
-    public function todayIs($arg1)
+    private function buildMonthWeekSchedule($row)
     {
-        throw new PendingException();
+        list($month, $weekdays) = explode(': ', $row['schedule']);
+        $schedule = [$month => explode(', ', $weekdays)];
+
+        return new MonthWeekSchedule($schedule);
+    }
+
+    /**
+     * @Given Today is :today
+     */
+    public function todayIs($today)
+    {
+        $this->today = new \DateTime($today);
     }
 
     /**
@@ -42,7 +79,7 @@ class AdminContext implements SnippetAcceptingContext
      */
     public function adminAsksForTheList()
     {
-        throw new PendingException();
+        $this->List = $this->CantineUserRepository->getUsersForDate($this->today);
     }
 
     /**
@@ -50,6 +87,14 @@ class AdminContext implements SnippetAcceptingContext
      */
     public function theListShouldContainThisCantineUsers(TableNode $table)
     {
-        throw new PendingException();
+        $expected = [];
+        foreach ($table->getHash() as $row) {
+            $expected[] = $row['student_id'];
+        }
+        foreach ($this->List as $User) {
+            if (!in_array($User->getStudentId()->getId(), $expected)) {
+                throw new \Exception('List is wrong!');
+            }
+        }
     }
 }

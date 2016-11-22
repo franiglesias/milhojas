@@ -16,4 +16,11 @@ interface CantineUserRepository
      * @return CantineUser A cantine user with the associated Id
      */
     public function retrieve($id);
+
+    /**
+     * Retrieve a list of users that is expecting to eat on $date.
+     *
+     * @param \DateTime $date
+     */
+    public function getUsersForDate(\DateTime $date);
 }

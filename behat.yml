@@ -1,12 +1,16 @@
 default:
     suites:
         cantine_users:
+            paths:
+                - %paths.base%/features/cantine
             contexts:
                 - StudentContext
-            filter:
+            filters:
                 role: student
         cantine_admins:
+            paths:
+                - %paths.base%/features/cantine
             contexts:
-                - AdminContext
-            filter:
+                - cantine/AdminContext
+            filters:
                 role: admin

@@ -18,4 +18,9 @@ class CantineGroup
     {
         return $this->name;
     }
+
+    public function isTheSameAs(CantineGroup $theOtherGroup)
+    {
+        return $this->name == $theOtherGroup->name;
+    }
 }

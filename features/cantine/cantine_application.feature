@@ -20,7 +20,8 @@ Feature: Students use the Cantine
             | month | weekdays |
             | october | monday, tuesday |
             | november | monday, wednesday, friday |
-        Then Student should be registered as Cantine User
+        Then Student should be assigned to a CantineGroup
+        And Student should be registered as Cantine User
         And Student should be eating on dates
             | dates |
             | 10/17/2016 |
@@ -67,7 +68,8 @@ Feature: Students use the Cantine
         Given Student with StudentId 'student-03'
         And There is no CantineUser associated to it
         When Student applies to Cantine with a ticket to eat on date '11/14/2016'
-        Then Student should be registered as Cantine User
+        Then Student should be assigned to a CantineGroup
+        And Student should be registered as Cantine User
         And Student should be eating on date '11/14/2016'
 
     Scenario: Student wants to buy a Cantine Ticket

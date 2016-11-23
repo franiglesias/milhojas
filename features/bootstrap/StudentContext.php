@@ -10,6 +10,7 @@ use Milhojas\Domain\Utils\MonthWeekSchedule;
 use Milhojas\Domain\Utils\RandomDaysSchedule;
 use Milhojas\Domain\Cantine\CantineUserRepository;
 use Milhojas\Domain\Cantine\CantineUser;
+use Milhojas\Domain\Cantine\CantineGroup;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
 
 /**
@@ -171,5 +172,13 @@ class StudentContext implements SnippetAcceptingContext
     public function castToDate($date)
     {
         return new \DateTime($date);
+    }
+
+    /**
+     * @Then Student should be assigned to a CantineGroup
+     */
+    public function studentShouldBeassignToGroupACantinegroup()
+    {
+        $this->User->assignToGroup(new CantineGroup('Test group'));
     }
 }

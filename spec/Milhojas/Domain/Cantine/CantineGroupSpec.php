@@ -20,4 +20,14 @@ class CantineGroupSpec extends ObjectBehavior
     {
         $this->getName()->shouldReturn('Group 1');
     }
+
+    public function it_can_check_if_is_Equal_to_another_group()
+    {
+        $this->shouldBeTheSameAs(new CantineGroup('Group 1'));
+    }
+
+    public function it_can_check_if_is_Different_to_another_group()
+    {
+        $this->shouldNotBeTheSameAs(new CantineGroup('Group 2'));
+    }
 }

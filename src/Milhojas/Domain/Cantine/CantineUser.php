@@ -16,16 +16,16 @@ class CantineUser
     protected $schedule;
     protected $group;
 
-    public function __construct(Student $student, Schedule $schedule, CantineGroupMapper $mapper)
+    public function __construct(StudentId $studentId, Schedule $schedule)
     {
-        $this->studentId = $student->getStudentId();
+        $this->studentId = $studentId;
         $this->schedule = $schedule;
-        $this->group = $mapper->getGroupForStudent($student);
+        $this->group = new NullCantineGroup();
     }
 
-    public static function apply(Student $student, Schedule $schedule, CantineGroupMapper $mapper)
+    public static function apply(Student $student, Schedule $schedule)
     {
-        $cantineUser = new self($student, $schedule, $mapper);
+        $cantineUser = new self($student->getStudentId(), $schedule);
 
         return $cantineUser;
     }
@@ -60,18 +60,35 @@ class CantineUser
         $this->schedule = $this->schedule->update($delta);
     }
 
-    public function updateAllergiesInformation($argument1)
-    {
-        // TODO: write logic here
-    }
-
     public function isEnrolled()
     {
         return true;
     }
 
+    /**
+     * Tells if Use belongs to a $group.
+     *
+     * @param CantineGroup $group
+     *
+     * @return bool true if the User belongs
+     */
     public function belongsToGroup(CantineGroup $group)
     {
-        return $this->group == $group;
+        return $this->group->isTheSameAs($group);
+    }
+
+    /**
+     * Assigns this user to the $group.
+     *
+     * @param CantineGroup $group
+     */
+    public function assignToGroup(CantineGroup $group)
+    {
+        $this->group = $group;
+    }
+
+    public function updateAllergiesInformation($argument1)
+    {
+        // TODO: write logic here
     }
 }

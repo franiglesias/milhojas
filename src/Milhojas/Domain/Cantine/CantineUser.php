@@ -62,4 +62,14 @@ class CantineUser
     {
         // TODO: write logic here
     }
+
+    public function isEnrolled()
+    {
+        return true;
+    }
+
+    public function belongsToGroup(CantineGroup $group)
+    {
+        return true;
+    }
 }

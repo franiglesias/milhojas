@@ -3,6 +3,7 @@
 namespace spec\Milhojas\Domain\Cantine;
 
 use Milhojas\Domain\Cantine\CantineUser;
+use Milhojas\Domain\Cantine\CantineGroup;
 use Milhojas\Domain\Cantine\Allergens;
 use Milhojas\Domain\School\Student;
 use Milhojas\Domain\School\StudentId;
@@ -43,5 +44,14 @@ class CantineUserSpec extends ObjectBehavior
     public function it_knows_about_allergies(Allergens $allergens)
     {
         $this->updateAllergiesInformation($allergens);
+    }
+
+    public function it_can_tell_if_a_user_belongs_to_a_group(CantineGroup $group)
+    {
+        $this->belongsToGroup($group)->shouldReturn(true);
+    }
+    public function it_can_tell_extracurricular_user_is_enrolled($enrolled)
+    {
+        $this->isEnrolled()->shouldReturn($enrolled);
     }
 }

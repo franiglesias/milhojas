@@ -1,7 +1,7 @@
 Feature: Get the list of today's cantine users
     As a Admin
     I want to get the list of users that will be eating today
-    In order to prepare the servings
+    In order to prepare the meals
 
     Scenario: Admin wants to get the list of taday's users
         Given There are some Cantine Users registered

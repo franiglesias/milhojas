@@ -8,31 +8,47 @@ class MonthWeekSchedule implements Schedule
 
     public function __construct($schedule)
     {
-        $this->schedule = $schedule;
+        foreach ($schedule as $month => $weekDays) {
+            $month = strtolower($month);
+            $this->isValidMonth($month);
+            $this->schedule[$month] = new WeeklySchedule($weekDays);
+        }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function isScheduledDate(\DateTime $date)
     {
         return $this->thereIsAppointmentToThisDate($date);
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function update(Schedule $delta)
+    {
+        $updated = clone $this;
+        $updated->schedule = array_merge($this->schedule, $delta->schedule);
+
+        return $updated;
+    }
+
     private function thereIsAppointmentToThisDate(\DateTime $date)
     {
-        list($dayOfWeek, $month) = explode(' ', strtolower($date->format('l F')));
+        $month = strtolower($date->format('F'));
+
         if (!isset($this->schedule[($month)])) {
             return false;
         }
-        if (!in_array($dayOfWeek, $this->schedule[$month])) {
-            return false;
-        }
 
-        return true;
+        return $this->schedule[$month]->isScheduledDate($date);
     }
 
-    public function update(Schedule $delta)
+    private function isValidMonth($month)
     {
-        $updated = array_merge($this->schedule, $delta->schedule);
-
-        return new static($updated);
+        if (!in_array($month, ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'october', 'november', 'december'])) {
+            throw new \InvalidArgumentException(sprintf('%s is not a valid month', $month));
+        }
     }
 }

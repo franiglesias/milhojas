@@ -65,9 +65,11 @@ class ChecklistSpec extends ObjectBehavior
         $list = new Checklist($this->elements);
         $list->check('banana');
         $list->check('orange');
+
         $this->check('banana');
         $this->check('orange');
         $this->check('apple');
+
         $this->getCoincidencesWith($list)->shouldContain('banana');
         $this->getCoincidencesWith($list)->shouldContain('orange');
         $this->getCoincidencesWith($list)->shouldNotContain('apple');

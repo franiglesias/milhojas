@@ -21,6 +21,15 @@ class MonthWeekScheduleSpec extends ObjectBehavior
         $this->shouldHaveType(MonthWeekSchedule::class);
     }
 
+    public function it_can_not_initialize_with_bad_data()
+    {
+        $schedule = array(
+            'fake' => ['monday'],
+        );
+        $this->beConstructedWith($schedule);
+        $this->shouldThrow('\InvalidArgumentException')->duringInstantiation();
+    }
+
     public function it_detects_that_a_date_is_on_schedule()
     {
         $this->shouldBeScheduledDate(new \DateTime('11/14/2016'));

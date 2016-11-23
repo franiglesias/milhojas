@@ -1,14 +1,11 @@
 <?php
 
-namespace Milhojas\Domain\Cantine;
+namespace Milhojas\Domain\School;
 
-class CantineGroup
+class StudentGroup
 {
     private $name;
 
-    /**
-     * @param mixed $name
-     */
     public function __construct($name)
     {
         $this->name = $name;

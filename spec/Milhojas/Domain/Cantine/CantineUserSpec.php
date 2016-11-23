@@ -5,6 +5,7 @@ namespace spec\Milhojas\Domain\Cantine;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineGroup;
 use Milhojas\Domain\Cantine\Allergens;
+use Milhojas\Domain\Cantine\CantineGroupMapper;
 use Milhojas\Domain\School\Student;
 use Milhojas\Domain\School\StudentId;
 use Milhojas\Domain\Utils\Schedule;
@@ -12,9 +13,9 @@ use PhpSpec\ObjectBehavior;
 
 class CantineUserSpec extends ObjectBehavior
 {
-    public function let(Student $student, Schedule $schedule)
+    public function let(Student $student, Schedule $schedule, CantineGroupMapper $mapper)
     {
-        $this->beConstructedThrough('apply', [$student, $schedule]);
+        $this->beConstructedThrough('apply', [$student, $schedule, $mapper]);
     }
     public function it_is_initializable()
     {
@@ -46,12 +47,13 @@ class CantineUserSpec extends ObjectBehavior
         $this->updateAllergiesInformation($allergens);
     }
 
-    public function it_can_tell_if_a_user_belongs_to_a_group(CantineGroup $group)
+    public function it_can_tell_if_a_user_belongs_to_a_group(CantineGroup $group, $student, $mapper)
     {
+        $mapper->getGroupForStudent($student)->willReturn($group);
         $this->belongsToGroup($group)->shouldReturn(true);
     }
-    public function it_can_tell_extracurricular_user_is_enrolled($enrolled)
+    public function it_can_tell_extracurricular_user_is_enrolled()
     {
-        $this->isEnrolled()->shouldReturn($enrolled);
+        $this->isEnrolled()->shouldReturn(true);
     }
 }

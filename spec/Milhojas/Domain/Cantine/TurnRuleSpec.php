@@ -21,7 +21,7 @@ class TurnRuleSpec extends ObjectBehavior
     public function it_assigns_turn(CantineUser $User, $group, $enrolled, $notEnrolled, \DateTime $date, $schedule)
     {
         $schedule->isScheduledDate($date)->willReturn(true);
-        $User->belongsToGroup($group)->willReturn($group);
+        $User->belongsToGroup($group)->willReturn(true);
         $User->isEnrolled()->willReturn($enrolled);
         $this->getAssignedTurn($User, $date)->shouldBe(3);
     }

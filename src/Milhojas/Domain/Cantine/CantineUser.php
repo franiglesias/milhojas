@@ -14,16 +14,18 @@ class CantineUser
     protected $studentId;
     protected $allergens;
     protected $schedule;
+    protected $group;
 
-    public function __construct(Student $student, Schedule $schedule)
+    public function __construct(Student $student, Schedule $schedule, CantineGroupMapper $mapper)
     {
         $this->studentId = $student->getStudentId();
         $this->schedule = $schedule;
+        $this->group = $mapper->getGroupForStudent($student);
     }
 
-    public static function apply(Student $student, Schedule $schedule)
+    public static function apply(Student $student, Schedule $schedule, CantineGroupMapper $mapper)
     {
-        $cantineUser = new self($student, $schedule);
+        $cantineUser = new self($student, $schedule, $mapper);
 
         return $cantineUser;
     }
@@ -70,6 +72,6 @@ class CantineUser
 
     public function belongsToGroup(CantineGroup $group)
     {
-        return true;
+        return $this->group == $group;
     }
 }

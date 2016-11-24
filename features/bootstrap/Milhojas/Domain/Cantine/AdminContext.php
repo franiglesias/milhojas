@@ -1,14 +1,20 @@
 <?php
 
+namespace Features\Milhojas\Domain\Cantine;
+
 use Behat\Gherkin\Node\TableNode;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
-use Milhojas\Domain\Cantine\CantineUser;
+use Milhojas\Domain\Utils\WeeklySchedule;
 use Milhojas\Domain\Utils\MonthWeekSchedule;
 use Milhojas\Domain\Utils\RandomDaysSchedule;
 use Milhojas\Domain\School\Student;
 use Milhojas\Domain\School\StudentId;
+use Milhojas\Domain\Cantine\TurnRule;
+use Milhojas\Domain\Cantine\CantineUser;
+use Milhojas\Domain\Cantine\CantineGroup;
+use Milhojas\Domain\Cantine\CantineAssigner;
 
 /**
  * Defines application features from the specific context.
@@ -26,6 +32,7 @@ class AdminContext implements SnippetAcceptingContext
     public function __construct()
     {
         $this->CantineUserRepository = new CantineUserInMemoryRepository();
+        $this->assigner = new CantineAssigner();
     }
 
     /**
@@ -47,7 +54,9 @@ class AdminContext implements SnippetAcceptingContext
                     break;
             }
             $student = new Student(new StudentId($row['student_id']));
-            $this->CantineUserRepository->store(CantineUser::apply($student, $schedule));
+            $User = CantineUser::apply($student, $schedule);
+            $User->assignToGroup(new CantineGroup($row['group']));
+            $this->CantineUserRepository->store($User);
         }
     }
 
@@ -94,6 +103,48 @@ class AdminContext implements SnippetAcceptingContext
         foreach ($this->List as $User) {
             if (!in_array($User->getStudentId()->getId(), $expected)) {
                 throw new \Exception('List is wrong!');
+            }
+        }
+    }
+
+    /**
+     * @Given Rules for turn assignation are
+     */
+    public function rulesForTurnAssignationAre(TableNode $table)
+    {
+        // $this->rules = [];
+        foreach ($table->getHash() as $row) {
+            // $this->rules[] = new TurnRule($row['turn'], new WeeklySchedule(explode(', ', $row['schedule'])), new CantineGroup($row['group']), [], []);
+            $this->assigner->addRule(new TurnRule($row['turn'], new WeeklySchedule(explode(', ', $row['schedule'])), new CantineGroup($row['group']), [], []));
+        }
+    }
+
+    /**
+     * @Then the list should not contain this Cantine Users
+     */
+    public function theListShouldNotContainThisCantineUsers(TableNode $table)
+    {
+        $expected = [];
+        foreach ($table->getHash() as $row) {
+            $expected[] = $row['student_id'];
+        }
+        foreach ($this->List as $User) {
+            if (in_array($User->getStudentId()->getId(), $expected)) {
+                throw new \Exception('List is wrong!');
+            }
+        }
+    }
+
+    /**
+     * @Then the turns should be assigned as
+     */
+    public function theTurnsShouldBeAssignedAs(TableNode $table)
+    {
+        $expected = $table->getHash();
+        $turns = $this->assigner->generateListFor($this->today, $this->List);
+        foreach ($expected as $row) {
+            if ($turns[$row['turn']][0]->getStudentId()->getId() !== $row['student_id']) {
+                throw new \Exception('Bad turn assignment');
             }
         }
     }

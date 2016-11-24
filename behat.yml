@@ -4,13 +4,13 @@ default:
             paths:
                 - %paths.base%/features/cantine
             contexts:
-                - StudentContext
+                - Features\Milhojas\Domain\Cantine\StudentContext
             filters:
                 role: student
         cantine_admins:
             paths:
                 - %paths.base%/features/cantine
             contexts:
-                - AdminContext
+                - Features\Milhojas\Domain\Cantine\AdminContext
             filters:
                 role: admin

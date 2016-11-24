@@ -12,7 +12,7 @@ class TurnRuleSpec extends ObjectBehavior
 {
     public function let(WeeklySchedule $schedule, CantineGroup $group, $enrolled, $notEnrolled)
     {
-        $this->beConstructedWith(3, $schedule, $group, [$enrolled], [$notEnrolled]);
+        $this->beConstructedWith(3, $schedule, $group, [], []);
     }
     public function it_is_initializable()
     {
@@ -22,7 +22,7 @@ class TurnRuleSpec extends ObjectBehavior
     {
         $schedule->isScheduledDate($date)->willReturn(true);
         $User->belongsToGroup($group)->willReturn(true);
-        $User->isEnrolled()->willReturn($enrolled);
+        $User->isEnrolled()->willReturn(false);
         $this->getAssignedTurn($User, $date)->shouldBe(3);
     }
 }

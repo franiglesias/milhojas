@@ -20,7 +20,6 @@ class CantineAssignerSpec extends ObjectBehavior
         $rule1->getAssignedTurn($User2, $date)->willReturn(2);
 
         $rule1->chain($rule2)->shouldBeCalled();
-        // $rule2->chain($rule3)->shouldBeCalled();
         $this->addRule($rule1);
         $this->addRule($rule2);
 

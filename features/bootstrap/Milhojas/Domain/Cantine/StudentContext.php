@@ -12,6 +12,7 @@ use Milhojas\Domain\Utils\RandomDaysSchedule;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineGroup;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
+use Milhojas\Library\ValueObjects\Identity\PersonName;
 
 /**
  * Defines application features from the specific context.
@@ -29,14 +30,14 @@ class StudentContext implements SnippetAcceptingContext
     {
         $this->CantineUserRepository = new CantineUserInMemoryRepository();
         $this->CantineUserRepository->store(CantineUser::apply(
-            new Student(new StudentId('student-02')),
+            new Student(new StudentId('student-02'), new PersonName('Fran', 'Iglesias')),
             new MonthWeekSchedule([
                     'october' => ['monday', 'tuesday'],
                     'november' => ['monday', 'wednesday', 'friday'],
                 ])
             ));
         $this->CantineUserRepository->store(CantineUser::apply(
-            new Student(new StudentId('student-04')),
+            new Student(new StudentId('student-04'), new PersonName('Pedro', 'Fernández')),
             new RandomDaysSchedule([new \DateTime('11/15/2016')])
             ));
     }
@@ -46,7 +47,7 @@ class StudentContext implements SnippetAcceptingContext
      */
     public function studentWithStudentid($student_id)
     {
-        $this->Student = new Student(new StudentId($student_id));
+        $this->Student = new Student(new StudentId($student_id), new PersonName('Nombre', 'Apellidos'));
     }
 
     /**

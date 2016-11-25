@@ -9,18 +9,23 @@ use Milhojas\Domain\Cantine\Allergens;
 use Milhojas\Domain\School\Student;
 use Milhojas\Domain\School\StudentId;
 use Milhojas\Domain\Utils\Schedule;
+use Milhojas\Library\ValueObjects\Identity\PersonName;
+use Milhojas\Library\Sortable\Sortable;
 use PhpSpec\ObjectBehavior;
 
 class CantineUserSpec extends ObjectBehavior
 {
-    public function let(Student $student, Schedule $schedule, StudentId $studentId)
+    public function let(Student $student, Schedule $schedule, StudentId $studentId, PersonName $name)
     {
         $student->getStudentId()->willReturn($studentId);
+        $student->getName()->willReturn($name);
+
         $this->beConstructedThrough('apply', [$student, $schedule]);
     }
     public function it_is_initializable()
     {
         $this->shouldHaveType(CantineUser::class);
+        $this->shouldImplement(Sortable::class);
     }
 
     public function it_has_autoassigned_null_group_by_default()
@@ -53,6 +58,20 @@ class CantineUserSpec extends ObjectBehavior
         $final_schedule->isScheduledDate($anyDate)->willReturn(false);
         $this->updateSchedule($update_schedule);
         $this->shouldNotBeEatingOnDate($anyDate);
+    }
+
+    public function it_can_compare_to_another_user(Student $anotherStudent, StudentId $anotherId, PersonName $anotherName, $name, $schedule)
+    {
+        $anotherStudent->getStudentId()->willReturn($anotherId);
+        $anotherStudent->getName()->willReturn($anotherName);
+
+        $name->compare($anotherName)->willReturn(-1)->shouldBeCalled();
+
+        $another = CantineUser::apply(
+            $anotherStudent->getWrappedObject(),
+            $schedule->getWrappedObject()
+        );
+        $this->compare($another)->shouldBe(-1);
     }
 
     public function it_knows_about_allergies(Allergens $allergens)

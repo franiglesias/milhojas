@@ -5,27 +5,31 @@ namespace Milhojas\Domain\Cantine;
 use Milhojas\Domain\School\Student;
 use Milhojas\Domain\School\StudentId;
 use Milhojas\Domain\Utils\Schedule;
+use Milhojas\Library\Sortable\Sortable;
+use Milhojas\Library\ValueObjects\Identity\PersonName;
 
 /**
  * Represents a CantineUser.
  */
-class CantineUser
+class CantineUser implements Sortable
 {
     protected $studentId;
     protected $allergens;
     protected $schedule;
     protected $group;
+    protected $name;
 
-    public function __construct(StudentId $studentId, Schedule $schedule)
+    public function __construct(StudentId $studentId, PersonName $name, Schedule $schedule)
     {
         $this->studentId = $studentId;
         $this->schedule = $schedule;
+        $this->name = $name;
         $this->group = new NullCantineGroup();
     }
 
     public static function apply(Student $student, Schedule $schedule)
     {
-        $cantineUser = new self($student->getStudentId(), $schedule);
+        $cantineUser = new self($student->getStudentId(), $student->getName(), $schedule);
 
         return $cantineUser;
     }
@@ -90,5 +94,10 @@ class CantineUser
     public function updateAllergiesInformation($argument1)
     {
         // TODO: write logic here
+    }
+
+    public function compare($anotherUser)
+    {
+        return $this->name->compare($anotherUser->name);
     }
 }

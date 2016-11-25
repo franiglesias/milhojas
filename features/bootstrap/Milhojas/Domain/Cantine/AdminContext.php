@@ -15,6 +15,7 @@ use Milhojas\Domain\Cantine\TurnRule;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineGroup;
 use Milhojas\Domain\Cantine\Assigner;
+use Milhojas\Library\ValueObjects\Identity\PersonName;
 
 /**
  * Defines application features from the specific context.
@@ -53,26 +54,11 @@ class AdminContext implements SnippetAcceptingContext
                     // code...
                     break;
             }
-            $student = new Student(new StudentId($row['student_id']));
+            $student = new Student(new StudentId($row['student_id']), new PersonName('Nombre', 'Apellidos'));
             $User = CantineUser::apply($student, $schedule);
             $User->assignToGroup(new CantineGroup($row['group']));
             $this->CantineUserRepository->store($User);
         }
-    }
-
-    /**
-     * Convert a row of table data into a schedule.
-     *
-     * @param [type] $row [Description]
-     *
-     * @return MonthWeekSchedule
-     */
-    private function buildMonthWeekSchedule($row)
-    {
-        list($month, $weekdays) = explode(': ', $row['schedule']);
-        $schedule = [$month => explode(', ', $weekdays)];
-
-        return new MonthWeekSchedule($schedule);
     }
 
     /**
@@ -112,10 +98,14 @@ class AdminContext implements SnippetAcceptingContext
      */
     public function rulesForTurnAssignationAre(TableNode $table)
     {
-        // $this->rules = [];
         foreach ($table->getHash() as $row) {
-            // $this->rules[] = new TurnRule($row['turn'], new WeeklySchedule(explode(', ', $row['schedule'])), new CantineGroup($row['group']), [], []);
-            $this->assigner->addRule(new TurnRule($row['turn'], new WeeklySchedule(explode(', ', $row['schedule'])), new CantineGroup($row['group']), [], []));
+            $this->assigner->addRule(new TurnRule(
+                $row['turn'],
+                new WeeklySchedule(explode(', ', $row['schedule'])),
+                new CantineGroup($row['group']),
+                [],
+                []
+            ));
         }
     }
 
@@ -147,5 +137,20 @@ class AdminContext implements SnippetAcceptingContext
                 throw new \Exception('Bad turn assignment');
             }
         }
+    }
+
+    /**
+     * Convert a row of table data into a schedule.
+     *
+     * @param [type] $row [Description]
+     *
+     * @return MonthWeekSchedule
+     */
+    private function buildMonthWeekSchedule($row)
+    {
+        list($month, $weekdays) = explode(': ', $row['schedule']);
+        $schedule = [$month => explode(', ', $weekdays)];
+
+        return new MonthWeekSchedule($schedule);
     }
 }

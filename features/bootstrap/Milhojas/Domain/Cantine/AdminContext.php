@@ -14,7 +14,7 @@ use Milhojas\Domain\School\StudentId;
 use Milhojas\Domain\Cantine\TurnRule;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineGroup;
-use Milhojas\Domain\Cantine\CantineAssigner;
+use Milhojas\Domain\Cantine\Assigner;
 
 /**
  * Defines application features from the specific context.
@@ -32,7 +32,7 @@ class AdminContext implements SnippetAcceptingContext
     public function __construct()
     {
         $this->CantineUserRepository = new CantineUserInMemoryRepository();
-        $this->assigner = new CantineAssigner();
+        $this->assigner = new Assigner();
     }
 
     /**

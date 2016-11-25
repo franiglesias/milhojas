@@ -20,4 +20,9 @@ class TurnSpec extends ObjectBehavior
     {
         $this->getName()->shouldBe('Turn 1');
     }
+
+    public function it_can_compare_with_others()
+    {
+        $this->shouldBeLessThan(new Turn('Turn 2', 2));
+    }
 }

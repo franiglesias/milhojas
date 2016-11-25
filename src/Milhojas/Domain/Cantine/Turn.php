@@ -17,4 +17,9 @@ class Turn
     {
         return $this->name;
     }
+
+    public function isLessThan(Turn $turn)
+    {
+        return $this->order < $turn->order;
+    }
 }

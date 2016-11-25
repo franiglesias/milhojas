@@ -4,14 +4,14 @@ namespace spec\Milhojas\Domain\Cantine;
 
 use Milhojas\Domain\Cantine\TurnRule;
 use Milhojas\Domain\Cantine\CantineUser;
-use Milhojas\Domain\Cantine\CantineAssigner;
+use Milhojas\Domain\Cantine\Assigner;
 use PhpSpec\ObjectBehavior;
 
-class CantineAssignerSpec extends ObjectBehavior
+class AssignerSpec extends ObjectBehavior
 {
     public function it_is_initializable()
     {
-        $this->shouldHaveType(CantineAssigner::class);
+        $this->shouldHaveType(Assigner::class);
     }
 
     public function it_can_generate_a_list_for_a_date(TurnRule $rule1, CantineUser $User1, TurnRule $rule2, CantineUser $User2, TurnRule $rule3,  \DateTime $date)

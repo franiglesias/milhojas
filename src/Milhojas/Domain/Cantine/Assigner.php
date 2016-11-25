@@ -2,7 +2,7 @@
 
 namespace Milhojas\Domain\Cantine;
 
-class CantineAssigner
+class Assigner
 {
     private $rules;
 

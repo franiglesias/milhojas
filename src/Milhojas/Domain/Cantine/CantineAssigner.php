@@ -13,7 +13,12 @@ class CantineAssigner
      */
     public function addRule(TurnRule $turnRule)
     {
-        $this->rules[] = $turnRule;
+        if (!$this->rules) {
+            $this->rules = $turnRule;
+
+            return;
+        }
+        $this->rules->chain($turnRule);
     }
 
     /**
@@ -26,20 +31,12 @@ class CantineAssigner
     {
         $result = [];
         foreach ($users as $User) {
-            foreach ($this->rules as $rule) {
-                $turn = $rule->getAssignedTurn($User, $date);
-                if ($turn) {
-                    $result[$turn][] = $User;
-                    continue;
-                }
+            $turn = $this->rules->getAssignedTurn($User, $date);
+            if ($turn) {
+                $result[$turn][] = $User;
             }
         }
 
         return $result;
-    }
-
-    public function countRules()
-    {
-        return count($this->rules);
     }
 }

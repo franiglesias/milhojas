@@ -105,11 +105,19 @@ class CantineUser implements Sortable
         // TODO: write logic here
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function compare($anotherUser)
     {
         return $this->name->compare($anotherUser->name);
     }
 
+    /**
+     * Uaser buys ticket(s) for one or several dates.
+     *
+     * @param ListOfDates $dates
+     */
     public function buysTicketFor(ListOfDates $dates)
     {
         $this->schedule = $this->schedule->update($dates);

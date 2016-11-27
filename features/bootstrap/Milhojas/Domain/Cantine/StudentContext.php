@@ -184,4 +184,20 @@ class StudentContext implements SnippetAcceptingContext
     {
         $this->User->assignToGroup(new CantineGroup('Test group'));
     }
+
+    /**
+     * @Given There is a Regular CantineUser associated to it
+     */
+    public function thereIsARegularCantineuserAssociatedToIt()
+    {
+        $this->User = $this->CantineUserRepository->retrieve($this->Student->getStudentId());
+    }
+
+    /**
+     * @When Student buys a ticket to eat on date :date that is out of its schedule
+     */
+    public function studentBuysATicketToEatOnDateThatIsOutOfItsSchedule($date)
+    {
+        $this->User->buysTicketFor(new ListOfDates([$date]));
+    }
 }

@@ -8,7 +8,7 @@ use Milhojas\Domain\School\Student;
 use Milhojas\Domain\School\StudentId;
 use Milhojas\Domain\Utils\Schedule;
 use Milhojas\Domain\Utils\MonthWeekSchedule;
-use Milhojas\Domain\Utils\RandomDaysSchedule;
+use Milhojas\Domain\Utils\ListOfDates;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineGroup;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
@@ -38,7 +38,7 @@ class StudentContext implements SnippetAcceptingContext
             ));
         $this->CantineUserRepository->store(CantineUser::apply(
             new Student(new StudentId('student-04'), new PersonName('Pedro', 'Fernández')),
-            new RandomDaysSchedule([new \DateTime('11/15/2016')])
+            new ListOfDates([new \DateTime('11/15/2016')])
             ));
     }
 
@@ -74,7 +74,8 @@ class StudentContext implements SnippetAcceptingContext
      */
     public function studentAppliesToCantineWithATicketToEatOnDate($date)
     {
-        $this->User = CantineUser::apply($this->Student, new RandomDaysSchedule([$date]));
+        $this->User = CantineUser::apply($this->Student);
+        $this->User->buysTicketFor(new ListOfDates([$date]));
     }
 
     /**
@@ -119,7 +120,8 @@ class StudentContext implements SnippetAcceptingContext
      */
     public function studentBuysATicketToEatOnDate($date)
     {
-        $this->User->updateSchedule(new RandomDaysSchedule([$date]));
+        $this->User->buysTicketFor(new ListOfDates([$date]));
+        // $this->User->updateSchedule(new ListOfDates([$date]));
     }
 
     /**

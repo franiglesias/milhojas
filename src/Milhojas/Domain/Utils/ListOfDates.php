@@ -2,7 +2,7 @@
 
 namespace Milhojas\Domain\Utils;
 
-class RandomDaysSchedule implements Schedule
+class ListOfDates implements Schedule
 {
     private $schedule;
 

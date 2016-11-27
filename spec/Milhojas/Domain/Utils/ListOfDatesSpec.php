@@ -2,10 +2,10 @@
 
 namespace spec\Milhojas\Domain\Utils;
 
-use Milhojas\Domain\Utils\RandomDaysSchedule;
+use Milhojas\Domain\Utils\ListOfDates;
 use PhpSpec\ObjectBehavior;
 
-class RandomDaysScheduleSpec extends ObjectBehavior
+class ListOfDatesSpec extends ObjectBehavior
 {
     public function let()
     {
@@ -16,7 +16,7 @@ class RandomDaysScheduleSpec extends ObjectBehavior
     }
     public function it_is_initializable()
     {
-        $this->shouldHaveType(RandomDaysSchedule::class);
+        $this->shouldHaveType(ListOfDates::class);
     }
 
     public function it_ensures_schedule_has_valid_dates()
@@ -33,7 +33,7 @@ class RandomDaysScheduleSpec extends ObjectBehavior
 
     public function it_can_add_new_dates()
     {
-        $updated = $this->update(new RandomDaysSchedule([
+        $updated = $this->update(new ListOfDates([
             new \DateTime('11/24/2016'),
             new \DateTime('12/25/2016'),
         ]));

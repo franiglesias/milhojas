@@ -8,7 +8,7 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
 use Milhojas\Domain\Utils\WeeklySchedule;
 use Milhojas\Domain\Utils\MonthWeekSchedule;
-use Milhojas\Domain\Utils\RandomDaysSchedule;
+use Milhojas\Domain\Utils\ListOfDates;
 use Milhojas\Domain\School\Student;
 use Milhojas\Domain\School\StudentId;
 use Milhojas\Domain\Cantine\TurnRule;
@@ -48,7 +48,7 @@ class AdminContext implements SnippetAcceptingContext
                     break;
                 case 'ticket':
                     $date = new \DateTime($row['schedule']);
-                    $schedule = new RandomDaysSchedule([$date]);
+                    $schedule = new ListOfDates([$date]);
                     break;
                 default:
                     // code...

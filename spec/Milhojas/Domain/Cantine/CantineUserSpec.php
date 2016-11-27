@@ -9,6 +9,7 @@ use Milhojas\Domain\Cantine\Allergens;
 use Milhojas\Domain\School\Student;
 use Milhojas\Domain\School\StudentId;
 use Milhojas\Domain\Utils\Schedule;
+use Milhojas\Domain\Utils\ListOfDates;
 use Milhojas\Library\ValueObjects\Identity\PersonName;
 use Milhojas\Library\Sortable\Sortable;
 use PhpSpec\ObjectBehavior;
@@ -82,5 +83,19 @@ class CantineUserSpec extends ObjectBehavior
     public function it_can_tell_extracurricular_user_is_enrolled()
     {
         $this->isEnrolled()->shouldReturn(true);
+    }
+
+    public function it_can_buy_a_ticket($student)
+    {
+        $date = new \DateTime();
+        $this->beConstructedThrough('apply', [$student]);
+        $this->buysTicketFor(new ListOfDates([$date]));
+        $this->shouldBeEatingOnDate($date);
+    }
+
+    public function it_can_apply_without_schedule_getting_null_schedule($student, $studentId, $name, \DateTime $anyDate)
+    {
+        $this->beConstructedThrough('apply', [$student]);
+        $this->shouldNotBeEatingOnDate($anyDate);
     }
 }

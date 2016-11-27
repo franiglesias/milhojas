@@ -5,6 +5,8 @@ namespace Milhojas\Domain\Cantine;
 use Milhojas\Domain\School\Student;
 use Milhojas\Domain\School\StudentId;
 use Milhojas\Domain\Utils\Schedule;
+use Milhojas\Domain\Utils\NullSchedule;
+use Milhojas\Domain\Utils\ListOfDates;
 use Milhojas\Library\Sortable\Sortable;
 use Milhojas\Library\ValueObjects\Identity\PersonName;
 
@@ -27,8 +29,15 @@ class CantineUser implements Sortable
         $this->group = new NullCantineGroup();
     }
 
-    public static function apply(Student $student, Schedule $schedule)
+    /**
+     * Student applies to Cantine Service.
+     *
+     * @param Student       $student
+     * @param Schedule|null $schedule
+     */
+    public static function apply(Student $student, Schedule $schedule = null)
     {
+        $schedule = $schedule ? $schedule : new NullSchedule();
         $cantineUser = new self($student->getStudentId(), $student->getName(), $schedule);
 
         return $cantineUser;
@@ -99,5 +108,10 @@ class CantineUser implements Sortable
     public function compare($anotherUser)
     {
         return $this->name->compare($anotherUser->name);
+    }
+
+    public function buysTicketFor(ListOfDates $dates)
+    {
+        $this->schedule = $this->schedule->update($dates);
     }
 }

@@ -5,6 +5,9 @@ namespace Features\Milhojas\Domain\Cantine;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
+use Milhojas\Infrastructure\Persistence\Cantine\RuleRepository;
+use Milhojas\Infrastructure\Persistence\Cantine\TurnRepository;
+use Milhojas\Infrastructure\Persistence\Cantine\GroupRepository;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
 use Milhojas\Domain\Utils\Schedule\MonthWeekSchedule;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
@@ -12,6 +15,7 @@ use Milhojas\Domain\School\Student;
 use Milhojas\Domain\School\StudentId;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineGroup;
+use Milhojas\Domain\Cantine\Rules;
 use Milhojas\Domain\Cantine\Assigner;
 use Milhojas\Library\ValueObjects\Identity\PersonName;
 use org\bovigo\vfs\vfsStream;
@@ -132,7 +136,15 @@ class AdminContext implements SnippetAcceptingContext
     public function theTurnsShouldBeAssignedAs(TableNode $table)
     {
         $expected = $table->getHash();
-        $this->assigner = new Assigner($this->getMockedConfigurationFile());
+
+        $turns = new TurnRepository();
+        $turns->load($this->getMockedConfigurationFile());
+        $groups = new GroupRepository();
+        $groups->load($this->getMockedConfigurationFile());
+        $rules = new RuleRepository($turns, $groups);
+        $rules->load($this->getMockedConfigurationFile());
+
+        $this->assigner = new Assigner($this->rules);
         $turns = $this->assigner->generateListFor($this->today, $this->List);
         foreach ($expected as $row) {
             if ($turns[$row['turn']][0]->getStudentId()->getId() !== $row['student_id']) {
@@ -162,6 +174,7 @@ class AdminContext implements SnippetAcceptingContext
         $map = array(
             'turns' => $this->turns,
             'rules' => $this->rules,
+            'groups' => $this->groups,
         );
         $file = vfsStream::newFile('cantine.yml')
             ->withContent(Yaml::dump($map))
@@ -176,5 +189,13 @@ class AdminContext implements SnippetAcceptingContext
     public function turnsAreTheFollowing(TableNode $table)
     {
         $this->turns = $table->getColumn(0);
+    }
+
+    /**
+     * @Given groups are the following
+     */
+    public function groupsAreTheFollowing(TableNode $table)
+    {
+        $this->groups = $table->getColumn(0);
     }
 }

@@ -14,6 +14,11 @@ Feature: Get the list of today's cantine users
             | Turno 1 |
             | Turno 2 |
             | Turno 3 |
+        And groups are the following
+            | Grupo 1 |
+            | Grupo 2 |
+            | Group 3 |
+            | Grupo 4 |
         And Rules for turn assignation are
             | rule | schedule | group | turn |
             | Group 1 eats on turn 1 all days | monday, tuesday, wednesday, thursday, friday | Group 1 | 1 |

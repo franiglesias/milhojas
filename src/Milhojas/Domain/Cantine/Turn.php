@@ -41,9 +41,11 @@ class Turn implements \IteratorAggregate, \ArrayAccess, \Countable
 
     public function sort()
     {
-        @usort($this->users, function (CantineUser $a, CantineUser $b) {
+        $errorReporting = error_reporting(0);
+        usort($this->users, function (CantineUser $a, CantineUser $b) {
             return $a->compare($b);
         });
+        error_reporting($errorReporting);
     }
     /**
      * {@inheritdoc}

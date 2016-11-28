@@ -11,7 +11,7 @@ class TurnRule
     private $next;
 
     public function __construct(
-        $turn,
+        Turn $turn,
         WeeklySchedule $schedule,
         CantineGroup $group,
         $enrolled,
@@ -47,6 +47,18 @@ class TurnRule
         return $this->turn;
     }
 
+    public function assignsUserToTurn(CantineUser $User, \DateTime $date)
+    {
+        if (!$this->isApplicableOnThisDate($date)) {
+            return $this->delegate($User, $date);
+        }
+
+        if (!$this->isApplicableToTheGroupOfTheUser($User)) {
+            return $this->delegate($User, $date);
+        }
+
+        $this->turn->appoint($User);
+    }
     /**
      * Chains the next rule that should try to assign the turn.
      *

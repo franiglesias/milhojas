@@ -2,6 +2,7 @@
 
 namespace spec\Milhojas\Domain\Cantine;
 
+use Milhojas\Domain\Cantine\Turn;
 use Milhojas\Domain\Cantine\TurnRule;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineGroup;
@@ -10,60 +11,95 @@ use PhpSpec\ObjectBehavior;
 
 class TurnRuleSpec extends ObjectBehavior
 {
-    public function let(CantineUser $User, WeeklySchedule $schedule, CantineGroup $group, $enrolled, $notEnrolled)
+    public function let(
+        WeeklySchedule $schedule,
+        CantineGroup $group,
+        CantineUser $User,
+        Turn $turn)
     {
         $User->belongsToGroup($group)->willReturn(true);
         $User->isEnrolled()->willReturn(false);
 
-        $this->beConstructedWith(1, $schedule, $group, [], []);
+        $this->beConstructedWith($turn, $schedule, $group, [], []);
     }
     public function it_is_initializable()
     {
         $this->shouldHaveType(TurnRule::class);
     }
-    public function it_assigns_turn(CantineUser $User, $group, \DateTime $date, $schedule)
+    public function it_assigns_turn(
+        $User,
+        $group,
+        \DateTime $date,
+        $schedule,
+        $turn)
     {
         $schedule->isScheduledDate($date)->willReturn(true);
-        $this->getAssignedTurn($User, $date)->shouldBe(1);
+        $this->getAssignedTurn($User, $date)->shouldBe($turn);
     }
 
-    public function it_delegates_to_another_rule_if_it_cant_handle_conditions(CantineUser $User, $group, \DateTime $date, $schedule, WeeklySchedule $schedule2)
+    public function it_appoints_user_in_turn(
+        $User,
+        $turn,
+        $group,
+        \DateTime $date,
+        $schedule)
+    {
+        $schedule->isScheduledDate($date)->willReturn(true);
+        $turn->appoint($User)->shouldBeCalled();
+        $this->assignsUserToTurn($User, $date);
+    }
+
+    public function it_delegates_to_another_rule_if_it_cant_handle_conditions(
+        $User,
+        $group,
+        \DateTime $date,
+        $schedule,
+        WeeklySchedule $schedule2,
+        Turn $turn2)
     {
         $schedule->isScheduledDate($date)->willReturn(false);
 
-        $delegated = $this->getDelegatedRule(2, true, $schedule2, $date, $group);
+        $delegated = $this->getDelegatedRule($turn2, true, $schedule2, $date, $group);
         $this->chain($delegated);
 
-        $this->getAssignedTurn($User, $date)->shouldBe(2);
+        $this->getAssignedTurn($User, $date)->shouldBe($turn2);
     }
 
-    public function it_can_manage_three_or_more_chained_rules(CantineUser $User, $group, \DateTime $date, $schedule, WeeklySchedule $schedule2, WeeklySchedule $schedule3)
-    {
+    public function it_can_manage_three_or_more_chained_rules(
+        $User,
+        $group,
+        \DateTime $date,
+        $schedule,
+        WeeklySchedule $schedule2,
+        WeeklySchedule $schedule3,
+        Turn $turn2,
+        Turn $turn3
+        ) {
         $schedule->isScheduledDate($date)->willReturn(false);
 
-        $delegated = $this->getDelegatedRule(2, false, $schedule2, $date, $group);
+        $delegated = $this->getDelegatedRule($turn2, false, $schedule2, $date, $group);
         $this->chain($delegated);
 
-        $lastDelegated = $this->getDelegatedRule(3, true, $schedule3, $date, $group);
+        $lastDelegated = $this->getDelegatedRule($turn3, true, $schedule3, $date, $group);
         $this->chain($lastDelegated);
 
-        $this->getAssignedTurn($User, $date)->shouldBe(3);
+        $this->getAssignedTurn($User, $date)->shouldBe($turn3);
     }
 
-    public function it_returns_first_positive(CantineUser $User, $group, \DateTime $date, $schedule, WeeklySchedule $schedule2)
+    public function it_returns_first_positive(CantineUser $User, $group, \DateTime $date, $schedule, WeeklySchedule $schedule2, $turn, Turn $turn2)
     {
         $schedule->isScheduledDate($date)->willReturn(true);
 
-        $delegated = $this->getDelegatedRule(2, true, $schedule2, $date, $group);
+        $delegated = $this->getDelegatedRule($turn2, true, $schedule2, $date, $group);
         $this->chain($delegated);
 
-        $this->getAssignedTurn($User, $date)->shouldBe(1);
+        $this->getAssignedTurn($User, $date)->shouldBe($turn);
     }
 
-    private function getDelegatedRule($turn, $result, WeeklySchedule $schedule2, \DateTime $date, $group)
+    private function getDelegatedRule(Turn $turn, $result, WeeklySchedule $schedule2, \DateTime $date, $group)
     {
         $schedule2->isScheduledDate($date)->willReturn($result);
-        $delegated = new TurnRule($turn, $schedule2->getWrappedObject(), $group->getWrappedObject(), [], []);
+        $delegated = new TurnRule($turn->getWrappedObject(), $schedule2->getWrappedObject(), $group->getWrappedObject(), [], []);
 
         return $delegated;
     }

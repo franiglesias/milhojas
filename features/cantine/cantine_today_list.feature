@@ -10,6 +10,10 @@ Feature: Get the list of today's cantine users
             | student-02 | Group 2 | ticket | 11/14/2016 |
             | student-03 | Group 3 | regular | november: tuesday, friday |
             | student-04 | Group 4 | ticket | 11/25/2016 |
+        And turns are the following
+            | Turno 1 |
+            | Turno 2 |
+            | Turno 3 |
         And Rules for turn assignation are
             | rule | schedule | group | turn |
             | Group 1 eats on turn 1 all days | monday, tuesday, wednesday, thursday, friday | Group 1 | 1 |

@@ -6,16 +6,16 @@ use Behat\Gherkin\Node\TableNode;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
-use Milhojas\Domain\Utils\Schedule\WeeklySchedule;
 use Milhojas\Domain\Utils\Schedule\MonthWeekSchedule;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Domain\School\Student;
 use Milhojas\Domain\School\StudentId;
-use Milhojas\Domain\Cantine\TurnRule;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineGroup;
 use Milhojas\Domain\Cantine\Assigner;
 use Milhojas\Library\ValueObjects\Identity\PersonName;
+use org\bovigo\vfs\vfsStream;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Defines application features from the specific context.
@@ -23,6 +23,9 @@ use Milhojas\Library\ValueObjects\Identity\PersonName;
 class AdminContext implements SnippetAcceptingContext
 {
     private $CantineUserRepository;
+    private $rules;
+    private $turns;
+    private $assigner;
     /**
      * Initializes context.
      *
@@ -33,7 +36,6 @@ class AdminContext implements SnippetAcceptingContext
     public function __construct()
     {
         $this->CantineUserRepository = new CantineUserInMemoryRepository();
-        $this->assigner = new Assigner();
     }
 
     /**
@@ -98,14 +100,13 @@ class AdminContext implements SnippetAcceptingContext
      */
     public function rulesForTurnAssignationAre(TableNode $table)
     {
+        $this->rules = [];
         foreach ($table->getHash() as $row) {
-            $this->assigner->addRule(new TurnRule(
-                $row['turn'],
-                new WeeklySchedule(explode(', ', $row['schedule'])),
-                new CantineGroup($row['group']),
-                [],
-                []
-            ));
+            $this->rules[$row['rule']] = [
+                'schedule' => $row['schedule'],
+                'group' => $row['group'],
+                'turn' => $row['turn'],
+            ];
         }
     }
 
@@ -131,6 +132,7 @@ class AdminContext implements SnippetAcceptingContext
     public function theTurnsShouldBeAssignedAs(TableNode $table)
     {
         $expected = $table->getHash();
+        $this->assigner = new Assigner($this->getMockedConfigurationFile());
         $turns = $this->assigner->generateListFor($this->today, $this->List);
         foreach ($expected as $row) {
             if ($turns[$row['turn']][0]->getStudentId()->getId() !== $row['student_id']) {
@@ -152,5 +154,27 @@ class AdminContext implements SnippetAcceptingContext
         $schedule = [$month => explode(', ', $weekdays)];
 
         return new MonthWeekSchedule($schedule);
+    }
+
+    private function getMockedConfigurationFile()
+    {
+        $this->fileSystem = vfsStream::setUp('root', 0, []);
+        $map = array(
+            'turns' => $this->turns,
+            'rules' => $this->rules,
+        );
+        $file = vfsStream::newFile('cantine.yml')
+            ->withContent(Yaml::dump($map))
+            ->at($this->fileSystem);
+
+        return $file->url();
+    }
+
+    /**
+     * @Given turns are the following
+     */
+    public function turnsAreTheFollowing(TableNode $table)
+    {
+        $this->turns = $table->getColumn(0);
     }
 }

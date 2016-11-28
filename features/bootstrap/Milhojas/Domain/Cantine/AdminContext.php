@@ -145,7 +145,8 @@ class AdminContext implements SnippetAcceptingContext
         $rules->load($this->getMockedConfigurationFile());
 
         $this->assigner = new Assigner($this->rules);
-        $turns = $this->assigner->generateListFor($this->today, $this->List);
+        $this->assigner->generateListFor($this->today, $this->List);
+        print_r($turns);
         foreach ($expected as $row) {
             if ($turns[$row['turn']][0]->getStudentId()->getId() !== $row['student_id']) {
                 throw new \Exception('Bad turn assignment');

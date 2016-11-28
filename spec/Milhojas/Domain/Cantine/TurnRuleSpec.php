@@ -5,7 +5,7 @@ namespace spec\Milhojas\Domain\Cantine;
 use Milhojas\Domain\Cantine\TurnRule;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineGroup;
-use Milhojas\Domain\Utils\WeeklySchedule;
+use Milhojas\Domain\Utils\Schedule\WeeklySchedule;
 use PhpSpec\ObjectBehavior;
 
 class TurnRuleSpec extends ObjectBehavior

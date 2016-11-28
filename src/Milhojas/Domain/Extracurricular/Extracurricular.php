@@ -2,7 +2,7 @@
 
 namespace Milhojas\Domain\Extracurricular;
 
-use Milhojas\Domain\Utils\WeeklySchedule;
+use Milhojas\Domain\Utils\Schedule\WeeklySchedule;
 
 /**
  * Represents an Extracurricular Activity in which a Student could be enrolled

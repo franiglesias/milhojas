@@ -4,9 +4,9 @@ namespace Milhojas\Domain\Cantine;
 
 use Milhojas\Domain\School\Student;
 use Milhojas\Domain\School\StudentId;
-use Milhojas\Domain\Utils\Schedule;
-use Milhojas\Domain\Utils\NullSchedule;
-use Milhojas\Domain\Utils\ListOfDates;
+use Milhojas\Domain\Utils\Schedule\Schedule;
+use Milhojas\Domain\Utils\Schedule\NullSchedule;
+use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Library\Sortable\Sortable;
 use Milhojas\Library\ValueObjects\Identity\PersonName;
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace spec\Milhojas\Domain\Utils;
+namespace spec\Milhojas\Domain\Utils\Schedule;
 
-use Milhojas\Domain\Utils\Schedule;
-use Milhojas\Domain\Utils\ListOfDates;
+use Milhojas\Domain\Utils\Schedule\Schedule;
+use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use PhpSpec\ObjectBehavior;
 
 class ListOfDatesSpec extends ObjectBehavior

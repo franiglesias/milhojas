@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Domain\Utils;
+namespace Milhojas\Domain\Utils\Schedule;
 
 class MonthWeekSchedule extends Schedule
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace spec\Milhojas\Domain\Utils;
+namespace spec\Milhojas\Domain\Utils\Schedule;
 
-use Milhojas\Domain\Utils\Schedule;
-use Milhojas\Domain\Utils\WeeklySchedule;
+use Milhojas\Domain\Utils\Schedule\Schedule;
+use Milhojas\Domain\Utils\Schedule\WeeklySchedule;
 use PhpSpec\ObjectBehavior;
 
 class WeeklyScheduleSpec extends ObjectBehavior

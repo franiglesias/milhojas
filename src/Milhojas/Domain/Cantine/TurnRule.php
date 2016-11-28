@@ -2,7 +2,7 @@
 
 namespace Milhojas\Domain\Cantine;
 
-use Milhojas\Domain\Utils\WeeklySchedule;
+use Milhojas\Domain\Utils\Schedule\WeeklySchedule;
 
 class TurnRule
 {

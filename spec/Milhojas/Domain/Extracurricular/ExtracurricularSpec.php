@@ -3,7 +3,7 @@
 namespace spec\Milhojas\Domain\Extracurricular;
 
 use Milhojas\Domain\Extracurricular\Extracurricular;
-use Milhojas\Domain\Utils\WeeklySchedule;
+use Milhojas\Domain\Utils\Schedule\WeeklySchedule;
 use PhpSpec\ObjectBehavior;
 
 class ExtracurricularSpec extends ObjectBehavior

@@ -5,7 +5,6 @@ namespace spec\Milhojas\Domain\Cantine;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineGroup;
 use Milhojas\Domain\Cantine\NullCantineGroup;
-use Milhojas\Domain\Cantine\Allergens;
 use Milhojas\Domain\School\Student;
 use Milhojas\Domain\School\StudentId;
 use Milhojas\Domain\Utils\Schedule;
@@ -75,14 +74,15 @@ class CantineUserSpec extends ObjectBehavior
         $this->compare($another)->shouldBe(-1);
     }
 
-    public function it_knows_about_allergies(Allergens $allergens)
-    {
-        $this->updateAllergiesInformation($allergens);
-    }
-
     public function it_can_tell_extracurricular_user_is_enrolled()
     {
         $this->isEnrolled()->shouldReturn(true);
+    }
+
+    public function it_can_apply_without_schedule_getting_null_schedule($student, $studentId, $name, \DateTime $anyDate)
+    {
+        $this->beConstructedThrough('apply', [$student]);
+        $this->shouldNotBeEatingOnDate($anyDate);
     }
 
     public function it_can_buy_a_ticket($student)
@@ -91,11 +91,5 @@ class CantineUserSpec extends ObjectBehavior
         $this->beConstructedThrough('apply', [$student]);
         $this->buysTicketFor(new ListOfDates([$date]));
         $this->shouldBeEatingOnDate($date);
-    }
-
-    public function it_can_apply_without_schedule_getting_null_schedule($student, $studentId, $name, \DateTime $anyDate)
-    {
-        $this->beConstructedThrough('apply', [$student]);
-        $this->shouldNotBeEatingOnDate($anyDate);
     }
 }

@@ -2,10 +2,8 @@
 
 namespace Milhojas\Domain\Utils;
 
-class WeeklySchedule implements Schedule
+class WeeklySchedule extends Schedule
 {
-    private $schedule;
-
     public function __construct($weekDays)
     {
         foreach ((array) $weekDays as $weekDay) {
@@ -22,17 +20,11 @@ class WeeklySchedule implements Schedule
     {
         $weekDay = strtolower($date->format('l'));
 
-        return in_array($weekDay, $this->schedule);
-    }
+        if (in_array($weekDay, $this->schedule)) {
+            return true;
+        }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function update(Schedule $delta)
-    {
-        $update = array_merge($this->schedule, $delta->schedule);
-
-        return new self($update);
+        return $this->delegate($date);
     }
 
     private function isValidWeekDay($weekDay)

@@ -2,22 +2,44 @@
 
 namespace Milhojas\Domain\Utils;
 
-interface Schedule
+abstract class Schedule
 {
+    protected $schedule;
+    private $next;
+
     /**
-     * Tells if the passed $date is scheduled.
-     *
-     * @param \DateTime $date
-     *
-     * @return bool true if scheduled
+     * {@inheritdoc}
      */
-    public function isScheduledDate(\DateTime $date);
-    /**
-     * Updates the schedule with another schedule of the same type.
-     *
-     * @param Schedule $delta
-     *
-     * @return Schedule a new instance with data merge
-     */
-    public function update(Schedule $delta);
+    abstract public function isScheduledDate(\DateTime $date);
+
+     /**
+      * {@inheritdoc}
+      */
+     public function update(Schedule $delta)
+     {
+         $updated = clone $this;
+         $updated->schedule = array_merge($this->schedule, $delta->schedule);
+
+         return $updated;
+     }
+
+    public function setNext(Schedule $nextSchedule)
+    {
+        if (!$this->next) {
+            $this->next = $nextSchedule;
+
+            return;
+        }
+
+        $this->next->setNext($nextSchedule);
+    }
+
+    protected function delegate(\DateTime $date)
+    {
+        if (!$this->next) {
+            return false;
+        }
+
+        return $this->next->isScheduledDate($date);
+    }
 }

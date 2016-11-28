@@ -2,10 +2,8 @@
 
 namespace Milhojas\Domain\Utils;
 
-class ListOfDates implements Schedule
+class ListOfDates extends Schedule
 {
-    private $schedule;
-
     public function __construct($schedule)
     {
         foreach ((array) $schedule as $date) {
@@ -22,17 +20,7 @@ class ListOfDates implements Schedule
             return true;
         }
 
-        return false;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function update(Schedule $delta)
-    {
-        $newSchedule = array_merge($this->schedule, $delta->schedule);
-
-        return new self($newSchedule);
+        return $this->delegate($date);
     }
 
     private function isValidDate($date)

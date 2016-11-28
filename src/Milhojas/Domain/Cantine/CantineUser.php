@@ -100,11 +100,6 @@ class CantineUser implements Sortable
         $this->group = $group;
     }
 
-    public function updateAllergiesInformation($argument1)
-    {
-        // TODO: write logic here
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -120,6 +115,6 @@ class CantineUser implements Sortable
      */
     public function buysTicketFor(ListOfDates $dates)
     {
-        $this->schedule = $this->schedule->update($dates);
+        $this->schedule->setNext($dates);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace spec\Milhojas\Domain\Utils;
 
+use Milhojas\Domain\Utils\Schedule;
 use Milhojas\Domain\Utils\MonthWeekSchedule;
 use PhpSpec\ObjectBehavior;
 
@@ -61,5 +62,13 @@ class MonthWeekScheduleSpec extends ObjectBehavior
         $this->update(new MonthWeekSchedule($changes));
         $this->shouldBeScheduledDate(new \DateTime('11/14/2016'));
         $this->shouldNotBeScheduledDate(new \DateTime('11/15/2016'));
+    }
+
+    public function it_can_delegate_to_another_schedule_if_it_can_not_manage_a_date(Schedule $anotherSchedule)
+    {
+        $dateNotInOriginalSchedule = new \DateTime('11/15/2016');
+        $anotherSchedule->isScheduledDate($dateNotInOriginalSchedule)->willReturn(true);
+        $this->setNext($anotherSchedule);
+        $this->shouldBeScheduledDate($dateNotInOriginalSchedule);
     }
 }

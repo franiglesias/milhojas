@@ -2,14 +2,14 @@
 
 namespace Milhojas\Domain\Utils;
 
-class NullSchedule implements Schedule
+class NullSchedule extends Schedule
 {
     /**
      * {@inheritdoc}
      */
     public function isScheduledDate(\DateTime $date)
     {
-        return false;
+        return $this->delegate($date);
     }
 
     /**

@@ -2,10 +2,8 @@
 
 namespace Milhojas\Domain\Utils;
 
-class MonthWeekSchedule implements Schedule
+class MonthWeekSchedule extends Schedule
 {
-    private $schedule;
-
     public function __construct($schedule)
     {
         foreach ($schedule as $month => $weekDays) {
@@ -20,18 +18,11 @@ class MonthWeekSchedule implements Schedule
      */
     public function isScheduledDate(\DateTime $date)
     {
-        return $this->thereIsAppointmentToThisDate($date);
-    }
+        if ($this->thereIsAppointmentToThisDate($date)) {
+            return true;
+        }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function update(Schedule $delta)
-    {
-        $updated = clone $this;
-        $updated->schedule = array_merge($this->schedule, $delta->schedule);
-
-        return $updated;
+        return $this->delegate($date);
     }
 
     private function thereIsAppointmentToThisDate(\DateTime $date)

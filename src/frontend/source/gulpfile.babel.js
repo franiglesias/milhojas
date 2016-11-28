@@ -10,6 +10,7 @@ import sherpa   from 'style-sherpa';
 import yaml     from 'js-yaml';
 import fs       from 'fs';
 import path     from 'path';
+import decomment from 'gulp-decomment';
 
 // Load all Gulp plugins into one variable
 const $ = plugins();

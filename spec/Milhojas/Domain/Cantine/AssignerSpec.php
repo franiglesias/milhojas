@@ -4,6 +4,7 @@ namespace spec\Milhojas\Domain\Cantine;
 
 use Milhojas\Domain\Cantine\Assigner;
 use Milhojas\Domain\Cantine\TurnRule;
+use Milhojas\Domain\Cantine\Turn;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\Rules;
 use PhpSpec\ObjectBehavior;
@@ -27,4 +28,5 @@ class AssignerSpec extends ObjectBehavior
     {
         $this->assignUsersForDate([$user1, $user2], $date);
     }
+
 }

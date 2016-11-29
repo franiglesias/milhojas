@@ -7,6 +7,7 @@ class Turn implements \IteratorAggregate, \ArrayAccess, \Countable
     private $name;
     private $order;
     private $users;
+    private $indexByName;
 
     public function __construct($name, $order)
     {
@@ -32,6 +33,7 @@ class Turn implements \IteratorAggregate, \ArrayAccess, \Countable
     public function appoint(CantineUser $User)
     {
         $this->users[] = $User;
+        $this->indexByName[$User->getStudentId()->getId()] = $User;
     }
 
     public function count()
@@ -77,5 +79,12 @@ class Turn implements \IteratorAggregate, \ArrayAccess, \Countable
     public function offsetUnset($offset)
     {
         unset($this->users[$offset]);
+    }
+
+    public function isAppointed(CantineUser $user)
+    {
+        $index = $user->getStudentId()->getId();
+
+        return isset($this->indexByName[$index]);
     }
 }

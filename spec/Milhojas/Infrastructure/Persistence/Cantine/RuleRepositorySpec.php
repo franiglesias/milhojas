@@ -28,8 +28,8 @@ class RuleRepositorySpec extends ObjectBehavior
     public function it_can_add_rules(TurnRule $rule, TurnRule $rule2)
     {
         $rule->chain()->shouldNotBeCalled();
-        $this->addRule($rule);
         $rule->chain($rule2)->shouldBeCalled();
+        $this->addRule($rule);
         $this->addRule($rule2);
     }
 

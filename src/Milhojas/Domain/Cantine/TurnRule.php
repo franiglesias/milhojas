@@ -25,28 +25,6 @@ class TurnRule
         $this->next = null;
     }
 
-    /**
-     * Assigns a User to a turn on a given data taking care of different conditions
-     * Delegates the assignment to a chained rule. If there are no more rules it return null.
-     *
-     * @param CantineUser $User
-     * @param \DateTime   $date
-     *
-     * @return int The turn
-     */
-    public function getAssignedTurn(CantineUser $User, \DateTime $date)
-    {
-        if (!$this->isApplicableOnThisDate($date)) {
-            return $this->delegate($User, $date);
-        }
-
-        if (!$this->isApplicableToTheGroupOfTheUser($User)) {
-            return $this->delegate($User, $date);
-        }
-
-        return $this->turn;
-    }
-
     public function assignsUserToTurn(CantineUser $User, \DateTime $date)
     {
         if (!$this->isApplicableOnThisDate($date)) {
@@ -103,6 +81,6 @@ class TurnRule
             return null;
         }
 
-        return $this->next->getAssignedTurn($User, $date);
+        $this->next->assignsUserToTurn($User, $date);
     }
 }

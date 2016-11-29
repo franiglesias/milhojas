@@ -30,6 +30,7 @@ class AdminContext implements SnippetAcceptingContext
     private $rules;
     private $turns;
     private $assigner;
+    private $config;
     /**
      * Initializes context.
      *
@@ -41,6 +42,8 @@ class AdminContext implements SnippetAcceptingContext
     {
         $this->CantineUserRepository = new CantineUserInMemoryRepository();
     }
+
+// Given Section
 
     /**
      * @Given There are some Cantine Users registered
@@ -76,12 +79,46 @@ class AdminContext implements SnippetAcceptingContext
     }
 
     /**
+     * @Given Rules for turn assignation are
+     */
+    public function rulesForTurnAssignationAre(TableNode $table)
+    {
+        foreach ($table->getHash() as $row) {
+            $this->config['rules'][$row['rule']] = [
+                'schedule' => explode(', ', trim($row['schedule'], ' ')),
+                'group' => $row['group'],
+                'turn' => $row['turn'],
+            ];
+        }
+    }
+
+    /**
+     * @Given turns are the following
+     */
+    public function turnsAreTheFollowing(TableNode $table)
+    {
+        $this->config['turns'] = $table->getColumn(0);
+    }
+
+    /**
+     * @Given groups are the following
+     */
+    public function groupsAreTheFollowing(TableNode $table)
+    {
+        $this->config['groups'] = $table->getColumn(0);
+    }
+
+// When Section
+
+    /**
      * @When Admin asks for the list
      */
     public function adminAsksForTheList()
     {
         $this->List = $this->CantineUserRepository->getUsersForDate($this->today);
     }
+
+// Then Section
 
     /**
      * @Then the list should contain this Cantine Users
@@ -96,21 +133,6 @@ class AdminContext implements SnippetAcceptingContext
             if (!in_array($User->getStudentId()->getId(), $expected)) {
                 throw new \Exception('List is wrong!');
             }
-        }
-    }
-
-    /**
-     * @Given Rules for turn assignation are
-     */
-    public function rulesForTurnAssignationAre(TableNode $table)
-    {
-        $this->rules = [];
-        foreach ($table->getHash() as $row) {
-            $this->rules[$row['rule']] = [
-                'schedule' => $row['schedule'],
-                'group' => $row['group'],
-                'turn' => $row['turn'],
-            ];
         }
     }
 
@@ -137,6 +159,32 @@ class AdminContext implements SnippetAcceptingContext
     {
         $expected = $table->getHash();
 
+        list($rules, $turns) = $this->getRules();
+        $this->assigner = new Assigner($rules);
+        $this->assigner->assignUsersForDate($this->List, $this->today);
+
+        foreach ($this->List as $User) {
+            foreach ($expected as $row) {
+                $turn = $turns->getByName($row['turn']);
+                if ($User->getStudentId()->getId() != $row['student_id']) {
+                    continue;
+                }
+                if (!$turn->isAppointed($User)) {
+                    throw new \Exception(sprintf('Student %s should be assigned to turn %s', $row['student_id'], $row['turn']));
+                }
+            }
+        }
+    }
+
+// Utility methods
+
+    /**
+     * Prepare Rules for This context.
+     *
+     * @return array
+     */
+    private function getRules()
+    {
         $turns = new TurnRepository();
         $turns->load($this->getMockedConfigurationFile());
         $groups = new GroupRepository();
@@ -144,14 +192,7 @@ class AdminContext implements SnippetAcceptingContext
         $rules = new RuleRepository($turns, $groups);
         $rules->load($this->getMockedConfigurationFile());
 
-        $this->assigner = new Assigner($this->rules);
-        $this->assigner->generateListFor($this->today, $this->List);
-        print_r($turns);
-        foreach ($expected as $row) {
-            if ($turns[$row['turn']][0]->getStudentId()->getId() !== $row['student_id']) {
-                throw new \Exception('Bad turn assignment');
-            }
-        }
+        return [$rules, $turns];
     }
 
     /**
@@ -164,7 +205,7 @@ class AdminContext implements SnippetAcceptingContext
     private function buildMonthWeekSchedule($row)
     {
         list($month, $weekdays) = explode(': ', $row['schedule']);
-        $schedule = [$month => explode(', ', $weekdays)];
+        $schedule = [$month => explode(', ', trim($weekdays))];
 
         return new MonthWeekSchedule($schedule);
     }
@@ -172,31 +213,10 @@ class AdminContext implements SnippetAcceptingContext
     private function getMockedConfigurationFile()
     {
         $this->fileSystem = vfsStream::setUp('root', 0, []);
-        $map = array(
-            'turns' => $this->turns,
-            'rules' => $this->rules,
-            'groups' => $this->groups,
-        );
         $file = vfsStream::newFile('cantine.yml')
-            ->withContent(Yaml::dump($map))
+            ->withContent(Yaml::dump($this->config))
             ->at($this->fileSystem);
 
         return $file->url();
-    }
-
-    /**
-     * @Given turns are the following
-     */
-    public function turnsAreTheFollowing(TableNode $table)
-    {
-        $this->turns = $table->getColumn(0);
-    }
-
-    /**
-     * @Given groups are the following
-     */
-    public function groupsAreTheFollowing(TableNode $table)
-    {
-        $this->groups = $table->getColumn(0);
     }
 }

@@ -3,6 +3,7 @@
 namespace spec\Milhojas\Domain\Utils\Schedule;
 
 use Milhojas\Domain\Utils\Schedule\Schedule;
+use Milhojas\Domain\Utils\Schedule\NullSchedule;
 use Milhojas\Domain\Utils\Schedule\MonthWeekSchedule;
 use PhpSpec\ObjectBehavior;
 
@@ -70,5 +71,10 @@ class MonthWeekScheduleSpec extends ObjectBehavior
         $anotherSchedule->isScheduledDate($dateNotInOriginalSchedule)->willReturn(true);
         $this->setNext($anotherSchedule);
         $this->shouldBeScheduledDate($dateNotInOriginalSchedule);
+    }
+
+    public function it_can_not_update_with_a_schedule_of_another_type()
+    {
+        $this->shouldThrow(\InvalidArgumentException::class)->during('update', [new NullSchedule()]);
     }
 }

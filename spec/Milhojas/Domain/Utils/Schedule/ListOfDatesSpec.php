@@ -4,6 +4,7 @@ namespace spec\Milhojas\Domain\Utils\Schedule;
 
 use Milhojas\Domain\Utils\Schedule\Schedule;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
+use Milhojas\Domain\Utils\Schedule\NullSchedule;
 use PhpSpec\ObjectBehavior;
 
 class ListOfDatesSpec extends ObjectBehavior
@@ -32,7 +33,7 @@ class ListOfDatesSpec extends ObjectBehavior
         $this->shouldBeScheduledDate(new \DateTime('11/16/2016'));
     }
 
-    public function it_can_add_new_dates()
+    public function it_can_be_updated_with_another_schedule()
     {
         $updated = $this->update(new ListOfDates([
             new \DateTime('11/24/2016'),
@@ -55,5 +56,10 @@ class ListOfDatesSpec extends ObjectBehavior
         $anotherSchedule->isScheduledDate($dateNotInOriginalSchedule)->willReturn(true);
         $this->setNext($anotherSchedule);
         $this->shouldBeScheduledDate($dateNotInOriginalSchedule);
+    }
+
+    public function it_can_not_update_with_a_schedule_of_another_type()
+    {
+        $this->shouldThrow(\InvalidArgumentException::class)->during('update', [new NullSchedule()]);
     }
 }

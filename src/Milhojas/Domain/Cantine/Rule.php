@@ -4,7 +4,7 @@ namespace Milhojas\Domain\Cantine;
 
 use Milhojas\Domain\Utils\Schedule\WeeklySchedule;
 
-class TurnRule
+class Rule
 {
     private $schedule;
     private $turn;
@@ -40,9 +40,9 @@ class TurnRule
     /**
      * Chains the next rule that should try to assign the turn.
      *
-     * @param TurnRule $delegateTo
+     * @param Rule $delegateTo
      */
-    public function chain(TurnRule $delegateTo)
+    public function chain(Rule $delegateTo)
     {
         if (!$this->next) {
             $this->next = $delegateTo;

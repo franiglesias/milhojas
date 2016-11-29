@@ -6,7 +6,7 @@ use Milhojas\Domain\Cantine\Turns;
 use Milhojas\Domain\Cantine\Rules;
 use Milhojas\Domain\Cantine\Turn;
 use Milhojas\Domain\Cantine\Groups;
-use Milhojas\Domain\Cantine\TurnRule;
+use Milhojas\Domain\Cantine\Rule;
 use Milhojas\Domain\Cantine\CantineGroup;
 use Milhojas\Infrastructure\Persistence\Cantine\RuleRepository;
 use PhpSpec\ObjectBehavior;
@@ -25,7 +25,7 @@ class RuleRepositorySpec extends ObjectBehavior
         $this->shouldImplement(Rules::class);
     }
 
-    public function it_can_add_rules(TurnRule $rule, TurnRule $rule2)
+    public function it_can_add_rules(Rule $rule, Rule $rule2)
     {
         $rule->chain()->shouldNotBeCalled();
         $rule->chain($rule2)->shouldBeCalled();
@@ -33,7 +33,7 @@ class RuleRepositorySpec extends ObjectBehavior
         $this->addRule($rule2);
     }
 
-    public function it_can_return_the_chain_of_rules(TurnRule $rule, TurnRule $rule2)
+    public function it_can_return_the_chain_of_rules(Rule $rule, Rule $rule2)
     {
         $rule->chain()->shouldNotBeCalled();
         $this->addRule($rule);
@@ -48,7 +48,7 @@ class RuleRepositorySpec extends ObjectBehavior
         $turns->getByName('Turno 1')->willReturn($turn1);
         $groups->getByName('Group 1')->willReturn($group1);
         $this->load($this->getMockedConfigurationFile());
-        $this->getAll()->shouldHaveType(TurnRule::class);
+        $this->getAll()->shouldHaveType(Rule::class);
     }
 
     private function getMockedConfigurationFile()

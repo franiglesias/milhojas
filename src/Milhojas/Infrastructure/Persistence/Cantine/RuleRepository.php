@@ -5,7 +5,7 @@ namespace Milhojas\Infrastructure\Persistence\Cantine;
 use Milhojas\Domain\Cantine\Turns;
 use Milhojas\Domain\Cantine\Rules;
 use Milhojas\Domain\Cantine\Groups;
-use Milhojas\Domain\Cantine\TurnRule;
+use Milhojas\Domain\Cantine\Rule;
 use Milhojas\Domain\Utils\Schedule\WeeklySchedule;
 use Symfony\Component\Yaml\Yaml;
 
@@ -22,7 +22,7 @@ class RuleRepository implements Rules
         $this->rules = null;
     }
 
-    public function addRule(TurnRule $rule)
+    public function addRule(Rule $rule)
     {
         if (!$this->rules) {
             $this->rules = $rule;
@@ -44,7 +44,7 @@ class RuleRepository implements Rules
             $turn = $this->turns->getByName($rule['turn']);
             $group = $this->groups->getByName($rule['group']);
             $schedule = new WeeklySchedule($rule['schedule']);
-            $this->addRule(new TurnRule($turn, $schedule, $group, [], []));
+            $this->addRule(new Rule($turn, $schedule, $group, [], []));
         }
     }
 }

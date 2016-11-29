@@ -3,13 +3,13 @@
 namespace spec\Milhojas\Domain\Cantine;
 
 use Milhojas\Domain\Cantine\Turn;
-use Milhojas\Domain\Cantine\TurnRule;
+use Milhojas\Domain\Cantine\Rule;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineGroup;
 use Milhojas\Domain\Utils\Schedule\WeeklySchedule;
 use PhpSpec\ObjectBehavior;
 
-class TurnRuleSpec extends ObjectBehavior
+class RuleSpec extends ObjectBehavior
 {
     public function let(
         WeeklySchedule $schedule,
@@ -24,7 +24,7 @@ class TurnRuleSpec extends ObjectBehavior
     }
     public function it_is_initializable()
     {
-        $this->shouldHaveType(TurnRule::class);
+        $this->shouldHaveType(Rule::class);
     }
 
     public function it_appoints_user_in_turn(
@@ -69,7 +69,7 @@ class TurnRuleSpec extends ObjectBehavior
         $turn,
         $schedule,
         \DateTime $date,
-        TurnRule $rule
+        Rule $rule
 
         ) {
         $schedule->isScheduledDate($date)->willReturn(false);
@@ -84,7 +84,7 @@ class TurnRuleSpec extends ObjectBehavior
         $turn,
         $schedule,
         \DateTime $date,
-        TurnRule $rule
+        Rule $rule
 
         ) {
         $schedule->isScheduledDate($date)->willReturn(false);
@@ -98,7 +98,7 @@ class TurnRuleSpec extends ObjectBehavior
         $turn,
         $schedule,
         \DateTime $date,
-        TurnRule $rule
+        Rule $rule
 
         ) {
         $schedule->isScheduledDate($date)->willReturn(true);

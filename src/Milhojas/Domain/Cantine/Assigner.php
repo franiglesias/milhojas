@@ -6,16 +6,15 @@ class Assigner
 {
     private $rules;
 
-    public function __construct(Rules $rules)
+    public function __construct(Rule $rules)
     {
         $this->rules = $rules;
     }
 
     public function assignUsersForDate($users, \DateTime $date)
     {
-        $rules = $this->rules->getAll();
         foreach ($users as $user) {
-            $rules->assignsUserToTurn($user, $date);
+            $this->rules->assignsUserToTurn($user, $date);
         }
     }
 }

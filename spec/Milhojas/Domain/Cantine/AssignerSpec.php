@@ -15,7 +15,7 @@ class AssignerSpec extends ObjectBehavior
     public function let(Rules $rules, Rule $rule1)
     {
         $rules->getAll()->willReturn($rule1);
-        $this->beConstructedWith($rules);
+        $this->beConstructedWith($rule1);
     }
 
     public function it_is_initializable()

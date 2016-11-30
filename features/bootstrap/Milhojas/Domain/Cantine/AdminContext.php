@@ -5,9 +5,6 @@ namespace Features\Milhojas\Domain\Cantine;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
-use Milhojas\Infrastructure\Persistence\Cantine\RuleRepository;
-use Milhojas\Infrastructure\Persistence\Cantine\TurnRepository;
-use Milhojas\Infrastructure\Persistence\Cantine\GroupRepository;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
 use Milhojas\Domain\Utils\Schedule\MonthWeekSchedule;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
@@ -15,8 +12,12 @@ use Milhojas\Domain\School\Student;
 use Milhojas\Domain\School\StudentId;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineGroup;
-use Milhojas\Domain\Cantine\Rules;
 use Milhojas\Domain\Cantine\Assigner;
+use Milhojas\Domain\Cantine\Factories\RuleFactory;
+use Milhojas\Domain\Cantine\Factories\TurnsFactory;
+use Milhojas\Domain\Cantine\Factories\GroupsFactory;
+use Milhojas\Domain\Cantine\Factories\AllergensFactory;
+use Milhojas\Domain\Cantine\Factories\CantineBuilder;
 use Milhojas\Library\ValueObjects\Identity\PersonName;
 use org\bovigo\vfs\vfsStream;
 use Symfony\Component\Yaml\Yaml;
@@ -157,43 +158,15 @@ class AdminContext implements SnippetAcceptingContext
      */
     public function theTurnsShouldBeAssignedAs(TableNode $table)
     {
-        $expected = $table->getHash();
+        $builder = $this->getCantineBuilder();
 
-        list($rules, $turns) = $this->getRules();
-        $this->assigner = new Assigner($rules);
+        $this->assigner = new Assigner($builder->getRules());
         $this->assigner->assignUsersForDate($this->List, $this->today);
 
-        foreach ($this->List as $User) {
-            foreach ($expected as $row) {
-                $turn = $turns->getByName($row['turn']);
-                if ($User->getStudentId()->getId() != $row['student_id']) {
-                    continue;
-                }
-                if (!$turn->isAppointed($User)) {
-                    throw new \Exception(sprintf('Student %s should be assigned to turn %s', $row['student_id'], $row['turn']));
-                }
-            }
-        }
+        $this->shouldGenerateThisTurns($table->getHash(), $builder);
     }
 
 // Utility methods
-
-    /**
-     * Prepare Rules for This context.
-     *
-     * @return array
-     */
-    private function getRules()
-    {
-        $turns = new TurnRepository();
-        $turns->load($this->getMockedConfigurationFile());
-        $groups = new GroupRepository();
-        $groups->load($this->getMockedConfigurationFile());
-        $rules = new RuleRepository($turns, $groups);
-        $rules->load($this->getMockedConfigurationFile());
-
-        return [$rules, $turns];
-    }
 
     /**
      * Convert a row of table data into a schedule.
@@ -210,13 +183,45 @@ class AdminContext implements SnippetAcceptingContext
         return new MonthWeekSchedule($schedule);
     }
 
+    /**
+     * Checks if the Assigner generates the right turns.
+     *
+     * @param array  $expected [Description]
+     * @param [type] $builder  [Description]
+     */
+    private function shouldGenerateThisTurns(array $expected, $builder)
+    {
+        foreach ($this->List as $User) {
+            foreach ($expected as $row) {
+                $turn = $builder->getTurn($row['turn']);
+                if ($User->getStudentId()->getId() != $row['student_id']) {
+                    continue;
+                }
+                if (!$turn->isAppointed($User)) {
+                    throw new \Exception(sprintf('Student %s should be assigned to turn %s', $row['student_id'], $row['turn']));
+                }
+            }
+        }
+    }
+
     private function getMockedConfigurationFile()
     {
+        $this->config['allergens'] = ['none'];
         $this->fileSystem = vfsStream::setUp('root', 0, []);
         $file = vfsStream::newFile('cantine.yml')
             ->withContent(Yaml::dump($this->config))
             ->at($this->fileSystem);
 
         return $file->url();
+    }
+    public function getCantineBuilder()
+    {
+        return new CantineBuilder(
+            $this->getMockedConfigurationFile(),
+            new AllergensFactory(),
+            new TurnsFactory(),
+            new GroupsFactory(),
+            new RuleFactory()
+        );
     }
 }

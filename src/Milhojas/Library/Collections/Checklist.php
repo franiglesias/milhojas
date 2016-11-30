@@ -32,12 +32,14 @@ class Checklist
      *
      * @param mixed $item
      */
-    public function check($item)
+    public function check($items)
     {
-        $item = $this->normalize($item);
-        $this->isSupported($item);
+        foreach ((array) $items as $item) {
+            $item = $this->normalize($item);
+            $this->isSupported($item);
 
-        $this->items[$item] = true;
+            $this->items[$item] = true;
+        }
     }
 
     /**
@@ -45,12 +47,14 @@ class Checklist
      *
      * @param mixed $item
      */
-    public function unCheck($item)
+    public function unCheck($items)
     {
-        $item = $this->normalize($item);
-        $this->isSupported($item);
+        foreach ((array) $items as $item) {
+            $item = $this->normalize($item);
+            $this->isSupported($item);
 
-        $this->items[$item] = false;
+            $this->items[$item] = false;
+        }
     }
 
     /**
@@ -106,5 +110,20 @@ class Checklist
         if (!array_key_exists($item, $this->items)) {
             throw new \InvalidArgumentException(sprintf('List doesn\'t know about "%s"', $item));
         }
+    }
+
+    public function checkAll()
+    {
+        $this->items = array_fill_keys(array_keys($this->items), true);
+    }
+
+    public function uncheckAll()
+    {
+        $this->items = array_fill_keys(array_keys($this->items), false);
+    }
+
+    public function hasMarks()
+    {
+        return array_sum($this->items);
     }
 }

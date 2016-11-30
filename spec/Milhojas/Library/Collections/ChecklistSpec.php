@@ -30,6 +30,25 @@ class ChecklistSpec extends ObjectBehavior
         }
     }
 
+    public function it_can_check_all_items()
+    {
+        $this->checkAll();
+        foreach ($this->elements as $element) {
+            $this->shouldBeChecked($element);
+        }
+    }
+
+    public function it_can_uncheck_all_items()
+    {
+        $this->check('banana');
+        $this->check('apple');
+
+        $this->uncheckAll();
+        foreach ($this->elements as $element) {
+            $this->shouldNotBeChecked($element);
+        }
+    }
+
     public function it_can_check_one_item()
     {
         $this->check('banana');
@@ -41,6 +60,21 @@ class ChecklistSpec extends ObjectBehavior
         $this->check('apple');
         $this->uncheck('apple');
         $this->shouldNotBeChecked('apple');
+    }
+
+    public function it_can_check_several_items()
+    {
+        $this->check(['banana', 'orange']);
+        $this->shouldBeChecked('banana');
+        $this->shouldBeChecked('orange');
+    }
+
+    public function it_can_unckeck_several_items()
+    {
+        $this->checkAll();
+        $this->uncheck(['banana', 'orange']);
+        $this->shouldNotBeChecked('banana');
+        $this->shouldNotBeChecked('orange');
     }
 
     public function it_is_case_insensitive()
@@ -80,5 +114,12 @@ class ChecklistSpec extends ObjectBehavior
         $this->shouldThrow('\InvalidArgumentException')->duringIsChecked('mango');
         $this->shouldThrow('\InvalidArgumentException')->duringCheck('mango');
         $this->shouldThrow('\InvalidArgumentException')->duringUnCheck('mango');
+    }
+
+    public function it_can_tell_that_has_marks()
+    {
+        $this->check('banana');
+        $this->check('apple');
+        $this->hasMarks()->shouldBe(2);
     }
 }

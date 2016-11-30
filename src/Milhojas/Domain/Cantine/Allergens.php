@@ -1,13 +1,28 @@
 <?php
 
 namespace Milhojas\Domain\Cantine;
+
 use Milhojas\Library\Collections\Checklist;
 
-class Allergens extends Checklist
+class Allergens
 {
-    public function __construct($allergens)
+    public function __construct(Checklist $checklist)
     {
-        parent::__construct($allergens);
+        $this->list = $checklist;
     }
-    
+
+    public function check($allergens)
+    {
+        $this->list->check($allergens);
+    }
+
+    public function isAllergic()
+    {
+        return $this->list->hasMarks() > 0;
+    }
+
+    public function hasCoincidencesWith(Allergens $another)
+    {
+        return $this->list->hasCoincidencesWith($another->list);
+    }
 }

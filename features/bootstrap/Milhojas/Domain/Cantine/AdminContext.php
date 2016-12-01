@@ -18,6 +18,8 @@ use Milhojas\Domain\Cantine\Factories\TurnsFactory;
 use Milhojas\Domain\Cantine\Factories\GroupsFactory;
 use Milhojas\Domain\Cantine\Factories\AllergensFactory;
 use Milhojas\Domain\Cantine\Factories\CantineManager;
+use Milhojas\Domain\Cantine\Allergens;
+use Milhojas\Library\Collections\Checklist;
 use Milhojas\Library\ValueObjects\Identity\PersonName;
 use org\bovigo\vfs\vfsStream;
 use Symfony\Component\Yaml\Yaml;
@@ -64,7 +66,11 @@ class AdminContext implements SnippetAcceptingContext
                     // code...
                     break;
             }
-            $student = new Student(new StudentId($row['student_id']), new PersonName('Nombre', 'Apellidos'));
+            $student = new Student(
+                new StudentId($row['student_id']),
+                new PersonName('Nombre', 'Apellidos'),
+                new Allergens(new Checklist(['some', 'another']))
+            );
             $User = CantineUser::apply($student, $schedule);
             $User->assignToGroup(new CantineGroup($row['group']));
             $this->CantineUserRepository->store($User);

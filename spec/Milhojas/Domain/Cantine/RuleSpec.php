@@ -36,7 +36,7 @@ class RuleSpec extends ObjectBehavior
     {
         $schedule->isScheduledDate($date)->willReturn(true);
         $turn->appoint($User)->shouldBeCalled();
-        $this->assignsUserToTurn($User, $date);
+        $this->assignsUserToTurn($User, $date)->shouldBe(true);
     }
 
     public function it_does_not_appoint_user_if_schedule_does_not_match(
@@ -48,7 +48,7 @@ class RuleSpec extends ObjectBehavior
     {
         $schedule->isScheduledDate($date)->willReturn(false);
         $turn->appoint($User)->shouldNotBeCalled();
-        $this->assignsUserToTurn($User, $date);
+        $this->assignsUserToTurn($User, $date)->shouldBe(false);
     }
 
     public function it_does_not_appoint_user_if_group_does_not_match(
@@ -61,7 +61,7 @@ class RuleSpec extends ObjectBehavior
         $schedule->isScheduledDate($date)->willReturn(true);
         $User->belongsToGroup($group)->willReturn(false);
         $turn->appoint($User)->shouldNotBeCalled();
-        $this->assignsUserToTurn($User, $date);
+        $this->assignsUserToTurn($User, $date)->shouldBe(false);
     }
 
     public function it_delegates_to_another_rule_if_it_can_not_handle_conditions(
@@ -75,8 +75,8 @@ class RuleSpec extends ObjectBehavior
         $schedule->isScheduledDate($date)->willReturn(false);
         $this->chain($rule);
         $turn->appoint($User)->shouldNotBeCalled();
-        $rule->assignsUserToTurn($User, $date)->shouldBeCalled();
-        $this->assignsUserToTurn($User, $date);
+        $rule->assignsUserToTurn($User, $date)->shouldBeCalled()->willReturn(true);
+        $this->assignsUserToTurn($User, $date)->shouldBe(true);
     }
 
     public function it_does_nothing_if_it_can_not_assign_user_and_there_is_no_more_rules_in_the_chain(
@@ -90,7 +90,7 @@ class RuleSpec extends ObjectBehavior
         $schedule->isScheduledDate($date)->willReturn(false);
         $turn->appoint($User)->shouldNotBeCalled();
         $rule->assignsUserToTurn($User, $date)->shouldNotBeCalled();
-        $this->assignsUserToTurn($User, $date);
+        $this->assignsUserToTurn($User, $date)->shouldBe(false);
     }
 
     public function it_returns_first_positive(

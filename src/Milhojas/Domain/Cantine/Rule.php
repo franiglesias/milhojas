@@ -61,7 +61,7 @@ class Rule
 
         $this->turn->appoint($User);
 
-        return true;
+        return $this->turn;
     }
 
     /**

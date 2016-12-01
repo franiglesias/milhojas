@@ -36,7 +36,7 @@ class RuleSpec extends ObjectBehavior
     {
         $schedule->isScheduledDate($date)->willReturn(true);
         $turn->appoint($User)->shouldBeCalled();
-        $this->assignsUserToTurn($User, $date)->shouldBe(true);
+        $this->assignsUserToTurn($User, $date)->shouldBe($turn);
     }
 
     public function it_does_not_appoint_user_if_schedule_does_not_match(
@@ -75,8 +75,8 @@ class RuleSpec extends ObjectBehavior
         $schedule->isScheduledDate($date)->willReturn(false);
         $this->chain($rule);
         $turn->appoint($User)->shouldNotBeCalled();
-        $rule->assignsUserToTurn($User, $date)->shouldBeCalled()->willReturn(true);
-        $this->assignsUserToTurn($User, $date)->shouldBe(true);
+        $rule->assignsUserToTurn($User, $date)->shouldBeCalled()->willReturn($turn);
+        $this->assignsUserToTurn($User, $date)->shouldBe($turn);
     }
 
     public function it_does_nothing_if_it_can_not_assign_user_and_there_is_no_more_rules_in_the_chain(

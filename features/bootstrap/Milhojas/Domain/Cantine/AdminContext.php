@@ -21,8 +21,10 @@ use Milhojas\Domain\Cantine\Factories\CantineManager;
 use Milhojas\Domain\Cantine\Allergens;
 use Milhojas\Library\Collections\Checklist;
 use Milhojas\Library\ValueObjects\Identity\PersonName;
+use Milhojas\Library\EventBus\EventBus;
 use org\bovigo\vfs\vfsStream;
 use Symfony\Component\Yaml\Yaml;
+use Prophecy\Prophet;
 
 /**
  * Defines application features from the specific context.
@@ -34,6 +36,7 @@ class AdminContext implements SnippetAcceptingContext
     private $turns;
     private $assigner;
     private $config;
+    private $eventBus;
     /**
      * Initializes context.
      *
@@ -44,6 +47,10 @@ class AdminContext implements SnippetAcceptingContext
     public function __construct()
     {
         $this->CantineUserRepository = new CantineUserInMemoryRepository();
+        $prophet = new Prophet();
+
+        $eventBus = $prophet->prophesize(EventBus::class);
+        $this->eventBus = $eventBus->reveal();
     }
 
 // Given Section
@@ -166,7 +173,7 @@ class AdminContext implements SnippetAcceptingContext
     {
         $builder = $this->getCantineManager();
 
-        $this->assigner = new Assigner($builder->getRules());
+        $this->assigner = new Assigner($builder->getRules(), $this->eventBus);
         $this->assigner->assignUsersForDate($this->List, $this->today);
 
         $this->shouldGenerateThisTurns($table->getHash(), $builder);

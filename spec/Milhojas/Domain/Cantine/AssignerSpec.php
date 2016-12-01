@@ -2,20 +2,23 @@
 
 namespace spec\Milhojas\Domain\Cantine;
 
-use Milhojas\Domain\Cantine\Assigner;
+use Milhojas\Application\Cantine\Event\UserWasAssignedToCantineTurn;
+use Milhojas\Application\Cantine\Event\UserWasNotAssignedToCantineTurn;
 use Milhojas\Domain\Cantine\Rule;
+use Milhojas\Domain\Cantine\Turn;
+use Milhojas\Domain\Cantine\Assigner;
 use Milhojas\Domain\Cantine\CantineUser;
-use Milhojas\Domain\Cantine\Rules;
+use Milhojas\Library\EventBus\EventBus;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
 
 class AssignerSpec extends ObjectBehavior
 {
     private $fileSystem;
 
-    public function let(Rules $rules, Rule $rule1)
+    public function let(Rule $rule, EventBus $dispatcher)
     {
-        $rules->getAll()->willReturn($rule1);
-        $this->beConstructedWith($rule1);
+        $this->beConstructedWith($rule, $dispatcher);
     }
 
     public function it_is_initializable()
@@ -23,10 +26,19 @@ class AssignerSpec extends ObjectBehavior
         $this->shouldHaveType(Assigner::class);
     }
 
-    public function it_assigns_turns(CantineUser $user1, CantineUser $user2, \DateTime $date, $rules, $rule1)
+    public function it_assigns_turns(CantineUser $user1, CantineUser $user2, \DateTime $date, $rule)
     {
-        $rule1->assignsUserToTurn($user1, $date)->shouldBeCalled();
-        $rule1->assignsUserToTurn($user2, $date)->shouldBeCalled();
+        $rule->assignsUserToTurn($user1, $date)->shouldBeCalled();
+        $rule->assignsUserToTurn($user2, $date)->shouldBeCalled();
+        $this->assignUsersForDate([$user1, $user2], $date);
+    }
+
+    public function it_raise_events(CantineUser $user1, CantineUser $user2, \DateTime $date, $rule, $dispatcher, Turn $turn)
+    {
+        $rule->assignsUserToTurn($user1, $date)->shouldBeCalled()->willReturn($turn);
+        $rule->assignsUserToTurn($user2, $date)->shouldBeCalled()->willReturn(false);
+        $dispatcher->handle(Argument::type(UserWasAssignedToCantineTurn::class))->shouldBeCalled();
+        $dispatcher->handle(Argument::type(UserWasNotAssignedToCantineTurn::class))->shouldBeCalled();
         $this->assignUsersForDate([$user1, $user2], $date);
     }
 }

@@ -25,7 +25,6 @@ class AssignerSpec extends ObjectBehavior
 
     public function it_assigns_turns(CantineUser $user1, CantineUser $user2, \DateTime $date, $rules, $rule1)
     {
-        $rules->getAll()->shouldBeCalled();
         $rule1->assignsUserToTurn($user1, $date)->shouldBeCalled();
         $rule1->assignsUserToTurn($user2, $date)->shouldBeCalled();
         $this->assignUsersForDate([$user1, $user2], $date);

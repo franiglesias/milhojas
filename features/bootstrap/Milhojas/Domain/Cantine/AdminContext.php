@@ -17,7 +17,7 @@ use Milhojas\Domain\Cantine\Factories\RuleFactory;
 use Milhojas\Domain\Cantine\Factories\TurnsFactory;
 use Milhojas\Domain\Cantine\Factories\GroupsFactory;
 use Milhojas\Domain\Cantine\Factories\AllergensFactory;
-use Milhojas\Domain\Cantine\Factories\CantineBuilder;
+use Milhojas\Domain\Cantine\Factories\CantineManager;
 use Milhojas\Library\ValueObjects\Identity\PersonName;
 use org\bovigo\vfs\vfsStream;
 use Symfony\Component\Yaml\Yaml;
@@ -158,7 +158,7 @@ class AdminContext implements SnippetAcceptingContext
      */
     public function theTurnsShouldBeAssignedAs(TableNode $table)
     {
-        $builder = $this->getCantineBuilder();
+        $builder = $this->getCantineManager();
 
         $this->assigner = new Assigner($builder->getRules());
         $this->assigner->assignUsersForDate($this->List, $this->today);
@@ -214,9 +214,9 @@ class AdminContext implements SnippetAcceptingContext
 
         return $file->url();
     }
-    public function getCantineBuilder()
+    public function getCantineManager()
     {
-        return new CantineBuilder(
+        return new CantineManager(
             $this->getMockedConfigurationFile(),
             new AllergensFactory(),
             new TurnsFactory(),

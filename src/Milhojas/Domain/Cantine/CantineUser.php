@@ -21,11 +21,12 @@ class CantineUser implements Sortable
     protected $group;
     protected $name;
 
-    public function __construct(StudentId $studentId, PersonName $name, Schedule $schedule)
+    public function __construct(Student $student, Schedule $schedule)
     {
-        $this->studentId = $studentId;
+        $this->studentId = $student->getStudentId();
         $this->schedule = $schedule;
-        $this->name = $name;
+        $this->name = $student->getName();
+        $this->allergens = $student->getAllergies();
         $this->group = new NullCantineGroup();
     }
 
@@ -38,7 +39,7 @@ class CantineUser implements Sortable
     public static function apply(Student $student, Schedule $schedule = null)
     {
         $schedule = $schedule ? $schedule : new NullSchedule();
-        $cantineUser = new self($student->getStudentId(), $student->getName(), $schedule);
+        $cantineUser = new self($student, $schedule);
 
         return $cantineUser;
     }
@@ -105,7 +106,7 @@ class CantineUser implements Sortable
      */
     public function compare($anotherUser)
     {
-        return $this->name->compare($anotherUser->name);
+        return $this->name->compare($anotherUser->getName());
     }
 
     /**
@@ -116,5 +117,25 @@ class CantineUser implements Sortable
     public function buysTicketFor(ListOfDates $dates)
     {
         $this->schedule->setNext($dates);
+    }
+
+    /**
+     * Tells the user name.
+     *
+     * @return PersonName the User Name
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function isAllergic()
+    {
+        return $this->allergens->isAllergic();
+    }
+
+    public function getAllergens()
+    {
+        return $this->allergens;
     }
 }

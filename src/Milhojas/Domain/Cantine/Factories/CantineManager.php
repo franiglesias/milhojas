@@ -4,7 +4,7 @@ namespace Milhojas\Domain\Cantine\Factories;
 
 use Symfony\Component\Yaml\Yaml;
 
-class CantineBuilder
+class CantineManager
 {
     private $allergens;
     private $turns;
@@ -34,6 +34,16 @@ class CantineBuilder
     {
         return $this->turns->getTurns();
     }
+    public function getGroup($name)
+    {
+        return $this->groups->getGroup($name);
+    }
+
+    public function getRules()
+    {
+        return $this->rules->getAll();
+    }
+
     /**
      * Configure factories.
      *
@@ -51,13 +61,4 @@ class CantineBuilder
         $this->rules->configure($config['rules'], $this->turns, $this->groups);
     }
 
-    public function getGroup($name)
-    {
-        return $this->groups->getGroup($name);
-    }
-
-    public function getRules()
-    {
-        return $this->rules->getAll();
-    }
 }

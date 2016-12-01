@@ -13,13 +13,9 @@ class AllergensFactorySpec extends ObjectBehavior
         $this->shouldHaveType(AllergensFactory::class);
     }
 
-    public function it_can_be_configured_with_an_array_of_supported_allergens()
-    {
-        $this->configure(['almonds', 'gluten', 'fish', 'eggs', 'seafood']);
-    }
-
     public function it_creates_blank_allergens_checklists()
     {
+        $this->configure(['almonds', 'gluten', 'fish', 'eggs', 'seafood']);
         $this->getBlankAllergensSheet()->shouldHaveType(Allergens::class);
     }
 }

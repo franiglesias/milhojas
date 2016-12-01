@@ -3,7 +3,7 @@
 namespace spec\Milhojas\Domain\Cantine\Factories;
 
 use Milhojas\Domain\Cantine\Allergens;
-use Milhojas\Domain\Cantine\Factories\CantineBuilder;
+use Milhojas\Domain\Cantine\Factories\CantineManager;
 use Milhojas\Domain\Cantine\Factories\RuleFactory;
 use Milhojas\Domain\Cantine\Factories\TurnsFactory;
 use Milhojas\Domain\Cantine\Factories\GroupsFactory;
@@ -13,7 +13,7 @@ use org\bovigo\vfs\vfsStream;
 use Symfony\Component\Yaml\Yaml;
 use Prophecy\Argument;
 
-class CantineBuilderSpec extends ObjectBehavior
+class CantineManagerSpec extends ObjectBehavior
 {
     public function let(AllergensFactory $allergens, TurnsFactory $turns, GroupsFactory $groups, RuleFactory $rules)
     {
@@ -22,7 +22,7 @@ class CantineBuilderSpec extends ObjectBehavior
 
     public function it_is_initializable()
     {
-        $this->shouldHaveType(CantineBuilder::class);
+        $this->shouldHaveType(CantineManager::class);
     }
 
     public function it_needs_a_file_in_order_to_configurate($allergens, $turns, $groups, $rules)

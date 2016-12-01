@@ -2,6 +2,7 @@
 
 namespace spec\Milhojas\Domain\Cantine;
 
+use Milhojas\Domain\Cantine\Allergens;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineGroup;
 use Milhojas\Domain\Cantine\NullCantineGroup;
@@ -15,10 +16,11 @@ use PhpSpec\ObjectBehavior;
 
 class CantineUserSpec extends ObjectBehavior
 {
-    public function let(Student $student, Schedule $schedule, StudentId $studentId, PersonName $name)
+    public function let(Student $student, StudentId $studentId, Schedule $schedule, PersonName $name, Allergens $allergens)
     {
         $student->getStudentId()->willReturn($studentId);
         $student->getName()->willReturn($name);
+        $student->getAllergies()->willReturn($allergens);
 
         $this->beConstructedThrough('apply', [$student, $schedule]);
     }
@@ -26,6 +28,12 @@ class CantineUserSpec extends ObjectBehavior
     {
         $this->shouldHaveType(CantineUser::class);
         $this->shouldImplement(Sortable::class);
+    }
+
+    public function it_can_tell_what_is_its_name($name)
+    {
+        $this->getName()->shouldHaveType(PersonName::class);
+        $this->getName()->shouldBe($name);
     }
 
     public function it_has_autoassigned_null_group_by_default()
@@ -44,34 +52,34 @@ class CantineUserSpec extends ObjectBehavior
     {
         $schedule->isScheduledDate($anyDate)->willReturn(true);
         $this->shouldBeEatingOnDate($anyDate);
-    }
 
-    public function it_can_say_to_which_student_is_associated(Student $student, StudentId $id)
-    {
-        $student->getStudentId()->willReturn($id);
-        $this->getStudentId()->shouldReturn($id);
-    }
-
-    public function it_can_update_schedule(Schedule $schedule, Schedule $update_schedule, Schedule $final_schedule, \DateTime $anyDate)
-    {
-        $schedule->update($update_schedule)->willReturn($final_schedule);
-        $final_schedule->isScheduledDate($anyDate)->willReturn(false);
-        $this->updateSchedule($update_schedule);
+        $schedule->isScheduledDate($anyDate)->willReturn(false);
         $this->shouldNotBeEatingOnDate($anyDate);
     }
 
-    public function it_can_compare_to_another_user(Student $anotherStudent, StudentId $anotherId, PersonName $anotherName, $name, $schedule)
+    public function it_can_say_to_which_student_is_associated(StudentId $studentId)
     {
-        $anotherStudent->getStudentId()->willReturn($anotherId);
-        $anotherStudent->getName()->willReturn($anotherName);
+        $this->getStudentId()->shouldReturn($studentId);
+    }
 
+    public function it_can_update_schedule(Schedule $schedule, Schedule $delta, Schedule $new, \DateTime $anyDate)
+    {
+        $schedule->update($delta)
+            ->shouldBeCalled()
+            ->willReturn($new);
+
+        $new->isScheduledDate($anyDate)
+            ->willReturn(false);
+
+        $this->updateSchedule($delta);
+        $this->shouldNotBeEatingOnDate($anyDate);
+    }
+
+    public function it_can_compare_to_another_user($name, PersonName $anotherName, CantineUser $anotherUser)
+    {
+        $anotherUser->getName()->willReturn($anotherName);
         $name->compare($anotherName)->willReturn(-1)->shouldBeCalled();
-
-        $another = CantineUser::apply(
-            $anotherStudent->getWrappedObject(),
-            $schedule->getWrappedObject()
-        );
-        $this->compare($another)->shouldBe(-1);
+        $this->compare($anotherUser)->shouldBe(-1);
     }
 
     public function it_can_tell_extracurricular_user_is_enrolled()
@@ -91,5 +99,19 @@ class CantineUserSpec extends ObjectBehavior
         $this->beConstructedThrough('apply', [$student]);
         $this->buysTicketFor(new ListOfDates([$date]));
         $this->shouldBeEatingOnDate($date);
+    }
+
+    public function it_know_about_allergies($allergens)
+    {
+        $allergens->isAllergic()->willReturn(true);
+        $this->shouldBeAllergic();
+
+        $allergens->isAllergic()->willReturn(false);
+        $this->shouldNotBeAllergic();
+    }
+
+    public function it_can_tell_allergens($allergens)
+    {
+        $this->getAllergens()->shouldBe($allergens);
     }
 }

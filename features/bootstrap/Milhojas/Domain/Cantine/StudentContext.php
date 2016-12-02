@@ -2,7 +2,6 @@
 
 namespace Features\Milhojas\Domain\Cantine;
 
-use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\TableNode;
 use Milhojas\Domain\School\Student;
@@ -13,6 +12,9 @@ use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Domain\Cantine\Allergens;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineGroup;
+use Milhojas\Domain\Cantine\TicketRegistrar;
+use Milhojas\Domain\Cantine\TicketRepository;
+use Milhojas\Infrastructure\Persistence\Cantine\TicketInMemoryRepository;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
 use Milhojas\Library\ValueObjects\Identity\PersonName;
 use Milhojas\Library\Collections\Checklist;
@@ -22,6 +24,9 @@ use Milhojas\Library\Collections\Checklist;
  */
 class StudentContext implements SnippetAcceptingContext
 {
+    private $CantineUserRepository;
+    private $TicketRepository;
+    private $TicketRegistrar;
     /**
      * Initializes context.
      *
@@ -43,6 +48,8 @@ class StudentContext implements SnippetAcceptingContext
             new Student(new StudentId('student-04'), new PersonName('Pedro', 'Fernández'), new Allergens(new Checklist(['some', 'another']))),
             new ListOfDates([new \DateTime('11/15/2016')])
             ));
+        $this->TicketRepository = new TicketInMemoryRepository();
+        $this->TicketRegistrar = new TicketRegistrar($this->TicketRepository);
     }
 
     /**
@@ -209,7 +216,7 @@ class StudentContext implements SnippetAcceptingContext
      */
     public function aTicketForDateShouldBeRegistered($date)
     {
-        throw new PendingException();
+        $this->TicketRegistrar->register(new ListOfDates([$date]));
     }
 
     /**
@@ -217,6 +224,9 @@ class StudentContext implements SnippetAcceptingContext
      */
     public function studentBuysTicketsToEatOnDates(TableNode $table)
     {
-        throw new PendingException();
+        foreach ($table->getColumn(0) as $date) {
+            $dates[] = new \DateTime($date);
+        }
+        $this->User->buysTicketFor(new ListOfDates($dates));
     }
 }

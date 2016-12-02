@@ -19,11 +19,10 @@ class TicketSoldOnDateSpec extends ObjectBehavior
         $this->shouldImplement(TicketSpecification::class);
     }
 
-    public function it_returns_true_if_ticket_is_in_the_same_day_but_differente_time(Ticket $ticket)
+    public function it_returns_true_if_ticket_is_in_the_same_day_even_at_different_time(Ticket $ticket)
     {
-        $date = new \DateTime(strtotime('11-21-2015 12:15:00'));
-        $this->beConstructedWith($date);
-        $ticket->getDate()->willReturn(new \DateTime(strtotime('11-21-2015 11:40:00')));
+        $this->beConstructedWith(new \DateTime('11/21/2016 12:15'));
+        $ticket->getDate()->willReturn(new \DateTime('11/21/2016 16:40'));
         $this->shouldBeSatisfiedBy($ticket);
     }
 }

@@ -19,6 +19,7 @@ class ListOfDatesSpec extends ObjectBehavior
     public function it_is_initializable()
     {
         $this->shouldHaveType(ListOfDates::class);
+        $this->shouldImplement(\IteratorAggregate::class);
     }
 
     public function it_ensures_schedule_has_valid_dates()
@@ -61,5 +62,12 @@ class ListOfDatesSpec extends ObjectBehavior
     public function it_can_not_update_with_a_schedule_of_another_type()
     {
         $this->shouldThrow(\InvalidArgumentException::class)->during('update', [new NullSchedule()]);
+    }
+
+    public function its_dates_are_accesible_a_an_array()
+    {
+        foreach ($this->getWrappedObject() as $date) {
+            $this->shouldBeScheduledDate($date);
+        }
     }
 }

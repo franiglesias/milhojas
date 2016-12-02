@@ -2,6 +2,7 @@
 
 namespace Features\Milhojas\Domain\Cantine;
 
+use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
@@ -236,5 +237,69 @@ class AdminContext implements SnippetAcceptingContext
             new GroupsFactory(),
             new RuleFactory()
         );
+    }
+
+    /**
+     * @Given We sold :arg1 tickets on a day
+     */
+    public function weSoldTicketsOnADay($arg1)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Given Every ticket costs 7.25€
+     */
+    public function everyTicketCostsEu()
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @When We close the day
+     */
+    public function weCloseTheDay()
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then Daily Income should be 217.5€
+     */
+    public function dailyIncomeShouldBeEu()
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Given This week we sold these tickets each day
+     */
+    public function thisWeekWeSoldTheseTicketsEachDay(TableNode $table)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @When We close the week
+     */
+    public function weCloseTheWeek()
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then Weekly Income should be 623.5€
+     */
+    public function weeklyIncomeShouldBeEu()
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then Total tickets sold should be :arg1
+     */
+    public function totalTicketsSoldShouldBe($arg1)
+    {
+        throw new PendingException();
     }
 }

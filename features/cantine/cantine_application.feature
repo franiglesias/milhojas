@@ -70,6 +70,7 @@ Feature: Students use the Cantine
         When Student applies to Cantine with a ticket to eat on date '11/14/2016'
         Then Student should be assigned to a CantineGroup
         And Student should be registered as Cantine User
+        And a ticket for date '11/14/2016' should be registered
         And Student should be eating on date '11/14/2016'
 
     Scenario: Student wants to buy a Cantine Ticket
@@ -80,9 +81,28 @@ Feature: Students use the Cantine
             | dates |
             | 11/15/2016 |
             | 11/20/2016 |
+        And a ticket for date '11/20/2016' should be registered
 
     Scenario: Regular CantineUser wants to buy a Cantine Ticket
         Given Student with StudentId 'student-02'
         And There is a Regular CantineUser associated to it
         When Student buys a ticket to eat on date '11/15/2016' that is out of its schedule
         Then Student should be eating on date '11/15/2016'
+        And a ticket for date '11/15/2016' should be registered
+
+    Scenario: Student wants to buy several Cantine Tickets
+        Given Student with StudentId 'student-04'
+        And There is a CantineUser associated and has a prior ticket for date '11/15/2016'
+        When Student buys tickets to eat on dates
+            | 11/21/2016 |
+            | 11/22/2016 |
+            | 11/23/2016 |
+        Then Student should be eating on dates
+            | dates |
+            | 11/15/2016 |
+            | 11/21/2016 |
+            | 11/22/2016 |
+            | 11/23/2016 |
+        And a ticket for date '11/21/2016' should be registered
+        And a ticket for date '11/22/2016' should be registered
+        And a ticket for date '11/23/2016' should be registered

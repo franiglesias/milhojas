@@ -2,6 +2,7 @@
 
 namespace Features\Milhojas\Domain\Cantine;
 
+use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\TableNode;
 use Milhojas\Domain\School\Student;
@@ -201,5 +202,21 @@ class StudentContext implements SnippetAcceptingContext
     public function studentBuysATicketToEatOnDateThatIsOutOfItsSchedule($date)
     {
         $this->User->buysTicketFor(new ListOfDates([$date]));
+    }
+
+    /**
+     * @Then a ticket for date :date should be registered
+     */
+    public function aTicketForDateShouldBeRegistered($date)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @When Student buys tickets to eat on dates
+     */
+    public function studentBuysTicketsToEatOnDates(TableNode $table)
+    {
+        throw new PendingException();
     }
 }

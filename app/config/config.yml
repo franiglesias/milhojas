@@ -83,6 +83,12 @@ doctrine:
                 dir: "%kernel.root_dir%/../tests/Library/EventSourcing/EventStore/Fixtures"
                 prefix: Tests\Library\EventSourcing\EventStore\Fixtures
                 alias: EventDouble
+            Cantine:
+                type: annotation
+                is_bundle: false
+                dir: "%kernel.root_dir%/../src/Milhojas/Domain/Cantine/DTO"
+                prefix: Milhojas\Domain\Cantine\DTO
+                alias: Cantine
 
 # Swiftmailer Configuration
 swiftmailer:

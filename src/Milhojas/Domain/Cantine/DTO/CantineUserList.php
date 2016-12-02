@@ -2,12 +2,19 @@
 
 namespace Milhojas\Domain\Cantine\DTO;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * @ORM\Entity
  * @ORM\Table(name="cantine_user_list")
  */
 class CantineUserList
 {
+    /**
+     * @ORM\Column(type="string")
+     * @ORM\Id
+     */
+    private $id;
     /**
      * @ORM\Column(type="datetime")
      */
@@ -21,11 +28,11 @@ class CantineUserList
      */
     private $studentId;
     /**
-     * @ORM/Column(type="string")
+     * @ORM\Column(type="string")
      */
     private $name;
     /**
-     * @ORM/Column/type="string"
+     * @ORM\Column(type="string")
      */
     private $remarks;
     /**
@@ -37,13 +44,32 @@ class CantineUserList
      */
     public function __construct($date, $turn, $studentId, $name, $remarks)
     {
+        $this->id = $date->format('Ymd').$studentId;
         $this->date = $date;
         $this->turn = $turn;
         $this->studentId = $studentId;
         $this->name = $name;
         $this->remarks = $remarks;
     }
+    /**
+     * @return
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
+    /**
+     * @param  $id
+     *
+     * @return static
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
     /**
      * @return
      */

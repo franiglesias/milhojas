@@ -1,6 +1,6 @@
 <?php
 
-namespace Features\Milhojas\Domain\Cantine;
+namespace Milhojas\Domain\Cantine;
 
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Gherkin\Node\TableNode;
@@ -11,15 +11,11 @@ use Milhojas\Domain\Utils\Schedule\MonthWeekSchedule;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Domain\School\Student;
 use Milhojas\Domain\School\StudentId;
-use Milhojas\Domain\Cantine\CantineUser;
-use Milhojas\Domain\Cantine\CantineGroup;
-use Milhojas\Domain\Cantine\Assigner;
 use Milhojas\Domain\Cantine\Factories\RuleFactory;
 use Milhojas\Domain\Cantine\Factories\TurnsFactory;
 use Milhojas\Domain\Cantine\Factories\GroupsFactory;
 use Milhojas\Domain\Cantine\Factories\AllergensFactory;
 use Milhojas\Domain\Cantine\Factories\CantineManager;
-use Milhojas\Domain\Cantine\Allergens;
 use Milhojas\Library\Collections\Checklist;
 use Milhojas\Library\ValueObjects\Identity\PersonName;
 use Milhojas\Library\EventBus\EventBus;
@@ -140,10 +136,7 @@ class AdminContext implements SnippetAcceptingContext
      */
     public function theListShouldContainThisCantineUsers(TableNode $table)
     {
-        $expected = [];
-        foreach ($table->getHash() as $row) {
-            $expected[] = $row['student_id'];
-        }
+        $expected = $table->getColumn(0);
         foreach ($this->List as $User) {
             if (!in_array($User->getStudentId()->getId(), $expected)) {
                 throw new \Exception('List is wrong!');
@@ -156,10 +149,7 @@ class AdminContext implements SnippetAcceptingContext
      */
     public function theListShouldNotContainThisCantineUsers(TableNode $table)
     {
-        $expected = [];
-        foreach ($table->getHash() as $row) {
-            $expected[] = $row['student_id'];
-        }
+        $expected = $table->getColumn(0);
         foreach ($this->List as $User) {
             if (in_array($User->getStudentId()->getId(), $expected)) {
                 throw new \Exception('List is wrong!');

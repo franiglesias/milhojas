@@ -2,6 +2,7 @@
 
 namespace Milhojas\Domain\Cantine;
 
+use Milhojas\Domain\Exception\InvalidTicket;
 use Milhojas\Domain\School\Student;
 use Milhojas\Domain\School\StudentId;
 use Milhojas\Domain\Utils\Schedule\Schedule;
@@ -116,6 +117,11 @@ class CantineUser implements Sortable
      */
     public function buysTicketFor(ListOfDates $dates)
     {
+        foreach ($dates as $date) {
+            if ($this->isEatingOnDate($date)) {
+                throw new InvalidTicket('Trying to buy a ticket for a previously scheduled date.');
+            }
+        }
         $this->schedule->setNext($dates);
     }
 

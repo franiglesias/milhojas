@@ -27,11 +27,9 @@ Feature: Get the list of today's cantine users
         And Today is '11/14/2016'
         When Admin asks for the list
         Then the list should contain this Cantine Users
-            | student_id |
             | student-01 |
             | student-02 |
         But the list should not contain this Cantine Users
-            | student_id |
             | student-03 |
             | student-04 |
         And the turns should be assigned as

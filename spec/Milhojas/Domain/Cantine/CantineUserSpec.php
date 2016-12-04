@@ -6,6 +6,7 @@ use Milhojas\Domain\Cantine\Allergens;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineGroup;
 use Milhojas\Domain\Cantine\NullCantineGroup;
+use Milhojas\Domain\Exception\InvalidTicket;
 use Milhojas\Domain\School\Student;
 use Milhojas\Domain\School\StudentId;
 use Milhojas\Domain\Utils\Schedule\Schedule;
@@ -99,6 +100,13 @@ class CantineUserSpec extends ObjectBehavior
         $this->beConstructedThrough('apply', [$student]);
         $this->buysTicketFor(new ListOfDates([$date]));
         $this->shouldBeEatingOnDate($date);
+    }
+
+    public function it_throws_exception_if_trying_to_buy_a_ticket_for_previously_scheduled_date($schedule)
+    {
+        $date = new \DateTime();
+        $schedule->isScheduledDate($date)->willReturn(true);
+        $this->shouldThrow(InvalidTicket::class)->during('buysTicketFor', [new ListOfDates([$date])]);
     }
 
     public function it_know_about_allergies($allergens)

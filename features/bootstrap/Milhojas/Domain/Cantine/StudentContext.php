@@ -1,6 +1,6 @@
 <?php
 
-namespace Features\Milhojas\Domain\Cantine;
+namespace Milhojas\Domain\Cantine;
 
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\TableNode;
@@ -9,11 +9,6 @@ use Milhojas\Domain\School\StudentId;
 use Milhojas\Domain\Utils\Schedule\Schedule;
 use Milhojas\Domain\Utils\Schedule\MonthWeekSchedule;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
-use Milhojas\Domain\Cantine\Allergens;
-use Milhojas\Domain\Cantine\CantineUser;
-use Milhojas\Domain\Cantine\CantineGroup;
-use Milhojas\Domain\Cantine\TicketRegistrar;
-use Milhojas\Domain\Cantine\TicketRepository;
 use Milhojas\Infrastructure\Persistence\Cantine\TicketInMemoryRepository;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
 use Milhojas\Library\ValueObjects\Identity\PersonName;

@@ -6,6 +6,9 @@ use Milhojas\Library\EventBus\Event;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\School\Student;
 
+/**
+ * Notifies to Listener that a Student Was Registered as Cantine User.
+ */
 class StudentWasRegisteredAsCantineUser implements Event
 {
     private $student;

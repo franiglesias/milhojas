@@ -5,6 +5,9 @@ namespace Milhojas\Domain\Cantine\Specification;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\School\Student;
 
+/**
+ * The cantine user that represents this Student.
+ */
 class AssociatedCantineUser implements CantineUserSpecification
 {
     private $student;

@@ -4,6 +4,9 @@ namespace Milhojas\Domain\Cantine\Specification;
 
 use Milhojas\Domain\Cantine\Ticket;
 
+/**
+ * Selects Tickets sold on a concrete date.
+ */
 class TicketSoldOnDate implements TicketSpecification
 {
     private $date;

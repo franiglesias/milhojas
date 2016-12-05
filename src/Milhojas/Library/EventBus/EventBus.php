@@ -2,13 +2,9 @@
 
 namespace Milhojas\Library\EventBus;
 
-use Milhojas\Library\EventBus\Event;
-use Milhojas\Library\EventBus\EventHandler;
-
-interface EventBus {
-	public function handle(Event $event);
-	public function addHandler($eventName, EventHandler $listener);
-	public function subscribeHandler(EventHandler $subscriber, array $events);
+interface EventBus
+{
+    public function dispatch(Event $event);
+    public function addListener($eventName, EventHandler $listener);
+    public function subscribeListener(EventHandler $subscriber, array $events);
 }
-
-?>

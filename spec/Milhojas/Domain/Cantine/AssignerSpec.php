@@ -37,8 +37,8 @@ class AssignerSpec extends ObjectBehavior
     {
         $rule->assignsUserToTurn($user1, $date)->shouldBeCalled()->willReturn($turn);
         $rule->assignsUserToTurn($user2, $date)->shouldBeCalled()->willReturn(false);
-        $dispatcher->handle(Argument::type(UserWasAssignedToCantineTurn::class))->shouldBeCalled();
-        $dispatcher->handle(Argument::type(UserWasNotAssignedToCantineTurn::class))->shouldBeCalled();
+        $dispatcher->dispatch(Argument::type(UserWasAssignedToCantineTurn::class))->shouldBeCalled();
+        $dispatcher->dispatch(Argument::type(UserWasNotAssignedToCantineTurn::class))->shouldBeCalled();
         $this->assignUsersForDate([$user1, $user2], $date);
     }
 }

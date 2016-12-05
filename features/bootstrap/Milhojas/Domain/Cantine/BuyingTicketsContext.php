@@ -79,7 +79,7 @@ class BuyingTicketsContext implements SnippetAcceptingContext
     {
         $days = new ListOfDates([$date]);
         $this->cantineUser->buysTicketFor($days);
-        $this->dispatcher->handle(new CantineUserBoughtTickets($this->cantineUser, $days));
+        $this->dispatcher->dispatch(new CantineUserBoughtTickets($this->cantineUser, $days));
     }
 
     /**
@@ -107,7 +107,7 @@ class BuyingTicketsContext implements SnippetAcceptingContext
     public function aTicketForDateShouldBeRegistered($date)
     {
         $day = new ListOfDates([$date]);
-        $this->dispatcher->handle(CantineUserBoughtTickets::class)->shouldBeCalled();
+        $this->dispatcher->dispatch(CantineUserBoughtTickets::class)->shouldBeCalled();
         $this->TicketRegistrar->register($this->cantineUser, $day)->shouldBeCalled();
     }
 
@@ -138,7 +138,7 @@ class BuyingTicketsContext implements SnippetAcceptingContext
 
         try {
             $this->cantineUser->buysTicketFor($days);
-            $this->dispatcher->handle(new CantineUserBoughtTickets($this->cantineUser, $days));
+            $this->dispatcher->dispatch(new CantineUserBoughtTickets($this->cantineUser, $days));
         } catch (Exception $e) {
             throw new \Exception('Checking of previous schedule has failed!');
         }
@@ -149,7 +149,7 @@ class BuyingTicketsContext implements SnippetAcceptingContext
      */
     public function noTicketShouldBeRegistered()
     {
-        $this->dispatcher->handle(CantineUserBoughtTickets::class)->shouldNotBeCalled();
+        $this->dispatcher->dispatch(CantineUserBoughtTickets::class)->shouldNotBeCalled();
         $this->TicketRegistrar->register(Argument::any(), Argument::any())->shouldNotBeCalled();
     }
 
@@ -158,7 +158,7 @@ class BuyingTicketsContext implements SnippetAcceptingContext
      */
     public function aNotificationShouldBeSend()
     {
-        $this->dispatcher->handle(new CantineUserTriedToBuyInvalidTicket($this->CantineUser));
+        $this->dispatcher->dispatch(new CantineUserTriedToBuyInvalidTicket($this->CantineUser));
     }
 
     /**
@@ -167,7 +167,7 @@ class BuyingTicketsContext implements SnippetAcceptingContext
     public function studentBuysTicketsToEatOnDates($dates)
     {
         $this->cantineUser->buysTicketFor($dates);
-        $this->dispatcher->handle(new CantineUserBoughtTickets($this->cantineUser, $dates));
+        $this->dispatcher->dispatch(new CantineUserBoughtTickets($this->cantineUser, $dates));
     }
 
     /**
@@ -188,7 +188,7 @@ class BuyingTicketsContext implements SnippetAcceptingContext
     public function ticketsShouldBeRegisteredForDates($dates)
     {
         $event = new CantineUserBoughtTickets($this->cantineUser, $dates);
-        $this->dispatcher->handle($event)->shouldBeCalled();
+        $this->dispatcher->dispatch($event)->shouldBeCalled();
         $this->TicketRegistrar->register($this->cantineUser, $dates)->shouldBeCalled();
     }
 

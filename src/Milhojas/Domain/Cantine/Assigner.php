@@ -6,6 +6,9 @@ use Milhojas\Application\Cantine\Event\UserWasAssignedToCantineTurn;
 use Milhojas\Application\Cantine\Event\UserWasNotAssignedToCantineTurn;
 use Milhojas\Library\EventBus\EventBus;
 
+/**
+ * Assigns Users to their Cantine Turns.
+ */
 class Assigner
 {
     private $ruleChain;
@@ -17,15 +20,23 @@ class Assigner
         $this->eventBus = $eventBus;
     }
 
+    /**
+     * Runs the User list through the rules chain to assign users to their turns.
+     *
+     * Dispatches UserWasAssignedToCantineTurn | UserWasNotAssignedToCantineTurn
+     *
+     * @param array     $users CantineUser
+     * @param \DateTime $date
+     */
     public function assignUsersForDate($users, \DateTime $date)
     {
         foreach ($users as $user) {
             $turn = $this->ruleChain->assignsUserToTurn($user, $date);
             if (!$turn) {
-                $this->eventBus->handle(new UserWasNotAssignedToCantineTurn($user, $date));
+                $this->eventBus->dispatch(new UserWasNotAssignedToCantineTurn($user, $date));
                 continue;
             }
-            $this->eventBus->handle(new UserWasAssignedToCantineTurn($user, $turn, $date));
+            $this->eventBus->dispatch(new UserWasAssignedToCantineTurn($user, $turn, $date));
         }
     }
 }

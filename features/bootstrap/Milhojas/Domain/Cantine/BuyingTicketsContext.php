@@ -2,26 +2,36 @@
 
 namespace Milhojas\Domain\Cantine;
 
-use Behat\Behat\Tester\Exception\PendingException;
-use Behat\Behat\Context\Context;
+use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\TableNode;
-use Prophecy\Prophet;
+use Milhojas\Application\Cantine\Command\RegisterStudentAsCantineUser;
+use Milhojas\Domain\Cantine\Event\CantineUserBoughtTickets;
+use Milhojas\Domain\Cantine\Event\CantineUserTriedToBuyInvalidTicket;
+use Milhojas\Domain\Cantine\Exception\StudentIsNotRegisteredAsCantineUser;
+use Milhojas\Domain\Cantine\Specification\AssociatedCantineUser;
 use Milhojas\Domain\School\Student;
 use Milhojas\Domain\School\StudentId;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
-use Milhojas\Library\ValueObjects\Identity\PersonName;
-use Milhojas\Library\Collections\Checklist;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
+use Milhojas\Library\Collections\Checklist;
+use Milhojas\Library\CommandBus\CommandBus;
+use Milhojas\Library\EventBus\EventBus;
+use Milhojas\Library\ValueObjects\Identity\PersonName;
+use Prophecy\Prophet;
+use Prophecy\Argument;
 
 /**
  * Defines application features from the specific context.
  */
-class BuyingTicketsContext implements Context
+class BuyingTicketsContext implements SnippetAcceptingContext
 {
     private $prophet;
     private $student;
     private $cantineUser;
+    private $dispatcher;
     private $CantineUserRepository;
+    private $TicketRegistrar;
+
     /**
      * Initializes context.
      *
@@ -33,8 +43,9 @@ class BuyingTicketsContext implements Context
     {
         $this->prophet = new Prophet();
         $this->CantineUserRepository = new CantineUserInMemoryRepository();
-        $this->TicketRepository = $this->prophet->prophesize(TicketRepository::class);
         $this->TicketRegistrar = $this->prophet->prophesize(TicketRegistrar::class);
+        $this->dispatcher = $this->prophet->prophesize(EventBus::class);
+        $this->bus = $this->prophet->prophesize(CommandBus::class);
     }
 
     /**
@@ -54,7 +65,11 @@ class BuyingTicketsContext implements Context
      */
     public function studentIsNotRegisteredAsCantineUser()
     {
-        $this->cantineUser = CantineUser::apply($this->student->reveal());
+        try {
+            $this->cantineUser = $this->CantineUserRepository->get(new AssociatedCantineUser($this->student->reveal()));
+        } catch (StudentIsNotRegisteredAsCantineUser $e) {
+            $this->cantineUser = CantineUser::apply($this->student->reveal());
+        }
     }
 
     /**
@@ -62,7 +77,9 @@ class BuyingTicketsContext implements Context
      */
     public function studentBuysATicketToEatOnDate($date)
     {
-        $this->cantineUser->buysTicketFor(new ListOfDates([$date]));
+        $days = new ListOfDates([$date]);
+        $this->cantineUser->buysTicketFor($days);
+        $this->dispatcher->handle(new CantineUserBoughtTickets($this->cantineUser, $days));
     }
 
     /**
@@ -72,7 +89,7 @@ class BuyingTicketsContext implements Context
     {
         $this->cantineUser->assignToGroup(new CantineGroup('Test group'));
         if (!$this->cantineUser->belongsToGroup(new CantineGroup('Test group'))) {
-            throw new Exception('User was not assigned to group.');
+            throw new \Exception('User was not assigned to group.');
         }
     }
 
@@ -81,7 +98,7 @@ class BuyingTicketsContext implements Context
      */
     public function studentShouldBeRegisteredAsCantineUser()
     {
-        $this->CantineUserRepository->store($this->cantineUser);
+        $this->bus->execute(new RegisterStudentAsCantineUser($this->student->reveal()));
     }
 
     /**
@@ -89,7 +106,9 @@ class BuyingTicketsContext implements Context
      */
     public function aTicketForDateShouldBeRegistered($date)
     {
-        $this->TicketRegistrar->register(new ListOfDates([$date]));
+        $day = new ListOfDates([$date]);
+        $this->dispatcher->handle(CantineUserBoughtTickets::class)->shouldBeCalled();
+        $this->TicketRegistrar->register($this->cantineUser, $day)->shouldBeCalled();
     }
 
     /**
@@ -98,7 +117,7 @@ class BuyingTicketsContext implements Context
     public function studentShouldBeEatingOnDate($date)
     {
         if (!$this->cantineUser->isEatingOnDate($date)) {
-            throw new Exception('Cantine User is not eating on ticket date.');
+            throw new \Exception('Cantine User is not eating on ticket date.');
         }
     }
 
@@ -115,9 +134,11 @@ class BuyingTicketsContext implements Context
      */
     public function studentBuysATicketToEatOnDateThatHeHasScheduled($date)
     {
+        $days = new ListOfDates([$date]);
+
         try {
-            $this->cantineUser->buysTicketFor(new ListOfDates([$date]));
-            $this->TicketRegistrar->register(new ListOfDates([$date]));
+            $this->cantineUser->buysTicketFor($days);
+            $this->dispatcher->handle(new CantineUserBoughtTickets($this->cantineUser, $days));
         } catch (Exception $e) {
             throw new \Exception('Checking of previous schedule has failed!');
         }
@@ -128,6 +149,8 @@ class BuyingTicketsContext implements Context
      */
     public function noTicketShouldBeRegistered()
     {
+        $this->dispatcher->handle(CantineUserBoughtTickets::class)->shouldNotBeCalled();
+        $this->TicketRegistrar->register(Argument::any(), Argument::any())->shouldNotBeCalled();
     }
 
     /**
@@ -135,31 +158,38 @@ class BuyingTicketsContext implements Context
      */
     public function aNotificationShouldBeSend()
     {
-        throw new PendingException();
+        $this->dispatcher->handle(new CantineUserTriedToBuyInvalidTicket($this->CantineUser));
     }
 
     /**
      * @When Student buys tickets to eat on dates
      */
-    public function studentBuysTicketsToEatOnDates(TableNode $table)
+    public function studentBuysTicketsToEatOnDates($dates)
     {
-        throw new PendingException();
+        $this->cantineUser->buysTicketFor($dates);
+        $this->dispatcher->handle(new CantineUserBoughtTickets($this->cantineUser, $dates));
     }
 
     /**
      * @Then Student should be eating on dates
      */
-    public function studentShouldBeEatingOnDates(TableNode $table)
+    public function studentShouldBeEatingOnDates($dates)
     {
-        throw new PendingException();
+        foreach ($dates as $date) {
+            if (!$this->cantineUser->isEatingOnDate($date)) {
+                throw new \Exception("Eating dates doesn't match with tickets bought");
+            }
+        }
     }
 
     /**
      * @Then tickets should be registered for dates
      */
-    public function ticketsShouldBeRegisteredForDates(TableNode $table)
+    public function ticketsShouldBeRegisteredForDates($dates)
     {
-        throw new PendingException();
+        $event = new CantineUserBoughtTickets($this->cantineUser, $dates);
+        $this->dispatcher->handle($event)->shouldBeCalled();
+        $this->TicketRegistrar->register($this->cantineUser, $dates)->shouldBeCalled();
     }
 
     /**
@@ -168,5 +198,19 @@ class BuyingTicketsContext implements Context
     public function castToDate($date)
     {
         return new \DateTime($date);
+    }
+
+    /**
+     * @Transform table:dates
+     */
+    public function castToListOfDates(TableNode $dates)
+    {
+        $dates = $dates->getColumn(0);
+        array_shift($dates);
+        $dates = array_map(function ($date) {
+            return new \DateTime($date);
+        }, $dates);
+
+        return new ListOfDates($dates);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace spec\Milhojas\Domain\Cantine;
 
+use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\TicketRegistrar;
 use Milhojas\Domain\Cantine\TicketRepository;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
@@ -19,13 +20,13 @@ class TicketRegistrarSpec extends ObjectBehavior
         $this->shouldHaveType(TicketRegistrar::class);
     }
 
-    public function it_stores_tickets_into_repository($repository)
+    public function it_stores_tickets_into_repository($repository, CantineUser $cantineUser)
     {
         $list = new ListOfDates([
             new \DateTime(),
             new \DateTime(),
         ]);
         $repository->store(Argument::any())->shouldBeCalled();
-        $this->register($list);
+        $this->register($cantineUser, $list);
     }
 }

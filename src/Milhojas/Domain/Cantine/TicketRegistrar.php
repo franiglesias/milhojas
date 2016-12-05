@@ -13,10 +13,10 @@ class TicketRegistrar
         $this->ticketRepository = $ticketRepository;
     }
 
-    public function register(ListOfDates $listOfDates)
+    public function register(CantineUser $cantineUser, ListOfDates $listOfDates)
     {
         foreach ($listOfDates as $date) {
-            $this->ticketRepository->store(new Ticket($date));
+            $this->ticketRepository->store(new Ticket($cantineUser, $date));
         }
     }
 }

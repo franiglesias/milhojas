@@ -4,10 +4,12 @@ namespace Milhojas\Infrastructure\Persistence\Cantine;
 
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineUserRepository;
+use Milhojas\Domain\Cantine\Exception\StudentIsNotRegisteredAsCantineUser;
+use Milhojas\Domain\Cantine\Specification\CantineUserSpecification;
 
 class CantineUserInMemoryRepository implements CantineUserRepository
 {
-    private $users;
+    private $users = [];
     /**
      * {@inheritdoc}
      */
@@ -40,5 +42,26 @@ class CantineUserInMemoryRepository implements CantineUserRepository
         }
 
         return $response;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function get(CantineUserSpecification $cantineUserSpecification)
+    {
+        foreach ($this->users as $id => $user) {
+            if ($cantineUserSpecification->isSatisfiedBy($user)) {
+                return $user;
+            }
+        }
+        throw new StudentIsNotRegisteredAsCantineUser('Student is not registered as Cantine User');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function find(CantineUserSpecification $cantineUserSpecification)
+    {
+        throw new \LogicException('Not implemented'); // TODO
     }
 }

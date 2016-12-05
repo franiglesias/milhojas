@@ -18,8 +18,8 @@ Feature: Students buy tickets for cantine
         Given There is a Student called 'Pedro Pérez'
         And Student is not registered as Cantine User
         When Student buys a ticket to eat on date '11/14/2016'
-        Then Student should be assigned to a CantineGroup
-        And Student should be registered as Cantine User
+        Then Student should be registered as Cantine User
+        And Student should be assigned to a CantineGroup
         And A ticket for date '11/14/2016' should be registered
         And Student should be eating on date '11/14/2016'
 

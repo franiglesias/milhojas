@@ -5,4 +5,5 @@ default:
                 - %paths.base%/features/cantine
             contexts:
                 - Milhojas\Domain\Cantine\StudentsUsingCantineContext
+                - Milhojas\Domain\Cantine\TicketAccountingContext
                 - Milhojas\Domain\Cantine\AdminContext

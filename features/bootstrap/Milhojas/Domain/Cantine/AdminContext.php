@@ -3,21 +3,17 @@
 namespace Milhojas\Domain\Cantine;
 
 use Behat\Behat\Context\Context;
-use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\TableNode;
 use Milhojas\Domain\Cantine\Factories\RuleFactory;
 use Milhojas\Domain\Cantine\Factories\TurnsFactory;
 use Milhojas\Domain\Cantine\Factories\GroupsFactory;
 use Milhojas\Domain\Cantine\Factories\CantineManager;
 use Milhojas\Domain\Cantine\Factories\AllergensFactory;
-use Milhojas\Domain\Cantine\Specification\TicketSoldOnDate;
-use Milhojas\Domain\Cantine\Specification\TicketSoldInMonth;
 use Milhojas\Domain\Cantine\Specification\CantineUserEatingOnDate;
 use Milhojas\Domain\School\Student;
 use Milhojas\Domain\School\StudentId;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Domain\Utils\Schedule\MonthWeekSchedule;
-use Milhojas\Infrastructure\Persistence\Cantine\TicketInMemoryRepository;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
 use Milhojas\Library\Collections\Checklist;
 use Milhojas\Library\EventBus\EventBus;
@@ -29,7 +25,7 @@ use Symfony\Component\Yaml\Yaml;
 /**
  * Defines application features from the specific context.
  */
-class AdminContext implements SnippetAcceptingContext
+class AdminContext implements Context
 {
     private $CantineUserRepository;
     private $rules;
@@ -232,63 +228,5 @@ class AdminContext implements SnippetAcceptingContext
             new GroupsFactory(),
             new RuleFactory()
         );
-    }
-
-    /**
-     * @Given We have tickets registered
-     */
-    public function weHaveTicketsRegistered(TableNode $table)
-    {
-        $this->ticketRepository = new TicketInMemoryRepository();
-        foreach ($table->getHash() as $row) {
-            $user = $this->prophet->prophesize(CantineUser::class);
-            $user->getStudentId()->willReturn(new StudentId($row['user']));
-            $ticket = new Ticket($user->reveal(), new \DateTime($row['date']));
-            $this->ticketRepository->store($ticket);
-        }
-    }
-
-    /**
-     * @When We count items for date :date
-     */
-    public function weCountItemsForDate($date)
-    {
-        $this->sold = $this->ticketRepository->count(new TicketSoldOnDate($date));
-    }
-
-    /**
-     * @Given Every ticket costs :ticketPrice €
-     */
-    public function everyTicketCostsEu($ticketPrice)
-    {
-        $this->ticketPrice = $ticketPrice;
-    }
-
-    /**
-     * @Then Total tickets sold should be :tickets
-     */
-    public function totalTicketsSoldShouldBe($tickets)
-    {
-        if ((int) $tickets !== $this->sold) {
-            throw new \Exception('Ticket count does not match');
-        }
-    }
-
-    /**
-     * @Then Total income should be :income €
-     */
-    public function totalIncomeShouldBeEu($income)
-    {
-        if ((float) $income !== ($this->sold * $this->ticketPrice)) {
-            throw new \Exception('Ticket count does not match');
-        }
-    }
-
-    /**
-     * @When We account tickets for month :month
-     */
-    public function weAccountTicketsForMonth($month)
-    {
-        $this->sold = $this->ticketRepository->count(new TicketSoldInMonth($month));
     }
 }

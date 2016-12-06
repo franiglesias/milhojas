@@ -2,7 +2,7 @@
 
 namespace spec\Milhojas\Infrastructure\Persistence\Cantine;
 
-use Milhojas\Domain\Cantine\Exception\StudentIsNotRegisteredAsCantineUser;
+use Milhojas\Domain\Cantine\Exception\CantineUserNotFound;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineUserRepository;
@@ -10,6 +10,7 @@ use Milhojas\Domain\School\Student;
 use Milhojas\Domain\School\StudentId;
 use PhpSpec\ObjectBehavior;
 use Milhojas\Domain\Cantine\Specification\AssociatedCantineUser;
+use Milhojas\Domain\Cantine\Specification\CantineUserEatingOnDate;
 
 class CantineUserInMemoryRepositorySpec extends ObjectBehavior
 {
@@ -26,21 +27,22 @@ class CantineUserInMemoryRepositorySpec extends ObjectBehavior
         $this->retrieve($studentId)->shouldBe($cantineUser);
     }
 
-    public function it_can_build_a_list_of_users_eating_today(\DateTime $date, CantineUser $user1, CantineUser $user2, CantineUser $user3, CantineUser $user4)
+    public function it_can_find_users_eating_today(\DateTime $date, CantineUser $user1, CantineUser $user2, CantineUser $user3, CantineUser $user4, CantineUserEatingOnDate $specification)
     {
         $user1->getStudentId()->willReturn(new StudentId('student-01'));
-        $user1->isEatingOnDate($date)->willReturn(true);
+        $specification->isSatisfiedBy($user1)->shouldBeCalled()->willReturn(true);
         $user2->getStudentId()->willReturn(new StudentId('student-02'));
-        $user2->isEatingOnDate($date)->willReturn(false);
+        $specification->isSatisfiedBy($user2)->shouldBeCalled()->willReturn(false);
         $user3->getStudentId()->willReturn(new StudentId('student-03'));
-        $user3->isEatingOnDate($date)->willReturn(true);
+        $specification->isSatisfiedBy($user3)->shouldBeCalled()->willReturn(true);
         $user4->getStudentId()->willReturn(new StudentId('student-04'));
-        $user4->isEatingOnDate($date)->willReturn(false);
+        $specification->isSatisfiedBy($user4)->shouldBeCalled()->willReturn(false);
+
         $this->store($user1);
         $this->store($user2);
         $this->store($user3);
         $this->store($user4);
-        $this->getUsersForDate($date)->shouldReturn([$user1, $user3]);
+        $this->find($specification)->shouldReturn([$user1, $user3]);
     }
 
     public function it_can_get_the_user_associated_with_a_student_using_specfication(Student $student, CantineUser $user1, CantineUser $user2, CantineUser $user3, CantineUser $user4)
@@ -67,6 +69,6 @@ class CantineUserInMemoryRepositorySpec extends ObjectBehavior
         $this->store($user3);
         $this->store($user4);
 
-        $this->shouldThrow(StudentIsNotRegisteredAsCantineUser::class)->during('get', [new AssociatedCantineUser($student->getWrappedObject())]);
+        $this->shouldThrow(CantineUserNotFound::class)->during('get', [new AssociatedCantineUser($student->getWrappedObject())]);
     }
 }

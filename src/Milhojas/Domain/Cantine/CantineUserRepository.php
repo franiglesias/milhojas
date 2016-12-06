@@ -18,12 +18,18 @@ interface CantineUserRepository
      * @return CantineUser A cantine user with the associated Id
      */
     public function retrieve($id);
-    public function get(CantineUserSpecification $cantineUserSpecification);
-    public function find(CantineUserSpecification $cantineUserSpecification);
     /**
-     * Retrieve a list of users that is expecting to eat on $date.
+     * Returns cantine user that meets $santineUserSpecification.
      *
-     * @param \DateTime $date
+     * @param CantineUserSpecification $cantineUserSpecification
+     *
+     * @return CantineUser the CantineUser or null
      */
-    public function getUsersForDate(\DateTime $date);
+    public function get(CantineUserSpecification $cantineUserSpecification);
+    /**
+     * Returns array of CantineUsers that meets $santineUserSpecification.
+     *
+     * @param CantineUserSpecification $cantineUserSpecification
+     */
+    public function find(CantineUserSpecification $cantineUserSpecification);
 }

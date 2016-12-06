@@ -2,26 +2,27 @@
 
 namespace Milhojas\Domain\Cantine;
 
-use Behat\Behat\Tester\Exception\PendingException;
-use Behat\Gherkin\Node\TableNode;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
-use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
-use Milhojas\Domain\Utils\Schedule\MonthWeekSchedule;
-use Milhojas\Domain\Utils\Schedule\ListOfDates;
-use Milhojas\Domain\School\Student;
-use Milhojas\Domain\School\StudentId;
+use Behat\Behat\Tester\Exception\PendingException;
+use Behat\Gherkin\Node\TableNode;
 use Milhojas\Domain\Cantine\Factories\RuleFactory;
 use Milhojas\Domain\Cantine\Factories\TurnsFactory;
 use Milhojas\Domain\Cantine\Factories\GroupsFactory;
-use Milhojas\Domain\Cantine\Factories\AllergensFactory;
 use Milhojas\Domain\Cantine\Factories\CantineManager;
+use Milhojas\Domain\Cantine\Factories\AllergensFactory;
+use Milhojas\Domain\Cantine\Specification\CantineUserEatingOnDate;
+use Milhojas\Domain\School\Student;
+use Milhojas\Domain\School\StudentId;
+use Milhojas\Domain\Utils\Schedule\ListOfDates;
+use Milhojas\Domain\Utils\Schedule\MonthWeekSchedule;
+use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
 use Milhojas\Library\Collections\Checklist;
-use Milhojas\Library\ValueObjects\Identity\PersonName;
 use Milhojas\Library\EventBus\EventBus;
+use Milhojas\Library\ValueObjects\Identity\PersonName;
 use org\bovigo\vfs\vfsStream;
-use Symfony\Component\Yaml\Yaml;
 use Prophecy\Prophet;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Defines application features from the specific context.
@@ -126,7 +127,7 @@ class AdminContext implements SnippetAcceptingContext
      */
     public function adminAsksForTheList()
     {
-        $this->List = $this->CantineUserRepository->getUsersForDate($this->today);
+        $this->List = $this->CantineUserRepository->find(new CantineUserEatingOnDate($this->today));
     }
 
 // Then Section

@@ -1,25 +1,8 @@
 default:
     suites:
-        cantine_users:
+        cantine_domain:
             paths:
                 - %paths.base%/features/cantine
             contexts:
-                - Milhojas\Domain\Cantine\BuyingTicketsContext
-                # - Milhojas\Domain\Cantine\StudentContext
-            filters:
-                role: student
-                tags: '@buyingtickets'
-        cantine_admins:
-            paths:
-                - %paths.base%/features/cantine
-            contexts:
+                - Milhojas\Domain\Cantine\StudentsUsingCantineContext
                 - Milhojas\Domain\Cantine\AdminContext
-            filters:
-                role: admin
-        cantine_application:
-            paths:
-                - %paths.base%/features/cantine
-            contexts:
-                - Milhojas\Domain\Cantine\AdminApplicationContext
-            filters:
-                role: admin

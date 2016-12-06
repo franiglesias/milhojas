@@ -69,6 +69,7 @@ class CantineUserSpec extends ObjectBehavior
             ->shouldBeCalled()
             ->willReturn($new);
 
+        $schedule->isScheduledDate($anyDate)->willReturn(true);
         $new->isScheduledDate($anyDate)
             ->willReturn(false);
 

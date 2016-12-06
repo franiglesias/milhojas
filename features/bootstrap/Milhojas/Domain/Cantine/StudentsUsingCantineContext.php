@@ -7,11 +7,12 @@ use Behat\Gherkin\Node\TableNode;
 use Milhojas\Application\Cantine\Command\RegisterStudentAsCantineUser;
 use Milhojas\Domain\Cantine\Event\CantineUserBoughtTickets;
 use Milhojas\Domain\Cantine\Event\CantineUserTriedToBuyInvalidTicket;
-use Milhojas\Domain\Cantine\Exception\StudentIsNotRegisteredAsCantineUser;
+use Milhojas\Domain\Cantine\Exception\CantineUserNotFound;
 use Milhojas\Domain\Cantine\Specification\AssociatedCantineUser;
 use Milhojas\Domain\School\Student;
 use Milhojas\Domain\School\StudentId;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
+use Milhojas\Domain\Utils\Schedule\MonthWeekSchedule;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
 use Milhojas\Library\Collections\Checklist;
 use Milhojas\Library\CommandBus\CommandBus;
@@ -23,7 +24,7 @@ use Prophecy\Argument;
 /**
  * Defines application features from the specific context.
  */
-class BuyingTicketsContext implements SnippetAcceptingContext
+class StudentsUsingCantineContext implements SnippetAcceptingContext
 {
     private $prophet;
     private $student;
@@ -63,11 +64,11 @@ class BuyingTicketsContext implements SnippetAcceptingContext
     /**
      * @Given Student is not registered as Cantine User
      */
-    public function studentIsNotRegisteredAsCantineUser()
+    public function CantineUserNotFound()
     {
         try {
             $this->cantineUser = $this->CantineUserRepository->get(new AssociatedCantineUser($this->student->reveal()));
-        } catch (StudentIsNotRegisteredAsCantineUser $e) {
+        } catch (CantineUserNotFound $e) {
             $this->cantineUser = CantineUser::apply($this->student->reveal());
         }
     }
@@ -177,7 +178,7 @@ class BuyingTicketsContext implements SnippetAcceptingContext
     {
         foreach ($dates as $date) {
             if (!$this->cantineUser->isEatingOnDate($date)) {
-                throw new \Exception("Eating dates doesn't match with tickets bought");
+                throw new \Exception("Eating dates doesn't match with schedule");
             }
         }
     }
@@ -190,6 +191,42 @@ class BuyingTicketsContext implements SnippetAcceptingContext
         $event = new CantineUserBoughtTickets($this->cantineUser, $dates);
         $this->dispatcher->dispatch($event)->shouldBeCalled();
         $this->TicketRegistrar->register($this->cantineUser, $dates)->shouldBeCalled();
+    }
+
+    /**
+     * @When Student applies to Cantine with schedule
+     */
+    public function studentAppliesToCantineWithSchedule(MonthWeekSchedule $schedule)
+    {
+        $this->cantineUser = CantineUser::apply($this->student->reveal(), $schedule);
+    }
+
+    /**
+     * @Given Student is registered as Cantine User with a schedule
+     */
+    public function studentIsRegisteredAsCantineUserWithASchedule(MonthWeekSchedule $schedule)
+    {
+        $this->cantineUser = CantineUser::apply($this->student->reveal(), $schedule);
+    }
+
+    /**
+     * @Then Student should not be eating on dates
+     */
+    public function studentShouldNotBeEatingOnDates(ListOfDates $dates)
+    {
+        foreach ($dates as $date) {
+            if ($this->cantineUser->isEatingOnDate($date)) {
+                throw new \Exception("Eating dates doesn't match with schedule");
+            }
+        }
+    }
+
+    /**
+     * @When Student modifies its schedule with
+     */
+    public function studentModifiesItsScheduleWith(MonthWeekSchedule $schedule)
+    {
+        $this->cantineUser->updateSchedule($schedule);
     }
 
     /**
@@ -212,5 +249,17 @@ class BuyingTicketsContext implements SnippetAcceptingContext
         }, $dates);
 
         return new ListOfDates($dates);
+    }
+
+    /**
+     * @Transform table:month,weekdays
+     */
+    public function castToCantineSchedule(TableNode $dates)
+    {
+        foreach ($dates->getHash() as $row) {
+            $schedule[$row['month']] = explode(', ', $row['weekdays']);
+        }
+
+        return new MonthWeekSchedule($schedule);
     }
 }

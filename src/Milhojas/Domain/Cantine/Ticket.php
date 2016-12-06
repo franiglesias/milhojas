@@ -22,4 +22,9 @@ class Ticket
     {
         return $this->user;
     }
+
+    public function belongsToMonth($month)
+    {
+        return $this->date->format('F') == $month;
+    }
 }

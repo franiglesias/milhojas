@@ -26,4 +26,10 @@ class TicketSpec extends ObjectBehavior
     {
         $this->getUser()->shouldBe($user);
     }
+
+    public function it_can_tell_ticket_belongs_to_a_month(CantineUser $user)
+    {
+        $this->beConstructedWith($user, new \DateTime('11/25/2016'));
+        $this->belongsToMonth('November')->shouldBe(true);
+    }
 }

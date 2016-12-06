@@ -2,8 +2,8 @@
 
 namespace Milhojas\Domain\Cantine;
 
-use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\TableNode;
+use Behat\Behat\Context\Context;
 use Milhojas\Application\Cantine\Command\RegisterStudentAsCantineUser;
 use Milhojas\Domain\Cantine\Event\CantineUserBoughtTickets;
 use Milhojas\Domain\Cantine\Event\CantineUserTriedToBuyInvalidTicket;
@@ -24,7 +24,7 @@ use Prophecy\Argument;
 /**
  * Defines application features from the specific context.
  */
-class StudentsUsingCantineContext implements SnippetAcceptingContext
+class StudentsUsingCantineContext implements Context
 {
     private $prophet;
     private $student;

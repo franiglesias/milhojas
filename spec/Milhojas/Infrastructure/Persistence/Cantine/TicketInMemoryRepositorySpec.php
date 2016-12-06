@@ -27,7 +27,7 @@ class TicketInMemoryRepositorySpec extends ObjectBehavior
         $this->store($ticket2);
         $ticketSpecification->isSatisfiedBy($ticket1)->shouldBeCalled()->willReturn(true);
         $ticketSpecification->isSatisfiedBy($ticket2)->shouldBeCalled()->willReturn(false);
-        $this->countSatisfying($ticketSpecification)->shouldBeInteger();
-        $this->countSatisfying($ticketSpecification)->shouldReturn(1);
+        $this->count($ticketSpecification)->shouldBeInteger();
+        $this->count($ticketSpecification)->shouldReturn(1);
     }
 }

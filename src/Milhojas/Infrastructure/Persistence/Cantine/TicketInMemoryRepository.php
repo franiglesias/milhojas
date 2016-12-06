@@ -17,7 +17,7 @@ class TicketInMemoryRepository implements TicketRepository
         $this->tickets[] = $ticket;
     }
 
-    public function countSatisfying(TicketSpecification $ticketSpecification)
+    public function count(TicketSpecification $ticketSpecification)
     {
         $count = 0;
         foreach ($this->tickets as $ticket) {

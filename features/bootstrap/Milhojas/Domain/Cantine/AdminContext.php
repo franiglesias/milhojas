@@ -4,18 +4,20 @@ namespace Milhojas\Domain\Cantine;
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
-use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Gherkin\Node\TableNode;
 use Milhojas\Domain\Cantine\Factories\RuleFactory;
 use Milhojas\Domain\Cantine\Factories\TurnsFactory;
 use Milhojas\Domain\Cantine\Factories\GroupsFactory;
 use Milhojas\Domain\Cantine\Factories\CantineManager;
 use Milhojas\Domain\Cantine\Factories\AllergensFactory;
+use Milhojas\Domain\Cantine\Specification\TicketSoldOnDate;
+use Milhojas\Domain\Cantine\Specification\TicketSoldInMonth;
 use Milhojas\Domain\Cantine\Specification\CantineUserEatingOnDate;
 use Milhojas\Domain\School\Student;
 use Milhojas\Domain\School\StudentId;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Domain\Utils\Schedule\MonthWeekSchedule;
+use Milhojas\Infrastructure\Persistence\Cantine\TicketInMemoryRepository;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
 use Milhojas\Library\Collections\Checklist;
 use Milhojas\Library\EventBus\EventBus;
@@ -35,6 +37,8 @@ class AdminContext implements SnippetAcceptingContext
     private $assigner;
     private $config;
     private $eventBus;
+    private $prophet;
+    private $ticketRepository;
     /**
      * Initializes context.
      *
@@ -45,9 +49,9 @@ class AdminContext implements SnippetAcceptingContext
     public function __construct()
     {
         $this->CantineUserRepository = new CantineUserInMemoryRepository();
-        $prophet = new Prophet();
+        $this->prophet = new Prophet();
 
-        $eventBus = $prophet->prophesize(EventBus::class);
+        $eventBus = $this->prophet->prophesize(EventBus::class);
         $this->eventBus = $eventBus->reveal();
     }
 
@@ -231,66 +235,60 @@ class AdminContext implements SnippetAcceptingContext
     }
 
     /**
-     * @Given We sold :arg1 tickets on a day
+     * @Given We have tickets registered
      */
-    public function weSoldTicketsOnADay($arg1)
+    public function weHaveTicketsRegistered(TableNode $table)
     {
-        throw new PendingException();
+        $this->ticketRepository = new TicketInMemoryRepository();
+        foreach ($table->getHash() as $row) {
+            $user = $this->prophet->prophesize(CantineUser::class);
+            $user->getStudentId()->willReturn(new StudentId($row['user']));
+            $ticket = new Ticket($user->reveal(), new \DateTime($row['date']));
+            $this->ticketRepository->store($ticket);
+        }
     }
 
     /**
-     * @Given Every ticket costs 7.25€
+     * @When We count items for date :date
      */
-    public function everyTicketCostsEu()
+    public function weCountItemsForDate($date)
     {
-        throw new PendingException();
+        $this->sold = $this->ticketRepository->count(new TicketSoldOnDate($date));
     }
 
     /**
-     * @When We close the day
+     * @Given Every ticket costs :ticketPrice €
      */
-    public function weCloseTheDay()
+    public function everyTicketCostsEu($ticketPrice)
     {
-        throw new PendingException();
+        $this->ticketPrice = $ticketPrice;
     }
 
     /**
-     * @Then Daily Income should be 217.5€
+     * @Then Total tickets sold should be :tickets
      */
-    public function dailyIncomeShouldBeEu()
+    public function totalTicketsSoldShouldBe($tickets)
     {
-        throw new PendingException();
+        if ((int) $tickets !== $this->sold) {
+            throw new \Exception('Ticket count does not match');
+        }
     }
 
     /**
-     * @Given This week we sold these tickets each day
+     * @Then Total income should be :income €
      */
-    public function thisWeekWeSoldTheseTicketsEachDay(TableNode $table)
+    public function totalIncomeShouldBeEu($income)
     {
-        throw new PendingException();
+        if ((float) $income !== ($this->sold * $this->ticketPrice)) {
+            throw new \Exception('Ticket count does not match');
+        }
     }
 
     /**
-     * @When We close the week
+     * @When We account tickets for month :month
      */
-    public function weCloseTheWeek()
+    public function weAccountTicketsForMonth($month)
     {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then Weekly Income should be 623.5€
-     */
-    public function weeklyIncomeShouldBeEu()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then Total tickets sold should be :arg1
-     */
-    public function totalTicketsSoldShouldBe($arg1)
-    {
-        throw new PendingException();
+        $this->sold = $this->ticketRepository->count(new TicketSoldInMonth($month));
     }
 }

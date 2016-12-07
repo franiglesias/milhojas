@@ -30,4 +30,9 @@ class Activity
     {
         return $this->name;
     }
+
+    public function isScheduledFor(\DateTime $date)
+    {
+        return $this->schedule->isScheduledDate($date);
+    }
 }

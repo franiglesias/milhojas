@@ -21,4 +21,10 @@ class ActivitySpec extends ObjectBehavior
     {
         $this->getName()->shouldBe('Robotics');
     }
+
+    public function it_can_tell_if_is_scheduled_for_date(\DateTime $date, $weeklySchedule)
+    {
+        $weeklySchedule->isScheduledDate($date)->shouldBeCalled()->willReturn(true);
+        $this->isScheduledFor($date);
+    }
 }

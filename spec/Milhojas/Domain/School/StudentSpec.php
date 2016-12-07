@@ -60,4 +60,12 @@ class StudentSpec extends ObjectBehavior
         $this->enrollToExtracurricular($activity);
         $this->shouldBeEnrolledToExtracurricular('Activity');
     }
+
+    public function it_has_scheduled_activities_for_date(\DateTime $date, Activity $activity)
+    {
+        $activity->getName()->willReturn('Activity');
+        $this->enrollToExtracurricular($activity);
+        $activity->isScheduledFor($date)->willReturn(true);
+        $this->shouldHaveScheduledActivitiesOn($date);
+    }
 }

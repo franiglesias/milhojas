@@ -3,14 +3,15 @@
 namespace Milhojas\Domain\Cantine\Specification;
 
 use Milhojas\Domain\Cantine\Ticket;
+use Milhojas\Library\ValueObjects\Dates\MonthYear;
 
 class TicketSoldInMonth implements TicketSpecification
 {
     private $month;
 
-    public function __construct($month)
+    public function __construct(MonthYear $month)
     {
-        $this->month = ucfirst(strtolower($month));
+        $this->month = $month;
     }
 
     /**

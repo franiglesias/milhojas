@@ -5,13 +5,14 @@ namespace spec\Milhojas\Domain\Cantine\Specification;
 use Milhojas\Domain\Cantine\Specification\TicketSoldInMonth;
 use Milhojas\Domain\Cantine\Specification\TicketSpecification;
 use Milhojas\Domain\Cantine\Ticket;
+use Milhojas\Library\ValueObjects\Dates\MonthYear;
 use PhpSpec\ObjectBehavior;
 
 class TicketSoldInMonthSpec extends ObjectBehavior
 {
-    public function let()
+    public function let(MonthYear $month)
     {
-        $this->beConstructedWith('November');
+        $this->beConstructedWith($month);
     }
     public function it_is_initializable()
     {
@@ -19,15 +20,15 @@ class TicketSoldInMonthSpec extends ObjectBehavior
         $this->shouldImplement(TicketSpecification::class);
     }
 
-    public function it_should_be_satisfyed_by_a_date_in_the_month(Ticket $ticket)
+    public function it_should_be_satisfyed_by_a_date_in_the_month(Ticket $ticket, $month)
     {
-        $ticket->belongsToMonth('November')->willReturn(true);
+        $ticket->belongsToMonth($month)->willReturn(true);
         $this->shouldBeSatisfiedBy($ticket);
     }
 
-    public function it_should_not_be_satisfyed_by_a_date_not_in_the_month(Ticket $ticket)
+    public function it_should_not_be_satisfyed_by_a_date_not_in_the_month(Ticket $ticket, $month)
     {
-        $ticket->belongsToMonth('November')->willReturn(false);
+        $ticket->belongsToMonth($month)->willReturn(false);
         $this->shouldNotBeSatisfiedBy($ticket);
     }
 }

@@ -9,6 +9,7 @@ use Milhojas\Domain\Cantine\Specification\TicketSoldInMonth;
 use Milhojas\Domain\School\StudentId;
 use Milhojas\Infrastructure\Persistence\Cantine\TicketInMemoryRepository;
 use Milhojas\Library\EventBus\EventBus;
+use Milhojas\Library\ValueObjects\Dates\MonthYear;
 use Prophecy\Prophet;
 
 /**
@@ -81,6 +82,7 @@ class TicketAccountingContext implements Context
      */
     public function weAccountTicketsForMonth($month)
     {
+        $month = MonthYear::fromString($month);
         $this->sold = $this->ticketCounter->count(new TicketSoldInMonth($month));
         $this->income = $this->ticketCounter->income(new TicketSoldInMonth($month));
     }

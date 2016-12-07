@@ -13,6 +13,13 @@ class MonthYear
         $this->year = $date->format('Y');
     }
 
+    public static function fromString($monthString)
+    {
+        list($month, $year) = preg_split('/[ \/]/', $monthString);
+
+        return self::create($month, $year);
+    }
+
     public static function create($month, $year)
     {
         $format = '%s/1/%s';
@@ -42,5 +49,10 @@ class MonthYear
     public function __toString()
     {
         return sprintf('%s/%s', $this->month, $this->year);
+    }
+
+    public function dateBelongsToMe(\DateTime $date)
+    {
+        return $date->format('m/Y') === (string) $this;
     }
 }

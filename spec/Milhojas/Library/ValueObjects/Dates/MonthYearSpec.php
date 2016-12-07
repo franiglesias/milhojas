@@ -43,4 +43,23 @@ class MonthYearSpec extends ObjectBehavior
         $this->beConstructedThrough('create', ['11', '16']);
         $this->asString()->shouldBe('11/2016');
     }
+
+    public function it_can_tell_if_includes_a_date()
+    {
+        $this->beConstructedThrough('create', ['11', '2016']);
+        $this->dateBelongsToMe(new \DateTime('11/25/2016'))->shouldBe(true);
+        $this->dateBelongsToMe(new \DateTime('12/3/2016'))->shouldBe(false);
+    }
+
+    public function it_can_be_defined_from_string()
+    {
+        $this->beConstructedThrough('fromString', ['november 2016']);
+        $this->asString()->shouldBe('11/2016');
+    }
+
+    public function it_can_be_defined_from_numeric_string()
+    {
+        $this->beConstructedThrough('fromString', ['11/2016']);
+        $this->asString()->shouldBe('11/2016');
+    }
 }

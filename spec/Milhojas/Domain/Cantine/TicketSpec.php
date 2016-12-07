@@ -4,6 +4,7 @@ namespace spec\Milhojas\Domain\Cantine;
 
 use Milhojas\Domain\Cantine\Ticket;
 use Milhojas\Domain\Cantine\CantineUser;
+use Milhojas\Library\ValueObjects\Dates\MonthYear;
 use PhpSpec\ObjectBehavior;
 
 class TicketSpec extends ObjectBehavior
@@ -30,6 +31,6 @@ class TicketSpec extends ObjectBehavior
     public function it_can_tell_ticket_belongs_to_a_month(CantineUser $user)
     {
         $this->beConstructedWith($user, new \DateTime('11/25/2016'));
-        $this->belongsToMonth('November')->shouldBe(true);
+        $this->belongsToMonth(MonthYear::create('11', '2016'))->shouldBe(true);
     }
 }

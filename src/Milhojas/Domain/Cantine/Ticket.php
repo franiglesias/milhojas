@@ -2,6 +2,8 @@
 
 namespace Milhojas\Domain\Cantine;
 
+use Milhojas\Library\ValueObjects\Dates\MonthYear;
+
 class Ticket
 {
     private $date;
@@ -23,8 +25,8 @@ class Ticket
         return $this->user;
     }
 
-    public function belongsToMonth($month)
+    public function belongsToMonth(MonthYear $month)
     {
-        return $this->date->format('F') == $month;
+        return $month->dateBelongsToMe($this->date);
     }
 }

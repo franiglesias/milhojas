@@ -21,6 +21,6 @@ Feature: Count tickets sold different periods
         And Total income should be '21.75' €
 
     Scenario: Getting tickets sold on a month
-        When We account tickets for month 'november'
+        When We account tickets for month 'november 2016'
         Then Total tickets sold should be '5'
         And Total income should be '36.25' €

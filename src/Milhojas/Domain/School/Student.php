@@ -4,6 +4,7 @@ namespace Milhojas\Domain\School;
 
 use Milhojas\Library\ValueObjects\Identity\PersonName;
 use Milhojas\Domain\Cantine\Allergens;
+use Milhojas\Domain\Extracurricular\Activity;
 
 class Student
 {
@@ -11,6 +12,7 @@ class Student
     private $group;
     private $name;
     private $allergens;
+    private $extracurricular = [];
 
     public function __construct(StudentId $studentId, PersonName $personName, Allergens $allergens, StudentGroup $studentGroup = null)
     {
@@ -43,5 +45,15 @@ class Student
     public function getAllergies()
     {
         return $this->allergens;
+    }
+
+    public function enrollToExtracurricular(Activity $activity)
+    {
+        $this->extracurricular[$activity->getName()] = $activity;
+    }
+
+    public function isEnrolledToExtracurricular($activityName)
+    {
+        return isset($this->extracurricular[$activityName]);
     }
 }

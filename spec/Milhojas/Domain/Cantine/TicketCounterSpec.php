@@ -5,8 +5,8 @@ namespace spec\Milhojas\Domain\Cantine;
 use Milhojas\Domain\Cantine\TicketCounter;
 use Milhojas\Domain\Cantine\TicketRepository;
 use Milhojas\Domain\Cantine\Specification\TicketSoldOnDate;
+use Milhojas\Domain\Cantine\Specification\TicketSoldInMonth;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class TicketCounterSpec extends ObjectBehavior
 {
@@ -19,10 +19,16 @@ class TicketCounterSpec extends ObjectBehavior
         $this->shouldHaveType(TicketCounter::class);
     }
 
-    public function it_can_tell_tickets_sold_on_date(\DateTime $date, $ticketRepository)
+    public function it_can_count_tickets_sold_on_date(\DateTime $date, $ticketRepository, TicketSoldOnDate $ticketSoldOnDate)
     {
-        $ticketRepository->count(Argument::type(TicketSoldOnDate::class))->shouldBeCalled()->willReturn(5);
-        $this->soldOnDate($date)->shouldReturn(5);
+        $ticketRepository->count($ticketSoldOnDate)->shouldBeCalled()->willReturn(5);
+        $this->count($ticketSoldOnDate)->shouldBe(5);
+    }
+
+    public function it_can_count_tickets_sold_in_months(\DateTime $date, $ticketRepository, TicketSoldInMonth $ticketSoldInMonth)
+    {
+        $ticketRepository->count($ticketSoldInMonth)->shouldBeCalled()->willReturn(5);
+        $this->count($ticketSoldInMonth)->shouldBe(5);
     }
 
     public function it_can_set_price()
@@ -31,10 +37,10 @@ class TicketCounterSpec extends ObjectBehavior
         $this->getPrice()->shouldBe(25);
     }
 
-    public function it_can_tell_income_on_date(\DateTime $date, $ticketRepository)
+    public function it_can_tell_income_on_date(\DateTime $date, $ticketRepository, TicketSoldOnDate $ticketSoldOnDate)
     {
-        $ticketRepository->count(Argument::type(TicketSoldOnDate::class))->shouldBeCalled()->willReturn(5);
+        $ticketRepository->count($ticketSoldOnDate)->shouldBeCalled()->willReturn(5);
         $this->setPrice(25);
-        $this->incomeOnDate($date)->shouldReturn(125);
+        $this->income($ticketSoldOnDate)->shouldReturn(125);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Milhojas\Domain\Cantine;
 
-use Milhojas\Domain\Cantine\Specification\TicketSoldOnDate;
+use Milhojas\Domain\Cantine\Specification\TicketSpecification;
 
 class TicketCounter
 {
@@ -12,11 +12,6 @@ class TicketCounter
     public function __construct(TicketRepository $ticketRepository)
     {
         $this->ticketRepository = $ticketRepository;
-    }
-
-    public function soldOnDate(\DateTime $date)
-    {
-        return $this->ticketRepository->count(new TicketSoldOnDate($date));
     }
 
     public function incomeOnDate(\DateTime $date)
@@ -32,5 +27,15 @@ class TicketCounter
     public function getPrice()
     {
         return $this->price;
+    }
+
+    public function count(TicketSpecification $ticketSpecification)
+    {
+        return $this->ticketRepository->count($ticketSpecification);
+    }
+
+    public function income(TicketSpecification $ticketSpecification)
+    {
+        return $this->price * $this->count($ticketSpecification);
     }
 }

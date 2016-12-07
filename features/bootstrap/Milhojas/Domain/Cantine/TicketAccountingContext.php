@@ -4,6 +4,7 @@ namespace Milhojas\Domain\Cantine;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
+use Milhojas\Domain\Cantine\Specification\TicketSoldOnDate;
 use Milhojas\Domain\Cantine\Specification\TicketSoldInMonth;
 use Milhojas\Domain\School\StudentId;
 use Milhojas\Infrastructure\Persistence\Cantine\TicketInMemoryRepository;
@@ -36,6 +37,8 @@ class TicketAccountingContext implements Context
         $this->ticketCounter = new TicketCounter($this->ticketRepository);
     }
 
+// Background section
+
     /**
      * @Given We have tickets registered
      */
@@ -50,20 +53,36 @@ class TicketAccountingContext implements Context
     }
 
     /**
-     * @When We count items for date :date
-     */
-    public function weCountItemsForDate($date)
-    {
-        $this->date = $date;
-        $this->sold = $this->ticketCounter->soldOnDate($date);
-    }
-
-    /**
      * @Given Every ticket costs :ticketPrice €
      */
     public function everyTicketCostsEu($ticketPrice)
     {
         $this->ticketCounter->setPrice($ticketPrice);
+    }
+
+// Given section
+
+// When section
+
+    /**
+     * @When We count items for date :date
+     */
+    public function weCountItemsForDate($date)
+    {
+        $this->date = $date;
+        $this->sold = $this->ticketCounter->count(new TicketSoldOnDate($date));
+        $this->income = $this->ticketCounter->income(new TicketSoldOnDate($date));
+    }
+
+// Then section
+
+    /**
+     * @When We account tickets for month :month
+     */
+    public function weAccountTicketsForMonth($month)
+    {
+        $this->sold = $this->ticketCounter->count(new TicketSoldInMonth($month));
+        $this->income = $this->ticketCounter->income(new TicketSoldInMonth($month));
     }
 
     /**
@@ -81,16 +100,8 @@ class TicketAccountingContext implements Context
      */
     public function totalIncomeShouldBeEu($income)
     {
-        if ((float) $income !== $this->ticketCounter->incomeOnDate($this->date)) {
-            throw new \Exception('Ticket count does not match');
+        if ((float) $income !== $this->income) {
+            throw new \Exception('Income does not match');
         }
-    }
-
-    /**
-     * @When We account tickets for month :month
-     */
-    public function weAccountTicketsForMonth($month)
-    {
-        $this->sold = $this->ticketRepository->count(new TicketSoldInMonth($month));
     }
 }

@@ -2,12 +2,9 @@
 
 namespace Milhojas\Domain\School;
 
-use Milhojas\Domain\Extracurricular\Specification\ActivityHasName;
-use Milhojas\Domain\Extracurricular\Specification\ActivityScheduledOn;
 use Milhojas\Library\ValueObjects\Identity\PersonName;
 use Milhojas\Domain\Cantine\Allergens;
-use Milhojas\Domain\Extracurricular\Activity;
-use Milhojas\Domain\Extracurricular\ExtracurricularCollection;
+use Milhojas\Domain\Extracurricular\ActivitiesUser;
 
 class Student
 {
@@ -23,7 +20,7 @@ class Student
         $this->name = $personName;
         $this->group = $studentGroup ? $studentGroup : new NewStudentGroup();
         $this->allergens = $allergens;
-        $this->extracurricular = new ExtracurricularCollection();
+        $this->extracurricular = new ActivitiesUser();
     }
 
     public function getStudentId()
@@ -49,20 +46,5 @@ class Student
     public function getAllergies()
     {
         return $this->allergens;
-    }
-
-    public function enrollToExtracurricular(Activity $activity)
-    {
-        $this->extracurricular->enrollTo($activity);
-    }
-
-    public function isEnrolledToExtracurricular($activityName)
-    {
-        return $this->extracurricular->hasAtLeastOne(new ActivityHasName($activityName));
-    }
-
-    public function hasScheduledActivitiesOn(\DateTime $date)
-    {
-        return $this->extracurricular->hasAtLeastOne(new ActivityScheduledOn($date));
     }
 }

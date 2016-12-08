@@ -3,16 +3,16 @@
 namespace spec\Milhojas\Domain\Extracurricular;
 
 use Milhojas\Domain\Extracurricular\Activity;
-use Milhojas\Domain\Extracurricular\ExtracurricularCollection;
+use Milhojas\Domain\Extracurricular\ActivitiesUser;
 use Milhojas\Domain\Extracurricular\Specification\ActivityHasName;
 use Milhojas\Domain\Extracurricular\Specification\ActivitySpecification;
 use PhpSpec\ObjectBehavior;
 
-class ExtracurricularCollectionSpec extends ObjectBehavior
+class ActivitiesUserSpec extends ObjectBehavior
 {
     public function it_is_initializable()
     {
-        $this->shouldHaveType(ExtracurricularCollection::class);
+        $this->shouldHaveType(ActivitiesUser::class);
     }
 
     public function it_can_append_activities(Activity $activity)

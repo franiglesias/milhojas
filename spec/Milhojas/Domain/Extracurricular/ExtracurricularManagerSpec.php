@@ -3,10 +3,10 @@
 namespace spec\Milhojas\Domain\Extracurricular;
 
 use Milhojas\Domain\Extracurricular\ActivityRepository;
+use Milhojas\Domain\Extracurricular\ActivitiesUser;
 use Milhojas\Domain\Extracurricular\ExtracurricularManager;
 use Milhojas\Domain\Extracurricular\Specification\ActivityHasName;
 use Milhojas\Domain\Extracurricular\Activity;
-use Milhojas\Domain\School\Student;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -21,10 +21,10 @@ class ExtracurricularManagerSpec extends ObjectBehavior
         $this->shouldHaveType(ExtracurricularManager::class);
     }
 
-    public function it_can_enroll_student_to_activity(Student $student, Activity $activity, $activityRepository)
+    public function it_can_enroll_student_to_activity(ActivitiesUser $user, Activity $activity, $activityRepository)
     {
         $activityRepository->get(Argument::type(ActivityHasName::class))->shouldBeCalled()->willReturn($activity);
-        $student->enrollToExtracurricular(Argument::type(Activity::class))->shouldBeCalled();
-        $this->enrollStudent($student, 'Activity');
+        $user->enrollTo(Argument::type(Activity::class))->shouldBeCalled();
+        $this->enrollStudent($user, 'Activity');
     }
 }

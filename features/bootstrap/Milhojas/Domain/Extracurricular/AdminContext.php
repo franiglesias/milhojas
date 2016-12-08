@@ -108,7 +108,7 @@ class AdminContext implements Context
      */
     public function activityShouldBeAppendedToStudentSListOfActivities($activity)
     {
-        if (!$this->student->isEnrolledToExtracurricular($activity)) {
+        if (!$this->student->isEnrolledTo($activity)) {
             throw new \Exception('Student enrollement failed');
         }
     }
@@ -143,7 +143,7 @@ class AdminContext implements Context
      */
     public function castToStudent($student_name)
     {
-        $student = $this->prophet->prophesize(Student::class);
+        $student = $this->prophet->prophesize(ActivitiesUser::class);
 
         return $student;
     }

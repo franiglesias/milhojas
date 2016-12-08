@@ -4,7 +4,7 @@ namespace Milhojas\Domain\Extracurricular;
 
 use Milhojas\Domain\Extracurricular\Specification\ActivitySpecification;
 
-class ExtracurricularCollection
+class ActivitiesUser
 {
     private $activities;
 

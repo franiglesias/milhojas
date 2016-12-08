@@ -100,7 +100,7 @@ class AdminContext implements Context
      */
     public function studentEnrollsToActivity($activity)
     {
-        $this->extraCurricularManager->enrollStudent($this->student->reveal(), $activity);
+        $this->extraCurricularManager->enrollUser($this->student->reveal(), $activity);
     }
 
     /**

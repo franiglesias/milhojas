@@ -52,14 +52,8 @@ class ActivitiesUser
         return false;
     }
 
-    public function hasAtLeastOne(ActivitySpecification $specification)
+    public function disenrollFrom(Activity $activity)
     {
-        foreach ($this->activities as $activity) {
-            if ($specification->isSatisfiedBy($activity)) {
-                return true;
-            }
-        }
-
-        return false;
+        $this->activities->detach($activity);
     }
 }

@@ -21,10 +21,19 @@ class ExtracurricularManagerSpec extends ObjectBehavior
         $this->shouldHaveType(ExtracurricularManager::class);
     }
 
-    public function it_can_enroll_student_to_activity(ActivitiesUser $user, Activity $activity, $activityRepository)
+    public function it_can_enroll_user_to_activity(ActivitiesUser $user, Activity $activity, $activityRepository)
     {
         $activityRepository->get(Argument::type(ActivityHasName::class))->shouldBeCalled()->willReturn($activity);
         $user->enrollTo(Argument::type(Activity::class))->shouldBeCalled();
-        $this->enrollStudent($user, 'Activity');
+        $this->enrollUser($user, 'Activity');
+    }
+
+    public function it_can_disenroll_user_from_activity(ActivitiesUser $user, Activity $activity, $activityRepository)
+    {
+        $activityRepository->get(Argument::type(ActivityHasName::class))->shouldBeCalled()->willReturn($activity);
+        $user->enrollTo(Argument::type(Activity::class))->shouldBeCalled();
+        $this->enrollUser($user, 'Activity');
+        $user->disenrollFrom(Argument::type(Activity::class))->shouldBeCalled();
+        $this->disenrollUser($user, 'Activity');
     }
 }

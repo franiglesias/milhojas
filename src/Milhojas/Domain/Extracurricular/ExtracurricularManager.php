@@ -13,9 +13,15 @@ class ExtracurricularManager
         $this->activityRepository = $activityRepository;
     }
 
-    public function enrollStudent(ActivitiesUser $student, $activityName)
+    public function enrollUser(ActivitiesUser $user, $activityName)
     {
         $activity = $this->activityRepository->get(new ActivityHasName($activityName));
-        $student->enrollTo($activity);
+        $user->enrollTo($activity);
+    }
+
+    public function disenrollUser(ActivitiesUser $user, $activityName)
+    {
+        $activity = $this->activityRepository->get(new ActivityHasName($activityName));
+        $user->disenrollFrom($activity);
     }
 }

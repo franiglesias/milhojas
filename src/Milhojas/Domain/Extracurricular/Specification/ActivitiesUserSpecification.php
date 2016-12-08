@@ -6,5 +6,5 @@ use Milhojas\Domain\Extracurricular\ActivitiesUser;
 
 interface ActivitiesUserSpecification
 {
-    public function isSatisfiedBy(ActivitiesUser $ActivitiesUser);
+    public function isSatisfiedBy(ActivitiesUser $activitiesUser);
 }

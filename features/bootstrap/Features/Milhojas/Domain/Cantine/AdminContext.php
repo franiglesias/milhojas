@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Domain\Cantine;
+namespace Features\Milhojas\Domain\Cantine;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
@@ -10,6 +10,10 @@ use Milhojas\Domain\Cantine\Factories\GroupsFactory;
 use Milhojas\Domain\Cantine\Factories\CantineManager;
 use Milhojas\Domain\Cantine\Factories\AllergensFactory;
 use Milhojas\Domain\Cantine\Specification\CantineUserEatingOnDate;
+use Milhojas\Domain\Cantine\Assigner;
+use Milhojas\Domain\Cantine\CantineGroup;
+use Milhojas\Domain\Cantine\CantineUser;
+use Milhojas\Domain\Cantine\Allergens;
 use Milhojas\Domain\School\Student;
 use Milhojas\Domain\School\StudentId;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;

@@ -1,11 +1,14 @@
 <?php
 
-namespace Milhojas\Domain\Cantine;
+namespace Features\Milhojas\Domain\Cantine;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use Milhojas\Domain\Cantine\Specification\TicketSoldOnDate;
 use Milhojas\Domain\Cantine\Specification\TicketSoldInMonth;
+use Milhojas\Domain\Cantine\Ticket;
+use Milhojas\Domain\Cantine\CantineUser;
+use Milhojas\Domain\Cantine\TicketCounter;
 use Milhojas\Domain\School\StudentId;
 use Milhojas\Infrastructure\Persistence\Cantine\TicketInMemoryRepository;
 use Milhojas\Library\EventBus\EventBus;

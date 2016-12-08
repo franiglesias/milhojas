@@ -4,11 +4,11 @@ default:
             paths:
                 - %paths.base%/features/cantine
             contexts:
-                - Milhojas\Domain\Cantine\StudentsUsingCantineContext
-                - Milhojas\Domain\Cantine\TicketAccountingContext
-                - Milhojas\Domain\Cantine\AdminContext
+                - Features\Milhojas\Domain\Cantine\StudentsUsingCantineContext
+                - Features\Milhojas\Domain\Cantine\TicketAccountingContext
+                - Features\Milhojas\Domain\Cantine\AdminContext
         extracurricular_domain:
             paths:
                 - %paths.base%/features/extracurricular
             contexts:
-                - Milhojas\Domain\Extracurricular\AdminContext
+                - Features\Milhojas\Domain\Extracurricular\AdminContext

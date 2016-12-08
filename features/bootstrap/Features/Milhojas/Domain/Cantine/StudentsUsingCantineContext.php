@@ -1,14 +1,18 @@
 <?php
 
-namespace Milhojas\Domain\Cantine;
+namespace Features\Milhojas\Domain\Cantine;
 
 use Behat\Gherkin\Node\TableNode;
 use Behat\Behat\Context\Context;
 use Milhojas\Application\Cantine\Command\RegisterStudentAsCantineUser;
+use Milhojas\Domain\Cantine\TicketRegistrar;
 use Milhojas\Domain\Cantine\Event\CantineUserBoughtTickets;
 use Milhojas\Domain\Cantine\Event\CantineUserTriedToBuyInvalidTicket;
 use Milhojas\Domain\Cantine\Exception\CantineUserNotFound;
 use Milhojas\Domain\Cantine\Specification\AssociatedCantineUser;
+use Milhojas\Domain\Cantine\CantineGroup;
+use Milhojas\Domain\Cantine\CantineUser;
+use Milhojas\Domain\Cantine\Allergens;
 use Milhojas\Domain\School\Student;
 use Milhojas\Domain\School\StudentId;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;

@@ -1,11 +1,14 @@
 <?php
 
-namespace Milhojas\Domain\Extracurricular;
+namespace Features\Milhojas\Domain\Extracurricular;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
+use Milhojas\Domain\Extracurricular\ActivitiesUser;
 use Milhojas\Domain\Utils\Schedule\WeeklySchedule;
 use Milhojas\Domain\School\Student;
+use Milhojas\Domain\Extracurricular\Activity;
+use Milhojas\Domain\Extracurricular\ExtracurricularManager;
 use Milhojas\Infrastructure\Persistence\Extracurricular\ActivityInMemoryRepository;
 use Prophecy\Prophet;
 
@@ -27,7 +30,7 @@ class AdminContext implements Context
     {
         $this->prophet = new Prophet();
         $this->catalogue = new ActivityInMemoryRepository();
-        $this->extraCurricularManager = new ExtraCurricularManager($this->catalogue);
+        $this->extraCurricularManager = new ExtracurricularManager($this->catalogue);
     }
 
     /**

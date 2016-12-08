@@ -48,7 +48,7 @@ class TicketAccountingContext implements Context
         foreach ($table->getHash() as $row) {
             $user = $this->prophet->prophesize(CantineUser::class);
             $user->getStudentId()->willReturn(new StudentId($row['user']));
-            $ticket = new Ticket($user->reveal(), new \DateTime($row['date']));
+            $ticket = new Ticket($user->reveal(), new \DateTime($row['date']), ($row['paid'] == 'yes'));
             $this->ticketRepository->store($ticket);
         }
     }
@@ -71,8 +71,7 @@ class TicketAccountingContext implements Context
     public function weCountItemsForDate($date)
     {
         $this->date = $date;
-        $this->sold = $this->ticketCounter->count(new TicketSoldOnDate($date));
-        $this->income = $this->ticketCounter->income(new TicketSoldOnDate($date));
+        $this->result = $this->ticketCounter->count(new TicketSoldOnDate($date));
     }
 
 // Then section
@@ -83,8 +82,7 @@ class TicketAccountingContext implements Context
     public function weAccountTicketsForMonth($month)
     {
         $month = MonthYear::fromString($month);
-        $this->sold = $this->ticketCounter->count(new TicketSoldInMonth($month));
-        $this->income = $this->ticketCounter->income(new TicketSoldInMonth($month));
+        $this->result = $this->ticketCounter->count(new TicketSoldInMonth($month));
     }
 
     /**
@@ -92,8 +90,8 @@ class TicketAccountingContext implements Context
      */
     public function totalTicketsSoldShouldBe($tickets)
     {
-        if ((int) $tickets !== $this->sold) {
-            throw new \Exception('Ticket count does not match');
+        if ((int) $tickets !== $this->result->getTotalCount()) {
+            throw new \Exception(sprintf('Ticket count does not match %s != %s', $tickets, $this->result->getTotalCount()));
         }
     }
 
@@ -102,8 +100,48 @@ class TicketAccountingContext implements Context
      */
     public function totalIncomeShouldBeEu($income)
     {
-        if ((float) $income !== $this->income) {
+        if ((float) $income !== $this->result->getTotalIncome()) {
             throw new \Exception('Income does not match');
+        }
+    }
+
+    /**
+     * @Then Pending tickets should be :pendingTickets
+     */
+    public function pendingTicketsShouldBe($pendingTickets)
+    {
+        if ((int) $pendingTickets !== $this->result->getPendingCount()) {
+            throw new \Exception(sprintf('Ticket count does not match %s != %s', $pendingTickets, $this->result->getPendingCount()));
+        }
+    }
+
+    /**
+     * @Then Pending income should be :pendingIncome €
+     */
+    public function pendingIncomeShouldBeEu($pendingIncome)
+    {
+        if ((float) $pendingIncome !== $this->result->getPendingIncome()) {
+            throw new \Exception('Pending income does not match');
+        }
+    }
+
+    /**
+     * @Then Paid tickets should be :paidTickets
+     */
+    public function paidTicketsShouldBe($paidTickets)
+    {
+        if ((int) $paidTickets !== $this->result->getPaidCount()) {
+            throw new \Exception('Paid ticket count does not match');
+        }
+    }
+
+    /**
+     * @Then Paid income should be :paidIncome €
+     */
+    public function paidIncomeShouldBeEu($paidIncome)
+    {
+        if ((float) $paidIncome !== $this->result->getPaidIncome()) {
+            throw new \Exception('Paid income does not match');
         }
     }
 }

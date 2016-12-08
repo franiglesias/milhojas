@@ -28,6 +28,17 @@ class TicketSpec extends ObjectBehavior
         $this->getUser()->shouldBe($user);
     }
 
+    public function it_can_tell_about_paying_state()
+    {
+        $this->shouldNotBePaid();
+    }
+
+    public function it_can_be_paid()
+    {
+        $this->pay();
+        $this->shouldBePaid();
+    }
+
     public function it_can_tell_ticket_belongs_to_a_month(CantineUser $user)
     {
         $this->beConstructedWith($user, new \DateTime('11/25/2016'));

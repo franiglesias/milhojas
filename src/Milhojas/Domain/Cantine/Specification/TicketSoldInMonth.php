@@ -5,7 +5,7 @@ namespace Milhojas\Domain\Cantine\Specification;
 use Milhojas\Domain\Cantine\Ticket;
 use Milhojas\Library\ValueObjects\Dates\MonthYear;
 
-class TicketSoldInMonth implements TicketSpecification
+class TicketSoldInMonth extends TicketSpecification
 {
     private $month;
 
@@ -19,6 +19,6 @@ class TicketSoldInMonth implements TicketSpecification
      */
     public function isSatisfiedBy(Ticket $ticket)
     {
-        return $ticket->belongsToMonth($this->month);
+        return $this->filterTicket($ticket) && $ticket->belongsToMonth($this->month);
     }
 }

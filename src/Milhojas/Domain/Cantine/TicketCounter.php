@@ -3,6 +3,7 @@
 namespace Milhojas\Domain\Cantine;
 
 use Milhojas\Domain\Cantine\Specification\TicketSpecification;
+use Milhojas\Domain\Cantine\DTO\TicketCountResult;
 
 class TicketCounter
 {
@@ -12,11 +13,6 @@ class TicketCounter
     public function __construct(TicketRepository $ticketRepository)
     {
         $this->ticketRepository = $ticketRepository;
-    }
-
-    public function incomeOnDate(\DateTime $date)
-    {
-        return $this->price * $this->soldOnDate($date);
     }
 
     public function setPrice($price)
@@ -31,11 +27,14 @@ class TicketCounter
 
     public function count(TicketSpecification $ticketSpecification)
     {
-        return $this->ticketRepository->count($ticketSpecification);
+        $total = $this->countSold($ticketSpecification->all());
+        $paid = $this->countSold($ticketSpecification->onlyPaid());
+
+        return new TicketCountResult($this->price, $paid, $total);
     }
 
-    public function income(TicketSpecification $ticketSpecification)
+    private function countSold(TicketSpecification $ticketSpecification)
     {
-        return $this->price * $this->count($ticketSpecification);
+        return $this->ticketRepository->count($ticketSpecification);
     }
 }

@@ -6,7 +6,7 @@ use Milhojas\Domain\Cantine\Allergens;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineGroup;
 use Milhojas\Domain\Cantine\NullCantineGroup;
-use Milhojas\Domain\Exception\InvalidTicket;
+use Milhojas\Domain\Cantine\Exception\InvalidTicket;
 use Milhojas\Domain\School\Student;
 use Milhojas\Domain\School\StudentId;
 use Milhojas\Domain\Utils\Schedule\Schedule;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Domain\Exception;
+namespace Milhojas\Domain\Cantine\Exception;
 
 class InvalidTicket extends \InvalidArgumentException
 {

@@ -2,7 +2,7 @@
 
 namespace Milhojas\Domain\Cantine;
 
-use Milhojas\Domain\Exception\InvalidTicket;
+use Milhojas\Domain\Cantine\Exception\InvalidTicket;
 use Milhojas\Domain\School\Student;
 use Milhojas\Domain\School\StudentId;
 use Milhojas\Domain\Utils\Schedule\Schedule;

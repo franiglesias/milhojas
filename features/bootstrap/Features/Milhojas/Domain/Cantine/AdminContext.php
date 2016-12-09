@@ -13,14 +13,11 @@ use Milhojas\Domain\Cantine\Assigner;
 use Milhojas\Domain\Cantine\CantineGroup;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\Allergens;
-use Milhojas\Domain\School\Student;
-use Milhojas\Domain\School\StudentId;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Domain\Utils\Schedule\MonthWeekSchedule;
+use Milhojas\Domain\Common\Student;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
-use Milhojas\Library\Collections\Checklist;
 use Milhojas\Library\EventBus\EventBus;
-use Milhojas\Library\ValueObjects\Identity\PersonName;
 use org\bovigo\vfs\vfsStream;
 use Prophecy\Prophet;
 use Symfony\Component\Yaml\Yaml;
@@ -75,9 +72,11 @@ class AdminContext implements Context
                     break;
             }
             $student = new Student(
-                new StudentId($row['student_id']),
-                new PersonName('Nombre', 'Apellidos'),
-                new Allergens(new Checklist(['some', 'another']))
+                $row['student_id'],
+                'Nombre',
+                'Apellidos',
+                'Some class',
+                ''
             );
             $User = CantineUser::apply($student, $schedule);
             $User->assignToGroup(new CantineGroup($row['group']));
@@ -142,7 +141,7 @@ class AdminContext implements Context
     {
         $expected = $table->getColumn(0);
         foreach ($this->List as $User) {
-            if (!in_array($User->getStudentId()->getId(), $expected)) {
+            if (!in_array($User->getStudentId(), $expected)) {
                 throw new \Exception('List is wrong!');
             }
         }
@@ -155,7 +154,7 @@ class AdminContext implements Context
     {
         $expected = $table->getColumn(0);
         foreach ($this->List as $User) {
-            if (in_array($User->getStudentId()->getId(), $expected)) {
+            if (in_array($User->getStudentId(), $expected)) {
                 throw new \Exception('List is wrong!');
             }
         }
@@ -202,7 +201,7 @@ class AdminContext implements Context
         foreach ($this->List as $User) {
             foreach ($expected as $row) {
                 $turn = $builder->getTurn($row['turn']);
-                if ($User->getStudentId()->getId() != $row['student_id']) {
+                if ($User->getStudentId() != $row['student_id']) {
                     continue;
                 }
                 if (!$turn->isAppointed($User)) {

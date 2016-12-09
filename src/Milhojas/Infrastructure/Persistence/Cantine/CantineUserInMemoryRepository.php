@@ -15,7 +15,7 @@ class CantineUserInMemoryRepository implements CantineUserRepository
      */
     public function store(CantineUser $user)
     {
-        $id = $user->getStudentId()->getId();
+        $id = $user->getStudentId();
         $this->users[$id] = $user;
     }
 

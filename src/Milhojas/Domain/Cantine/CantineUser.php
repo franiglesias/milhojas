@@ -3,8 +3,7 @@
 namespace Milhojas\Domain\Cantine;
 
 use Milhojas\Domain\Cantine\Exception\InvalidTicket;
-use Milhojas\Domain\School\Student;
-use Milhojas\Domain\School\StudentId;
+use Milhojas\Domain\Common\Student;
 use Milhojas\Domain\Utils\Schedule\Schedule;
 use Milhojas\Domain\Utils\Schedule\NullSchedule;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
@@ -24,7 +23,7 @@ class CantineUser implements Sortable
 
     public function __construct(Student $student, Schedule $schedule)
     {
-        $this->studentId = $student->getStudentId();
+        $this->studentId = $student->getId();
         $this->schedule = $schedule;
         $this->name = $student->getName();
         $this->allergens = $student->getAllergies();

@@ -3,7 +3,7 @@
 namespace Milhojas\Application\Cantine\Command;
 
 use Milhojas\Library\CommandBus\Command;
-use Milhojas\Domain\School\Student;
+use Milhojas\Domain\Common\Student;
 use Milhojas\Domain\Utils\Schedule\Schedule;
 use Milhojas\Domain\Utils\Schedule\NullSchedule;
 

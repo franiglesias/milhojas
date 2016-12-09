@@ -7,7 +7,7 @@ use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineGroup;
 use Milhojas\Domain\Cantine\NullCantineGroup;
 use Milhojas\Domain\Cantine\Exception\InvalidTicket;
-use Milhojas\Domain\School\Student;
+use Milhojas\Domain\Common\Student;
 use Milhojas\Domain\School\StudentId;
 use Milhojas\Domain\Utils\Schedule\Schedule;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
@@ -19,7 +19,7 @@ class CantineUserSpec extends ObjectBehavior
 {
     public function let(Student $student, StudentId $studentId, Schedule $schedule, PersonName $name, Allergens $allergens)
     {
-        $student->getStudentId()->willReturn($studentId);
+        $student->getId()->willReturn($studentId);
         $student->getName()->willReturn($name);
         $student->getAllergies()->willReturn($allergens);
 

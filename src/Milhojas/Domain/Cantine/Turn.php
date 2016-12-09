@@ -33,7 +33,7 @@ class Turn implements \IteratorAggregate, \ArrayAccess, \Countable
     public function appoint(CantineUser $User)
     {
         $this->users[] = $User;
-        $this->indexByName[$User->getStudentId()->getId()] = $User;
+        $this->indexByName[$User->getStudentId()] = $User;
     }
 
     public function count()
@@ -83,7 +83,7 @@ class Turn implements \IteratorAggregate, \ArrayAccess, \Countable
 
     public function isAppointed(CantineUser $user)
     {
-        $index = $user->getStudentId()->getId();
+        $index = $user->getStudentId();
 
         return isset($this->indexByName[$index]);
     }

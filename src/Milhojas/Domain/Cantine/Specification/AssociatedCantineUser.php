@@ -3,7 +3,7 @@
 namespace Milhojas\Domain\Cantine\Specification;
 
 use Milhojas\Domain\Cantine\CantineUser;
-use Milhojas\Domain\School\Student;
+use Milhojas\Domain\Common\Student;
 
 /**
  * The cantine user that represents this Student.
@@ -22,6 +22,6 @@ class AssociatedCantineUser implements CantineUserSpecification
      */
     public function isSatisfiedBy(CantineUser $cantineUser)
     {
-        return $cantineUser->getStudentId() == $this->student->getStudentId();
+        return $cantineUser->getStudentId() == $this->student->getId();
     }
 }

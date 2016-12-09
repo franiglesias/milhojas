@@ -129,4 +129,9 @@ class Student
     {
         return sprintf('%s %s', $this->name, $this->surname);
     }
+
+    public function getAllergies()
+    {
+        return null;
+    }
 }

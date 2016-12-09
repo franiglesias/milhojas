@@ -8,19 +8,19 @@ use Milhojas\Domain\Cantine\CantineGroup;
 use Milhojas\Domain\Cantine\NullCantineGroup;
 use Milhojas\Domain\Cantine\Exception\InvalidTicket;
 use Milhojas\Domain\Common\Student;
-use Milhojas\Domain\School\StudentId;
+use Milhojas\Domain\Common\StudentId;
 use Milhojas\Domain\Utils\Schedule\Schedule;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
-use Milhojas\Library\ValueObjects\Identity\PersonName;
+use Milhojas\Library\ValueObjects\Identity\Person;
 use Milhojas\Library\Sortable\Sortable;
 use PhpSpec\ObjectBehavior;
 
 class CantineUserSpec extends ObjectBehavior
 {
-    public function let(Student $student, StudentId $studentId, Schedule $schedule, PersonName $name, Allergens $allergens)
+    public function let(Student $student, StudentId $studentId, Schedule $schedule, Person $name, Allergens $allergens)
     {
         $student->getId()->willReturn($studentId);
-        $student->getName()->willReturn($name);
+        $student->getPerson()->willReturn($name);
         $student->getAllergies()->willReturn($allergens);
 
         $this->beConstructedThrough('apply', [$student, $schedule]);
@@ -33,8 +33,8 @@ class CantineUserSpec extends ObjectBehavior
 
     public function it_can_tell_what_is_its_name($name)
     {
-        $this->getName()->shouldHaveType(PersonName::class);
-        $this->getName()->shouldBe($name);
+        $this->getPerson()->shouldHaveType(Person::class);
+        $this->getPerson()->shouldBe($name);
     }
 
     public function it_has_autoassigned_null_group_by_default()
@@ -77,9 +77,9 @@ class CantineUserSpec extends ObjectBehavior
         $this->shouldNotBeEatingOnDate($anyDate);
     }
 
-    public function it_can_compare_to_another_user($name, PersonName $anotherName, CantineUser $anotherUser)
+    public function it_can_compare_to_another_user($name, Person $anotherName, CantineUser $anotherUser)
     {
-        $anotherUser->getName()->willReturn($anotherName);
+        $anotherUser->getPerson()->willReturn($anotherName);
         $name->compare($anotherName)->willReturn(-1)->shouldBeCalled();
         $this->compare($anotherUser)->shouldBe(-1);
     }

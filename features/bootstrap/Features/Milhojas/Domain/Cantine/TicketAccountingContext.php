@@ -10,7 +10,7 @@ use Milhojas\Domain\Cantine\Specification\TicketSoldInMonth;
 use Milhojas\Domain\Cantine\Ticket;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\TicketCounter;
-use Milhojas\Domain\School\StudentId;
+use Milhojas\Domain\Common\StudentId;
 use Milhojas\Infrastructure\Persistence\Cantine\TicketInMemoryRepository;
 use Milhojas\Library\EventBus\EventBus;
 use Milhojas\Library\ValueObjects\Dates\MonthYear;

@@ -8,7 +8,7 @@ use Milhojas\Domain\Utils\Schedule\Schedule;
 use Milhojas\Domain\Utils\Schedule\NullSchedule;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Library\Sortable\Sortable;
-use Milhojas\Library\ValueObjects\Identity\PersonName;
+use Milhojas\Library\ValueObjects\Identity\Person;
 
 /**
  * Represents a CantineUser.
@@ -19,13 +19,13 @@ class CantineUser implements Sortable
     protected $allergens;
     protected $schedule;
     protected $group;
-    protected $name;
+    protected $person;
 
     public function __construct(Student $student, Schedule $schedule)
     {
         $this->studentId = $student->getId();
         $this->schedule = $schedule;
-        $this->name = $student->getName();
+        $this->person = $student->getPerson();
         $this->allergens = $student->getAllergies();
         $this->group = new NullCantineGroup();
     }
@@ -106,7 +106,7 @@ class CantineUser implements Sortable
      */
     public function compare($anotherUser)
     {
-        return $this->name->compare($anotherUser->getName());
+        return $this->person->compare($anotherUser->getPerson());
     }
 
     /**
@@ -125,13 +125,13 @@ class CantineUser implements Sortable
     }
 
     /**
-     * Tells the user name.
+     * Tells the user person.
      *
-     * @return PersonName the User Name
+     * @return Person the User Name
      */
-    public function getName()
+    public function getPerson()
     {
-        return $this->name;
+        return $this->person;
     }
 
     public function isAllergic()

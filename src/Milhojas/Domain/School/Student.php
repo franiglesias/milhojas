@@ -2,9 +2,10 @@
 
 namespace Milhojas\Domain\School;
 
-use Milhojas\Library\ValueObjects\Identity\PersonName;
+use Milhojas\Library\ValueObjects\Identity\Person;
 use Milhojas\Domain\Cantine\Allergens;
 use Milhojas\Domain\Extracurricular\ActivitiesUser;
+use Milhojas\Domain\Common\StudentId;
 
 class Student
 {
@@ -14,10 +15,10 @@ class Student
     private $allergens;
     private $extracurricular;
 
-    public function __construct(StudentId $studentId, PersonName $personName, Allergens $allergens, StudentGroup $studentGroup = null)
+    public function __construct(StudentId $studentId, Person $Person, Allergens $allergens, StudentGroup $studentGroup = null)
     {
         $this->id = $studentId;
-        $this->name = $personName;
+        $this->name = $Person;
         $this->group = $studentGroup ? $studentGroup : new NewStudentGroup();
         $this->allergens = $allergens;
         $this->extracurricular = new ActivitiesUser();

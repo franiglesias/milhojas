@@ -5,23 +5,17 @@ namespace Milhojas\Domain\Common;
 class Student
 {
     private $id;
-    private $name;
-    private $surname;
+    private $person;
+
     private $class;
     private $remarks;
 
-    /**
-     * @param mixed $id
-     * @param mixed $name
-     * @param mixed $surname
-     * @param mixed $class
-     * @param mixed $remarks
-     */
-    public function __construct($id, $name, $surname, $class, $remarks)
+    private $allergies;
+
+    public function __construct($id, $person, $class, $remarks)
     {
         $this->id = $id;
-        $this->name = $name;
-        $this->surname = $surname;
+        $this->person = $person;
         $this->class = $class;
         $this->remarks = $remarks;
     }
@@ -48,44 +42,21 @@ class Student
     /**
      * @return
      */
-    public function getName()
+    public function getPerson()
     {
-        return $this->name;
+        return $this->person;
     }
 
     /**
-     * @param  $name
+     * @param  $person
      *
      * @return static
      */
-    public function setName($name)
+    public function setPerson($person)
     {
-        $this->name = $name;
-
+        $this->person = $person;
         return $this;
-    }
-
-    /**
-     * @return
-     */
-    public function getSurname()
-    {
-        return $this->surname;
-    }
-
-    /**
-     * @param  $surname
-     *
-     * @return static
-     */
-    public function setSurname($surname)
-    {
-        $this->surname = $surname;
-
-        return $this;
-    }
-
-    /**
+    }/**
      * @return
      */
     public function getClass()
@@ -123,11 +94,6 @@ class Student
         $this->remarks = $remarks;
 
         return $this;
-    }
-
-    public function getFullName()
-    {
-        return sprintf('%s %s', $this->name, $this->surname);
     }
 
     public function getAllergies()

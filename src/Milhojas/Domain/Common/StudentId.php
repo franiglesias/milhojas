@@ -1,9 +1,9 @@
 <?php
 
-namespace Milhojas\Domain\School;
+namespace Milhojas\Domain\Common;
 
 /**
- * Identifies an student
+ * Identifies an student.
  */
 class StudentId
 {
@@ -25,7 +25,4 @@ class StudentId
     {
         return $this->id;
     }
-
 }
-
- ?>

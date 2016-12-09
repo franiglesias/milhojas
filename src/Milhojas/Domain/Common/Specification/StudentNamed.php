@@ -14,6 +14,6 @@ class StudentNamed implements StudentServiceSpecification
 
     public function isSatisfiedBy(Student $student)
     {
-        return $this->name == $student->getFullName();
+        return $this->name == $student->getPerson()->getFullName();
     }
 }

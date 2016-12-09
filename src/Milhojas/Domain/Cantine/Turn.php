@@ -13,6 +13,7 @@ class Turn implements \IteratorAggregate, \ArrayAccess, \Countable
     {
         $this->name = $name;
         $this->order = $order;
+        $this->users = new \SplObjectStorage();
     }
 
     public function getName()
@@ -32,8 +33,8 @@ class Turn implements \IteratorAggregate, \ArrayAccess, \Countable
 
     public function appoint(CantineUser $User)
     {
-        $this->users[] = $User;
-        $this->indexByName[$User->getStudentId()] = $User;
+        $this->users->attach($User);
+        $this->indexByName[$User->getStudentId()->getId()] = $User;
     }
 
     public function count()

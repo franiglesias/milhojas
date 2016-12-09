@@ -10,6 +10,7 @@ use Milhojas\Domain\Cantine\Event\CantineUserTriedToBuyInvalidTicket;
 use Milhojas\Domain\Cantine\Exception\CantineUserNotFound;
 use Milhojas\Domain\Cantine\Specification\AssociatedCantineUser;
 use Milhojas\Domain\Common\Specification\StudentNamed;
+use Milhojas\Domain\Common\StudentId;
 use Milhojas\Domain\Common\Student;
 use Milhojas\Domain\Cantine\CantineGroup;
 use Milhojas\Domain\Cantine\CantineUser;
@@ -19,6 +20,7 @@ use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
 use Milhojas\Infrastructure\Persistence\Common\StudentServiceInMemoryRepository;
 use Milhojas\Library\CommandBus\CommandBus;
 use Milhojas\Library\EventBus\EventBus;
+use Milhojas\LIbrary\ValueObjects\Identity\Person;
 use Prophecy\Prophet;
 use Prophecy\Argument;
 
@@ -57,7 +59,7 @@ class StudentsUsingCantineContext implements Context
     public function thereIsAStudentCalled($student_name)
     {
         list($name, $surname) = explode(' ', $student_name);
-        $this->StudentRepository->store(new Student('student-01', $name, $surname, 'Some class', ''));
+        $this->StudentRepository->store(new Student(new StudentId('student-01'), new Person($name, $surname, 'm'), 'Some class', ''));
         $this->student_name = $student_name;
     }
 

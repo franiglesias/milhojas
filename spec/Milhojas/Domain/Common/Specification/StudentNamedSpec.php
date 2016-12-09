@@ -4,6 +4,7 @@ namespace spec\Milhojas\Domain\Common\Specification;
 
 use Milhojas\Domain\Common\Specification\StudentNamed;
 use Milhojas\Domain\Common\Student;
+use Milhojas\LIbrary\ValueObjects\Identity\Person;
 use PhpSpec\ObjectBehavior;
 
 class StudentNamedSpec extends ObjectBehavior
@@ -17,9 +18,10 @@ class StudentNamedSpec extends ObjectBehavior
         $this->shouldHaveType(StudentNamed::class);
     }
 
-    public function it_should_be_satisfied_by(Student $student)
+    public function it_should_be_satisfied_by(Student $student, Person $person)
     {
-        $student->getFullName()->willReturn('Pedro Pérez');
+        $person->getFullName()->willReturn('Pedro Pérez');
+        $student->getPerson()->willReturn($person);
         $this->shouldBeSatisfiedBy($student);
     }
 }

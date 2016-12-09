@@ -10,13 +10,17 @@ use Milhojas\Domain\Cantine\Specification\CantineUserSpecification;
 class CantineUserInMemoryRepository implements CantineUserRepository
 {
     private $users = [];
+
+    public function __construct()
+    {
+        $this->users = new \SplObjectStorage();
+    }
     /**
      * {@inheritdoc}
      */
     public function store(CantineUser $user)
     {
-        $id = $user->getStudentId();
-        $this->users[$id] = $user;
+        $this->users->attach($user);
     }
 
     /**
@@ -24,11 +28,12 @@ class CantineUserInMemoryRepository implements CantineUserRepository
      */
     public function retrieve($id)
     {
-        if (!isset($this->users[$id])) {
-            return null;
+        $id = new StudentId($id);
+        foreach ($this->users as $user) {
+            if ($user->getId() == $id) {
+                return $user;
+            }
         }
-
-        return $this->users[$id];
     }
 
     /**
@@ -36,7 +41,7 @@ class CantineUserInMemoryRepository implements CantineUserRepository
      */
     public function get(CantineUserSpecification $cantineUserSpecification)
     {
-        foreach ($this->users as $id => $user) {
+        foreach ($this->users as $user) {
             if ($cantineUserSpecification->isSatisfiedBy($user)) {
                 return $user;
             }

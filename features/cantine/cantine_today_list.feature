@@ -21,11 +21,11 @@ Feature: Get the list of today's cantine users
 
     Scenario: Admin wants to get the list of taday's users
         Given There are some Cantine Users registered
-            | student_id | group | type | schedule |
-            | student-01 | Grupo 1 | regular | november: monday, wednesday |
-            | student-02 | Grupo 2 | ticket | 11/14/2016 |
-            | student-03 | Grupo 3 | regular | november: tuesday, friday |
-            | student-04 | Grupo 4 | ticket | 11/25/2016 |
+            | name | surname | gender | class | student_id | group | type | schedule |
+            | Pedro | Pérez | m | EP 3 C | student-01 | Grupo 1 | regular | november: monday, wednesday |
+            | Eva | Fernández | f | EP 5 A | student-02 | Grupo 2 | ticket | 11/14/2016 |
+            | Luis | Rodríguez | m | ESO 1 A | student-03 | Grupo 3 | regular | november: tuesday, friday |
+            | Isabel | López | f | ESO 4 B | student-04 | Grupo 4 | ticket | 11/25/2016 |
         And Today is '11/14/2016'
         When Admin asks for the list
         Then the list should contain this Cantine Users

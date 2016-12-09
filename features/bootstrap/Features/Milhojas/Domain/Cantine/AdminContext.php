@@ -16,8 +16,10 @@ use Milhojas\Domain\Cantine\Allergens;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Domain\Utils\Schedule\MonthWeekSchedule;
 use Milhojas\Domain\Common\Student;
+use Milhojas\Domain\Common\StudentId;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
 use Milhojas\Library\EventBus\EventBus;
+use Milhojas\LIbrary\ValueObjects\Identity\Person;
 use org\bovigo\vfs\vfsStream;
 use Prophecy\Prophet;
 use Symfony\Component\Yaml\Yaml;
@@ -72,10 +74,9 @@ class AdminContext implements Context
                     break;
             }
             $student = new Student(
-                $row['student_id'],
-                'Nombre',
-                'Apellidos',
-                'Some class',
+                new StudentId($row['student_id']),
+                new Person($row['name'], $row['surname'], $row['gender']),
+                $row['class'],
                 ''
             );
             $User = CantineUser::apply($student, $schedule);

@@ -3,27 +3,27 @@
 namespace spec\Milhojas\Domain\School;
 
 use Milhojas\Domain\School\Student;
-use Milhojas\Domain\School\StudentId;
+use Milhojas\Domain\Common\StudentId;
 use Milhojas\Domain\School\StudentGroup;
 use Milhojas\Domain\School\NewStudentGroup;
 use Milhojas\Domain\Cantine\Allergens;
-use Milhojas\Library\ValueObjects\Identity\PersonName;
+use Milhojas\Library\ValueObjects\Identity\Person;
 use PhpSpec\ObjectBehavior;
 
 class StudentSpec extends ObjectBehavior
 {
-    public function let(StudentId $studentId, PersonName $personName, Allergens $allergens)
+    public function let(StudentId $studentId, Person $Person, Allergens $allergens)
     {
-        $this->beConstructedWith($studentId, $personName, $allergens);
+        $this->beConstructedWith($studentId, $Person, $allergens);
     }
     public function it_is_initializable()
     {
         $this->shouldHaveType(Student::class);
     }
 
-    public function it_has_a_name($personName)
+    public function it_has_a_name($Person)
     {
-        $this->getName()->shouldBe($personName);
+        $this->getName()->shouldBe($Person);
     }
 
     public function it_belongs_to_self_assigned_group()

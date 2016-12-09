@@ -7,8 +7,14 @@ default:
                 - Features\Milhojas\Domain\Cantine\StudentsUsingCantineContext
                 - Features\Milhojas\Domain\Cantine\TicketAccountingContext
                 - Features\Milhojas\Domain\Cantine\AdminContext
+                - Features\Milhojas\Domain\Cantine\BillingContext
         extracurricular_domain:
             paths:
                 - %paths.base%/features/extracurricular
             contexts:
                 - Features\Milhojas\Domain\Extracurricular\AdminContext
+        common_domain:
+            paths:
+                - %paths.base%/features/common
+            contexts:
+                - Features\Milhojas\Domain\Common\StudentServiceContext

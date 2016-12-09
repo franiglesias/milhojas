@@ -7,9 +7,8 @@ use Behat\Gherkin\Node\TableNode;
 use Milhojas\Domain\Cantine\Factories\RuleFactory;
 use Milhojas\Domain\Cantine\Factories\TurnsFactory;
 use Milhojas\Domain\Cantine\Factories\GroupsFactory;
-use Milhojas\Domain\Cantine\Factories\CantineManager;
-use Milhojas\Domain\Cantine\Factories\AllergensFactory;
 use Milhojas\Domain\Cantine\Specification\CantineUserEatingOnDate;
+use Milhojas\Domain\Cantine\CantineConfig;
 use Milhojas\Domain\Cantine\Assigner;
 use Milhojas\Domain\Cantine\CantineGroup;
 use Milhojas\Domain\Cantine\CantineUser;
@@ -225,12 +224,13 @@ class AdminContext implements Context
     }
     public function getCantineManager()
     {
-        return new CantineManager(
-            $this->getMockedConfigurationFile(),
-            new AllergensFactory(),
+        $manager = new CantineConfig(
             new TurnsFactory(),
             new GroupsFactory(),
             new RuleFactory()
         );
+        $manager->load($this->getMockedConfigurationFile());
+
+        return $manager;
     }
 }

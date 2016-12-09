@@ -2,6 +2,7 @@
 
 namespace Features\Milhojas\Domain\Cantine;
 
+use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use Milhojas\Domain\Cantine\Specification\TicketSoldOnDate;
@@ -146,5 +147,29 @@ class TicketAccountingContext implements Context
         if ((float) $paidIncome !== $this->result->getPaidIncome()) {
             throw new \Exception('Paid income does not match');
         }
+    }
+
+    /**
+     * @When We bill :arg1 for pending tickets
+     */
+    public function weBillForPendingTickets($arg1)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @When We generate a report for month :arg1
+     */
+    public function weGenerateAReportForMonth($arg1)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then Whe should get a list like this
+     */
+    public function wheShouldGetAListLikeThis(TableNode $table)
+    {
+        throw new PendingException();
     }
 }

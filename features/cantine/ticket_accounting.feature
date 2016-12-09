@@ -32,3 +32,19 @@ Feature: Count tickets sold different periods
         And Pending income should be '14.50' €
         And Paid tickets should be '3'
         And Paid income should be '21.75' €
+
+    Scenario: Billing tickets for a user
+        When We bill 'student-02' for pending tickets
+        Then Total tickets sold should be '2'
+        And Total income should be '14.50' €
+        And Pending tickets should be '2'
+        And Pending income should be '14.50' €
+        And Paid tickets should be '0'
+        And Paid income should be '0' €
+
+    Scenario: Getting the list of users with pending tickets
+        When We generate a report for month 'november 2016'
+        Then Whe should get a list like this
+            | student | tickets | amount |
+            | student-01 | 0 | 0 |
+            | student-02 | 2 | 14.50 |

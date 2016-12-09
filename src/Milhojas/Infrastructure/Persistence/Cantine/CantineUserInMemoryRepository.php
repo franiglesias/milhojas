@@ -24,7 +24,6 @@ class CantineUserInMemoryRepository implements CantineUserRepository
      */
     public function retrieve($id)
     {
-        $id = $id->getId();
         if (!isset($this->users[$id])) {
             return null;
         }

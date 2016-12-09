@@ -4,7 +4,6 @@ namespace spec\Milhojas\Domain\Cantine;
 
 use Milhojas\Domain\Cantine\Turn;
 use Milhojas\Domain\Cantine\CantineUser;
-use Milhojas\Domain\School\StudentId;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Prophet;
 
@@ -74,9 +73,7 @@ class TurnSpec extends ObjectBehavior
 
         for ($i = 0; $i < 10; ++$i) {
             $user = $prophet->prophesize(CantineUser::class);
-            $studentId = $prophet->prophesize(StudentId::class);
-            $studentId->getId()->willReturn('student-0'.$i);
-            $user->getStudentId()->willReturn($studentId);
+            $user->getStudentId()->willReturn('student-0'.$i);
             $this->users[] = $user;
         }
     }

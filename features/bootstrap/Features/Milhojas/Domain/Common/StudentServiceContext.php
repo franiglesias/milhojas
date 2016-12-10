@@ -6,7 +6,9 @@ use Behat\Gherkin\Node\TableNode;
 use Behat\Behat\Context\Context;
 use Milhojas\Domain\Common\Student;
 use Milhojas\Domain\Common\Specification\StudentNamed;
+use Milhojas\Domain\Common\StudentId;
 use Milhojas\Infrastructure\Persistence\Common\StudentServiceInMemoryRepository;
+use Milhojas\LIbrary\ValueObjects\Identity\Person;
 
 /**
  * Defines application features from the specific context.
@@ -31,7 +33,9 @@ class StudentServiceContext implements Context
     public function thereIsAStudentWithIdAndNameThatIsInClass($student_id, $student_name, $class)
     {
         list($name, $surname) = explode(' ', $student_name);
-        $this->StudentRepository->store(new Student($student_id, $name, $surname, $class, ''));
+        $student_id = new StudentId($student_id);
+        $student_name = new Person($name, $surname, '');
+        $this->StudentRepository->store(new Student($student_id, $student_name, $class, ''));
     }
 
     /**
@@ -48,7 +52,9 @@ class StudentServiceContext implements Context
     public function iShouldGetAStudentdtoObjectWithInformation(TableNode $table)
     {
         $data = $table->getRowsHash();
-        $expected = new Student($data['studentId'], $data['name'], $data['surname'], $data['class'], '');
+        $student_id = new StudentId($data['studentId']);
+        $student_name = new Person($data['name'], $data['surname'], '');
+        $expected = new Student($student_id, $student_name, $data['class'], '');
         if ($expected != $this->student) {
             throw new \Exception('Student data is not as expected.');
         }

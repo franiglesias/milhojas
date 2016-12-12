@@ -3,7 +3,6 @@
 namespace Features\Milhojas\Domain\Cantine;
 
 use Behat\Behat\Context\Context;
-use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Gherkin\Node\PyStringNode;
 use Milhojas\Domain\Cantine\Factories\RuleFactory;
@@ -15,7 +14,6 @@ use Milhojas\Domain\Cantine\Assigner;
 use Milhojas\Domain\Cantine\CantineGroup;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineList;
-use Milhojas\Domain\Cantine\Allergens;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Domain\Utils\Schedule\MonthWeekSchedule;
 use Milhojas\Domain\Common\Student;
@@ -25,7 +23,6 @@ use Milhojas\Library\EventBus\EventBus;
 use Milhojas\LIbrary\ValueObjects\Identity\Person;
 use org\bovigo\vfs\vfsStream;
 use Prophecy\Prophet;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * Defines application features from the specific context.
@@ -40,6 +37,7 @@ class AdminContext implements Context
     private $eventBus;
     private $prophet;
     private $ticketRepository;
+    private $cantineConfig;
     /**
      * Initializes context.
      *
@@ -51,7 +49,6 @@ class AdminContext implements Context
     {
         $this->CantineUserRepository = new CantineUserInMemoryRepository();
         $this->prophet = new Prophet();
-
         $eventBus = $this->prophet->prophesize(EventBus::class);
         $this->eventBus = $eventBus->reveal();
     }
@@ -63,7 +60,13 @@ class AdminContext implements Context
      */
     public function cantineConfigurationIs(PyStringNode $string)
     {
-        throw new PendingException('TODo cantineConfigurationIs');
+        $this->config = $string->getRaw();
+        $this->cantineConfig = new CantineConfig(
+            new TurnsFactory(),
+            new GroupsFactory(),
+            new RuleFactory()
+        );
+        $this->cantineConfig->load($this->getMockedConfigurationFile());
     }
 
     /**
@@ -104,36 +107,6 @@ class AdminContext implements Context
         $this->today = new \DateTime($today);
     }
 
-    /**
-     * @Given Rules for turn assignation are
-     */
-    public function rulesForTurnAssignationAre(TableNode $table)
-    {
-        foreach ($table->getHash() as $row) {
-            $this->config['rules'][$row['rule']] = [
-                'schedule' => explode(', ', trim($row['schedule'], ' ')),
-                'group' => $row['group'],
-                'turn' => $row['turn'],
-            ];
-        }
-    }
-
-    /**
-     * @Given turns are the following
-     */
-    public function turnsAreTheFollowing(TableNode $table)
-    {
-        $this->config['turns'] = $table->getColumn(0);
-    }
-
-    /**
-     * @Given groups are the following
-     */
-    public function groupsAreTheFollowing(TableNode $table)
-    {
-        $this->config['groups'] = $table->getColumn(0);
-    }
-
 // When Section
 
     /**
@@ -147,40 +120,12 @@ class AdminContext implements Context
 // Then Section
 
     /**
-     * @Then the list should contain this Cantine Users
-     */
-    public function theListShouldContainThisCantineUsers(TableNode $table)
-    {
-        $expected = $table->getColumn(0);
-        foreach ($this->List as $User) {
-            if (!in_array($User->getStudentId(), $expected)) {
-                throw new \Exception('List is wrong!');
-            }
-        }
-    }
-
-    /**
-     * @Then the list should not contain this Cantine Users
-     */
-    public function theListShouldNotContainThisCantineUsers(TableNode $table)
-    {
-        $expected = $table->getColumn(0);
-        foreach ($this->List as $User) {
-            if (in_array($User->getStudentId(), $expected)) {
-                throw new \Exception('List is wrong!');
-            }
-        }
-    }
-
-    /**
      * @Then the turns should be assigned as
      */
     public function theTurnsShouldBeAssignedAs(TableNode $table)
     {
-        $builder = $this->getCantineManager();
-
         $this->cantineList = new CantineList($this->today);
-        $this->assigner = new Assigner($builder->getRules(), $this->eventBus);
+        $this->assigner = new Assigner($this->cantineConfig->getRules(), $this->eventBus);
         $this->assigner->buildList($this->cantineList, $this->List);
         $this->shouldGenerateThisTurns($table->getHash());
     }
@@ -228,23 +173,11 @@ class AdminContext implements Context
 
     private function getMockedConfigurationFile()
     {
-        $this->config['allergens'] = ['none'];
         $this->fileSystem = vfsStream::setUp('root', 0, []);
         $file = vfsStream::newFile('cantine.yml')
-            ->withContent(Yaml::dump($this->config))
+            ->withContent($this->config)
             ->at($this->fileSystem);
 
         return $file->url();
-    }
-    public function getCantineManager()
-    {
-        $manager = new CantineConfig(
-            new TurnsFactory(),
-            new GroupsFactory(),
-            new RuleFactory()
-        );
-        $manager->load($this->getMockedConfigurationFile());
-
-        return $manager;
     }
 }

@@ -17,4 +17,4 @@ default:
             paths:
                 - %paths.base%/features/common
             contexts:
-                - Features\Milhojas\Domain\Common\StudentServiceContext
+                - Features\Milhojas\Domain\Shared\StudentServiceContext

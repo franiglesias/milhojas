@@ -3,7 +3,7 @@
 namespace Milhojas\Domain\Cantine\Specification;
 
 use Milhojas\Domain\Cantine\CantineUser;
-use Milhojas\Domain\Common\Student;
+use Milhojas\Domain\Shared\Student;
 
 /**
  * The cantine user that represents this Student.

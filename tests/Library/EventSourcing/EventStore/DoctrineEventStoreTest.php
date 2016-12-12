@@ -2,7 +2,7 @@
 
 namespace Tests\Library\EventSourcing\EventStore;
 
-use Tests\Infrastructure\Persistence\Common\DoctrineTestCase;
+use Tests\Infrastructure\Persistence\Shared\DoctrineTestCase;
 use Milhojas\Library\EventSourcing\EventStore\DoctrineEventStore;
 use Milhojas\Library\EventSourcing\DTO\EntityDTO;
 use Milhojas\Library\EventSourcing\EventStream\EventMessage;

@@ -1,9 +1,9 @@
 <?php
 
-namespace spec\Milhojas\Domain\Common\Specification;
+namespace spec\Milhojas\Domain\Shared\Specification;
 
-use Milhojas\Domain\Common\Specification\StudentNamed;
-use Milhojas\Domain\Common\Student;
+use Milhojas\Domain\Shared\Specification\StudentNamed;
+use Milhojas\Domain\Shared\Student;
 use Milhojas\LIbrary\ValueObjects\Identity\Person;
 use PhpSpec\ObjectBehavior;
 

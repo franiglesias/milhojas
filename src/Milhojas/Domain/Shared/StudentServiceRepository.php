@@ -1,8 +1,8 @@
 <?php
 
-namespace Milhojas\Domain\Common;
+namespace Milhojas\Domain\Shared;
 
-use Milhojas\Domain\Common\Specification\StudentServiceSpecification;
+use Milhojas\Domain\Shared\Specification\StudentServiceSpecification;
 
 interface StudentServiceRepository
 {

@@ -5,7 +5,7 @@ namespace spec\Milhojas\Domain\Cantine\Specification;
 use Milhojas\Domain\Cantine\Specification\AssociatedCantineUser;
 use Milhojas\Domain\Cantine\Specification\CantineUserSpecification;
 use Milhojas\Domain\Cantine\CantineUser;
-use Milhojas\Domain\Common\Student;
+use Milhojas\Domain\Shared\Student;
 use PhpSpec\ObjectBehavior;
 
 class AssociatedCantineUserSpec extends ObjectBehavior

@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Domain\Common;
+namespace Milhojas\Domain\Shared;
 
 class Student
 {

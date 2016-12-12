@@ -4,7 +4,7 @@ namespace Tests\Application\Contents\Projectors;
 
 use Milhojas\Application\Contents\Projectors\PostListProjector;
 
-use Tests\Infrastructure\Persistence\Common\DoctrineTestCase;
+use Tests\Infrastructure\Persistence\Shared\DoctrineTestCase;
 use Milhojas\Domain\Contents\Events\NewPostWasWritten;
 use Milhojas\Domain\Contents\Events\PostWasUpdated;
 /**

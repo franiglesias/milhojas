@@ -5,7 +5,7 @@ namespace Milhojas\Domain\School;
 use Milhojas\Library\ValueObjects\Identity\Person;
 use Milhojas\Domain\Cantine\Allergens;
 use Milhojas\Domain\Extracurricular\ActivitiesUser;
-use Milhojas\Domain\Common\StudentId;
+use Milhojas\Domain\Shared\StudentId;
 
 class Student
 {

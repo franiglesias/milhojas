@@ -1,14 +1,14 @@
 <?php
 
-namespace Features\Milhojas\Domain\Common;
+namespace Features\Milhojas\Domain\Shared;
 
 use Behat\Gherkin\Node\TableNode;
 use Behat\Behat\Context\Context;
-use Milhojas\Domain\Common\Student;
-use Milhojas\Domain\Common\Specification\StudentNamed;
-use Milhojas\Domain\Common\StudentId;
-use Milhojas\Domain\Common\Specification\StudentsWhoseNameContains;
-use Milhojas\Infrastructure\Persistence\Common\StudentServiceInMemoryRepository;
+use Milhojas\Domain\Shared\Student;
+use Milhojas\Domain\Shared\Specification\StudentNamed;
+use Milhojas\Domain\Shared\StudentId;
+use Milhojas\Domain\Shared\Specification\StudentsWhoseNameContains;
+use Milhojas\Infrastructure\Persistence\Shared\StudentServiceInMemoryRepository;
 use Milhojas\LIbrary\ValueObjects\Identity\Person;
 
 /**

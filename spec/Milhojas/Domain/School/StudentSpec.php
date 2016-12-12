@@ -3,7 +3,7 @@
 namespace spec\Milhojas\Domain\School;
 
 use Milhojas\Domain\School\Student;
-use Milhojas\Domain\Common\StudentId;
+use Milhojas\Domain\Shared\StudentId;
 use Milhojas\Domain\School\StudentGroup;
 use Milhojas\Domain\School\NewStudentGroup;
 use Milhojas\Domain\Cantine\Allergens;

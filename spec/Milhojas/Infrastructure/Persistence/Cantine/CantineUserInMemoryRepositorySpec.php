@@ -6,7 +6,7 @@ use Milhojas\Domain\Cantine\Exception\CantineUserNotFound;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineUserRepository;
-use Milhojas\Domain\Common\Student;
+use Milhojas\Domain\Shared\Student;
 use PhpSpec\ObjectBehavior;
 use Milhojas\Domain\Cantine\Specification\AssociatedCantineUser;
 use Milhojas\Domain\Cantine\Specification\CantineUserEatingOnDate;

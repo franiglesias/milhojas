@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Domain\Common\Exception;
+namespace Milhojas\Domain\Shared\Exception;
 
 class StudentServiceException extends \RuntimeException
 {

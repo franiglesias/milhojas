@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Infrastructure\Persistence\Common;
+namespace Tests\Infrastructure\Persistence\Shared;
 
 // https://vincent.composieux.fr/article/test-your-doctrine-repository-using-a-sqlite-database
 

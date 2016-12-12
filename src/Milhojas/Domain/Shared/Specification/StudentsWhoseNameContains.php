@@ -1,8 +1,8 @@
 <?php
 
-namespace Milhojas\Domain\Common\Specification;
+namespace Milhojas\Domain\Shared\Specification;
 
-use Milhojas\Domain\Common\Student;
+use Milhojas\Domain\Shared\Student;
 
 class StudentsWhoseNameContains implements StudentServiceSpecification
 {

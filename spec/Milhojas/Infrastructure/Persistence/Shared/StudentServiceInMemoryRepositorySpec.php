@@ -1,12 +1,12 @@
 <?php
 
-namespace spec\Milhojas\Infrastructure\Persistence\Common;
+namespace spec\Milhojas\Infrastructure\Persistence\Shared;
 
-use Milhojas\Domain\Common\Exception\StudentServiceException;
-use Milhojas\Infrastructure\Persistence\Common\StudentServiceInMemoryRepository;
-use Milhojas\Domain\Common\StudentServiceRepository;
-use Milhojas\Domain\Common\Specification\StudentServiceSpecification;
-use Milhojas\Domain\Common\Student;
+use Milhojas\Domain\Shared\Exception\StudentServiceException;
+use Milhojas\Infrastructure\Persistence\Shared\StudentServiceInMemoryRepository;
+use Milhojas\Domain\Shared\StudentServiceRepository;
+use Milhojas\Domain\Shared\Specification\StudentServiceSpecification;
+use Milhojas\Domain\Shared\Student;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 

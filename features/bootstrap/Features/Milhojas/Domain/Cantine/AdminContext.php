@@ -1,3 +1,4 @@
+
 <?php
 
 namespace Features\Milhojas\Domain\Cantine;
@@ -202,7 +203,7 @@ class AdminContext implements Context
         foreach ($this->List as $User) {
             foreach ($expected as $row) {
                 $turn = $builder->getTurn($row['turn']);
-                if ($User->getStudentId() != $row['student_id']) {
+                if ($User->getStudentId()->getId() != $row['student_id']) {
                     continue;
                 }
                 if (!$turn->isAppointed($User)) {

@@ -59,8 +59,6 @@ class Rule
             return $this->delegate($User, $date);
         }
 
-        $this->turn->appoint($User);
-
         return $this->turn;
     }
 

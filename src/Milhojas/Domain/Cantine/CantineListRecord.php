@@ -4,6 +4,9 @@ namespace Milhojas\Domain\Cantine;
 
 use Milhojas\Library\Sortable\Sortable;
 
+/**
+ * A Data Transport Object to hold the representation of a Cantine User in a CantineList.
+ */
 class CantineListRecord implements Sortable
 {
     private $date;
@@ -42,14 +45,5 @@ class CantineListRecord implements Sortable
     public function getUser()
     {
         return $this->cantineUser;
-    }
-
-    public function getAsRow()
-    {
-        return [
-            'date' => $this->date->format('Y/m/d'),
-            'turn' => $this->turn->getName(),
-            'user' => $this->cantineUser->getPerson()->getListName(),
-        ];
     }
 }

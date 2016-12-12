@@ -127,7 +127,7 @@ class AdminContext implements Context
         $this->cantineList = new CantineList($this->today);
         $this->assigner = new Assigner($this->cantineConfig->getRules(), $this->eventBus);
         $this->assigner->buildList($this->cantineList, $this->List);
-        $this->shouldGenerateThisTurns($table->getHash());
+        \PHPUnit_Framework_Assert::assertEquals($table->getHash(), $this->castToResult());
     }
 
 // Utility methods
@@ -148,12 +148,9 @@ class AdminContext implements Context
     }
 
     /**
-     * Checks if the Assigner generates the right turns.
-     *
-     * @param array  $expected [Description]
-     * @param [type] $builder  [Description]
+     * Cast CantineList to an array we can compare with expectation.
      */
-    private function shouldGenerateThisTurns(array $expected)
+    private function castToResult()
     {
         $this->cantineList->top();
         $result = [];
@@ -168,7 +165,8 @@ class AdminContext implements Context
             ];
             $this->cantineList->next();
         }
-        \PHPUnit_Framework_Assert::assertEquals($expected, $result);
+
+        return $result;
     }
 
     private function getMockedConfigurationFile()

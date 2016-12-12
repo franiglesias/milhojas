@@ -100,4 +100,10 @@ class Student
     {
         return null;
     }
+
+    public function getLabel()
+    {
+        $format = '%s (%s)';
+        return sprintf($format, $this->person->getFullName(), $this->class);
+    }
 }

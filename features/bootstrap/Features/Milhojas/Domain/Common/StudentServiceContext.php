@@ -7,6 +7,7 @@ use Behat\Behat\Context\Context;
 use Milhojas\Domain\Common\Student;
 use Milhojas\Domain\Common\Specification\StudentNamed;
 use Milhojas\Domain\Common\StudentId;
+use Milhojas\Domain\Common\Specification\StudentsWhoseNameContains;
 use Milhojas\Infrastructure\Persistence\Common\StudentServiceInMemoryRepository;
 use Milhojas\LIbrary\ValueObjects\Identity\Person;
 
@@ -28,13 +29,13 @@ class StudentServiceContext implements Context
     }
 
     /**
-     * @Given There is a Student with id :student_id and name :student_name that is in class :class
+     * @Given There is a Student with id :student_id and name :student_name and gender :gender that is in class :class
      */
-    public function thereIsAStudentWithIdAndNameThatIsInClass($student_id, $student_name, $class)
+    public function thereIsAStudentWithIdAndNameAndGenderThatIsInClass($student_id, $student_name, $gender, $class)
     {
         list($name, $surname) = explode(' ', $student_name);
         $student_id = new StudentId($student_id);
-        $student_name = new Person($name, $surname, '');
+        $student_name = new Person($name, $surname, $gender[0]);
         $this->StudentRepository->store(new Student($student_id, $student_name, $class, ''));
     }
 
@@ -51,12 +52,51 @@ class StudentServiceContext implements Context
      */
     public function iShouldGetAStudentdtoObjectWithInformation(TableNode $table)
     {
-        $data = $table->getRowsHash();
-        $student_id = new StudentId($data['studentId']);
-        $student_name = new Person($data['name'], $data['surname'], '');
-        $expected = new Student($student_id, $student_name, $data['class'], '');
+        $expected = $this->castRowToStudent($table->getRowsHash());
         if ($expected != $this->student) {
             throw new \Exception('Student data is not as expected.');
+        }
+    }
+
+    public function castRowToStudent($row)
+    {
+        $student_id = new StudentId($row['studentId']);
+        $student_name = new Person($row['name'], $row['surname'], $row['gender']);
+
+        return new Student($student_id, $student_name, $row['class'], '');
+    }
+    /**
+     * @Given There are several Students in the repository
+     */
+    public function thereAreSeveralStudentsInTheRepository(TableNode $table)
+    {
+        foreach ($table->getHash() as $row) {
+            $this->StudentRepository->store($this->castRowToStudent($row));
+        }
+    }
+
+    /**
+     * @When I ask for a student whose name contains :fragment
+     */
+    public function iAskForAStudentWhoseNameContains($fragment)
+    {
+        $students = $this->StudentRepository->find(new StudentsWhoseNameContains($fragment));
+        $this->autocomplete = [];
+        foreach ($students as $student) {
+            $this->autocomplete[$student->getId()->getId()] = $student->getLabel();
+        }
+    }
+
+    /**
+     * @Then I should get a list of users that match
+     */
+    public function iShouldGetAListOfUsersThatMatch(TableNode $table)
+    {
+        foreach ($table->getHash() as $row) {
+            $expected[$row['studentId']] = $row['student_label'];
+        }
+        if ($this->autocomplete != $expected) {
+            throw new \Exception('Failed autocomplete');
         }
     }
 }

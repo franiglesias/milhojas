@@ -27,4 +27,19 @@ class StudentServiceInMemoryRepository implements StudentServiceRepository
     {
         $this->students[] = $student;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function find(StudentServiceSpecification $studentServiceSpecification)
+    {
+        $found = [];
+        foreach ($this->students as $student) {
+            if ($studentServiceSpecification->isSatisfiedBy($student)) {
+                $found[] = $student;
+            }
+        }
+
+        return $found;
+    }
 }

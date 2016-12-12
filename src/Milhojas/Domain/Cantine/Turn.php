@@ -2,7 +2,9 @@
 
 namespace Milhojas\Domain\Cantine;
 
-class Turn
+use Milhojas\Library\Sortable\Sortable;
+
+class Turn implements Sortable
 {
     private $name;
     private $order;
@@ -18,8 +20,15 @@ class Turn
         return $this->name;
     }
 
-    public function isLessThan(Turn $turn)
+    public function compare($other)
     {
-        return $this->order < $turn->order;
+        if ($this->order < $other->order) {
+            return Sortable::SMALLER;
+        }
+        if ($this->order > $other->order) {
+            return Sortable::GREATER;
+        }
+
+        return Sortable::EQUAL;
     }
 }

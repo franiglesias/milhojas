@@ -12,9 +12,9 @@ interface Sortable
      *
      * @param mixed $object
      *
-     * @return int -1 $this is lesser than $object
-     * @return int 0 is they are equal
-     * @return int +1 $this is greater than $object
+     * @return int -1|self::SMALLER $this is smaller than $object
+     * @return int 0|self::EQUAL is they are equal
+     * @return int +1|self::GREATER $this is greater than $object
      */
     public function compare($object);
 }

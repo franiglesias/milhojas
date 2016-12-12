@@ -1,10 +1,11 @@
-
 <?php
 
 namespace Features\Milhojas\Domain\Cantine;
 
 use Behat\Behat\Context\Context;
+use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Gherkin\Node\TableNode;
+use Behat\Gherkin\Node\PyStringNode;
 use Milhojas\Domain\Cantine\Factories\RuleFactory;
 use Milhojas\Domain\Cantine\Factories\TurnsFactory;
 use Milhojas\Domain\Cantine\Factories\GroupsFactory;
@@ -13,6 +14,7 @@ use Milhojas\Domain\Cantine\CantineConfig;
 use Milhojas\Domain\Cantine\Assigner;
 use Milhojas\Domain\Cantine\CantineGroup;
 use Milhojas\Domain\Cantine\CantineUser;
+use Milhojas\Domain\Cantine\CantineList;
 use Milhojas\Domain\Cantine\Allergens;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Domain\Utils\Schedule\MonthWeekSchedule;
@@ -55,6 +57,14 @@ class AdminContext implements Context
     }
 
 // Given Section
+
+    /**
+     * @Given Cantine Configuration is
+     */
+    public function cantineConfigurationIs(PyStringNode $string)
+    {
+        throw new PendingException('TODo cantineConfigurationIs');
+    }
 
     /**
      * @Given There are some Cantine Users registered
@@ -169,10 +179,10 @@ class AdminContext implements Context
     {
         $builder = $this->getCantineManager();
 
+        $this->cantineList = new CantineList($this->today);
         $this->assigner = new Assigner($builder->getRules(), $this->eventBus);
-        $this->assigner->assignUsersForDate($this->List, $this->today);
-
-        $this->shouldGenerateThisTurns($table->getHash(), $builder);
+        $this->assigner->buildList($this->cantineList, $this->List);
+        $this->shouldGenerateThisTurns($table->getHash());
     }
 
 // Utility methods
@@ -198,19 +208,22 @@ class AdminContext implements Context
      * @param array  $expected [Description]
      * @param [type] $builder  [Description]
      */
-    private function shouldGenerateThisTurns(array $expected, $builder)
+    private function shouldGenerateThisTurns(array $expected)
     {
-        foreach ($this->List as $User) {
-            foreach ($expected as $row) {
-                $turn = $builder->getTurn($row['turn']);
-                if ($User->getStudentId()->getId() != $row['student_id']) {
-                    continue;
-                }
-                if (!$turn->isAppointed($User)) {
-                    throw new \Exception(sprintf('Student %s should be assigned to turn %s', $row['student_id'], $row['turn']));
-                }
-            }
+        $this->cantineList->top();
+        $result = [];
+        while ($this->cantineList->valid()) {
+            $record = $this->cantineList->current();
+            $result[] = [
+                'date' => $record->getDate()->format('m/d/Y'),
+                'turn' => $record->getTurn()->getName(),
+                'student' => $record->getUser()->getPerson()->getListName(),
+                'class' => $record->getUser()->getClass(),
+                'remarks' => '',
+            ];
+            $this->cantineList->next();
         }
+        \PHPUnit_Framework_Assert::assertEquals($expected, $result);
     }
 
     private function getMockedConfigurationFile()

@@ -39,4 +39,22 @@ class Assigner
             $this->eventBus->dispatch(new UserWasAssignedToCantineTurn($user, $turn, $date));
         }
     }
+
+    public function buildList(CantineList $list, $users)
+    {
+        foreach ($users as $user) {
+            $turn = $this->ruleChain->assignsUserToTurn($user, $list->getDate());
+            $record = new CantineListRecord(
+                $list->getDate(),
+                $turn,
+                $user
+            );
+            $list->insert($record);
+            if (!$turn) {
+                $this->eventBus->dispatch(new UserWasNotAssignedToCantineTurn($user, $list->getDate()));
+                continue;
+            }
+            $this->eventBus->dispatch(new UserWasAssignedToCantineTurn($user, $turn, $list->getDate()));
+        }
+    }
 }

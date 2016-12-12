@@ -28,6 +28,7 @@ class CantineUser implements Sortable
         $this->person = $student->getPerson();
         $this->allergens = $student->getAllergies();
         $this->group = new NullCantineGroup();
+        $this->class = $student->getClass();
     }
 
     /**
@@ -132,6 +133,11 @@ class CantineUser implements Sortable
     public function getPerson()
     {
         return $this->person;
+    }
+
+    public function getClass()
+    {
+        return $this->class;
     }
 
     public function isAllergic()

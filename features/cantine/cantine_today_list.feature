@@ -18,6 +18,24 @@ Feature: Get the list of today's cantine users
             | Grupo 1 eats on turn 1 all days | monday, tuesday, wednesday, thursday, friday | Grupo 1 | Turno 1 |
             | Grupo 2 eats on turn 2 Mon and Wed | monday, wednesday | Grupo 2 | Turno 2 |
             | Grupo 2 eats on turn 3 Tue, Thu, Fri | tuesday, thursday, friday | Grupo 2 | Turno 3 |
+        And Cantine Configuration is
+            """
+            turns:
+            - 'Turno 1'
+            - 'Turno 2'
+            - 'Turno 3'
+            groups:
+            - 'Grupo 1'
+            - 'Grupo 2'
+            - 'Grupo 3'
+            - 'Grupo 4'
+            rules:
+            'Grupo 1 eats on turn 1 all days': { schedule: [monday, tuesday, wednesday, thursday, friday], group: 'Grupo 1', turn: 'Turno 1' }
+            'Grupo 2 eats on turn 2 Mon and Wed': { schedule: [monday, wednesday], group: 'Grupo 2', turn: 'Turno 2' }
+            'Grupo 2 eats on turn 3 Tue, Thu, Fri': { schedule: [tuesday, thursday, friday], group: 'Grupo 2', turn: 'Turno 3' }
+            allergens:
+            - none
+            """
 
     Scenario: Admin wants to get the list of taday's users
         Given There are some Cantine Users registered
@@ -35,6 +53,6 @@ Feature: Get the list of today's cantine users
             | student-03 |
             | student-04 |
         And the turns should be assigned as
-            | student_id | turn |
-            | student-01 | Turno 1 |
-            | student-02 | Turno 2 |
+            | date | turn | student | class | remarks |
+            | 11/14/2016 | Turno 1 | Pérez, Pedro | EP 3 C |  |
+            | 11/14/2016 | Turno 2 | Fernández, Eva | EP 5 A |  |

@@ -55,4 +55,12 @@ class MonthYear
     {
         return $date->format('m/Y') === (string) $this;
     }
+
+    public function hasDays()
+    {
+        $date = new \DateTime(sprintf('%s/1/%s', $this->month, $this->year));
+        $days = $date->format('t');
+
+        return (int) $days;
+    }
 }

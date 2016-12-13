@@ -62,4 +62,28 @@ class MonthYearSpec extends ObjectBehavior
         $this->beConstructedThrough('fromString', ['11/2016']);
         $this->asString()->shouldBe('11/2016');
     }
+
+    public function it_can_tell_how_many_days_it_has()
+    {
+        $this->beConstructedThrough('create', ['november', '2016']);
+        $this->hasDays()->shouldBe(30);
+    }
+
+    public function it_can_tell_how_many_days_it_has_long_month()
+    {
+        $this->beConstructedThrough('create', ['may', '2016']);
+        $this->hasDays()->shouldBe(31);
+    }
+
+    public function it_can_tell_how_many_days_february_has_leap_year()
+    {
+        $this->beConstructedThrough('create', ['february', '2016']);
+        $this->hasDays()->shouldBe(29);
+    }
+
+    public function it_can_tell_how_many_days_february_has_no_leap()
+    {
+        $this->beConstructedThrough('create', ['february', '2015']);
+        $this->hasDays()->shouldBe(28);
+    }
 }

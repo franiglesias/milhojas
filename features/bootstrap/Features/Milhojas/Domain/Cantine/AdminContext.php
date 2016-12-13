@@ -189,7 +189,7 @@ class AdminContext implements Context
      *
      * @param PyStringNode $string
      *
-     * @return url for the file
+     * @return string url for the virtual file
      */
     private function getMockedConfigurationFile(PyStringNode $string)
     {

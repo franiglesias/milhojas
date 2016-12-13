@@ -10,7 +10,7 @@ class Ticket
     private $user;
     private $paid;
 
-    public function __construct(CantineUser $user, \DateTime $date, $paid = false)
+    public function __construct(CantineUser $user, \DateTimeInterface $date, $paid = false)
     {
         $this->user = $user;
         $this->date = $date;

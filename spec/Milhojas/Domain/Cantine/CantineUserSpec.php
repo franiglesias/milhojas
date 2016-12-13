@@ -22,7 +22,7 @@ class CantineUserSpec extends ObjectBehavior
         $student->getId()->willReturn($studentId);
         $student->getPerson()->willReturn($name);
         $student->getAllergies()->willReturn($allergens);
-
+        $student->getClass()->willReturn('Class');
         $this->beConstructedThrough('apply', [$student, $schedule]);
     }
     public function it_is_initializable()
@@ -49,7 +49,7 @@ class CantineUserSpec extends ObjectBehavior
         $this->belongsToGroup($group)->shouldReturn(true);
     }
 
-    public function it_can_say_if_user_will_be_eating_on_date(Schedule $schedule, \DateTime $anyDate)
+    public function it_can_say_if_user_will_be_eating_on_date(Schedule $schedule, \DateTimeImmutable $anyDate)
     {
         $schedule->isScheduledDate($anyDate)->willReturn(true);
         $this->shouldBeEatingOnDate($anyDate);
@@ -63,7 +63,7 @@ class CantineUserSpec extends ObjectBehavior
         $this->getStudentId()->shouldReturn($studentId);
     }
 
-    public function it_can_update_schedule(Schedule $schedule, Schedule $delta, Schedule $new, \DateTime $anyDate)
+    public function it_can_update_schedule(Schedule $schedule, Schedule $delta, Schedule $new, \DateTimeImmutable $anyDate)
     {
         $schedule->update($delta)
             ->shouldBeCalled()
@@ -89,7 +89,7 @@ class CantineUserSpec extends ObjectBehavior
         $this->isEnrolled()->shouldReturn(true);
     }
 
-    public function it_can_apply_without_schedule_getting_null_schedule($student, $studentId, $name, \DateTime $anyDate)
+    public function it_can_apply_without_schedule_getting_null_schedule($student, $studentId, $name, \DateTimeImmutable $anyDate)
     {
         $this->beConstructedThrough('apply', [$student]);
         $this->shouldNotBeEatingOnDate($anyDate);

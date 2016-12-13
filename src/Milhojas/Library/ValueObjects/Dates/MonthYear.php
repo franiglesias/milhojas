@@ -7,7 +7,7 @@ class MonthYear
     private $month;
     private $year;
 
-    private function __construct(\DateTime $date)
+    private function __construct(\DateTimeInterface $date)
     {
         $this->month = $date->format('m');
         $this->year = $date->format('Y');
@@ -31,7 +31,7 @@ class MonthYear
         return new self($date);
     }
 
-    public static function fromDate(\DateTime $date)
+    public static function fromDate(\DateTimeInterface $date)
     {
         return new self($date);
     }
@@ -51,7 +51,7 @@ class MonthYear
         return sprintf('%s/%s', $this->month, $this->year);
     }
 
-    public function dateBelongsToMe(\DateTime $date)
+    public function dateBelongsToMe(\DateTimeInterface $date)
     {
         return $date->format('m/Y') === (string) $this;
     }

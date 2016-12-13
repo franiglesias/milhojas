@@ -9,7 +9,7 @@ use PhpSpec\ObjectBehavior;
 
 class UserWasAssignedToCantineTurnSpec extends ObjectBehavior
 {
-    public function it_is_initializable(CantineUser $user, Turn $turn, \DateTime $date)
+    public function it_is_initializable(CantineUser $user, Turn $turn, \DateTimeImmutable $date)
     {
         $this->beConstructedWith($user, $turn, $date);
         $this->shouldHaveType(UserWasAssignedToCantineTurn::class);

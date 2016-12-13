@@ -11,7 +11,7 @@ class NullSchedule extends Schedule
     /**
      * {@inheritdoc}
      */
-    public function isScheduledDate(\DateTime $date)
+    public function isScheduledDate(\DateTimeInterface $date)
     {
         return $this->delegate($date);
     }

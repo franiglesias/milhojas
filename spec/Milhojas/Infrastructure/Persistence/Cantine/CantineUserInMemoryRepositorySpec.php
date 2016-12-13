@@ -26,7 +26,7 @@ class CantineUserInMemoryRepositorySpec extends ObjectBehavior
         $this->retrieve('student-01')->shouldBe($cantineUser);
     }
 
-    public function it_can_find_users_eating_today(\DateTime $date, CantineUser $user1, CantineUser $user2, CantineUser $user3, CantineUser $user4, CantineUserEatingOnDate $specification)
+    public function it_can_find_users_eating_today(\DateTimeImmutable $date, CantineUser $user1, CantineUser $user2, CantineUser $user3, CantineUser $user4, CantineUserEatingOnDate $specification)
     {
         $user1->getStudentId()->willReturn('student-01');
         $specification->isSatisfiedBy($user1)->shouldBeCalled()->willReturn(true);

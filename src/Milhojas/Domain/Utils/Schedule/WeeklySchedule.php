@@ -16,7 +16,7 @@ class WeeklySchedule extends Schedule
     /**
      * {@inheritdoc}
      */
-    public function isScheduledDate(\DateTime $date)
+    public function isScheduledDate(\DateTimeInterface $date)
     {
         $weekDay = strtolower($date->format('l'));
 

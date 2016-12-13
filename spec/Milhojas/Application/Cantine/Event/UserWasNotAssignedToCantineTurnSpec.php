@@ -8,7 +8,7 @@ use PhpSpec\ObjectBehavior;
 
 class UserWasNotAssignedToCantineTurnSpec extends ObjectBehavior
 {
-    public function it_is_initializable(CantineUser $user, \DateTime $date)
+    public function it_is_initializable(CantineUser $user, \DateTimeImmutable $date)
     {
         $this->beConstructedWith($user, $date);
         $this->shouldHaveType(UserWasNotAssignedToCantineTurn::class);

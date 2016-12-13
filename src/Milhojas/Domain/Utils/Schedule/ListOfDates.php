@@ -14,7 +14,7 @@ class ListOfDates extends Schedule implements \IteratorAggregate
     /**
      * {@inheritdoc}
      */
-    public function isScheduledDate(\DateTime $date)
+    public function isScheduledDate(\DateTimeInterface $date)
     {
         if (in_array($date, $this->schedule)) {
             return true;

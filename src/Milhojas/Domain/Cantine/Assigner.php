@@ -26,9 +26,9 @@ class Assigner
      * Dispatches UserWasAssignedToCantineTurn | UserWasNotAssignedToCantineTurn
      *
      * @param array     $users CantineUser
-     * @param \DateTime $date
+     * @param \DateTimeInterface $date
      */
-    public function assignUsersForDate($users, \DateTime $date)
+    public function assignUsersForDate($users, \DateTimeInterface $date)
     {
         foreach ($users as $user) {
             $turn = $this->ruleChain->assignsUserToTurn($user, $date);

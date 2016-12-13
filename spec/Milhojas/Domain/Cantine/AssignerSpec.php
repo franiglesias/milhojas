@@ -27,14 +27,14 @@ class AssignerSpec extends ObjectBehavior
         $this->shouldHaveType(Assigner::class);
     }
 
-    public function it_assigns_turns(CantineUser $user1, CantineUser $user2, \DateTime $date, $rule)
+    public function it_assigns_turns(CantineUser $user1, CantineUser $user2, \DateTimeImmutable $date, $rule)
     {
         $rule->assignsUserToTurn($user1, $date)->shouldBeCalled();
         $rule->assignsUserToTurn($user2, $date)->shouldBeCalled();
         $this->assignUsersForDate([$user1, $user2], $date);
     }
 
-    public function it_builds_cantine_list(CantineUser $user1, CantineUser $user2, \DateTime $date, $rule, Turn $turn)
+    public function it_builds_cantine_list(CantineUser $user1, CantineUser $user2, \DateTimeImmutable $date, $rule, Turn $turn)
     {
         $rule->assignsUserToTurn($user1, $date)->shouldBeCalled()->willReturn($turn);
 
@@ -44,7 +44,7 @@ class AssignerSpec extends ObjectBehavior
         $this->buildList($list, [$user1, $user2]);
     }
 
-    public function it_raise_events(CantineUser $user1, CantineUser $user2, \DateTime $date, $rule, $dispatcher, Turn $turn)
+    public function it_raise_events(CantineUser $user1, CantineUser $user2, \DateTimeImmutable $date, $rule, $dispatcher, Turn $turn)
     {
         $rule->assignsUserToTurn($user1, $date)->shouldBeCalled()->willReturn($turn);
         $rule->assignsUserToTurn($user2, $date)->shouldBeCalled()->willReturn(false);

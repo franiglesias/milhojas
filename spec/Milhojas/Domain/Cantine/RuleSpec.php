@@ -31,7 +31,7 @@ class RuleSpec extends ObjectBehavior
         $User,
         $turn,
         $group,
-        \DateTime $date,
+        \DateTimeImmutable $date,
         $schedule)
     {
         $schedule->isScheduledDate($date)->willReturn(true);
@@ -41,7 +41,7 @@ class RuleSpec extends ObjectBehavior
     public function it_does_not_appoint_user_if_schedule_does_not_match(
         $User,
         $group,
-        \DateTime $date,
+        \DateTimeImmutable $date,
         $schedule)
     {
         $schedule->isScheduledDate($date)->willReturn(false);
@@ -51,7 +51,7 @@ class RuleSpec extends ObjectBehavior
     public function it_does_not_appoint_user_if_group_does_not_match(
         $User,
         $group,
-        \DateTime $date,
+        \DateTimeImmutable $date,
         $schedule)
     {
         $schedule->isScheduledDate($date)->willReturn(true);
@@ -63,7 +63,7 @@ class RuleSpec extends ObjectBehavior
         $User,
         $turn,
         $schedule,
-        \DateTime $date,
+        \DateTimeImmutable $date,
         Rule $delegated
 
         ) {
@@ -76,7 +76,7 @@ class RuleSpec extends ObjectBehavior
     public function it_does_nothing_if_it_can_not_assign_user_and_there_is_no_more_rules_in_the_chain(
         $User,
         $schedule,
-        \DateTime $date,
+        \DateTimeImmutable $date,
         Rule $rule
 
         ) {
@@ -88,7 +88,7 @@ class RuleSpec extends ObjectBehavior
     public function it_returns_first_positive(
         $User,
         $schedule,
-        \DateTime $date,
+        \DateTimeImmutable $date,
         Rule $delegated,
         $turn
         ) {

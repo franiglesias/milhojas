@@ -31,7 +31,7 @@ class Activity
         return $this->name;
     }
 
-    public function isScheduledFor(\DateTime $date)
+    public function isScheduledFor(\DateTimeInterface $date)
     {
         return $this->schedule->isScheduledDate($date);
     }

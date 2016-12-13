@@ -11,7 +11,7 @@ class TicketSoldOnDate extends TicketSpecification
 {
     private $date;
 
-    public function __construct(\DateTime $date)
+    public function __construct(\DateTimeInterface $date)
     {
         $this->date = $date;
         $this->filter = 'all';

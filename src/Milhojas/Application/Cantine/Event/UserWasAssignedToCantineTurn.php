@@ -12,7 +12,7 @@ class UserWasAssignedToCantineTurn implements Event
     private $turn;
     private $date;
 
-    public function __construct(CantineUser $cantineUser, Turn $turn, \DateTime $date)
+    public function __construct(CantineUser $cantineUser, Turn $turn, \DateTimeInterface $date)
     {
         $this->user = $cantineUser;
         $this->turn = $turn;

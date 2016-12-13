@@ -9,7 +9,7 @@ use PhpSpec\ObjectBehavior;
 
 class TicketSpec extends ObjectBehavior
 {
-    public function let(CantineUser $user, \DateTime $date)
+    public function let(CantineUser $user, \DateTimeImmutable $date)
     {
         $this->beConstructedWith($user, $date);
     }
@@ -18,7 +18,7 @@ class TicketSpec extends ObjectBehavior
         $this->shouldHaveType(Ticket::class);
     }
 
-    public function it_can_tell_date(\DateTime $date)
+    public function it_can_tell_date(\DateTimeImmutable $date)
     {
         $this->getDate()->shouldBe($date);
     }

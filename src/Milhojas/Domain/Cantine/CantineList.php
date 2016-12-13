@@ -10,9 +10,9 @@ class CantineList extends \SplMinHeap
 {
     private $date;
     /**
-     * @param DateTime $date
+     * @param DateTimeInterface $date
      */
-    public function __construct(\DateTime $date)
+    public function __construct(\DateTimeInterface $date)
     {
         $this->date = $date;
     }

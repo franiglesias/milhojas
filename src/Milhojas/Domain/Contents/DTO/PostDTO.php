@@ -52,7 +52,7 @@ class PostDTO
     /**
      * Set pubDate
      *
-     * @param \DateTime $pubDate
+     * @param \DateTimeInterface $pubDate
      *
      * @return Post
      */
@@ -76,7 +76,7 @@ class PostDTO
     /**
      * Set expiration
      *
-     * @param \DateTime $expiration
+     * @param \DateTimeInterface $expiration
      *
      * @return Post
      */

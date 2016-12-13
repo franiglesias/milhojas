@@ -30,7 +30,7 @@ class ActivitiesUserSpec extends ObjectBehavior
         $this->shouldNotBeEnrolledTo(new ActivityHasName('Robotics'));
     }
 
-    public function it_can_tell_if_has_scheduled_activities(\Datetime $date, Activity $activity)
+    public function it_can_tell_if_has_scheduled_activities(\DateTimeImmutable $date, Activity $activity)
     {
         $activity->isScheduledFor($date)->willReturn(true);
         $this->enrollTo($activity);

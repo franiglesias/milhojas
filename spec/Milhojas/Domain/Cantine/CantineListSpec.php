@@ -9,7 +9,7 @@ use PhpSpec\ObjectBehavior;
 
 class CantineListSpec extends ObjectBehavior
 {
-    public function let(\DateTime $date)
+    public function let(\DateTimeImmutable $date)
     {
         $this->beConstructedWith($date);
     }

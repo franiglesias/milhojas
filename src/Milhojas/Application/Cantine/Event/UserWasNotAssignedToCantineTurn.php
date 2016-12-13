@@ -10,7 +10,7 @@ class UserWasNotAssignedToCantineTurn implements Event
     private $user;
     private $date;
 
-    public function __construct(CantineUser $cantineUser, \DateTime $date)
+    public function __construct(CantineUser $cantineUser, \DateTimeInterface $date)
     {
         $this->user = $cantineUser;
         $this->date = $date;

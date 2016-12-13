@@ -9,7 +9,7 @@ class ActivityScheduledOn implements ActivitySpecification
     private $date;
 
     /**
-     * @param \DateTime $date
+     * @param \DateTimeInterface $date
      */
     public function __construct($date)
     {

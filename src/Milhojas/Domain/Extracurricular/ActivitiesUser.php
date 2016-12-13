@@ -41,7 +41,7 @@ class ActivitiesUser
         return false;
     }
 
-    public function hasScheduledActivitiesOn(\DateTime $date)
+    public function hasScheduledActivitiesOn(\DateTimeInterface $date)
     {
         foreach ($this->activities as $activity) {
             if ($activity->isScheduledFor($date)) {

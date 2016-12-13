@@ -16,7 +16,7 @@ class MonthWeekSchedule extends Schedule
     /**
      * {@inheritdoc}
      */
-    public function isScheduledDate(\DateTime $date)
+    public function isScheduledDate(\DateTimeInterface $date)
     {
         if ($this->thereIsAppointmentToThisDate($date)) {
             return true;
@@ -25,7 +25,7 @@ class MonthWeekSchedule extends Schedule
         return $this->delegate($date);
     }
 
-    private function thereIsAppointmentToThisDate(\DateTime $date)
+    private function thereIsAppointmentToThisDate(\DateTimeInterface $date)
     {
         $month = strtolower($date->format('F'));
 

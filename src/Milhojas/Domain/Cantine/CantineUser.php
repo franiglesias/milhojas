@@ -47,11 +47,11 @@ class CantineUser implements Sortable
     /**
      * Tells if the User is expected to use the cantine on date provided.
      *
-     * @param \DateTime $date
+     * @param \DateTimeInterface $date
      *
      * @return bool
      */
-    public function isEatingOnDate(\DateTime $date)
+    public function isEatingOnDate(\DateTimeInterface $date)
     {
         return $this->schedule->isScheduledDate($date);
     }

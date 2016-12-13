@@ -10,10 +10,10 @@ use Prophecy\Argument;
 
 class TicketSoldOnDateSpec extends ObjectBehavior
 {
-    public function let(\DateTime $date)
+    public function let(\DateTimeImmutable $date)
     {
         $date->format('%d')->willReturn(0);
-        $date->diff(Argument::type(\DateTime::class))->willReturn($date);
+        $date->diff(Argument::type(\DateTimeInterface::class))->willReturn($date);
         $this->beConstructedWith($date);
     }
     public function it_is_initializable()
@@ -29,28 +29,28 @@ class TicketSoldOnDateSpec extends ObjectBehavior
         $this->shouldBeSatisfiedBy($ticket);
     }
 
-    public function it_can_filter_only_paid(Ticket $ticket, \DateTime $date)
+    public function it_can_filter_only_paid(Ticket $ticket, \DateTimeImmutable $date)
     {
         $ticket->isPaid()->willReturn(true);
         $ticket->getDate()->willReturn($date);
         $this->onlyPaid()->shouldBeSatisfiedBy($ticket);
     }
 
-    public function it_can_filter_only_paid_excluding_pending(Ticket $ticket, \DateTime $date)
+    public function it_can_filter_only_paid_excluding_pending(Ticket $ticket, \DateTimeImmutable $date)
     {
         $ticket->isPaid()->willReturn(false);
         $ticket->getDate()->willReturn($date);
         $this->onlyPaid()->shouldNotBeSatisfiedBy($ticket);
     }
 
-    public function it_can_filter_only_pending(Ticket $ticket, \DateTime $date)
+    public function it_can_filter_only_pending(Ticket $ticket, \DateTimeImmutable $date)
     {
         $ticket->isPaid()->willReturn(false);
         $ticket->getDate()->willReturn($date);
         $this->onlyPending()->shouldBeSatisfiedBy($ticket);
     }
 
-    public function it_can_filter_only_pending_excluding_paid(Ticket $ticket, \DateTime $date)
+    public function it_can_filter_only_pending_excluding_paid(Ticket $ticket, \DateTimeImmutable $date)
     {
         $ticket->isPaid()->willReturn(true);
         $ticket->getDate()->willReturn($date);

@@ -53,7 +53,7 @@ class Rule
      *
      * @return bool true if uesr was assigned
      */
-    public function assignsUserToTurn(CantineUser $User, \DateTime $date)
+    public function assignsUserToTurn(CantineUser $User, \DateTimeInterface $date)
     {
         if (!$this->isApplicable($date, $User)) {
             return $this->delegate($User, $date);
@@ -70,7 +70,7 @@ class Rule
      *
      * @return bool true if all conditions are met
      */
-    public function isApplicable(\DateTime $date, CantineUser $User)
+    public function isApplicable(\DateTimeInterface $date, CantineUser $User)
     {
         return $this->isApplicableOnThisDate($date)
             && $this->isApplicableToTheGroupOfTheUser($User);
@@ -104,16 +104,16 @@ class Rule
     /**
      * Rule can be applied on this date givenits schedule.
      *
-     * @param \DateTime $date [Description]
+     * @param \DateTimeInterface $date [Description]
      *
      * @return bool
      */
-    private function isApplicableOnThisDate(\DateTime $date)
+    private function isApplicableOnThisDate(\DateTimeInterface $date)
     {
         return $this->schedule->isScheduledDate($date);
     }
 
-    private function delegate(CantineUser $User, \DateTime $date)
+    private function delegate(CantineUser $User, \DateTimeInterface $date)
     {
         if (!$this->next) {
             return false;

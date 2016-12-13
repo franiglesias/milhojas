@@ -10,11 +10,11 @@ abstract class Schedule
     /**
      * Tells if the given date is on the schedule.
      *
-     * @param \DateTime $date
+     * @param \DateTimeInterface $date
      *
      * @return bool true if dates is on schedule
      */
-    abstract public function isScheduledDate(\DateTime $date);
+    abstract public function isScheduledDate(\DateTimeInterface $date);
 
      /**
       * Merges current schedule with a new schedule.
@@ -53,11 +53,11 @@ abstract class Schedule
     /**
      * Utility method delegates to the next schedule in the chain or returns false if it's the last.
      *
-     * @param \DateTime $date
+     * @param \DateTimeInterface $date
      *
      * @return bool true if the date is on schedule in the delegate, false if thers is no mor schedules in the chain
      */
-    protected function delegate(\DateTime $date)
+    protected function delegate(\DateTimeInterface $date)
     {
         if (!$this->next) {
             return false;

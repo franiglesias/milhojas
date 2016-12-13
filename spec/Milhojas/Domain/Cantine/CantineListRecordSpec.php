@@ -10,7 +10,7 @@ use PhpSpec\ObjectBehavior;
 
 class CantineListRecordSpec extends ObjectBehavior
 {
-    public function let(\DateTime $date, CantineUser $user, Turn $turn)
+    public function let(\DateTimeImmutable $date, CantineUser $user, Turn $turn)
     {
         $this->beConstructedWith($date, $turn, $user);
     }

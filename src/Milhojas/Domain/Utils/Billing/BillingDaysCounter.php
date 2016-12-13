@@ -4,6 +4,7 @@ namespace Milhojas\Domain\Utils\Billing;
 
 use Milhojas\Domain\Utils\Schedule\Schedule;
 use Milhojas\Library\ValueObjects\Dates\MonthYear;
+use League\Period\Period;
 
 class BillingDaysCounter
 {
@@ -25,11 +26,10 @@ class BillingDaysCounter
     public function forMonth(MonthYear $month)
     {
         $count = 0;
-        $days = $month->hasDays();
         list($month, $year) = explode('/', $month->asString());
-        for ($day = 1; $day <= $days; ++$day) {
-            $date = new \DateTime(sprintf('%s/%s/%s', $month, $day, $year));
-            $count += $this->schedule->isScheduledDate($date) ? 1 : 0;
+        $period = Period::createFromMonth($year, $month);
+        foreach ($period->getDatePeriod('1 DAY') as $day) {
+            $count += $this->schedule->isScheduledDate($day) ? 1 : 0;
         }
 
         return $count;

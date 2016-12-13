@@ -1,196 +1,195 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-<div class="row">
-	<div class="medium-6 medium-centered large-6 large-centered columns">
-		<h2>Las nóminas se están distribuyendo</h2>
-		<p>El proceso durará varios minutos y no es necesario que permanezcas en esta pantalla. Se enviará un email con el resultado.</p>
-		<p>El cuadro inferior se actualiza automáticamente para mostrar el proceso de envío y sus resultados.</p>
+    <div class="row">
+        <div class="medium-6 medium-centered large-6 large-centered columns">
+            <h2>Las nóminas se están distribuyendo</h2>
+            <p>El proceso durará varios minutos y no es necesario que permanezcas en esta pantalla. Se enviará un email con el resultado.</p>
+            <p>El cuadro inferior se actualiza automáticamente para mostrar el proceso de envío y sus resultados.</p>
 
-<!-- Monitor progress is shown here -->
+            <!-- Monitor progress is shown here -->
 
-		<p id="feedback"></p>
+            <p id="feedback"></p>
 
-<!-- This button only appears when the delivery is over -->
+            <!-- This button only appears when the delivery is over -->
 
+            <p id="allow-new">
+                <a href="{{ path('payroll-upload') }}" class="hollow button expanded">¿Deseas enviar otra nómina?</a>
+            </p>
+        </div>
 
-		<p id="allow-new"><a href="{{ path('payroll-upload') }}" class="hollow button expanded">¿Deseas enviar otra nómina?</a></p>
-	</div>
+        <!-- results of monitoring -->
 
-<!-- results of monitoring -->
+        <div class="medium-6 medium-centered columns">
+            <p>
+                <strong>Seguimiento del envío de nóminas.</strong>
+            </p>
 
-	<div class="medium-6 medium-centered columns">
-		<p><strong>Seguimiento del envío de nóminas.</strong></p>
+            <!-- progress bar -->
 
-<!-- progress bar -->
+            <div id="payroll-progress" class="success progress" role="progressbar" tabindex="0" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                <span class="progress-meter" style="width: 0%">
+                    <p class="progress-meter-text">0%</p>
+                </span>
+            </div>
 
-		<div id="payroll-progress" class="success progress" role="progressbar" tabindex="0" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-		  <span class="progress-meter" style="width: 0%"><p class="progress-meter-text">0%</p></span>
-		</div>
+            <!-- statistics -->
 
-<!-- statistics -->
+            <div class="row small-up-2 medium-up-4 large-up-4 collapse">
+                <div class="column stats-display info">
+                    <p class="header">
+                        <i class="fi-torsos-all"></i>Empleados</p>
+                    <p id='payroll-employee' class="body">0</p>
+                </div>
+                <div class="column stats-display success">
+                    <p class="header">Enviados</p>
+                    <p id='payroll-sent' class="body">0</p>
 
-		<div class="row small-up-2 medium-up-4 large-up-4 collapse">
-		  <div class="column stats-display info">
-			  <p class="header"><i class="fi-torsos-all"></i>Empleados</p>
-			  <p id='payroll-employee' class="body">0</p>
-		  </div>
-		  <div class="column stats-display success">
-			  <p class="header">Enviados</p>
-			  <p id='payroll-sent' class="body">0</p>
+                </div>
+                <div class="column stats-display warning">
+                    <p class=" header">No se encontró</p>
+                    <p id='payroll-not-found' class="body">0</p>
 
-		  </div>
-		  <div class="column stats-display warning">
-			  <p class=" header">No se encontró</p>
-			  <p id='payroll-not-found' class="body">0</p>
+                </div>
+                <div class="column stats-display alert">
+                    <p class="header">No se envió</p>
+                    <p id='payroll-failed' class="body">0</p>
+                </div>
+            </div>
 
-		  </div>
-		  <div class="column stats-display alert">
-			  <p class="header">No se envió</p>
-			  <p id='payroll-failed' class="body">0</p>
-		  </div>
-		</div>
-
-	</div>
-</div>
+        </div>
+    </div>
 {% endblock %}
 
-
 {% block pagescripts %}
-<script type="text/javascript">
+    <script type="text/javascript">
 
-// this class contains progress information
+        // this class contains progress information
 
-	function Progress() {
+        function Progress() {
 
-		this.update = function (data) {
-			this.current = data.current;
-			this.total = data.total;
-			this.sent = data.sent;
-			this.notFound = data.notFound;
-			this.failed = data.failed;
-		}
+            this.update = function(data) {
+                this.current = data.current;
+                this.total = data.total;
+                this.sent = data.sent;
+                this.notFound = data.notFound;
+                this.failed = data.failed;
+            }
 
-		this.asPCT = function() {
-			if (this.notStarted()) {
-				return '0%';
-			}
-			return Math.round(100*this.current/this.total).toString()+'%';
-		};
+            this.asPCT = function() {
+                if (this.notStarted()) {
+                    return '0%';
+                }
+                return Math.round(100 * this.current / this.total).toString() + '%';
+            };
 
-		this.employeeCount = function() {
-			if (this.notStarted()) {
-				return '?';
-			}
-			return this.current+'<small>/'+this.total+'</small>';
-		};
+            this.employeeCount = function() {
+                if (this.notStarted()) {
+                    return '?';
+                }
+                return this.current + '<small>/' + this.total + '</small>';
+            };
 
-		this.thereArePending = function() {
-			return this.current < this.total;
-		}
+            this.thereArePending = function() {
+                return this.current < this.total;
+            }
 
-		this.notStarted = function () {
-			return (typeof this.total === 'undefined');
-		}
-	};
+            this.notStarted = function() {
+                return (typeof this.total === 'undefined');
+            }
+        };
 
-// Manages a progress Foundation 6 progress bar
+        // Manages a progress Foundation 6 progress bar
 
-	function ProgressBar(selector, theProgress) {
-		this.selector = selector;
-		this.progress = theProgress;
+        function ProgressBar(selector, theProgress) {
+            this.selector = selector;
+            this.progress = theProgress;
 
-		this.update = function () {
-			$(this.selector).attr('aria-valuenow', this.progress.current);
-			$(this.selector).attr('aria-valuemax', this.progress.total);
-			$(this.selector+' .progress-meter').width(this.progress.asPCT());
-			$(this.selector+' .progress-meter .progress-meter-text').html(this.progress.asPCT());
-		}
-	}
+            this.update = function() {
+                $(this.selector).attr('aria-valuenow', this.progress.current);
+                $(this.selector).attr('aria-valuemax', this.progress.total);
+                $(this.selector + ' .progress-meter').width(this.progress.asPCT());
+                $(this.selector + ' .progress-meter .progress-meter-text').html(this.progress.asPCT());
+            }
+        }
 
-// Manages a simple stats viewer
+        // Manages a simple stats viewer
 
-	function Stats(theProgress) {
-		this.progress = theProgress;
-		this.update = function () {
-			$('#payroll-employee').html(this.progress.employeeCount());
-			$('#payroll-sent').html(this.progress.sent);
-			$('#payroll-not-found').html(this.progress.notFound);
-			$('#payroll-failed').html(this.progress.failed);
-		}
-	}
+        function Stats(theProgress) {
+            this.progress = theProgress;
+            this.update = function() {
+                $('#payroll-employee').html(this.progress.employeeCount());
+                $('#payroll-sent').html(this.progress.sent);
+                $('#payroll-not-found').html(this.progress.notFound);
+                $('#payroll-failed').html(this.progress.failed);
+            }
+        }
 
-// Manages a simple feedback container
+        // Manages a simple feedback container
 
-	function Feedback(selector, initial, running, ended) {
-		this.selector = selector;
-		this.initial = initial;
-		this.running = running;
-		this.ended = ended;
+        function Feedback(selector, initial, running, ended) {
+            this.selector = selector;
+            this.initial = initial;
+            this.running = running;
+            this.ended = ended;
 
-		this.start = function() {
-			$(this.selector).hide();
-			$(this.selector).addClass('alert callout')
-			$(this.selector).html(this.initial);
-			$(this.selector).fadeIn();
-		}
+            this.start = function() {
+                $(this.selector).hide();
+                $(this.selector).addClass('alert callout')
+                $(this.selector).html(this.initial);
+                $(this.selector).fadeIn();
+            }
 
-		this.run = function () {
-			$(this.selector).removeClass('alert callout')
-			$(this.selector).addClass('info callout');
-			$(this.selector).html(this.running);
-		}
+            this.run = function() {
+                $(this.selector).removeClass('alert callout')
+                $(this.selector).addClass('info callout');
+                $(this.selector).html(this.running);
+            }
 
-		this.end = function () {
-			$(this.selector).removeClass('info callout')
-			$(this.selector).addClass('success callout');
-			$(this.selector).html(this.ended);
-		}
-	}
+            this.end = function() {
+                $(this.selector).removeClass('info callout')
+                $(this.selector).addClass('success callout');
+                $(this.selector).html(this.ended);
+            }
+        }
 
+        function PayrollResults(progress, bar, viewer, message) {
+            this.progress = progress;
+            this.progressBar = bar;
+            this.statsViewer = viewer;
+            this.message = message;
 
-function PayrollResults (progress, bar, viewer, message) {
-		this.progress = progress;
-		this.progressBar = bar;
-		this.statsViewer = viewer;
-		this.message = message;
+            this.run = function() {
+                this.message.start();
+                $('#allow-new').hide();
+                this.update();
+            }
 
-		this.run = function () {
-			this.message.start();
-			$('#allow-new').hide();
-			this.update();
-		}
+            this.update = function() {
+                $.getJSON("{{ path('exchange', {'file': 'management-payroll-reporter'}) }}", function(data) {}).done(function(data) {
+                    results.message.run();
+                    results.progress.update(data);
+                    if (results.progress.notStarted()) {
+                        setTimeout(results.update, 1000);
+                        return;
+                    }
+                    results.progressBar.update();
+                    results.statsViewer.update();
+                    if (results.progress.thereArePending()) {
+                        setTimeout(results.update, 1000);
+                    } else {
+                        results.message.end();
+                        $('#allow-new').fadeIn("slow");
+                    }
+                }).fail(function(data) {
+                    setTimeout(results.update, 1000);
+                }).always();
+            }
 
-		this.update = function() {
-			$.getJSON("{{ path('exchange', {'file': 'management-payroll-reporter'}) }}", function(data) {})
-			.done(function(data) {
-				results.message.run();
-				results.progress.update(data);
-				results.progressBar.update();
-				results.statsViewer.update();
-				if (results.progress.thereArePending()) {
-					setTimeout(results.update, 1000);
-				} else {
-					results.message.end();
-					$('#allow-new').fadeIn("slow");
-				}
-			})
-			.fail( function (data) {
-				setTimeout(results.update, 1000);
-			})
-			.always();
-		}
+        };
 
-};
+        var theProgress = new Progress();
+        var results = new PayrollResults(theProgress, new ProgressBar('#payroll-progress', theProgress), new Stats(theProgress), new Feedback('#feedback', 'Esperando', 'Corriendo', 'Terminado'));
 
-var theProgress = new Progress();
-var results = new PayrollResults(
-	theProgress,
-	new ProgressBar('#payroll-progress', theProgress),
-	new Stats(theProgress),
-	new Feedback('#feedback', 'Esperando', 'Corriendo', 'Terminado')
-);
-
-results.run();
-
-</script>
+        results.run();
+    </script>
 {% endblock %}

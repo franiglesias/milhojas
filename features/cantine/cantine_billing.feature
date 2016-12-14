@@ -7,7 +7,7 @@ Feature: Cantine regular users billing
     Scenario: Month with several users
         Given There are some regular users
             | name | surname | gender | class | student_id | group | type | schedule |
-            | Pedro | Pérez | m | EP 3 C | student-01 | Grupo 1 | regular | november: monday, wednesday |
+            | Pedro | Pérez | m | EP 3 C | student-01 | Grupo 1 | regular | november: monday, wednesday, friday |
             | Eva | Fernández | f | EP 5 A | student-02 | Grupo 2 | ticket | 11/14/2016 |
             | Luis | Rodríguez | m | ESO 1 A | student-03 | Grupo 3 | regular | november: tuesday, friday |
             | Isabel | López | f | ESO 4 B | student-04 | Grupo 4 | ticket | 11/25/2016 |

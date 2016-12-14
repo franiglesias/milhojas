@@ -2,6 +2,7 @@
 
 namespace Milhojas\Domain\Cantine;
 
+use League\Period\Period;
 use Milhojas\Domain\Cantine\Exception\InvalidTicket;
 use Milhojas\Domain\Shared\Student;
 use Milhojas\Domain\Utils\Schedule\Schedule;
@@ -9,7 +10,6 @@ use Milhojas\Domain\Utils\Schedule\NullSchedule;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Library\Sortable\Sortable;
 use Milhojas\Library\ValueObjects\Identity\Person;
-use Milhojas\Library\ValueObjects\Dates\MonthYear;
 
 /**
  * Represents a CantineUser.
@@ -151,13 +151,13 @@ class CantineUser implements Sortable
         return $this->allergens;
     }
 
-    public function isBillableOn(MonthYear $month)
+    public function isBillableOn(Period $month)
     {
-        return $this->schedule->hasDaysInMonth($month);
+        return $this->schedule->scheduledDays($month) > 0;
     }
 
-    public function getBillableDaysOn(MonthYear $month)
+    public function getBillableDaysOn(Period $month)
     {
-        return $this->schedule->getDaysInMonth($month);
+        return $this->schedule->scheduledDays($month);
     }
 }

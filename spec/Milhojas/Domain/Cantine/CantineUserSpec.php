@@ -2,6 +2,7 @@
 
 namespace spec\Milhojas\Domain\Cantine;
 
+use League\Period\Period;
 use Milhojas\Domain\Cantine\Allergens;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineGroup;
@@ -13,7 +14,6 @@ use Milhojas\Domain\Utils\Schedule\Schedule;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Library\ValueObjects\Identity\Person;
 use Milhojas\Library\Sortable\Sortable;
-use Milhojas\Library\ValueObjects\Dates\MonthYear;
 use PhpSpec\ObjectBehavior;
 
 class CantineUserSpec extends ObjectBehavior
@@ -125,10 +125,9 @@ class CantineUserSpec extends ObjectBehavior
         $this->getAllergens()->shouldBe($allergens);
     }
 
-    public function it_cant_tell_if_is_billable_on_month(MonthYear $month, $schedule)
+    public function it_cant_tell_if_is_billable_on_month(Period $month, $schedule)
     {
-        $schedule->hasDaysInMonth($month)->willReturn(true);
-        $schedule->getDaysInMonth($month)->willReturn(3);
+        $schedule->scheduledDays($month)->willReturn(3);
         $this->shouldBeBillableOn($month);
         $this->getBillableDaysOn($month)->shouldBe(3);
     }

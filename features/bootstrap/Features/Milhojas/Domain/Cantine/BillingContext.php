@@ -3,7 +3,6 @@
 namespace Features\Milhojas\Domain\Cantine;
 
 use Behat\Behat\Context\Context;
-use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Gherkin\Node\TableNode;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Domain\Utils\Schedule\MonthWeekSchedule;
@@ -12,7 +11,9 @@ use Milhojas\Domain\Shared\StudentId;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineGroup;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
+use Milhojas\Domain\Cantine\Specification\BillableThisMonth;
 use Milhojas\LIbrary\ValueObjects\Identity\Person;
+use League\Period\Period;
 
 /**
  * Defines application features from the specific context.
@@ -78,8 +79,20 @@ class BillingContext implements Context
      */
     public function iGenerateBillsForMonth($month)
     {
+        list($month, $year) = explode(' ', $month);
+        $date = new \DateTime('1st '.$month.' '.$year);
+        $month = $date->format('m');
+        $month = Period::createFromMonth($year, $month);
         $billable = $this->CantineUserRepository->find(new BillableThisMonth($month));
-        throw new PendingException();
+        $this->result = [];
+        foreach ($billable as $user) {
+            $days = $user->getBillableDaysOn($month);
+            $this->result[] = [
+                'student' => $user->getPerson()->getListName(),
+                'days' => $days,
+                'amount' => $this->priceList[$days],
+            ];
+        }
     }
 
     /**
@@ -87,7 +100,9 @@ class BillingContext implements Context
      */
     public function iShouldGetAListOfUsersLikeThis(TableNode $table)
     {
-        throw new PendingException();
+        if ($this->result != $table->getHash()) {
+            throw new \Exception('Billing info doesn\'t match');
+        }
     }
 
     /**

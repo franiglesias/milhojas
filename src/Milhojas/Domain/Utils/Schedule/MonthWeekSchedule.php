@@ -2,7 +2,6 @@
 
 namespace Milhojas\Domain\Utils\Schedule;
 
-use Milhojas\Domain\Utils\Billing\BillingDaysCounter;
 use League\Period\Period;
 
 class MonthWeekSchedule extends Schedule
@@ -46,17 +45,18 @@ class MonthWeekSchedule extends Schedule
         }
     }
 
-    public function countDays(BillingDaysCounter $counter)
-    {
-        throw new \LogicException('Not implemented'); // TODO
-    }
-
     /**
      * {@inheritdoc}
      */
     public function scheduledDays(Period $period)
     {
-        throw new \LogicException('Not implemented'); // TODO
+        $month = $period->getStartDate()->format('F');
+        $month = strtolower($month);
+        if (!isset($this->schedule[$month])) {
+            return 0;
+        }
+
+        return $this->schedule[$month]->scheduledDays($period);
     }
 
     /**

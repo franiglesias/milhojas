@@ -2,6 +2,7 @@
 
 namespace spec\Milhojas\Domain\Utils\Schedule;
 
+use League\Period\Period;
 use Milhojas\Domain\Utils\Schedule\Schedule;
 use Milhojas\Domain\Utils\Schedule\NullSchedule;
 use PhpSpec\ObjectBehavior;
@@ -24,5 +25,17 @@ class NullScheduleSpec extends ObjectBehavior
     {
         $theNewSchedule = new NullSchedule();
         $this->update($theNewSchedule)->shouldBe($theNewSchedule);
+    }
+
+    public function it_can_count_scheduled_days(Period $period)
+    {
+        $this->scheduledDays($period)->shouldBe(0);
+    }
+
+    public function it_delegates_count_of_scheduled_days(Period $period, Schedule $delegated)
+    {
+        $delegated->scheduledDays($period)->willReturn(3);
+        $this->setNext($delegated);
+        $this->scheduledDays($period)->shouldBe(3);
     }
 }

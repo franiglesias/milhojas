@@ -3,12 +3,11 @@
 namespace Milhojas\Domain\Utils\Schedule;
 
 use League\Period\Period;
-use Milhojas\Domain\Utils\Billing\BillingDaysCounter;
 
 abstract class Schedule
 {
     protected $schedule;
-    private $next;
+    protected $next = null;
 
     /**
      * Tells if the given date is on the schedule.
@@ -18,12 +17,6 @@ abstract class Schedule
      * @return bool true if dates is on schedule
      */
     abstract public function isScheduledDate(\DateTimeInterface $date);
-    /**
-     * Counts effective days in the schedule in a Month for billing purposes, so usually they are week basis.
-     *
-     * @param BillingDaysCounter $counter
-     */
-    abstract public function countDays(BillingDaysCounter $counter);
     abstract public function scheduledDays(Period $period);
     abstract public function realDays(Period $period);
      /**
@@ -33,7 +26,7 @@ abstract class Schedule
       *
       * @return Schedule A new instance with the updated schedule
       *
-      * @throws InvalidArgumentException If passed Schedule isn't of the same type
+      * @throws \InvalidArgumentException If passed Schedule isn't of the same type
       */
      public function update(Schedule $delta)
      {

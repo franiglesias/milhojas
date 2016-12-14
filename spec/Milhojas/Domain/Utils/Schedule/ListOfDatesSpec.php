@@ -5,7 +5,9 @@ namespace spec\Milhojas\Domain\Utils\Schedule;
 use Milhojas\Domain\Utils\Schedule\Schedule;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Domain\Utils\Schedule\NullSchedule;
+use League\Period\Period;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
 
 class ListOfDatesSpec extends ObjectBehavior
 {
@@ -59,7 +61,7 @@ class ListOfDatesSpec extends ObjectBehavior
         $this->shouldBeScheduledDate($dateNotInOriginalSchedule);
     }
 
-    public function it_can_not_update_with_a_schedule_of_another_type()
+    public function it_cannot_update_with_a_schedule_of_another_type()
     {
         $this->shouldThrow(\InvalidArgumentException::class)->during('update', [new NullSchedule()]);
     }
@@ -69,5 +71,16 @@ class ListOfDatesSpec extends ObjectBehavior
         foreach ($this->getWrappedObject() as $date) {
             $this->shouldBeScheduledDate($date);
         }
+    }
+
+    public function it_does_not_have_scheduled_days(Period $period)
+    {
+        $this->scheduledDays($period)->shouldBe(0);
+    }
+
+    public function it_can_tell_real_days(Period $period)
+    {
+        $period->contains(Argument::any())->willReturn(true);
+        $this->realDays($period)->shouldBe(2);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Milhojas\Domain\Utils\Schedule;
 
-use Milhojas\Domain\Utils\Billing\BillingDaysCounter;
 use League\Period\Period;
 
 class ListOfDates extends Schedule implements \IteratorAggregate
@@ -28,7 +27,7 @@ class ListOfDates extends Schedule implements \IteratorAggregate
 
     private function isValidDate($date)
     {
-        if (!$date instanceof \DateTime) {
+        if (!$date instanceof \DateTimeInterface) {
             throw new \InvalidArgumentException(sprintf('%s is not an object of type DateTime', $date));
         }
     }
@@ -42,17 +41,9 @@ class ListOfDates extends Schedule implements \IteratorAggregate
     /**
      * {@inheritdoc}
      */
-    public function countDays(BillingDaysCounter $counter)
-    {
-        throw new \LogicException('Not implemented'); // TODO
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function scheduledDays(Period $period)
     {
-        throw new \LogicException('Not implemented'); // TODO
+        return 0;
     }
 
     /**
@@ -60,6 +51,11 @@ class ListOfDates extends Schedule implements \IteratorAggregate
      */
     public function realDays(Period $period)
     {
-        throw new \LogicException('Not implemented'); // TODO
+        $count = 0;
+        foreach ($this->schedule as $date) {
+            $count += $period->contains($date) ? 1 : 0;
+        }
+
+        return $count;
     }
 }

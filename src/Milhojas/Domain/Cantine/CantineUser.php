@@ -9,6 +9,7 @@ use Milhojas\Domain\Utils\Schedule\NullSchedule;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Library\Sortable\Sortable;
 use Milhojas\Library\ValueObjects\Identity\Person;
+use Milhojas\Library\ValueObjects\Dates\MonthYear;
 
 /**
  * Represents a CantineUser.
@@ -148,5 +149,15 @@ class CantineUser implements Sortable
     public function getAllergens()
     {
         return $this->allergens;
+    }
+
+    public function isBillableOn(MonthYear $month)
+    {
+        return $this->schedule->hasDaysInMonth($month);
+    }
+
+    public function getBillableDaysOn(MonthYear $month)
+    {
+        return $this->schedule->getDaysInMonth($month);
     }
 }

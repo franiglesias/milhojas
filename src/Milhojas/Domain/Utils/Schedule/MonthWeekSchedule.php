@@ -2,6 +2,9 @@
 
 namespace Milhojas\Domain\Utils\Schedule;
 
+use Milhojas\Domain\Utils\Billing\BillingDaysCounter;
+use League\Period\Period;
+
 class MonthWeekSchedule extends Schedule
 {
     public function __construct($schedule)
@@ -29,7 +32,7 @@ class MonthWeekSchedule extends Schedule
     {
         $month = strtolower($date->format('F'));
 
-        if (!isset($this->schedule[($month)])) {
+        if (!isset($this->schedule[$month])) {
             return false;
         }
 
@@ -41,5 +44,26 @@ class MonthWeekSchedule extends Schedule
         if (!in_array($month, ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'october', 'november', 'december'])) {
             throw new \InvalidArgumentException(sprintf('%s is not a valid month', $month));
         }
+    }
+
+    public function countDays(BillingDaysCounter $counter)
+    {
+        throw new \LogicException('Not implemented'); // TODO
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function scheduledDays(Period $period)
+    {
+        throw new \LogicException('Not implemented'); // TODO
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function realDays(Period $period)
+    {
+        throw new \LogicException('Not implemented'); // TODO
     }
 }

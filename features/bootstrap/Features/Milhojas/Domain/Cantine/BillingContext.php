@@ -20,6 +20,7 @@ use Milhojas\LIbrary\ValueObjects\Identity\Person;
 class BillingContext implements Context
 {
     private $cantineUserRepostory;
+    private $priceList;
     /**
      * Initializes context.
      *
@@ -60,23 +61,24 @@ class BillingContext implements Context
             $User->assignToGroup(new CantineGroup($row['group']));
             $this->CantineUserRepository->store($User);
         }
-
-        throw new PendingException();
     }
 
     /**
      * @Given prices are the following
      */
-    public function pricesAreTheFollowing(TableNode $table)
+    public function pricesAreTheFollowing(TableNode $priceTable)
     {
-        throw new PendingException();
+        foreach ($priceTable->getHash() as $value) {
+            $this->priceList[$value['days']] = $value['price'];
+        }
     }
 
     /**
-     * @When I generate bills for month :arg1
+     * @When I generate bills for month :month
      */
-    public function iGenerateBillsForMonth($arg1)
+    public function iGenerateBillsForMonth($month)
     {
+        $billable = $this->CantineUserRepository->find(new BillableThisMonth($month));
         throw new PendingException();
     }
 

@@ -64,7 +64,7 @@ class ListOfDatesSpec extends ObjectBehavior
         $this->shouldThrow(\InvalidArgumentException::class)->during('update', [new NullSchedule()]);
     }
 
-    public function its_dates_are_accesible_a_an_array()
+    public function its_dates_are_accesible_as_an_array()
     {
         foreach ($this->getWrappedObject() as $date) {
             $this->shouldBeScheduledDate($date);

@@ -13,6 +13,7 @@ use Milhojas\Domain\Utils\Schedule\Schedule;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Library\ValueObjects\Identity\Person;
 use Milhojas\Library\Sortable\Sortable;
+use Milhojas\Library\ValueObjects\Dates\MonthYear;
 use PhpSpec\ObjectBehavior;
 
 class CantineUserSpec extends ObjectBehavior
@@ -122,5 +123,13 @@ class CantineUserSpec extends ObjectBehavior
     public function it_can_tell_allergens($allergens)
     {
         $this->getAllergens()->shouldBe($allergens);
+    }
+
+    public function it_cant_tell_if_is_billable_on_month(MonthYear $month, $schedule)
+    {
+        $schedule->hasDaysInMonth($month)->willReturn(true);
+        $schedule->getDaysInMonth($month)->willReturn(3);
+        $this->shouldBeBillableOn($month);
+        $this->getBillableDaysOn($month)->shouldBe(3);
     }
 }

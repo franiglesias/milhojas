@@ -1,3 +1,4 @@
+@billing
 Feature: Cantine regular users billing
     As an Admin
     I want to be able to count monthly cantine Users

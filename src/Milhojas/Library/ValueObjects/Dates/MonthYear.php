@@ -63,4 +63,11 @@ class MonthYear
 
         return (int) $days;
     }
+
+    public function getMonthName()
+    {
+        $date = $date = new \DateTime(sprintf('%s/1/%s', $this->month, $this->year));
+
+        return $date->format('F');
+    }
 }

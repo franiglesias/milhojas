@@ -9,34 +9,24 @@ use PhpSpec\ObjectBehavior;
 
 class BillingDaysCounterSpec extends ObjectBehavior
 {
-    public function let(Schedule $schedule)
+    public function let(MonthYear $month)
     {
-        $this->beConstructedWith($schedule);
+        $this->beConstructedWith($month);
     }
     public function it_is_initializable()
     {
         $this->shouldHaveType(BillingDaysCounter::class);
     }
 
-    public function it_can_count_billing_days_in_month(MonthYear $month, $schedule)
+    public function it_can_tell_month_name($month)
     {
-        $month->hasDays()->willReturn(30);
-        $month->asString()->willReturn('11/2016');
-        $dates = $this->generateDates();
-        $count = 0;
-        foreach ($dates as $date) {
-            $schedule->isScheduledDate($date)->willReturn($count < 10);
-            ++$count;
-        }
-        $this->forMonth($month)->shouldBe(10);
+        $month->getMonthName()->willReturn('november');
+        $this->getMonth()->shouldBe('november');
     }
 
-    private function generateDates()
+    public function it_can_set_and_get_billing_dates(Schedule $schedule)
     {
-        for ($i = 1; $i <= 30; ++$i) {
-            $dates[] = new \DateTime('11/'.$i.'/2016');
-        }
-
-        return $dates;
+        $this->count(10);
+        $this->getDays()->shouldBe(10);
     }
 }

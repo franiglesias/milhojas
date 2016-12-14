@@ -2,6 +2,9 @@
 
 namespace Milhojas\Domain\Utils\Schedule;
 
+use Milhojas\Domain\Utils\Billing\BillingDaysCounter;
+use League\Period\Period;
+
 class WeeklySchedule extends Schedule
 {
     public function __construct($weekDays)
@@ -32,5 +35,26 @@ class WeeklySchedule extends Schedule
         if (!in_array($weekDay, ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'])) {
             throw new \InvalidArgumentException(sprintf('%s is not a valid week day', $weekDay));
         }
+    }
+
+    public function countDays(BillingDaysCounter $counter)
+    {
+        $counter->count($this->schedule);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function scheduledDays(Period $period)
+    {
+        throw new \LogicException('Not implemented'); // TODO
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function realDays(Period $period)
+    {
+        throw new \LogicException('Not implemented'); // TODO
     }
 }

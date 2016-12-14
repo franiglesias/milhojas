@@ -2,6 +2,9 @@
 
 namespace Milhojas\Domain\Utils\Schedule;
 
+use Milhojas\Domain\Utils\Billing\BillingDaysCounter;
+use League\Period\Period;
+
 class ListOfDates extends Schedule implements \IteratorAggregate
 {
     public function __construct($schedule)
@@ -35,5 +38,28 @@ class ListOfDates extends Schedule implements \IteratorAggregate
     public function getIterator()
     {
         return new \ArrayIterator($this->schedule);
+    }
+    /**
+     * {@inheritdoc}
+     */
+    public function countDays(BillingDaysCounter $counter)
+    {
+        throw new \LogicException('Not implemented'); // TODO
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function scheduledDays(Period $period)
+    {
+        throw new \LogicException('Not implemented'); // TODO
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function realDays(Period $period)
+    {
+        throw new \LogicException('Not implemented'); // TODO
     }
 }

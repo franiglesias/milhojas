@@ -18,6 +18,6 @@ class TicketSoldToStudent extends TicketSpecification
      */
     public function isSatisfiedBy(Ticket $ticket)
     {
-        return $ticket->getUserId() == $this->studentId;
+        return $this->filterTicket($ticket) && $ticket->getUserId() == $this->studentId;
     }
 }

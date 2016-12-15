@@ -5,11 +5,13 @@ namespace Features\Milhojas\Domain\Cantine;
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
+use Milhojas\Domain\Cantine\TicketRepository;
 use Milhojas\Domain\Cantine\Specification\TicketSoldOnDate;
 use Milhojas\Domain\Cantine\Specification\TicketSoldInMonth;
 use Milhojas\Domain\Cantine\Ticket;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\TicketCounter;
+use Milhojas\Domain\Cantine\Specification\TicketSoldToStudent;
 use Milhojas\Domain\Shared\StudentId;
 use Milhojas\Infrastructure\Persistence\Cantine\TicketInMemoryRepository;
 use Milhojas\Library\EventBus\EventBus;
@@ -21,9 +23,21 @@ use League\Period\Period;
  */
 class TicketAccountingContext implements Context
 {
+    /**
+     * @var EventBus
+     */
     private $eventBus;
+    /**
+     * @var Prophet
+     */
     private $prophet;
+    /**
+     * @var TicketRepository
+     */
     private $ticketRepository;
+    /**
+     * @var TicketCounter
+     */
     private $ticketCounter;
     /**
      * Initializes context.
@@ -35,7 +49,6 @@ class TicketAccountingContext implements Context
     public function __construct()
     {
         $this->prophet = new Prophet();
-
         $eventBus = $this->prophet->prophesize(EventBus::class);
         $this->eventBus = $eventBus->reveal();
         $this->ticketRepository = new TicketInMemoryRepository();
@@ -153,7 +166,8 @@ class TicketAccountingContext implements Context
      */
     public function weBillForPendingTickets($student)
     {
-        $this->result = $this->ticketCounter->count(new TicketSoldToStudent(new StudentId()));
+        $this->result = $this->ticketCounter->count(new TicketSoldToStudent(new StudentId($student)));
+        print_r($this->result);
     }
 
     /**

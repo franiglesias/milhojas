@@ -30,4 +30,14 @@ class TicketInMemoryRepositorySpec extends ObjectBehavior
         $this->count($ticketSpecification)->shouldBeInteger();
         $this->count($ticketSpecification)->shouldReturn(1);
     }
+
+    public function it_can_find_stored_tickets_satisfiying_a_condition(TicketSpecification $ticketSpecification, Ticket $ticket1, Ticket $ticket2)
+    {
+        $this->store($ticket1);
+        $this->store($ticket2);
+        $ticketSpecification->isSatisfiedBy($ticket1)->shouldBeCalled()->willReturn(true);
+        $ticketSpecification->isSatisfiedBy($ticket2)->shouldBeCalled()->willReturn(false);
+        $this->find($ticketSpecification)->shouldBeArray();
+        $this->find($ticketSpecification)->shouldHaveCount(1);
+    }
 }

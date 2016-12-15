@@ -149,18 +149,19 @@ class TicketAccountingContext implements Context
     }
 
     /**
-     * @When We bill :arg1 for pending tickets
+     * @When We bill :student for pending tickets
      */
-    public function weBillForPendingTickets($arg1)
+    public function weBillForPendingTickets($student)
     {
         throw new PendingException();
     }
 
     /**
-     * @When We generate a report for month :arg1
+     * @When We generate a report for month :month
      */
-    public function weGenerateAReportForMonth($arg1)
+    public function weGenerateAReportForMonth($month)
     {
+        $this->ticketRepository->find((new TicketSoldInMonth($month))->onlyPending());
         throw new PendingException();
     }
 

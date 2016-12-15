@@ -18,4 +18,5 @@ interface TicketRepository
      * @param TicketSpecification $ticketSpecification
      */
     public function count(TicketSpecification $ticketSpecification);
+    public function find(TicketSpecification $ticketSpecification);
 }

@@ -28,4 +28,16 @@ class TicketInMemoryRepository implements TicketRepository
 
         return $count;
     }
+
+    public function find(TicketSpecification $ticketSpecification)
+    {
+        $collected = [];
+        foreach ($this->tickets as $ticket) {
+            if ($ticketSpecification->isSatisfiedBy($ticket)) {
+                $collected[] = $ticket;
+            }
+        }
+
+        return $collected;
+    }
 }

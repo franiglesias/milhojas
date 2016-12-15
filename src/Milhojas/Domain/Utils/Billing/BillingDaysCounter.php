@@ -2,7 +2,8 @@
 
 namespace Milhojas\Domain\Utils\Billing;
 
-use Milhojas\Library\ValueObjects\Dates\MonthYear;
+use League\Period\Period;
+use Milhojas\Domain\Utils\Schedule\Schedule;
 
 /**
  * Visitor counter for Schedules.
@@ -20,19 +21,19 @@ class BillingDaysCounter
     /**
      * @param Schedule $schedule
      */
-    public function __construct(MonthYear $month)
+    public function __construct(Period $month)
     {
         $this->month = $month;
     }
 
     public function getMonth()
     {
-        return $this->month->getMonthName();
+        return strtolower($this->month->getStartDate()->format('F'));
     }
 
     public function count(Schedule $schedule)
     {
-        $this->days = $days;
+        $this->days = $schedule->scheduledDays($this->month);
     }
 
     public function getDays()

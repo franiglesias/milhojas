@@ -3,6 +3,7 @@
 namespace Milhojas\Domain\Cantine;
 
 use Milhojas\Library\ValueObjects\Dates\MonthYear;
+use League\Period\Period;
 
 class Ticket
 {
@@ -40,5 +41,10 @@ class Ticket
     public function pay()
     {
         $this->paid = true;
+    }
+
+    public function belongsToPeriod(Period $period)
+    {
+        return $period->contains($this->date);
     }
 }

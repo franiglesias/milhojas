@@ -2,16 +2,16 @@
 
 namespace Milhojas\Domain\Cantine\Specification;
 
+use League\Period\Period;
 use Milhojas\Domain\Cantine\Ticket;
-use Milhojas\Library\ValueObjects\Dates\MonthYear;
 
 class TicketSoldInMonth extends TicketSpecification
 {
-    private $month;
+    private $period;
 
-    public function __construct(MonthYear $month)
+    public function __construct(Period $period)
     {
-        $this->month = $month;
+        $this->period = $period;
     }
 
     /**
@@ -19,6 +19,6 @@ class TicketSoldInMonth extends TicketSpecification
      */
     public function isSatisfiedBy(Ticket $ticket)
     {
-        return $this->filterTicket($ticket) && $ticket->belongsToMonth($this->month);
+        return $this->filterTicket($ticket) && $ticket->belongsToPeriod($this->period);
     }
 }

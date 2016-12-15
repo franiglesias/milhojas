@@ -13,8 +13,8 @@ use Milhojas\Domain\Cantine\TicketCounter;
 use Milhojas\Domain\Shared\StudentId;
 use Milhojas\Infrastructure\Persistence\Cantine\TicketInMemoryRepository;
 use Milhojas\Library\EventBus\EventBus;
-use Milhojas\Library\ValueObjects\Dates\MonthYear;
 use Prophecy\Prophet;
+use League\Period\Period;
 
 /**
  * Defines application features from the specific context.
@@ -85,7 +85,6 @@ class TicketAccountingContext implements Context
      */
     public function weAccountTicketsForMonth($month)
     {
-        $month = MonthYear::fromString($month);
         $this->result = $this->ticketCounter->count(new TicketSoldInMonth($month));
     }
 
@@ -171,5 +170,17 @@ class TicketAccountingContext implements Context
     public function wheShouldGetAListLikeThis(TableNode $table)
     {
         throw new PendingException();
+    }
+
+    /**
+     * @Transform :month
+     */
+    public function castMonthToPeriod($month)
+    {
+        list($month, $year) = explode(' ', $month);
+        $date = new \DateTime('1st '.$month.' '.$year);
+        $month = $date->format('m');
+
+        return Period::createFromMonth($year, $month);
     }
 }

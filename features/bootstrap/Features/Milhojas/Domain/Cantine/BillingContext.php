@@ -79,10 +79,6 @@ class BillingContext implements Context
      */
     public function iGenerateBillsForMonth($month)
     {
-        list($month, $year) = explode(' ', $month);
-        $date = new \DateTime('1st '.$month.' '.$year);
-        $month = $date->format('m');
-        $month = Period::createFromMonth($year, $month);
         $billable = $this->CantineUserRepository->find(new BillableThisMonth($month));
         $this->result = [];
         foreach ($billable as $user) {
@@ -93,6 +89,18 @@ class BillingContext implements Context
                 'amount' => $this->priceList[$days],
             ];
         }
+    }
+
+    /**
+     * @Transform :month
+     */
+    public function castMonthToPeriod($month)
+    {
+        list($month, $year) = explode(' ', $month);
+        $date = new \DateTime('1st '.$month.' '.$year);
+        $month = $date->format('m');
+
+        return Period::createFromMonth($year, $month);
     }
 
     /**

@@ -7,15 +7,15 @@ use Milhojas\Domain\Cantine\CantineUser;
 
 class BillableThisMonth implements CantineUserSpecification
 {
-    private $month;
+    private $period;
 
-    public function __construct(Period $month)
+    public function __construct(Period $period)
     {
-        $this->month = $month;
+        $this->period = $period;
     }
 
     public function isSatisfiedBy(CantineUser $cantineUser)
     {
-        return $cantineUser->isBillableOn($this->month);
+        return $cantineUser->isBillableOn($this->period);
     }
 }

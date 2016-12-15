@@ -27,6 +27,11 @@ class Ticket
         return $this->user;
     }
 
+    public function getUserId()
+    {
+      return $this->user->getStudentId();
+    }
+
     public function isPaid()
     {
         return $this->paid;

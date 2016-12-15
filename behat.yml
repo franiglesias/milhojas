@@ -13,6 +13,7 @@ default:
                 - %paths.base%/features/cantine
             contexts:
                 - Features\Milhojas\Domain\Cantine\BillingContext
+                - Features\Milhojas\Domain\Cantine\TicketAccountingContext
             filters:
                 tags: '@billing'
         extracurricular_domain:

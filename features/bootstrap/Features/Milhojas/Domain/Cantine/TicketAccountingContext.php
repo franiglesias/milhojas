@@ -153,7 +153,7 @@ class TicketAccountingContext implements Context
      */
     public function weBillForPendingTickets($student)
     {
-        throw new PendingException();
+        $this->result = $this->ticketCounter->count(new TicketSoldToStudent(new StudentId()));
     }
 
     /**
@@ -161,8 +161,7 @@ class TicketAccountingContext implements Context
      */
     public function weGenerateAReportForMonth($month)
     {
-        $this->ticketRepository->find((new TicketSoldInMonth($month))->onlyPending());
-        throw new PendingException();
+        $this->report = $this->ticketRepository->find((new TicketSoldInMonth($month))->onlyPending());
     }
 
     /**
@@ -170,6 +169,7 @@ class TicketAccountingContext implements Context
      */
     public function wheShouldGetAListLikeThis(TableNode $table)
     {
+
         throw new PendingException();
     }
 
@@ -183,5 +183,13 @@ class TicketAccountingContext implements Context
         $month = $date->format('m');
 
         return Period::createFromMonth($year, $month);
+    }
+
+    /**
+     * @Transform :date
+     */
+    public function castDateStringToDate($date)
+    {
+        return new \DateTimeImmutable($date);
     }
 }

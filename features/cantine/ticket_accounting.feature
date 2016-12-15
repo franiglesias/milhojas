@@ -1,3 +1,4 @@
+@billing
 Feature: Count tickets sold different periods
     As an admin
     I want to know how many tickets are sold every day

@@ -2,7 +2,6 @@
 
 namespace Milhojas\Domain\Cantine;
 
-use Milhojas\Library\ValueObjects\Dates\MonthYear;
 use League\Period\Period;
 
 class Ticket
@@ -26,11 +25,6 @@ class Ticket
     public function getUser()
     {
         return $this->user;
-    }
-
-    public function belongsToMonth(MonthYear $month)
-    {
-        return $month->dateBelongsToMe($this->date);
     }
 
     public function isPaid()

@@ -2,6 +2,7 @@
 
 namespace Features\Milhojas\Domain\Cantine;
 
+use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Gherkin\Node\PyStringNode;
@@ -199,5 +200,13 @@ class AdminContext implements Context
             ->at($this->fileSystem);
 
         return $file->url();
+    }
+
+    /**
+     * @Then statistics should look like this
+     */
+    public function statisticsShouldLookLikeThis(TableNode $table)
+    {
+        throw new PendingException();
     }
 }

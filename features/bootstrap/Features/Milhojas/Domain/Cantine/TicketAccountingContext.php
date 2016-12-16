@@ -182,7 +182,6 @@ class TicketAccountingContext implements Context
      */
     public function wheShouldGetAListLikeThis(TableNode $table)
     {
-        print_r($this->report);
         throw new PendingException();
     }
 

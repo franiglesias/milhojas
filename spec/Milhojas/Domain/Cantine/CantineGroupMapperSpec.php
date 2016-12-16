@@ -27,7 +27,7 @@ class CantineGroupMapperSpec extends ObjectBehavior
                       ->withContent(Yaml::dump($map))
                       ->at($this->fileSystem);
 
-        $this->beConstructedWith($file->url());
+        $this->beConstructedThrough('load', [$file->url()]);
     }
 
     public function it_is_initializable()
@@ -35,14 +35,15 @@ class CantineGroupMapperSpec extends ObjectBehavior
         $this->shouldHaveType(CantineGroupMapper::class);
     }
 
-    public function it_loads_map_from_file()
-    {
-        $this->getMapFor(new StudentGroup('New Student'))->shouldBeLike(new CantineGroup('Group 1'));
-    }
-
     public function it_tells_the_cantine_group_for_student(Student $student)
     {
         $student->getGroup()->willReturn(new StudentGroup('New Student'));
-        $this->getGroupForStudent($student)->shouldBeLike(new CantineGroup('Group 1'));
+        $this->getCantineGroupForStudent($student)->shouldBeLike(new CantineGroup('Group 1'));
+    }
+
+    public function it_tells_the_cantine_group_for_class_group(StudentGroup $studentGroup)
+    {
+        $studentGroup->getName()->willReturn('New Student');
+        $this->getCantineGroupForClassGroup($studentGroup)->shouldBeLike(new CantineGroup('Group 1'));
     }
 }

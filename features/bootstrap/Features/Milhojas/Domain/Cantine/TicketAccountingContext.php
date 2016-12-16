@@ -167,7 +167,6 @@ class TicketAccountingContext implements Context
     public function weBillForPendingTickets($student)
     {
         $this->result = $this->ticketCounter->count(new TicketSoldToStudent(new StudentId($student)));
-        print_r($this->result);
     }
 
     /**
@@ -175,7 +174,7 @@ class TicketAccountingContext implements Context
      */
     public function weGenerateAReportForMonth($month)
     {
-        $this->report = $this->ticketRepository->find((new TicketSoldInMonth($month))->onlyPending());
+        $this->report = $this->ticketCounter->count((new TicketSoldInMonth($month))->onlyPending());
     }
 
     /**
@@ -183,7 +182,7 @@ class TicketAccountingContext implements Context
      */
     public function wheShouldGetAListLikeThis(TableNode $table)
     {
-
+        print_r($this->report);
         throw new PendingException();
     }
 

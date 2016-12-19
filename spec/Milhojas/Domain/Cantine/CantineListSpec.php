@@ -3,7 +3,7 @@
 namespace spec\Milhojas\Domain\Cantine;
 
 use Milhojas\Domain\Cantine\CantineList;
-use Milhojas\Domain\Cantine\CantineListRecord;
+use Milhojas\Domain\Cantine\CantineListUserRecord;
 use Milhojas\Library\Sortable\Sortable;
 use PhpSpec\ObjectBehavior;
 
@@ -24,12 +24,12 @@ class CantineListSpec extends ObjectBehavior
         $this->getDate()->shouldBe($date);
     }
 
-    public function it_stores_cantine_list_records(CantineListRecord $cantineListRecord)
+    public function it_stores_cantine_list_records(CantineListUserRecord $cantineListRecord)
     {
         $this->insert($cantineListRecord);
     }
 
-    public function it_has_smaller_at_top(CantineListRecord $greater, CantineListRecord $smaller)
+    public function it_has_smaller_at_top(CantineListUserRecord $greater, CantineListUserRecord $smaller)
     {
         $greater->compare($smaller)->willReturn(Sortable::GREATER);
         $smaller->compare($greater)->willReturn(Sortable::SMALLER);

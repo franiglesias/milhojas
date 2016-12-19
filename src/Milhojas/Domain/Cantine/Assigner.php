@@ -44,7 +44,7 @@ class Assigner
     {
         foreach ($users as $user) {
             $turn = $this->ruleChain->assignsUserToTurn($user, $list->getDate());
-            $record = new CantineListRecord(
+            $record = new CantineListUserRecord(
                 $list->getDate(),
                 $turn,
                 $user

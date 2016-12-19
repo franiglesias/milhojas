@@ -10,6 +10,7 @@ use Milhojas\Domain\Cantine\NullCantineGroup;
 use Milhojas\Domain\Cantine\Exception\InvalidTicket;
 use Milhojas\Domain\Shared\Student;
 use Milhojas\Domain\Shared\StudentId;
+use Milhojas\Domain\Shared\ClassGroup;
 use Milhojas\Domain\Utils\Schedule\Schedule;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Library\ValueObjects\Identity\Person;
@@ -23,7 +24,7 @@ class CantineUserSpec extends ObjectBehavior
         $student->getId()->willReturn($studentId);
         $student->getPerson()->willReturn($name);
         $student->getAllergies()->willReturn($allergens);
-        $student->getClass()->willReturn('Class');
+        $student->getClass()->willReturn(new ClassGroup('3º E. Primaria', 'EP 3 A', 'EP'));
         $this->beConstructedThrough('apply', [$student, $schedule]);
     }
     public function it_is_initializable()
@@ -130,5 +131,26 @@ class CantineUserSpec extends ObjectBehavior
         $schedule->scheduledDays($month)->willReturn(3);
         $this->shouldBeBillableOn($month);
         $this->getBillableDaysOn($month)->shouldBe(3);
+    }
+
+    public function it_can_tell_listname(Person $name)
+    {
+        $name->getListName()->willReturn('Pérez, Pedro');
+        $this->getListName()->shouldBe('Pérez, Pedro');
+    }
+
+    public function it_can_tell_class_group_name()
+    {
+        $this->getClassGroupName()->shouldBe('EP 3 A');
+    }
+
+    public function it_can_tell_stage_name()
+    {
+        $this->getStageName()->shouldBe('EP');
+    }
+
+    public function it_can_tell_remarks()
+    {
+        $this->getRemarks()->shouldBe('Some remarks');
     }
 }

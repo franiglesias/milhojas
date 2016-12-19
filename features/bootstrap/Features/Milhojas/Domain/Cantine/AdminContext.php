@@ -164,7 +164,7 @@ class AdminContext implements Context
      *
      * @param CantineList $cantineList we want to cast
      *
-     * @return array of CantineListRecord
+     * @return array of CantineListUserRecord
      */
     private function castToResult(CantineList $cantineList)
     {

@@ -17,11 +17,12 @@ use Milhojas\LIbrary\ValueObjects\Identity\Person;
 class CantineUser implements Sortable
 {
     protected $studentId;
-    protected $allergens;
-    protected $schedule;
-    protected $cantineGroup;
     protected $person;
+    protected $schedule;
+    protected $allergens;
+    protected $cantineGroup;
     protected $classGroup;
+    protected $remarks;
 
     public function __construct(Student $student, Schedule $schedule)
     {
@@ -31,6 +32,7 @@ class CantineUser implements Sortable
         $this->allergens = $student->getAllergies();
         $this->cantineGroup = new NullCantineGroup();
         $this->classGroup = $student->getClass();
+        $this->remarks = '';
     }
 
     /**
@@ -160,5 +162,25 @@ class CantineUser implements Sortable
     public function getBillableDaysOn(Period $month)
     {
         return $this->schedule->scheduledDays($month);
+    }
+
+    public function getListName()
+    {
+        return $this->person->getListName();
+    }
+
+    public function getClassGroupName()
+    {
+        return $this->classGroup->getShortName();
+    }
+
+    public function getStageName()
+    {
+        return $this->classGroup->getStageName();
+    }
+
+    public function getRemarks()
+    {
+        return 'Some remarks';
     }
 }

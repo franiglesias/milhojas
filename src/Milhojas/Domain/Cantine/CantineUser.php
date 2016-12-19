@@ -9,7 +9,7 @@ use Milhojas\Domain\Utils\Schedule\Schedule;
 use Milhojas\Domain\Utils\Schedule\NullSchedule;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Library\Sortable\Sortable;
-use Milhojas\Library\ValueObjects\Identity\Person;
+use Milhojas\LIbrary\ValueObjects\Identity\Person;
 
 /**
  * Represents a CantineUser.
@@ -19,8 +19,9 @@ class CantineUser implements Sortable
     protected $studentId;
     protected $allergens;
     protected $schedule;
-    protected $group;
+    protected $cantineGroup;
     protected $person;
+    protected $classGroup;
 
     public function __construct(Student $student, Schedule $schedule)
     {
@@ -28,8 +29,8 @@ class CantineUser implements Sortable
         $this->schedule = $schedule;
         $this->person = $student->getPerson();
         $this->allergens = $student->getAllergies();
-        $this->group = new NullCantineGroup();
-        $this->class = $student->getClass();
+        $this->cantineGroup = new NullCantineGroup();
+        $this->classGroup = $student->getClass();
     }
 
     /**
@@ -82,25 +83,25 @@ class CantineUser implements Sortable
     }
 
     /**
-     * Tells if Use belongs to a $group.
+     * Tells if Use belongs to a $cantineGroup.
      *
-     * @param CantineGroup $group
+     * @param CantineGroup $cantineGroup
      *
      * @return bool true if the User belongs
      */
-    public function belongsToGroup(CantineGroup $group)
+    public function belongsToGroup(CantineGroup $cantineGroup)
     {
-        return $this->group->isTheSameAs($group);
+        return $this->cantineGroup->isTheSameAs($cantineGroup);
     }
 
     /**
-     * Assigns this user to the $group.
+     * Assigns this user to the $cantineGroup.
      *
-     * @param CantineGroup $group
+     * @param CantineGroup $cantineGroup
      */
-    public function assignToGroup(CantineGroup $group)
+    public function assignToGroup(CantineGroup $cantineGroup)
     {
-        $this->group = $group;
+        $this->cantineGroup = $cantineGroup;
     }
 
     /**
@@ -138,7 +139,7 @@ class CantineUser implements Sortable
 
     public function getClass()
     {
-        return $this->class;
+        return $this->classGroup;
     }
 
     public function isAllergic()

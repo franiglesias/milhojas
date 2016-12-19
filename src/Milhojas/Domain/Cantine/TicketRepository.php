@@ -6,7 +6,7 @@ use Milhojas\Domain\Cantine\Specification\TicketSpecification;
 
 interface TicketRepository
 {
-    /**
+    /** 
      * Store a Ticket.
      *
      * @param Ticket $ticket

@@ -149,12 +149,27 @@ class AdminContext implements Context
      */
     public function statisticsShouldLookLikeThis(TableNode $table)
     {
-        $reporter = new TurnStageCantineListReporter();
-        foreach ($this->cantineList as $record) {
-            $record->accept($reporter);
+        foreach ($table->getHash() as $row) {
+            if ($row['total']) {
+                $line['total'] = $row['total'];
+            }
+            if ($row['ei']) {
+                $line['EI'] = $row['ei'];
+            }
+            if ($row['ep']) {
+                $line['EP'] = $row['ep'];
+            }
+            if ($row['eso']) {
+                $line['ESO'] = $row['eso'];
+            }
+            if ($row['bach']) {
+                $line['Bach'] = $row['bach'];
+            }
+            $expected[$row['turn']] = $line;
         }
-        print_r($reporter->getReport());
-        throw new PendingException();
+        $reporter = new TurnStageCantineListReporter();
+        $this->cantineList->accept($reporter);
+        \PHPUnit_Framework_Assert::assertEquals($expected, $reporter->getReport());
     }
 
 // Utility methods
@@ -189,9 +204,9 @@ class AdminContext implements Context
             $record = $cantineList->current();
             $result[] = [
                 'date' => $record->getDate()->format('m/d/Y'),
-                'turn' => $record->getTurn()->getName(),
-                'student' => $record->getUser()->getPerson()->getListName(),
-                'class' => $record->getUser()->getClass(),
+                'turn' => $record->getTurnName(),
+                'student' => $record->getUserListName(),
+                'class' => $record->getClassGroupName(),
                 'remarks' => '',
             ];
             $cantineList->next();

@@ -1,6 +1,7 @@
 <?php
 
 namespace Milhojas\Domain\Cantine\CantineList;
+use Milhojas\Domain\Cantine\CantineList\CantineListReporter;
 
 /**
  * Represents the list of CantineUsers eating on a date, assigned to a Turn
@@ -31,5 +32,10 @@ class CantineList extends \SplMinHeap
     public function getDate()
     {
         return $this->date;
+    }
+
+    public function accept(CantineListReporter $cantineListReporter)
+    {
+        $cantineListReporter->visitCantineList($this);
     }
 }

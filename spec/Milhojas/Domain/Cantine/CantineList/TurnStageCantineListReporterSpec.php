@@ -5,6 +5,7 @@ namespace spec\Milhojas\Domain\Cantine\CantineList;
 use Milhojas\Domain\Cantine\CantineList\TurnStageCantineListReporter;
 use Milhojas\Domain\Cantine\CantineList\CantineListReporter;
 use Milhojas\Domain\Cantine\CantineList\CantineListUserRecord;
+use Milhojas\Domain\Cantine\CantineList\CantineList;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -20,6 +21,11 @@ class TurnStageCantineListReporterSpec extends ObjectBehavior
     public function it_can_visit_records(CantineListUserRecord $cantineListUserRecord, $otherClass)
     {
         $this->visitRecord($cantineListUserRecord);
+    }
+
+    public function it_can_visit_cantine_list(CantineList $cantineList)
+    {
+        $this->visitCantineList($cantineList);
     }
 
     public function it_can_start_counting(CantineListUserRecord $cantineListUserRecord)

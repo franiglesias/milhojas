@@ -3,6 +3,7 @@
 namespace spec\Milhojas\Domain\Cantine\CantineList;
 
 use Milhojas\Domain\Cantine\CantineList\CantineList;
+use Milhojas\Domain\Cantine\CantineList\CantineListReporter;
 use Milhojas\Domain\Cantine\CantineList\CantineListUserRecord;
 use Milhojas\Library\Sortable\Sortable;
 use PhpSpec\ObjectBehavior;
@@ -38,5 +39,11 @@ class CantineListSpec extends ObjectBehavior
         $this->insert($smaller);
         $this->top();
         $this->current()->shouldBe($smaller);
+    }
+
+    public function it_accepts_cantine_list_reporters(CantineListReporter $cantineListReporter)
+    {
+        $cantineListReporter->visitCantineList($this->getWrappedObject())->shouldBeCalled();
+        $this->accept($cantineListReporter);
     }
 }

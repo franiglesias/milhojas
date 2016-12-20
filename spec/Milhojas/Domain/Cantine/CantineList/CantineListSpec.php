@@ -1,9 +1,9 @@
 <?php
 
-namespace spec\Milhojas\Domain\Cantine;
+namespace spec\Milhojas\Domain\Cantine\CantineList;
 
-use Milhojas\Domain\Cantine\CantineList;
-use Milhojas\Domain\Cantine\CantineListUserRecord;
+use Milhojas\Domain\Cantine\CantineList\CantineList;
+use Milhojas\Domain\Cantine\CantineList\CantineListUserRecord;
 use Milhojas\Library\Sortable\Sortable;
 use PhpSpec\ObjectBehavior;
 

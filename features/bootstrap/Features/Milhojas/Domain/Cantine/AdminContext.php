@@ -7,7 +7,8 @@ use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Gherkin\Node\PyStringNode;
 use Milhojas\Domain\Cantine\Assigner;
-use Milhojas\Domain\Cantine\CantineList;
+use Milhojas\Domain\Cantine\CantineList\CantineList;
+use Milhojas\Domain\Cantine\CantineList\TurnStageCantineListReporter;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineGroup;
 use Milhojas\Domain\Cantine\CantineConfig;
@@ -18,6 +19,7 @@ use Milhojas\Domain\Cantine\Factories\GroupsFactory;
 use Milhojas\Domain\Cantine\Specification\CantineUserEatingOnDate;
 use Milhojas\Domain\Shared\Student;
 use Milhojas\Domain\Shared\StudentId;
+use Milhojas\Domain\Shared\ClassGroup;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Domain\Utils\Schedule\MonthWeekSchedule;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
@@ -95,7 +97,7 @@ class AdminContext implements Context
             $student = new Student(
                 new StudentId($row['student_id']),
                 new Person($row['name'], $row['surname'], $row['gender']),
-                $row['class'],
+                new ClassGroup($row['class'], $row['class'], 'EP'),
                 ''
             );
             $User = CantineUser::apply($student, $schedule);
@@ -122,6 +124,12 @@ class AdminContext implements Context
     public function adminAsksForTheList()
     {
         $this->List = $this->CantineUserRepository->find(new CantineUserEatingOnDate($this->today));
+        $prophet = new Prophet();
+        $eventBus = $prophet->prophesize(EventBus::class);
+
+        $this->cantineList = new CantineList($this->today);
+        $assigner = new Assigner($this->cantineConfig->getRules(), $eventBus->reveal());
+        $assigner->buildList($this->cantineList, $this->List);
     }
 
 // Then Section
@@ -133,13 +141,20 @@ class AdminContext implements Context
      */
     public function theTurnsShouldBeAssignedAs(TableNode $table)
     {
-        $prophet = new Prophet();
-        $eventBus = $prophet->prophesize(EventBus::class);
+        \PHPUnit_Framework_Assert::assertEquals($table->getHash(), $this->castToResult($this->cantineList));
+    }
 
-        $cantineList = new CantineList($this->today);
-        $assigner = new Assigner($this->cantineConfig->getRules(), $eventBus->reveal());
-        $assigner->buildList($cantineList, $this->List);
-        \PHPUnit_Framework_Assert::assertEquals($table->getHash(), $this->castToResult($cantineList));
+    /**
+     * @Then statistics should look like this
+     */
+    public function statisticsShouldLookLikeThis(TableNode $table)
+    {
+        $reporter = new TurnStageCantineListReporter();
+        foreach ($this->cantineList as $record) {
+            $record->accept($reporter);
+        }
+        print_r($reporter->getReport());
+        throw new PendingException();
     }
 
 // Utility methods
@@ -202,11 +217,5 @@ class AdminContext implements Context
         return $file->url();
     }
 
-    /**
-     * @Then statistics should look like this
-     */
-    public function statisticsShouldLookLikeThis(TableNode $table)
-    {
-        throw new PendingException();
-    }
+
 }

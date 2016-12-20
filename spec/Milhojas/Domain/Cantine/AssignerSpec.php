@@ -8,7 +8,7 @@ use Milhojas\Domain\Cantine\Rule;
 use Milhojas\Domain\Cantine\Turn;
 use Milhojas\Domain\Cantine\Assigner;
 use Milhojas\Domain\Cantine\CantineUser;
-use Milhojas\Domain\Cantine\CantineList;
+use Milhojas\Domain\Cantine\CantineList\CantineList;
 use Milhojas\Library\EventBus\EventBus;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;

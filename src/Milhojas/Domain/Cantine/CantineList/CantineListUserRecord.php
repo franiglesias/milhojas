@@ -1,9 +1,11 @@
 <?php
 
-namespace Milhojas\Domain\Cantine;
+namespace Milhojas\Domain\Cantine\CantineList;
 
 use Milhojas\Library\Sortable\Sortable;
-
+use Milhojas\Domain\Cantine\CantineList\CantineListReporter;
+use Milhojas\Domain\Cantine\CantineUser;
+use Milhojas\Domain\Cantine\Turn;
 /**
  * A Data Transport Object to hold the representation of a Cantine User in a CantineList.
  */
@@ -78,5 +80,10 @@ class CantineListUserRecord implements Sortable
     public function getRemarks()
     {
         return $this->cantineUser->getRemarks();
+    }
+
+    public function accept(CantineListReporter $cantineListReporter)
+    {
+        $cantineListReporter->visitRecord($this);
     }
 }

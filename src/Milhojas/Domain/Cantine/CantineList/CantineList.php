@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Domain\Cantine;
+namespace Milhojas\Domain\Cantine\CantineList;
 
 /**
  * Represents the list of CantineUsers eating on a date, assigned to a Turn

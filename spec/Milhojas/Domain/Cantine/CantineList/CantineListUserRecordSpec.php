@@ -1,10 +1,11 @@
 <?php
 
-namespace spec\Milhojas\Domain\Cantine;
+namespace spec\Milhojas\Domain\Cantine\CantineList;
 
 use Milhojas\Domain\Cantine\Turn;
 use Milhojas\Domain\Cantine\CantineUser;
-use Milhojas\Domain\Cantine\CantineListUserRecord;
+use Milhojas\Domain\Cantine\CantineList\CantineListUserRecord;
+use Milhojas\Domain\Cantine\CantineList\CantineListReporter;
 use Milhojas\Library\Sortable\Sortable;
 use PhpSpec\ObjectBehavior;
 
@@ -67,5 +68,11 @@ class CantineListUserRecordSpec extends ObjectBehavior
         $greater->getUser()->willreturn($otherUser);
         $turn->compare($otherTurn)->willReturn(Sortable::GREATER);
         $this->compare($greater)->shouldBe(Sortable::GREATER);
+    }
+
+    public function it_can_accept_a_cantine_list_reporter(CantineListReporter $cantineListReporter)
+    {
+        $cantineListReporter->visitRecord($this->getWrappedObject())->shouldBeCalled();
+        $this->accept($cantineListReporter);
     }
 }

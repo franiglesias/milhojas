@@ -7,5 +7,11 @@ use Milhojas\Domain\Cantine\CantineList\CantineList;
 abstract class CantineListReporter
 {
     abstract public function visitRecord(CantineListUserRecord $cantineListUserRecord);
-    abstract public function visitCantineList(CantineList $cantineList);
+
+    public function visitCantineList(CantineList $cantineList)
+    {
+        foreach ($cantineList as $record) {
+            $record->accept($this);
+        }
+    }
 }

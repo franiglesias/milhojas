@@ -58,12 +58,7 @@ class TurnStageCantineListReporter extends CantineListReporter
 
     }
 
-    public function visitCantineList(CantineList $cantineList)
-    {
-        foreach ($cantineList as $record) {
-            $this->visitRecord($record);
-        }
-    }
+    
 
 
 }

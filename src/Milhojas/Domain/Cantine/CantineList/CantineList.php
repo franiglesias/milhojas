@@ -11,7 +11,7 @@ class CantineList extends \SplMinHeap
 {
     private $date;
     /**
-     * @param DateTimeInterface $date
+     * @param \DateTimeInterface $date
      */
     public function __construct(\DateTimeInterface $date)
     {
@@ -27,13 +27,18 @@ class CantineList extends \SplMinHeap
     }
 
     /**
-     * @return DateTime
+     * @return \DateTime
      */
     public function getDate()
     {
         return $this->date;
     }
 
+    /**
+     * Accepts a CantineListReporter visitor to generate reports about the list itself
+     *
+     * @param CantineListReporter $cantineListReporter
+     */
     public function accept(CantineListReporter $cantineListReporter)
     {
         $cantineListReporter->visitCantineList($this);

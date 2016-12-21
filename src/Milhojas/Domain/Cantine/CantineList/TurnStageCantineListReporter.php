@@ -1,14 +1,13 @@
 <?php
 
 namespace Milhojas\Domain\Cantine\CantineList;
-use Milhojas\Domain\Cantine\CantineList\CantineListReporter;
 
 class TurnStageCantineListReporter extends CantineListReporter
 {
     private $counters;
     private $totals;
     /**
-     * @param mixed $counters
+     * Reset counters
      */
     public function __construct()
     {
@@ -19,28 +18,40 @@ class TurnStageCantineListReporter extends CantineListReporter
     /**
      * @param CantineListUserRecord $cantineListUserRecord
      */
-
     public function visitRecord(CantineListUserRecord $cantineListUserRecord)
     {
         $turn = $cantineListUserRecord->getTurnName();
         $stage = $cantineListUserRecord->getStageName();
         $this->initCounters($turn, $stage);
-        $this->counters[$turn][$stage]++;
-        $this->counters[$turn]['total']++;
-        $this->totals['all']++;
-        $this->totals[$stage]++;
+        ++$this->counters[$turn][$stage];
+        ++$this->counters[$turn]['total'];
+        ++$this->totals['all'];
+        ++$this->totals[$stage];
     }
 
+    /**
+     * Get the counters
+     * @return array
+     */
     public function getReport()
     {
         return $this->counters;
     }
 
+    /**
+     * Get totals
+     * @return array
+     */
     public function getTotal()
     {
         return $this->totals;
     }
 
+    /**
+     * Starts the counters
+     * @param mixed $turn
+     * @param mixed $stage
+     */
     private function initCounters($turn, $stage)
     {
         if (!isset($this->counters[$turn])) {
@@ -55,10 +66,5 @@ class TurnStageCantineListReporter extends CantineListReporter
         if (!isset($this->totals[$stage])) {
             $this->totals[$stage] = 0;
         }
-
     }
-
-    
-
-
 }

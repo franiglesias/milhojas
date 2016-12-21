@@ -41,6 +41,8 @@ class CantineList extends \SplMinHeap
      */
     public function accept(CantineListReporter $cantineListReporter)
     {
-        $cantineListReporter->visitCantineList($this);
+        foreach ($this as $record ) {
+            $record->accept($cantineListReporter);
+        }
     }
 }

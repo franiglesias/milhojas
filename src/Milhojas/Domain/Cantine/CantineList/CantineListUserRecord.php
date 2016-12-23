@@ -3,9 +3,9 @@
 namespace Milhojas\Domain\Cantine\CantineList;
 
 use Milhojas\Library\Sortable\Sortable;
-use Milhojas\Domain\Cantine\CantineList\CantineListReporter;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\Turn;
+
 /**
  * A Data Transport Object to hold the representation of a Cantine User in a CantineList.
  */
@@ -22,9 +22,15 @@ class CantineListUserRecord implements Sortable
         $this->cantineUser = $cantineUser;
     }
 
+    /**
+     * @param CantineUser        $cantineUser
+     * @param Turn               $turn
+     * @param \DateTimeInterface $date
+     */
     public static function createFromUserTurnAndDate(CantineUser $cantineUser, Turn $turn, \DateTimeInterface $date)
     {
-        $cantineListUserRecord = new CantineListUserRecord($date, $turn, $cantineUser);
+        $cantineListUserRecord = new self($date, $turn, $cantineUser);
+
         return $cantineListUserRecord;
     }
 
@@ -50,7 +56,6 @@ class CantineListUserRecord implements Sortable
     {
         return $this->turn;
     }
-
 
     public function getUser()
     {

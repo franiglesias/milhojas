@@ -20,7 +20,7 @@ class Student
         $this->remarks = $remarks;
     }
     /**
-     * @return
+     * @return StudentId
      */
     public function getId()
     {
@@ -30,7 +30,7 @@ class Student
     /**
      * @param  $id
      *
-     * @return static
+     * @return static Student
      */
     public function setId($id)
     {

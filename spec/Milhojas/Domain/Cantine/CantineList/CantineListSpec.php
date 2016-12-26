@@ -43,7 +43,6 @@ class CantineListSpec extends ObjectBehavior
 
     public function it_accepts_cantine_list_reporters(CantineListReporter $cantineListReporter)
     {
-        $cantineListReporter->visitCantineList($this->getWrappedObject())->shouldBeCalled();
         $this->accept($cantineListReporter);
     }
 }

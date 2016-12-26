@@ -233,4 +233,12 @@ class AdminContext implements Context
     }
 
 
+
+    /**
+     * @Then a list for special meals should look like this
+     */
+    public function aListForSpecialMealsShouldLookLikeThis(TableNode $table)
+    {
+        throw new PendingException();
+    }
 }

@@ -2,13 +2,14 @@
 
 namespace Features\Milhojas\Domain\Cantine;
 
-use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Gherkin\Node\PyStringNode;
 use Milhojas\Domain\Cantine\Assigner;
 use Milhojas\Domain\Cantine\CantineList\CantineList;
+use Milhojas\Domain\Cantine\CantineList\SpecialMealsRecord;
 use Milhojas\Domain\Cantine\CantineList\TurnStageCantineListReporter;
+use Milhojas\Domain\Cantine\CantineList\SpecialMealsCantineListReporter;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineGroup;
 use Milhojas\Domain\Cantine\CantineConfig;
@@ -98,7 +99,7 @@ class AdminContext implements Context
                 new StudentId($row['student_id']),
                 new Person($row['name'], $row['surname'], $row['gender']),
                 new ClassGroup($row['class'], $row['class'], 'EP'),
-                ''
+                $row['allergies'].$row['remarks']
             );
             $User = CantineUser::apply($student, $schedule);
             $User->assignToGroup(new CantineGroup($row['group']));
@@ -232,13 +233,18 @@ class AdminContext implements Context
         return $file->url();
     }
 
-
-
     /**
      * @Then a list for special meals should look like this
      */
     public function aListForSpecialMealsShouldLookLikeThis(TableNode $table)
     {
-        throw new PendingException();
+        $expected = [];
+        foreach ($table->getHash() as $row) {
+            $expected[] = new SpecialMealsRecord($row['turn'], $row['student'], $row['special']);
+        }
+
+        $reporter = new SpecialMealsCantineListReporter();
+        $this->cantineList->accept($reporter);
+        \PHPUnit_Framework_Assert::assertEquals($expected, $reporter->getReport());
     }
 }

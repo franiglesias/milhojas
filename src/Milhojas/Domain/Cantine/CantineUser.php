@@ -32,7 +32,7 @@ class CantineUser implements Sortable
         $this->allergens = $student->getAllergies();
         $this->cantineGroup = new NullCantineGroup();
         $this->classGroup = $student->getClass();
-        $this->remarks = '';
+        $this->remarks = $student->getRemarks();
     }
 
     /**
@@ -181,6 +181,6 @@ class CantineUser implements Sortable
 
     public function getRemarks()
     {
-        return 'Some remarks';
+        return $this->remarks;
     }
 }

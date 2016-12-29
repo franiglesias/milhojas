@@ -2,17 +2,26 @@
 
 namespace Milhojas\Domain\Cantine\CantineList;
 
+/**
+ * Visitor to generate Special Meal reports from a CantineList.
+ */
 class SpecialMealsCantineListReporter
 {
     private $report;
 
+    /**
+     * Generate a entry for the report.
+     *
+     * @param CantineListUserRecord $cantineListUserRecord
+     */
     public function visit(CantineListUserRecord $cantineListUserRecord)
     {
         if ($cantineListUserRecord->getRemarks()) {
-            $line['remarks'] = $cantineListUserRecord->getRemarks();
-            $line['user'] = $cantineListUserRecord->getUserListName();
-            $line['turn'] = $cantineListUserRecord->getTurnName();
-            $this->report[] = $line;
+            $this->report[] = new SpecialMealsRecord(
+                $cantineListUserRecord->getTurnName(),
+                $cantineListUserRecord->getUserListName(),
+                $cantineListUserRecord->getRemarks()
+            );
         }
     }
 

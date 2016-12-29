@@ -4,6 +4,7 @@ namespace spec\Milhojas\Domain\Cantine\CantineList;
 
 use Milhojas\Domain\Cantine\CantineList\CantineListUserRecord;
 use Milhojas\Domain\Cantine\CantineList\SpecialMealsCantineListReporter;
+use Milhojas\Domain\Cantine\CantineList\SpecialMealsRecord;
 use PhpSpec\ObjectBehavior;
 
 class SpecialMealsCantineListReporterSpec extends ObjectBehavior
@@ -45,10 +46,10 @@ class SpecialMealsCantineListReporterSpec extends ObjectBehavior
         $this->visit($user1);
         $this->visit($user2);
         $this->visit($user3);
-
-        $this->getReport()->shouldBeLike([
-            ['turn' => 'Turno 1', 'user' => 'Pérez, Pedro', 'remarks' => 'gluten'],
-            ['turn' => 'Turno 2', 'user' => 'Fernández, María', 'remarks' => 'dieta blanda'],
-        ]);
+        $expected = [
+            new SpecialMealsRecord('Turno 1', 'Pérez, Pedro', 'gluten'),
+            new SpecialMealsRecord('Turno 2', 'Fernández, María', 'dieta blanda'),
+        ];
+        $this->getReport()->shouldBeLike($expected);
     }
 }

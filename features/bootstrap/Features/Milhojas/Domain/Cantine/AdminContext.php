@@ -148,27 +148,19 @@ class AdminContext implements Context
     /**
      * @Then statistics should look like this
      */
-    public function statisticsShouldLookLikeThis(TableNode $table)
+    public function statisticsShouldLookLikeThis($expected)
     {
-        foreach ($table->getHash() as $row) {
-            if ($row['total']) {
-                $line['total'] = $row['total'];
-            }
-            if ($row['ei']) {
-                $line['EI'] = $row['ei'];
-            }
-            if ($row['ep']) {
-                $line['EP'] = $row['ep'];
-            }
-            if ($row['eso']) {
-                $line['ESO'] = $row['eso'];
-            }
-            if ($row['bach']) {
-                $line['Bach'] = $row['bach'];
-            }
-            $expected[$row['turn']] = $line;
-        }
         $reporter = new TurnStageCantineListReporter();
+        $this->cantineList->accept($reporter);
+        \PHPUnit_Framework_Assert::assertEquals($expected, $reporter->getReport());
+    }
+
+    /**
+     * @Then a list for special meals should look like this
+     */
+    public function aListForSpecialMealsShouldLookLikeThis($expected)
+    {
+        $reporter = new SpecialMealsCantineListReporter();
         $this->cantineList->accept($reporter);
         \PHPUnit_Framework_Assert::assertEquals($expected, $reporter->getReport());
     }
@@ -234,17 +226,42 @@ class AdminContext implements Context
     }
 
     /**
-     * @Then a list for special meals should look like this
+     * @Transform table:turn,student,special
      */
-    public function aListForSpecialMealsShouldLookLikeThis(TableNode $table)
+    public function castToSpecialMealsList(TableNode $table)
     {
         $expected = [];
         foreach ($table->getHash() as $row) {
             $expected[] = new SpecialMealsRecord($row['turn'], $row['student'], $row['special']);
         }
 
-        $reporter = new SpecialMealsCantineListReporter();
-        $this->cantineList->accept($reporter);
-        \PHPUnit_Framework_Assert::assertEquals($expected, $reporter->getReport());
+        return $expected;
+    }
+
+    /**
+     * @Transform table:turn,total,ei,ep,eso,bach
+     */
+    public function castToStatsData(TableNode $table)
+    {
+        foreach ($table->getHash() as $row) {
+            if ($row['total']) {
+                $line['total'] = $row['total'];
+            }
+            if ($row['ei']) {
+                $line['EI'] = $row['ei'];
+            }
+            if ($row['ep']) {
+                $line['EP'] = $row['ep'];
+            }
+            if ($row['eso']) {
+                $line['ESO'] = $row['eso'];
+            }
+            if ($row['bach']) {
+                $line['Bach'] = $row['bach'];
+            }
+            $expected[$row['turn']] = $line;
+        }
+
+        return $expected;
     }
 }

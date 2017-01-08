@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block header %}
+<header class="main-header">
+    <h1>Cantine attendance list</h1>
+</header>
+{% endblock %}
+{% block body %}
+    <div class="row">
+        <table id="attendances">
+            <thead>
+
+            </thead>
+            <tbody>
+                {% for record in cantineList %}
+                {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+{% endblock %}

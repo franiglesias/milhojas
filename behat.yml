@@ -8,6 +8,13 @@ default:
                 - Features\Milhojas\Domain\Cantine\TicketAccountingContext
                 - Features\Milhojas\Domain\Cantine\AdminContext
                 - Features\Milhojas\Domain\Cantine\BillingContext
+        cantine_ui:
+            paths:
+                - %paths.base%/features/cantine
+            contexts:
+                - Features\Milhojas\Ui\Cantine\AdminContext
+            filters:
+                tags: '@cantine_ui'
         billing_domain:
             paths:
                 - %paths.base%/features/cantine
@@ -26,3 +33,9 @@ default:
                 - %paths.base%/features/common
             contexts:
                 - Features\Milhojas\Domain\Shared\StudentServiceContext
+    extensions:
+        Behat\MinkExtension:
+          base_url:  'http://localhost:8000'
+          sessions:
+            default:
+              goutte: ~

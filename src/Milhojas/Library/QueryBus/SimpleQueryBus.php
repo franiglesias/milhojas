@@ -2,6 +2,8 @@
 
 namespace Milhojas\Library\QueryBus;
 
+use Milhojas\Library\QueryBus\Loader\Loader;
+
 /**
  * It is a mechanism to perform Queries, it returns answers to them.
  */

@@ -3,18 +3,33 @@
 namespace Milhojas\Library\QueryBus;
 
 use Milhojas\Library\QueryBus\Loader\Loader;
+use Milhojas\Library\QueryBus\Inflector\Inflector;
 
 /**
  * It is a mechanism to perform Queries, it returns answers to them.
  */
 class SimpleQueryBus implements QueryBus
 {
-    private $handlers;
+    /**
+     * The class loader to load the Handlers.
+     *
+     * @var Loader
+     */
     private $loader;
-
-    public function __construct(Loader $loader)
+     /**
+      * Strategy to compute the class handler.
+      *
+      * @var Inflector
+      */
+     private $inflector;
+    /**
+     * @param Loader    $loader
+     * @param Inflector $inflector
+     */
+    public function __construct(Loader $loader, Inflector $inflector)
     {
         $this->loader = $loader;
+        $this->inflector = $inflector;
     }
 
     /**
@@ -28,9 +43,15 @@ class SimpleQueryBus implements QueryBus
 
         return $handler->answer($query);
     }
-
+    /**
+     * Computes and load the needed handler to perform the query.
+     *
+     * @param mixed $query
+     */
     private function getHandler($query)
     {
-        return $this->loader->get($query);
+        $handlerIdentifier = $this->inflector->inflect(get_class($query));
+
+        return $this->loader->get($handlerIdentifier);
     }
 }

@@ -7,14 +7,15 @@ use Milhojas\Library\QueryBus\QueryBus;
 use Milhojas\Library\QueryBus\Query;
 use Milhojas\Library\QueryBus\QueryHandler;
 use Milhojas\Library\QueryBus\Loader\Loader;
+use Milhojas\Library\QueryBus\Inflector\Inflector;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class SimpleQueryBusSpec extends ObjectBehavior
 {
-    public function let(Loader $loader)
+    public function let(Loader $loader, Inflector $inflector)
     {
-        $this->beConstructedWith($loader);
+        $this->beConstructedWith($loader, $inflector);
     }
     public function it_is_initializable()
     {
@@ -22,10 +23,12 @@ class SimpleQueryBusSpec extends ObjectBehavior
         $this->shouldImplement(QueryBus::class);
     }
 
-    public function it_can_execute_Query_returning_result($loader, Query $query, QueryHandler $handler)
+    public function it_can_execute_Query_returning_result($loader, $inflector, Query $query, QueryHandler $handler)
     {
         $handler->answer($query)->willReturn('Query executed!');
+        $inflector->inflect($query)->shouldBeCalled();
         $loader->get(Argument::any())->willReturn($handler);
+
         $this->execute($query)->shouldBe('Query executed!');
     }
 }

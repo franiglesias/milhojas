@@ -2,8 +2,7 @@
 
 namespace Milhojas\Library\CommandBus;
 
-interface CommandHandler {
-	public function handle(Command $command);
+interface CommandHandler
+{
+    public function handle(Command $command);
 }
-
-?>

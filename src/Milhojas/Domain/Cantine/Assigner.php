@@ -4,7 +4,6 @@ namespace Milhojas\Domain\Cantine;
 
 use Milhojas\Domain\Cantine\CantineList\CantineList;
 use Milhojas\Domain\Cantine\CantineList\CantineListUserRecord;
-
 use Milhojas\Application\Cantine\Event\UserWasAssignedToCantineTurn;
 use Milhojas\Application\Cantine\Event\UserWasNotAssignedToCantineTurn;
 use Milhojas\Library\EventBus\EventBus;
@@ -23,41 +22,19 @@ class Assigner
         $this->eventBus = $eventBus;
     }
 
-    /**
-     * Runs the User list through the rules chain to assign users to their turns.
-     *
-     * Dispatches UserWasAssignedToCantineTurn | UserWasNotAssignedToCantineTurn
-     *
-     * @param array     $users CantineUser
-     * @param \DateTimeInterface $date
-     */
-    public function assignUsersForDate($users, \DateTimeInterface $date)
+    public function buildList(\DateTimeInterface $date, $users)
     {
+        $list = new CantineList($date);
         foreach ($users as $user) {
-            $turn = $this->ruleChain->assignsUserToTurn($user, $date);
+            $turn = $this->ruleChain->assignsUserToTurn($user, $list->getDate());
             if (!$turn) {
                 $this->eventBus->dispatch(new UserWasNotAssignedToCantineTurn($user, $date));
                 continue;
             }
+            $list->insert(new CantineListUserRecord($date, $turn, $user));
             $this->eventBus->dispatch(new UserWasAssignedToCantineTurn($user, $turn, $date));
         }
-    }
 
-    public function buildList(CantineList $list, $users)
-    {
-        foreach ($users as $user) {
-            $turn = $this->ruleChain->assignsUserToTurn($user, $list->getDate());
-            $record = new CantineListUserRecord(
-                $list->getDate(),
-                $turn,
-                $user
-            );
-            $list->insert($record);
-            if (!$turn) {
-                $this->eventBus->dispatch(new UserWasNotAssignedToCantineTurn($user, $list->getDate()));
-                continue;
-            }
-            $this->eventBus->dispatch(new UserWasAssignedToCantineTurn($user, $turn, $list->getDate()));
-        }
+        return $list;
     }
 }

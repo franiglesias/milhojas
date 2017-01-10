@@ -8,7 +8,7 @@ namespace Milhojas\Library\QueryBus\Loader;
 interface Loader
 {
     /**
-     * @param mixed $className identifier for the class to load. It could be the class name or the label ina container
+     * @param string $className identifier for the class to load. It could be the class name or the label ina container
      */
     public function get($className);
 }

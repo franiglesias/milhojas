@@ -13,6 +13,8 @@ class SymfonyContainerLoader implements Loader
 
     /**
      * Injects and instance of the symfony container.
+     *
+     * @param ContainerInterface $symfonyContainer Uses the symfony container as loader for classes
      */
     public function __construct(ContainerInterface $symfonyContainer)
     {
@@ -21,7 +23,7 @@ class SymfonyContainerLoader implements Loader
     /**
      * Loads the class given a string identifier definer in the services.yml configuration.
      *
-     * @param string a class name or identifier
+     * @param string $className a class name or identifier
      *
      * @return object of the desired class
      */

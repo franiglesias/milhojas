@@ -19,7 +19,7 @@ Feature: Get the list of today's cantine users
             | Enrique | Sánchez | m | EP 4 A | student-05 | Grupo 1 | regular | november: monday, friday |  |  |
             | Gabriela | Martínez | f | EP 4 B | student-06 | Grupo 1 | ticket | 11/14/2016 | fish |  |
 
-    @cantine_ui
+    @cantine_ui, @cantine_app
     Scenario: Admin wants to get the list of taday's users
         Given Today is '11/14/2016'
         When Admin asks for the list

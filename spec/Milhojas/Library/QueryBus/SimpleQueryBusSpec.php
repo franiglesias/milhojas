@@ -26,7 +26,7 @@ class SimpleQueryBusSpec extends ObjectBehavior
     public function it_can_execute_Query_returning_result($loader, $inflector, Query $query, QueryHandler $handler)
     {
         $handler->answer($query)->willReturn('Query executed!');
-        $inflector->inflect($query)->shouldBeCalled();
+        $inflector->inflect(Argument::type('string'))->shouldBeCalled();
         $loader->get(Argument::any())->willReturn($handler);
 
         $this->execute($query)->shouldBe('Query executed!');

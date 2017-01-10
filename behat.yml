@@ -15,6 +15,13 @@ default:
                 - Features\Milhojas\Ui\Cantine\AdminContext
             filters:
                 tags: '@cantine_ui'
+        cantine_app:
+            paths:
+                - %paths.base%/features/cantine
+            contexts:
+                - Features\Milhojas\App\Cantine\AdminContext
+            filters:
+                tags: '@cantine_app'
         billing_domain:
             paths:
                 - %paths.base%/features/cantine

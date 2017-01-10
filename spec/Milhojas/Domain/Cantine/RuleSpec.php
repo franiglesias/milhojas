@@ -6,6 +6,7 @@ use Milhojas\Domain\Cantine\Turn;
 use Milhojas\Domain\Cantine\Rule;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineGroup;
+use Milhojas\Domain\Cantine\Exception\CantineUserCouldNotBeAssignedToTurn;
 use Milhojas\Domain\Utils\Schedule\WeeklySchedule;
 use PhpSpec\ObjectBehavior;
 
@@ -45,7 +46,9 @@ class RuleSpec extends ObjectBehavior
         $schedule)
     {
         $schedule->isScheduledDate($date)->willReturn(false);
-        $this->assignsUserToTurn($User, $date)->shouldBe(false);
+        $User->getListName()->shouldBeCalled();
+        $this->shouldThrow(CantineUserCouldNotBeAssignedToTurn::class)->during('assignsUserToTurn', [$User, $date]);
+        // $this->assignsUserToTurn($User, $date)->shouldBe(false);
     }
 
     public function it_does_not_appoint_user_if_group_does_not_match(
@@ -56,7 +59,9 @@ class RuleSpec extends ObjectBehavior
     {
         $schedule->isScheduledDate($date)->willReturn(true);
         $User->belongsToGroup($group)->willReturn(false);
-        $this->assignsUserToTurn($User, $date)->shouldBe(false);
+        $User->getListName()->shouldBeCalled();
+        $this->shouldThrow(CantineUserCouldNotBeAssignedToTurn::class)->during('assignsUserToTurn', [$User, $date]);
+        // $this->assignsUserToTurn($User, $date)->shouldBe(false);
     }
 
     public function it_delegates_to_another_rule_if_it_can_not_handle_conditions(
@@ -73,7 +78,7 @@ class RuleSpec extends ObjectBehavior
         $this->assignsUserToTurn($User, $date)->shouldBe($turn);
     }
 
-    public function it_does_nothing_if_it_can_not_assign_user_and_there_is_no_more_rules_in_the_chain(
+    public function it_throws_exception_if_it_can_not_assign_user_and_there_is_no_more_rules_in_the_chain(
         $User,
         $schedule,
         \DateTimeImmutable $date,
@@ -82,7 +87,10 @@ class RuleSpec extends ObjectBehavior
         ) {
         $schedule->isScheduledDate($date)->willReturn(false);
         $rule->assignsUserToTurn($User, $date)->shouldNotBeCalled();
-        $this->assignsUserToTurn($User, $date)->shouldBe(false);
+        $User->getListName()->shouldBeCalled();
+        $this->shouldThrow(CantineUserCouldNotBeAssignedToTurn::class)->during('assignsUserToTurn', [$User, $date]);
+
+        // $this->assignsUserToTurn($User, $date)->shouldBe(false);
     }
 
     public function it_returns_first_positive(

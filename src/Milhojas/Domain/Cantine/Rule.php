@@ -2,6 +2,7 @@
 
 namespace Milhojas\Domain\Cantine;
 
+use Milhojas\Domain\Cantine\Exception\CantineUserCouldNotBeAssignedToTurn;
 use Milhojas\Domain\Utils\Schedule\WeeklySchedule;
 
 /**
@@ -48,8 +49,8 @@ class Rule
     /**
      * If the rule applies and all conditions are met the User is assigned to the Turn on date specified.
      *
-     * @param CantineUser $User
-     * @param \DateTime   $date
+     * @param CantineUser        $User
+     * @param \DateTimeInterface $date
      *
      * @return bool true if uesr was assigned
      */
@@ -65,8 +66,8 @@ class Rule
     /**
      * Evaluates if all conditions are met to assign user to the Turn.
      *
-     * @param \DateTime   $date
-     * @param CantineUser $User
+     * @param \DateTimeInterface $date
+     * @param CantineUser        $User
      *
      * @return bool true if all conditions are met
      */
@@ -116,7 +117,7 @@ class Rule
     private function delegate(CantineUser $User, \DateTimeInterface $date)
     {
         if (!$this->next) {
-            return false;
+            throw new CantineUserCouldNotBeAssignedToTurn(sprintf('User %s can not be assigned.', $User->getListName()));
         }
 
         return $this->next->assignsUserToTurn($User, $date);

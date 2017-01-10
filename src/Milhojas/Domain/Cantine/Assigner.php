@@ -6,6 +6,7 @@ use Milhojas\Domain\Cantine\CantineList\CantineList;
 use Milhojas\Domain\Cantine\CantineList\CantineListUserRecord;
 use Milhojas\Application\Cantine\Event\UserWasAssignedToCantineTurn;
 use Milhojas\Application\Cantine\Event\UserWasNotAssignedToCantineTurn;
+use Milhojas\Domain\Cantine\Exception\CantineUserCouldNotBeAssignedToTurn;
 use Milhojas\Library\EventBus\EventBus;
 
 /**
@@ -26,13 +27,13 @@ class Assigner
     {
         $list = new CantineList($date);
         foreach ($users as $user) {
-            $turn = $this->ruleChain->assignsUserToTurn($user, $list->getDate());
-            if (!$turn) {
+            try {
+                $turn = $this->ruleChain->assignsUserToTurn($user, $list->getDate());
+                $list->insert(new CantineListUserRecord($date, $turn, $user));
+                $this->eventBus->dispatch(new UserWasAssignedToCantineTurn($user, $turn, $date));
+            } catch (CantineUserCouldNotBeAssignedToTurn $e) {
                 $this->eventBus->dispatch(new UserWasNotAssignedToCantineTurn($user, $date));
-                continue;
             }
-            $list->insert(new CantineListUserRecord($date, $turn, $user));
-            $this->eventBus->dispatch(new UserWasAssignedToCantineTurn($user, $turn, $date));
         }
 
         return $list;

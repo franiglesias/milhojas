@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\LIbrary\ValueObjects\Identity;
+namespace Milhojas\Library\ValueObjects\Identity;
 
 use Milhojas\Library\Sortable\Sortable;
 

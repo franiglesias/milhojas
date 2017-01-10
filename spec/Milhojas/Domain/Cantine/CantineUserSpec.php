@@ -25,6 +25,7 @@ class CantineUserSpec extends ObjectBehavior
         $student->getPerson()->willReturn($name);
         $student->getAllergies()->willReturn($allergens);
         $student->getClass()->willReturn(new ClassGroup('3º E. Primaria', 'EP 3 A', 'EP'));
+        $student->getRemarks()->willReturn('Some remarks');
         $this->beConstructedThrough('apply', [$student, $schedule]);
     }
     public function it_is_initializable()

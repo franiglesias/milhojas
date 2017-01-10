@@ -4,11 +4,11 @@ namespace Features\Milhojas\App\Cantine;
 
 use Behat\Gherkin\Node\TableNode;
 use Behat\Gherkin\Node\PyStringNode;
-use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 use Milhojas\Application\Cantine\Query\GetCantineAttendancesListFor;
 use Milhojas\Application\Cantine\Query\GetCantineAttendancesListForHandler;
 use Milhojas\Domain\Cantine\CantineGroup;
+use Milhojas\Domain\Cantine\CantineList\CantineList;
 use Milhojas\Domain\Cantine\CantineConfig;
 use Milhojas\Domain\Cantine\CantineUserRepository;
 use Milhojas\Domain\Cantine\Factories\RuleFactory;
@@ -26,7 +26,9 @@ use Milhojas\Library\ValueObjects\Identity\Person;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
 use Milhojas\Library\QueryBus\SimpleQueryBus;
 use Milhojas\Library\QueryBus\Loader\TestLoader;
+use Milhojas\Library\EventBus\EventBus;
 use org\bovigo\vfs\vfsStream;
+use Prophecy\Prophet;
 
 /**
  * Defines application features from the specific context.
@@ -70,13 +72,27 @@ class AdminContext implements Context
     {
         $this->cantineConfig->load($this->getMockedConfigurationFile($string));
 
-        $assigner = new Assigner($this->cantineConfig->getRules(), $eventBus);
+        $assigner = new Assigner($this->cantineConfig->getRules(), $this->getEventBus());
         $handler = new GetCantineAttendancesListForHandler($this->CantineUserRepository, $assigner);
 
         $loader = new TestLoader();
         $loader->add('cantine.get_cantine_attendances_list_for.handler', $handler);
+
         $inflector = new SymfonyContainerInflector();
         $this->bus = new SimpleQueryBus($loader, $inflector);
+    }
+
+    /**
+     * Prepares a Mocked EventBus.
+     *
+     * @return object
+     */
+    public function getEventBus()
+    {
+        $prophet = new Prophet();
+        $eventBus = $prophet->prophesize(EventBus::class)->reveal();
+
+        return $eventBus;
     }
 
     /**
@@ -125,8 +141,7 @@ class AdminContext implements Context
     public function adminAsksForTheList()
     {
         $query = new GetCantineAttendancesListFor($this->today);
-        $this->bus->execute($query);
-        throw new PendingException();
+        $this->cantineList = $this->bus->execute($query);
     }
 
     /**
@@ -134,7 +149,7 @@ class AdminContext implements Context
      */
     public function theTurnsShouldBeAssignedAs(TableNode $table)
     {
-        throw new PendingException();
+        \PHPUnit_Framework_Assert::assertEquals($table->getHash(), $this->castToResult($this->cantineList));
     }
 
     /**
@@ -167,5 +182,31 @@ class AdminContext implements Context
         $schedule = [$month => explode(', ', trim($weekdays))];
 
         return new MonthWeekSchedule($schedule);
+    }
+
+    /**
+     * Cast CantineList to an array we can compare with expectation.
+     *
+     * @param CantineList $cantineList we want to cast
+     *
+     * @return array of CantineListUserRecord
+     */
+    private function castToResult(CantineList $cantineList)
+    {
+        $cantineList->top();
+        $result = [];
+        while ($cantineList->valid()) {
+            $record = $cantineList->current();
+            $result[] = [
+                'date' => $record->getDate()->format('m/d/Y'),
+                'turn' => $record->getTurnName(),
+                'student' => $record->getUserListName(),
+                'class' => $record->getClassGroupName(),
+                'remarks' => '',
+            ];
+            $cantineList->next();
+        }
+
+        return $result;
     }
 }

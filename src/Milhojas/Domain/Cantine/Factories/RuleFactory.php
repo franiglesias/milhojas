@@ -2,8 +2,6 @@
 
 namespace Milhojas\Domain\Cantine\Factories;
 
-use Milhojas\Domain\Cantine\Turns;
-use Milhojas\Domain\Cantine\Groups;
 use Milhojas\Domain\Cantine\Rule;
 use Milhojas\Domain\Utils\Schedule\WeeklySchedule;
 
@@ -20,11 +18,9 @@ class RuleFactory
 
     public function configure($config, TurnsFactory $turns, GroupsFactory $groups)
     {
-        $this->turns = $turns;
-        $this->groups = $groups;
         foreach ($config as $name => $rule) {
-            $turn = $this->turns->getTurn($rule['turn']);
-            $group = $this->groups->getGroup($rule['group']);
+            $turn = $turns->getTurn($rule['turn']);
+            $group = $groups->getGroup($rule['group']);
             $schedule = new WeeklySchedule($rule['schedule']);
             $this->addRule(new Rule($turn, $schedule, $group, [], []));
         }
@@ -43,5 +39,10 @@ class RuleFactory
             return;
         }
         $this->rules->chain($rule);
+    }
+
+    public function load($argument1, $argument2, $argument3)
+    {
+        // TODO: write logic here
     }
 }

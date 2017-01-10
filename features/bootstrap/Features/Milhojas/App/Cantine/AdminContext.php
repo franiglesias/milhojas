@@ -6,18 +6,23 @@ use Behat\Gherkin\Node\TableNode;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
+use Milhojas\Application\Cantine\Query\GetCantineAttendancesListFor;
+use Milhojas\Application\Cantine\Query\GetCantineAttendancesListForHandler;
 use Milhojas\Domain\Cantine\CantineGroup;
 use Milhojas\Domain\Cantine\CantineConfig;
+use Milhojas\Domain\Cantine\CantineUserRepository;
 use Milhojas\Domain\Cantine\Factories\RuleFactory;
 use Milhojas\Domain\Cantine\Factories\TurnsFactory;
 use Milhojas\Domain\Cantine\Factories\GroupsFactory;
+use Milhojas\Domain\Cantine\Assigner;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Domain\Shared\Student;
 use Milhojas\Domain\Shared\StudentId;
 use Milhojas\Domain\Shared\ClassGroup;
 use Milhojas\Domain\Utils\Schedule\MonthWeekSchedule;
-use Milhojas\LIbrary\ValueObjects\Identity\Person;
+use Milhojas\Library\QueryBus\Inflector\SymfonyContainerInflector;
+use Milhojas\Library\ValueObjects\Identity\Person;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
 use Milhojas\Library\QueryBus\SimpleQueryBus;
 use Milhojas\Library\QueryBus\Loader\TestLoader;
@@ -49,12 +54,13 @@ class AdminContext implements Context
      */
     public function __construct()
     {
+        $this->cantineConfig = new CantineConfig(
+            new TurnsFactory(),
+            new GroupsFactory(),
+            new RuleFactory()
+        );
+
         $this->CantineUserRepository = new CantineUserInMemoryRepository();
-        $loader = new TestLoader();
-        $handler = new GetCantineAttendancesListForHandler();
-        $loader->add('cantine.get_cantine_attendances_list_for.handler', $handler);
-        $inflector = new SymfonyContainerInflector();
-        $this->bus = new SimpleQueryBus($loader, $inflector);
     }
 
     /**
@@ -62,12 +68,15 @@ class AdminContext implements Context
      */
     public function cantineConfigurationIs(PyStringNode $string)
     {
-        $this->cantineConfig = new CantineConfig(
-            new TurnsFactory(),
-            new GroupsFactory(),
-            new RuleFactory()
-        );
         $this->cantineConfig->load($this->getMockedConfigurationFile($string));
+
+        $assigner = new Assigner($this->cantineConfig->getRules(), $eventBus);
+        $handler = new GetCantineAttendancesListForHandler($this->CantineUserRepository, $assigner);
+
+        $loader = new TestLoader();
+        $loader->add('cantine.get_cantine_attendances_list_for.handler', $handler);
+        $inflector = new SymfonyContainerInflector();
+        $this->bus = new SimpleQueryBus($loader, $inflector);
     }
 
     /**
@@ -116,7 +125,7 @@ class AdminContext implements Context
     public function adminAsksForTheList()
     {
         $query = new GetCantineAttendancesListFor($this->today);
-
+        $this->bus->execute($query);
         throw new PendingException();
     }
 

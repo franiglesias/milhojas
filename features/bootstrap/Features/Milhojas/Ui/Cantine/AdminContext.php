@@ -7,6 +7,7 @@ use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Behat\MinkExtension\Context\MinkContext;
+use Milhojas\Domain\Cantine\CantineUserRepository;
 use Milhojas\Domain\Cantine\CantineList\SpecialMealsRecord;
 use Milhojas\Domain\Cantine\Factories\CantineManager;
 use Milhojas\Domain\Shared\ClassGroup;

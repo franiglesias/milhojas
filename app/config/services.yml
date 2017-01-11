@@ -54,6 +54,19 @@ services:
         class:          Milhojas\Library\CommandBus\Workers\DispatchEventsWorker
         arguments:      ['@event_bus', '@event_recorder']
 
+    # QueryBus
+
+    loader:
+        class:          Milhojas\Library\QueryBus\Loader\SymfonyContainerLoader
+        arguments:      ['@service_container']
+
+    service_inflector:
+        class:          Milhojas\Library\QueryBus\Inflector\SymfonyContainerInflector
+
+    query_bus:
+        class:          Milhojas\Library\QueryBus\SimpleQueryBus
+        arguments:      ['@loader', '@service_inflector']
+
 # Mailer
     milhojas.templating.engine:
         class:          Milhojas\Infrastructure\Templating\Adapters\TwigTemplating
@@ -107,6 +120,8 @@ services:
 
         tags:
             - { name: monolog.logger, channel: eventbus }
+
+
 
 # HWI Oauth Bundle needs this, we could need another provider
 

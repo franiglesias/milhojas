@@ -57,7 +57,8 @@ class AdminContext implements Context
     {
         $Manager = new CantineManager($this->getMockedConfigurationFile($string));
 
-        $assigner = new Assigner($Manager->getRules(), $this->getEventBus());
+        $assigner = new Assigner($Manager, $this->getEventBus());
+
         $handler = new GetCantineAttendancesListForHandler($this->CantineUserRepository, $assigner);
 
         $loader = new TestLoader();

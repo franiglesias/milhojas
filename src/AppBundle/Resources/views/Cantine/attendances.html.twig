@@ -1,20 +1,25 @@
 {% extends 'base.html.twig' %}
 {% block header %}
 <header class="main-header">
-    <h1>Cantine attendance list</h1>
+    <h1>Cantine attendance list {{ date|date("j/m/Y") }}</h1>
 </header>
 {% endblock %}
 {% block body %}
+    {% if attendances is empty %}
+    <p>There are no users to list</p>
+    {% else %}
+
     <div class="row">
         <table id="attendances">
             <thead>
 
             </thead>
             <tbody>
-                {% for record in cantineList %}
+                {% for record in attendances %}
                 {% endfor %}
             </tbody>
 
         </table>
     </div>
+    {% endif %}
 {% endblock %}

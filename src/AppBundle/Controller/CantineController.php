@@ -2,21 +2,27 @@
 
 namespace AppBundle\Controller;
 
+use Milhojas\Application\Cantine\Query\GetCantineAttendancesListFor;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class CantineController extends Controller
 {
     /**
-     * @Route("/cantine/attendances", name="attendances")
+     * @Route("/cantine/attendances/{date}", name="attendances")
      * @Method({"GET","HEAD"})
+     * @ParamConverter("date", options={"format": "Y-m-d"})
      */
-    public function attendancesAction(Request $request)
+    public function attendancesAction(\DateTime $date)
     {
+        $querybus = $this->get('query_bus');
+        $attendances = $querybus->execute(new GetCantineAttendancesListFor($date));
+
         return $this->render('AppBundle:Cantine:attendances.html.twig', array(
-            'cantineList' => ['hello'],
+            'date' => $date,
+            'attendances' => $attendances,
         ));
     }
 }

@@ -1,0 +1,18 @@
+parameters:
+    cantine_configuration:  '%kernel.root_dir%/../app/config/cantine.yml'
+
+services:
+    cantine_manager:
+        class:      Milhojas\Domain\Cantine\Factories\CantineManager
+        arguments:  ['%cantine_configuration%']
+
+    cantine_repository:
+        class:      Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository
+
+    cantine_assigner:
+        class:      Milhojas\Domain\Cantine\Assigner
+        arguments:  ['@cantine_manager', '@event_bus']
+# QueryHandlers
+    cantine.get_cantine_attendances_list_for.handler:
+        class:      Milhojas\Application\Cantine\Query\GetCantineAttendancesListForHandler
+        arguments:  ['@cantine_repository', '@cantine_assigner']

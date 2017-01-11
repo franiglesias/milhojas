@@ -3,30 +3,26 @@
 namespace Milhojas\Library\Messaging\CommandBus\Workers;
 
 use Milhojas\Library\Messaging\CommandBus\Command;
-use Milhojas\Library\Messaging\CommandBus\Workers\ChainableCommandWorker;
 
 /**
  * Base class for Chainable Command Workers. Manages the next pointer and encapsulates delegation.
  *
- * @package default
  * @author Francisco Iglesias Gómez
  */
-abstract class CommandWorker implements ChainableCommandWorker
+abstract class CommandWorker
 {
-	protected $next;
-	
-	public function setNext(ChainableCommandWorker $next)
-	{
-		$this->next = $next;
-	}
-	
-	protected function delegateNext(Command $command)
-	{
-		if (!$this->next) {
-			return;
-		}
-		$this->next->execute($command);
-	}
-}
+    protected $next;
 
-?>
+    public function setNext(ChainableCommandWorker $next)
+    {
+        $this->next = $next;
+    }
+
+    protected function delegateNext(Command $command)
+    {
+        if (!$this->next) {
+            return;
+        }
+        $this->next->execute($command);
+    }
+}

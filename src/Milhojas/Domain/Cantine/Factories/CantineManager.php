@@ -14,14 +14,12 @@ class CantineManager
     private $turns;
     private $groups;
     private $rules;
-    private $file;
 
     public function __construct($file)
     {
         if (!file_exists($file)) {
             throw new \InvalidArgumentException(sprintf('%s is not a valid cantine configuration file', $file));
         }
-        $this->file = $file;
         $config = Yaml::parse(file_get_contents($file));
 
         $this->turns = new TurnsFactory($config['turns']);

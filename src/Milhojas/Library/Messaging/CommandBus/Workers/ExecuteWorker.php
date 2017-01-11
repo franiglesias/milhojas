@@ -21,6 +21,11 @@ class ExecuteWorker extends CommandWorker
         $this->inflector = $inflector;
     }
 
+    /**
+     * Execute the needed handler and pass the comnand to the next Worker.
+     *
+     * @param Command $command
+     */
     public function execute(Command $command)
     {
         $handler = $this->getHandler($command);
@@ -28,6 +33,11 @@ class ExecuteWorker extends CommandWorker
         $this->delegateNext($command);
     }
 
+    /**
+     * Resolves the handler for this commnad.
+     *
+     * @param Command $command
+     */
     protected function getHandler(Command $command)
     {
         $handler = $this->inflector->inflect(get_class($command));

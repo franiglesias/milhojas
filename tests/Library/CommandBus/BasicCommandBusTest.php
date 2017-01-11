@@ -2,7 +2,7 @@
 
 namespace Tests\Library\Messaging\CommandBus;
 
-use Milhojas\Library\Messaging\CommandBus\BasicCommandBus;
+use Milhojas\Library\Messaging\CommandBus\CommandBus;
 use Milhojas\Library\Messaging\CommandBus\CommandBus;
 use Milhojas\Library\Messaging\CommandBus\Command;
 use Milhojas\Library\Messaging\CommandBus\CommandHandler;
@@ -16,11 +16,11 @@ use Tests\Library\Messaging\CommandBus\Fixtures\SimpleCommand;
 use Tests\Library\Messaging\CommandBus\Fixtures\SimpleCommandHandler;
 
 
-class BasicCommandBusTest extends CommandBusTestCase {
+class CommandBusTest extends CommandBusTestCase {
 	
 	public function test_executes_a_command_passing_trough_loaded_command_workers()
 	{
-		$this->withBus(new BasicCommandBus([
+		$this->withBus(new CommandBus([
 					new IntactCommandFakeWorker(),
 					new ExecuteCommandFakeWorker(),
 					new IntactCommandFakeWorker()

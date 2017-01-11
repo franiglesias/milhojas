@@ -2,7 +2,7 @@
 
 namespace Tests\Library\Messaging\CommandBus\Utils;
 
-use Milhojas\Library\Messaging\CommandBus\BasicCommandBus;
+use Milhojas\Library\Messaging\CommandBus\CommandBus;
 use Milhojas\Library\Messaging\CommandBus\CommandBus;
 use Milhojas\Library\Messaging\CommandBus\Command;
 use Milhojas\Library\Messaging\CommandBus\CommandHandler;

@@ -34,7 +34,7 @@ services:
         arguments:      ["@service_container"]
 
     handler_inflector:
-        class:          Milhojas\Library\Messaging\CommandBus\Inflectors\HandlerInflector
+        class:          Milhojas\Library\Messaging\Shared\Inflector\HandlerInflector
 
     command_bus:
         class:          Milhojas\Library\Messaging\CommandBus\BasicCommandBus
@@ -48,7 +48,7 @@ services:
 
     executer_bus_worker:
         class:          Milhojas\Library\Messaging\CommandBus\Workers\ExecuteWorker
-        arguments:      ["@handler_container", "@handler_inflector"]
+        arguments:      ["@loader", "@handler_inflector"]
 
     event_bus_worker:
         class:          Milhojas\Library\Messaging\CommandBus\Workers\DispatchEventsWorker

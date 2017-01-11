@@ -13,7 +13,7 @@ abstract class CommandWorker
 {
     protected $next;
 
-    public function setNext(ChainableCommandWorker $next)
+    public function setNext(CommandWorker $next)
     {
         $this->next = $next;
     }

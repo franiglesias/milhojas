@@ -15,13 +15,8 @@ class CantineController extends Controller
      */
     public function attendancesAction(Request $request)
     {
-        $cantineList = (
-            new CantineListRecord()
-
-        );
-
         return $this->render('AppBundle:Cantine:attendances.html.twig', array(
-            'cantineList' => $cantineList,
+            'cantineList' => ['hello'],
         ));
     }
 }

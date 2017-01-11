@@ -12,7 +12,6 @@ use Milhojas\Domain\Cantine\CantineList\TurnStageCantineListReporter;
 use Milhojas\Domain\Cantine\CantineList\SpecialMealsCantineListReporter;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineGroup;
-use Milhojas\Domain\Cantine\CantineConfig;
 use Milhojas\Domain\Cantine\CantineUserRepository;
 use Milhojas\Domain\Cantine\Factories\CantineManager;
 use Milhojas\Domain\Cantine\Specification\CantineUserEatingOnDate;
@@ -41,9 +40,9 @@ class AdminContext implements Context
     /**
      * Holds Cantine configuration.
      *
-     * @var CantineConfig
+     * @var CantineManager
      */
-    private $cantineConfig;
+    private $Manager;
     /**
      * Initializes context.
      *
@@ -65,7 +64,7 @@ class AdminContext implements Context
      */
     public function cantineConfigurationIs(PyStringNode $string)
     {
-        $this->cantineConfig = new CantineManager($this->getMockedConfigurationFile($string));
+        $this->Manager = new CantineManager($this->getMockedConfigurationFile($string));
     }
 
     /**
@@ -121,7 +120,7 @@ class AdminContext implements Context
         $prophet = new Prophet();
         $eventBus = $prophet->prophesize(EventBus::class)->reveal();
 
-        $assigner = new Assigner($this->cantineConfig->getRules(), $eventBus);
+        $assigner = new Assigner($this->Manager->getRules(), $eventBus);
         $this->cantineList = $assigner->buildList($this->today, $this->List);
     }
 

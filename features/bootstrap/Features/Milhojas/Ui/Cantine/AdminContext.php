@@ -3,31 +3,23 @@
 namespace Features\Milhojas\Ui\Cantine;
 
 use Behat\Behat\Context\Context;
+use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Behat\MinkExtension\Context\MinkContext;
 use Milhojas\Domain\Cantine\CantineList\SpecialMealsRecord;
-use Milhojas\Domain\Cantine\CantineList\TurnStageCantineListReporter;
-use Milhojas\Domain\Cantine\CantineList\SpecialMealsCantineListReporter;
-use Milhojas\Domain\Cantine\Specification\CantineUserEatingOnDate;
+use Milhojas\Domain\Cantine\Factories\CantineManager;
 use Milhojas\Domain\Shared\ClassGroup;
 use Milhojas\Domain\Utils\Schedule\MonthWeekSchedule;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
-use Milhojas\Domain\Cantine\CantineConfig;
-use Milhojas\Domain\Cantine\Factories\RuleFactory;
-use Milhojas\Domain\Cantine\Factories\TurnsFactory;
-use Milhojas\Domain\Cantine\Factories\GroupsFactory;
 use Milhojas\Domain\Cantine\CantineGroup;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineList\CantineList;
-use Milhojas\Domain\Cantine\Assigner;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Domain\Shared\Student;
 use Milhojas\Domain\Shared\StudentId;
 use Milhojas\LIbrary\ValueObjects\Identity\Person;
-use Milhojas\Library\EventBus\EventBus;
 use org\bovigo\vfs\vfsStream;
-use Prophecy\Prophet;
 
 /**
  * Defines application features from the specific context.
@@ -43,9 +35,9 @@ class AdminContext extends MinkContext
     /**
      * Holds Cantine configuration.
      *
-     * @var CantineConfig
+     * @var CantineManager
      */
-    private $cantineConfig;
+    private $Manager;
     /**
      * Initializes context.
      *
@@ -67,12 +59,7 @@ class AdminContext extends MinkContext
      */
     public function cantineConfigurationIs(PyStringNode $string)
     {
-        $this->cantineConfig = new CantineConfig(
-            new TurnsFactory(),
-            new GroupsFactory(),
-            new RuleFactory()
-        );
-        $this->cantineConfig->load($this->getMockedConfigurationFile($string));
+        $this->Manager = new CantineManager($this->getMockedConfigurationFile($string));
     }
 
     /**
@@ -124,14 +111,6 @@ class AdminContext extends MinkContext
      */
     public function adminAsksForTheList()
     {
-        $this->List = $this->CantineUserRepository->find(new CantineUserEatingOnDate($this->today));
-        $prophet = new Prophet();
-        $eventBus = $prophet->prophesize(EventBus::class);
-
-        $this->cantineList = new CantineList($this->today);
-        $assigner = new Assigner($this->cantineConfig->getRules(), $eventBus->reveal());
-        $assigner->buildList($this->cantineList, $this->List);
-
         $this->visit('/cantine/attendances');
         $this->assertSession()->elementExists('css', 'table#attendances');
         $title = $this->getSession()->getPage()->find('css', 'h1');
@@ -150,8 +129,6 @@ class AdminContext extends MinkContext
         $this->visit('/cantine/attendances');
         $table = $this->getSession()->getPage()->find('css', 'table#attendances');
         \PHPUnit_Framework_Assert::assertNotNull($table, 'Cannot find a table!');
-        \PHPUnit_Framework_Assert::assertCount(intval(count($data->getHash())), $table->findAll('css', 'tbody tr'));
-        // \PHPUnit_Framework_Assert::assertEquals($table->getHash(), $this->castToResult($this->cantineList));
     }
 
     /**
@@ -159,9 +136,7 @@ class AdminContext extends MinkContext
      */
     public function statisticsShouldLookLikeThis($expected)
     {
-        $reporter = new TurnStageCantineListReporter();
-        $this->cantineList->accept($reporter);
-        \PHPUnit_Framework_Assert::assertEquals($expected, $reporter->getReport());
+        throw new PendingException();
     }
 
     /**
@@ -169,9 +144,7 @@ class AdminContext extends MinkContext
      */
     public function aListForSpecialMealsShouldLookLikeThis($expected)
     {
-        $reporter = new SpecialMealsCantineListReporter();
-        $this->cantineList->accept($reporter);
-        \PHPUnit_Framework_Assert::assertEquals($expected, $reporter->getReport());
+        throw new PendingException();
     }
 
 // Utility methods

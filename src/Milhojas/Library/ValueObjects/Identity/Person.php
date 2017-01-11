@@ -32,6 +32,11 @@ class Person implements Sortable
         return sprintf(self::LISTNAME, $this->name, $this->surname);
     }
 
+    public function getGender()
+    {
+        return $this->gender;
+    }
+
     public function compare($other)
     {
         $collator = collator_create('es_ES');

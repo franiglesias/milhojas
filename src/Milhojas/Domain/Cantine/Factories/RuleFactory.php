@@ -7,9 +7,7 @@ use Milhojas\Domain\Utils\Schedule\WeeklySchedule;
 
 class RuleFactory
 {
-    private $turns;
     private $rules;
-    private $groups;
 
     public function __construct($config, TurnsFactory $turns, GroupsFactory $groups)
     {
@@ -17,7 +15,7 @@ class RuleFactory
         $this->configure($config, $turns, $groups);
     }
 
-    private function configure($config, $turns, $groups)
+    private function configure($config, TurnsFactory $turns, GroupsFactory $groups)
     {
         foreach ($config as $name => $rule) {
             $turn = $turns->getTurn($rule['turn']);

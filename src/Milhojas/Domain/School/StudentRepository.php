@@ -2,6 +2,8 @@
 
 namespace Milhojas\Domain\School;
 
+use Milhojas\Domain\School\Specification\StudentSpecification;
+
 interface StudentRepository
 {
     public function store(Student $student);

@@ -10,8 +10,6 @@ class Student
     private $class;
     private $remarks;
 
-    private $allergies;
-
     public function __construct($id, $person, $class, $remarks)
     {
         $this->id = $id;

@@ -26,6 +26,10 @@ class Activity
         return new self($name, $time, $weeklySchedule);
     }
 
+    public function getTime()
+    {
+        return $this->time;
+    }
     public function getName()
     {
         return $this->name;

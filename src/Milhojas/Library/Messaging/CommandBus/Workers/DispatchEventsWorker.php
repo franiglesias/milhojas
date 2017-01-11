@@ -28,4 +28,9 @@ class DispatchEventsWorker extends CommandWorker
         }
         $this->recorder->flush();
     }
+
+    public function setNext(CommandWorker $worker)
+    {
+        throw new \InvalidArgumentException('DispatchEventsWorker should be the last worker in the chain');
+    }
 }

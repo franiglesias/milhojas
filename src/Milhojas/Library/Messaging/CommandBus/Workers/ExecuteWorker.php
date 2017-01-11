@@ -8,13 +8,27 @@ use Milhojas\Library\Messaging\CommandBus\Command;
 
 /**
  * Manages the execution of a command with the right command handler
- * You can control de behavior using different inflectors.
+ * You can control behavior using different inflectors.
  */
 class ExecuteWorker extends CommandWorker
 {
+    /**
+     * Loads the handler given a key derived by INflector from Command.
+     *
+     * @var Loader
+     */
     private $loader;
+    /**
+     * Guess the key to load the Handler.
+     *
+     * @var mixed
+     */
     private $inflector;
 
+    /**
+     * @param Loader    $loader
+     * @param Inflector $inflector
+     */
     public function __construct(Loader $loader, Inflector $inflector)
     {
         $this->loader = $loader;
@@ -30,7 +44,6 @@ class ExecuteWorker extends CommandWorker
     {
         $handler = $this->getHandler($command);
         $handler->handle($command);
-        $this->delegateNext($command);
     }
 
     /**

@@ -13,11 +13,34 @@ abstract class CommandWorker
 {
     protected $next;
 
+    abstract public function execute(Command $command);
+
+    /**
+     * Processes the command and pass it along to the next worker in the chain.
+     *
+     * @param Command $command
+     */
+    final public function work(Command $command)
+    {
+        $this->execute($command);
+        $this->delegateNext($command);
+    }
+
+    /**
+     * Sets the following worker in the chain.
+     *
+     * @param CommandWorker $next
+     */
     public function setNext(CommandWorker $next)
     {
         $this->next = $next;
     }
 
+    /**
+     * Pass the command to the next Workre in the chain.
+     *
+     * @param Command $command
+     */
     protected function delegateNext(Command $command)
     {
         if (!$this->next) {

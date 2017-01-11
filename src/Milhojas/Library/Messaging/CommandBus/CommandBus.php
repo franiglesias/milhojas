@@ -7,11 +7,11 @@ namespace Milhojas\Library\Messaging\CommandBus;
  */
 class CommandBus
 {
-    protected $workersChain;
+    protected $workers;
 
     public function __construct(array $workers)
     {
-        $this->workersChain = $this->buildWorkersChain($workers);
+        $this->workers = $this->buildWorkersChain($workers);
     }
 
     /**
@@ -25,11 +25,12 @@ class CommandBus
      */
     protected function buildWorkersChain($workers)
     {
-        $chain = array_pop($workers);
-        while (count($workers) > 0) {
-            $prev = array_pop($workers);
-            $prev->setNext($chain);
-            $chain = $prev;
+        $chain = array_shift($workers);
+        $root = $chain;
+        while ($workers) {
+            $next = array_shift($workers);
+            $root->setNext($next);
+            $root = $next;
         }
 
         return $chain;
@@ -44,6 +45,6 @@ class CommandBus
      */
     public function execute(Command $command)
     {
-        $this->workersChain->execute($command);
+        $this->workers->work($command);
     }
 }

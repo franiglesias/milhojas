@@ -10,8 +10,7 @@ class GroupsFactorySpec extends ObjectBehavior
 {
     public function let()
     {
-        $this->beConstructedWith();
-        $this->configure(['Grupo 1', 'Grupo 2', 'Grupo 3', 'Grupo 4']);
+        $this->beConstructedWith(['Grupo 1', 'Grupo 2', 'Grupo 3', 'Grupo 4']);
     }
     public function it_is_initializable()
     {

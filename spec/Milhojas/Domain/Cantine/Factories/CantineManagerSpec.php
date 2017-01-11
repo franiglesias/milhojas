@@ -2,22 +2,21 @@
 
 namespace spec\Milhojas\Domain\Cantine\Factories;
 
+use Milhojas\Domain\Cantine\Rule;
+use Milhojas\Domain\Cantine\Turn;
 use Milhojas\Domain\Cantine\Allergens;
+use Milhojas\Domain\Cantine\CantineGroup;
 use Milhojas\Domain\Cantine\Factories\CantineManager;
-use Milhojas\Domain\Cantine\Factories\RuleFactory;
-use Milhojas\Domain\Cantine\Factories\TurnsFactory;
-use Milhojas\Domain\Cantine\Factories\GroupsFactory;
-use Milhojas\Domain\Cantine\Factories\AllergensFactory;
+use Milhojas\Library\Collections\Checklist;
 use PhpSpec\ObjectBehavior;
 use org\bovigo\vfs\vfsStream;
 use Symfony\Component\Yaml\Yaml;
-use Prophecy\Argument;
 
 class CantineManagerSpec extends ObjectBehavior
 {
-    public function let(AllergensFactory $allergens, TurnsFactory $turns, GroupsFactory $groups, RuleFactory $rules)
+    public function let()
     {
-        $this->beConstructedWith($this->getConfigFile(), $allergens, $turns, $groups, $rules);
+        $this->beConstructedWith($this->getConfigFile());
     }
 
     public function it_is_initializable()
@@ -25,45 +24,38 @@ class CantineManagerSpec extends ObjectBehavior
         $this->shouldHaveType(CantineManager::class);
     }
 
-    public function it_needs_a_file_in_order_to_configurate($allergens, $turns, $groups, $rules)
+    public function it_needs_a_file_in_order_to_configurate()
     {
-        $this->beConstructedWith('false.yml', $allergens, $turns, $groups, $rules);
+        $this->beConstructedWith('false.yml');
         $this->shouldThrow(\InvalidArgumentException::class)->duringInstantiation();
     }
 
-    public function it_creates_blank_allergens_checklists($allergens)
+    public function it_creates_blank_allergens_checklists()
     {
-        $allergens->configure(Argument::any())->shouldBeCalled();
-        $allergens->getBlankAllergensSheet()->shouldBeCalled();
-        $this->getBlankAllergensSheet();
+        $expected = new Allergens(new Checklist(['almonds', 'gluten', 'fish', 'eggs', 'seafood']));
+        $this->getBlankAllergensSheet()->shouldHaveType(Allergens::class);
+        $this->getBlankAllergensSheet()->shouldBeLike($expected);
     }
 
-    public function it_creates_turns($turns)
+    public function it_creates_turns()
     {
-        $turns->configure(Argument::any())->shouldBeCalled();
-        $turns->getTurn('Turno 1')->shouldBeCalled()->willReturn('something');
-        $this->getTurn('Turno 1')->shouldReturn('something');
+        $this->getTurn('Turno 1')->shouldHaveType(Turn::class);
+        $this->getTurn('Turno 1')->shouldBeLike(new Turn('Turno 1', 0));
     }
 
-    public function it_can_give_the_list_of_turns($turns)
+    public function it_can_give_the_list_of_turns()
     {
-        $turns->configure(Argument::any())->shouldBeCalled();
-        $turns->getTurns()->shouldBeCalled()->willReturn('something');
-        $this->getTurns()->shouldReturn('something');
+        $this->getTurns()->shouldBeArray();
     }
 
-    public function it_can_give_cantine_groups_by_name($groups)
+    public function it_can_give_cantine_groups_by_name()
     {
-        $groups->configure(Argument::any())->shouldBeCalled();
-        $groups->getGroup('Group 1')->shouldBeCalled()->willReturn('something');
-        $this->getGroup('Group 1')->shouldReturn('something');
+        $this->getGroup('Group 1')->shouldHaveType(CantineGroup::class);
     }
 
-    public function it_can_give_the_rules($rules, $turns, $groups)
+    public function it_can_give_the_rules()
     {
-        $rules->configure(Argument::any(), $turns, $groups)->shouldBeCalled();
-        $rules->getAll()->shouldBeCalled()->willReturn('something');
-        $this->getRules()->shouldReturn('something');
+        $this->getRules()->shouldHaveType(Rule::class);
     }
 
     private function getConfigFile()

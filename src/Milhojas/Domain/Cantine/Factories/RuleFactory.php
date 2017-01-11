@@ -40,9 +40,4 @@ class RuleFactory
         }
         $this->rules->chain($rule);
     }
-
-    public function load($argument1, $argument2, $argument3)
-    {
-        // TODO: write logic here
-    }
 }

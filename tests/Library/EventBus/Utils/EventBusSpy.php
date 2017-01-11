@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Library\EventBus\Utils;
+namespace Tests\Library\Messaging\EventBus\Utils;
 
-use Milhojas\Library\EventBus\EventBus;
-use Milhojas\Library\EventBus\Event;
-use Milhojas\Library\EventBus\EventHandler;
+use Milhojas\Library\Messaging\EventBus\EventBus;
+use Milhojas\Library\Messaging\EventBus\Event;
+use Milhojas\Library\Messaging\EventBus\EventHandler;
 
 
 /**

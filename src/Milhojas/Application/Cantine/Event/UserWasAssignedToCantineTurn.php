@@ -2,7 +2,7 @@
 
 namespace Milhojas\Application\Cantine\Event;
 
-use Milhojas\Library\EventBus\Event;
+use Milhojas\Library\Messaging\EventBus\Event;
 use Milhojas\Domain\Cantine\Turn;
 use Milhojas\Domain\Cantine\CantineUser;
 

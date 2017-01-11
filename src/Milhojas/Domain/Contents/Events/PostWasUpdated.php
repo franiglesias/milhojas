@@ -2,7 +2,7 @@
 
 namespace Milhojas\Domain\Contents\Events;
 
-use Milhojas\Library\EventBus\Event;
+use Milhojas\Library\Messaging\EventBus\Event;
 /**
 * An existent post was updated
 */

@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Library\CommandBus\Fixtures;
+namespace Tests\Library\Messaging\CommandBus\Fixtures;
 
-use Milhojas\Library\CommandBus\CommandHandler;
-use Milhojas\Library\CommandBus\Command;
+use Milhojas\Library\Messaging\CommandBus\CommandHandler;
+use Milhojas\Library\Messaging\CommandBus\Command;
 
 class SimpleCommandHandler implements CommandHandler {
 	

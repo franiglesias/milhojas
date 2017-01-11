@@ -3,7 +3,7 @@
 namespace spec\Milhojas\Application\Cantine\Query;
 
 use Milhojas\Application\Cantine\Query\GetCantineAttendancesListFor;
-use Milhojas\Library\QueryBus\Query;
+use Milhojas\Library\Messaging\QueryBus\Query;
 use PhpSpec\ObjectBehavior;
 
 class GetCantineAttendancesListForSpec extends ObjectBehavior

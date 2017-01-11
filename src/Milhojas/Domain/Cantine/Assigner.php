@@ -8,7 +8,7 @@ use Milhojas\Application\Cantine\Event\UserWasAssignedToCantineTurn;
 use Milhojas\Application\Cantine\Event\UserWasNotAssignedToCantineTurn;
 use Milhojas\Domain\Cantine\Exception\CantineUserCouldNotBeAssignedToTurn;
 use Milhojas\Domain\Cantine\Factories\CantineManager;
-use Milhojas\Library\EventBus\EventBus;
+use Milhojas\Library\Messaging\EventBus\EventBus;
 
 /**
  * Assigns Users to their Cantine Turns.

@@ -3,10 +3,10 @@
 namespace Tests\Application\Utils;
 
 # Application Messaging
-use Milhojas\Library\EventBus\EventRecorder;
-use Milhojas\Library\CommandBus\Command;
-use Milhojas\Library\CommandBus\CommandHandler;
-use Milhojas\Library\CommandBus\TestCommandBus;
+use Milhojas\Library\Messaging\EventBus\EventRecorder;
+use Milhojas\Library\Messaging\CommandBus\Command;
+use Milhojas\Library\Messaging\CommandBus\CommandHandler;
+use Milhojas\Library\Messaging\CommandBus\TestCommandBus;
 
 /**
  * Base class for test Command/CommandHandler scenarios.

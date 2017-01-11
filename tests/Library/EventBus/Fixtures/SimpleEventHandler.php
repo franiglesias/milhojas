@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Library\EventBus\Fixtures;
+namespace Tests\Library\Messaging\EventBus\Fixtures;
 
-use Milhojas\Library\EventBus\Event;
-use Milhojas\Library\EventBus\EventHandler;
+use Milhojas\Library\Messaging\EventBus\Event;
+use Milhojas\Library\Messaging\EventBus\EventHandler;
 
 /**
 * A test event handler

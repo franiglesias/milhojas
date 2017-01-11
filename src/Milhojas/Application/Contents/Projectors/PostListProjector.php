@@ -2,8 +2,8 @@
 
 namespace Milhojas\Application\Contents\Projectors;
 
-use Milhojas\Library\EventBus\Event;
-use Milhojas\Library\EventBus\EventHandler;
+use Milhojas\Library\Messaging\EventBus\Event;
+use Milhojas\Library\Messaging\EventBus\EventHandler;
 use Doctrine\ORM\EntityManager;
 use Milhojas\Domain\Contents\DTO\PostList;
 

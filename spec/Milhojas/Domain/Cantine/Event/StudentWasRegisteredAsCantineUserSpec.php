@@ -5,7 +5,7 @@ namespace spec\Milhojas\Domain\Cantine\Event;
 use Milhojas\Domain\Cantine\Event\StudentWasRegisteredAsCantineUser;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\School\Student;
-use Milhojas\Library\EventBus\Event;
+use Milhojas\Library\Messaging\EventBus\Event;
 use PhpSpec\ObjectBehavior;
 
 class StudentWasRegisteredAsCantineUserSpec extends ObjectBehavior

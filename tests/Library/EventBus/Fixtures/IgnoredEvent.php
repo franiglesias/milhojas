@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Library\EventBus\Fixtures;
+namespace Tests\Library\Messaging\EventBus\Fixtures;
 
-use Milhojas\Library\EventBus\Event;
+use Milhojas\Library\Messaging\EventBus\Event;
 
 /**
 * Simple Event for tests

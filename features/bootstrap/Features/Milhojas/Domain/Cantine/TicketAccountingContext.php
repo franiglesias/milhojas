@@ -14,7 +14,7 @@ use Milhojas\Domain\Cantine\TicketCounter;
 use Milhojas\Domain\Cantine\Specification\TicketSoldToStudent;
 use Milhojas\Domain\Shared\StudentId;
 use Milhojas\Infrastructure\Persistence\Cantine\TicketInMemoryRepository;
-use Milhojas\Library\EventBus\EventBus;
+use Milhojas\Library\Messaging\EventBus\EventBus;
 use Prophecy\Prophet;
 use League\Period\Period;
 

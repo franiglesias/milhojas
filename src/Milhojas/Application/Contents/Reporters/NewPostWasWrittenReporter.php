@@ -2,8 +2,8 @@
 
 namespace Milhojas\Application\Contents\Reporters;
 
-use Milhojas\Library\EventBus\Reporters\EmailReporter;
-use Milhojas\Library\EventBus\Event;
+use Milhojas\Library\Messaging\EventBus\Reporters\EmailReporter;
+use Milhojas\Library\Messaging\EventBus\Event;
 
 /**
 * Responds to NewPostWasWritten Event

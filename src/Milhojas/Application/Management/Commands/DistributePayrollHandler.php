@@ -10,10 +10,10 @@ use Milhojas\Domain\Management\PayrollReporter;
 # Application Messaging infrastructure
 
 use Milhojas\Application\Management\Commands\SendPayroll;
-use Milhojas\Library\CommandBus\Commands\BroadcastEvent;
+use Milhojas\Library\Messaging\CommandBus\Commands\BroadcastEvent;
 
-use Milhojas\Library\CommandBus\Command;
-use Milhojas\Library\CommandBus\CommandHandler;
+use Milhojas\Library\Messaging\CommandBus\Command;
+use Milhojas\Library\Messaging\CommandBus\CommandHandler;
 
 # Events
 

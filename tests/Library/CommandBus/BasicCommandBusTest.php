@@ -1,19 +1,19 @@
 <?php
 
-namespace Tests\Library\CommandBus;
+namespace Tests\Library\Messaging\CommandBus;
 
-use Milhojas\Library\CommandBus\BasicCommandBus;
-use Milhojas\Library\CommandBus\CommandBus;
-use Milhojas\Library\CommandBus\Command;
-use Milhojas\Library\CommandBus\CommandHandler;
+use Milhojas\Library\Messaging\CommandBus\BasicCommandBus;
+use Milhojas\Library\Messaging\CommandBus\CommandBus;
+use Milhojas\Library\Messaging\CommandBus\Command;
+use Milhojas\Library\Messaging\CommandBus\CommandHandler;
 
 
-use Tests\Library\CommandBus\Utils\CommandBusSpy;
-use Tests\Library\CommandBus\Utils\CommandBusTestCase;
-use Tests\Library\CommandBus\Fixtures\ExecuteCommandFakeWorker;
-use Tests\Library\CommandBus\Fixtures\IntactCommandFakeWorker;
-use Tests\Library\CommandBus\Fixtures\SimpleCommand;
-use Tests\Library\CommandBus\Fixtures\SimpleCommandHandler;
+use Tests\Library\Messaging\CommandBus\Utils\CommandBusSpy;
+use Tests\Library\Messaging\CommandBus\Utils\CommandBusTestCase;
+use Tests\Library\Messaging\CommandBus\Fixtures\ExecuteCommandFakeWorker;
+use Tests\Library\Messaging\CommandBus\Fixtures\IntactCommandFakeWorker;
+use Tests\Library\Messaging\CommandBus\Fixtures\SimpleCommand;
+use Tests\Library\Messaging\CommandBus\Fixtures\SimpleCommandHandler;
 
 
 class BasicCommandBusTest extends CommandBusTestCase {

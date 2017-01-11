@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Library\EventBus;
+namespace Tests\Library\Messaging\EventBus;
 
-use Milhojas\Library\EventBus\EventRecorder;
+use Milhojas\Library\Messaging\EventBus\EventRecorder;
 
-use Milhojas\Library\EventBus\Event;
-use Tests\Library\EventBus\Fixtures\SimpleEvent;
+use Milhojas\Library\Messaging\EventBus\Event;
+use Tests\Library\Messaging\EventBus\Fixtures\SimpleEvent;
 
 /**
 * Description

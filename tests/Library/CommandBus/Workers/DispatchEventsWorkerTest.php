@@ -1,22 +1,22 @@
 <?php
 
-namespace Tests\Library\CommandBus\Workers;
+namespace Tests\Library\Messaging\CommandBus\Workers;
 
-use Milhojas\Library\CommandBus\Workers\DispatchEventsWorker;
-use Milhojas\Library\EventBus\EventBus;
-use Milhojas\Library\EventBus\SimpleEventBus;
-use Milhojas\Library\EventBus\EventRecorder;
+use Milhojas\Library\Messaging\CommandBus\Workers\DispatchEventsWorker;
+use Milhojas\Library\Messaging\EventBus\EventBus;
+use Milhojas\Library\Messaging\EventBus\SimpleEventBus;
+use Milhojas\Library\Messaging\EventBus\EventRecorder;
 
 # Doubles and Fixtures
 
-use Tests\Library\CommandBus\Fixtures\SimpleCommand;
-use Tests\Library\EventBus\Utils\EventBusSpy;
+use Tests\Library\Messaging\CommandBus\Fixtures\SimpleCommand;
+use Tests\Library\Messaging\EventBus\Utils\EventBusSpy;
 
-use Tests\Library\EventBus\Fixtures\TestEvent;
-use Tests\Library\EventBus\Fixtures\IgnoredEvent;
-use Tests\Library\EventBus\Fixtures\SimpleEvent;
-use Tests\Library\EventBus\Fixtures\TestEventHandler;
-use Tests\Library\EventBus\Fixtures\SimpleEventHandler;
+use Tests\Library\Messaging\EventBus\Fixtures\TestEvent;
+use Tests\Library\Messaging\EventBus\Fixtures\IgnoredEvent;
+use Tests\Library\Messaging\EventBus\Fixtures\SimpleEvent;
+use Tests\Library\Messaging\EventBus\Fixtures\TestEventHandler;
+use Tests\Library\Messaging\EventBus\Fixtures\SimpleEventHandler;
 
 use Tests\Utils\DummyLogger;
 

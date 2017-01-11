@@ -1,13 +1,13 @@
 <?php
 
-namespace spec\Milhojas\Library\QueryBus;
+namespace spec\Milhojas\Library\Messaging\QueryBus;
 
-use Milhojas\Library\QueryBus\SimpleQueryBus;
-use Milhojas\Library\QueryBus\QueryBus;
-use Milhojas\Library\QueryBus\Query;
-use Milhojas\Library\QueryBus\QueryHandler;
-use Milhojas\Library\QueryBus\Loader\Loader;
-use Milhojas\Library\QueryBus\Inflector\Inflector;
+use Milhojas\Library\Messaging\QueryBus\SimpleQueryBus;
+use Milhojas\Library\Messaging\QueryBus\QueryBus;
+use Milhojas\Library\Messaging\QueryBus\Query;
+use Milhojas\Library\Messaging\QueryBus\QueryHandler;
+use Milhojas\Library\Messaging\QueryBus\Loader\Loader;
+use Milhojas\Library\Messaging\QueryBus\Inflector\Inflector;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 

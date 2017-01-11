@@ -2,8 +2,8 @@
 
 namespace Milhojas\Application\Cantine\Listener;
 
-use Milhojas\Library\EventBus\Event;
-use Milhojas\Library\EventBus\EventHandler;
+use Milhojas\Library\Messaging\EventBus\Event;
+use Milhojas\Library\Messaging\EventBus\EventHandler;
 use Milhojas\Domain\Cantine\TicketRegistrar;
 
 class RegisterBoughtTickets implements EventHandler

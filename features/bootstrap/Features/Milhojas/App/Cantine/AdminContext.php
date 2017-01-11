@@ -18,12 +18,12 @@ use Milhojas\Domain\Shared\Student;
 use Milhojas\Domain\Shared\StudentId;
 use Milhojas\Domain\Shared\ClassGroup;
 use Milhojas\Domain\Utils\Schedule\MonthWeekSchedule;
-use Milhojas\Library\QueryBus\Inflector\SymfonyContainerInflector;
+use Milhojas\Library\Messaging\QueryBus\Inflector\SymfonyContainerInflector;
 use Milhojas\Library\ValueObjects\Identity\Person;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
-use Milhojas\Library\QueryBus\SimpleQueryBus;
-use Milhojas\Library\QueryBus\Loader\TestLoader;
-use Milhojas\Library\EventBus\EventBus;
+use Milhojas\Library\Messaging\QueryBus\SimpleQueryBus;
+use Milhojas\Library\Messaging\QueryBus\Loader\TestLoader;
+use Milhojas\Library\Messaging\EventBus\EventBus;
 use org\bovigo\vfs\vfsStream;
 use Prophecy\Prophet;
 

@@ -2,8 +2,8 @@
 
 namespace Milhojas\Application\Management\Reporters;
 
-use Milhojas\Library\EventBus\EventHandler;
-use Milhojas\Library\EventBus\Event;
+use Milhojas\Library\Messaging\EventBus\EventHandler;
+use Milhojas\Library\Messaging\EventBus\Event;
 /**
 * Writes Payroll Distribution Progress to the json file specified in the constructor
 */

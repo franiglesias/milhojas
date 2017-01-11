@@ -15,9 +15,9 @@ use Milhojas\Application\Management\Events\PayrollCouldNotBeFound;
 
 # Application Messaging infrastructure
 
-use Milhojas\Library\CommandBus\Command;
-use Milhojas\Library\CommandBus\CommandHandler;
-use Milhojas\Library\EventBus\EventRecorder;
+use Milhojas\Library\Messaging\CommandBus\Command;
+use Milhojas\Library\Messaging\CommandBus\CommandHandler;
+use Milhojas\Library\Messaging\EventBus\EventRecorder;
 
 # Mailer
 

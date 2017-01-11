@@ -2,7 +2,7 @@
 
 namespace Milhojas\Application\Contents;
 
-use Milhojas\Library\CommandBus\Command;
+use Milhojas\Library\Messaging\CommandBus\Command;
 
 /**
 * Update a post, identified by id, with new data for title and body

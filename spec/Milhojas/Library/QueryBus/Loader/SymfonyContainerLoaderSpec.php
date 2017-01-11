@@ -1,10 +1,10 @@
 <?php
 
-namespace spec\Milhojas\Library\QueryBus\Loader;
+namespace spec\Milhojas\Library\Messaging\QueryBus\Loader;
 
-use Milhojas\Library\QueryBus\Loader\SymfonyContainerLoader;
-use Milhojas\Library\QueryBus\Loader\Loader;
-use Milhojas\Library\QueryBus\QueryHandler;
+use Milhojas\Library\Messaging\QueryBus\Loader\SymfonyContainerLoader;
+use Milhojas\Library\Messaging\QueryBus\Loader\Loader;
+use Milhojas\Library\Messaging\QueryBus\QueryHandler;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use PhpSpec\ObjectBehavior;
 

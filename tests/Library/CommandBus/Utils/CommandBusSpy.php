@@ -1,10 +1,10 @@
 <?php 
 
-namespace Tests\Library\CommandBus\Utils;
+namespace Tests\Library\Messaging\CommandBus\Utils;
 
-use Milhojas\Library\CommandBus\CommandBus;
-use Milhojas\Library\CommandBus\Command;
-use Milhojas\Library\CommandBus\Workers\CommandWorker;
+use Milhojas\Library\Messaging\CommandBus\CommandBus;
+use Milhojas\Library\Messaging\CommandBus\Command;
+use Milhojas\Library\Messaging\CommandBus\Workers\CommandWorker;
 
 /**
 * A simple test spy

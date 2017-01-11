@@ -1,9 +1,9 @@
 <?php
 
-namespace spec\Milhojas\Library\QueryBus\Inflector;
+namespace spec\Milhojas\Library\Messaging\QueryBus\Inflector;
 
-use Milhojas\Library\QueryBus\Inflector\Inflector;
-use Milhojas\Library\QueryBus\Inflector\SymfonyContainerInflector;
+use Milhojas\Library\Messaging\QueryBus\Inflector\Inflector;
+use Milhojas\Library\Messaging\QueryBus\Inflector\SymfonyContainerInflector;
 use PhpSpec\ObjectBehavior;
 
 class SymfonyContainerInflectorSpec extends ObjectBehavior

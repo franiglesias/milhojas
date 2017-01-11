@@ -1,19 +1,19 @@
 <?php
 
-namespace Tests\Library\EventBus;
+namespace Tests\Library\Messaging\EventBus;
 
-use Milhojas\Library\EventBus\SimpleEventBus;
+use Milhojas\Library\Messaging\EventBus\SimpleEventBus;
 
-use Milhojas\Library\EventBus\Event;
-use Milhojas\Library\EventBus\EventHandler;
+use Milhojas\Library\Messaging\EventBus\Event;
+use Milhojas\Library\Messaging\EventBus\EventHandler;
 
-use Tests\Library\EventBus\Utils\EventBusSpy;
+use Tests\Library\Messaging\EventBus\Utils\EventBusSpy;
 
-use Tests\Library\EventBus\Fixtures\TestEvent;
-use Tests\Library\EventBus\Fixtures\IgnoredEvent;
-use Tests\Library\EventBus\Fixtures\SimpleEvent;
-use Tests\Library\EventBus\Fixtures\TestEventHandler;
-use Tests\Library\EventBus\Fixtures\SimpleEventHandler;
+use Tests\Library\Messaging\EventBus\Fixtures\TestEvent;
+use Tests\Library\Messaging\EventBus\Fixtures\IgnoredEvent;
+use Tests\Library\Messaging\EventBus\Fixtures\SimpleEvent;
+use Tests\Library\Messaging\EventBus\Fixtures\TestEventHandler;
+use Tests\Library\Messaging\EventBus\Fixtures\SimpleEventHandler;
 
 use Tests\Utils\DummyLogger;
 /**

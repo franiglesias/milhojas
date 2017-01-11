@@ -1,14 +1,14 @@
 <?php
 
-namespace Tests\Library\CommandBus\Utils;
+namespace Tests\Library\Messaging\CommandBus\Utils;
 
-use Milhojas\Library\CommandBus\BasicCommandBus;
-use Milhojas\Library\CommandBus\CommandBus;
-use Milhojas\Library\CommandBus\Command;
-use Milhojas\Library\CommandBus\CommandHandler;
+use Milhojas\Library\Messaging\CommandBus\BasicCommandBus;
+use Milhojas\Library\Messaging\CommandBus\CommandBus;
+use Milhojas\Library\Messaging\CommandBus\Command;
+use Milhojas\Library\Messaging\CommandBus\CommandHandler;
 
 
-use Tests\Library\CommandBus\Utils\CommandBusSpy;
+use Tests\Library\Messaging\CommandBus\Utils\CommandBusSpy;
 
 class CommandBusTestCase extends \PHPUnit_Framework_Testcase {
 	

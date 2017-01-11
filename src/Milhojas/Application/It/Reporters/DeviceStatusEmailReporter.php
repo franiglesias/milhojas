@@ -3,8 +3,8 @@
 
 namespace Milhojas\Application\It\Reporters;
 
-use Milhojas\Library\EventBus\Reporters\EmailReporter;
-use Milhojas\Library\EventBus\Event;
+use Milhojas\Library\Messaging\EventBus\Reporters\EmailReporter;
+use Milhojas\Library\Messaging\EventBus\Event;
 
 /**
 * Reports that a Device has some change

@@ -2,7 +2,7 @@
 
 namespace Milhojas\Application\Cantine\Query;
 
-use Milhojas\Library\QueryBus\Query;
+use Milhojas\Library\Messaging\QueryBus\Query;
 
 /**
  * Transport data to generate a list of cantine users.

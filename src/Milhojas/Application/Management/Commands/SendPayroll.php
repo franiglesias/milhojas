@@ -2,7 +2,7 @@
 
 namespace Milhojas\Application\Management\Commands;
 
-use Milhojas\Library\CommandBus\Command;
+use Milhojas\Library\Messaging\CommandBus\Command;
 use Milhojas\Domain\Management\Employee;
 use Milhojas\Domain\Management\PayrollReporter;
 use Milhojas\Domain\Management\PayrollMonth;

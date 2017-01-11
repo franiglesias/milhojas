@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Library\CommandBus;
+namespace Tests\Library\Messaging\CommandBus;
 
-use Milhojas\Library\CommandBus\Inflectors\HandlerInflector;
-use Milhojas\Library\CommandBus\Command;
+use Milhojas\Library\Messaging\CommandBus\Inflectors\HandlerInflector;
+use Milhojas\Library\Messaging\CommandBus\Command;
 
 class CreateUser implements Command {
 	

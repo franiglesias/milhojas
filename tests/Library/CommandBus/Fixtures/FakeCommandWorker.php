@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Library\CommandBus\Fixtures;
+namespace Tests\Library\Messaging\CommandBus\Fixtures;
 
-use Milhojas\Library\CommandBus\Workers\CommandWorker;
-use Milhojas\Library\CommandBus\Command;
+use Milhojas\Library\Messaging\CommandBus\Workers\CommandWorker;
+use Milhojas\Library\Messaging\CommandBus\Command;
 
 /**
 * A simple worker that does not execute the command. It only registers itself in the test spy

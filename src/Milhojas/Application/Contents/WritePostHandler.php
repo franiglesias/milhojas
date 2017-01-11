@@ -2,15 +2,15 @@
 
 namespace Milhojas\Application\Contents;
 
-use Milhojas\Library\CommandBus\Command;
-use Milhojas\Library\CommandBus\CommandHandler;
+use Milhojas\Library\Messaging\CommandBus\Command;
+use Milhojas\Library\Messaging\CommandBus\CommandHandler;
 use Milhojas\Domain\Contents\PostRepository;
 
 use Milhojas\Domain\Contents\Post;
 use Milhojas\Domain\Contents\PostId;
 use Milhojas\Domain\Contents\PostContent;
 
-use Milhojas\Library\EventBus\EventRecorder;
+use Milhojas\Library\Messaging\EventBus\EventRecorder;
 
 /**
 * Write a new Post with title and content

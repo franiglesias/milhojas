@@ -2,7 +2,7 @@
 
 namespace Milhojas\Application\Contents;
 
-use Milhojas\Library\CommandBus\Command;
+use Milhojas\Library\Messaging\CommandBus\Command;
 
 /**
 * Write a new Post with title and content

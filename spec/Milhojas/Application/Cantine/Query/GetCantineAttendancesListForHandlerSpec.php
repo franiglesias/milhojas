@@ -8,7 +8,7 @@ use Milhojas\Domain\Cantine\CantineList\CantineList;
 use Milhojas\Domain\Cantine\CantineUserRepository;
 use Milhojas\Domain\Cantine\Assigner;
 use Milhojas\Domain\Cantine\Specification\CantineUserEatingOnDate;
-use Milhojas\Library\QueryBus\QueryHandler;
+use Milhojas\Library\Messaging\QueryBus\QueryHandler;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 

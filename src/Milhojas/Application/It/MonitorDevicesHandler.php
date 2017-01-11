@@ -2,10 +2,10 @@
 
 namespace Milhojas\Application\It;
 
-use Milhojas\Library\CommandBus\Command;
-use Milhojas\Library\CommandBus\CommandHandler;
+use Milhojas\Library\Messaging\CommandBus\Command;
+use Milhojas\Library\Messaging\CommandBus\CommandHandler;
 
-use Milhojas\Library\EventBus\EventRecorder;
+use Milhojas\Library\Messaging\EventBus\EventRecorder;
 use Milhojas\Domain\It\DeviceMonitor;
 
 /**

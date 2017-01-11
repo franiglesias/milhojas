@@ -25,46 +25,46 @@ services:
         arguments:      ["@event_store"]
 
     event_recorder:
-        class:          Milhojas\Library\EventBus\EventRecorder
+        class:          Milhojas\Library\Messaging\EventBus\EventRecorder
 
     # CommandBus Services
 
     handler_container:
-        class:          Milhojas\Library\CommandBus\Containers\HandlerContainer
+        class:          Milhojas\Library\Messaging\CommandBus\Containers\HandlerContainer
         arguments:      ["@service_container"]
 
     handler_inflector:
-        class:          Milhojas\Library\CommandBus\Inflectors\HandlerInflector
+        class:          Milhojas\Library\Messaging\CommandBus\Inflectors\HandlerInflector
 
     command_bus:
-        class:          Milhojas\Library\CommandBus\BasicCommandBus
+        class:          Milhojas\Library\Messaging\CommandBus\BasicCommandBus
         arguments:      [["@executer_bus_worker", '@event_bus_worker']]
 
     broadcast_event_handler:
-        class:          Milhojas\Library\CommandBus\Commands\BroadcastEventHandler
+        class:          Milhojas\Library\Messaging\CommandBus\Commands\BroadcastEventHandler
         arguments:      ['@event_recorder']
 
     # CommandBus Workers
 
     executer_bus_worker:
-        class:          Milhojas\Library\CommandBus\Workers\ExecuteWorker
+        class:          Milhojas\Library\Messaging\CommandBus\Workers\ExecuteWorker
         arguments:      ["@handler_container", "@handler_inflector"]
 
     event_bus_worker:
-        class:          Milhojas\Library\CommandBus\Workers\DispatchEventsWorker
+        class:          Milhojas\Library\Messaging\CommandBus\Workers\DispatchEventsWorker
         arguments:      ['@event_bus', '@event_recorder']
 
     # QueryBus
 
     loader:
-        class:          Milhojas\Library\QueryBus\Loader\SymfonyContainerLoader
+        class:          Milhojas\Library\Messaging\QueryBus\Loader\SymfonyContainerLoader
         arguments:      ['@service_container']
 
     service_inflector:
-        class:          Milhojas\Library\QueryBus\Inflector\SymfonyContainerInflector
+        class:          Milhojas\Library\Messaging\QueryBus\Inflector\SymfonyContainerInflector
 
     query_bus:
-        class:          Milhojas\Library\QueryBus\SimpleQueryBus
+        class:          Milhojas\Library\Messaging\QueryBus\SimpleQueryBus
         arguments:      ['@loader', '@service_inflector']
 
 # Mailer
@@ -89,7 +89,7 @@ services:
 
 # EventBus
     event_bus:
-        class:          Milhojas\Library\EventBus\SimpleEventBus
+        class:          Milhojas\Library\Messaging\EventBus\SimpleEventBus
         arguments:      ['@logger']
         calls:
             # It

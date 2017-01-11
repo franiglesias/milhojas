@@ -2,8 +2,8 @@
 
 namespace Milhojas\Application\Management\Reporters;
 
-use Milhojas\Library\EventBus\Reporters\EmailReporter;
-use Milhojas\Library\EventBus\Event;
+use Milhojas\Library\Messaging\EventBus\Reporters\EmailReporter;
+use Milhojas\Library\Messaging\EventBus\Event;
 
 /**
 * Creates an send an email report when all payrolls are sent

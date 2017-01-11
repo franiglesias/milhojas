@@ -2,7 +2,7 @@
 
 namespace Milhojas\Application\It;
 
-use Milhojas\Library\CommandBus\Command;
+use Milhojas\Library\Messaging\CommandBus\Command;
 
 /**
 * Description

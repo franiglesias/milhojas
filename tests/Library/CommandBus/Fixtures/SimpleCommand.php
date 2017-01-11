@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Library\CommandBus\Fixtures;
+namespace Tests\Library\Messaging\CommandBus\Fixtures;
 
-use Milhojas\Library\CommandBus\Command;
+use Milhojas\Library\Messaging\CommandBus\Command;
 
 class SimpleCommand implements Command {
 	private $message;

@@ -11,7 +11,7 @@ use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineList\CantineList;
 use Milhojas\Domain\Cantine\Exception\CantineUserCouldNotBeAssignedToTurn;
 use Milhojas\Domain\Cantine\Factories\CantineManager;
-use Milhojas\Library\EventBus\EventBus;
+use Milhojas\Library\Messaging\EventBus\EventBus;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 

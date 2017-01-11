@@ -2,7 +2,7 @@
 
 namespace Milhojas\Domain\Cantine\Event;
 
-use Milhojas\Library\EventBus\Event;
+use Milhojas\Library\Messaging\EventBus\Event;
 
 class CantineUserTriedToBuyInvalidTicket implements Event
 {

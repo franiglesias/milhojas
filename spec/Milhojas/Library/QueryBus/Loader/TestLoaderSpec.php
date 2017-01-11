@@ -1,10 +1,10 @@
 <?php
 
-namespace spec\Milhojas\Library\Messaging\QueryBus\Loader;
+namespace spec\Milhojas\Library\Messaging\Shared\Loader;
 
 use Milhojas\Library\Messaging\QueryBus\QueryHandler;
-use Milhojas\Library\Messaging\QueryBus\Loader\TestLoader;
-use Milhojas\Library\Messaging\QueryBus\Loader\Loader;
+use Milhojas\Library\Messaging\Shared\Loader\TestLoader;
+use Milhojas\Library\Messaging\Shared\Loader\Loader;
 use Milhojas\Library\Messaging\QueryBus\Exception\InvalidLoaderKey;
 use PhpSpec\ObjectBehavior;
 

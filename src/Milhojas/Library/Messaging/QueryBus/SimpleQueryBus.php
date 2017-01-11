@@ -2,8 +2,8 @@
 
 namespace Milhojas\Library\Messaging\QueryBus;
 
-use Milhojas\Library\Messaging\QueryBus\Loader\Loader;
-use Milhojas\Library\Messaging\QueryBus\Inflector\Inflector;
+use Milhojas\Library\Messaging\Shared\Loader\Loader;
+use Milhojas\Library\Messaging\Shared\Inflector\Inflector;
 
 /**
  * It is a mechanism to perform Queries, it returns answers to them.

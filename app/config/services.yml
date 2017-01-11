@@ -57,11 +57,11 @@ services:
     # QueryBus
 
     loader:
-        class:          Milhojas\Library\Messaging\QueryBus\Loader\SymfonyContainerLoader
+        class:          Milhojas\Library\Messaging\Shared\Loader\SymfonyContainerLoader
         arguments:      ['@service_container']
 
     service_inflector:
-        class:          Milhojas\Library\Messaging\QueryBus\Inflector\SymfonyContainerInflector
+        class:          Milhojas\Library\Messaging\Shared\Inflector\SymfonyContainerInflector
 
     query_bus:
         class:          Milhojas\Library\Messaging\QueryBus\SimpleQueryBus

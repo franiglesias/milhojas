@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Library\Messaging\QueryBus\Inflector;
+namespace Milhojas\Library\Messaging\Shared\Inflector;
 
 /**
  * Computes a handler name using a notation compatible with the sy fony container.

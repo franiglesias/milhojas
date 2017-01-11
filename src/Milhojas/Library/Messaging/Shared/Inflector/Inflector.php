@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Library\Messaging\QueryBus\Inflector;
+namespace Milhojas\Library\Messaging\Shared\Inflector;
 
 /**
  * Interface for different Inflector strategies.

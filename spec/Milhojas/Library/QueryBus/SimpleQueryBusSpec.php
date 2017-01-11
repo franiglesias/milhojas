@@ -6,8 +6,8 @@ use Milhojas\Library\Messaging\QueryBus\SimpleQueryBus;
 use Milhojas\Library\Messaging\QueryBus\QueryBus;
 use Milhojas\Library\Messaging\QueryBus\Query;
 use Milhojas\Library\Messaging\QueryBus\QueryHandler;
-use Milhojas\Library\Messaging\QueryBus\Loader\Loader;
-use Milhojas\Library\Messaging\QueryBus\Inflector\Inflector;
+use Milhojas\Library\Messaging\Shared\Loader\Loader;
+use Milhojas\Library\Messaging\Shared\Inflector\Inflector;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 

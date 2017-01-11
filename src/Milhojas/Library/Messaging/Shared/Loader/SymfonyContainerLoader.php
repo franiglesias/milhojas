@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Library\Messaging\QueryBus\Loader;
+namespace Milhojas\Library\Messaging\Shared\Loader;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

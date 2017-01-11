@@ -10,6 +10,7 @@ use Milhojas\Domain\Cantine\Assigner;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineList\CantineList;
 use Milhojas\Domain\Cantine\Exception\CantineUserCouldNotBeAssignedToTurn;
+use Milhojas\Domain\Cantine\Factories\CantineManager;
 use Milhojas\Library\EventBus\EventBus;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -18,9 +19,10 @@ class AssignerSpec extends ObjectBehavior
 {
     private $fileSystem;
 
-    public function let(Rule $rule, EventBus $dispatcher)
+    public function let(CantineManager $cantineManager, EventBus $dispatcher, Rule $rule)
     {
-        $this->beConstructedWith($rule, $dispatcher);
+        $cantineManager->getRules()->willReturn($rule);
+        $this->beConstructedWith($cantineManager, $dispatcher);
     }
 
     public function it_is_initializable()

@@ -9,13 +9,10 @@ use Milhojas\Application\Cantine\Query\GetCantineAttendancesListFor;
 use Milhojas\Application\Cantine\Query\GetCantineAttendancesListForHandler;
 use Milhojas\Domain\Cantine\CantineGroup;
 use Milhojas\Domain\Cantine\CantineList\CantineList;
-use Milhojas\Domain\Cantine\CantineConfig;
 use Milhojas\Domain\Cantine\CantineUserRepository;
-use Milhojas\Domain\Cantine\Factories\RuleFactory;
-use Milhojas\Domain\Cantine\Factories\TurnsFactory;
-use Milhojas\Domain\Cantine\Factories\GroupsFactory;
 use Milhojas\Domain\Cantine\Assigner;
 use Milhojas\Domain\Cantine\CantineUser;
+use Milhojas\Domain\Cantine\Factories\CantineManager;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Domain\Shared\Student;
 use Milhojas\Domain\Shared\StudentId;
@@ -42,12 +39,6 @@ class AdminContext implements Context
      */
     private $CantineUserRepository;
     /**
-     * Holds Cantine configuration.
-     *
-     * @var CantineConfig
-     */
-    private $cantineConfig;
-    /**
      * Initializes context.
      *
      * Every scenario gets its own context instance.
@@ -56,12 +47,6 @@ class AdminContext implements Context
      */
     public function __construct()
     {
-        $this->cantineConfig = new CantineConfig(
-            new TurnsFactory(),
-            new GroupsFactory(),
-            new RuleFactory()
-        );
-
         $this->CantineUserRepository = new CantineUserInMemoryRepository();
     }
 
@@ -70,9 +55,9 @@ class AdminContext implements Context
      */
     public function cantineConfigurationIs(PyStringNode $string)
     {
-        $this->cantineConfig->load($this->getMockedConfigurationFile($string));
+        $Manager = new CantineManager($this->getMockedConfigurationFile($string));
 
-        $assigner = new Assigner($this->cantineConfig->getRules(), $this->getEventBus());
+        $assigner = new Assigner($Manager->getRules(), $this->getEventBus());
         $handler = new GetCantineAttendancesListForHandler($this->CantineUserRepository, $assigner);
 
         $loader = new TestLoader();

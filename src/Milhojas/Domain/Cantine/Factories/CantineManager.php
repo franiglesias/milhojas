@@ -21,12 +21,12 @@ class CantineManager
         if (!file_exists($file)) {
             throw new \InvalidArgumentException(sprintf('%s is not a valid cantine configuration file', $file));
         }
-        $this->file = $file;
-        $this->allergens = new AllergensFactory();
-        $this->turns = new TurnsFactory();
-        $this->groups = new GroupsFactory();
-        $this->rules = new RuleFactory();
-        $this->configure();
+        $config = Yaml::parse(file_get_contents($file));
+
+        $this->turns = new TurnsFactory($config['turns']);
+        $this->groups = new GroupsFactory($config['groups']);
+        $this->allergens = new AllergensFactory($config['allergens']);
+        $this->rules = new RuleFactory($config['rules'], $this->turns, $this->groups);
     }
 
     /**
@@ -60,17 +60,5 @@ class CantineManager
     public function getRules()
     {
         return $this->rules->getAll();
-    }
-
-    /**
-     * Configure factories.
-     */
-    private function configure()
-    {
-        $config = Yaml::parse(file_get_contents($this->file));
-        $this->allergens->configure($config['allergens']);
-        $this->turns->configure($config['turns']);
-        $this->groups->configure($config['groups']);
-        $this->rules->configure($config['rules'], $this->turns, $this->groups);
     }
 }

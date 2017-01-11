@@ -10,8 +10,7 @@ class TurnsFactorySpec extends ObjectBehavior
 {
     public function let()
     {
-        $this->beConstructedWith();
-        $this->configure(['Turno 1', 'Turno 2', 'Turno 3']);
+        $this->beConstructedWith(['Turno 1', 'Turno 2', 'Turno 3']);
     }
     public function it_is_initializable()
     {

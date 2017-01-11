@@ -9,6 +9,7 @@ Feature: Get the list of today's cantine users
             turns: ['Turno 1', 'Turno 2', 'Turno 3']
             groups: ['Grupo 1', 'Grupo 2', 'Grupo 3', 'Grupo 4']
             rules: { 'Grupo 1 eats on turn 1 all days': { schedule: [monday, tuesday, wednesday, thursday, friday], group: 'Grupo 1', turn: 'Turno 1' }, 'Grupo 2 eats on turn 2 Mon and Wed': { schedule: [monday, wednesday], group: 'Grupo 2', turn: 'Turno 2' }, 'Grupo 2 eats on turn 3 Tue, Thu, Fri': { schedule: [tuesday, thursday, friday], group: 'Grupo 2', turn: 'Turno 3' } }
+            allergens: ['gluten', 'almonds', 'fish', 'eggs']
             """
         And There are some Cantine Users registered
             | name | surname | gender | class | student_id | group | type | schedule | allergies | remarks |

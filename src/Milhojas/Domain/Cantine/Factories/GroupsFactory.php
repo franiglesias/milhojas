@@ -13,7 +13,10 @@ class GroupsFactory
 
     public function __construct(array $groups)
     {
-        $this->configure($groups);
+        foreach ($groups as $name) {
+            $group = new CantineGroup($name);
+            $this->groups[$this->sanitize($name)] = $group;
+        }
     }
 
     public function getGroup($name)
@@ -21,16 +24,9 @@ class GroupsFactory
         return $this->groups[$this->sanitize($name)];
     }
 
-    private function addGroup(CantineGroup $group)
+    public function getGroups()
     {
-        $this->groups[$this->sanitize($group->getName())] = $group;
-    }
-
-    private function configure($config)
-    {
-        foreach ($config as $name) {
-            $this->addGroup(new CantineGroup($name));
-        }
+        return $this->groups;
     }
 
     private function sanitize($name)

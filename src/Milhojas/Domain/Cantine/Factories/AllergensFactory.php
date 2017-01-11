@@ -9,9 +9,9 @@ class AllergensFactory
 {
     private $supported;
 
-    public function __construct()
+    public function __construct($allergens)
     {
-        $this->supported = [];
+        $this->supported = $allergens;
     }
 
     public function configure(array $supported)

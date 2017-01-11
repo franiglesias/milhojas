@@ -11,12 +11,13 @@ class RuleFactory
     private $rules;
     private $groups;
 
-    public function __construct()
+    public function __construct($config, TurnsFactory $turns, GroupsFactory $groups)
     {
         $this->rules = null;
+        $this->configure($config, $turns, $groups);
     }
 
-    public function configure($config, TurnsFactory $turns, GroupsFactory $groups)
+    private function configure($config, $turns, $groups)
     {
         foreach ($config as $name => $rule) {
             $turn = $turns->getTurn($rule['turn']);

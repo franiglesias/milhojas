@@ -14,9 +14,7 @@ use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineGroup;
 use Milhojas\Domain\Cantine\CantineConfig;
 use Milhojas\Domain\Cantine\CantineUserRepository;
-use Milhojas\Domain\Cantine\Factories\RuleFactory;
-use Milhojas\Domain\Cantine\Factories\TurnsFactory;
-use Milhojas\Domain\Cantine\Factories\GroupsFactory;
+use Milhojas\Domain\Cantine\Factories\CantineManager;
 use Milhojas\Domain\Cantine\Specification\CantineUserEatingOnDate;
 use Milhojas\Domain\Shared\Student;
 use Milhojas\Domain\Shared\StudentId;
@@ -67,12 +65,7 @@ class AdminContext implements Context
      */
     public function cantineConfigurationIs(PyStringNode $string)
     {
-        $this->cantineConfig = new CantineConfig(
-            new TurnsFactory(),
-            new GroupsFactory(),
-            new RuleFactory()
-        );
-        $this->cantineConfig->load($this->getMockedConfigurationFile($string));
+        $this->cantineConfig = new CantineManager($this->getMockedConfigurationFile($string));
     }
 
     /**
@@ -126,11 +119,10 @@ class AdminContext implements Context
     {
         $this->List = $this->CantineUserRepository->find(new CantineUserEatingOnDate($this->today));
         $prophet = new Prophet();
-        $eventBus = $prophet->prophesize(EventBus::class);
+        $eventBus = $prophet->prophesize(EventBus::class)->reveal();
 
-        $this->cantineList = new CantineList($this->today);
-        $assigner = new Assigner($this->cantineConfig->getRules(), $eventBus->reveal());
-        $assigner->buildList($this->cantineList, $this->List);
+        $assigner = new Assigner($this->cantineConfig->getRules(), $eventBus);
+        $this->cantineList = $assigner->buildList($this->today, $this->List);
     }
 
 // Then Section

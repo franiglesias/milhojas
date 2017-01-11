@@ -50,7 +50,7 @@ class CantineManagerSpec extends ObjectBehavior
 
     public function it_can_give_cantine_groups_by_name()
     {
-        $this->getGroup('Group 1')->shouldHaveType(CantineGroup::class);
+        $this->getGroup('Grupo 1')->shouldHaveType(CantineGroup::class);
     }
 
     public function it_can_give_the_rules()

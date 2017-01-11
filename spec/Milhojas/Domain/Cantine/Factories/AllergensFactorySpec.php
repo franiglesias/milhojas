@@ -8,6 +8,10 @@ use PhpSpec\ObjectBehavior;
 
 class AllergensFactorySpec extends ObjectBehavior
 {
+    public function let()
+    {
+        $this->beConstructedWith(['almonds', 'gluten', 'fish', 'eggs', 'seafood']);
+    }
     public function it_is_initializable()
     {
         $this->shouldHaveType(AllergensFactory::class);
@@ -15,7 +19,6 @@ class AllergensFactorySpec extends ObjectBehavior
 
     public function it_creates_blank_allergens_checklists()
     {
-        $this->configure(['almonds', 'gluten', 'fish', 'eggs', 'seafood']);
         $this->getBlankAllergensSheet()->shouldHaveType(Allergens::class);
     }
 }

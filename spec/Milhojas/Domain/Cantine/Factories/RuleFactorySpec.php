@@ -30,8 +30,7 @@ class RuleFactorySpec extends ObjectBehavior
         $turns->getTurn('Turno 1')->willReturn($turn);
         $turns->getTurn('Turno 2')->willReturn($turn);
         $groups->getGroup('Group 1')->willReturn($group);
-        $this->beConstructedWith();
-        $this->configure($rules, $turns, $groups);
+        $this->beConstructedWith($rules, $turns, $groups);
     }
     public function it_is_initializable()
     {

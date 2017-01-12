@@ -3,7 +3,7 @@
 namespace Milhojas\Application\Management\Reporters;
 
 use Milhojas\Library\Messaging\EventBus\Event;
-use Milhojas\Library\Messaging\EventBus\Reporters\CliReporter;
+use Milhojas\Library\Messaging\EventBus\Reporter\CliReporter;
 /**
 * Handles PayrollWasSent and reports via cli
 */

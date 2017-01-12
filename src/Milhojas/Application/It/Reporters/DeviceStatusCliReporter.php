@@ -3,7 +3,7 @@
 namespace Milhojas\Application\It\Reporters;
 
 use Milhojas\Library\Messaging\EventBus\Event;
-use Milhojas\Library\Messaging\EventBus\Reporters\CliReporter;
+use Milhojas\Library\Messaging\EventBus\Reporter\CliReporter;
 /**
 * Handles events related to Device Status
 */

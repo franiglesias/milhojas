@@ -37,7 +37,7 @@ abstract class CommandWorker
     }
 
     /**
-     * Pass the command to the next Workre in the chain.
+     * Pass the command to the next Worker in the chain.
      *
      * @param Command $command
      */

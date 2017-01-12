@@ -2,7 +2,7 @@
 
 namespace Milhojas\Application\Contents\Reporters;
 
-use Milhojas\Library\Messaging\EventBus\Reporters\EmailReporter;
+use Milhojas\Library\Messaging\EventBus\Reporter\EmailReporter;
 use Milhojas\Library\Messaging\EventBus\Event;
 
 /**

@@ -3,13 +3,13 @@
 namespace Milhojas\Library\ValueObjects\Identity;
 
 /**
- * Represents a name that have at least some characters
+ * Represents a name that have at least some characters.
  */
 class Name
 {
     const MINIMUM_LENGHT = 2;
     /**
-     * The name
+     * The name.
      *
      * @var string
      */
@@ -28,7 +28,7 @@ class Name
 
     private function checkIsName($name_to_check)
     {
-        if (strlen($name_to_check) < self::MINIMUM_LENGHT) {
+        if (strlen($name_to_check) <= self::MINIMUM_LENGHT) {
             throw new \InvalidArgumentException(sprintf('"%s" seems to be a bad name for that.', $name_to_check));
         }
     }
@@ -38,6 +38,3 @@ class Name
         return $this->name;
     }
 }
-
-
- ?>

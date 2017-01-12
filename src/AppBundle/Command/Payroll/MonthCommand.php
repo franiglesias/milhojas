@@ -6,7 +6,7 @@ use Milhojas\Domain\Management\PayrollMonth;
 
 # Commands
 
-use Milhojas\Application\Management\Commands\DistributePayroll;
+use Milhojas\Application\Management\Command\DistributePayroll;
 
 # Utils
 

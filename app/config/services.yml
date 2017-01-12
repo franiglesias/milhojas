@@ -48,7 +48,7 @@ services:
 
     executer_bus_worker:
         class:          Milhojas\Library\Messaging\CommandBus\Worker\ExecuteWorker
-        arguments:      ["@loader", "@handler_inflector"]
+        arguments:      ["@loader", "@service_inflector"]
 
     event_bus_worker:
         class:          Milhojas\Library\Messaging\CommandBus\Worker\DispatchEventsWorker
@@ -93,9 +93,6 @@ services:
         class:          Milhojas\Library\Messaging\EventBus\SimpleEventBus
         arguments:      ['@logger']
         calls:
-            # It
-            - ['subscribeListener', ['@it.device_status.email.reporter',  '%milhojas.it.monitor.email.events%'] ]
-            - ['subscribeListener', ['@it.device_status.cli.reporter',  '%milhojas.it.monitor.all.events%'] ]
 
             # Management
             - ['addListener', ['milhojas.management.payroll_distribution_started', '@management.payroll_progress.resetter'] ]

@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Application\Contents\Projectors;
+namespace Tests\Application\Contents\Projector;
 
-use Milhojas\Application\Contents\Projectors\PostListProjector;
+use Milhojas\Application\Contents\Projector\PostListProjector;
 
 use Tests\Infrastructure\Persistence\Shared\DoctrineTestCase;
 use Milhojas\Domain\Contents\Events\NewPostWasWritten;

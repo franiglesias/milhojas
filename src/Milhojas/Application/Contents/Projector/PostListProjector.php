@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Application\Contents\Projectors;
+namespace Milhojas\Application\Contents\Projector;
 
 use Milhojas\Library\Messaging\EventBus\Event;
 use Milhojas\Library\Messaging\EventBus\EventHandler;

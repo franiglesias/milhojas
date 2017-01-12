@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Application\Management\Commands;
+namespace Milhojas\Application\Management\Command;
 
 # Domain concepts
 
@@ -9,9 +9,9 @@ use Milhojas\Domain\Management\PayrollMonth;
 use Milhojas\Domain\Management\Employee;
 # Events
 
-use Milhojas\Application\Management\Events\PayrollEmailWasSent;
-use Milhojas\Application\Management\Events\PayrollEmailCouldNotBeSent;
-use Milhojas\Application\Management\Events\PayrollCouldNotBeFound;
+use Milhojas\Application\Management\Event\PayrollEmailWasSent;
+use Milhojas\Application\Management\Event\PayrollEmailCouldNotBeSent;
+use Milhojas\Application\Management\Event\PayrollCouldNotBeFound;
 
 # Application Messaging infrastructure
 

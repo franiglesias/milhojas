@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Application\Management\Commands;
+namespace Milhojas\Application\Management\Command;
 
 # Domain concepts
 
@@ -9,7 +9,7 @@ use Milhojas\Domain\Management\PayrollReporter;
 
 # Application Messaging infrastructure
 
-use Milhojas\Application\Management\Commands\SendPayroll;
+use Milhojas\Application\Management\Command\SendPayroll;
 use Milhojas\Library\Messaging\CommandBus\Command\BroadcastEvent;
 
 use Milhojas\Library\Messaging\CommandBus\Command;
@@ -17,8 +17,8 @@ use Milhojas\Library\Messaging\CommandBus\CommandHandler;
 
 # Events
 
-use Milhojas\Application\Management\Events\AllPayrollsWereSent;
-use Milhojas\Application\Management\Events\PayrollDistributionStarted;
+use Milhojas\Application\Management\Event\AllPayrollsWereSent;
+use Milhojas\Application\Management\Event\PayrollDistributionStarted;
 
 /**
 * Distributes payroll documents for a month

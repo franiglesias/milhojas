@@ -12,32 +12,32 @@ services:
     # Reporters
 
     management.payroll_was_sent.cli.reporter:
-        class:          Milhojas\Application\Management\Reporters\PayrollWasSentCliReporter
+        class:          Milhojas\Application\Management\Reporter\PayrollWasSentCliReporter
         arguments:      ['@cli.output']
 
     management.payroll_could_not_be_sent.cli.reporter:
-        class:          Milhojas\Application\Management\Reporters\PayrollCouldNotBeSentCliReporter
+        class:          Milhojas\Application\Management\Reporter\PayrollCouldNotBeSentCliReporter
         arguments:      ['@cli.output']
 
     management.all_payrolls_were_sent.cli.reporter:
-        class:          Milhojas\Application\Management\Reporters\AllPayrollsWereSentCliReporter
+        class:          Milhojas\Application\Management\Reporter\AllPayrollsWereSentCliReporter
         arguments:      ['@cli.output']
 
 
     management.email_was_not_sent.cli.reporter:
-        class:          Milhojas\Application\Management\Reporters\PayrollWasNotSentCliReporter
+        class:          Milhojas\Application\Management\Reporter\PayrollWasNotSentCliReporter
         arguments:      ['@cli.output']
 
     management.all_payrolls_were_sent.email.reporter:
-        class:          Milhojas\Application\Management\Reporters\AllPayrollsWereSentEmailReporter
+        class:          Milhojas\Application\Management\Reporter\AllPayrollsWereSentEmailReporter
         arguments:      ['@milhojas.mailer', '%payroll.sender%', '%payroll.report%', 'AppBundle:Management:all_payrolls.sent.email.twig']
 
     management.payroll_progress.reporter:
-        class:          Milhojas\Application\Management\Reporters\PayrollProgressReporter
+        class:          Milhojas\Application\Management\Reporter\PayrollProgressReporter
         arguments:      ['var/exchange/management-payroll-reporter.json']
 
     management.payroll_progress.resetter:
-        class:          Milhojas\Application\Management\Handlers\ResetPayrollProgress
+        class:          Milhojas\Application\Management\Handler\ResetPayrollProgress
         arguments:      ['var/exchange/management-payroll-reporter.json']
 
     # Repositories
@@ -52,12 +52,12 @@ services:
 
     # Command Handlers
 
-    send_payroll_handler:
-        class:          Milhojas\Application\Management\Commands\SendPayrollHandler
+    management.send_payroll.handler:
+        class:          Milhojas\Application\Management\Command\SendPayrollHandler
         arguments:      ['@management.payrolls', '%payroll.email.template%', '@milhojas.mailer',  "@event_recorder"]
 
-    distribute_payroll_handler:
-        class:          Milhojas\Application\Management\Commands\DistributePayrollHandler
+    management.distribute_payroll.handler:
+        class:          Milhojas\Application\Management\Command\DistributePayrollHandler
         arguments:      ['@management.staff', '%payroll.sender%', '@command_bus']
 
 

@@ -1,25 +1,23 @@
 <?php
 
-namespace Milhojas\Application\Management\Events;
+namespace Milhojas\Application\Management\Event;
 
 use Milhojas\Library\Messaging\EventBus\Event;
 use Milhojas\Domain\Management\Employee;
 use Milhojas\Library\ValueObjects\Misc\Progress;
 
 /**
-* Describes the condition of a Payroll that could not be sent because there is no record for it in the email.dat database
+* Describes the condition of an Employee that had no payroll documents for a month
 */
-class PayrollEmailCouldNotBeSent implements Event
+class PayrollCouldNotBeFound implements Event
 {
 	private $employee;
 	private $progress;
-	private $errorMessage;
 	
-	public function __construct(Employee $employee, $error_message, Progress $progress)
+	public function __construct(Employee $employee, Progress $progress)
 	{
 		$this->employee = $employee;
 		$this->progress = $progress;
-		$this->errorMessage = $error_message;
 	}
 	
 	public function getEmployee()
@@ -27,20 +25,14 @@ class PayrollEmailCouldNotBeSent implements Event
 		return $this->employee;
 	}
 	
-	public function getError()
-	{
-		return $this->errorMessage;
-	}
-	
 	public function getProgress()
 	{
 		return $this->progress;
 	}
 	
-	
 	public function getName()
 	{
-		return 'milhojas.management.payroll_email_could_not_be_sent';
+		return 'milhojas.management.payroll_could_not_be_found';
 	}
 	
 	public function __toString()

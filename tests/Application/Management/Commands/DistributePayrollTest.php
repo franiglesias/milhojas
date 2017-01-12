@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Application\Management\Commands;
+namespace Tests\Application\Management\Command;
 
 # SUT
 
-use Milhojas\Application\Management\Commands\DistributePayroll;
-use Milhojas\Application\Management\Commands\DistributePayrollHandler;
+use Milhojas\Application\Management\Command\DistributePayroll;
+use Milhojas\Application\Management\Command\DistributePayrollHandler;
 
 # Domain concepts
 use Milhojas\Domain\Management\Staff;
@@ -47,13 +47,13 @@ class DistributePayrollTest extends CommandScenario
 		$handler = new DistributePayrollHandler($this->staff, $this->sender, $this->bus);
 		$this->sending($command)
 			->toHandler($handler)
-			->sendsCommand('Milhojas\Application\Management\Commands\SendPayroll', 3)
+			->sendsCommand('Milhojas\Application\Management\Command\SendPayroll', 3)
 			->sendsCommand('Milhojas\Library\Messaging\CommandBus\Command\BroadcastEvent', 2)
 			->producesCommandHistory([
 				'Milhojas\Library\Messaging\CommandBus\Command\BroadcastEvent',
-				'Milhojas\Application\Management\Commands\SendPayroll',
-				'Milhojas\Application\Management\Commands\SendPayroll',
-				'Milhojas\Application\Management\Commands\SendPayroll',
+				'Milhojas\Application\Management\Command\SendPayroll',
+				'Milhojas\Application\Management\Command\SendPayroll',
+				'Milhojas\Application\Management\Command\SendPayroll',
 				'Milhojas\Library\Messaging\CommandBus\Command\BroadcastEvent'
 			])
 		;

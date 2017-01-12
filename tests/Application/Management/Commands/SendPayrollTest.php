@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Application\Management\Commands;
+namespace Tests\Application\Management\Command;
 
 # SUT
-use Milhojas\Application\Management\Commands\SendPayroll;
-use Milhojas\Application\Management\Commands\SendPayrollHandler;
+use Milhojas\Application\Management\Command\SendPayroll;
+use Milhojas\Application\Management\Command\SendPayrollHandler;
 
 # Domain concepts
 use Milhojas\Domain\Management\Employee;
@@ -45,7 +45,7 @@ class SendPayrollTest extends CommandScenario
 		$handler = new SendPayrollHandler($this->payrolls, 'AppBundle:Management:payroll_document.email.twig', $this->mailer, $this->recorder);
 		$this->sending($command)
 			->toHandler($handler)
-			->raisesEvent('Milhojas\Application\Management\Events\PayrollEmailWasSent')
+			->raisesEvent('Milhojas\Application\Management\Event\PayrollEmailWasSent')
 			->produces($this->mailer->wasCalled())
 			->produces($this->mailer->aMessageWasSentTo('user@example.com'))
 			->produces($this->mailer->attachmentsInMessage() === 1)
@@ -60,7 +60,7 @@ class SendPayrollTest extends CommandScenario
 		$handler = new SendPayrollHandler($this->payrolls, 'AppBundle:Management:payroll_document.email.twig', $this->mailer, $this->recorder);
 		$this->sending($command)
 			->toHandler($handler)
-			->raisesEvent('Milhojas\Application\Management\Events\PayrollCouldNotBeFound');
+			->raisesEvent('Milhojas\Application\Management\Event\PayrollCouldNotBeFound');
 	}
 	
 	public function testItHandlesMessageCouldNotBeSent()
@@ -71,7 +71,7 @@ class SendPayrollTest extends CommandScenario
 		$this->mailer->makeFail();
 		$this->sending($command)
 			->toHandler($handler)
-			->raisesEvent('\Milhojas\Application\Management\Events\PayrollEmailCouldNotBeSent');
+			->raisesEvent('\Milhojas\Application\Management\Event\PayrollEmailCouldNotBeSent');
 	}
 	
 	public function testItHandlesEmployeeWithSeveralFiles()
@@ -81,7 +81,7 @@ class SendPayrollTest extends CommandScenario
 		$handler = new SendPayrollHandler($this->payrolls, 'AppBundle:Management:payroll_document.email.twig', $this->mailer, $this->recorder);
 		$this->sending($command)
 			->toHandler($handler)
-			->raisesEvent('Milhojas\Application\Management\Events\PayrollEmailWasSent')
+			->raisesEvent('Milhojas\Application\Management\Event\PayrollEmailWasSent')
 			->produces($this->mailer->wasCalled())
 			->produces($this->mailer->aMessageWasSentTo('user@example.com'))
 			->produces($this->mailer->attachmentsInMessage() === 2);

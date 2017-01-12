@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Application\Contents;
+namespace Milhojas\Application\Contents\Command;
 
 use Milhojas\Library\Messaging\CommandBus\Command;
 use Milhojas\Library\Messaging\CommandBus\CommandHandler;
@@ -22,7 +22,7 @@ class UpdatePostHandler implements CommandHandler
 {
 	private $repository;
 	private $recorder;
-	
+
 	public function __construct(PostRepository $repository, EventRecorder $recorder)
 	{
 		$this->repository = $repository;

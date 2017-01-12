@@ -3,7 +3,6 @@ imports:
     - { resource: services.yml }
     - { resource: services/management.yml }
     - { resource: services/contents.yml }
-    - { resource: services/it.yml }
     - { resource: services/cantine.yml }
     - { resource: security.yml }
 

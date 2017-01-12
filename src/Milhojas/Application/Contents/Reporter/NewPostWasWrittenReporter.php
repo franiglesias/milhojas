@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Application\Contents\Reporters;
+namespace Milhojas\Application\Contents\Reporter;
 
 use Milhojas\Library\Messaging\EventBus\Reporter\EmailReporter;
 use Milhojas\Library\Messaging\EventBus\Event;

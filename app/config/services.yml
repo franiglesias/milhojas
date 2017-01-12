@@ -41,7 +41,7 @@ services:
         arguments:      [["@executer_bus_worker", '@event_bus_worker']]
 
     broadcast_event_handler:
-        class:          Milhojas\Library\Messaging\CommandBus\Commands\BroadcastEventHandler
+        class:          Milhojas\Library\Messaging\CommandBus\Command\BroadcastEventHandler
         arguments:      ['@event_recorder']
 
     # CommandBus Workers

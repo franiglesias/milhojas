@@ -58,7 +58,8 @@ services:
 
     loader:
         class:          Milhojas\Library\Messaging\Shared\Loader\SymfonyContainerLoader
-        calls:          ['setContainer', ['@service_container']]
+        calls:
+            - ['setContainer', ['@service_container']]
 
     service_inflector:
         class:          Milhojas\Library\Messaging\Shared\Inflector\SymfonyContainerInflector

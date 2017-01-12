@@ -12,30 +12,48 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class PayrollMonthType extends AbstractType implements DataMapperInterface
 {
     /**
- * {@inheritdoc}
- */
-public function buildForm(FormBuilderInterface $builder, array $options)
-{
-    $builder
-        ->add('month', ChoiceType::class, array(
-            'choices' => ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
-        ))
-        ->add('year', ChoiceType::class, array(
-            'choices' => ['2016', '2017', '2018', '2019'],
-        ))
-        ->setDataMapper($this)
-    ;
-}
+     * {@inheritdoc}
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('month', ChoiceType::class, array(
+                'choices' => [
+                    'enero' => '01',
+                    'febrero' => '02',
+                    'marzo' => '03',
+                    'abril' => '04',
+                    'mayo' => '05',
+                    'junio' => '06',
+                    'julio' => '07',
+                    'agosto' => '08',
+                    'septiembre' => '09',
+                    'octubre' => '10',
+                    'noviembre' => '11',
+                    'diciembre' => '12',
+                    ],
+            ))
+            ->add('year', ChoiceType::class, array(
+                'choices' => [
+                    '2016' => '2016',
+                    '2017' => '2017',
+                    '2018' => '2018',
+                    '2019' => '2019',
+                    ],
+            ))
+            ->setDataMapper($this)
+        ;
+    }
 
-/**
- * {@inheritdoc}
- */
-public function configureOptions(OptionsResolver $resolver)
-{
-    $resolver->setDefaults([
-        'data_class' => 'Milhojas\\Domain\\Management\\PayrollMonth',
-    ]);
-}
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => 'Milhojas\\Domain\\Management\\PayrollMonth',
+        ]);
+    }
 
     public function mapDataToForms($data, $forms)
     {

@@ -14,7 +14,7 @@ class PayrollType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('monthyear', PayrollMonthType::class)
+            ->add('month', PayrollMonthType::class)
             ->add('file', FileType::class, array(
                 'label' => 'ZIP File',
                 'multiple' => true,

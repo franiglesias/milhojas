@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Milhojas\Infrastructure\Process\CommandLineBuilder;
 use Milhojas\Application\Management\Form\Type\PayrollType;
 use Milhojas\Application\Management\PayrollDistributor;
+use Milhojas\Domain\Management\PayrollMonth;
 
 class ManagementController extends Controller
 {
@@ -36,8 +37,7 @@ class ManagementController extends Controller
     public function uploadAction(Request $request)
     {
         $payrollDist = new PayrollDistributor();
-        $payrollDist->setMonth('septiembre');
-        $payrollDist->setYear('2016');
+        $payrollDist->setMonth(new PayrollMonth('01', '2017'));
         $form = $this->createForm(PayrollType::class, $payrollDist);
 
         $form->handleRequest($request);

@@ -17,7 +17,7 @@ swiftmailer:
     transport: gmail
     username:  '%mailer_user%'
     password:  '%mailer_password%'
-    
+
 doctrine:
     dbal:
         default_connection: default
@@ -26,7 +26,7 @@ doctrine:
             default:
                 driver:  pdo_sqlite
                 user:    '%database_test_user%'
-                path:    %kernel.root_dir%/../extras/sqlite/sqlite.db.cache
+                path:    '%kernel.root_dir%/../extras/sqlite/sqlite.db.cache'
                 #memory: true
                 charset: utf8
     orm:

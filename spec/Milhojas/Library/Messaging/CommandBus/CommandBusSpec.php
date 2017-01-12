@@ -4,7 +4,7 @@ namespace spec\Milhojas\Library\Messaging\CommandBus;
 
 use Milhojas\Library\Messaging\CommandBus\CommandBus;
 use Milhojas\Library\Messaging\CommandBus\Command;
-use Milhojas\Library\Messaging\CommandBus\Workers\CommandWorker;
+use Milhojas\Library\Messaging\CommandBus\Worker\CommandWorker;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 

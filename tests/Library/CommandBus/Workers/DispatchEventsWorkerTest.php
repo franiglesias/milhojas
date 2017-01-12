@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Library\Messaging\CommandBus\Workers;
+namespace Tests\Library\Messaging\CommandBus\Worker;
 
-use Milhojas\Library\Messaging\CommandBus\Workers\DispatchEventsWorker;
+use Milhojas\Library\Messaging\CommandBus\Worker\DispatchEventsWorker;
 use Milhojas\Library\Messaging\EventBus\EventBus;
 use Milhojas\Library\Messaging\EventBus\SimpleEventBus;
 use Milhojas\Library\Messaging\EventBus\EventRecorder;

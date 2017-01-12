@@ -47,11 +47,11 @@ services:
     # CommandBus Workers
 
     executer_bus_worker:
-        class:          Milhojas\Library\Messaging\CommandBus\Workers\ExecuteWorker
+        class:          Milhojas\Library\Messaging\CommandBus\Worker\ExecuteWorker
         arguments:      ["@loader", "@handler_inflector"]
 
     event_bus_worker:
-        class:          Milhojas\Library\Messaging\CommandBus\Workers\DispatchEventsWorker
+        class:          Milhojas\Library\Messaging\CommandBus\Worker\DispatchEventsWorker
         arguments:      ['@event_bus', '@event_recorder']
 
     # QueryBus

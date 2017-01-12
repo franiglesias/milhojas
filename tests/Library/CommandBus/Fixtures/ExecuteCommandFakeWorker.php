@@ -3,7 +3,7 @@
 namespace Tests\Library\Messaging\CommandBus\Fixtures;
 
 use Milhojas\Library\Messaging\CommandBus\Command;
-use Milhojas\Library\Messaging\CommandBus\Workers\CommandWorker;
+use Milhojas\Library\Messaging\CommandBus\Worker\CommandWorker;
 
 use Tests\Library\Messaging\CommandBus\Fixtures\SimpleCommandHandler;
 

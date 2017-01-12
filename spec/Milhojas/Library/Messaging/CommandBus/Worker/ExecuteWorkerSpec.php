@@ -1,13 +1,13 @@
 <?php
 
-namespace spec\Milhojas\Library\Messaging\CommandBus\Workers;
+namespace spec\Milhojas\Library\Messaging\CommandBus\Worker;
 
 use Milhojas\Library\Messaging\CommandBus\Command;
 use Milhojas\Library\Messaging\CommandBus\CommandHandler;
-use Milhojas\Library\Messaging\CommandBus\Workers\CommandWorker;
+use Milhojas\Library\Messaging\CommandBus\Worker\CommandWorker;
 use Milhojas\Library\Messaging\Shared\Loader\Loader;
 use Milhojas\Library\Messaging\Shared\Inflector\Inflector;
-use Milhojas\Library\Messaging\CommandBus\Workers\ExecuteWorker;
+use Milhojas\Library\Messaging\CommandBus\Worker\ExecuteWorker;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 

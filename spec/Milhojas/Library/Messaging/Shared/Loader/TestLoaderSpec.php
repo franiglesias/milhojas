@@ -5,7 +5,7 @@ namespace spec\Milhojas\Library\Messaging\Shared\Loader;
 use Milhojas\Library\Messaging\QueryBus\QueryHandler;
 use Milhojas\Library\Messaging\Shared\Loader\TestLoader;
 use Milhojas\Library\Messaging\Shared\Loader\Loader;
-use Milhojas\Library\Messaging\QueryBus\Exception\InvalidLoaderKey;
+use Milhojas\Library\Messaging\Shared\Exception\InvalidLoaderKey;
 use PhpSpec\ObjectBehavior;
 
 class TestLoaderSpec extends ObjectBehavior

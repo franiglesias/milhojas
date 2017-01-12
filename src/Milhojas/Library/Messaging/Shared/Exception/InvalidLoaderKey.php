@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Library\Messaging\QueryBus\Exception;
+namespace Milhojas\Library\Messaging\Shared\Exception;
 
 /**
  * Represents a condition in which a Loader doesn't have the requested key.

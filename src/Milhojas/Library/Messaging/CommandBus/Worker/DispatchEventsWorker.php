@@ -2,7 +2,6 @@
 
 namespace Milhojas\Library\Messaging\CommandBus\Worker;
 
-use Doctrine\Common\Cache\ChainCache;
 use Milhojas\Library\Messaging\CommandBus\Command;
 use Milhojas\Library\Messaging\EventBus\EventBus;
 use Milhojas\Library\Messaging\EventBus\EventRecorder;

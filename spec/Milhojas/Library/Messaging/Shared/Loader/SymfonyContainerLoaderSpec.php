@@ -12,7 +12,8 @@ class SymfonyContainerLoaderSpec extends ObjectBehavior
 {
     public function let(ContainerInterface $container)
     {
-        $this->beConstructedWith($container);
+        $this->beConstructedWith();
+        $this->setContainer($container);
     }
     public function it_is_initializable()
     {

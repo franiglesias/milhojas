@@ -2,24 +2,19 @@
 
 namespace Milhojas\Library\Messaging\Shared\Loader;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 /**
  * Adapter class to use the Symfony Container as Class Loader for the Messaging system.
  */
 class SymfonyContainerLoader implements Loader
 {
-    private $container;
-
-    /**
-     * Injects and instance of the symfony container.
-     *
-     * @param ContainerInterface $symfonyContainer Uses the symfony container as loader for classes
-     */
-    public function __construct(ContainerInterface $symfonyContainer)
-    {
-        $this->container = $symfonyContainer;
-    }
+    /*
+    * Injects an instance of the symfony container.
+    *
+    * @param ContainerInterface $symfonyContainer Uses the symfony container as loader for classes
+    */
+    use ContainerAwareTrait;
     /**
      * Loads the class given a string identifier definer in the services.yml configuration.
      *

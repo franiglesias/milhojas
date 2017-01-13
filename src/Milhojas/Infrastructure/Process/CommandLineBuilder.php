@@ -82,7 +82,7 @@ class CommandLineBuilder
     public function buildOutputTo()
     {
         if (!$this->output) {
-            return ' > /dev/null';
+            return false;
         }
 
         return sprintf(' > %s', $this->output);

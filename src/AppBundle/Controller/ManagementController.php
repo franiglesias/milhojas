@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Milhojas\Infrastructure\Process\CommandLineBuilder;
-use Milhojas\Application\Management\Form\Type\PayrollType;
+use Milhojas\Infrastructure\Form\Management\Type\PayrollType;
 use Milhojas\Application\Management\PayrollDistributor;
 use Milhojas\Domain\Management\PayrollMonth;
 

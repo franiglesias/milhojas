@@ -135,4 +135,4 @@ services:
 
     milhojas.uploader:
         class: Milhojas\Infrastructure\Uploader\FileUploader
-        arguments: ['%kernel.root_dir%/../extras/inbox']
+        arguments: ['%upload_inbox%']

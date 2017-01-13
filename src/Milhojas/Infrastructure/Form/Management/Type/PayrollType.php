@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Application\Management\Form\Type;
+namespace Milhojas\Infrastructure\Form\Management\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

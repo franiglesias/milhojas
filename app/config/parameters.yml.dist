@@ -10,7 +10,9 @@ parameters:
     # You should uncomment this if you want use pdo_sqlite
     # database_path: "%kernel.root_dir%/data.db3"
     database_test_user: test
-    
+
+    upload_inbox: '%kernel.root_dir%/../var/inbox'
+
     mailer_transport:  smtp
     mailer_host:       127.0.0.1
     mailer_user:       ~
@@ -19,15 +21,15 @@ parameters:
     # A secret key that's used to generate certain security-related tokens
     secret:            71869bf57b5c5ad3691b6a41af10fa5d417245eb
     session.name:      MHSESSID
-    
+
     # Authentication
-    
+
     google.client_id:           googleclientid
     google.client_secret:       googleclientsecret
     google.hd:                  googlehd
-    
+
     # Management
-    
+
     payroll.sender:
         email@example.com: 'Payroll Sender'
     payroll.report:
@@ -35,17 +37,12 @@ parameters:
     payroll.dataPath: "%kernel.root_dir%/../"
     staff.file: '%kernel.root_dir%/../'
 
-    # It
-    
-    device.sender:     email@example.com
-    device.report:     email@example.com
-    
     # Contents
-    
+
     contents.report:
         email@example.com: 'Contents Report To'
     contents.sender:
         email@example.com: 'Milhojas CMS'
-    
+
     # Where are managed users stored
     users.file: '%kernel.root_dir%/../'

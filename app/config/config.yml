@@ -41,7 +41,8 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
-
+    form_themes:
+        - 'foundation_5_layout.html.twig'
 # Doctrine Configuration
 doctrine:
     dbal:
@@ -152,4 +153,4 @@ vich_uploader:
     mappings:
             payroll_file:
                 uri_prefix:         /payroll/month
-                upload_destination: '%kernel.root_dir%/../extras/inbox'
+                upload_destination: '%upload_inbox%'

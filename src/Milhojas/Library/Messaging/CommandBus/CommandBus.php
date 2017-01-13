@@ -26,11 +26,8 @@ class CommandBus
     protected function buildWorkersChain($workers)
     {
         $chain = array_shift($workers);
-        $root = $chain;
         while ($workers) {
-            $next = array_shift($workers);
-            $root->setNext($next);
-            $root = $next;
+            $chain->setNext(array_shift($workers));
         }
 
         return $chain;

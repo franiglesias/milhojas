@@ -41,4 +41,16 @@ class ExecuteWorkerSpec extends ObjectBehavior
         $handler->handle($command)->shouldBeCalled();
         $this->work($command);
     }
+
+    public function it_chains_a_worker(CommandWorker $worker)
+    {
+        $this->setNext($worker);
+    }
+
+    public function it_chains_workers_at_the_end_of_the_chain(CommandWorker $worker, CommandWorker $worker2)
+    {
+        $this->setNext($worker);
+        $worker->setNext($worker2)->shouldBeCalled();
+        $this->setNext($worker2);
+    }
 }

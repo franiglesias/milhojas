@@ -33,7 +33,12 @@ abstract class CommandWorker
      */
     public function setNext(CommandWorker $next)
     {
-        $this->next = $next;
+        if (!$this->next) {
+            $this->next = $next;
+
+            return;
+        }
+        $this->next->setNext($next);
     }
 
     /**

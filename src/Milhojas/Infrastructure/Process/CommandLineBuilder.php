@@ -82,7 +82,7 @@ class CommandLineBuilder
     public function buildOutputTo()
     {
         if (!$this->output) {
-            return false;
+            return ' > /dev/null';
         }
 
         return sprintf(' > %s', $this->output);
@@ -110,11 +110,11 @@ class CommandLineBuilder
         $this->setProcess();
         $this->process->setWorkingDirectory($this->workingDir);
         $this->process->start(function ($type, $buffer) {
-            if ('err' === $type) {
-                echo 'ERR > '.$buffer;
-            } else {
-                echo 'OUT > '.$buffer;
-            }
+            // if ('err' === $type) {
+            //     echo 'ERR > '.$buffer;
+            // } else {
+            //     echo 'OUT > '.$buffer;
+            // }
         });
 
         return $this;

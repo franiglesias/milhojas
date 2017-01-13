@@ -27,7 +27,7 @@ class CommandLineProcess implements CommandLine
 
     public function start(callable $callable = null)
     {
-        $this->process->mustRun($callable);
+        $this->process->start($callable);
 
         return $this;
     }

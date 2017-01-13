@@ -11,7 +11,6 @@ use Milhojas\Domain\Management\PayrollMonth;
 class PayrollDistributor
 {
     protected $month;
-    protected $year;
     protected $file;
     protected $fileName;
 
@@ -25,14 +24,14 @@ class PayrollDistributor
         return $this->month;
     }
 
-    public function setYear($year)
-    {
-        $this->year = $year;
-    }
-
     public function getYear()
     {
-        return $this->year;
+        return $this->month->getYear();
+    }
+
+    public function getMonthString()
+    {
+        return $this->month->getMonth();
     }
 
     public function setFile($files)

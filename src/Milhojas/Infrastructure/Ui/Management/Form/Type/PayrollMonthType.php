@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Infrastructure\Form\Management\Type;
+namespace Milhojas\Infrastructure\Ui\Management\Form\Type;
 
 use Milhojas\Domain\Management\PayrollMonth;
 use Symfony\Component\Form\AbstractType;

@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Milhojas\Infrastructure\Process\CommandLineBuilder;
-use Milhojas\Infrastructure\Form\Management\Type\PayrollType;
+use Milhojas\Infrastructure\Ui\Management\Form\Type\PayrollType;
 use Milhojas\Application\Management\PayrollDistributor;
 use Milhojas\Domain\Management\PayrollMonth;
 
@@ -62,8 +62,6 @@ class ManagementController extends Controller
      * @Method({"GET"})
      * @Security("has_role('ROLE_ADMIN')")
      *
-     * @param Request $request
-     *
      * @author Fran Iglesias
      */
     public function resultsAction()
@@ -74,7 +72,7 @@ class ManagementController extends Controller
     private function launchCommand($payrollDist)
     {
         (new CommandLineBuilder('payroll:month'))
-            ->withArgument($payrollDist->getMonth())
+            ->withArgument($payrollDist->getMonthString())
             ->withArgument($payrollDist->getYear())
             ->withArgument(implode(' ', $payrollDist->getFileName()))
             ->outputTo('var/logs/payroll-month-output.log')

@@ -56,7 +56,10 @@ class CantineUserSpec extends ObjectBehavior
     {
         $schedule->isScheduledDate($anyDate)->willReturn(true);
         $this->shouldBeEatingOnDate($anyDate);
+    }
 
+    public function it_can_say_user_will_not_be_eating_on_date(Schedule $schedule, \DateTimeImmutable $anyDate)
+    {
         $schedule->isScheduledDate($anyDate)->willReturn(false);
         $this->shouldNotBeEatingOnDate($anyDate);
     }

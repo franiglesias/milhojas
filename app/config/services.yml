@@ -65,7 +65,7 @@ services:
         class:          Milhojas\Library\Messaging\Shared\Inflector\SymfonyContainerInflector
 
     query_bus:
-        class:          Milhojas\Library\Messaging\QueryBus\SimpleQueryBus
+        class:          Milhojas\Library\Messaging\QueryBus\QueryBus
         arguments:      ['@loader', '@service_inflector']
 
 # Mailer

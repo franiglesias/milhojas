@@ -21,7 +21,7 @@ use Milhojas\Domain\Utils\Schedule\MonthWeekSchedule;
 use Milhojas\Library\Messaging\Shared\Inflector\SymfonyContainerInflector;
 use Milhojas\Library\ValueObjects\Identity\Person;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
-use Milhojas\Library\Messaging\QueryBus\SimpleQueryBus;
+use Milhojas\Library\Messaging\QueryBus\QueryBus;
 use Milhojas\Library\Messaging\Shared\Loader\TestLoader;
 use Milhojas\Library\Messaging\EventBus\EventBus;
 use org\bovigo\vfs\vfsStream;
@@ -65,7 +65,7 @@ class AdminContext implements Context
         $loader->add('cantine.get_cantine_attendances_list_for.handler', $handler);
 
         $inflector = new SymfonyContainerInflector();
-        $this->bus = new SimpleQueryBus($loader, $inflector);
+        $this->bus = new QueryBus($loader, $inflector);
     }
 
     /**

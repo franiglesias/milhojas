@@ -2,7 +2,6 @@
 
 namespace spec\Milhojas\Library\Messaging\QueryBus;
 
-use Milhojas\Library\Messaging\QueryBus\SimpleQueryBus;
 use Milhojas\Library\Messaging\QueryBus\QueryBus;
 use Milhojas\Library\Messaging\QueryBus\Query;
 use Milhojas\Library\Messaging\QueryBus\QueryHandler;
@@ -11,7 +10,7 @@ use Milhojas\Library\Messaging\Shared\Inflector\Inflector;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class SimpleQueryBusSpec extends ObjectBehavior
+class QueryBusSpec extends ObjectBehavior
 {
     public function let(Loader $loader, Inflector $inflector)
     {
@@ -19,8 +18,7 @@ class SimpleQueryBusSpec extends ObjectBehavior
     }
     public function it_is_initializable()
     {
-        $this->shouldHaveType(SimpleQueryBus::class);
-        $this->shouldImplement(QueryBus::class);
+        $this->shouldHaveType(QueryBus::class);
     }
 
     public function it_can_execute_Query_returning_result($loader, $inflector, Query $query, QueryHandler $handler)

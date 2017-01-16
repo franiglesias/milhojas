@@ -10,10 +10,9 @@ before_script:
     - composer install
 
 script:
-    - bin/phpspec
+    - bin/phpspec run
     - bin/phpunit
 
 notifications:
   email:
     - franiglesias@mac.com
-    

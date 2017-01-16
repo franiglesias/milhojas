@@ -25,7 +25,7 @@ class StudentWasRegisteredAsCantineUser implements Event
      */
     public function getName()
     {
-        return 'milhojas.cantine.student_was_registered_as_cantine_user';
+        return 'cantine.student_was_registered_as_cantine_user.event';
     }
 
     public function getStudent()

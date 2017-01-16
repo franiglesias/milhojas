@@ -26,7 +26,7 @@ class PayrollDistributionStarted implements Event
 	
 	public function getName()
 	{
-		return 'milhojas.management.payroll_distribution_started';
+		return 'management.payroll_distribution_started.event';
 	}
 	
 	public function __toString()

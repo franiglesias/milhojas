@@ -23,7 +23,7 @@ class CantineUserBoughtTicketsSpec extends ObjectBehavior
 
     public function it_has_the_right_name()
     {
-        $this->getName()->shouldBe('milhojas.cantine.cantine_user_bought_tickets');
+        $this->getName()->shouldBe('cantine.cantine_user_bought_tickets.event');
     }
 
     public function it_can_get_user_and_dates(CantineUser $user, ListOfDates $dates)

@@ -32,7 +32,7 @@ class AllPayrollsWereSent implements Event
 	
 	public function getName()
 	{
-		return 'milhojas.management.all_payrolls_were_sent';
+		return 'management.all_payrolls_were_sent.event';
 	}
 	
 	public function __toString()

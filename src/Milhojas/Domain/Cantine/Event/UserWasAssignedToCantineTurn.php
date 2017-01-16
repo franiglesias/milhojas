@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Application\Cantine\Event;
+namespace Milhojas\Domain\Cantine\Event;
 
 use Milhojas\Library\Messaging\EventBus\Event;
 use Milhojas\Domain\Cantine\Turn;
@@ -46,6 +46,6 @@ class UserWasAssignedToCantineTurn implements Event
      */
     public function getName()
     {
-        return 'milhojas.cantine.user_was_assigned_to_cantine_turn';
+        return 'cantine.user_was_assigned_to_cantine_turn.event';
     }
 }

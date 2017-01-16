@@ -95,20 +95,20 @@ services:
         calls:
 
             # Management
-            - ['addListener', ['milhojas.management.payroll_distribution_started', '@management.payroll_progress.resetter'] ]
+            - ['addListener', ['management.payroll_distribution_started.event', '@management.payroll_progress.resetter'] ]
 
-            - ['addListener', ['milhojas.management.payroll_email_was_sent', '@management.payroll_was_sent.cli.reporter'] ]
-            - ['addListener', ['milhojas.management.payroll_email_was_sent', '@management.payroll_progress.reporter'] ]
+            - ['addListener', ['management.payroll_email_was_sent.event', '@management.payroll_was_sent.cli.reporter'] ]
+            - ['addListener', ['management.payroll_email_was_sent.event', '@management.payroll_progress.reporter'] ]
 
-            - ['addListener', ['milhojas.management.payroll_email_could_not_be_sent', '@management.email_was_not_sent.cli.reporter']]
-            - ['addListener', ['milhojas.management.payroll_email_could_not_be_sent', '@management.payroll_progress.reporter']]
+            - ['addListener', ['management.payroll_email_could_not_be_sent.event', '@management.email_was_not_sent.cli.reporter']]
+            - ['addListener', ['management.payroll_email_could_not_be_sent.event', '@management.payroll_progress.reporter']]
 
-            - ['addListener', ['milhojas.management.payroll_could_not_be_found', '@management.payroll_could_not_be_sent.cli.reporter'] ]
-            - ['addListener', ['milhojas.management.payroll_could_not_be_found', '@management.payroll_progress.reporter'] ]
+            - ['addListener', ['management.payroll_could_not_be_found.event', '@management.payroll_could_not_be_sent.cli.reporter'] ]
+            - ['addListener', ['management.payroll_could_not_be_found.event', '@management.payroll_progress.reporter'] ]
 
-            - ['addListener', ['milhojas.management.all_payrolls_were_sent', '@management.all_payrolls_were_sent.email.reporter'] ]
-            - ['addListener', ['milhojas.management.all_payrolls_were_sent', '@management.all_payrolls_were_sent.cli.reporter'] ]
-            - ['addListener', ['milhojas.management.all_payrolls_were_sent', '@management.payroll_progress.resetter'] ]
+            - ['addListener', ['management.all_payrolls_were_sent.event', '@management.all_payrolls_were_sent.email.reporter'] ]
+            - ['addListener', ['management.all_payrolls_were_sent.event', '@management.all_payrolls_were_sent.cli.reporter'] ]
+            - ['addListener', ['management.all_payrolls_were_sent.event', '@management.payroll_progress.resetter'] ]
 
             # Contents
             - ['addListener', ['contents.new_post_was_written', '@contents.post_created.reporter'] ]

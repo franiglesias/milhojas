@@ -2,8 +2,9 @@
 
 namespace spec\Milhojas\Domain\Cantine;
 
-use Milhojas\Application\Cantine\Event\UserWasAssignedToCantineTurn;
-use Milhojas\Application\Cantine\Event\UserWasNotAssignedToCantineTurn;
+use Milhojas\Domain\Cantine\Event\CantineSeatsHasBeenAssigned;
+use Milhojas\Domain\Cantine\Event\UserWasAssignedToCantineTurn;
+use Milhojas\Domain\Cantine\Event\UserWasNotAssignedToCantineTurn;
 use Milhojas\Domain\Cantine\Rule;
 use Milhojas\Domain\Cantine\Turn;
 use Milhojas\Domain\Cantine\Assigner;
@@ -43,6 +44,7 @@ class AssignerSpec extends ObjectBehavior
         $rule->assignsUserToTurn($user2, $date)->willThrow(CantineUserCouldNotBeAssignedToTurn::class);
         $dispatcher->dispatch(Argument::type(UserWasAssignedToCantineTurn::class))->shouldBeCalled();
         $dispatcher->dispatch(Argument::type(UserWasNotAssignedToCantineTurn::class))->shouldBeCalled();
+        $dispatcher->dispatch(Argument::type(CantineSeatsHasBeenAssigned::class))->shouldBeCalled();
 
         $this->buildList($date, [$user1, $user2])->shouldHaveType(CantineList::class);
     }

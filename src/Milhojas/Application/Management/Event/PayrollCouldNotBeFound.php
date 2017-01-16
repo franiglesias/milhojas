@@ -32,7 +32,7 @@ class PayrollCouldNotBeFound implements Event
 	
 	public function getName()
 	{
-		return 'milhojas.management.payroll_could_not_be_found';
+		return 'management.payroll_could_not_be_found.event';
 	}
 	
 	public function __toString()

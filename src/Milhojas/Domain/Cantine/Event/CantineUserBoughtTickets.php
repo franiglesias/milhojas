@@ -36,6 +36,6 @@ class CantineUserBoughtTickets implements Event
      */
     public function getName()
     {
-        return 'milhojas.cantine.cantine_user_bought_tickets';
+        return 'cantine.cantine_user_bought_tickets.event';
     }
 }

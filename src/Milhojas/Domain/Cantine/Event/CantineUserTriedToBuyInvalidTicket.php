@@ -11,6 +11,6 @@ class CantineUserTriedToBuyInvalidTicket implements Event
      */
     public function getName()
     {
-        return 'milhojas.cantine.cantine_user_tried_to_buy_invalid_ticket';
+        return 'cantine.cantine_user_tried_to_buy_invalid_ticket.event';
     }
 }

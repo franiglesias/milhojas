@@ -18,7 +18,7 @@ class StudentWasRegisteredAsCantineUserSpec extends ObjectBehavior
     {
         $this->shouldHaveType(StudentWasRegisteredAsCantineUser::class);
         $this->shouldImplement(Event::class);
-        $this->getName()->shouldBe('milhojas.cantine.student_was_registered_as_cantine_user');
+        $this->getName()->shouldBe('cantine.student_was_registered_as_cantine_user.event');
     }
 
     public function it_communicates_student_and_cantine_user(Student $student, CantineUser $cantineUser)

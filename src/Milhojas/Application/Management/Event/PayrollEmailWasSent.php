@@ -34,7 +34,7 @@ class PayrollEmailWasSent implements Event
 	
 	public function getName()
 	{
-		return 'milhojas.management.payroll_email_was_sent';
+		return 'management.payroll_email_was_sent.event';
 	}
 	
 	public function __toString()

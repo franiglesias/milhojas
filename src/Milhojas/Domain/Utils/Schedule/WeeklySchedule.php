@@ -49,6 +49,6 @@ class WeeklySchedule extends Schedule
      */
     public function realDays(Period $period)
     {
-        throw new \LogicException('Not implemented'); // TODO
+        return count($this->schedule);
     }
 }

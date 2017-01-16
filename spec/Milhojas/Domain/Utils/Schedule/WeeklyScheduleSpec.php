@@ -52,7 +52,8 @@ class WeeklyScheduleSpec extends ObjectBehavior
         $this->scheduledDays($period)->shouldBe(3);
     }
 
-    public function it_can_tell_real_days(Period $period)
+    public function it_can_tell_real_days(Period $period, \DateTime $date1)
     {
+        $this->realDays($period)->shouldBe(3);
     }
 }

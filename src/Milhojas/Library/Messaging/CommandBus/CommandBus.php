@@ -27,7 +27,7 @@ class CommandBus
     {
         $chain = array_shift($workers);
         while ($workers) {
-            $chain->setNext(array_shift($workers));
+            $chain->chain(array_shift($workers));
         }
 
         return $chain;

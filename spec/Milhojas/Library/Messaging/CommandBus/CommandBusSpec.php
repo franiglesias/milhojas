@@ -11,8 +11,8 @@ class CommandBusSpec extends ObjectBehavior
 {
     public function let(CommandWorker $worker1, CommandWorker $worker2, CommandWorker $worker3)
     {
-        $worker1->setNext($worker2)->shouldBeCalled();
-        $worker1->setNext($worker3)->shouldBeCalled();
+        $worker1->chain($worker2)->shouldBeCalled();
+        $worker1->chain($worker3)->shouldBeCalled();
         $this->beConstructedWith([$worker1, $worker2, $worker3]);
     }
     public function it_is_initializable()

@@ -49,7 +49,7 @@ class DispatchEventsWorker extends CommandWorker
      *
      * @throws \InvalidArgumentException [description]
      */
-    public function setNext(CommandWorker $worker)
+    public function chain(CommandWorker $worker)
     {
         throw new \InvalidArgumentException('DispatchEventsWorker should be the last worker in the chain');
     }

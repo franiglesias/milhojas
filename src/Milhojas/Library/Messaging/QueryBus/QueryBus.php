@@ -35,6 +35,8 @@ class QueryBus
     /**
      * Sends the query to the appropiate QueryHandler.
      *
+     * @param Query $query to perform
+     *
      * @return mixed
      */
     public function execute(Query $query)

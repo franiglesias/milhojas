@@ -31,14 +31,14 @@ abstract class CommandWorker
      *
      * @param CommandWorker $next
      */
-    public function setNext(CommandWorker $next)
+    public function chain(CommandWorker $next)
     {
         if (!$this->next) {
             $this->next = $next;
 
             return;
         }
-        $this->next->setNext($next);
+        $this->next->chain($next);
     }
 
     /**

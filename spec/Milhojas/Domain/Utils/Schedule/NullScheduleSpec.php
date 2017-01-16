@@ -35,7 +35,7 @@ class NullScheduleSpec extends ObjectBehavior
     public function it_delegates_count_of_scheduled_days(Period $period, Schedule $delegated)
     {
         $delegated->scheduledDays($period)->willReturn(3);
-        $this->setNext($delegated);
+        $this->chain($delegated);
         $this->scheduledDays($period)->shouldBe(3);
     }
 }

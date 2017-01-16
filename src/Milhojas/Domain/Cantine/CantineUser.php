@@ -126,7 +126,7 @@ class CantineUser implements Sortable
                 throw new InvalidTicket('Trying to buy a ticket for a previously scheduled date.');
             }
         }
-        $this->schedule->setNext($dates);
+        $this->schedule->chain($dates);
     }
 
     /**

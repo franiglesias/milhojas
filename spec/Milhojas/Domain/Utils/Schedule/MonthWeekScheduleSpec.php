@@ -70,7 +70,7 @@ class MonthWeekScheduleSpec extends ObjectBehavior
     {
         $dateNotInOriginalSchedule = new \DateTime('11/15/2016');
         $anotherSchedule->isScheduledDate($dateNotInOriginalSchedule)->willReturn(true);
-        $this->setNext($anotherSchedule);
+        $this->chain($anotherSchedule);
         $this->shouldBeScheduledDate($dateNotInOriginalSchedule);
     }
 

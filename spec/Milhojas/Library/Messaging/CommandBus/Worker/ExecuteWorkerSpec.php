@@ -34,7 +34,7 @@ class ExecuteWorkerSpec extends ObjectBehavior
     public function it_delegates_to_next_worker_in_chain(Command $command, CommandHandler $handler, CommandWorker $worker, $loader, $inflector)
     {
         $worker->execute($command)->shouldBeCalled();
-        $this->setNext($worker);
+        $this->chain($worker);
 
         $inflector->inflect(Argument::type('string'))->shouldBeCalled()->willReturn('handlerClass');
         $loader->get(Argument::type('string'))->shouldBeCalled()->willReturn($handler);
@@ -44,13 +44,13 @@ class ExecuteWorkerSpec extends ObjectBehavior
 
     public function it_chains_a_worker(CommandWorker $worker)
     {
-        $this->setNext($worker);
+        $this->chain($worker);
     }
 
     public function it_chains_workers_at_the_end_of_the_chain(CommandWorker $worker, CommandWorker $worker2)
     {
-        $this->setNext($worker);
-        $worker->setNext($worker2)->shouldBeCalled();
-        $this->setNext($worker2);
+        $this->chain($worker);
+        $worker->chain($worker2)->shouldBeCalled();
+        $this->chain($worker2);
     }
 }

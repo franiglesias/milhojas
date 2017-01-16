@@ -42,7 +42,7 @@ abstract class Schedule
      *
      * @param Schedule $nextSchedule The next schedule in the chain
      */
-    public function setNext(Schedule $nextSchedule)
+    public function chain(Schedule $nextSchedule)
     {
         if (!$this->next) {
             $this->next = $nextSchedule;
@@ -50,7 +50,7 @@ abstract class Schedule
             return;
         }
 
-        $this->next->setNext($nextSchedule);
+        $this->next->chain($nextSchedule);
     }
 
     /**

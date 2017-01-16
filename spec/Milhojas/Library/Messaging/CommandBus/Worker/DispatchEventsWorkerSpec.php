@@ -24,7 +24,7 @@ class DispatchEventsWorkerSpec extends ObjectBehavior
 
     public function it_forces_to_be_the_last_one_worker_by_throwing_an_exception(CommandWorker $worker)
     {
-        $this->shouldThrow(\InvalidArgumentException::class)->during('setNext', [$worker]);
+        $this->shouldThrow(\InvalidArgumentException::class)->during('chain', [$worker]);
     }
 
     public function it_dispatches_events($eventBus, $recorder, Event $event1, Event $event2, Command $command)

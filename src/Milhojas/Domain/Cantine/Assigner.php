@@ -29,7 +29,7 @@ class Assigner
         $list = new CantineList($date);
         foreach ($users as $user) {
             try {
-                $turn = $this->ruleChain->assignsUserToTurn($user, $list->getDate());
+                $turn = $this->ruleChain->assignsUserToTurn($user, $date);
                 $list->insert(new CantineListUserRecord($date, $turn, $user));
                 $this->eventBus->dispatch(new UserWasAssignedToCantineTurn($user, $turn, $date));
             } catch (CantineUserCouldNotBeAssignedToTurn $e) {

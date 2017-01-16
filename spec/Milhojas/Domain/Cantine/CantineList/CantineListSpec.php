@@ -10,19 +10,14 @@ use PhpSpec\ObjectBehavior;
 
 class CantineListSpec extends ObjectBehavior
 {
-    public function let(\DateTimeImmutable $date)
+    public function let()
     {
-        $this->beConstructedWith($date);
+        $this->beConstructedWith();
     }
     public function it_is_initializable()
     {
         $this->shouldHaveType(CantineList::class);
         $this->shouldBeAnInstanceOf(\SplMinHeap::class);
-    }
-
-    public function it_can_tell_date($date)
-    {
-        $this->getDate()->shouldBe($date);
     }
 
     public function it_stores_cantine_list_records(CantineListUserRecord $cantineListRecord)

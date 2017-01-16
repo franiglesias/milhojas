@@ -16,7 +16,7 @@ class CantineUserInMemoryRepositorySpec extends ObjectBehavior
     public function it_is_initializable()
     {
         $this->shouldHaveType(CantineUserInMemoryRepository::class);
-        $this->shouldBeAnInstanceOf(CantineUserRepository::class);
+        $this->shouldImplement(CantineUserRepository::class);
     }
 
     public function it_can_store_and_retrieve_a_cantine_user(CantineUser $cantineUser)
@@ -44,7 +44,7 @@ class CantineUserInMemoryRepositorySpec extends ObjectBehavior
         $this->find($specification)->shouldReturn([$user1, $user3]);
     }
 
-    public function it_can_get_the_user_associated_with_a_student_using_specfication(Student $student, CantineUser $user1, CantineUser $user2, CantineUser $user3, CantineUser $user4)
+    public function it_can_get_the_user_associated_with_a_student_using_specification(Student $student, CantineUser $user1, CantineUser $user2, CantineUser $user3, CantineUser $user4)
     {
         $user1->getStudentId()->willReturn('student-01');
         $user2->getStudentId()->willReturn('student-02');

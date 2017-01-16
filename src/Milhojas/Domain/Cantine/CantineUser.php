@@ -5,6 +5,7 @@ namespace Milhojas\Domain\Cantine;
 use League\Period\Period;
 use Milhojas\Domain\Cantine\Exception\InvalidTicket;
 use Milhojas\Domain\Shared\Student;
+use Milhojas\Domain\Shared\StudentId;
 use Milhojas\Domain\Utils\Schedule\Schedule;
 use Milhojas\Domain\Utils\Schedule\NullSchedule;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;

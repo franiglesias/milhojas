@@ -17,7 +17,7 @@ class FakeCommandWorker extends CommandWorker
 		$this->spy = $spy;
 	}
 	
-	protected function delegateNext(Command $command)
+	protected function delegate(Command $command)
 	{
 		if (!$this->next) {
 			$this->spy->registerChainEnd($this, $command);
@@ -32,7 +32,7 @@ class FakeCommandWorker extends CommandWorker
 	{
 		$this->spy->registerExecution($this, $command);
 		$this->spy->registerWorker($this);
-		$this->delegateNext($command);
+		$this->delegate($command);
 	}
 }
 

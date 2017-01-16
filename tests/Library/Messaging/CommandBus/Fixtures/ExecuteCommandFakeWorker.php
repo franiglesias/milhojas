@@ -19,7 +19,7 @@ class ExecuteCommandFakeWorker extends FakeCommandWorker
 		$this->spy->registerWorker($this);
 		$handler = new SimpleCommandHandler();
 		$handler->handle($command);
-		$this->delegateNext($command);
+		$this->delegate($command);
 	}
 }
 

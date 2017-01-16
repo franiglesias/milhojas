@@ -18,7 +18,7 @@ class IntactCommandFakeWorker extends FakeCommandWorker
 		$this->spy->registerExecution($this, $command);
 		
 		$this->spy->registerWorker($this);
-		$this->delegateNext($command);
+		$this->delegate($command);
 	}
 }
 

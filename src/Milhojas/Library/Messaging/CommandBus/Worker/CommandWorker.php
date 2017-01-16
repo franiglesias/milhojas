@@ -23,7 +23,7 @@ abstract class CommandWorker
     final public function work(Command $command)
     {
         $this->execute($command);
-        $this->delegateNext($command);
+        $this->delegate($command);
     }
 
     /**
@@ -46,7 +46,7 @@ abstract class CommandWorker
      *
      * @param Command $command
      */
-    protected function delegateNext(Command $command)
+    protected function delegate(Command $command)
     {
         if (!$this->next) {
             return;

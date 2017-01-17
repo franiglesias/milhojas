@@ -2,21 +2,21 @@
 
 namespace spec\Milhojas\Domain\Cantine\CantineList;
 
-use Milhojas\Domain\Cantine\CantineList\CantineListUserRecord;
-use Milhojas\Domain\Cantine\CantineList\SpecialMealsCantineListReporter;
+use Milhojas\Domain\Cantine\CantineList\CantineSeat;
+use Milhojas\Domain\Cantine\CantineList\SpecialMealsCantineSeatListReporter;
 use Milhojas\Domain\Cantine\CantineList\SpecialMealsRecord;
-use Milhojas\Domain\Cantine\CantineList\CantineListReporter;
+use Milhojas\Domain\Cantine\CantineList\CantineSeatListReporter;
 use PhpSpec\ObjectBehavior;
 
-class SpecialMealsCantineListReporterSpec extends ObjectBehavior
+class SpecialMealsCantineSeatListReporterSpec extends ObjectBehavior
 {
     public function it_is_initializable()
     {
-        $this->shouldHaveType(SpecialMealsCantineListReporter::class);
-        $this->shouldBeAnInstanceOf(CantineListReporter::class);
+        $this->shouldHaveType(SpecialMealsCantineSeatListReporter::class);
+        $this->shouldBeAnInstanceOf(CantineSeatListReporter::class);
     }
 
-    public function it_can_visit_records(CantineListUserRecord $cantineListUserRecord)
+    public function it_can_visit_records(CantineSeat $cantineListUserRecord)
     {
         $cantineListUserRecord->getRemarks()->shouldBeCalled()->willReturn('something');
         $cantineListUserRecord->getUserListName()->shouldBeCalled()->willReturn('something');
@@ -24,14 +24,14 @@ class SpecialMealsCantineListReporterSpec extends ObjectBehavior
         $this->visitRecord($cantineListUserRecord);
     }
 
-    public function it_visits_a_record_that_has_no_remarks(CantineListUserRecord $cantineListUserRecord)
+    public function it_visits_a_record_that_has_no_remarks(CantineSeat $cantineListUserRecord)
     {
         $cantineListUserRecord->getRemarks()->shouldBeCalled()->willReturn('');
         $cantineListUserRecord->getUserListName()->shouldNotBeCalled();
         $this->visitRecord($cantineListUserRecord);
     }
 
-    public function it_can_tell_the_report(CantineListUserRecord $user1, CantineListUserRecord $user2, CantineListUserRecord $user3)
+    public function it_can_tell_the_report(CantineSeat $user1, CantineSeat $user2, CantineSeat $user3)
     {
         $user1->getRemarks()->willReturn('gluten');
         $user1->getUserListName()->willReturn('Pérez, Pedro');

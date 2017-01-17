@@ -5,6 +5,10 @@ namespace Features\Milhojas\App\Cantine;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Behat\Context\Context;
+use Milhojas\Application\Cantine\Command\AssignCantineSeats;
+use Milhojas\Application\Cantine\Command\AssignCantineSeatsHandler;
+use Milhojas\Domain\Cantine\Event\UserWasAssignedToCantineTurn;
+use Milhojas\Application\Cantine\Listener\AddUserToCantineList;
 use Milhojas\Application\Cantine\Query\GetCantineAttendancesListFor;
 use Milhojas\Application\Cantine\Query\GetCantineAttendancesListForHandler;
 use Milhojas\Domain\Cantine\CantineGroup;
@@ -18,6 +22,8 @@ use Milhojas\Domain\Shared\Student;
 use Milhojas\Domain\Shared\StudentId;
 use Milhojas\Domain\Shared\ClassGroup;
 use Milhojas\Domain\Utils\Schedule\MonthWeekSchedule;
+use Milhojas\Infrastructure\Persistence\Cantine\CantineSeatInMemoryRepository;
+use Milhojas\Library\Messaging\EventBus\EventRecorder;
 use Milhojas\Library\Messaging\Shared\Inflector\SymfonyContainerInflector;
 use Milhojas\Library\ValueObjects\Identity\Person;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
@@ -38,6 +44,9 @@ class AdminContext implements Context
      * @var CantineUserRepository
      */
     private $CantineUserRepository;
+    private $CantineSeatRepository;
+    private $manager;
+    private $recorder;
     /**
      * Initializes context.
      *
@@ -48,6 +57,7 @@ class AdminContext implements Context
     public function __construct()
     {
         $this->CantineUserRepository = new CantineUserInMemoryRepository();
+        $this->CantineSeatRepository = new CantineSeatInMemoryRepository();
     }
 
     /**
@@ -55,17 +65,29 @@ class AdminContext implements Context
      */
     public function cantineConfigurationIs(PyStringNode $string)
     {
-        $Manager = new CantineManager($this->getMockedConfigurationFile($string));
+        $this->recorder = new EventRecorder();
+        $this->manager = new CantineManager($this->getMockedConfigurationFile($string));
 
-        $assigner = new Assigner($Manager, $this->getEventBus());
-
-        $handler = new GetCantineAttendancesListForHandler($this->CantineUserRepository, $assigner);
+        $handler = new GetCantineAttendancesListForHandler($this->CantineSeatRepository);
 
         $loader = new TestLoader();
         $loader->add('cantine.get_cantine_attendances_list_for.handler', $handler);
-
         $inflector = new SymfonyContainerInflector();
-        $this->bus = new QueryBus($loader, $inflector);
+        $this->queryBus = new QueryBus($loader, $inflector);
+    }
+
+    public function applyAssignCantineSeats()
+    {
+        $assigner = new Assigner($this->manager, $this->recorder);
+        $command = new AssignCantineSeats($this->today);
+        $handler = new AssignCantineSeatsHandler($assigner, $this->CantineUserRepository);
+        $handler->handle($command);
+        foreach ($this->recorder as $event) {
+            if (get_class($event) == UserWasAssignedToCantineTurn::class) {
+                $h = new AddUserToCantineList($this->CantineSeatRepository);
+                $h->handle($event);
+            }
+        }
     }
 
     /**
@@ -126,8 +148,9 @@ class AdminContext implements Context
      */
     public function adminAsksForTheList()
     {
+        $this->applyAssignCantineSeats();
         $query = new GetCantineAttendancesListFor($this->today);
-        $this->cantineList = $this->bus->execute($query);
+        $this->cantineList = $this->queryBus->execute($query);
     }
 
     /**
@@ -175,7 +198,7 @@ class AdminContext implements Context
      *
      * @param CantineList $cantineList we want to cast
      *
-     * @return array of CantineListUserRecord
+     * @return array of CantineSeat
      */
     private function castToResult(CantineList $cantineList)
     {

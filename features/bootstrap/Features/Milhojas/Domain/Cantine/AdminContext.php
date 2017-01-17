@@ -2,27 +2,37 @@
 
 namespace Features\Milhojas\Domain\Cantine;
 
-use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Gherkin\Node\PyStringNode;
-use Milhojas\Domain\Cantine\Assigner;
-use Milhojas\Domain\Cantine\CantineList\CantineList;
+use Behat\Behat\Context\Context;
+use Milhojas\Application\Cantine\Command\AssignCantineSeats;
+use Milhojas\Application\Cantine\Command\AssignCantineSeatsHandler;
 use Milhojas\Domain\Cantine\CantineList\SpecialMealsRecord;
-use Milhojas\Domain\Cantine\CantineList\TurnStageCantineListReporter;
-use Milhojas\Domain\Cantine\CantineList\SpecialMealsCantineListReporter;
-use Milhojas\Domain\Cantine\CantineUser;
+use Milhojas\Domain\Cantine\CantineList\TurnStageCantineSeatListReporter;
+use Milhojas\Domain\Cantine\CantineList\SpecialMealsCantineSeatListReporter;
+use Milhojas\Domain\Cantine\Event\UserWasAssignedToCantineTurn;
+use Milhojas\Application\Cantine\Listener\AddUserToCantineList;
+use Milhojas\Application\Cantine\Query\GetCantineAttendancesListFor;
+use Milhojas\Application\Cantine\Query\GetCantineAttendancesListForHandler;
 use Milhojas\Domain\Cantine\CantineGroup;
+use Milhojas\Domain\Cantine\CantineList\CantineList;
 use Milhojas\Domain\Cantine\CantineUserRepository;
+use Milhojas\Domain\Cantine\Assigner;
+use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\Factories\CantineManager;
-use Milhojas\Domain\Cantine\Specification\CantineUserEatingOnDate;
+use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Domain\Shared\Student;
 use Milhojas\Domain\Shared\StudentId;
 use Milhojas\Domain\Shared\ClassGroup;
-use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Domain\Utils\Schedule\MonthWeekSchedule;
-use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
+use Milhojas\Infrastructure\Persistence\Cantine\CantineSeatInMemoryRepository;
 use Milhojas\Library\Messaging\EventBus\EventRecorder;
-use Milhojas\LIbrary\ValueObjects\Identity\Person;
+use Milhojas\Library\Messaging\Shared\Inflector\SymfonyContainerInflector;
+use Milhojas\Library\ValueObjects\Identity\Person;
+use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
+use Milhojas\Library\Messaging\QueryBus\QueryBus;
+use Milhojas\Library\Messaging\Shared\Loader\TestLoader;
+use Milhojas\Library\Messaging\EventBus\EventBus;
 use org\bovigo\vfs\vfsStream;
 use Prophecy\Prophet;
 
@@ -37,12 +47,9 @@ class AdminContext implements Context
      * @var CantineUserRepository
      */
     private $CantineUserRepository;
-    /**
-     * Holds Cantine configuration.
-     *
-     * @var CantineManager
-     */
-    private $Manager;
+    private $CantineSeatRepository;
+    private $manager;
+    private $recorder;
     /**
      * Initializes context.
      *
@@ -53,24 +60,54 @@ class AdminContext implements Context
     public function __construct()
     {
         $this->CantineUserRepository = new CantineUserInMemoryRepository();
+        $this->CantineSeatRepository = new CantineSeatInMemoryRepository();
     }
-
-// Given Section
 
     /**
      * @Given Cantine Configuration is
-     *
-     * @param PyStringNode $string A YAML formatted string
      */
     public function cantineConfigurationIs(PyStringNode $string)
     {
-        $this->Manager = new CantineManager($this->getMockedConfigurationFile($string));
+        $this->recorder = new EventRecorder();
+        $this->manager = new CantineManager($this->getMockedConfigurationFile($string));
+
+        $handler = new GetCantineAttendancesListForHandler($this->CantineSeatRepository);
+
+        $loader = new TestLoader();
+        $loader->add('cantine.get_cantine_attendances_list_for.handler', $handler);
+        $inflector = new SymfonyContainerInflector();
+        $this->queryBus = new QueryBus($loader, $inflector);
+    }
+
+    public function applyAssignCantineSeats()
+    {
+        $assigner = new Assigner($this->manager, $this->recorder);
+        $command = new AssignCantineSeats($this->today);
+        $handler = new AssignCantineSeatsHandler($assigner, $this->CantineUserRepository);
+        $handler->handle($command);
+        foreach ($this->recorder as $event) {
+            if (get_class($event) == UserWasAssignedToCantineTurn::class) {
+                $h = new AddUserToCantineList($this->CantineSeatRepository);
+                $h->handle($event);
+            }
+        }
+    }
+
+    /**
+     * Prepares a Mocked EventBus.
+     *
+     * @return object
+     */
+    public function getEventBus()
+    {
+        $prophet = new Prophet();
+        $eventBus = $prophet->prophesize(EventBus::class)->reveal();
+
+        return $eventBus;
     }
 
     /**
      * @Given There are some Cantine Users registered
-     *
-     * @param TableNode $table Students Fixture data
      */
     public function thereAreSomeCantineUsersRegistered(TableNode $table)
     {
@@ -109,27 +146,18 @@ class AdminContext implements Context
         $this->today = new \DateTime($today);
     }
 
-// When Section
-
     /**
      * @When Admin asks for the list
      */
     public function adminAsksForTheList()
     {
-        $this->List = $this->CantineUserRepository->find(new CantineUserEatingOnDate($this->today));
-        $prophet = new Prophet();
-        $recorder = $prophet->prophesize(EventRecorder::class)->reveal();
-
-        $assigner = new Assigner($this->Manager, $recorder);
-        $this->cantineList = $assigner->assign($this->today, $this->List);
+        $this->applyAssignCantineSeats();
+        $query = new GetCantineAttendancesListFor($this->today);
+        $this->cantineList = $this->queryBus->execute($query);
     }
-
-// Then Section
 
     /**
      * @Then the turns should be assigned as
-     *
-     * @param TableNode $table with the example data
      */
     public function theTurnsShouldBeAssignedAs(TableNode $table)
     {
@@ -137,26 +165,21 @@ class AdminContext implements Context
     }
 
     /**
-     * @Then statistics should look like this
+     * Simulates a configuration file with the contents of $string.
+     *
+     * @param PyStringNode $string
+     *
+     * @return string url for the virtual file
      */
-    public function statisticsShouldLookLikeThis($expected)
+    private function getMockedConfigurationFile(PyStringNode $string)
     {
-        $reporter = new TurnStageCantineListReporter();
-        $this->cantineList->accept($reporter);
-        \PHPUnit_Framework_Assert::assertEquals($expected, $reporter->getReport());
-    }
+        $this->fileSystem = vfsStream::setUp('root', 0, []);
+        $file = vfsStream::newFile('cantine.yml')
+            ->withContent($string->getRaw())
+            ->at($this->fileSystem);
 
-    /**
-     * @Then a list for special meals should look like this
-     */
-    public function aListForSpecialMealsShouldLookLikeThis($expected)
-    {
-        $reporter = new SpecialMealsCantineListReporter();
-        $this->cantineList->accept($reporter);
-        \PHPUnit_Framework_Assert::assertEquals($expected, $reporter->getReport());
+        return $file->url();
     }
-
-// Utility methods
 
     /**
      * Convert a row of table data into a schedule.
@@ -178,7 +201,7 @@ class AdminContext implements Context
      *
      * @param CantineList $cantineList we want to cast
      *
-     * @return array of CantineListUserRecord
+     * @return array of CantineSeat
      */
     private function castToResult(CantineList $cantineList)
     {
@@ -200,21 +223,26 @@ class AdminContext implements Context
     }
 
     /**
-     * Simulates a configuration file with the contents of $string.
-     *
-     * @param PyStringNode $string
-     *
-     * @return string url for the virtual file
+     * @Then statistics should look like this
      */
-    private function getMockedConfigurationFile(PyStringNode $string)
+    public function statisticsShouldLookLikeThis($expected)
     {
-        $this->fileSystem = vfsStream::setUp('root', 0, []);
-        $file = vfsStream::newFile('cantine.yml')
-            ->withContent($string->getRaw())
-            ->at($this->fileSystem);
-
-        return $file->url();
+        $reporter = new TurnStageCantineSeatListReporter();
+        $this->cantineList->accept($reporter);
+        \PHPUnit_Framework_Assert::assertEquals($expected, $reporter->getReport());
     }
+
+    /**
+     * @Then a list for special meals should look like this
+     */
+    public function aListForSpecialMealsShouldLookLikeThis($expected)
+    {
+        $reporter = new SpecialMealsCantineSeatListReporter();
+        $this->cantineList->accept($reporter);
+        \PHPUnit_Framework_Assert::assertEquals($expected, $reporter->getReport());
+    }
+
+// Utility methods
 
     /**
      * @Transform table:turn,student,special

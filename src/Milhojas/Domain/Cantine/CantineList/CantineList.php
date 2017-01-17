@@ -17,11 +17,11 @@ class CantineList extends \SplMinHeap
     }
 
     /**
-     * Accepts a CantineListReporter visitor to generate reports about the list itself.
+     * Accepts a CantineSeatListReporter visitor to generate reports about the list itself.
      *
-     * @param CantineListReporter $cantineListReporter
+     * @param CantineSeatListReporter $cantineListReporter
      */
-    public function accept(CantineListReporter $cantineListReporter)
+    public function accept(CantineSeatListReporter $cantineListReporter)
     {
         foreach ($this as $record) {
             $record->accept($cantineListReporter);

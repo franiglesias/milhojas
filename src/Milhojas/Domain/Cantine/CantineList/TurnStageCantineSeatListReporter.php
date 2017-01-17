@@ -2,7 +2,7 @@
 
 namespace Milhojas\Domain\Cantine\CantineList;
 
-class TurnStageCantineListReporter extends CantineListReporter
+class TurnStageCantineSeatListReporter extends CantineSeatListReporter
 {
     private $counters;
     private $totals;
@@ -16,9 +16,9 @@ class TurnStageCantineListReporter extends CantineListReporter
     }
 
     /**
-     * @param CantineListUserRecord $cantineListUserRecord
+     * @param CantineSeat $cantineListUserRecord
      */
-    public function visitRecord(CantineListUserRecord $cantineListUserRecord)
+    public function visitRecord(CantineSeat $cantineListUserRecord)
     {
         $turn = $cantineListUserRecord->getTurnName();
         $stage = $cantineListUserRecord->getStageName();

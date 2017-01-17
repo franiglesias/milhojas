@@ -4,7 +4,9 @@ namespace Milhojas\Application\Cantine\Query;
 
 use Milhojas\Domain\Cantine\CantineUserRepository;
 use Milhojas\Domain\Cantine\Assigner;
-use Milhojas\Domain\Cantine\Specification\CantineUserEatingOnDate;
+use Milhojas\Domain\Cantine\CantineList\CantineList;
+use Milhojas\Domain\Cantine\CantineList\CantineSeatRepository;
+use Milhojas\Domain\Cantine\Specification\CantineSeatForDate;
 use Milhojas\Library\Messaging\QueryBus\Query;
 use Milhojas\Library\Messaging\QueryBus\QueryHandler;
 
@@ -16,21 +18,14 @@ class GetCantineAttendancesListForHandler implements QueryHandler
      * @var CantineUserRepository
      */
     private $repository;
-    /**
-     * Assigns Users to their turns.
-     *
-     * @var Assigner
-     */
-    private $assigner;
 
     /**
-     * @param CantineUserRepository $repository
+     * @param CantineSeatRepository $repository
      * @param Assigner              $assigner
      */
-    public function __construct(CantineUserRepository $repository, Assigner $assigner)
+    public function __construct(CantineSeatRepository $repository)
     {
         $this->repository = $repository;
-        $this->assigner = $assigner;
     }
 
     /**
@@ -38,8 +33,12 @@ class GetCantineAttendancesListForHandler implements QueryHandler
      */
     public function answer(Query $query)
     {
-        $list = $this->repository->find(new CantineUserEatingOnDate($query->getDate()));
+        $found = $this->repository->find(new CantineSeatForDate($query->getDate()));
+        $cantineList = new CantineList();
+        foreach ($found as $seat) {
+            $cantineList->insert($seat);
+        }
 
-        return $this->assigner->assign($query->getDate(), $list);
+        return $cantineList;
     }
 }

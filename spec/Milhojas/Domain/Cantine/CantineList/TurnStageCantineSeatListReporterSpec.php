@@ -2,27 +2,27 @@
 
 namespace spec\Milhojas\Domain\Cantine\CantineList;
 
-use Milhojas\Domain\Cantine\CantineList\TurnStageCantineListReporter;
-use Milhojas\Domain\Cantine\CantineList\CantineListReporter;
-use Milhojas\Domain\Cantine\CantineList\CantineListUserRecord;
+use Milhojas\Domain\Cantine\CantineList\TurnStageCantineSeatListReporter;
+use Milhojas\Domain\Cantine\CantineList\CantineSeatListReporter;
+use Milhojas\Domain\Cantine\CantineList\CantineSeat;
 use PhpSpec\ObjectBehavior;
 
-class TurnStageCantineListReporterSpec extends ObjectBehavior
+class TurnStageCantineSeatListReporterSpec extends ObjectBehavior
 {
     public function it_is_initializable()
     {
-        $this->shouldHaveType(TurnStageCantineListReporter::class);
-        $this->shouldBeAnInstanceOf(CantineListReporter::class);
+        $this->shouldHaveType(TurnStageCantineSeatListReporter::class);
+        $this->shouldBeAnInstanceOf(CantineSeatListReporter::class);
     }
 
-    public function it_can_visit_records(CantineListUserRecord $cantineListUserRecord)
+    public function it_can_visit_records(CantineSeat $cantineListUserRecord)
     {
         $cantineListUserRecord->getTurnName()->shouldBeCalled();
         $cantineListUserRecord->getStageName()->shouldBeCalled();
         $this->visitRecord($cantineListUserRecord);
     }
 
-    public function it_can_start_counting(CantineListUserRecord $cantineListUserRecord)
+    public function it_can_start_counting(CantineSeat $cantineListUserRecord)
     {
         $cantineListUserRecord->getTurnName()->willReturn('Turno 1');
         $cantineListUserRecord->getStageName()->willReturn('EP');
@@ -30,7 +30,7 @@ class TurnStageCantineListReporterSpec extends ObjectBehavior
         $this->getReport()->shouldBeLike(['Turno 1' => ['total' => 1, 'EP' => 1]]);
     }
 
-    public function it_can_count_for_new_stage(CantineListUserRecord $cantineListUserRecord, CantineListUserRecord $cantineListUserRecord2)
+    public function it_can_count_for_new_stage(CantineSeat $cantineListUserRecord, CantineSeat $cantineListUserRecord2)
     {
         $cantineListUserRecord->getTurnName()->willReturn('Turno 1');
         $cantineListUserRecord->getStageName()->willReturn('EP');
@@ -42,7 +42,7 @@ class TurnStageCantineListReporterSpec extends ObjectBehavior
         $this->getReport()->shouldBeLike(['Turno 1' => ['total' => 2, 'EP' => 1, 'ESO' => 1]]);
     }
 
-    public function it_can_count_for_new_turn(CantineListUserRecord $cantineListUserRecord, CantineListUserRecord $cantineListUserRecord2)
+    public function it_can_count_for_new_turn(CantineSeat $cantineListUserRecord, CantineSeat $cantineListUserRecord2)
     {
         $cantineListUserRecord->getTurnName()->willReturn('Turno 1');
         $cantineListUserRecord->getStageName()->willReturn('EP');
@@ -57,7 +57,7 @@ class TurnStageCantineListReporterSpec extends ObjectBehavior
         ]);
     }
 
-    public function it_can_totalize(CantineListUserRecord $cantineListUserRecord, CantineListUserRecord $cantineListUserRecord2)
+    public function it_can_totalize(CantineSeat $cantineListUserRecord, CantineSeat $cantineListUserRecord2)
     {
         $cantineListUserRecord->getTurnName()->willReturn('Turno 1');
         $cantineListUserRecord->getStageName()->willReturn('EP');

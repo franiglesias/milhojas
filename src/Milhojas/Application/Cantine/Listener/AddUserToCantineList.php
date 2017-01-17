@@ -2,19 +2,19 @@
 
 namespace Milhojas\Application\Cantine\Listener;
 
-use Milhojas\Domain\Cantine\CantineList\CantineListUserRecord;
+use Milhojas\Domain\Cantine\CantineList\CantineSeat;
 use Milhojas\Library\Messaging\EventBus\Event;
 use Milhojas\Library\Messaging\EventBus\EventHandler;
-use Milhojas\Domain\Cantine\CantineList\CantineListRepository;
+use Milhojas\Domain\Cantine\CantineList\CantineSeatRepository;
 
 class AddUserToCantineList implements EventHandler
 {
     /**
-     * @var CantineListRepository
+     * @var CantineSeatRepository
      */
     private $repository;
 
-    public function __construct(CantineListRepository $cantineListRepository)
+    public function __construct(CantineSeatRepository $cantineListRepository)
     {
         $this->repository = $cantineListRepository;
     }
@@ -24,7 +24,7 @@ class AddUserToCantineList implements EventHandler
      */
     public function handle(Event $event)
     {
-        $record = CantineListUserRecord::createFromUserTurnAndDate($event->getUser(), $event->getTurn(), $event->getDate());
+        $record = CantineSeat::createFromUserTurnAndDate($event->getUser(), $event->getTurn(), $event->getDate());
         $this->repository->store($record);
     }
 }

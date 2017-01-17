@@ -4,12 +4,12 @@ namespace spec\Milhojas\Domain\Cantine\CantineList;
 
 use Milhojas\Domain\Cantine\Turn;
 use Milhojas\Domain\Cantine\CantineUser;
-use Milhojas\Domain\Cantine\CantineList\CantineListUserRecord;
-use Milhojas\Domain\Cantine\CantineList\CantineListReporter;
+use Milhojas\Domain\Cantine\CantineList\CantineSeat;
+use Milhojas\Domain\Cantine\CantineList\CantineSeatListReporter;
 use Milhojas\Library\Sortable\Sortable;
 use PhpSpec\ObjectBehavior;
 
-class CantineListUserRecordSpec extends ObjectBehavior
+class CantineSeatSpec extends ObjectBehavior
 {
     public function let(\DateTimeImmutable $date, CantineUser $user, Turn $turn)
     {
@@ -22,7 +22,7 @@ class CantineListUserRecordSpec extends ObjectBehavior
     }
     public function it_is_initializable()
     {
-        $this->shouldHaveType(CantineListUserRecord::class);
+        $this->shouldHaveType(CantineSeat::class);
         $this->shouldImplement(Sortable::class);
     }
 
@@ -52,7 +52,7 @@ class CantineListUserRecordSpec extends ObjectBehavior
         $this->getRemarks()->shouldBe('Some remarks');
     }
 
-    public function it_compares_using_student_when_date_and_turn_are_the_same(CantineListUserRecord $greater, $date, $turn, $user, CantineUser $greaterUser)
+    public function it_compares_using_student_when_date_and_turn_are_the_same(CantineSeat $greater, $date, $turn, $user, CantineUser $greaterUser)
     {
         $greater->getDate()->willReturn($date);
         $greater->getTurn()->willReturn($turn);
@@ -60,7 +60,7 @@ class CantineListUserRecordSpec extends ObjectBehavior
         $this->compare($greater)->shouldBe(Sortable::SMALLER);
     }
 
-    public function it_compares_using_turn_when_dates_are_the_same(CantineListUserRecord $greater, $date, $turn, Turn $otherTurn, $user, CantineUser $otherUser)
+    public function it_compares_using_turn_when_dates_are_the_same(CantineSeat $greater, $date, $turn, Turn $otherTurn, $user, CantineUser $otherUser)
     {
         $greater->getDate()->willReturn($date);
         $greater->getTurn()->willReturn($otherTurn);
@@ -69,7 +69,7 @@ class CantineListUserRecordSpec extends ObjectBehavior
         $this->compare($greater)->shouldBe(Sortable::GREATER);
     }
 
-    public function it_can_accept_a_cantine_list_reporter(CantineListReporter $cantineListReporter)
+    public function it_can_accept_a_cantine_list_reporter(CantineSeatListReporter $cantineListReporter)
     {
         $cantineListReporter->visitRecord($this->getWrappedObject())->shouldBeCalled();
         $this->accept($cantineListReporter);

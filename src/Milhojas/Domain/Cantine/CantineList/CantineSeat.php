@@ -7,9 +7,9 @@ use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\Turn;
 
 /**
- * A Data Transport Object to hold the representation of a Cantine User in a CantineList.
+ * Represents the assginement of a student to a seat in the Cantine for a given date.
  */
-class CantineListUserRecord implements Sortable
+class CantineSeat implements Sortable
 {
     private $date;
     private $turn;
@@ -109,7 +109,7 @@ class CantineListUserRecord implements Sortable
         return $this->remarks;
     }
 
-    public function accept(CantineListReporter $cantineListReporter)
+    public function accept(CantineSeatListReporter $cantineListReporter)
     {
         $cantineListReporter->visitRecord($this);
     }

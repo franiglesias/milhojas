@@ -4,17 +4,17 @@ namespace spec\Milhojas\Application\Cantine\Listener;
 
 use Milhojas\Domain\Cantine\Turn;
 use Milhojas\Domain\Cantine\CantineUser;
-use Milhojas\Domain\Cantine\CantineList\CantineListUserRecord;
+use Milhojas\Domain\Cantine\CantineList\CantineSeat;
 use Milhojas\Domain\Cantine\Event\UserWasAssignedToCantineTurn;
 use Milhojas\Application\Cantine\Listener\AddUserToCantineList;
-use Milhojas\Domain\Cantine\CantineList\CantineListRepository;
+use Milhojas\Domain\Cantine\CantineList\CantineSeatRepository;
 use Milhojas\Library\Messaging\EventBus\EventHandler;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class AddUserToCantineListSpec extends ObjectBehavior
 {
-    public function let(CantineListRepository $cantineListRepository)
+    public function let(CantineSeatRepository $cantineListRepository)
     {
         $this->beConstructedWith($cantineListRepository);
     }
@@ -29,7 +29,7 @@ class AddUserToCantineListSpec extends ObjectBehavior
         $event->getUser()->shouldBeCalled()->willReturn($user);
         $event->getTurn()->shouldBeCalled()->willReturn($turn);
         $event->getDate()->shouldBeCalled()->willReturn($date);
-        $cantineListRepository->store(Argument::type(CantineListUserRecord::class))->shouldBeCalled();
+        $cantineListRepository->store(Argument::type(CantineSeat::class))->shouldBeCalled();
         $this->handle($event);
     }
 }

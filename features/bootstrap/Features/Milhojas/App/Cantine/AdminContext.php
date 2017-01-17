@@ -149,8 +149,7 @@ class AdminContext implements Context
     public function adminAsksForTheList()
     {
         $this->applyAssignCantineSeats();
-        $query = new GetCantineAttendancesListFor($this->today);
-        $this->cantineList = $this->queryBus->execute($query);
+        $this->cantineList = $this->queryBus->execute(new GetCantineAttendancesListFor($this->today));
     }
 
     /**

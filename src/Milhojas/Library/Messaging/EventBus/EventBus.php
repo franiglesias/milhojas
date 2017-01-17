@@ -56,7 +56,7 @@ class EventBus
         }
     }
 
-    private function canManageEvent($event)
+    private function canManageEvent(Event $event)
     {
         if (isset($this->handlers[$event->getName()])) {
             return true;

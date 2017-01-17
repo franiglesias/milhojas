@@ -6,13 +6,13 @@ use Milhojas\Domain\Cantine\Turn;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineList\CantineListUserRecord;
 use Milhojas\Domain\Cantine\Event\UserWasAssignedToCantineTurn;
-use Milhojas\Application\Cantine\Listener\AssignUserToTurnOnDate;
+use Milhojas\Application\Cantine\Listener\AddUserToCantineList;
 use Milhojas\Domain\Cantine\CantineList\CantineListRepository;
 use Milhojas\Library\Messaging\EventBus\EventHandler;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class AssignUserToTurnOnDateSpec extends ObjectBehavior
+class AddUserToCantineListSpec extends ObjectBehavior
 {
     public function let(CantineListRepository $cantineListRepository)
     {
@@ -20,7 +20,7 @@ class AssignUserToTurnOnDateSpec extends ObjectBehavior
     }
     public function it_is_initializable()
     {
-        $this->shouldHaveType(AssignUserToTurnOnDate::class);
+        $this->shouldHaveType(AddUserToCantineList::class);
         $this->shouldImplement(EventHandler::class);
     }
 

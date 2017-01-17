@@ -7,12 +7,13 @@ use Milhojas\Library\Messaging\EventBus\Event;
 use Milhojas\Library\Messaging\EventBus\EventHandler;
 use Milhojas\Domain\Cantine\CantineList\CantineListRepository;
 
-class AssignUserToTurnOnDate implements EventHandler
+class AddUserToCantineList implements EventHandler
 {
     /**
      * @var CantineListRepository
      */
     private $repository;
+
     public function __construct(CantineListRepository $cantineListRepository)
     {
         $this->repository = $cantineListRepository;

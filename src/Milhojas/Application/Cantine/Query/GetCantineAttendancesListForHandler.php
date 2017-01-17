@@ -40,6 +40,6 @@ class GetCantineAttendancesListForHandler implements QueryHandler
     {
         $list = $this->repository->find(new CantineUserEatingOnDate($query->getDate()));
 
-        return $this->assigner->buildList($query->getDate(), $list);
+        return $this->assigner->assign($query->getDate(), $list);
     }
 }

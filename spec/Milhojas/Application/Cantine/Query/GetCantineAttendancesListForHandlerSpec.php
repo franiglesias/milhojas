@@ -27,7 +27,7 @@ class GetCantineAttendancesListForHandlerSpec extends ObjectBehavior
     public function it_can_manage_the_query(GetCantineAttendancesListFor $query, \DateTime $date, CantineList $list, $repository, $assigner)
     {
         $repository->find(Argument::type(CantineUserEatingOnDate::class))->shouldBeCalled();
-        $assigner->buildList($date, Argument::any())->shouldBeCalled()->willReturn($list);
+        $assigner->assign($date, Argument::any())->shouldBeCalled()->willReturn($list);
         $query->getDate()->willReturn($date);
         $this->answer($query)->shouldHaveType(CantineList::class);
     }

@@ -121,7 +121,7 @@ class AdminContext implements Context
         $eventBus = $prophet->prophesize(EventBus::class)->reveal();
 
         $assigner = new Assigner($this->Manager->getRules(), $eventBus);
-        $this->cantineList = $assigner->buildList($this->today, $this->List);
+        $this->cantineList = $assigner->assign($this->today, $this->List);
     }
 
 // Then Section

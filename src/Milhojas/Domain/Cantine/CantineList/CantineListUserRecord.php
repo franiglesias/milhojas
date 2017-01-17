@@ -13,14 +13,6 @@ class CantineListUserRecord implements Sortable
 {
     private $date;
     private $turn;
-
-    /**
-     * @deprecated
-     *
-     * @var CantineUser
-     */
-    private $cantineUser;
-
     private $userListName;
     private $classGroupName;
     private $stageName;
@@ -51,7 +43,7 @@ class CantineListUserRecord implements Sortable
     }
 
     /**
-     * @param CantineUser        $cantineUser
+     * @param CantineUser        $user
      * @param Turn               $turn
      * @param \DateTimeInterface $date
      */

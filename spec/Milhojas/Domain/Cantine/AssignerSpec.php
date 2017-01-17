@@ -9,10 +9,9 @@ use Milhojas\Domain\Cantine\Rule;
 use Milhojas\Domain\Cantine\Turn;
 use Milhojas\Domain\Cantine\Assigner;
 use Milhojas\Domain\Cantine\CantineUser;
-use Milhojas\Domain\Cantine\CantineList\CantineList;
 use Milhojas\Domain\Cantine\Exception\CantineUserCouldNotBeAssignedToTurn;
 use Milhojas\Domain\Cantine\Factories\CantineManager;
-use Milhojas\Library\Messaging\EventBus\EventBus;
+use Milhojas\Library\Messaging\EventBus\EventRecorder;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -20,10 +19,10 @@ class AssignerSpec extends ObjectBehavior
 {
     private $fileSystem;
 
-    public function let(CantineManager $cantineManager, EventBus $dispatcher, Rule $rule)
+    public function let(CantineManager $cantineManager, EventRecorder $recorder, Rule $rule)
     {
         $cantineManager->getRules()->willReturn($rule);
-        $this->beConstructedWith($cantineManager, $dispatcher);
+        $this->beConstructedWith($cantineManager, $recorder);
     }
 
     public function it_is_initializable()
@@ -35,17 +34,17 @@ class AssignerSpec extends ObjectBehavior
     {
         $rule->assignsUserToTurn($user1, $date)->shouldBeCalled()->willReturn($turn);
         $rule->assignsUserToTurn($user2, $date)->shouldBeCalled()->willReturn($turn);
-        $this->buildList($date, [$user1, $user2])->shouldHaveType(CantineList::class);
+        $this->assign($date, [$user1, $user2]);
     }
 
-    public function it_raises_events(CantineUser $user1, CantineUser $user2, \DateTimeImmutable $date, $rule, $dispatcher, Turn $turn)
+    public function it_records_events(CantineUser $user1, CantineUser $user2, \DateTimeImmutable $date, $rule, $recorder, Turn $turn)
     {
         $rule->assignsUserToTurn($user1, $date)->shouldBeCalled()->willReturn($turn);
         $rule->assignsUserToTurn($user2, $date)->willThrow(CantineUserCouldNotBeAssignedToTurn::class);
-        $dispatcher->dispatch(Argument::type(UserWasAssignedToCantineTurn::class))->shouldBeCalled();
-        $dispatcher->dispatch(Argument::type(UserWasNotAssignedToCantineTurn::class))->shouldBeCalled();
-        $dispatcher->dispatch(Argument::type(CantineSeatsHasBeenAssigned::class))->shouldBeCalled();
+        $recorder->recordThat(Argument::type(UserWasAssignedToCantineTurn::class))->shouldBeCalled();
+        $recorder->recordThat(Argument::type(UserWasNotAssignedToCantineTurn::class))->shouldBeCalled();
+        $recorder->recordThat(Argument::type(CantineSeatsHasBeenAssigned::class))->shouldBeCalled();
 
-        $this->buildList($date, [$user1, $user2])->shouldHaveType(CantineList::class);
+        $this->assign($date, [$user1, $user2]);
     }
 }

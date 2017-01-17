@@ -2,7 +2,7 @@
 
 namespace Tests\Library\Messaging\EventBus;
 
-use Milhojas\Library\Messaging\EventBus\SimpleEventBus;
+use Milhojas\Library\Messaging\EventBus\EventBus;
 use Milhojas\Library\Messaging\EventBus\Event;
 use Tests\Library\Messaging\EventBus\Utils\EventBusSpy;
 use Tests\Library\Messaging\EventBus\Fixtures\TestEvent;
@@ -15,11 +15,11 @@ use Tests\Utils\DummyLogger;
 /**
  * Description.
  */
-class SimpleEventBusTest extends \PHPUnit_Framework_Testcase
+class EventBusTest extends \PHPUnit_Framework_Testcase
 {
     private function getEventBus()
     {
-        return new SimpleEventBus(new DummyLogger('Test'));
+        return new EventBus(new DummyLogger('Test'));
     }
 
     public function test_it_can_add_Event_Handlers()

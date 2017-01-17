@@ -3,7 +3,7 @@
 namespace Tests\Library\Messaging\CommandBus\Worker;
 
 use Milhojas\Library\Messaging\CommandBus\Worker\DispatchEventsWorker;
-use Milhojas\Library\Messaging\EventBus\SimpleEventBus;
+use Milhojas\Library\Messaging\EventBus\EventBus;
 use Milhojas\Library\Messaging\EventBus\EventRecorder;
 
 // Doubles and Fixtures
@@ -18,7 +18,7 @@ class DispatchEventsWorkerTest extends \PHPUnit_Framework_Testcase
 {
     public function test__DispatchEventsWorker()
     {
-        $bus = new EventBusSpy(new SimpleEventBus(new DummyLogger('Test')));
+        $bus = new EventBusSpy(new EventBus(new DummyLogger('Test')));
         $bus->addListener('test.event', new TestEventHandler($bus));
 
         $this->assertTrue($bus->assertWasRegistered('test.event', new TestEventHandler($bus)));

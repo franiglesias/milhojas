@@ -21,7 +21,7 @@ use Milhojas\Domain\Shared\ClassGroup;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Domain\Utils\Schedule\MonthWeekSchedule;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
-use Milhojas\Library\Messaging\EventBus\EventBus;
+use Milhojas\Library\Messaging\EventBus\EventRecorder;
 use Milhojas\LIbrary\ValueObjects\Identity\Person;
 use org\bovigo\vfs\vfsStream;
 use Prophecy\Prophet;
@@ -118,9 +118,9 @@ class AdminContext implements Context
     {
         $this->List = $this->CantineUserRepository->find(new CantineUserEatingOnDate($this->today));
         $prophet = new Prophet();
-        $eventBus = $prophet->prophesize(EventBus::class)->reveal();
+        $recorder = $prophet->prophesize(EventRecorder::class)->reveal();
 
-        $assigner = new Assigner($this->Manager->getRules(), $eventBus);
+        $assigner = new Assigner($this->Manager, $recorder);
         $this->cantineList = $assigner->assign($this->today, $this->List);
     }
 

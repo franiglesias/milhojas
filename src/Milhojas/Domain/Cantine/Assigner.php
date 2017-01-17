@@ -14,8 +14,14 @@ use Milhojas\Library\Messaging\EventBus\EventRecorder;
  */
 class Assigner
 {
+    /**
+     * @var CantineManager
+     */
     private $manager;
-    private $eventBus;
+    /**
+     * @var EventRecorder
+     */
+    private $eventRecorder;
 
     public function __construct(CantineManager $manager, EventRecorder $eventRecorder)
     {

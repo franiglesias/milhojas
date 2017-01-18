@@ -16,13 +16,13 @@ class LoggerWorker
 
     public function execute(Message $message)
     {
-        $name = $this->getName($message);
+        $name = $this->getName(get_class($message));
         $this->logger->notice(sprintf('Message %s has been dispatched.', $name));
     }
 
-    private function getName(Message $message)
+    private function getName($fqcn)
     {
-        $parts = explode('\\', get_class($message));
+        $parts = explode('\\', $fqcn);
         $class = preg_replace('/(?<=.)[A-Z]/', '_$0', array_pop($parts));
         $folder = array_pop($parts);
         while ($parts && !in_array($folder,  ['Query', 'Command', 'Event', 'Listener'])) {

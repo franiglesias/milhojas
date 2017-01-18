@@ -22,7 +22,7 @@ class DispatchEventsWorkerSpec extends ObjectBehavior
         $this->shouldHaveType(DispatchEventsWorker::class);
     }
 
-    public function it_forces_to_be_the_last_one_worker_by_throwing_an_exception(MessageWorker $worker)
+    public function it_is_forced_to_be_the_last_one_worker(MessageWorker $worker, Message $message)
     {
         $this->shouldThrow(\InvalidArgumentException::class)->during('chain', [$worker]);
     }

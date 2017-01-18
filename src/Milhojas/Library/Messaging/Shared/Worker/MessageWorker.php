@@ -33,12 +33,17 @@ abstract class MessageWorker
      */
     public function chain(MessageWorker $next)
     {
-        if (!$this->next) {
+        if ($this->isTheLastWorkerInChain()) {
             $this->next = $next;
 
             return;
         }
         $this->next->chain($next);
+    }
+
+    protected function isTheLastWorkerInChain()
+    {
+        return !$this->next;
     }
 
     /**

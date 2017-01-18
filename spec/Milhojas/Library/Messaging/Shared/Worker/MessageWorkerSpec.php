@@ -1,0 +1,46 @@
+<?php
+
+namespace spec\Milhojas\Library\Messaging\Shared\Worker;
+
+use spec;
+use Milhojas\Library\Messaging\Shared\Worker\MessageWorker;
+use Milhojas\Library\Messaging\Shared\Message;
+use PhpSpec\ObjectBehavior;
+
+class MessageWorkerSpec extends ObjectBehavior
+{
+    public function let()
+    {
+        $this->beAnInstanceOf(spec\Milhojas\Library\Messaging\Shared\Worker\TestWorker::class);
+    }
+
+    public function it_is_initializable()
+    {
+        $this->shouldHaveType(MessageWorker::class);
+    }
+
+    public function it_can_chain_another_worker_and_delegates_execution(MessageWorker $worker, Message $message)
+    {
+        $worker->execute($message)->shouldBeCalled();
+        $this->chain($worker);
+        $this->work($message);
+    }
+
+    public function it_chains_workers_at_the_end_of_the_chain(MessageWorker $worker, MessageWorker $worker2)
+    {
+        $this->chain($worker);
+        $worker->chain($worker2)->shouldBeCalled();
+        $this->chain($worker2);
+    }
+}
+
+class TestWorker extends MessageWorker
+{
+    /**
+     * {@inheritdoc}
+     */
+    public function execute(Message $message)
+    {
+        $this->message = $message;
+    }
+}

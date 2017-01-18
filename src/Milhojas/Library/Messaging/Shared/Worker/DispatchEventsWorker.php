@@ -1,8 +1,8 @@
 <?php
 
-namespace Milhojas\Library\Messaging\CommandBus\Worker;
+namespace Milhojas\Library\Messaging\Shared\Worker;
 
-use Milhojas\Library\Messaging\CommandBus\Command;
+use Milhojas\Library\Messaging\Shared\Message;
 use Milhojas\Library\Messaging\EventBus\EventBus;
 use Milhojas\Library\Messaging\EventBus\EventRecorder;
 
@@ -10,7 +10,7 @@ use Milhojas\Library\Messaging\EventBus\EventRecorder;
  * Collects events and dispatches them
  * Must be at the end of the chain.
  */
-class DispatchEventsWorker extends CommandWorker
+class DispatchEventsWorker extends MessageWorker
 {
     /**
      * Needed to dispatch events.
@@ -36,7 +36,7 @@ class DispatchEventsWorker extends CommandWorker
      *
      * @param Command $command
      */
-    public function execute(Command $command)
+    public function execute(Message $message)
     {
         foreach ($this->recorder as $event) {
             $this->eventBus->dispatch($event);
@@ -49,7 +49,7 @@ class DispatchEventsWorker extends CommandWorker
      *
      * @throws \InvalidArgumentException [description]
      */
-    public function chain(CommandWorker $worker)
+    public function chain(MessageWorker $worker)
     {
         throw new \InvalidArgumentException('DispatchEventsWorker should be the last worker in the chain');
     }

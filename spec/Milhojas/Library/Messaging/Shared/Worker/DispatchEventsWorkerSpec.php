@@ -1,13 +1,13 @@
 <?php
 
-namespace spec\Milhojas\Library\Messaging\CommandBus\Worker;
+namespace spec\Milhojas\Library\Messaging\Shared\Worker;
 
-use Milhojas\Library\Messaging\CommandBus\Command;
-use Milhojas\Library\Messaging\CommandBus\Worker\CommandWorker;
-use Milhojas\Library\Messaging\CommandBus\Worker\DispatchEventsWorker;
+use Milhojas\Library\Messaging\Shared\Message;
+use Milhojas\Library\Messaging\Shared\Worker\DispatchEventsWorker;
 use Milhojas\Library\Messaging\EventBus\Event;
 use Milhojas\Library\Messaging\EventBus\EventBus;
 use Milhojas\Library\Messaging\EventBus\EventRecorder;
+use Milhojas\Library\Messaging\Shared\Worker\MessageWorker;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -22,16 +22,16 @@ class DispatchEventsWorkerSpec extends ObjectBehavior
         $this->shouldHaveType(DispatchEventsWorker::class);
     }
 
-    public function it_forces_to_be_the_last_one_worker_by_throwing_an_exception(CommandWorker $worker)
+    public function it_forces_to_be_the_last_one_worker_by_throwing_an_exception(MessageWorker $worker)
     {
         $this->shouldThrow(\InvalidArgumentException::class)->during('chain', [$worker]);
     }
 
-    public function it_dispatches_events($eventBus, $recorder, Event $event1, Event $event2, Command $command)
+    public function it_dispatches_events($eventBus, $recorder, Event $event1, Event $event2, Message $message)
     {
         $recorder->getIterator()->shouldBeCalled()->willReturn(new \ArrayIterator([$event1->getWrappedObject(), $event2->getWrappedObject()]));
         $eventBus->dispatch(Argument::type(Event::class))->shouldBeCalled(2);
         $recorder->flush()->shouldBeCalled();
-        $this->execute($command);
+        $this->work($message);
     }
 }

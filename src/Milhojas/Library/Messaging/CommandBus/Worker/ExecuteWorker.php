@@ -4,13 +4,15 @@ namespace Milhojas\Library\Messaging\CommandBus\Worker;
 
 use Milhojas\Library\Messaging\Shared\Loader\Loader;
 use Milhojas\Library\Messaging\Shared\Inflector\Inflector;
+use Milhojas\Library\Messaging\Shared\Message;
 use Milhojas\Library\Messaging\CommandBus\Command;
+use Milhojas\Library\Messaging\Shared\Worker\MessageWorker;
 
 /**
  * Manages the execution of a command with the right command handler
  * You can control behavior using different inflectors.
  */
-class ExecuteWorker extends CommandWorker
+class ExecuteWorker extends MessageWorker
 {
     /**
      * Loads the handler given a key derived by INflector from Command.
@@ -40,7 +42,7 @@ class ExecuteWorker extends CommandWorker
      *
      * @param Command $command
      */
-    public function execute(Command $command)
+    public function execute(Message $command)
     {
         $handler = $this->getHandler($command);
         $handler->handle($command);

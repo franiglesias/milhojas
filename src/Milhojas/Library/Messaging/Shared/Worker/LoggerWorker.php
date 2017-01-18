@@ -1,0 +1,36 @@
+<?php
+
+namespace Milhojas\Library\Messaging\Shared\Worker;
+
+use Milhojas\Library\Messaging\Shared\Message;
+use Psr\Log\LoggerInterface;
+
+class LoggerWorker
+{
+    private $logger;
+
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    public function execute(Message $message)
+    {
+        $name = $this->getName($message);
+        $this->logger->notice(sprintf('Message %s has been dispatched.', $name));
+    }
+
+    private function getName(Message $message)
+    {
+        $parts = explode('\\', get_class($message));
+        $class = preg_replace('/(?<=.)[A-Z]/', '_$0', array_pop($parts));
+        $folder = array_pop($parts);
+        while ($parts && !in_array($folder,  ['Query', 'Command', 'Event', 'Listener'])) {
+            $class = $folder.'.'.$class;
+            $folder = array_pop($parts);
+        }
+        $context = array_pop($parts);
+
+        return strtolower(implode('.', [$context, $class, $folder]));
+    }
+}

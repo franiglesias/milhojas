@@ -51,7 +51,7 @@ services:
         arguments:      ["@loader", "@service_inflector"]
 
     event_bus_worker:
-        class:          Milhojas\Library\Messaging\CommandBus\Worker\DispatchEventsWorker
+        class:          Milhojas\Library\Messaging\Shared\Worker\DispatchEventsWorker
         arguments:      ['@event_bus', '@event_recorder']
 
     # QueryBus

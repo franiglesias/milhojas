@@ -9,7 +9,7 @@ namespace Milhojas\Library\Messaging\QueryBus;
 interface QueryHandler
 {
     /**
-     * @param Query the $query to answer
+     * @param Query $query to answer
      *
      * @return mixed the answer to the query
      */

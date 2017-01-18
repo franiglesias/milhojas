@@ -4,12 +4,12 @@ namespace spec\Milhojas\Library\Messaging\CommandBus;
 
 use Milhojas\Library\Messaging\CommandBus\CommandBus;
 use Milhojas\Library\Messaging\CommandBus\Command;
-use Milhojas\Library\Messaging\CommandBus\Worker\CommandWorker;
+use Milhojas\Library\Messaging\Shared\Worker\MessageWorker;
 use PhpSpec\ObjectBehavior;
 
 class CommandBusSpec extends ObjectBehavior
 {
-    public function let(CommandWorker $worker1, CommandWorker $worker2, CommandWorker $worker3)
+    public function let(MessageWorker $worker1, MessageWorker $worker2, MessageWorker $worker3)
     {
         $worker1->chain($worker2)->shouldBeCalled();
         $worker1->chain($worker3)->shouldBeCalled();

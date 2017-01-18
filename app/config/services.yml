@@ -27,14 +27,33 @@ services:
     event_recorder:
         class:          Milhojas\Library\Messaging\EventBus\EventRecorder
 
-    # CommandBus Services
 
-    handler_container:
-        class:          Milhojas\Library\Messaging\CommandBus\Containers\HandlerContainer
-        arguments:      ["@service_container"]
+    # Message shared services
+
+    loader:
+        class:          Milhojas\Library\Messaging\Shared\Loader\SymfonyContainerLoader
+        calls:
+            - ['setContainer', ['@service_container']]
+
+    service_inflector:
+        class:          Milhojas\Library\Messaging\Shared\Inflector\SymfonyContainerInflector
 
     handler_inflector:
         class:          Milhojas\Library\Messaging\Shared\Inflector\HandlerInflector
+
+    # Message Buses shared workers
+
+    event_bus_worker:
+        class:          Milhojas\Library\Messaging\Shared\Worker\DispatchEventsWorker
+        arguments:      ['@event_bus', '@event_recorder']
+
+    logger_worker:
+        class:          Milhojas\Library\Messaging\Shared\Worker\LoggerWorker
+        arguments:      ['@logger']
+        tags:
+            - { name: monolog.logger, channel: messageBus }
+
+    # CommandBus Services
 
     command_bus:
         class:          Milhojas\Library\Messaging\CommandBus\CommandBus
@@ -50,23 +69,7 @@ services:
         class:          Milhojas\Library\Messaging\CommandBus\Worker\ExecuteWorker
         arguments:      ["@loader", "@service_inflector"]
 
-    event_bus_worker:
-        class:          Milhojas\Library\Messaging\Shared\Worker\DispatchEventsWorker
-        arguments:      ['@event_bus', '@event_recorder']
-
     # QueryBus
-
-    loader:
-        class:          Milhojas\Library\Messaging\Shared\Loader\SymfonyContainerLoader
-        calls:
-            - ['setContainer', ['@service_container']]
-
-    service_inflector:
-        class:          Milhojas\Library\Messaging\Shared\Inflector\SymfonyContainerInflector
-
-    logger_worker:
-        class:          Milhojas\Library\Messaging\Shared\Worker\LoggerWorker
-        arguments:      ['@logger']
 
     query_worker:
         class:          Milhojas\Library\Messaging\QueryBus\Worker\QueryWorker

@@ -21,7 +21,7 @@ class MessageWorkerSpec extends ObjectBehavior
 
     public function it_can_chain_another_worker_and_delegates_execution(MessageWorker $worker, Message $message)
     {
-        $worker->execute($message)->shouldBeCalled();
+        $worker->work($message)->shouldBeCalled();
         $this->chain($worker);
         $this->work($message);
     }
@@ -31,6 +31,13 @@ class MessageWorkerSpec extends ObjectBehavior
         $this->chain($worker);
         $worker->chain($worker2)->shouldBeCalled();
         $this->chain($worker2);
+    }
+
+    public function it_return_response_if_it_was_generated_by_delegated_worker(Message $message, MessageWorker $worker)
+    {
+        $worker->work($message)->shouldBeCalled()->willReturn('A reponse');
+        $this->chain($worker);
+        $this->work($message)->shouldBe('A reponse');
     }
 }
 

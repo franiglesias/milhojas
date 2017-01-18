@@ -4,29 +4,26 @@ namespace spec\Milhojas\Library\Messaging\QueryBus;
 
 use Milhojas\Library\Messaging\QueryBus\QueryBus;
 use Milhojas\Library\Messaging\QueryBus\Query;
-use Milhojas\Library\Messaging\QueryBus\QueryHandler;
-use Milhojas\Library\Messaging\Shared\Loader\Loader;
-use Milhojas\Library\Messaging\Shared\Inflector\Inflector;
+use Milhojas\Library\Messaging\Shared\Worker\MessageWorker;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class QueryBusSpec extends ObjectBehavior
 {
-    public function let(Loader $loader, Inflector $inflector)
+    public function let(MessageWorker $worker1, MessageWorker $worker2, MessageWorker $worker3)
     {
-        $this->beConstructedWith($loader, $inflector);
+        $worker1->chain($worker2)->shouldBeCalled();
+        $worker1->chain($worker3)->shouldBeCalled();
+        $this->beConstructedWith([$worker1, $worker2, $worker3]);
     }
+
     public function it_is_initializable()
     {
         $this->shouldHaveType(QueryBus::class);
     }
 
-    public function it_can_execute_Query_returning_result($loader, $inflector, Query $query, QueryHandler $handler)
+    public function it_executes_a_query_passing_it_to_all_workers_in_order_and_returning_responeg_response(Query $query, $worker1, $worker2, $worker3)
     {
-        $handler->answer($query)->willReturn('Query executed!');
-        $inflector->inflect(Argument::type('string'))->shouldBeCalled();
-        $loader->get(Argument::any())->willReturn($handler);
-
-        $this->execute($query)->shouldBe('Query executed!');
+        $worker1->work($query)->shouldBeCalled()->willReturn('The Result');
+        $this->execute($query)->shouldBe('The Result');
     }
 }

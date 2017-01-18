@@ -64,9 +64,17 @@ services:
     service_inflector:
         class:          Milhojas\Library\Messaging\Shared\Inflector\SymfonyContainerInflector
 
+    logger_worker:
+        class:          Milhojas\Library\Messaging\Shared\Worker\LoggerWorker
+        arguments:      ['@logger']
+
+    query_worker:
+        class:          Milhojas\Library\Messaging\QueryBus\Worker\QueryWorker
+        arguments:      ['@loader', '@service_inflector']
+
     query_bus:
         class:          Milhojas\Library\Messaging\QueryBus\QueryBus
-        arguments:      ['@loader', '@service_inflector']
+        arguments:      ['@query_worker', '@logger_worker']
 
 # Mailer
     milhojas.templating.engine:

@@ -27,6 +27,7 @@ use Milhojas\Domain\Shared\ClassGroup;
 use Milhojas\Domain\Utils\Schedule\MonthWeekSchedule;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineSeatInMemoryRepository;
 use Milhojas\Library\Messaging\EventBus\EventRecorder;
+use Milhojas\Library\Messaging\QueryBus\Worker\QueryWorker;
 use Milhojas\Library\Messaging\Shared\Inflector\SymfonyContainerInflector;
 use Milhojas\Library\ValueObjects\Identity\Person;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
@@ -76,7 +77,8 @@ class AdminContext implements Context
         $loader = new TestLoader();
         $loader->add('cantine.get_cantine_attendances_list_for.handler', $handler);
         $inflector = new SymfonyContainerInflector();
-        $this->queryBus = new QueryBus($loader, $inflector);
+        $queryWorker = new QueryWorker($loader, $inflector);
+        $this->queryBus = new QueryBus([$queryWorker]);
     }
 
     public function applyAssignCantineSeats()

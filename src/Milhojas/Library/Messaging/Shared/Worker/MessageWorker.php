@@ -7,6 +7,7 @@ use Milhojas\Library\Messaging\Shared\Message;
 abstract class MessageWorker
 {
     protected $next;
+    protected $result;
 
     abstract public function execute(Message $message);
 
@@ -15,10 +16,14 @@ abstract class MessageWorker
      *
      * @param Message $message
      */
-    final public function work(Message $message)
+    public function work(Message $message)
     {
-        $this->execute($message);
-        $this->delegate($message);
+        $result = $this->execute($message);
+        if ($result && !$this->result) {
+            $this->result = $result;
+        }
+
+        return $this->delegate($message);
     }
 
     /**
@@ -44,8 +49,9 @@ abstract class MessageWorker
     protected function delegate(Message $message)
     {
         if (!$this->next) {
-            return;
+            return $this->result;
         }
-        $this->next->work($message);
+
+        return $this->next->work($message);
     }
 }

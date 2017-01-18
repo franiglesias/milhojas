@@ -2,58 +2,45 @@
 
 namespace Milhojas\Library\Messaging\QueryBus;
 
-use Milhojas\Library\Messaging\Shared\Loader\Loader;
-use Milhojas\Library\Messaging\Shared\Inflector\Inflector;
-
 /**
  * It is a mechanism to perform Queries, it returns answers to them.
  */
 class QueryBus
 {
-    /**
-     * The class loader to load the Handlers.
-     *
-     * @var Loader
-     */
-    private $loader;
-     /**
-      * Strategy to compute the class handler.
-      *
-      * @var Inflector
-      */
-     private $inflector;
-    /**
-     * @param Loader    $loader
-     * @param Inflector $inflector
-     */
-    public function __construct(Loader $loader, Inflector $inflector)
+    private $workers;
+    public function __construct(array $workers)
     {
-        $this->loader = $loader;
-        $this->inflector = $inflector;
+        $this->workers = $this->buildWorkersChain($workers);
     }
 
     /**
-     * Sends the query to the appropiate QueryHandler.
+     * Builds the responsibility chain.
      *
-     * @param Query $query to perform
+     * @param string $workers
      *
-     * @return mixed
+     * @return array the chain
+     *
+     * @author Francisco Iglesias Gómez
+     */
+    protected function buildWorkersChain($workers)
+    {
+        $chain = array_shift($workers);
+        while ($workers) {
+            $chain->chain(array_shift($workers));
+        }
+
+        return $chain;
+    }
+
+    /**
+     * Execute command.
+     *
+     * @param Command $command
+     *
+     * @author Fran Iglesias
      */
     public function execute(Query $query)
     {
-        $handler = $this->getHandler($query);
-
-        return $handler->answer($query);
-    }
-    /**
-     * Computes and load the needed handler to perform the query.
-     *
-     * @param mixed $query
-     */
-    private function getHandler($query)
-    {
-        $handlerIdentifier = $this->inflector->inflect(get_class($query));
-
-        return $this->loader->get($handlerIdentifier);
+        return $this->workers->work($query);
     }
 }

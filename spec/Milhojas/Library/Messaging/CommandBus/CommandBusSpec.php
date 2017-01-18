@@ -22,7 +22,7 @@ class CommandBusSpec extends ObjectBehavior
 
     public function it_executes_a_command_passing_it_to_all_workers_in_order(Command $command, $worker1, $worker2, $worker3)
     {
-        $worker1->execute($command)->shouldBeCalled();
+        $worker1->work($command)->shouldBeCalled();
         $this->execute($command);
     }
 }

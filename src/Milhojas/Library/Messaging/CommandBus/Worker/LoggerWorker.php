@@ -1,9 +1,8 @@
 <?php
 
-namespace Milhojas\Library\Messaging\Command\Worker;
+namespace Milhojas\Library\Messaging\CommandBus\Worker;
 
 use Milhojas\Library\Messaging\CommandBus\Command;
-use Milhojas\Library\Messaging\CommandBus\Worker\CommandWorker;
 use Psr\Log\LoggerInterface;
 
 class LoggerWorker extends CommandWorker

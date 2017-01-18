@@ -1,8 +1,8 @@
 <?php
 
-namespace spec\Milhojas\Library\Messaging\Command\Worker;
+namespace spec\Milhojas\Library\Messaging\CommandBus\Worker;
 
-use Milhojas\Library\Messaging\Command\Worker\LoggerWorker;
+use Milhojas\Library\Messaging\CommandBus\Worker\LoggerWorker;
 use Milhojas\Library\Messaging\CommandBus\Command;
 use Milhojas\Library\Messaging\CommandBus\Worker\CommandWorker;
 use PhpSpec\ObjectBehavior;
@@ -23,7 +23,9 @@ class LoggerWorkerSpec extends ObjectBehavior
 
     public function it_logs_current_command(Command $command, $logger)
     {
-        $logger->notice(Argument::containingString('has been launched.'))->shouldBeCalled();
+        $logger->notice(Argument::that(function ($string) {
+            return preg_match('/Command \w+ has been launched./', $string);
+        }))->shouldBeCalled();
         $this->execute($command);
     }
 }

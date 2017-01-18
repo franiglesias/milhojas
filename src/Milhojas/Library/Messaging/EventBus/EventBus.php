@@ -22,7 +22,7 @@ class EventBus
      * @param string       $eventName
      * @param EventHandler $listener
      */
-    public function addListener($eventName, EventHandler $handler)
+    public function addListener($eventName, EventHandler $listener)
     {
         $this->handlers[$eventName][] = $handler;
     }

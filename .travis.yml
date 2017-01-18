@@ -15,5 +15,5 @@ script:
     - bin/phpspec run
 
 notifications:
-  email:
-    - franiglesias@mac.com
+    email:
+        - franiglesias@mac.com

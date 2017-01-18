@@ -24,7 +24,7 @@ class EventBus
      */
     public function addListener($eventName, EventHandler $listener)
     {
-        $this->handlers[$eventName][] = $handler;
+        $this->handlers[$eventName][] = $listener;
     }
 
     /**

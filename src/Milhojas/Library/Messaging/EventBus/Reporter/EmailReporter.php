@@ -3,15 +3,15 @@
 namespace Milhojas\Library\Messaging\EventBus\Reporter;
 
 use Milhojas\Library\Messaging\EventBus\Event;
-use Milhojas\Library\Messaging\EventBus\EventHandler;
+use Milhojas\Library\Messaging\EventBus\Listener;
 use Milhojas\Infrastructure\Mail\MailMessage;
 use Milhojas\Infrastructure\Mail\Mailer;
 /**
-* An EmailReporter is a kind of EventHandler that can send emails
+* An EmailReporter is a kind of Listener that can send emails
 * 
 * Sends an e email message to notify that some event has happened
 */
-abstract class EmailReporter implements EventHandler
+abstract class EmailReporter implements Listener
 {
 	private $mailer;
 	private $sender;

@@ -3,10 +3,10 @@
 namespace Milhojas\Application\Cantine\Listener;
 
 use Milhojas\Library\Messaging\EventBus\Event;
-use Milhojas\Library\Messaging\EventBus\EventHandler;
+use Milhojas\Library\Messaging\EventBus\Listener;
 use Milhojas\Domain\Cantine\TicketRegistrar;
 
-class RegisterBoughtTickets implements EventHandler
+class RegisterBoughtTickets implements Listener
 {
     private $registrar;
 

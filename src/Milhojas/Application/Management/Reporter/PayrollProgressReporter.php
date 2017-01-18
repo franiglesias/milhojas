@@ -2,12 +2,12 @@
 
 namespace Milhojas\Application\Management\Reporter;
 
-use Milhojas\Library\Messaging\EventBus\EventHandler;
+use Milhojas\Library\Messaging\EventBus\Listener;
 use Milhojas\Library\Messaging\EventBus\Event;
 /**
 * Writes Payroll Distribution Progress to the json file specified in the constructor
 */
-class PayrollProgressReporter implements EventHandler
+class PayrollProgressReporter implements Listener
 {
 	private $file;
 	

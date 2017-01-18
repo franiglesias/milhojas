@@ -8,7 +8,7 @@ use Milhojas\Domain\Cantine\CantineList\CantineSeat;
 use Milhojas\Domain\Cantine\Event\UserWasAssignedToCantineTurn;
 use Milhojas\Application\Cantine\Listener\AddUserToCantineList;
 use Milhojas\Domain\Cantine\CantineList\CantineSeatRepository;
-use Milhojas\Library\Messaging\EventBus\EventHandler;
+use Milhojas\Library\Messaging\EventBus\Listener;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -21,7 +21,7 @@ class AddUserToCantineListSpec extends ObjectBehavior
     public function it_is_initializable()
     {
         $this->shouldHaveType(AddUserToCantineList::class);
-        $this->shouldImplement(EventHandler::class);
+        $this->shouldImplement(Listener::class);
     }
 
     public function it_add_user_to_cantine_list_repository(UserWasAssignedToCantineTurn $event, $cantineListRepository, CantineUser $user, Turn $turn, \DateTime $date)

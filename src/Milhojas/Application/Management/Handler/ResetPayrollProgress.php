@@ -2,13 +2,13 @@
 
 namespace Milhojas\Application\Management\Handler;
 
-use Milhojas\Library\Messaging\EventBus\EventHandler;
+use Milhojas\Library\Messaging\EventBus\Listener;
 use Milhojas\Library\Messaging\EventBus\Event;
 
 /**
  * Resets Payroll Distribution Progress exchange file.
  */
-class ResetPayrollProgress implements EventHandler
+class ResetPayrollProgress implements Listener
 {
     private $file;
 

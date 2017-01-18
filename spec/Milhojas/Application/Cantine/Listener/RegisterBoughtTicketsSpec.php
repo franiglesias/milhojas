@@ -7,7 +7,7 @@ use Milhojas\Domain\Cantine\Event\CantineUserBoughtTickets;
 use Milhojas\Domain\Cantine\TicketRegistrar;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
-use Milhojas\Library\Messaging\EventBus\EventHandler;
+use Milhojas\Library\Messaging\EventBus\Listener;
 use PhpSpec\ObjectBehavior;
 
 class RegisterBoughtTicketsSpec extends ObjectBehavior
@@ -20,7 +20,7 @@ class RegisterBoughtTicketsSpec extends ObjectBehavior
     public function it_is_initializable()
     {
         $this->shouldHaveType(RegisterBoughtTickets::class);
-        $this->shouldImplement(EventHandler::class);
+        $this->shouldImplement(Listener::class);
     }
 
     public function it_handles_the_event_and_registers_bought_tickets(CantineUserBoughtTickets $event, CantineUser $user, ListOfDates $dates, $registrar)

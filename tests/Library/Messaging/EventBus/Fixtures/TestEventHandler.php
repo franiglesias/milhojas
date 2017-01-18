@@ -2,13 +2,13 @@
 
 namespace Tests\Library\Messaging\EventBus\Fixtures;
 
-use Milhojas\Library\Messaging\EventBus\EventHandler;
+use Milhojas\Library\Messaging\EventBus\Listener;
 use Milhojas\Library\Messaging\EventBus\Event;
 
 /**
 * A test event handler
 */
-class TestEventHandler implements EventHandler
+class TestListener implements Listener
 {
 	private $bus;
 public function __construct($bus)
@@ -18,7 +18,7 @@ public function __construct($bus)
 	
 	public function handle(Event $event)
 	{
-		$this->bus->recordHandler($event, 'TestEventHandler');
+		$this->bus->recordHandler($event, 'TestListener');
 	}
 }
 

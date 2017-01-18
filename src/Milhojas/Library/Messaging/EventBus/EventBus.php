@@ -20,9 +20,9 @@ class EventBus
      * Associate a Listener to an Event by its name (as defined by Event->getName()).
      *
      * @param string       $eventName
-     * @param EventHandler $listener
+     * @param Listener $listener
      */
-    public function addListener($eventName, EventHandler $listener)
+    public function addListener($eventName, Listener $listener)
     {
         $this->handlers[$eventName][] = $listener;
     }
@@ -30,10 +30,10 @@ class EventBus
     /**
      * Associates a Listener to an array of Events. In case one Listener should respond to several events.
      *
-     * @param EventHandler $subscriber
+     * @param Listener $subscriber
      * @param array        $events
      */
-    public function subscribeListener(EventHandler $subscriber, array $events)
+    public function subscribeListener(Listener $subscriber, array $events)
     {
         foreach ($events as $event) {
             $this->addListener($event, $subscriber);

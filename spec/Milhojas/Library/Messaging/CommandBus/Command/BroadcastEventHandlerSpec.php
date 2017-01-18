@@ -4,11 +4,11 @@ namespace spec\Milhojas\Library\Messaging\CommandBus\Command;
 
 use Milhojas\Library\Messaging\EventBus\Event;
 use Milhojas\Library\Messaging\CommandBus\Command\BroadcastEvent;
-use Milhojas\Library\Messaging\CommandBus\Command\BroadcastEventHandler;
+use Milhojas\Library\Messaging\CommandBus\Command\BroadcastListener;
 use Milhojas\Library\Messaging\EventBus\EventRecorder;
 use PhpSpec\ObjectBehavior;
 
-class BroadcastEventHandlerSpec extends ObjectBehavior
+class BroadcastEventListenerSpec extends ObjectBehavior
 {
     public function let(EventRecorder $eventRecorder)
     {
@@ -16,7 +16,7 @@ class BroadcastEventHandlerSpec extends ObjectBehavior
     }
     public function it_is_initializable()
     {
-        $this->shouldHaveType(BroadcastEventHandler::class);
+        $this->shouldHaveType(BroadcastListener::class);
     }
 
     public function it_handles_BroadcastEvent_commands(BroadcastEvent $broadcastEvent, $eventRecorder, Event $event)

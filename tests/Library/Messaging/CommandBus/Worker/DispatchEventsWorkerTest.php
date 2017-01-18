@@ -11,7 +11,7 @@ use Milhojas\Library\Messaging\EventBus\EventRecorder;
 use Tests\Library\Messaging\CommandBus\Fixtures\SimpleCommand;
 use Tests\Library\Messaging\EventBus\Utils\EventBusSpy;
 use Tests\Library\Messaging\EventBus\Fixtures\TestEvent;
-use Tests\Library\Messaging\EventBus\Fixtures\TestEventHandler;
+use Tests\Library\Messaging\EventBus\Fixtures\TestListener;
 use Tests\Utils\DummyLogger;
 
 class DispatchEventsWorkerTest extends \PHPUnit_Framework_Testcase
@@ -19,9 +19,9 @@ class DispatchEventsWorkerTest extends \PHPUnit_Framework_Testcase
     public function test__DispatchEventsWorker()
     {
         $bus = new EventBusSpy(new EventBus(new DummyLogger('Test')));
-        $bus->addListener('test.event', new TestEventHandler($bus));
+        $bus->addListener('test.event', new TestListener($bus));
 
-        $this->assertTrue($bus->assertWasRegistered('test.event', new TestEventHandler($bus)));
+        $this->assertTrue($bus->assertWasRegistered('test.event', new TestListener($bus)));
 
         $recorder = new EventRecorder();
         $recorder->recordThat(new TestEvent('data'));

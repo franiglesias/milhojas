@@ -11,7 +11,7 @@ use Milhojas\Library\Messaging\EventBus\EventRecorder;
  *
  * Handles the broadcasting of an event
  */
-class BroadcastEventHandler implements CommandHandler
+class BroadcastEventListener implements CommandHandler
 {
     private $recorder;
 

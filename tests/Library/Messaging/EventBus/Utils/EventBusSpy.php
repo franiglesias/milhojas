@@ -4,7 +4,7 @@ namespace Tests\Library\Messaging\EventBus\Utils;
 
 use Milhojas\Library\Messaging\EventBus\EventBus;
 use Milhojas\Library\Messaging\EventBus\Event;
-use Milhojas\Library\Messaging\EventBus\EventHandler;
+use Milhojas\Library\Messaging\EventBus\Listener;
 
 /**
  * Description.
@@ -39,17 +39,17 @@ class EventBusSpy implements EventBus
         $this->busUnderTest->dispatch($event);
     }
 
-    public function subscribeListener(EventHandler $subscriber, array $events)
+    public function subscribeListener(Listener $subscriber, array $events)
     {
         $this->busUnderTest->subscribeListener($subscriber, $events);
     }
 
-    public function addListener($eventName, EventHandler $handler)
+    public function addListener($eventName, Listener $handler)
     {
         $this->busUnderTest->addListener($eventName, $handler);
     }
 
-    public function assertWasRegistered($eventName, EventHandler $handler)
+    public function assertWasRegistered($eventName, Listener $handler)
     {
         $handlers = $this->extract();
         foreach ($handlers[$eventName] as $test) {

@@ -4,10 +4,10 @@ namespace Milhojas\Application\Cantine\Listener;
 
 use Milhojas\Domain\Cantine\CantineList\CantineSeat;
 use Milhojas\Library\Messaging\EventBus\Event;
-use Milhojas\Library\Messaging\EventBus\EventHandler;
+use Milhojas\Library\Messaging\EventBus\Listener;
 use Milhojas\Domain\Cantine\CantineList\CantineSeatRepository;
 
-class AddUserToCantineList implements EventHandler
+class AddUserToCantineList implements Listener
 {
     /**
      * @var CantineSeatRepository

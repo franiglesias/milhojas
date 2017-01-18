@@ -3,11 +3,11 @@
 namespace Milhojas\Application\Contents\Projector;
 
 use Milhojas\Library\Messaging\EventBus\Event;
-use Milhojas\Library\Messaging\EventBus\EventHandler;
+use Milhojas\Library\Messaging\EventBus\Listener;
 use Doctrine\ORM\EntityManager;
 use Milhojas\Domain\Contents\DTO\PostList;
 
-class PostListProjector implements EventHandler
+class PostListProjector implements Listener
 {
     private $em;
 

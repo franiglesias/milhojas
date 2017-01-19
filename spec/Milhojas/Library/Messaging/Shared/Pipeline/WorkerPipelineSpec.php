@@ -6,6 +6,7 @@ use Milhojas\Library\Messaging\Shared\Message;
 use Milhojas\Library\Messaging\Shared\Pipeline\Pipeline;
 use Milhojas\Library\Messaging\Shared\Pipeline\WorkerPipeline;
 use Milhojas\Library\Messaging\Shared\Worker\MessageWorker;
+use Milhojas\Library\Messaging\Shared\Exception\EmptyPipeline;
 use PhpSpec\ObjectBehavior;
 
 class WorkerPipelineSpec extends ObjectBehavior
@@ -31,5 +32,12 @@ class WorkerPipelineSpec extends ObjectBehavior
     {
         $worker1->work($message)->shouldBeCalled()->willReturn('Response');
         $this->work($message)->shouldBe('Response');
+    }
+
+    public function it_throws_exception_if_no_workers($worker1, $worker2)
+    {
+        $worker1->chain($worker2)->shouldNotBeCalled();
+        $this->beConstructedWith([]);
+        $this->shouldThrow(EmptyPipeline::class)->duringInstantiation();
     }
 }

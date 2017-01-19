@@ -5,7 +5,7 @@ namespace Milhojas\Library\Messaging\Shared\Pipeline;
 use Milhojas\Library\Messaging\Shared\Message;
 
 /**
- * A pipeline of MessageWorkers.
+ * Acts ad the MessageBus execution engine.
  */
 interface Pipeline
 {

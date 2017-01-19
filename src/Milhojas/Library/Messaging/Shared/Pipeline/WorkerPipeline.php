@@ -3,22 +3,36 @@
 namespace Milhojas\Library\Messaging\Shared\Pipeline;
 
 use Milhojas\Library\Messaging\Shared\Message;
+use Milhojas\Library\Messaging\Shared\Worker\MessageWorker;
+use Milhojas\Library\Messaging\Shared\Exception\EmptyPipeline;
 
+/**
+ * Pipeline of Workers.
+ * Creates a Chain of Responsibility for workers.
+ */
 class WorkerPipeline implements Pipeline
 {
     private $pipeline;
 
+    /**
+     * Builds a CoR with the array of workers.
+     *
+     * @param MessageWorker[] $workers
+     */
     public function __construct(array $workers)
     {
+        if (!$workers) {
+            throw new EmptyPipeline('A pipeline needs MessageWorkers to work.');
+        }
         $this->pipeline = $this->build($workers);
     }
 
     /**
      * Builds the responsibility chain.
      *
-     * @param string $workers
+     * @param MessageWorker[] $workers
      *
-     * @return array the chain
+     * @return MessageWorker the chain
      *
      * @author Francisco Iglesias Gómez
      */
@@ -32,6 +46,9 @@ class WorkerPipeline implements Pipeline
         return $chain;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function work(Message $message)
     {
         return $this->pipeline->work($message);

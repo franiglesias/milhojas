@@ -1,14 +1,16 @@
 <?php
 
-namespace Milhojas\Library\Messaging\EventBus;
+namespace Milhojas\Library\Messaging\Shared\Pipeline;
 
-class NewEventBus
+use Milhojas\Library\Messaging\Shared\Message;
+
+class WorkerPipeline implements Pipeline
 {
-    private $workers;
+    private $pipeline;
 
     public function __construct(array $workers)
     {
-        $this->workers = $this->buildWorkersChain($workers);
+        $this->pipeline = $this->build($workers);
     }
 
     /**
@@ -20,7 +22,7 @@ class NewEventBus
      *
      * @author Francisco Iglesias Gómez
      */
-    protected function buildWorkersChain($workers)
+    protected function build($workers)
     {
         $chain = array_shift($workers);
         while ($workers) {
@@ -30,8 +32,8 @@ class NewEventBus
         return $chain;
     }
 
-    public function dispatch(Event $event)
+    public function work(Message $message)
     {
-        $this->workers->work($event);
+        return $this->pipeline->work($message);
     }
 }

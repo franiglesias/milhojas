@@ -1,9 +1,10 @@
 <?php
 
-namespace spec\Milhojas\Library\Messaging\Shared;
+namespace spec\Milhojas\Library\Messaging\Shared\Pipeline;
 
 use Milhojas\Library\Messaging\Shared\Message;
-use Milhojas\Library\Messaging\Shared\WorkerPipeline;
+use Milhojas\Library\Messaging\Shared\Pipeline\Pipeline;
+use Milhojas\Library\Messaging\Shared\Pipeline\WorkerPipeline;
 use Milhojas\Library\Messaging\Shared\Worker\MessageWorker;
 use PhpSpec\ObjectBehavior;
 
@@ -17,6 +18,7 @@ class WorkerPipelineSpec extends ObjectBehavior
     public function it_is_initializable()
     {
         $this->shouldHaveType(WorkerPipeline::class);
+        $this->shouldImplement(Pipeline::class);
     }
 
     public function it_works_with_a_message(Message $message, $worker1)

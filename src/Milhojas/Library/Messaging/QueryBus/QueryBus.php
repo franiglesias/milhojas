@@ -2,45 +2,29 @@
 
 namespace Milhojas\Library\Messaging\QueryBus;
 
+use Milhojas\Library\Messaging\Shared\Pipeline\Pipeline;
+
 /**
  * It is a mechanism to perform Queries, it returns answers to them.
  */
 class QueryBus
 {
-    private $workers;
-    public function __construct(array $workers)
-    {
-        $this->workers = $this->buildWorkersChain($workers);
-    }
+    private $pipeline;
 
-    /**
-     * Builds the responsibility chain.
-     *
-     * @param string $workers
-     *
-     * @return array the chain
-     *
-     * @author Francisco Iglesias Gómez
-     */
-    protected function buildWorkersChain($workers)
+    public function __construct(Pipeline $pipeline)
     {
-        $chain = array_shift($workers);
-        while ($workers) {
-            $chain->chain(array_shift($workers));
-        }
-
-        return $chain;
+        $this->pipeline = $pipeline;
     }
 
     /**
      * Execute command.
      *
-     * @param Command $command
+     * @param Query $query
      *
      * @author Fran Iglesias
      */
     public function execute(Query $query)
     {
-        return $this->workers->work($query);
+        return $this->pipeline->work($query);
     }
 }

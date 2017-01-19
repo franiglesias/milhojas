@@ -2,72 +2,19 @@
 
 namespace Milhojas\Library\Messaging\EventBus;
 
-/**
- * It's a very simple Event Dispatcher.
- */
+use Milhojas\Library\Messaging\Shared\Pipeline\Pipeline;
+
 class EventBus
 {
-    private $handlers;
-    private $logger;
+    private $pipeline;
 
-    public function __construct($logger)
+    public function __construct(Pipeline $pipeline)
     {
-        $this->handlers = array();
-        $this->logger = $logger;
+        $this->pipeline = $pipeline;
     }
 
-    /**
-     * Associate a Listener to an Event by its name (as defined by Event->getName()).
-     *
-     * @param string       $eventName
-     * @param Listener $listener
-     */
-    public function addListener($eventName, Listener $listener)
-    {
-        $this->handlers[$eventName][] = $listener;
-    }
-
-    /**
-     * Associates a Listener to an array of Events. In case one Listener should respond to several events.
-     *
-     * @param Listener $subscriber
-     * @param array        $events
-     */
-    public function subscribeListener(Listener $subscriber, array $events)
-    {
-        foreach ($events as $event) {
-            $this->addListener($event, $subscriber);
-        }
-    }
-
-    /**
-     * Dispatches an arbitrary Event to Listenters. The event could be handled by a Listener or simply ignored if no listener can handle it.
-     *
-     * @param Event $event
-     */
     public function dispatch(Event $event)
     {
-        if (!$this->canManageEvent($event)) {
-            return;
-        }
-        foreach ($this->handlers[$event->getName()] as $handler) {
-            $this->logger->info(sprintf('Event %s dispatched to Handler %s.', $event->getName(), get_class($handler)));
-            $handler->handle($event);
-        }
-    }
-
-    private function canManageEvent(Event $event)
-    {
-        if (isset($this->handlers[$event->getName()])) {
-            return true;
-        }
-        $this->logger->notice(sprintf('Event %s can not be handled', $event->getName()));
-    }
-
-    public function addListeners($eventName, $handlers)
-    {
-        foreach ($handlers as $handler) {
-            $this->addListener($eventName, $handler);
-        }
+        $this->pipeline->work($event);
     }
 }

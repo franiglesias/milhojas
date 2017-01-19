@@ -5,7 +5,7 @@ namespace Milhojas\Library\Messaging\Shared\Worker;
 use Milhojas\Library\Messaging\Shared\Message;
 use Psr\Log\LoggerInterface;
 
-class LoggerWorker
+class LoggerWorker extends MessageWorker
 {
     private $logger;
 

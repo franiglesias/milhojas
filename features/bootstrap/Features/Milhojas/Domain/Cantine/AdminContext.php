@@ -28,6 +28,7 @@ use Milhojas\Domain\Utils\Schedule\MonthWeekSchedule;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineSeatInMemoryRepository;
 use Milhojas\Library\Messaging\EventBus\EventRecorder;
 use Milhojas\Library\Messaging\QueryBus\Worker\QueryWorker;
+use Milhojas\Library\Messaging\Shared\Pipeline\WorkerPipeline;
 use Milhojas\Library\Messaging\Shared\Inflector\SymfonyContainerInflector;
 use Milhojas\Library\ValueObjects\Identity\Person;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
@@ -71,14 +72,18 @@ class AdminContext implements Context
     {
         $this->recorder = new EventRecorder();
         $this->manager = new CantineManager($this->getMockedConfigurationFile($string));
+        $this->queryBus = $this->buildQueryBus();
+    }
 
-        $handler = new GetCantineAttendancesListForHandler($this->CantineSeatRepository);
-
+    public function buildQueryBus()
+    {
         $loader = new TestLoader();
-        $loader->add('cantine.get_cantine_attendances_list_for.handler', $handler);
-        $inflector = new SymfonyContainerInflector();
-        $queryWorker = new QueryWorker($loader, $inflector);
-        $this->queryBus = new QueryBus([$queryWorker]);
+        $loader->add(
+            'cantine.get_cantine_attendances_list_for.handler',  new GetCantineAttendancesListForHandler($this->CantineSeatRepository)
+        );
+        $queryWorker = new QueryWorker($loader, new SymfonyContainerInflector());
+
+        return new QueryBus(new WorkerPipeline([$queryWorker]));
     }
 
     public function applyAssignCantineSeats()

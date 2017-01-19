@@ -7,6 +7,7 @@ use Milhojas\Library\Messaging\EventBus\Event;
 use Milhojas\Library\Messaging\QueryBus\Query;
 use Milhojas\Library\Messaging\Shared\Worker\LoggerWorker;
 use Milhojas\Library\Messaging\Shared\Message;
+use Milhojas\Library\Messaging\Shared\Worker\MessageWorker;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Psr\Log\LoggerInterface;
@@ -20,6 +21,7 @@ class LoggerWorkerSpec extends ObjectBehavior
     public function it_is_initializable()
     {
         $this->shouldHaveType(LoggerWorker::class);
+        $this->shouldBeAnInstanceOf(MessageWorker::class);
     }
 
     public function it_logs_a_message(Message $message, $logger)

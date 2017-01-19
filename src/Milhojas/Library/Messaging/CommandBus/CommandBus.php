@@ -2,35 +2,18 @@
 
 namespace Milhojas\Library\Messaging\CommandBus;
 
+use Milhojas\Library\Messaging\Shared\Pipeline\Pipeline;
+
 /**
- * A very Basic Command Bus that builds a chain of responsibility with an array of workers.
+ * A very Basic Command Bus that builds a chain of responsibility with an array of pipeline.
  */
 class CommandBus
 {
-    protected $workers;
+    protected $pipeline;
 
-    public function __construct(array $workers)
+    public function __construct(Pipeline $pipeline)
     {
-        $this->workers = $this->buildWorkersChain($workers);
-    }
-
-    /**
-     * Builds the responsibility chain.
-     *
-     * @param string $workers
-     *
-     * @return array the chain
-     *
-     * @author Francisco Iglesias Gómez
-     */
-    protected function buildWorkersChain($workers)
-    {
-        $chain = array_shift($workers);
-        while ($workers) {
-            $chain->chain(array_shift($workers));
-        }
-
-        return $chain;
+        $this->pipeline = $pipeline;
     }
 
     /**
@@ -42,6 +25,6 @@ class CommandBus
      */
     public function execute(Command $command)
     {
-        $this->workers->work($command);
+        $this->pipeline->work($command);
     }
 }

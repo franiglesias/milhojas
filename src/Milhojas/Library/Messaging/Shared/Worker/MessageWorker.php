@@ -4,15 +4,35 @@ namespace Milhojas\Library\Messaging\Shared\Worker;
 
 use Milhojas\Library\Messaging\Shared\Message;
 
+/**
+ * A message Worker does something with the Message or about it
+ * MessageWorkers can be chained in a Pipeline.
+ */
 abstract class MessageWorker
 {
+    /**
+     * the MessageWorker to which pass the Message when I am finished.
+     *
+     * @var MessageWorker
+     */
     protected $next;
+    /**
+     * the result of the handling of a message if needed.
+     *
+     * @var mixed
+     */
     protected $result;
 
+    /**
+     * Do somenthing with the Message. Usually pass it to a Message Handler.
+     *
+     * @param Message $message
+     */
     abstract public function execute(Message $message);
 
     /**
      * Processes the command and pass it along to the next worker in the chain.
+     * If a.
      *
      * @param Message $message
      */
@@ -41,6 +61,9 @@ abstract class MessageWorker
         $this->next->chain($next);
     }
 
+    /**
+     * @return bool true if this is the last Worker in the CoR
+     */
     protected function isTheLastWorkerInChain()
     {
         return !$this->next;

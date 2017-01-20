@@ -28,7 +28,7 @@ monolog:
         events:
             type: rotating_file
             path: "%kernel.logs_dir%/prod.events.log"
-            level: info
+            level: debug
             channels: [messageBus]
 swiftmailer:
     username:  '%mailer_user%'

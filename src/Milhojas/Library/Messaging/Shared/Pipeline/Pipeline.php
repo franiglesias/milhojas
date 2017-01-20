@@ -2,19 +2,11 @@
 
 namespace Milhojas\Library\Messaging\Shared\Pipeline;
 
-use Milhojas\Library\Messaging\Shared\Message;
+use Milhojas\Library\Messaging\Shared\Worker\Worker;
 
 /**
  * Acts ad the MessageBus execution engine.
  */
-interface Pipeline
+interface Pipeline extends Worker
 {
-    /**
-     * Executes the pipeline passing the $message to all the workers in order.
-     *
-     * @param Message $message
-     *
-     * @return mixed null for Command and Event, the Response for Query
-     */
-    public function work(Message $message);
 }

@@ -8,7 +8,7 @@ use Milhojas\Library\Messaging\Shared\Message;
  * A message Worker does something with the Message or about it
  * MessageWorkers can be chained in a Pipeline.
  */
-abstract class MessageWorker
+abstract class MessageWorker implements Worker
 {
     /**
      * the MessageWorker to which pass the Message when I am finished.

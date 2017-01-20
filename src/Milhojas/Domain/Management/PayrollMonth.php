@@ -48,7 +48,7 @@ class PayrollMonth
     private function isValidYear($year)
     {
         $current = (new \DateTime())->format('Y');
-        if ($current > $year) {
+        if ($current - 1 > $year) {
             throw new \InvalidArgumentException(sprintf('%s is not a valid year.', $year));
         }
     }

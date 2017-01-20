@@ -77,7 +77,7 @@ services:
     # CommandBus Services
 
     commandbus.broadcast_event.handler:
-        class:          Milhojas\Library\Messaging\CommandBus\Command\BroadcastListener
+        class:          Milhojas\Library\Messaging\CommandBus\Command\BroadcastEventListener
         arguments:      ['@event_recorder']
 
     command_bus_pipeline:

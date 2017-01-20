@@ -22,7 +22,7 @@ class PayrollType extends AbstractType
                      new All(array(
                          'constraints' => array(
                              new File(array(
-                                 'maxSize' => 6000000,
+                                 'maxSize' => 60000000,
                              )),
                          ),
                      )),

@@ -2,7 +2,7 @@
 
 namespace Milhojas\Domain\Cantine\Event;
 
-use Milhojas\Library\Messaging\EventBus\Event;
+use Milhojas\Messaging\EventBus\Event;
 
 /**
  * Represents that Cantine Assignemente was performed for specified date.

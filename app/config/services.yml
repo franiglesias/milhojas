@@ -46,30 +46,30 @@ services:
         arguments:      ["@event_store"]
 
     event_recorder:
-        class:          Milhojas\Library\Messaging\EventBus\EventRecorder
+        class:          Milhojas\Messaging\EventBus\EventRecorder
 
 
     # Message shared services
 
     loader:
-        class:          Milhojas\Library\Messaging\Shared\Loader\SymfonyContainerLoader
+        class:          Milhojas\Messaging\Shared\Loader\SymfonyContainerLoader
         calls:
             - ['setContainer', ['@service_container']]
 
     service_inflector:
-        class:          Milhojas\Library\Messaging\Shared\Inflector\SymfonyContainerInflector
+        class:          Milhojas\Messaging\Shared\Inflector\SymfonyContainerInflector
 
     handler_inflector:
-        class:          Milhojas\Library\Messaging\Shared\Inflector\HandlerInflector
+        class:          Milhojas\Messaging\Shared\Inflector\HandlerInflector
 
     # Message Buses shared workers
 
     event_bus_worker:
-        class:          Milhojas\Library\Messaging\Shared\Worker\DispatchEventsWorker
+        class:          Milhojas\Messaging\Shared\Worker\DispatchEventsWorker
         arguments:      ['@event_bus', '@event_recorder']
 
     logger_worker:
-        class:          Milhojas\Library\Messaging\Shared\Worker\LoggerWorker
+        class:          Milhojas\Messaging\Shared\Worker\LoggerWorker
         arguments:      ['@logger']
         tags:
             - { name: monolog.logger, channel: messageBus }
@@ -77,41 +77,41 @@ services:
     # CommandBus Services
 
     commandbus.broadcast_event.handler:
-        class:          Milhojas\Library\Messaging\CommandBus\Command\BroadcastEventListener
+        class:          Milhojas\Messaging\CommandBus\Command\BroadcastEventListener
         arguments:      ['@event_recorder']
 
     command_bus_pipeline:
-        class:          Milhojas\Library\Messaging\Shared\Pipeline\WorkerPipeline
+        class:          Milhojas\Messaging\Shared\Pipeline\WorkerPipeline
         arguments:      [["@executer_bus_worker", '@event_bus_worker']]
 
     command_bus:
-        class:          Milhojas\Library\Messaging\CommandBus\CommandBus
+        class:          Milhojas\Messaging\CommandBus\CommandBus
         arguments:      ['@command_bus_pipeline']
 
     # CommandBus Workers
 
     executer_bus_worker:
-        class:          Milhojas\Library\Messaging\CommandBus\Worker\ExecuteWorker
+        class:          Milhojas\Messaging\CommandBus\Worker\ExecuteWorker
         arguments:      ["@loader", "@service_inflector"]
 
     # QueryBus
 
     query_worker:
-        class:          Milhojas\Library\Messaging\QueryBus\Worker\QueryWorker
+        class:          Milhojas\Messaging\QueryBus\Worker\QueryWorker
         arguments:      ['@loader', '@service_inflector']
 
     query_bus_pipeline:
-        class:          Milhojas\Library\Messaging\Shared\Pipeline\WorkerPipeline
+        class:          Milhojas\Messaging\Shared\Pipeline\WorkerPipeline
         arguments:      [['@query_worker', '@logger_worker']]
 
     query_bus:
-        class:          Milhojas\Library\Messaging\QueryBus\QueryBus
+        class:          Milhojas\Messaging\QueryBus\QueryBus
         arguments:      ['@query_bus_pipeline']
 
 
 # EventBus
     listener_loader:
-        class:           Milhojas\Library\Messaging\EventBus\Loader\ListenerLoader
+        class:           Milhojas\Messaging\EventBus\Loader\ListenerLoader
         calls:
             # Management
             - ['addListener', ['management.payroll_distribution_started.event', '@management.payroll_progress.resetter'] ]
@@ -127,15 +127,15 @@ services:
             - ['addListener', ['contents.post_was_updated', '@contents.post_list.projector'] ]
 
     dispatcher_worker:
-        class:          Milhojas\Library\Messaging\EventBus\Worker\DispatcherWorker
+        class:          Milhojas\Messaging\EventBus\Worker\DispatcherWorker
         arguments:      ['@listener_loader']
 
     event_bus_pipeline:
-        class:         Milhojas\Library\Messaging\Shared\Pipeline\WorkerPipeline
+        class:         Milhojas\Messaging\Shared\Pipeline\WorkerPipeline
         arguments:     [['@dispatcher_worker', '@logger_worker']]
 
     event_bus:
-        class:          Milhojas\Library\Messaging\EventBus\EventBus
+        class:          Milhojas\Messaging\EventBus\EventBus
         arguments:      ['@event_bus_pipeline']
 
 # HWI Oauth Bundle needs this, we could need another provider

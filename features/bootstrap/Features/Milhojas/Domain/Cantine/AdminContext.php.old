@@ -21,7 +21,7 @@ use Milhojas\Domain\Shared\ClassGroup;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Domain\Utils\Schedule\MonthWeekSchedule;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
-use Milhojas\Library\Messaging\EventBus\EventRecorder;
+use Milhojas\Messaging\EventBus\EventRecorder;
 use Milhojas\LIbrary\ValueObjects\Identity\Person;
 use org\bovigo\vfs\vfsStream;
 use Prophecy\Prophet;

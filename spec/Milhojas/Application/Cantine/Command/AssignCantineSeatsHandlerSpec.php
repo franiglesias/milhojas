@@ -6,7 +6,7 @@ use Milhojas\Application\Cantine\Command\AssignCantineSeats;
 use Milhojas\Application\Cantine\Command\AssignCantineSeatsHandler;
 use Milhojas\Domain\Cantine\Assigner;
 use Milhojas\Domain\Cantine\CantineUserRepository;
-use Milhojas\Library\Messaging\CommandBus\CommandHandler;
+use Milhojas\Messaging\CommandBus\CommandHandler;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 

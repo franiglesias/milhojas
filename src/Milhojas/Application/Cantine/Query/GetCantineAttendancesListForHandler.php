@@ -7,8 +7,8 @@ use Milhojas\Domain\Cantine\Assigner;
 use Milhojas\Domain\Cantine\CantineList\CantineList;
 use Milhojas\Domain\Cantine\CantineList\CantineSeatRepository;
 use Milhojas\Domain\Cantine\Specification\CantineSeatForDate;
-use Milhojas\Library\Messaging\QueryBus\Query;
-use Milhojas\Library\Messaging\QueryBus\QueryHandler;
+use Milhojas\Messaging\QueryBus\Query;
+use Milhojas\Messaging\QueryBus\QueryHandler;
 
 class GetCantineAttendancesListForHandler implements QueryHandler
 {

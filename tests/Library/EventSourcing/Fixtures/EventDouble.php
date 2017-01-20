@@ -2,7 +2,7 @@
 
 namespace Tests\Library\EventSourcing\Fixtures;
 
-use Milhojas\Library\Messaging\EventBus\Event;
+use Milhojas\Messaging\EventBus\Event;
 
 /**
 * Description

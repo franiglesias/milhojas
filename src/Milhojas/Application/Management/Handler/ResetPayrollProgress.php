@@ -2,8 +2,8 @@
 
 namespace Milhojas\Application\Management\Handler;
 
-use Milhojas\Library\Messaging\EventBus\Listener;
-use Milhojas\Library\Messaging\EventBus\Event;
+use Milhojas\Messaging\EventBus\Listener;
+use Milhojas\Messaging\EventBus\Event;
 
 /**
  * Resets Payroll Distribution Progress exchange file.

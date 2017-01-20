@@ -8,7 +8,7 @@ use Milhojas\Domain\Cantine\CantineList\CantineSeat;
 use Milhojas\Domain\Cantine\Event\UserWasAssignedToCantineTurn;
 use Milhojas\Application\Cantine\Listener\AddUserToCantineList;
 use Milhojas\Domain\Cantine\CantineList\CantineSeatRepository;
-use Milhojas\Library\Messaging\EventBus\Listener;
+use Milhojas\Messaging\EventBus\Listener;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 

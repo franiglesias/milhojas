@@ -2,8 +2,8 @@
 
 namespace Milhojas\Application\Contents\Reporter;
 
-use Milhojas\Library\Messaging\EventBus\Reporter\EmailReporter;
-use Milhojas\Library\Messaging\EventBus\Event;
+use Milhojas\Messaging\EventBus\Reporter\EmailReporter;
+use Milhojas\Messaging\EventBus\Event;
 /**
 * Responds to PostWasUpdated Event
 * 

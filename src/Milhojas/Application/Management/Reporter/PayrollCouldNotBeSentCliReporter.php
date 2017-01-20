@@ -2,8 +2,8 @@
 
 namespace Milhojas\Application\Management\Reporter;
 
-use Milhojas\Library\Messaging\EventBus\Event;
-use Milhojas\Library\Messaging\EventBus\Reporter\CliReporter;
+use Milhojas\Messaging\EventBus\Event;
+use Milhojas\Messaging\EventBus\Reporter\CliReporter;
 /**
 * Handles the event that payroll could not be sent and reports via CLI
 */

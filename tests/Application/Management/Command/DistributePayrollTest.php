@@ -47,13 +47,13 @@ class DistributePayrollTest extends CommandScenario
         $this->sending($command)
             ->toHandler($handler)
             ->sendsCommand('Milhojas\Application\Management\Command\SendPayroll', 3)
-            ->sendsCommand('Milhojas\Library\Messaging\CommandBus\Command\BroadcastEvent', 2)
+            ->sendsCommand('Milhojas\Messaging\CommandBus\Command\BroadcastEvent', 2)
             ->producesCommandHistory([
-                'Milhojas\Library\Messaging\CommandBus\Command\BroadcastEvent',
+                'Milhojas\Messaging\CommandBus\Command\BroadcastEvent',
                 'Milhojas\Application\Management\Command\SendPayroll',
                 'Milhojas\Application\Management\Command\SendPayroll',
                 'Milhojas\Application\Management\Command\SendPayroll',
-                'Milhojas\Library\Messaging\CommandBus\Command\BroadcastEvent',
+                'Milhojas\Messaging\CommandBus\Command\BroadcastEvent',
             ])
         ;
     }

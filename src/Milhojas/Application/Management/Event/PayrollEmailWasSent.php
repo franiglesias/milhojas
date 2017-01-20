@@ -2,7 +2,7 @@
 
 namespace Milhojas\Application\Management\Event;
 
-use Milhojas\Library\Messaging\EventBus\Event;
+use Milhojas\Messaging\EventBus\Event;
 use Milhojas\Domain\Management\Employee;
 use Milhojas\Library\ValueObjects\Misc\Progress;
 

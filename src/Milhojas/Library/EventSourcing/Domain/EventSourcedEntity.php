@@ -2,7 +2,7 @@
 
 namespace Milhojas\Library\EventSourcing\Domain;
 
-use Milhojas\Library\Messaging\EventBus\Event;
+use Milhojas\Messaging\EventBus\Event;
 
 use Milhojas\Library\EventSourcing\Domain\EventSourced;
 use Milhojas\Library\EventSourcing\DTO\EntityDTO;

@@ -4,7 +4,7 @@ namespace Milhojas\Domain\Cantine\Event;
 
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Domain\Cantine\CantineUser;
-use Milhojas\Library\Messaging\EventBus\Event;
+use Milhojas\Messaging\EventBus\Event;
 
 /**
  * Notifies to Listeners that a Cantine User bought one or more tickets

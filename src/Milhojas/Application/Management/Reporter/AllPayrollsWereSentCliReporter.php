@@ -2,8 +2,8 @@
 
 namespace Milhojas\Application\Management\Reporter;
 
-use Milhojas\Library\Messaging\EventBus\Reporter\CliReporter;
-use Milhojas\Library\Messaging\EventBus\Event;
+use Milhojas\Messaging\EventBus\Reporter\CliReporter;
+use Milhojas\Messaging\EventBus\Event;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Input\StringInput;
 /**

@@ -2,7 +2,7 @@
 
 namespace Milhojas\Application\Cantine\Command;
 
-use Milhojas\Library\Messaging\CommandBus\Command;
+use Milhojas\Messaging\CommandBus\Command;
 
 /**
  * Process CantineUsers and assign the seats for the specified date.

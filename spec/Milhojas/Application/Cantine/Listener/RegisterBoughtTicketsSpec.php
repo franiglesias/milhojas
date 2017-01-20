@@ -7,7 +7,7 @@ use Milhojas\Domain\Cantine\Event\CantineUserBoughtTickets;
 use Milhojas\Domain\Cantine\TicketRegistrar;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
-use Milhojas\Library\Messaging\EventBus\Listener;
+use Milhojas\Messaging\EventBus\Listener;
 use PhpSpec\ObjectBehavior;
 
 class RegisterBoughtTicketsSpec extends ObjectBehavior

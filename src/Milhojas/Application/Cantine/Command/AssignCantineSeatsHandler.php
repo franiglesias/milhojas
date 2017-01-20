@@ -5,8 +5,8 @@ namespace Milhojas\Application\Cantine\Command;
 use Milhojas\Domain\Cantine\Assigner;
 use Milhojas\Domain\Cantine\CantineUserRepository;
 use Milhojas\Domain\Cantine\Specification\CantineUserEatingOnDate;
-use Milhojas\Library\Messaging\CommandBus\CommandHandler;
-use Milhojas\Library\Messaging\CommandBus\Command;
+use Milhojas\Messaging\CommandBus\CommandHandler;
+use Milhojas\Messaging\CommandBus\Command;
 
 class AssignCantineSeatsHandler implements CommandHandler
 {

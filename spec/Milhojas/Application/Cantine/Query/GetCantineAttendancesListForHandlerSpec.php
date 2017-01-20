@@ -7,7 +7,7 @@ use Milhojas\Application\Cantine\Query\GetCantineAttendancesListForHandler;
 use Milhojas\Domain\Cantine\CantineList\CantineList;
 use Milhojas\Domain\Cantine\CantineList\CantineSeatRepository;
 use Milhojas\Domain\Cantine\Specification\CantineSeatForDate;
-use Milhojas\Library\Messaging\QueryBus\QueryHandler;
+use Milhojas\Messaging\QueryBus\QueryHandler;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 

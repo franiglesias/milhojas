@@ -2,7 +2,7 @@
 
 namespace Milhojas\Library\Messaging\QueryBus;
 
-use Milhojas\Library\Messaging\Shared\Pipeline\Pipeline;
+use Milhojas\Library\Messaging\Shared\Worker\Worker;
 
 /**
  * It is a mechanism to perform Queries, it returns answers to them.
@@ -11,7 +11,7 @@ class QueryBus
 {
     private $pipeline;
 
-    public function __construct(Pipeline $pipeline)
+    public function __construct(Worker $pipeline)
     {
         $this->pipeline = $pipeline;
     }

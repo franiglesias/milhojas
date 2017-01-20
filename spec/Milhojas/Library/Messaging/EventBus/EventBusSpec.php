@@ -3,11 +3,12 @@
 namespace spec\Milhojas\Library\Messaging\EventBus;
 
 use Milhojas\Library\Messaging\EventBus\Event;
-use Milhojas\Library\Messaging\EventBus\NewEventBus;
+use Milhojas\Library\Messaging\EventBus\EventBus;
 use Milhojas\Library\Messaging\Shared\Pipeline\Pipeline;
+use Milhojas\Library\Messaging\Shared\Worker\Worker;
 use PhpSpec\ObjectBehavior;
 
-class NewEventBusSpec extends ObjectBehavior
+class EventBusSpec extends ObjectBehavior
 {
     public function let(Pipeline $pipeline)
     {
@@ -15,12 +16,19 @@ class NewEventBusSpec extends ObjectBehavior
     }
     public function it_is_initializable()
     {
-        $this->shouldHaveType(NewEventBus::class);
+        $this->shouldHaveType(EventBus::class);
     }
 
     public function it_dispatches_events_through_the_pipeline(Event $event, $pipeline)
     {
         $pipeline->work($event)->shouldBeCalled();
+        $this->dispatch($event);
+    }
+
+    public function it_accepts_a_unique_worker(Worker $worker, Event $event)
+    {
+        $this->beConstructedWith($worker);
+        $worker->work($event)->shouldBeCalled();
         $this->dispatch($event);
     }
 }

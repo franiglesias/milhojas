@@ -2,7 +2,6 @@
 
 namespace Milhojas\Library\Messaging\EventBus;
 
-use Milhojas\Library\Messaging\Shared\Pipeline\Pipeline;
 use Milhojas\Library\Messaging\Shared\Worker\Worker;
 
 class EventBus

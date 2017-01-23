@@ -40,6 +40,10 @@ services:
         class:          Milhojas\Application\Management\Handler\ResetPayrollProgress
         arguments:      ['var/exchange/management-payroll-reporter.json']
 
+    management.register_employee_without_payroll.listener:
+        class:          Milhojas\Application\Management\Listener\RegisterEmployeeNoPayroll
+        arguments:      ['no-payroll-found.data', '@local_exchange.fs']
+
     # Repositories
 
     management.staff:

@@ -12,7 +12,7 @@ parameters:
     database_test_user: test
 
     upload_inbox: '%kernel.root_dir%/../var/inbox'
-
+    exchange_path: '%kernel.root_dir%/../var/exchange'
     mailer_transport:  smtp
     mailer_host:       127.0.0.1
     mailer_user:       ~

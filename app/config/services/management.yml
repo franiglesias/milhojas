@@ -28,10 +28,6 @@ services:
         class:          Milhojas\Application\Management\Reporter\PayrollWasNotSentCliReporter
         arguments:      ['@cli.output']
 
-    management.all_payrolls_were_sent.email.reporter:
-        class:          Milhojas\Application\Management\Reporter\AllPayrollsWereSentEmailReporter
-        arguments:      ['@milhojas.mailer', '%payroll.sender%', '%payroll.report%', 'AppBundle:Management:all_payrolls.sent.email.twig']
-
     management.payroll_sending_complete.reporter:
         class:          Milhojas\Application\Management\Listener\PayrollSendingCompleteReporter
         arguments:      ['no-payroll-found.data', '@local_exchange.fs', '@milhojas.mailer', '%payroll.sender%', '%payroll.report%', 'AppBundle:Management:payroll.completed.email.twig']

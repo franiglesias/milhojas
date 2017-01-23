@@ -13,7 +13,15 @@ services:
 
     # in_memory_storage_driver:
     #     class:          Milhojas\Infrastructure\Persistence\Storage\Drivers\InMemoryStorageDriver
+    # Flysystem
 
+    local_exchange.adapter:
+        class:          League\Flysystem\Adapter\Local
+        arguments:      ['%exchange_path%']
+
+    local_exchange.fs:
+        class:          League\Flysystem\Filesystem
+        arguments:      ['@local_exchange.adapter']
 
     # Mailer
     milhojas.templating.engine:
@@ -117,8 +125,8 @@ services:
             - ['addListener', ['management.payroll_distribution_started.event', '@management.payroll_progress.resetter'] ]
             - ['addListeners', ['management.payroll_email_was_sent.event', ['@management.payroll_progress.reporter', '@management.payroll_was_sent.cli.reporter']]]
             - ['addListeners', ['management.payroll_email_could_not_be_sent.event', ['@management.payroll_progress.reporter', '@management.email_was_not_sent.cli.reporter']]]
-            - ['addListeners', ['management.payroll_could_not_be_found.event', ['@management.payroll_could_not_be_sent.cli.reporter', '@management.payroll_progress.reporter']]]
-            - ['addListeners', ['management.all_payrolls_were_sent.event', ['@management.all_payrolls_were_sent.email.reporter','@management.all_payrolls_were_sent.cli.reporter','@management.payroll_progress.resetter']]]
+            - ['addListeners', ['management.payroll_could_not_be_found.event', ['@management.payroll_could_not_be_sent.cli.reporter', '@management.payroll_progress.reporter', '@management.register_employee_without_payroll.listener']]]
+            - ['addListeners', ['management.all_payrolls_were_sent.event', ['@management.payroll_sending_complete.reporter', '@management.payroll_progress.resetter']]]
 
             # Contents
             - ['addListener', ['contents.new_post_was_written', '@contents.post_created.reporter'] ]

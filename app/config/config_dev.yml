@@ -37,4 +37,5 @@ monolog:
         #    level:  info
 
 swiftmailer:
-    delivery_address: frankie@miralba.org
+    disable_delivery: false
+    delivery_address: frankie+dev@miralba.org

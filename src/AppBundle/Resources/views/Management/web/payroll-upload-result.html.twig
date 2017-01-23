@@ -165,7 +165,8 @@
             }
 
             this.update = function() {
-                $.getJSON("{{ path('exchange', {'file': 'management-payroll-reporter'}) }}", function(data) {}).done(function(data) {
+                $.getJSON("{{ path('exchange', {'file': 'management-payroll-reporter'}) }}")
+                .done(function(data) {
                     results.message.run();
                     results.progress.update(data);
                     if (results.progress.notStarted()) {
@@ -181,8 +182,10 @@
                         $('#allow-new').fadeIn("slow");
                     }
                 }).fail(function(data) {
+                    results.progress.update(data);
                     setTimeout(results.update, 1000);
-                }).always();
+                }).always(function(data){
+                });
             }
 
         };

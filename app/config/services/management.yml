@@ -32,6 +32,10 @@ services:
         class:          Milhojas\Application\Management\Reporter\AllPayrollsWereSentEmailReporter
         arguments:      ['@milhojas.mailer', '%payroll.sender%', '%payroll.report%', 'AppBundle:Management:all_payrolls.sent.email.twig']
 
+    management.payroll_sending_complete.reporter:
+        class:          Milhojas\Application\Management\Listener\PayrollSendingCompleteReporter
+        arguments:      ['no-payroll-found.data', '@local_exchange.fs', '@milhojas.mailer', '%payroll.sender%', '%payroll.report%', 'AppBundle:Management:payroll.completed.email.twig']
+
     management.payroll_progress.reporter:
         class:          Milhojas\Application\Management\Reporter\PayrollProgressReporter
         arguments:      ['var/exchange/management-payroll-reporter.json']
@@ -41,7 +45,7 @@ services:
         arguments:      ['var/exchange/management-payroll-reporter.json']
 
     management.register_employee_without_payroll.listener:
-        class:          Milhojas\Application\Management\Listener\RegisterEmployeeNoPayroll
+        class:          Milhojas\Application\Management\Listener\RegisterEmployeeWithoutPayroll
         arguments:      ['no-payroll-found.data', '@local_exchange.fs']
 
     # Repositories

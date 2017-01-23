@@ -6,7 +6,7 @@ use League\Flysystem\FilesystemInterface;
 use Milhojas\Messaging\EventBus\Listener;
 use Milhojas\Messaging\EventBus\Event;
 
-class RegisterEmployeeNoPayroll implements Listener
+class RegisterEmployeeWithoutPayroll implements Listener
 {
     /**
      * Path to the buffer file to store partial data.

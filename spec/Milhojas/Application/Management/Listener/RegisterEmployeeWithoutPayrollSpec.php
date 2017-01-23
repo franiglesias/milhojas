@@ -4,12 +4,12 @@ namespace spec\Milhojas\Application\Management\Listener;
 
 use League\Flysystem\FilesystemInterface;
 use Milhojas\Application\Management\Event\PayrollCouldNotBeFound;
-use Milhojas\Application\Management\Listener\RegisterEmployeeNoPayroll;
+use Milhojas\Application\Management\Listener\RegisterEmployeeWithoutPayroll;
 use Milhojas\Domain\Management\Employee;
 use Milhojas\Messaging\EventBus\Listener;
 use PhpSpec\ObjectBehavior;
 
-class RegisterEmployeeNoPayrollSpec extends ObjectBehavior
+class RegisterEmployeeWithoutPayrollSpec extends ObjectBehavior
 {
     public function let(FilesystemInterface $filesystem)
     {
@@ -17,7 +17,7 @@ class RegisterEmployeeNoPayrollSpec extends ObjectBehavior
     }
     public function it_is_initializable()
     {
-        $this->shouldHaveType(RegisterEmployeeNoPayroll::class);
+        $this->shouldHaveType(RegisterEmployeeWithoutPayroll::class);
         $this->shouldImplement(Listener::class);
     }
 

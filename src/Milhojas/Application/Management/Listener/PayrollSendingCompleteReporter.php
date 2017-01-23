@@ -17,10 +17,6 @@ class PayrollSendingCompleteReporter extends EmailReporter
      * @var FilesystemInterface
      */
     private $fs;
-    /**
-     * @var EmailReporter
-     */
-    private $reporter;
 
     /**
      * @param string              $file

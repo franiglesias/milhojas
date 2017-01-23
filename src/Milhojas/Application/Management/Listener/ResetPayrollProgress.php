@@ -1,15 +1,15 @@
 <?php
 
-namespace Milhojas\Application\Management\Reporter;
+namespace Milhojas\Application\Management\Listener;
 
 use League\Flysystem\FilesystemInterface;
 use Milhojas\Messaging\EventBus\Listener;
 use Milhojas\Messaging\EventBus\Event;
 
 /**
- * Writes Payroll Distribution Progress to the json file specified in the constructor.
+ * Resets Payroll Distribution Progress exchange file.
  */
-class PayrollProgressReporter implements Listener
+class ResetPayrollProgress implements Listener
 {
     /**
      * @var string
@@ -19,14 +19,15 @@ class PayrollProgressReporter implements Listener
      * @var FilesystemInterface
      */
     private $fs;
+
     public function __construct($file, FilesystemInterface $fs)
     {
-        $this->fs = $fs;
         $this->file = $file;
+        $this->fs = $fs;
     }
 
     public function handle(Event $event)
     {
-        $this->fs->put($this->file, $event->getProgressDataAsJson());
+        $this->fs->put($this->file, '');
     }
 }

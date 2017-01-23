@@ -34,11 +34,11 @@ services:
 
     management.payroll_progress.reporter:
         class:          Milhojas\Application\Management\Reporter\PayrollProgressReporter
-        arguments:      ['var/exchange/management-payroll-reporter.json']
+        arguments:      ['management-payroll-reporter.json', '@local_exchange.fs']
 
     management.payroll_progress.resetter:
-        class:          Milhojas\Application\Management\Handler\ResetPayrollProgress
-        arguments:      ['var/exchange/management-payroll-reporter.json']
+        class:          Milhojas\Application\Management\Listener\ResetPayrollProgress
+        arguments:      ['management-payroll-reporter.json', '@local_exchange.fs']
 
     management.register_employee_without_payroll.listener:
         class:          Milhojas\Application\Management\Listener\RegisterEmployeeWithoutPayroll

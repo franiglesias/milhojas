@@ -7,7 +7,6 @@ use Milhojas\Application\Management\Event\PayrollDistributionStarted;
 use Milhojas\Messaging\CommandBus\CommandHandler;
 use Milhojas\Messaging\CommandBus\Command;
 use Milhojas\Messaging\EventBus\EventRecorder;
-use Vich\UploaderBundle\Storage\FileSystemStorage;
 
 class StartPayrollHandler implements CommandHandler
 {

@@ -3,6 +3,7 @@
 namespace Milhojas\Application\Management\Command;
 
 use League\Flysystem\FilesystemInterface;
+use Milhojas\Application\Management\Event\PayrollDistributionStarted;
 use Milhojas\Messaging\CommandBus\CommandHandler;
 use Milhojas\Messaging\CommandBus\Command;
 use Milhojas\Messaging\EventBus\EventRecorder;
@@ -49,5 +50,6 @@ class StartPayrollHandler implements CommandHandler
     public function handle(Command $command)
     {
         $this->fs->put($this->file, '');
+        $this->recorder->recordThat(new PayrollDistributionStarted($command->getProgress()));
     }
 }

@@ -21,7 +21,7 @@ class ResetPayrollProgressSpec extends ObjectBehavior
 
     public function it_handles_AllPayrollsWereSent_event(AllPayrollsWereSent $event, $fs)
     {
-        $fs->put('management-payroll-reporter.json', '')->shouldBeCalled();
+        $fs->delete('management-payroll-reporter.json')->shouldBeCalled();
         $this->handle($event);
     }
 }

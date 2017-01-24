@@ -64,6 +64,14 @@ services:
         class:          Milhojas\Application\Management\Command\DistributePayrollHandler
         arguments:      ['@management.staff', '%payroll.sender%', '@command_bus']
 
+    management.start_payroll.handler:
+        class:          Milhojas\Application\Management\Command\StartPayrollHandler
+        arguments:      ['management-payroll-reporter.json', '@local_exchange.fs', '@event_recorder']
+
+    management.end_payroll.handler:
+        class:          Milhojas\Application\Management\Command\EndPayrollHandler
+        arguments:      ['management-payroll-reporter.json', '@local_exchange.fs', '@event_recorder']
+
 
 # Payroll command
     payroll_month:

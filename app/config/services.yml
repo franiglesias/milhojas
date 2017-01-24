@@ -9,16 +9,19 @@ parameters:
 services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+#        arguments: ['@another_service_name', 'plain_value', '%parameter_name%']
 
     # in_memory_storage_driver:
     #     class:          Milhojas\Infrastructure\Persistence\Storage\Drivers\InMemoryStorageDriver
+
     # Flysystem
+    # Local filesystem adapter tied to the exchange path
 
     local_exchange.adapter:
         class:          League\Flysystem\Adapter\Local
         arguments:      ['%exchange_path%']
 
+    # Local filesystem for data exchanges and buffers
     local_exchange.fs:
         class:          League\Flysystem\Filesystem
         arguments:      ['@local_exchange.adapter']
@@ -47,13 +50,16 @@ services:
 
     event_store:
         class:          Milhojas\Library\EventSourcing\EventStore\DoctrineEventStore
-        arguments:      ["@doctrine.orm.entity_manager"]
+        arguments:      ['@doctrine.orm.entity_manager']
 
     event_sourcing_repository:
         class:          Milhojas\Infrastructure\Persistence\Storage\EventSourcingStorage
-        arguments:      ["@event_store"]
+        arguments:      ['@event_store']
 
     event_recorder:
+        class:          Milhojas\Messaging\EventBus\EventRecorder
+
+    worker_event_recorder:
         class:          Milhojas\Messaging\EventBus\EventRecorder
 
 
@@ -90,7 +96,7 @@ services:
 
     command_bus_pipeline:
         class:          Milhojas\Messaging\Shared\Pipeline\WorkerPipeline
-        arguments:      [["@executer_bus_worker", '@event_bus_worker']]
+        arguments:      [['@executer_bus_worker', '@logger_worker', '@event_bus_worker']]
 
     command_bus:
         class:          Milhojas\Messaging\CommandBus\CommandBus
@@ -100,7 +106,7 @@ services:
 
     executer_bus_worker:
         class:          Milhojas\Messaging\CommandBus\Worker\ExecuteWorker
-        arguments:      ["@loader", "@service_inflector"]
+        arguments:      ['@loader', '@service_inflector']
 
     # QueryBus
 

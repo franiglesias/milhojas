@@ -2,7 +2,7 @@
 
 namespace Milhojas\Application\Management\Listener;
 
-use League\Flysystem\FilesystemInterface;
+use Milhojas\Application\Management\PayrollProgressExchange;
 use Milhojas\Messaging\EventBus\Listener;
 use Milhojas\Messaging\EventBus\Event;
 
@@ -12,22 +12,17 @@ use Milhojas\Messaging\EventBus\Event;
 class ResetPayrollProgress implements Listener
 {
     /**
-     * @var string
+     * @var PayrollProgressExchange
      */
-    private $file;
-    /**
-     * @var FilesystemInterface
-     */
-    private $fs;
+    private $exchanger;
 
-    public function __construct($file, FilesystemInterface $fs)
+    public function __construct(PayrollProgressExchange $exchanger)
     {
-        $this->file = $file;
-        $this->fs = $fs;
+        $this->exchanger = $exchanger;
     }
 
     public function handle(Event $event)
     {
-        $this->fs->delete($this->file);
+        $this->exchanger->reset();
     }
 }

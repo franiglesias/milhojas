@@ -23,10 +23,13 @@ services:
         class:          Milhojas\Application\Management\Reporter\AllPayrollsWereSentCliReporter
         arguments:      ['@cli.output']
 
-
     management.email_was_not_sent.cli.reporter:
         class:          Milhojas\Application\Management\Reporter\PayrollWasNotSentCliReporter
         arguments:      ['@cli.output']
+
+    management.payroll_reporter_exchange:
+        class:          Milhojas\Application\Management\PayrollProgressExchange
+        arguments:      ['management-payroll-reporter.json', '@local_exchange.fs']
 
     management.payroll_sending_complete.reporter:
         class:          Milhojas\Application\Management\Listener\PayrollSendingCompleteReporter
@@ -38,7 +41,7 @@ services:
 
     management.payroll_progress.resetter:
         class:          Milhojas\Application\Management\Listener\ResetPayrollProgress
-        arguments:      ['management-payroll-reporter.json', '@local_exchange.fs']
+        arguments:      ['@management.payroll_reporter_exchange']
 
     management.register_employee_without_payroll.listener:
         class:          Milhojas\Application\Management\Listener\RegisterEmployeeWithoutPayroll
@@ -66,7 +69,7 @@ services:
 
     management.start_payroll.handler:
         class:          Milhojas\Application\Management\Command\StartPayrollHandler
-        arguments:      ['management-payroll-reporter.json', '@local_exchange.fs', '@event_recorder']
+        arguments:      ['@management.payroll_reporter_exchange', '@event_recorder']
 
     management.end_payroll.handler:
         class:          Milhojas\Application\Management\Command\EndPayrollHandler

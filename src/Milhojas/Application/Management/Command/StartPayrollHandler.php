@@ -3,6 +3,7 @@
 namespace Milhojas\Application\Management\Command;
 
 use League\Flysystem\FilesystemInterface;
+use Milhojas\Application\Management\PayrollProgressExchange;
 use Milhojas\Application\Management\Event\PayrollDistributionStarted;
 use Milhojas\Messaging\CommandBus\CommandHandler;
 use Milhojas\Messaging\CommandBus\Command;
@@ -11,18 +12,11 @@ use Milhojas\Messaging\EventBus\EventRecorder;
 class StartPayrollHandler implements CommandHandler
 {
     /**
-     * File to start.
+     * PayrollProgressExchange.
      *
-     * @var string
+     * @var PayrollProgressExchange
      */
-    private $file;
-
-    /**
-     * FileSystemStorage.
-     *
-     * @var FilesystemInterface
-     */
-    private $fs;
+    private $exchanger;
     /**
      * Event recorder.
      *
@@ -34,13 +28,9 @@ class StartPayrollHandler implements CommandHandler
      * @param FilesystemInterface $fs
      * @param EventRecorder       $recorder
      */
-    public function __construct(
-        $file,
-        FilesystemInterface $fs,
-        EventRecorder $recorder
+    public function __construct(PayrollProgressExchange $exchanger, EventRecorder $recorder
     ) {
-        $this->file = $file;
-        $this->fs = $fs;
+        $this->exchanger = $exchanger;
         $this->recorder = $recorder;
     }
 
@@ -49,7 +39,7 @@ class StartPayrollHandler implements CommandHandler
      */
     public function handle(Command $command)
     {
-        $this->fs->put($this->file, '');
+        $this->exchanger->init();
         $this->recorder->recordThat(new PayrollDistributionStarted($command->getProgress()));
     }
 }

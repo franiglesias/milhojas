@@ -128,7 +128,6 @@ services:
         class:           Milhojas\Messaging\EventBus\Loader\ListenerLoader
         calls:
             # Management
-            - ['addListener', ['management.payroll_distribution_started.event', '@management.payroll_progress.resetter'] ]
             - ['addListeners', ['management.payroll_email_was_sent.event', ['@management.payroll_progress.reporter', '@management.payroll_was_sent.cli.reporter']]]
             - ['addListeners', ['management.payroll_email_could_not_be_sent.event', ['@management.payroll_progress.reporter', '@management.email_was_not_sent.cli.reporter']]]
             - ['addListeners', ['management.payroll_could_not_be_found.event', ['@management.payroll_could_not_be_sent.cli.reporter', '@management.payroll_progress.reporter', '@management.register_employee_without_payroll.listener']]]

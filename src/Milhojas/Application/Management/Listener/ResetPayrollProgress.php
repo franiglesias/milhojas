@@ -28,6 +28,6 @@ class ResetPayrollProgress implements Listener
 
     public function handle(Event $event)
     {
-        $this->fs->put($this->file, '');
+        $this->fs->delete($this->file);
     }
 }

@@ -51,8 +51,6 @@ class SendPayrollHandler implements CommandHandler
      *
      * @param Command $command
      *
-     * @return Event
-     *
      * @author Fran Iglesias
      */
     public function handle(Command $command)
@@ -71,9 +69,10 @@ class SendPayrollHandler implements CommandHandler
     /**
      * Builds and send the email message to the employee.
      *
-     * @param string $employee
-     * @param string $sender
-     * @param string $month
+     * @param Employee     $employee
+     * @param string       $sender
+     * @param array        $paths    the files to send
+     * @param PayrollMonth $month
      *
      * @return bool true on success
      *
@@ -94,8 +93,9 @@ class SendPayrollHandler implements CommandHandler
     /**
      * Gets an array of paths to the payroll documents associated to employee.
      *
-     * @param string $employee
-     * @param string $month
+     * @param Employee     $employee
+     * @param array        $paths
+     * @param PayrollMonth $month
      *
      * @return array
      *

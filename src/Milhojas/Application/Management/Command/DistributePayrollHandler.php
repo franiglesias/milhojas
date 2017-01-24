@@ -38,6 +38,7 @@ class DistributePayrollHandler implements CommandHandler
             $progress = $progress->advance();
             $this->bus->execute(new SendPayroll($employee, $command->getMonth(), $command->getPaths(), $this->sender, $progress));
         }
-        $this->bus->execute(new EndPayroll($progress, $command->getMonth()));
+
+        $this->bus->execute(new EndPayroll($command->getMonth(), $progress));
     }
 }

@@ -90,10 +90,6 @@ services:
 
     # CommandBus Services
 
-    commandbus.broadcast_event.handler:
-        class:          Milhojas\Messaging\CommandBus\Command\BroadcastEventListener
-        arguments:      ['@event_recorder']
-
     command_bus_pipeline:
         class:          Milhojas\Messaging\Shared\Pipeline\WorkerPipeline
         arguments:      [['@executer_bus_worker', '@logger_worker', '@event_bus_worker']]

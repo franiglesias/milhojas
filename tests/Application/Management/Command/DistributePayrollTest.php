@@ -8,7 +8,6 @@ use Milhojas\Application\Management\Command\DistributePayroll;
 use Milhojas\Application\Management\Command\DistributePayrollHandler;
 
 // Domain concepts
-use Milhojas\Domain\Management\Staff;
 use Milhojas\Domain\Management\PayrollMonth;
 
 // Repositories
@@ -46,14 +45,15 @@ class DistributePayrollTest extends CommandScenario
         $handler = new DistributePayrollHandler($this->staff, $this->sender, $this->bus);
         $this->sending($command)
             ->toHandler($handler)
+            ->sendsCommand('Milhojas\Application\Management\Command\StartPayroll', 1)
             ->sendsCommand('Milhojas\Application\Management\Command\SendPayroll', 3)
-            ->sendsCommand('Milhojas\Messaging\CommandBus\Command\BroadcastEvent', 2)
+            ->sendsCommand('Milhojas\Application\Management\Command\EndPayroll', 1)
             ->producesCommandHistory([
-                'Milhojas\Messaging\CommandBus\Command\BroadcastEvent',
+                'Milhojas\Application\Management\Command\StartPayroll',
                 'Milhojas\Application\Management\Command\SendPayroll',
                 'Milhojas\Application\Management\Command\SendPayroll',
                 'Milhojas\Application\Management\Command\SendPayroll',
-                'Milhojas\Messaging\CommandBus\Command\BroadcastEvent',
+                'Milhojas\Application\Management\Command\EndPayroll',
             ])
         ;
     }

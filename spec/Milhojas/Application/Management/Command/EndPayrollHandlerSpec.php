@@ -2,7 +2,6 @@
 
 namespace spec\Milhojas\Application\Management\Command;
 
-use League\Flysystem\FilesystemInterface;
 use Milhojas\Application\Management\Command\EndPayrollHandler;
 use Milhojas\Application\Management\Command\EndPayroll;
 use Milhojas\Application\Management\Event\AllPayrollsWereSent;
@@ -15,9 +14,9 @@ use Prophecy\Argument;
 
 class EndPayrollHandlerSpec extends ObjectBehavior
 {
-    public function let(FilesystemInterface $fs, EventRecorder $recorder)
+    public function let(EventRecorder $recorder)
     {
-        $this->beConstructedWith('management-payroll-reporter.json', $fs, $recorder);
+        $this->beConstructedWith($recorder);
     }
     public function it_is_initializable()
     {
@@ -25,11 +24,10 @@ class EndPayrollHandlerSpec extends ObjectBehavior
         $this->shouldImplement(CommandHandler::class);
     }
 
-    public function it_handles_EndPayroll_command(EndPayroll $command, $fs, $recorder, AllPayrollsWereSent $event, PayrollReporter $progress, PayrollMonth $month)
+    public function it_handles_EndPayroll_command(EndPayroll $command, $recorder, AllPayrollsWereSent $event, PayrollReporter $progress, PayrollMonth $month)
     {
         $command->getMonth()->shouldBeCalled()->willReturn($month);
         $command->getProgress()->shouldBeCalled()->willReturn($progress);
-        $fs->delete('management-payroll-reporter.json')->shouldBeCalled();
         $recorder->recordThat(Argument::type(AllPayrollsWereSent::class))->shouldBeCalled();
         $this->handle($command);
     }

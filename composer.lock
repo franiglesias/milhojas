@@ -1464,16 +1464,16 @@
         },
         {
             "name": "milhojas/messaging",
-            "version": "v1.0.2",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/franiglesias/messaging.git",
-                "reference": "7f8d0ffb37c80ba76dcd3b3853a9fbbe7f3a6134"
+                "reference": "e9a1e1eb1b871c35a024065d5e7fa48cecefdbec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/franiglesias/messaging/zipball/7f8d0ffb37c80ba76dcd3b3853a9fbbe7f3a6134",
-                "reference": "7f8d0ffb37c80ba76dcd3b3853a9fbbe7f3a6134",
+                "url": "https://api.github.com/repos/franiglesias/messaging/zipball/e9a1e1eb1b871c35a024065d5e7fa48cecefdbec",
+                "reference": "e9a1e1eb1b871c35a024065d5e7fa48cecefdbec",
                 "shasum": ""
             },
             "require": {
@@ -1504,7 +1504,7 @@
                 }
             ],
             "description": "A Messaging component for apps, with CommandBus, EventBus and QueryBus",
-            "time": "2017-01-25 16:41:32"
+            "time": "2017-01-26 09:34:23"
         },
         {
             "name": "mmoreram/extractor",
@@ -4413,16 +4413,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "5.7.6",
+            "version": "5.7.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "caf8141b89691498d91aaac6c82e9cd5f685ae86"
+                "reference": "e52551bbc229c6cee26c7a00deef80c2108c5b15"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/caf8141b89691498d91aaac6c82e9cd5f685ae86",
-                "reference": "caf8141b89691498d91aaac6c82e9cd5f685ae86",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/e52551bbc229c6cee26c7a00deef80c2108c5b15",
+                "reference": "e52551bbc229c6cee26c7a00deef80c2108c5b15",
                 "shasum": ""
             },
             "require": {
@@ -4491,7 +4491,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-01-22 08:39:59"
+            "time": "2017-01-25 19:19:41"
         },
         {
             "name": "phpunit/phpunit-mock-objects",

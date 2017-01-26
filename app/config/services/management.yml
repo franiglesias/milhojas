@@ -73,7 +73,7 @@ services:
 
     management.end_payroll.handler:
         class:          Milhojas\Application\Management\Command\EndPayrollHandler
-        arguments:      ['management-payroll-reporter.json', '@local_exchange.fs', '@event_recorder']
+        arguments:      ['@event_recorder']
 
 
 # Payroll command

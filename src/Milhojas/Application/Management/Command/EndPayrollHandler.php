@@ -11,19 +11,6 @@ use Milhojas\Messaging\EventBus\EventRecorder;
 class EndPayrollHandler implements CommandHandler
 {
     /**
-     * File to start.
-     *
-     * @var string
-     */
-    private $file;
-
-    /**
-     * FileSystemStorage.
-     *
-     * @var FilesystemInterface
-     */
-    private $fs;
-    /**
      * Event recorder.
      *
      * @var EventRecorder
@@ -35,12 +22,8 @@ class EndPayrollHandler implements CommandHandler
      * @param EventRecorder       $recorder
      */
     public function __construct(
-        $file,
-        FilesystemInterface $fs,
         EventRecorder $recorder
     ) {
-        $this->file = $file;
-        $this->fs = $fs;
         $this->recorder = $recorder;
     }
 
@@ -49,7 +32,6 @@ class EndPayrollHandler implements CommandHandler
      */
     public function handle(Command $command)
     {
-        $this->fs->delete($this->file);
         $this->recorder->recordThat(new AllPayrollsWereSent($command->getProgress(), $command->getMonth()));
     }
 }

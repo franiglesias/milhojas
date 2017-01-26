@@ -82,17 +82,29 @@ services:
         class:          Milhojas\Messaging\Shared\Worker\DispatchEventsWorker
         arguments:      ['@event_bus', '@event_recorder']
 
-    logger_worker:
+    event_logger_worker:
         class:          Milhojas\Messaging\Shared\Worker\LoggerWorker
         arguments:      ['@logger']
         tags:
-            - { name: monolog.logger, channel: messageBus }
+            - { name: monolog.logger, channel: eventBus }
+
+    command_logger_worker:
+        class:          Milhojas\Messaging\Shared\Worker\LoggerWorker
+        arguments:      ['@logger']
+        tags:
+            - { name: monolog.logger, channel: commandBus }
+
+    query_logger_worker:
+        class:          Milhojas\Messaging\Shared\Worker\LoggerWorker
+        arguments:      ['@logger']
+        tags:
+            - { name: monolog.logger, channel: queryBus }
 
     # CommandBus Services
 
     command_bus_pipeline:
         class:          Milhojas\Messaging\Shared\Pipeline\WorkerPipeline
-        arguments:      [['@executer_bus_worker', '@logger_worker', '@event_bus_worker']]
+        arguments:      [['@executer_bus_worker', '@command_logger_worker', '@event_bus_worker']]
 
     command_bus:
         class:          Milhojas\Messaging\CommandBus\CommandBus
@@ -112,7 +124,7 @@ services:
 
     query_bus_pipeline:
         class:          Milhojas\Messaging\Shared\Pipeline\WorkerPipeline
-        arguments:      [['@query_worker', '@logger_worker']]
+        arguments:      [['@query_worker', '@query_logger_worker']]
 
     query_bus:
         class:          Milhojas\Messaging\QueryBus\QueryBus
@@ -141,7 +153,7 @@ services:
 
     event_bus_pipeline:
         class:         Milhojas\Messaging\Shared\Pipeline\WorkerPipeline
-        arguments:     [['@dispatcher_worker', '@logger_worker']]
+        arguments:     [['@dispatcher_worker', '@event_logger_worker']]
 
     event_bus:
         class:          Milhojas\Messaging\EventBus\EventBus

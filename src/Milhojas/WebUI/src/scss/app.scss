@@ -7,8 +7,8 @@
 @import url('https://fonts.googleapis.com/css?family=Merriweather:300,300i,700,700i&subset=latin-ext');
 
 @import 'settings';
-@import 'foundation';
-@import 'motion-ui';
+@import '../../node_modules/foundation-sites/scss/foundation.scss';
+@import '../../node_modules/motion-ui/motion-ui';
 
 @include foundation-global-styles;
 @include foundation-grid;
@@ -29,7 +29,7 @@
 @include foundation-drilldown-menu;
 @include foundation-dropdown;
 @include foundation-dropdown-menu;
-@include foundation-flex-video;
+@include foundation-responsive-embed;
 @include foundation-label;
 @include foundation-media-object;
 @include foundation-off-canvas;

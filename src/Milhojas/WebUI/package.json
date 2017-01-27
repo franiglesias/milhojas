@@ -1,0 +1,26 @@
+{
+  "name": "milhojas-webui",
+  "version": "1.0.0",
+  "description": "The web UI for milhojas Foundation Based",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/franiglesias/milhojas.git"
+  },
+  "keywords": [
+    "milhojas"
+  ],
+  "author": "Fran Iglesias",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/franiglesias/milhojas/issues"
+  },
+  "homepage": "https://github.com/franiglesias/milhojas#readme",
+  "devDependencies": {
+    "foundation-sites": "^6.3.0",
+    "motion-ui": "^1.2.2"
+  }
+}

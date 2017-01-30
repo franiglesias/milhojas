@@ -137,7 +137,7 @@ services:
 
 # EventBus
     listener_inflector:
-        class:           Milhojas\Messaging\EventBus\Loader\ListenerInflector
+        class:           Milhojas\Messaging\EventBus\Inflector\ListenerInflector
         calls:
             # Management
             - ['addListeners', ['management.payroll_email_was_sent.event', ['management.payroll_progress.reporter', 'management.payroll_was_sent.cli.reporter']]]
@@ -153,7 +153,7 @@ services:
 
     dispatcher_worker:
         class:          Milhojas\Messaging\EventBus\Worker\DispatcherWorker
-        arguments:      ['@messaging_loader', '@listener_inflector']
+        arguments:      ['@listener_inflector', '@messaging_loader']
 
     event_bus_pipeline:
         class:         Milhojas\Messaging\Shared\Pipeline\WorkerPipeline

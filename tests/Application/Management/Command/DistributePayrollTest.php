@@ -19,6 +19,7 @@ use Tests\Application\Utils\CommandScenario;
 use Tests\Infrastructure\Persistence\Management\Fixtures\NewPayrollFileSystem;
 use org\bovigo\vfs\vfsStream;
 use Tests\Utils\MailerStub;
+use Psr\Log\LoggerInterface;
 
 /**
  * Description.
@@ -41,8 +42,9 @@ class DistributePayrollTest extends CommandScenario
     public function test_It_Handles_a_regular_distribution()
     {
         $now = new \DateTime();
+        $logger = $this->prophesize(LoggerInterface::class);
         $command = new DistributePayroll(new PayrollMonth($now->format('m'), $now->format('Y')), array('test'));
-        $handler = new DistributePayrollHandler($this->staff, $this->sender, $this->bus);
+        $handler = new DistributePayrollHandler($this->staff, $this->sender, $this->bus, $logger);
         $this->sending($command)
             ->toHandler($handler)
             ->sendsCommand('Milhojas\Application\Management\Command\StartPayroll', 1)

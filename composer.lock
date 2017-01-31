@@ -1305,16 +1305,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.33",
+            "version": "1.0.34",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "5c7f98498b12d47f9de90ec9186a90000125777c"
+                "reference": "469ad53c13ea19a0e54e3e5d70f61227ddcc0299"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/5c7f98498b12d47f9de90ec9186a90000125777c",
-                "reference": "5c7f98498b12d47f9de90ec9186a90000125777c",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/469ad53c13ea19a0e54e3e5d70f61227ddcc0299",
+                "reference": "469ad53c13ea19a0e54e3e5d70f61227ddcc0299",
                 "shasum": ""
             },
             "require": {
@@ -1384,7 +1384,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2017-01-23 10:32:09"
+            "time": "2017-01-30 17:41:17"
         },
         {
             "name": "league/flysystem-dropbox",
@@ -1491,16 +1491,16 @@
         },
         {
             "name": "milhojas/messaging",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/franiglesias/messaging.git",
-                "reference": "286faa44d4b0103617b09240b9e41374ef710f1c"
+                "reference": "c964ebe36c60da342cab102c037acdb2bdc3a14f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/franiglesias/messaging/zipball/286faa44d4b0103617b09240b9e41374ef710f1c",
-                "reference": "286faa44d4b0103617b09240b9e41374ef710f1c",
+                "url": "https://api.github.com/repos/franiglesias/messaging/zipball/c964ebe36c60da342cab102c037acdb2bdc3a14f",
+                "reference": "c964ebe36c60da342cab102c037acdb2bdc3a14f",
                 "shasum": ""
             },
             "require": {
@@ -1532,7 +1532,7 @@
                 }
             ],
             "description": "A Messaging component for apps, with CommandBus, EventBus and QueryBus",
-            "time": "2017-01-30 16:06:14"
+            "time": "2017-01-31 11:09:59"
         },
         {
             "name": "mmoreram/extractor",

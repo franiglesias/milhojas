@@ -65,12 +65,14 @@ services:
 
     management.distribute_payroll.handler:
         class:          Milhojas\Application\Management\Command\DistributePayrollHandler
-        arguments:      ['@management.staff', '%payroll.sender%', '@command_bus']
+        arguments:      ['@management.staff', '%payroll.sender%', '@command_bus', '@logger']
+        tags:
+            - { name: monolog.logger, channel: messageBus }
+
 
     management.start_payroll.handler:
         class:          Milhojas\Application\Management\Command\StartPayrollHandler
         arguments:      ['@management.payroll_reporter_exchange', '@event_recorder']
-
     management.end_payroll.handler:
         class:          Milhojas\Application\Management\Command\EndPayrollHandler
         arguments:      ['@event_recorder']

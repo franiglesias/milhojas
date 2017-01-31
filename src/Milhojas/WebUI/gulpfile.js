@@ -5,6 +5,7 @@ var sass = require('gulp-sass');
 var rename = require('gulp-rename');
 var newer = require('gulp-newer');
 var babel = require('gulp-babel');
+var uglify = require('gulp-uglify');
 // Paths
 var destination = '../../../web/assets';
 var sassSource = 'src/scss/**/*.scss';
@@ -53,6 +54,7 @@ gulp.task('copy-react-to-vendor', function() {
             jsVendorSource + '/react-dom.js'
         ])
         .pipe(gulp.dest(destination + '/js/vendor'))
+
 });
 
 gulp.task('compile-jsx', () => {
@@ -61,5 +63,9 @@ gulp.task('compile-jsx', () => {
             presets: ['react']
         }))
         .pipe(rename({extname: '.js'}))
-        .pipe(gulp.dest(destination + '/js'));
+        .pipe(gulp.dest(destination + '/js'))
+        .pipe(rename({suffix: '.min'}))
+        .pipe(uglify())
+        .pipe(gulp.dest(destination + '/js'))
+        ;
 });

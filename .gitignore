@@ -16,11 +16,8 @@
 /web/bundles/
 /payroll/
 /extras/
-
-results.txt
-
-payroll-month-output.txt
-
-nohup.out
+/web/assets/
 
 src/Milhojas/WebUI/node_modules/
+
+payroll-month-output.txt

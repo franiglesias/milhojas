@@ -5,151 +5,27 @@
             <h2>Las nóminas se están distribuyendo</h2>
             <p>El proceso durará varios minutos y no es necesario que permanezcas en esta pantalla. Se enviará un email con el resultado.</p>
             <p>El cuadro inferior se actualiza automáticamente para mostrar el proceso de envío y sus resultados.</p>
-
-            <!-- Monitor progress is shown here -->
-
-
-
         </div>
 
-        <!-- results of monitoring -->
-
+        <!-- Monitor progress is shown here -->
         <div class="medium-6 medium-centered columns">
             <p>
                 <strong>Seguimiento del envío de nóminas.</strong>
             </p>
 
-            <!-- progress bar -->
-            <div id="payroll-control">
-
-            </div>
+            <div id="payroll-control"></div>
 
         </div>
     </div>
 
 {% endblock %}
 {% block pagescripts %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.6/react-dom.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.js"></script>
+    <script src="/assets/js/vendor/react.js"></script>
+    <script src="/assets/js/vendor/react-dom.js"></script>
+    <script src="/assets/js/shared/progress-bar.js"></script>
+    <script src="/assets/js/management/payroll-results.js"></script>
 
-    <script type="text/babel">
-    // you can put your code here or include them as another script tag.
-    var ProgressBar = React.createClass({
-        render: function() {
-            const percentage = Math.round(this.props.current * this.props.max / this.props.total);
-            const progressStyle = {
-                width: percentage + '%'
-            };
-
-            return (
-                <div id="payroll-progress" className="success progress" role="progressbar" aria-valuenow={this.props.current} aria-valuemin={this.props.min} aria-valuemax="100">
-                    <span className="progress-meter" style={progressStyle}>
-                        <p className="progress-meter-text">{percentage}%</p>
-                    </span>
-                </div>
-            );
-        }
-    });
-
-    var NewButton = React.createClass({
-        render: function() {
-            if (this.props.show) {
-                return (
-                    <p id="allow-new">
-                    <a href="{{ path('payroll-upload') }}" className="hollow button expanded">¿Deseas enviar otra nómina?</a>
-                    </p>
-                );
-            };
-            return (
-                <span></span>
-            );
-        }
-    });
-
-    var StatsBox = React.createClass({
-        render: function() {
-            return (
-                <div className="row small-up-2 medium-up-4 large-up-4 collapse">
-                    <div className="column stats-display info">
-                        <p className="header">
-                            <i className="fi-torsos-all"></i>Empleados</p>
-                        <p id='payroll-employee' className="body">{this.props.current}<small>/{this.props.total}</small></p>
-                    </div>
-                    <div className="column stats-display success">
-                        <p className="header">Enviados</p>
-                        <p id='payroll-sent' className="body">{this.props.sent}</p>
-
-                    </div>
-                    <div className="column stats-display warning">
-                        <p className=" header">No se encontró</p>
-                        <p id='payroll-not-found' className="body">{this.props.notfound}</p>
-
-                    </div>
-                    <div className="column stats-display alert">
-                        <p className="header">No se envió</p>
-                        <p id='payroll-failed' className="body">{this.props.notsent}</p>
-                    </div>
-                </div>
-
-            );
-        }
-    });
-
-    var ProgressData = React.createClass({
-        getInitialState: function() {
-            return {
-                current: 0,
-                total: 0,
-                sent: 0,
-                notFound: 0,
-                failed: 0,
-                end: false
-            };
-        },
-        getData: function() {
-            $.getJSON("{{ path('exchange', {'file': 'management-payroll-reporter'}) }}")
-            .done(function(data) {
-                this.setState({
-                    current: data.current,
-                    total: data.total,
-                    sent: data.sent,
-                    notFound: data.notFound,
-                    failed: data.failed,
-                });
-                if (this.state.current > 0) {
-                    if (this.state.current >= this.state.total) {
-                        clearInterval(this.state.started);
-                        this.state.end = true;
-                    }
-                }
-            }.bind(this)).fail(function(data) {
-
-            }).always(function(data){
-
-            });
-        },
-        componentDidMount: function() {
-            this.getData();
-            this.state.started = setInterval(this.getData, 500);
-        },
-
-        render: function() {
-            return (
-                <div>
-                    <NewButton show={this.state.end} />
-                    <ProgressBar min ='0' max ='100' current={this.state.current} total={this.state.total} />
-                    <StatsBox current={this.state.current} total={this.state.total} sent={this.state.sent} notfound={this.state.notFound} notsent={this.state.failed} />
-                </div>
-            )
-
-        }
-    });
-
-    ReactDOM.render(
-      <ProgressData />,
-      document.getElementById('payroll-control')
-    );
-
+    <script type="text/javascript">
+        ReactDOM.render(React.createElement(ProgressData, {exchange: "{{ path('exchange', {'file': 'management-payroll-reporter'}) }}", redirect: "{{ path('payroll-upload') }}"}), document.getElementById('payroll-control'));
     </script>
 {% endblock %}

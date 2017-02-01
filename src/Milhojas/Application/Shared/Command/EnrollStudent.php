@@ -11,14 +11,14 @@ class EnrollStudent implements Command
      * @var Person
      */
     private $person;
-    private $class;
-        /**
-         * @param Person $person
-         */
-        public function __construct(Person $person)
-        {
-            $this->person = $person;
-        }
+
+    /**
+     * @param Person $person
+     */
+    public function __construct(Person $person)
+    {
+        $this->person = $person;
+    }
 
     public function getPerson()
     {

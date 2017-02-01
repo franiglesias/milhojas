@@ -33,15 +33,27 @@ class SharedController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $bus = $this->get('command_bus');
-            $bus->execute($form->getData());
+            $enrolled = $form->getData();
+            $this->bus->execute($enrolled);
 
-            return $this->render('AppBundle:Shared:web/student-enrolled.html.twig', array(
-                'student' => $form->getData(),
+            return $this->forward('AppBundle:Shared:enrolled', array(
+                'enrolled' => $enrolled,
             ));
         }
 
         return $this->render('AppBundle:Shared:web/student-enroll-form.html.twig', array(
             'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * @Route("/shared/student/enrolled", name="student-enrolled")
+     * @Method({"GET"})
+     */
+    public function enrolledAction($enrolled)
+    {
+        return $this->render('AppBundle:Shared:web/student-enrolled.html.twig', array(
+            'student' => $enrolled,
         ));
     }
 }

@@ -32,9 +32,10 @@ class SharedController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $bus = $this->get('command_bus');
             $enrolled = $form->getData();
-            $this->bus->execute($enrolled);
+
+            $bus = $this->get('command_bus');
+            $bus->execute($enrolled);
 
             return $this->forward('AppBundle:Shared:enrolled', array(
                 'enrolled' => $enrolled,

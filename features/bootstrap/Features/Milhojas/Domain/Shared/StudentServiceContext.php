@@ -99,4 +99,32 @@ class StudentServiceContext implements Context
             throw new \Exception('Failed autocomplete');
         }
     }
+
+    /**
+     * @Given There is a :gender Student called :student_name that wants to be enrolled in class :class
+     */
+    public function thereIsAStudentCalledThatWantsToBeEnrolledInClass($gender, $student_name, $class)
+    {
+        list($name, $surname) = explode(' ', $student_name);
+        $student_id = StudentId::generate();
+        $student_name = new Person($name, $surname, $gender[0]);
+        $this->newStudent = new Student($student_id, $student_name, $class, '');
+    }
+
+    /**
+     * @When I enroll this student
+     */
+    public function iEnrollThisStudent()
+    {
+        $this->StudentRepository->store($this->newStudent);
+    }
+
+    /**
+     * @Then I should have a student named :student_name in the repository
+     */
+    public function iShouldHaveHisDataAddedToTheRepository($student_name)
+    {
+        $student = $this->StudentRepository->get(new StudentNamed($student_name));
+        \PHPUnit_Framework_Assert::assertEquals($this->newStudent, $student);
+    }
 }

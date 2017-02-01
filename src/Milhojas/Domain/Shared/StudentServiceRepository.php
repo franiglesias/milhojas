@@ -8,4 +8,6 @@ interface StudentServiceRepository
 {
     public function get(StudentServiceSpecification $studentServiceSpecification);
     public function find(StudentServiceSpecification $studentServiceSpecification);
+
+    public function store(Student $student);
 }

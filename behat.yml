@@ -42,7 +42,7 @@ default:
                 - Features\Milhojas\Domain\Shared\StudentServiceContext
     extensions:
         Behat\MinkExtension:
-          base_url:  'http://localhost:8000'
+          base_url:  'http://dev.miralba.org'
           sessions:
             default:
               goutte: ~

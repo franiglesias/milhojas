@@ -29,7 +29,7 @@ use Milhojas\Infrastructure\Persistence\Cantine\CantineSeatInMemoryRepository;
 use Milhojas\Messaging\EventBus\EventRecorder;
 use Milhojas\Messaging\QueryBus\Worker\QueryWorker;
 use Milhojas\Messaging\Shared\Pipeline\WorkerPipeline;
-use Milhojas\Messaging\Shared\Inflector\SymfonyContainerInflector;
+use Milhojas\Messaging\Shared\Inflector\ContainerInflector;
 use Milhojas\Library\ValueObjects\Identity\Person;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
 use Milhojas\Messaging\QueryBus\QueryBus;
@@ -81,7 +81,7 @@ class AdminContext implements Context
         $loader->add(
             'cantine.get_cantine_attendances_list_for.handler',  new GetCantineAttendancesListForHandler($this->CantineSeatRepository)
         );
-        $queryWorker = new QueryWorker($loader, new SymfonyContainerInflector());
+        $queryWorker = new QueryWorker($loader, new ContainerInflector());
 
         return new QueryBus(new WorkerPipeline([$queryWorker]));
     }

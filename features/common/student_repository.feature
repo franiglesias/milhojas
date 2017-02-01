@@ -27,3 +27,8 @@ Feature: Provide student info for bounded contexts
             | studentId | student_label |
             | 01 | Laura Álvarez (EP 1 C) |
             | 03 | Álvaro Martínez (ESO 4 A) |
+
+    Scenario: I want to enroll a student
+        Given There is a 'male' Student called 'Fernando González' that wants to be enrolled in class 'EP 4 A'
+        When I enroll this student
+        Then I should have a student named 'Fernando González' in the repository

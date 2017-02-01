@@ -1,0 +1,7 @@
+services:
+    student_repository:
+        class:  Milhojas\Infrastructure\Persistence\Shared\StudentServiceInMemoryRepository
+
+    shared.enroll_student.handler:
+        class:  Milhojas\Application\Shared\Command\EnrollStudentHandler
+        arguments:  ['@student_repository', '@event_recorder']

@@ -13,6 +13,13 @@ class StudentId
     {
         $this->id = $id;
     }
+
+    public static function generate()
+    {
+        $id = new static(uniqid());
+
+        return $id;
+    }
     /**
      * @return
      */

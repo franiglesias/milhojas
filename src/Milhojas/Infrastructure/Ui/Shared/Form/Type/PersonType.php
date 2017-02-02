@@ -2,7 +2,7 @@
 
 namespace Milhojas\Infrastructure\Ui\Shared\Form\Type;
 
-use Milhojas\Library\ValueObjects\Identity\Person;
+use Milhojas\Application\Shared\DTO\PersonDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -53,7 +53,7 @@ class PersonType extends AbstractType implements DataMapperInterface
     public function mapFormsToData($forms, &$data)
     {
         $forms = iterator_to_array($forms);
-        $data = new Person(
+        $data = new PersonDTO(
             $forms['name']->getData(),
             $forms['surname']->getData(),
             $forms['gender']->getData()

@@ -39,7 +39,6 @@ class StudentServiceDoctrineRepository implements StudentServiceRepository
     public function store(Student $student)
     {
         $dto = StudentDTO::mapFromStudent($student);
-        print_r($dto);
         $this->entityManager->persist($dto);
         $this->entityManager->flush();
     }

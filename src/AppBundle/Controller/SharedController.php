@@ -34,7 +34,6 @@ class SharedController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $studentToEnroll = $form->getData();
-
             $bus = $this->get('command_bus');
             $bus->execute(EnrollStudent::fromStudentDTO($studentToEnroll));
 

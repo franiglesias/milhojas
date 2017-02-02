@@ -28,13 +28,25 @@ class PersonDTO
      */
     private $gender;
 
-/**
- * @return mixed
- */
-public function getName()
-{
-    return $this->name;
-}
+    /**
+     * @param mixed $name
+     * @param mixed $surname
+     * @param mixed $gender
+     */
+    public function __construct($name, $surname, $gender)
+    {
+        $this->name = $name;
+        $this->surname = $surname;
+        $this->gender = $gender;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
     /**
      * @param mixed $name
@@ -68,23 +80,23 @@ public function getName()
         return $this;
     }
 
-/**
- * @return mixed
- */
-public function getSurname()
-{
-    return $this->surname;
-}
+    /**
+     * @return mixed
+     */
+    public function getSurname()
+    {
+        return $this->surname;
+    }
 
-/**
- * @param mixed $surname
- *
- * @return static
- */
-public function setSurname($surname)
-{
-    $this->surname = $surname;
+    /**
+     * @param mixed $surname
+     *
+     * @return static
+     */
+    public function setSurname($surname)
+    {
+        $this->surname = $surname;
 
-    return $this;
-}
+        return $this;
+    }
 }

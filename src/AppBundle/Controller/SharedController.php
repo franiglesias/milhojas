@@ -7,7 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Milhojas\Infrastructure\Ui\Shared\Form\Type\StudentType;
-use Milhojas\Application\Shared\StudentDTO;
+use Milhojas\Application\Shared\DTO\StudentDTO;
 use Milhojas\Application\Shared\Command\EnrollStudent;
 use Milhojas\Application\Shared\Query\GetAllEnrolledStudents;
 

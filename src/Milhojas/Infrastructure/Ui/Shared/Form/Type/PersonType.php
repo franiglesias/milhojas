@@ -38,7 +38,7 @@ class PersonType extends AbstractType implements DataMapperInterface
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => 'Milhojas\\Library\\ValueObjects\\Identity\\Person',
+            'data_class' => 'Milhojas\\Application\\Shared\\DTO\\PersonDTO',
         ]);
     }
 

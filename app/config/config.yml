@@ -91,6 +91,13 @@ doctrine:
                 dir: "%kernel.root_dir%/../src/Milhojas/Domain/Cantine/DTO"
                 prefix: Milhojas\Domain\Cantine\DTO
                 alias: Cantine
+            Shared:
+                type: annotation
+                is_bundle: false
+                dir: "%kernel.root_dir%/../src/Milhojas/Application/Shared/DTO"
+                prefix: Milhojas\Application\Shared\DTO
+                alias: Shared
+                 
 
 # Swiftmailer Configuration
 swiftmailer:

@@ -37,9 +37,7 @@ class SharedController extends Controller
             $bus = $this->get('command_bus');
             $bus->execute($enrolled);
 
-            return $this->forward('AppBundle:Shared:enrolled', array(
-                'enrolled' => $enrolled,
-            ));
+            return $this->redirect($this->generateUrl('student-enrolled'));
         }
 
         return $this->render('AppBundle:Shared:web/student-enroll-form.html.twig', array(
@@ -51,10 +49,10 @@ class SharedController extends Controller
      * @Route("/shared/student/enrolled", name="student-enrolled")
      * @Method({"GET"})
      */
-    public function enrolledAction($enrolled)
+    public function enrolledAction()
     {
         return $this->render('AppBundle:Shared:web/student-enrolled.html.twig', array(
-            'student' => $enrolled,
+            'student' => $enrolledgithub,
         ));
     }
 }

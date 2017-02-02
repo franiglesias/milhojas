@@ -1,29 +1,19 @@
 <?php
 
-namespace Milhojas\Application\Shared\Command;
+namespace Milhojas\Application\Shared;
 
-use Milhojas\Messaging\CommandBus\Command;
 use Milhojas\Library\ValueObjects\Identity\Person;
-use Milhojas\Application\Shared\StudentDTO;
 
-class EnrollStudent implements Command
+class StudentDTO
 {
-    /**
-     * @var Person
-     */
     private $person;
 
-    /**
-     * @param Person $person
-     */
-    public function __construct(Person $person)
+    public static function init()
     {
-        $this->person = $person;
-    }
+        $dto = new static();
+        $dto->person = new Person('', '', '');
 
-    public static function fromStudentDTO(StudentDTO $studentToEnroll)
-    {
-        return new static($studentToEnroll->getPerson());
+        return $dto;
     }
 
     public function getPerson()

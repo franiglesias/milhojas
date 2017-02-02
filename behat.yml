@@ -40,6 +40,12 @@ default:
                 - %paths.base%/features/common
             contexts:
                 - Features\Milhojas\Domain\Shared\StudentServiceContext
+        shared_ui:
+            paths:
+                - %paths.base%/features/common
+            context:
+                - Features\Milhojas\Ui\Shared\StudentEnrollmentContext
+
     extensions:
         Behat\MinkExtension:
           base_url:  'http://dev.miralba.org'

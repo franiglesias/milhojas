@@ -5,3 +5,7 @@ services:
     shared.enroll_student.handler:
         class:  Milhojas\Application\Shared\Command\EnrollStudentHandler
         arguments:  ['@student_repository', '@event_recorder']
+
+    shared.get_all_enrolled_students.handler:
+        class:  Milhojas\Application\Shared\Query\GetAllEnrolledStudentsHandler
+        arguments:  ['@student_repository']

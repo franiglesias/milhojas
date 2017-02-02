@@ -42,4 +42,11 @@ class StudentServiceInMemoryRepository implements StudentServiceRepository
 
         return $found;
     }
+    /**
+     * {@inheritdoc}
+     */
+    public function getAll()
+    {
+        return $this->students;
+    }
 }

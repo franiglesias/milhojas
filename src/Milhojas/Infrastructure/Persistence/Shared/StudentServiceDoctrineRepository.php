@@ -5,7 +5,6 @@ namespace Milhojas\Infrastructure\Persistence\Shared;
 use Milhojas\Domain\Shared\StudentServiceRepository;
 use Milhojas\Domain\Shared\Specification\StudentServiceSpecification;
 use Milhojas\Domain\Shared\Student;
-use Milhojas\Infrastructure\Persistence\Shared\DTO\StudentDTO;
 use Milhojas\Infrastructure\Persistence\Shared\Mapper\StudentMapper;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -55,6 +54,6 @@ class StudentServiceDoctrineRepository implements StudentServiceRepository
             $response[] = $this->mapper->toEntity($dto);
         }
 
-        return $results;
+        return $response;
     }
 }

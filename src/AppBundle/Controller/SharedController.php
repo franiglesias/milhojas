@@ -33,10 +33,6 @@ class SharedController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // print_r('<pre>');
-            // print_r($form->getData());
-            // print_r('</pre>');
-            // die();
             $bus = $this->get('command_bus');
             $bus->execute(EnrollStudent::fromStudentForm($form->getData()));
 

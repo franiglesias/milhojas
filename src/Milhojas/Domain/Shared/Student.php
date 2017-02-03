@@ -1,16 +1,24 @@
 <?php
 
 namespace Milhojas\Domain\Shared;
+use Milhojas\Domain\Shared\StudentId;
+use Milhojas\Library\ValueObjects\Identity\Person;
 
 class Student
 {
+    /**
+     * @var StudentId
+     */
     private $id;
+    /**
+     * @var Person
+     */
     private $person;
 
     private $class;
     private $remarks;
 
-    public function __construct($id, $person, $class, $remarks)
+    public function __construct(StudentId $id, Person $person, $class, $remarks)
     {
         $this->id = $id;
         $this->person = $person;
@@ -25,6 +33,10 @@ class Student
         return $this->id;
     }
 
+    public function getPlainId()
+    {
+        return $this->id->getId();
+    }
     /**
      * @param  $id
      *

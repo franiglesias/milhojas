@@ -94,10 +94,10 @@ doctrine:
             Shared:
                 type: annotation
                 is_bundle: false
-                dir: "%kernel.root_dir%/../src/Milhojas/Application/Shared/DTO"
-                prefix: Milhojas\Application\Shared\DTO
+                dir: "%kernel.root_dir%/../src/Milhojas/Infrastructure/Persistence/Shared/DTO"
+                prefix: Milhojas\Infrastructure\Persistence\Shared\DTO
                 alias: Shared
-                 
+
 
 # Swiftmailer Configuration
 swiftmailer:

@@ -1,8 +1,19 @@
 {% extends 'base.html.twig' %}
 {% block body %}
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Gender</th>
+    </tr>
     {% for student in students %}
-    <p>Name: {{ student.person.name }}</p>
-    <p>Surname: {{ student.person.surname }}</p>
-    <p>Gender: {{ student.person.gender }}</p>
+    <tr>
+    <td>{{ student.id }}</td>
+    <td>{{ student.person.name }}</td>
+    <td>{{ student.person.surname }}</td>
+    <td>{{ student.person.gender }}</td>
+    </tr>
     {% endfor %}
+</table>
 {% endblock %}

@@ -7,7 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Milhojas\Infrastructure\Ui\Shared\Form\Type\StudentType;
-use Milhojas\Application\Shared\DTO\StudentDTO;
+use Milhojas\Infrastructure\Ui\Shared\Form\Data\StudentData;
 use Milhojas\Application\Shared\Command\EnrollStudent;
 use Milhojas\Application\Shared\Query\GetAllEnrolledStudents;
 
@@ -28,14 +28,17 @@ class SharedController extends Controller
      */
     public function enrollAction(Request $request)
     {
-        $form = $this->createForm(StudentType::class, StudentDTO::init());
+        $form = $this->createForm(StudentType::class, new StudentData());
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $studentToEnroll = $form->getData();
+            // print_r('<pre>');
+            // print_r($form->getData());
+            // print_r('</pre>');
+            // die();
             $bus = $this->get('command_bus');
-            $bus->execute(EnrollStudent::fromStudentDTO($studentToEnroll));
+            $bus->execute(EnrollStudent::fromStudentForm($form->getData()));
 
             return $this->redirect($this->generateUrl('student-enrolled'));
         }

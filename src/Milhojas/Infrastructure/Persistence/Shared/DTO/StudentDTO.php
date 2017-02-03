@@ -1,6 +1,6 @@
 <?php
 
-namespace Milhojas\Application\Shared\DTO;
+namespace Milhojas\Infrastructure\Persistence\Shared\DTO;
 
 use Doctrine\ORM\Mapping as ORM;
 use Milhojas\Library\ValueObjects\Identity\Person;
@@ -35,11 +35,11 @@ class StudentDTO
         return $dto;
     }
 
-    public static function mapFromStudent(Student $student)
+    public static function fromStudent(Student $student)
     {
         $dto = new static();
-        $dto->person = new PersonDTO($student->getPerson()->getName(), $student->getPerson()->getSurname(), $student->getPerson()->getGender());
-        $dto->id = $student->getId()->getId();
+        $dto->person = PersonDTO::fromPerson($student->getPerson());
+        $dto->id = $student->getPlainId();
 
         return $dto;
     }

@@ -9,6 +9,7 @@ use Milhojas\Messaging\CommandBus\CommandHandler;
 use Milhojas\Messaging\EventBus\EventRecorder;
 use Milhojas\Domain\Shared\StudentServiceRepository;
 use Milhojas\Domain\Shared\Student;
+use Milhojas\Library\ValueObjects\Identity\Person;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -24,8 +25,9 @@ class EnrollStudentHandlerSpec extends ObjectBehavior
         $this->shouldImplement(CommandHandler::class);
     }
 
-    public function it_handles_EnrollStudent_command(EnrollStudent $command, $repository, $recorder)
+    public function it_handles_EnrollStudent_command(EnrollStudent $command, $repository, $recorder, Person $person)
     {
+        $command->getPerson()->willReturn($person);
         $repository->store(Argument::type(Student::class))->shouldBeCalled();
         $recorder->recordThat(Argument::type(StudentWasEnrolled::class))->shouldBeCalled();
         $this->handle($command);

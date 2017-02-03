@@ -1,8 +1,9 @@
 <?php
 
-namespace Milhojas\Application\Shared\DTO;
+namespace Milhojas\Infrastructure\Persistence\Shared\DTO;
 
 use Doctrine\ORM\Mapping as ORM;
+use Milhojas\Library\ValueObjects\Identity\Person;
 
 /**
  * @ORM\Embeddable
@@ -38,6 +39,11 @@ class PersonDTO
         $this->name = $name;
         $this->surname = $surname;
         $this->gender = $gender;
+    }
+
+    public static function fromPerson(Person $person)
+    {
+        return new self($person->getName(), $person->getSurname(), $person->getGender());
     }
 
     /**

@@ -2,13 +2,13 @@
 
 namespace Milhojas\Infrastructure\Ui\Shared\Form\Type;
 
-use Milhojas\Application\Shared\DTO\PersonDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Milhojas\Infrastructure\Ui\Shared\Form\Data\PersonData;
 
 class PersonType extends AbstractType implements DataMapperInterface
 {
@@ -38,7 +38,7 @@ class PersonType extends AbstractType implements DataMapperInterface
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => 'Milhojas\\Application\\Shared\\DTO\\PersonDTO',
+            'data_class' => PersonData::class,
         ]);
     }
 
@@ -53,10 +53,9 @@ class PersonType extends AbstractType implements DataMapperInterface
     public function mapFormsToData($forms, &$data)
     {
         $forms = iterator_to_array($forms);
-        $data = new PersonDTO(
-            $forms['name']->getData(),
-            $forms['surname']->getData(),
-            $forms['gender']->getData()
-        );
+        $data = new PersonData();
+        $data->setName($forms['name']->getData());
+        $data->setSurname($forms['surname']->getData());
+        $data->setGender($forms['gender']->getData());
     }
 }

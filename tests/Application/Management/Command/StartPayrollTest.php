@@ -37,7 +37,7 @@ class StartPayrollTest extends \PHPUnit_Framework_TestCase
         $inflector->inflect(EndPayroll::class)->willReturn('management.end_payroll.handler');
         $inflector->inflect('management.all_payrolls_were_sent.event')->willReturn([]);
         $logger = $this->prophesize(LoggerInterface::class);
-        $eventBus = new EventBus(new DispatcherWorker($inflector->reveal(), $loader));
+        $eventBus = new EventBus(new DispatcherWorker($loader, $inflector->reveal()));
 
         $workers = [
             new ExecuteWorker($loader, $inflector->reveal()),

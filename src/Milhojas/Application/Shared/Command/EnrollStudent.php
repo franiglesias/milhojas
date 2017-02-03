@@ -4,7 +4,7 @@ namespace Milhojas\Application\Shared\Command;
 
 use Milhojas\Messaging\CommandBus\Command;
 use Milhojas\Library\ValueObjects\Identity\Person;
-use Milhojas\Application\Shared\DTO\StudentDTO;
+use Milhojas\Infrastructure\Ui\Shared\Form\Data\StudentData;
 
 class EnrollStudent implements Command
 {
@@ -21,7 +21,7 @@ class EnrollStudent implements Command
         $this->person = $person;
     }
 
-    public static function fromStudentDTO(StudentDTO $studentToEnroll)
+    public static function fromStudentForm(StudentData $studentToEnroll)
     {
         $person = new Person($studentToEnroll->getName(), $studentToEnroll->getSurname(), $studentToEnroll->getGender());
 

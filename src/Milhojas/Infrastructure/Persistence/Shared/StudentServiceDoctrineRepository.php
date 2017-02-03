@@ -5,16 +5,19 @@ namespace Milhojas\Infrastructure\Persistence\Shared;
 use Milhojas\Domain\Shared\StudentServiceRepository;
 use Milhojas\Domain\Shared\Specification\StudentServiceSpecification;
 use Milhojas\Domain\Shared\Student;
-use Milhojas\Application\Shared\DTO\StudentDTO;
+use Milhojas\Infrastructure\Persistence\Shared\DTO\StudentDTO;
+use Milhojas\Infrastructure\Persistence\Shared\Mapper\StudentMapper;
 use Doctrine\ORM\EntityManagerInterface;
 
 class StudentServiceDoctrineRepository implements StudentServiceRepository
 {
     private $entityManager;
+    private $mapper;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, StudentMapper $mapper)
     {
         $this->entityManager = $entityManager;
+        $this->mapper = $mapper;
     }
 
     /**
@@ -38,8 +41,7 @@ class StudentServiceDoctrineRepository implements StudentServiceRepository
      */
     public function store(Student $student)
     {
-        $dto = StudentDTO::mapFromStudent($student);
-        $this->entityManager->persist($dto);
+        $this->entityManager->persist($this->mapper->toDto($student));
         $this->entityManager->flush();
     }
 
@@ -48,6 +50,11 @@ class StudentServiceDoctrineRepository implements StudentServiceRepository
      */
     public function getAll()
     {
-        throw new \LogicException('Not implemented'); // TODO
+        $results = $this->entityManager->getRepository('Shared:StudentDTO')->findAll();
+        foreach ($results as $dto) {
+            $response[] = $this->mapper->toEntity($dto);
+        }
+
+        return $results;
     }
 }

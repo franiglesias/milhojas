@@ -3,20 +3,19 @@
 namespace spec\Milhojas\Infrastructure\Persistence\Shared;
 
 use Milhojas\Infrastructure\Persistence\Shared\StudentServiceDoctrineRepository;
+use Milhojas\Infrastructure\Persistence\Shared\Mapper\StudentMapper;
+use Milhojas\Infrastructure\Persistence\Shared\DTO\StudentDTO;
 use Milhojas\Domain\Shared\Student;
-use Milhojas\Domain\Shared\StudentId;
 use Milhojas\Domain\Shared\StudentServiceRepository;
-use Milhojas\Application\Shared\DTO\StudentDTO;
-use Milhojas\Library\ValueObjects\Identity\Person;
 use PhpSpec\ObjectBehavior;
 use Doctrine\ORM\EntityManagerInterface;
 use Prophecy\Argument;
 
 class StudentServiceDoctrineRepositorySpec extends ObjectBehavior
 {
-    public function let(EntityManagerInterface $entityManager)
+    public function let(EntityManagerInterface $entityManager, StudentMapper $mapper)
     {
-        $this->beConstructedWith($entityManager);
+        $this->beConstructedWith($entityManager, $mapper);
     }
     public function it_is_initializable()
     {
@@ -24,10 +23,9 @@ class StudentServiceDoctrineRepositorySpec extends ObjectBehavior
         $this->shouldImplement(StudentServiceRepository::class);
     }
 
-    public function it_can_store_Students(Student $student, Person $person, $entityManager)
+    public function it_can_store_Students(Student $student, StudentDTO $studentDTO, $entityManager, $mapper)
     {
-        $student->getPerson()->willReturn($person);
-        $student->getId()->willReturn(StudentId::generate());
+        $mapper->toDto($student)->willReturn($studentDTO);
         $entityManager->persist(Argument::type(StudentDTO::class))->shouldBeCalled();
         $entityManager->flush()->shouldBeCalled();
         $this->store($student);

@@ -1,7 +1,9 @@
 services:
+    student_mapper:
+        class:  Milhojas\Infrastructure\Persistence\Shared\Mapper\StudentMapper
     student_repository:
         class:  Milhojas\Infrastructure\Persistence\Shared\StudentServiceDoctrineRepository
-        arguments: ['@doctrine.orm.entity_manager']
+        arguments: ['@doctrine.orm.entity_manager', '@student_mapper']
     shared.enroll_student.handler:
         class:  Milhojas\Application\Shared\Command\EnrollStudentHandler
         arguments:  ['@student_repository', '@event_recorder']

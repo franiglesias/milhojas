@@ -20,8 +20,6 @@ class GetAllEnrolledStudentsHandler implements QueryHandler
 
     public function answer(Query $query)
     {
-        $results = $this->repository->getAll();
-
-        return $results;
+        return $this->repository->getAll();
     }
 }

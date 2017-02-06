@@ -15,6 +15,8 @@ var jsxSource = 'src/js/**/*.jsx';
 var jsSource = 'src/js/**/*.js';
 // Tasks
 
+gulp.task('default', ['sass', 'copy-react', 'copy-react-dom', 'compile-jsx', 'scripts', 'watch']);
+
 gulp.task('watch', function() {
     gulp.watch(jsxSource, ['copy-react', 'copy-react-dom', 'compile-jsx']);
     gulp.watch(jsSource, ['scripts']);
@@ -63,19 +65,23 @@ gulp.task('compile-jsx', () => {
         .pipe(babel({
             presets: ['react']
         }))
-        .pipe(rename({extname: '.js'}))
+        .pipe(rename({
+            extname: '.js'
+        }))
         .pipe(gulp.dest(destination + '/js'))
-        .pipe(rename({suffix: '.min'}))
+        .pipe(rename({
+            suffix: '.min'
+        }))
         .pipe(uglify())
-        .pipe(gulp.dest(destination + '/js'))
-        ;
+        .pipe(gulp.dest(destination + '/js'));
 });
 
 gulp.task('scripts', function() {
     gulp.src(jsSource)
         .pipe(gulp.dest(destination + '/js'))
-        .pipe(rename({suffix: '.min'}))
+        .pipe(rename({
+            suffix: '.min'
+        }))
         .pipe(uglify())
-        .pipe(gulp.dest(destination + '/js'))
-        ;
+        .pipe(gulp.dest(destination + '/js'));
 });

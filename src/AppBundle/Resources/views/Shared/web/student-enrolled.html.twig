@@ -1,24 +1,29 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-<table>
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Surname</th>
-            <th>Gender</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for student in students %}
-        <tr>
-            <td>{{ student.id }}</td>
-            <td>{{ student.person.name }}</td>
-            <td>{{ student.person.surname }}</td>
-            <td>{{ student.person.gender }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
+    <div class="row">
+        <div class="small-10 medium-8 small-centered column">
 
-</table>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Surname</th>
+                        <th>Gender</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                        <tr>
+                            <td>{{ student.id }}</td>
+                            <td>{{ student.person.name }}</td>
+                            <td>{{ student.person.surname }}</td>
+                            <td>{{ student.person.gender }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+    </div>
 {% endblock %}

@@ -1,11 +1,11 @@
 table {
     background-color: $table-background;
-    border: $table-external-border;
-    border-radius: $table-radius $table-radius 0 0;
-    border-collapse: separate;
-    border-spacing: 0;
-
-    font: {
+    border          : 0;
+    border-radius   : $table-radius $table-radius 0 0;
+    border-collapse : separate;
+    border-spacing  : 0;
+    width           : 100%;
+    font            : {
         family: $table-body-font;
         weight: normal;
     }
@@ -15,37 +15,35 @@ table {
 
         th {
             padding: $table-padding;
-            font: {
-                size: $small-font-size;
+            font   : {
+                size  : $small-font-size;
                 weight: normal;
             }
-            color: $white;
+            color  : $white;
 
             &:first-child {
-                border-radius: $global-radius 0 0 0;
+                border-radius: $table-radius 0 0 0;
             }
 
             &:last-child {
-                border-radius: 0 $global-radius 0 0;
+                border-radius: 0 $table-radius 0 0;
             }
 
             &:only-child-child {
-                border-radius: $global-radius $global-radius 0 0;
+                border-radius: $table-radius $table-radius 0 0;
             }
         }
-
     }
 
     td {
         padding: $table-padding;
     }
+
     tbody {
-
-        tr:nth-child(odd) {
-            background-color: rgb(200, 231, 238);
-        }
-
-        tr {
+        // tr:nth-child(even) {
+        //     background-color: rgb(200, 231, 238);
+        // }
+        tr td {
             border-bottom: $table-border;
         }
     }

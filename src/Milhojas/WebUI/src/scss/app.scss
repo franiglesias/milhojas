@@ -1,22 +1,17 @@
 @charset 'utf-8';
-
 // @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 // @import url('https://fonts.googleapis.com/css?family=Oswald');
 // @import url('https://fonts.googleapis.com/css?family=Montserrat');
-@import url('https://fonts.googleapis.com/css?family=Signika:400,600&subset=latin-ext');
-@import url('https://fonts.googleapis.com/css?family=Merriweather:300,300i,700,700i&subset=latin-ext');
-
+@import url( 'https://fonts.googleapis.com/css?family=Signika:400,600&subset=latin-ext');
+@import url( 'https://fonts.googleapis.com/css?family=Merriweather:300,300i,700,700i&subset=latin-ext');
 @import 'settings';
 @import '../../node_modules/foundation-sites/scss/foundation.scss';
 @import '../../node_modules/motion-ui/motion-ui';
-
 @include foundation-global-styles;
-@include foundation-grid;
-// @include foundation-flex-grid;
+@include foundation-grid; // @include foundation-flex-grid;
 // @include foundation-typography;
 @include foundation-button;
-@include foundation-forms;
-// @include foundation-range-input;
+@include foundation-forms; // @include foundation-range-input;
 // @include foundation-accordion;
 // @include foundation-accordion-menu;
 // @include foundation-badge;
@@ -36,8 +31,7 @@
 // @include foundation-orbit;
 // @include foundation-pagination;
 @include foundation-progress-bar;
-@include foundation-progress-element;
-// @include foundation-meter-element;
+@include foundation-progress-element; // @include foundation-meter-element;
 // @include foundation-slider;
 // @include foundation-sticky;
 // @include foundation-reveal;
@@ -51,10 +45,8 @@
 // @include foundation-visibility-classes;
 // @include foundation-float-classes;
 // @include foundation-flex-classes;
-
 @include motion-ui-transitions;
 @include motion-ui-animations;
-
 @import 'milhojas-base-styles';
 @import 'milhojas-payroll';
 @import 'milhojas-table';

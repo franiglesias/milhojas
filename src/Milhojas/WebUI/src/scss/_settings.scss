@@ -51,7 +51,11 @@ $medium-gray                       : #cacaca;
 $dark-gray                         : #8a8a8a;
 $black                             : #0a0a0a;
 $white                             : #fefefe;
+<<<<<<< HEAD
 $body-background                   : $light-gray;
+=======
+$body-background                   : $white;
+>>>>>>> origin/master
 $body-font-color                   : $black;
 $body-font-family                  : 'Merriweather', 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
 $body-antialiased                  : true;
@@ -390,6 +394,7 @@ $switch-paddle-offset              : 0.25rem;
 $switch-paddle-radius              : $global-radius;
 $switch-paddle-transition          : all 0.25s ease-out; // 32. Table
 // ---------
+<<<<<<< HEAD
 $table-background                  : $white;
 $table-color-scale                 : 30%;
 $table-border                      : 1px solid $medium-gray;
@@ -410,6 +415,30 @@ $show-header-for-stacked           : false;
 $table-body-font                   : Tahoma, Helvetica, sans-serif;
 $table-radius                      : $global-radius / 1.2;
 $table-external-border             : 1px solid $black; // 33. Tabs
+=======
+// $table-background: $white;
+// $table-color-scale: 30%;
+// $table-border: 1px solid $medium-gray;
+// $table-padding: rem-calc(8 10 10);
+// $table-hover-scale: 20%;
+// $table-row-hover: darken($table-background, $table-hover-scale);
+// $table-row-stripe-hover: darken($table-background, $table-color-scale + $table-hover-scale);
+// $table-is-striped: true;
+// $table-striped-background: smart-scale($table-background, $table-color-scale / 5);
+// $table-stripe: even;
+// $table-head-background: smart-scale($table-background, $table-color-scale / 2);
+// $table-head-row-hover: darken($table-head-background, $table-hover-scale);
+// $table-foot-background: smart-scale($table-background, $table-color-scale);
+// $table-foot-row-hover: darken($table-foot-background, $table-hover-scale);
+// $table-head-font-color: $body-font-color;
+// $table-foot-font-color: $body-font-color;
+// $show-header-for-stacked: false;
+//
+// $table-body-font: Tahoma, Helvetica, sans-serif;
+// $table-radius: $global-radius / 2;
+// $table-external-border: 1px solid $black;
+// 33. Tabs
+>>>>>>> origin/master
 // --------
 $tab-margin                        : 0;
 $tab-background                    : $white;

@@ -1,11 +1,32 @@
+// @include foundation-table;
+$table-background: $white;
+$table-color-scale: 30%;
+$table-border: 1px solid $medium-gray;
+$table-padding: rem-calc(8 10 10);
+$table-hover-scale: 20%;
+$table-row-hover: darken($table-background, $table-hover-scale);
+$table-row-stripe-hover: darken($table-background, $table-color-scale + $table-hover-scale);
+$table-is-striped: true;
+$table-striped-background: smart-scale($table-background, $table-color-scale / 5);
+$table-stripe: even;
+$table-head-background: smart-scale($table-background, $table-color-scale / 2);
+$table-head-row-hover: darken($table-head-background, $table-hover-scale);
+$table-foot-background: smart-scale($table-background, $table-color-scale);
+$table-foot-row-hover: darken($table-foot-background, $table-hover-scale);
+$table-head-font-color: $body-font-color;
+$table-foot-font-color: $body-font-color;
+$show-header-for-stacked: false;
+$table-body-font: Tahoma, Helvetica, sans-serif;
+$table-radius: $global-radius / 2;
+$table-external-border: 1px solid $black;
+
 table {
     background-color: $table-background;
-    border: $table-external-border;
-    border-radius: $table-radius $table-radius 0 0;
-    border-collapse: separate;
-    border-spacing: 0;
-
-    font: {
+    border          : $table-external-border;
+    border-radius   : $table-radius $table-radius 0 0;
+    border-collapse : separate;
+    border-spacing  : 0;
+    font            : {
         family: $table-body-font;
         weight: normal;
     }
@@ -15,11 +36,11 @@ table {
 
         th {
             padding: $table-padding;
-            font: {
-                size: $small-font-size;
+            font   : {
+                size  : $small-font-size;
                 weight: normal;
             }
-            color: $white;
+            color  : $white;
 
             &:first-child {
                 border-radius: $global-radius 0 0 0;
@@ -33,14 +54,13 @@ table {
                 border-radius: $global-radius $global-radius 0 0;
             }
         }
-
     }
 
     td {
         padding: $table-padding;
     }
-    tbody {
 
+    tbody {
         tr:nth-child(odd) {
             background-color: rgb(200, 231, 238);
         }

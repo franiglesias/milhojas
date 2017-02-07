@@ -55,7 +55,7 @@ table {
         th {
             font   : {
                 family: $table-header-font;
-                size  : rem-calc(16);
+                size  : rem-calc(20);
                 weight: 400;
             }
 
@@ -86,7 +86,7 @@ table {
             background-color: darken($table-row-color, $table-stripe-scale);
 
             th {
-                background-color: daeken($table-row-header-bg-color, $table-stripe-scale);
+                background-color: darken($table-row-header-bg-color, $table-stripe-scale);
             }
         }
 

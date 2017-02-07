@@ -6,6 +6,8 @@ var rename = require('gulp-rename');
 var newer = require('gulp-newer');
 var babel = require('gulp-babel');
 var uglify = require('gulp-uglify');
+var sherpa = require('style-sherpa');
+var jquery = require('gulp-jquery');
 // Paths
 var destination = '../../../web/assets';
 
@@ -24,6 +26,7 @@ gulp.task('default', [
     'copy-react-dom',
     'compile-jsx',
     'scripts',
+    'styleguide',
     'html',
     'watch'
 ]);
@@ -32,6 +35,9 @@ gulp.task('watch', function() {
     gulp.watch(jsxSource, ['copy-react', 'copy-react-dom', 'compile-jsx']);
     gulp.watch(jsSource, ['scripts']);
     gulp.watch(sassSource, ['sass']);
+    gulp.watch([
+        'src/style/index.md', 'src/style/template.hbs'
+    ], ['styleguide']);
     gulp.watch(htmlSource, ['html']);
 });
 
@@ -49,6 +55,14 @@ gulp.task('copy-react-dom', function() {
     return gulp.src('node_modules/react-dom/dist/react-dom.js').pipe(newer(jsVendorSource + '/react-dom.js')).pipe(gulp.dest(jsVendorSource));
 });
 
+gulp.task('jquery', function() {
+    return jquery.src({
+        release: 2, //jQuery 2
+        flags: ['-deprecated', '-event/alias', '-ajax/script', '-ajax/jsonp', '-exports/global']
+    }).pipe(rename('jquery.js')).pipe(gulp.dest(jsVendorSource));
+    // creates ./public/vendor/jquery.custom.js
+});
+
 gulp.task('copy-react-to-vendor', function() {
     return gulp.src([
         jsVendorSource + '/react.js',
@@ -63,6 +77,13 @@ gulp.task('compile-jsx', () => {
 
 gulp.task('scripts', function() {
     gulp.src(jsSource).pipe(gulp.dest(destination + '/js')).pipe(rename({suffix: '.min'})).pipe(uglify()).pipe(gulp.dest(destination + '/js'));
+});
+
+gulp.task('styleguide', function() {
+    sherpa('src/style/index.md', {
+        output: 'src/style.html',
+        template: 'src/style/template.hbs'
+    });
 });
 
 gulp.task('html', function() {

@@ -4,6 +4,7 @@
 // @import url('https://fonts.googleapis.com/css?family=Montserrat');
 @import url( 'https://fonts.googleapis.com/css?family=Signika:400,600&subset=latin-ext');
 @import url( 'https://fonts.googleapis.com/css?family=Merriweather:300,300i,700,700i&subset=latin-ext');
+// FOundation settings
 @import 'settings';
 @import '../../node_modules/foundation-sites/scss/foundation.scss';
 @import '../../node_modules/motion-ui/motion-ui';
@@ -19,7 +20,7 @@
 // @include foundation-button-group;
 // @include foundation-callout;
 // @include foundation-close-button;
-// @include foundation-menu;
+@include foundation-menu;
 // @include foundation-menu-icon;
 // @include foundation-drilldown-menu;
 // @include foundation-dropdown;
@@ -33,7 +34,7 @@
 @include foundation-progress-bar;
 @include foundation-progress-element; // @include foundation-meter-element;
 // @include foundation-slider;
-// @include foundation-sticky;
+@include foundation-sticky;
 // @include foundation-reveal;
 // @include foundation-switch;
 // @include foundation-table;

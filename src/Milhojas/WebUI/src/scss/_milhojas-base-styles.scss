@@ -1,85 +1,118 @@
-.main-header {
-	background-color: $primary-color;
-	color: $white;
-	padding: $global-padding;
-	margin-bottom: $global-padding;
-	h1 {
-		text-align: center;
-	}
+.main-header
+{
+    margin-bottom: $global-padding;
+    padding: $global-padding;
 
-	p {
-		text-align: center;
-	}
+    color: $white;
+    background-color: $primary-color;
+    h1
+    {
+        text-align: center;
+    }
 
-	.button {
-		@include button(false, $white, auto, auto, hollow);
-	}
+    p
+    {
+        text-align: center;
+    }
 
-	.secondary.button {
-		@include button(false, transparentize($white, 0.8), auto, auto, hollow);
-	}
+    .button
+    {
+        @include button(false, $white, auto, auto, hollow);
+    }
+
+    .secondary.button
+    {
+        @include button(false, transparentize($white, .8), auto, auto, hollow);
+    }
 }
 
-.button {
-	@extend button;
-	font-family: $header-font-family;
+.button
+{
+    font-family: $header-font-family;
+
+    @extend button;
 }
 
-@mixin stat-box ($color) {
-	.header {
-		background-color: $color;
-		color: foreground($color, $white);
-	}
+@mixin stat-box ($color)
+{
+    .header
+    {
+        color: foreground($color, $white);
+        background-color: $color;
+    }
 
-	.body {
-		background-color: scale-color($color, $lightness: +85%);
-		color: $color;
-		border-bottom: 2px solid $color;
-	}
+    .body
+    {
+        color: $color;
+        border-bottom: 2px solid $color;
+        background-color: scale-color($color, $lightness: +85%);
+    }
 }
-.stats-display {
-	font: {
-		family: $header-font-family;
-	}
+.stats-display
+{
+    font:
+    {
+        family: $header-font-family;
+    }
 
-	.header {
-		background-color: $primary-color;
-		color: $white;
-		font: {
+    .header
+    {
+        font:
+        {
+            size: $small-font-size;
+            weight: bold;
+        };
 
-			size: $small-font-size;
-			weight: bold;
-		};
-		text-align: center;
-		height: 2em;
-	}
+        height: 2em;
 
-	p {margin-bottom: 0;}
+        text-align: center;
 
-	.body {
-		color: $black;
-		font: {
-			size: $stat-font-size;
-			weight: bold;
-		};
-		text-align: center;
-		background-color: scale-color($primary-color, $lightness: +75%);
-	}
+        color: $white;
+        background-color: $primary-color;
+    }
 
-	&.alert {
-		@include stat-box($alert-color);
-	}
+    p
+    {
+        margin-bottom: 0;
+    }
 
-	&.success {
-		@include stat-box($success-color);
-	}
-	&.warning {
-		@include stat-box($warning-color);
-	}
+    .body
+    {
+        font:
+        {
+            size: $stat-font-size;
+            weight: bold;
+        };
 
-	&.info {
-		@include stat-box($primary-color);
-	}
+        text-align: center;
 
+        color: $black;
+        background-color: scale-color($primary-color, $lightness: +75%);
+    }
 
+    &.alert
+    {
+        @include stat-box($alert-color);
+    }
+
+    &.success
+    {
+        @include stat-box($success-color);
+    }
+    &.warning
+    {
+        @include stat-box($warning-color);
+    }
+
+    &.info
+    {
+        @include stat-box($primary-color);
+    }
+}
+
+// Active state
+li > a.active
+{
+    color: $menu-item-color-active;
+    background: $menu-item-background-active;
 }

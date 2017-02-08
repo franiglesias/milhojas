@@ -67,29 +67,28 @@
       <a href="http://foundation.zurb.com/business/business-support.html" class="secondary button">Technical Support</a>
     </div>
 
-    <div class="column row">
-        <div class="row collapse">
-            <div class="large-3 medium-4 columns" data-sticky-container id="navigation">
-                <div class="sticky" data-sticky data-top-anchor="navigation"  style="width:100%">
-                    <ul class="vertical menu">
-                        {{#each pages}}
-                        <li><a href="#{{ anchor }}">{{ title }}</a></li>
-                        {{/each}}
-                    </ul>
+    <div class="row">
+        <div class="large-3 medium-4 columns" data-sticky-container id="navigation">
+            <div class="sticky" data-sticky data-top-anchor="navigation" data-anchor="contents" style="width:100%">
+                <ul class="vertical menu" data-magellan>
+                    {{#each pages}}
+                    <li><a href="#{{ anchor }}">{{ title }}</a></li>
+                    {{/each}}
+                </ul>
 
-                </div>
-
-            </div>
-
-            <div class="large-9 medium-8 columns" id="contents">
-                {{#each pages}}
-                <section class="ss-section" id="{{ anchor }}">
-                    {{ body }}
-                </section>
-                {{/each}}
             </div>
 
         </div>
+
+        <div class="large-9 medium-8 columns" id="contents">
+            {{#each pages}}
+            <section class="ss-section" id="{{ anchor }}" data-magellan-target="{{ anchor }}">
+                {{ body }}
+            </section>
+            {{/each}}
+        </div>
+
+
     </div>
 
     <script src="js/vendor/foundation.min.js" charset="utf-8"></script>

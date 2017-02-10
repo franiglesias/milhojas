@@ -25,7 +25,7 @@ class StudentServiceDoctrineRepositorySpec extends ObjectBehavior
 
     public function it_can_store_Students(Student $student, StudentDTO $studentDTO, $entityManager, $mapper)
     {
-        $mapper->toDto($student)->willReturn($studentDTO);
+        $mapper->entityToDto($student)->willReturn($studentDTO);
         $entityManager->persist(Argument::type(StudentDTO::class))->shouldBeCalled();
         $entityManager->flush()->shouldBeCalled();
         $this->store($student);

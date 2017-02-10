@@ -12,6 +12,23 @@ use PhpSpec\ObjectBehavior;
 
 class StudentMapperSpec extends ObjectBehavior
 {
+    public function let()
+    {
+        $from = function (Student $student) {
+            return StudentDTO::fromStudent($student);
+        };
+        $to = function (StudentDTO $dto) {
+            $person = $dto->getPerson();
+
+            return new Student(
+                new StudentId($dto->getId()),
+                new Person($person->getName(), $person->getSurname(), $person->getGender()),
+                '',
+                ''
+            );
+        };
+        $this->beConstructedWith($from, $to);
+    }
     public function it_is_initializable()
     {
         $this->shouldHaveType(StudentMapper::class);
@@ -24,7 +41,7 @@ class StudentMapperSpec extends ObjectBehavior
         $dto = new StudentDTO();
         $dto->setId('id');
         $dto->setPerson(new PersonDTO('Name', 'Surname', 'male'));
-        $this->toDto($student)->shouldBeLike($dto);
+        $this->entityToDto($student)->shouldBeLike($dto);
     }
 
     public function it_maps_dto_to_domain_entity(StudentDTO $dto)
@@ -32,6 +49,6 @@ class StudentMapperSpec extends ObjectBehavior
         $student = new Student(new StudentId('id'), new Person('Name', 'Surname', 'male'), '', '');
         $dto->getId()->willReturn('id');
         $dto->getPerson()->willReturn(new PersonDTO('Name', 'Surname', 'male'));
-        $this->toEntity($dto)->shouldBeLike($student);
+        $this->dtoToEntity($dto)->shouldBeLike($student);
     }
 }

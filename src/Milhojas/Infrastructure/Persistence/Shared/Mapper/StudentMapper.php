@@ -2,27 +2,24 @@
 
 namespace Milhojas\Infrastructure\Persistence\Shared\Mapper;
 
-use Milhojas\Domain\Shared\Student;
-use Milhojas\Domain\Shared\StudentId;
-use Milhojas\Infrastructure\Persistence\Shared\DTO\StudentDTO;
-use Milhojas\Library\ValueObjects\Identity\Person;
+use Milhojas\Infrastructure\Persistence\Mapper\Mapper;
 
-class StudentMapper
+class StudentMapper implements Mapper
 {
-    public function toDto(Student $student)
+    private $from;
+    private $to;
+    public function __construct(\Closure $from, \Closure $to)
     {
-        return StudentDTO::fromStudent($student);
+        $this->from = $from;
+        $this->to = $to;
+    }
+    public function entityToDto($student)
+    {
+        return $this->from->__invoke($student);
     }
 
-    public function toEntity(StudentDTO $dto)
+    public function dtoToEntity($dto)
     {
-        $person = $dto->getPerson();
-
-        return new Student(
-            new StudentId($dto->getId()),
-            new Person($person->getName(), $person->getSurname(), $person->getGender()),
-            '',
-            ''
-        );
+        return $this->to->__invoke($dto);
     }
 }

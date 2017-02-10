@@ -29,7 +29,17 @@ class StudentRepository implements StudentServiceRepository
  */
 public function get(StudentServiceSpecification $studentServiceSpecification)
 {
-    throw new \LogicException('Not implemented'); // TODO
+    $candidates = $this->storage->findBy($studentServiceSpecification);
+
+    $students = array_map([$this->mapper, 'toEntity'], $candidates);
+
+    return array_reduce($students, function ($result, $student) use ($studentServiceSpecification) {
+        if ($studentServiceSpecification->isSatisfiedBy($student)) {
+            $result = $student;
+        }
+
+        return $result;
+    }, null);
 }
 
 /**
@@ -37,14 +47,11 @@ public function get(StudentServiceSpecification $studentServiceSpecification)
  */
 public function find(StudentServiceSpecification $studentServiceSpecification)
 {
-    $all = $this->storage->findAll();
-    $students = array_map(function ($dto) {
-        return $this->mapper->toEntity($dto);
-    }, $all);
+    $candidates = $this->storage->findAll();
 
-    return array_filter($students, function ($student) use ($studentServiceSpecification) {
-        return $studentServiceSpecification->isSatisfiedBy($student);
-    });
+    $students = array_map([$this->mapper, 'toEntity'], $candidates);
+
+    return array_filter($students, [$studentServiceSpecification, 'isSatisfiedBy']);
 }
 
 /**

@@ -10,6 +10,7 @@ use Milhojas\Domain\Shared\Student;
 use Milhojas\Domain\Shared\StudentServiceRepository;
 use Milhojas\Domain\Shared\Specification\StudentServiceSpecification;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
 
 class StudentRepositorySpec extends ObjectBehavior
 {
@@ -36,5 +37,14 @@ class StudentRepositorySpec extends ObjectBehavior
         $mapper->toEntity($dto)->shouldBeCalled()->willReturn($student);
         $specification->isSatisfiedBy($student)->shouldBeCalled(1)->willReturn(true);
         $this->find($specification)->shouldBe([$student]);
+    }
+
+    public function it_can_get_student(StudentServiceSpecification $specification, Student $student, StudentDTO $dto, $storage, $mapper)
+    {
+        $storage->findBy(Argument::any())->willReturn([$dto]);
+        $mapper->toEntity($dto)->shouldBeCalled()->willReturn($student);
+        $specification->isSatisfiedBy($student)->shouldBeCalled(1)->willReturn(true);
+
+        $this->get($specification)->shouldBe($student);
     }
 }

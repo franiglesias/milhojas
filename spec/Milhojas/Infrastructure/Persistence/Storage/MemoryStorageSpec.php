@@ -13,4 +13,10 @@ class MemoryStorageSpec extends ObjectBehavior
         $this->shouldHaveType(MemoryStorage::class);
         $this->shouldImplement(Storage::class);
     }
+
+    public function it_stores_an_object($object)
+    {
+        $this->store($object);
+        $this->findAll()->shouldHaveCount(1);
+    }
 }

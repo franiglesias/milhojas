@@ -25,4 +25,11 @@ class MemoryStorage implements Storage
     {
         return $this->collection;
     }
+    /**
+     * {@inheritdoc}
+     */
+    public function findBy($argument1)
+    {
+        throw new \LogicException('Not implemented'); // TODO
+    }
 }

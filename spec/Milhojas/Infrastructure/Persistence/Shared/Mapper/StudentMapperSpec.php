@@ -44,11 +44,29 @@ class StudentMapperSpec extends ObjectBehavior
         $this->entityToDto($student)->shouldBeLike($dto);
     }
 
+    public function it_can_accept_iterable(Student $student)
+    {
+        $student->getPlainId()->willReturn('id');
+        $student->getPerson()->willReturn(new Person('Name', 'Surname', 'male'));
+        $dto = new StudentDTO();
+        $dto->setId('id');
+        $dto->setPerson(new PersonDTO('Name', 'Surname', 'male'));
+        $this->entityToDto([$student, $student])->shouldBeLike([$dto, $dto]);
+    }
+
     public function it_maps_dto_to_domain_entity(StudentDTO $dto)
     {
         $student = new Student(new StudentId('id'), new Person('Name', 'Surname', 'male'), '', '');
         $dto->getId()->willReturn('id');
         $dto->getPerson()->willReturn(new PersonDTO('Name', 'Surname', 'male'));
         $this->dtoToEntity($dto)->shouldBeLike($student);
+    }
+
+    public function it_maps_dto_to_domain_entity_iterable(StudentDTO $dto)
+    {
+        $student = new Student(new StudentId('id'), new Person('Name', 'Surname', 'male'), '', '');
+        $dto->getId()->willReturn('id');
+        $dto->getPerson()->willReturn(new PersonDTO('Name', 'Surname', 'male'));
+        $this->dtoToEntity([$dto, $dto])->shouldBeLike([$student, $student]);
     }
 }

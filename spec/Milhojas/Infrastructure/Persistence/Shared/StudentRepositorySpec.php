@@ -34,7 +34,7 @@ class StudentRepositorySpec extends ObjectBehavior
     public function it_can_find_students(StudentServiceSpecification $specification, Student $student, StudentDTO $dto, $storage, $mapper)
     {
         $storage->findAll()->willReturn([$dto]);
-        $mapper->dtoToEntity($dto)->shouldBeCalled()->willReturn($student);
+        $mapper->dtoToEntity([$dto])->shouldBeCalled()->willReturn([$student]);
         $specification->isSatisfiedBy($student)->shouldBeCalled(1)->willReturn(true);
         $this->find($specification)->shouldBe([$student]);
     }
@@ -42,7 +42,7 @@ class StudentRepositorySpec extends ObjectBehavior
     public function it_can_get_student(StudentServiceSpecification $specification, Student $student, StudentDTO $dto, $storage, $mapper)
     {
         $storage->findBy(Argument::any())->willReturn([$dto]);
-        $mapper->dtoToEntity($dto)->shouldBeCalled()->willReturn($student);
+        $mapper->dtoToEntity([$dto])->shouldBeCalled()->willReturn([$student]);
         $specification->isSatisfiedBy($student)->shouldBeCalled(1)->willReturn(true);
 
         $this->get($specification)->shouldBe($student);

@@ -15,11 +15,19 @@ class StudentMapper implements Mapper
     }
     public function entityToDto($student)
     {
+        if (is_array($student)) {
+            return array_map($this->from, $student);
+        }
+
         return $this->from->__invoke($student);
     }
 
     public function dtoToEntity($dto)
     {
+        if (is_array($dto)) {
+            return array_map($this->to, $dto);
+        }
+
         return $this->to->__invoke($dto);
     }
 }

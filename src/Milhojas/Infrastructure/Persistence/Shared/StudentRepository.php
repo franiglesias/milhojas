@@ -31,8 +31,7 @@ class StudentRepository implements StudentServiceRepository
 public function get(StudentServiceSpecification $studentServiceSpecification)
 {
     $candidates = $this->storage->findBy($studentServiceSpecification);
-
-    $students = array_map([$this->mapper, 'dtoToEntity'], $candidates);
+    $students = $this->mapper->dtoToEntity($candidates);
 
     return array_reduce($students, function ($result, $student) use ($studentServiceSpecification) {
         if ($studentServiceSpecification->isSatisfiedBy($student)) {
@@ -50,7 +49,7 @@ public function find(StudentServiceSpecification $studentServiceSpecification)
 {
     $candidates = $this->storage->findAll();
 
-    $students = array_map([$this->mapper, 'dtoToEntity'], $candidates);
+    $students = $this->mapper->dtoToEntity($candidates);
 
     return array_filter($students, [$studentServiceSpecification, 'isSatisfiedBy']);
 }

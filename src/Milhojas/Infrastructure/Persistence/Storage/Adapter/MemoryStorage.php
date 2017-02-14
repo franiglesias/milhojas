@@ -1,6 +1,8 @@
 <?php
 
-namespace Milhojas\Infrastructure\Persistence\Storage;
+namespace Milhojas\Infrastructure\Persistence\Storage\Adapter;
+
+use Milhojas\Infrastructure\Persistence\Storage\Storage;
 
 class MemoryStorage implements Storage
 {
@@ -28,8 +30,8 @@ class MemoryStorage implements Storage
     /**
      * {@inheritdoc}
      */
-    public function findBy($argument1)
+    public function findBy($specification)
     {
-        throw new \LogicException('Not implemented'); // TODO
+        return $this->collection;
     }
 }

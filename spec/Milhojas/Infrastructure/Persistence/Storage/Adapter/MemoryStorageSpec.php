@@ -1,8 +1,8 @@
 <?php
 
-namespace spec\Milhojas\Infrastructure\Persistence\Storage;
+namespace spec\Milhojas\Infrastructure\Persistence\Storage\Adapter;
 
-use Milhojas\Infrastructure\Persistence\Storage\MemoryStorage;
+use Milhojas\Infrastructure\Persistence\Storage\Adapter\MemoryStorage;
 use Milhojas\Infrastructure\Persistence\Storage\Storage;
 use PhpSpec\ObjectBehavior;
 

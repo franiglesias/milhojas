@@ -24,7 +24,7 @@ class CantineUserDoctrineRepository implements CantineUserRepository
      */
     public function store(CantineUser $user)
     {
-        $dto = $this->mapper->toDTO($user);
+        $dto = $this->mapper->entityToDto($user);
         $this->em->persist($dto);
         $this->em->flush();
     }
@@ -37,7 +37,7 @@ class CantineUserDoctrineRepository implements CantineUserRepository
         $repository = $this->em->getRepository('Entity\CantineUser');
         $dto = $repository->find($id);
 
-        return $this->mapper->fromDTO($dto);
+        return $this->mapper->dtoToEntity($dto);
     }
 
     /**

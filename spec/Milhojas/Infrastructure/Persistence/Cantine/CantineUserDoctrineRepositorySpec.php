@@ -26,7 +26,7 @@ class CantineUserDoctrineRepositorySpec extends ObjectBehavior
     public function it_can_store_and_retrieve_a_cantine_user(CantineUser $cantineUser, Mapper $mapper, CantineUserDTO $dto, $entityManager)
     {
         $cantineUser->getStudentId()->willReturn('student-01');
-        $mapper->toDTO($cantineUser)->shouldBeCalled()->willReturn($dto);
+        $mapper->entityToDto($cantineUser)->shouldBeCalled()->willReturn($dto);
         $entityManager->persist($dto)->shouldBeCalled();
         $entityManager->flush()->shouldBeCalled();
         $this->store($cantineUser);
@@ -36,7 +36,7 @@ class CantineUserDoctrineRepositorySpec extends ObjectBehavior
     {
         $entityManager->getRepository('Entity\CantineUser')->willReturn($repository);
         $repository->find('student-01')->shouldBeCalled()->willReturn($dto);
-        $mapper->fromDTO($dto)->shouldBeCalled()->willReturn($cantineUser);
+        $mapper->dtoToEntity($dto)->shouldBeCalled()->willReturn($cantineUser);
         $this->retrieve('student-01')->shouldBe($cantineUser);
     }
 }

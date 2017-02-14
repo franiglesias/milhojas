@@ -10,6 +10,4 @@ interface StudentServiceRepository
     public function find(StudentServiceSpecification $studentServiceSpecification);
 
     public function store(Student $student);
-
-    public function getAll();
 }

@@ -16,4 +16,14 @@ class StudentNamed implements StudentServiceSpecification
     {
         return $this->name == $student->getPerson()->getFullName();
     }
+
+    public function getRule()
+    {
+        return 'fullname = ":name"';
+    }
+
+    public function getParameters()
+    {
+        return ['name' => $this->name];
+    }
 }

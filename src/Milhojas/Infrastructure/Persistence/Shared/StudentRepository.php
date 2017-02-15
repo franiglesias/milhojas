@@ -4,7 +4,7 @@ namespace Milhojas\Infrastructure\Persistence\Shared;
 
 use Milhojas\Infrastructure\Persistence\Storage\Storage;
 use Milhojas\Domain\Shared\StudentServiceRepository;
-use Milhojas\Domain\Shared\Specification\StudentServiceSpecification;
+use RulerZ\Spec\Specification;
 use Milhojas\Domain\Shared\Student;
 
 class StudentRepository implements StudentServiceRepository
@@ -22,7 +22,7 @@ class StudentRepository implements StudentServiceRepository
     /**
      * {@inheritdoc}
      */
-    public function get(StudentServiceSpecification $studentServiceSpecification)
+    public function get(Specification $studentServiceSpecification)
     {
         $students = $this->storage->findBy($studentServiceSpecification);
 
@@ -38,7 +38,7 @@ class StudentRepository implements StudentServiceRepository
     /**
      * {@inheritdoc}
      */
-    public function find(StudentServiceSpecification $studentServiceSpecification)
+    public function find(Specification $studentServiceSpecification)
     {
         $students = $this->storage->findBy($studentServiceSpecification);
 

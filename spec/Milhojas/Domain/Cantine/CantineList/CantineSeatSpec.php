@@ -56,7 +56,8 @@ class CantineSeatSpec extends ObjectBehavior
     {
         $greater->getDate()->willReturn($date);
         $greater->getTurn()->willReturn($turn);
-        $greater->getUserListName()->willreturn('Zabala, Pedro');
+        $greater->getUser()->willreturn($greaterUser);
+        $user->compare($greaterUser)->willReturn(Sortable::SMALLER);
         $this->compare($greater)->shouldBe(Sortable::SMALLER);
     }
 

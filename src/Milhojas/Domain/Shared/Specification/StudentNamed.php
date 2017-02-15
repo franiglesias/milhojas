@@ -3,8 +3,9 @@
 namespace Milhojas\Domain\Shared\Specification;
 
 use Milhojas\Domain\Shared\Student;
+use RulerZ\Spec\AbstractSpecification;
 
-class StudentNamed implements StudentServiceSpecification
+class StudentNamed extends AbstractSpecification
 {
     private $name;
     public function __construct($name)

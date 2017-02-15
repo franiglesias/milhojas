@@ -3,7 +3,7 @@
 namespace Milhojas\Infrastructure\Persistence\Shared;
 
 use Milhojas\Domain\Shared\StudentServiceRepository;
-use Milhojas\Domain\Shared\Specification\StudentServiceSpecification;
+use RulerZ\Spec\Specification;
 use Milhojas\Domain\Shared\Student;
 use Milhojas\Infrastructure\Persistence\Shared\Mapper\StudentMapper;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,7 +22,7 @@ class StudentServiceDoctrineRepository implements StudentServiceRepository
     /**
      * {@inheritdoc}
      */
-    public function get(StudentServiceSpecification $studentServiceSpecification)
+    public function get(Specification $studentServiceSpecification)
     {
         throw new \LogicException('Not implemented'); // TODO
     }
@@ -30,7 +30,7 @@ class StudentServiceDoctrineRepository implements StudentServiceRepository
     /**
      * {@inheritdoc}
      */
-    public function find(StudentServiceSpecification $studentServiceSpecification)
+    public function find(Specification $studentServiceSpecification)
     {
         throw new \LogicException('Not implemented'); // TODO
     }

@@ -15,6 +15,7 @@ class Checklist
     public function __construct($elements)
     {
         $this->items = array_fill_keys($elements, false);
+        ksort($this->items);
     }
 
     /**
@@ -125,5 +126,17 @@ class Checklist
     public function hasMarks()
     {
         return array_sum($this->items);
+    }
+
+    public function getListAsString()
+    {
+        return implode(', ', $this->getChecked());
+    }
+
+    public function getChecked()
+    {
+        return array_keys(array_filter($this->items, function ($value) {
+            return $value;
+        }));
     }
 }

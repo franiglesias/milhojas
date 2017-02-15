@@ -4,7 +4,7 @@ namespace Milhojas\Infrastructure\Persistence\Shared;
 
 use Milhojas\Domain\Shared\StudentServiceRepository;
 use Milhojas\Domain\Shared\Exception\StudentServiceException;
-use Milhojas\Domain\Shared\Specification\StudentServiceSpecification;
+use RulerZ\Spec\Specification;
 use Milhojas\Domain\Shared\Student;
 
 class StudentServiceInMemoryRepository implements StudentServiceRepository
@@ -13,7 +13,7 @@ class StudentServiceInMemoryRepository implements StudentServiceRepository
     /**
      * {@inheritdoc}
      */
-    public function get(StudentServiceSpecification $studentServiceSpecification)
+    public function get(Specification $studentServiceSpecification)
     {
         foreach ($this->students as $student) {
             if ($studentServiceSpecification->isSatisfiedBy($student)) {
@@ -31,7 +31,7 @@ class StudentServiceInMemoryRepository implements StudentServiceRepository
     /**
      * {@inheritdoc}
      */
-    public function find(StudentServiceSpecification $studentServiceSpecification)
+    public function find(Specification $studentServiceSpecification)
     {
         $found = [];
         foreach ($this->students as $student) {

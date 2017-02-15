@@ -3,14 +3,11 @@
 namespace spec\Milhojas\Domain\Cantine;
 
 use League\Period\Period;
-use Milhojas\Domain\Cantine\Allergens;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineGroup;
 use Milhojas\Domain\Cantine\NullCantineGroup;
 use Milhojas\Domain\Cantine\Exception\InvalidTicket;
-use Milhojas\Domain\Shared\Student;
-use Milhojas\Domain\Shared\StudentId;
-use Milhojas\Domain\Shared\ClassGroup;
+use Milhojas\Domain\Cantine\Allergens;
 use Milhojas\Domain\Utils\Schedule\Schedule;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Library\ValueObjects\Identity\Person;
@@ -19,14 +16,9 @@ use PhpSpec\ObjectBehavior;
 
 class CantineUserSpec extends ObjectBehavior
 {
-    public function let(Student $student, StudentId $studentId, Schedule $schedule, Person $name, Allergens $allergens)
+    public function let(Schedule $schedule)
     {
-        $student->getId()->willReturn($studentId);
-        $student->getPerson()->willReturn($name);
-        $student->getAllergies()->willReturn($allergens);
-        $student->getClass()->willReturn(new ClassGroup('3º E. Primaria', 'EP 3 A', 'EP'));
-        $student->getRemarks()->willReturn('Some remarks');
-        $this->beConstructedThrough('apply', [$student, $schedule]);
+        $this->beConstructedThrough('apply', ['101', 'Pérez, Pedro', 'EP 3 A', 'EP', $schedule]);
     }
     public function it_is_initializable()
     {
@@ -36,8 +28,7 @@ class CantineUserSpec extends ObjectBehavior
 
     public function it_can_tell_what_is_its_name($name)
     {
-        $this->getPerson()->shouldHaveType(Person::class);
-        $this->getPerson()->shouldBe($name);
+        $this->getListName()->shouldBe('Pérez, Pedro');
     }
 
     public function it_has_autoassigned_null_group_by_default()
@@ -45,9 +36,9 @@ class CantineUserSpec extends ObjectBehavior
         $this->belongsToGroup(new NullCantineGroup())->shouldBe(true);
     }
 
-    public function it_can_be_assigned_to_a_group()
+    public function it_can_be_assigned_to_a_group(CantineGroup $group)
     {
-        $group = new CantineGroup('Group 1');
+        $group->isTheSameAs($group)->willReturn(true);
         $this->assignToGroup($group);
         $this->belongsToGroup($group)->shouldReturn(true);
     }
@@ -64,9 +55,9 @@ class CantineUserSpec extends ObjectBehavior
         $this->shouldNotBeEatingOnDate($anyDate);
     }
 
-    public function it_can_say_to_which_student_is_associated(StudentId $studentId)
+    public function it_can_say_to_which_student_is_associated()
     {
-        $this->getStudentId()->shouldReturn($studentId);
+        $this->getStudentId()->shouldReturn('101');
     }
 
     public function it_can_update_schedule(Schedule $schedule, Schedule $delta, Schedule $new, \DateTimeImmutable $anyDate)
@@ -83,11 +74,10 @@ class CantineUserSpec extends ObjectBehavior
         $this->shouldNotBeEatingOnDate($anyDate);
     }
 
-    public function it_can_compare_to_another_user($name, Person $anotherName, CantineUser $anotherUser)
+    public function it_can_compare_to_another_user(CantineUser $anotherUser)
     {
-        $anotherUser->getPerson()->willReturn($anotherName);
-        $name->compare($anotherName)->willReturn(-1)->shouldBeCalled();
-        $this->compare($anotherUser)->shouldBe(-1);
+        $anotherUser->getListName()->willReturn('Martínez, Eva');
+        $this->compare($anotherUser)->shouldBe(1);
     }
 
     public function it_can_tell_extracurricular_user_is_enrolled()
@@ -95,16 +85,16 @@ class CantineUserSpec extends ObjectBehavior
         $this->isEnrolled()->shouldReturn(true);
     }
 
-    public function it_can_apply_without_schedule_getting_null_schedule($student, $studentId, $name, \DateTimeImmutable $anyDate)
+    public function it_can_apply_without_schedule_getting_null_schedule(\DateTimeImmutable $anyDate)
     {
-        $this->beConstructedThrough('apply', [$student]);
+        $this->beConstructedThrough('apply', ['102', 'Fernández, Rodrigo', 'EP 4 B', 'EP']);
         $this->shouldNotBeEatingOnDate($anyDate);
     }
 
-    public function it_can_buy_a_ticket($student)
+    public function it_can_buy_a_ticket()
     {
         $date = new \DateTime();
-        $this->beConstructedThrough('apply', [$student]);
+        $this->beConstructedThrough('apply', ['102', 'Fernández, Rodrigo', 'EP 4 B', 'EP']);
         $this->buysTicketFor(new ListOfDates([$date]));
         $this->shouldBeEatingOnDate($date);
     }
@@ -116,8 +106,9 @@ class CantineUserSpec extends ObjectBehavior
         $this->shouldThrow(InvalidTicket::class)->during('buysTicketFor', [new ListOfDates([$date])]);
     }
 
-    public function it_know_about_allergies($allergens)
+    public function it_know_about_allergies(Allergens $allergens)
     {
+        $this->setAllergies($allergens);
         $allergens->isAllergic()->willReturn(true);
         $this->shouldBeAllergic();
 
@@ -125,8 +116,9 @@ class CantineUserSpec extends ObjectBehavior
         $this->shouldNotBeAllergic();
     }
 
-    public function it_can_tell_allergens($allergens)
+    public function it_can_tell_allergens(Allergens $allergens)
     {
+        $this->setAllergies($allergens);
         $this->getAllergens()->shouldBe($allergens);
     }
 
@@ -155,6 +147,7 @@ class CantineUserSpec extends ObjectBehavior
 
     public function it_can_tell_remarks()
     {
+        $this->setRemarks('Some remarks');
         $this->getRemarks()->shouldBe('Some remarks');
     }
 }

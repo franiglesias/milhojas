@@ -5,7 +5,7 @@ namespace spec\Milhojas\Infrastructure\Persistence\Shared;
 use Milhojas\Domain\Shared\Exception\StudentServiceException;
 use Milhojas\Infrastructure\Persistence\Shared\StudentServiceInMemoryRepository;
 use Milhojas\Domain\Shared\StudentServiceRepository;
-use Milhojas\Domain\Shared\Specification\StudentServiceSpecification;
+use RulerZ\Spec\Specification;
 use Milhojas\Domain\Shared\Student;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -23,7 +23,7 @@ class StudentServiceInMemoryRepositorySpec extends ObjectBehavior
         $this->store($student);
     }
 
-    public function it_can_get_an_student_using_a_specification(StudentServiceSpecification $specification, Student $student)
+    public function it_can_get_an_student_using_a_specification(Specification $specification, Student $student)
     {
         $this->store($student);
 
@@ -32,7 +32,7 @@ class StudentServiceInMemoryRepositorySpec extends ObjectBehavior
         $this->get($specification)->shouldBeLike($student);
     }
 
-    public function it_can_find_students_satisfyind_specification(StudentServiceSpecification $specification, Student $student, Student $student2, Student $student3)
+    public function it_can_find_students_satisfyind_specification(Specification $specification, Student $student, Student $student2, Student $student3)
     {
         $this->store($student);
         $this->store($student2);
@@ -43,7 +43,7 @@ class StudentServiceInMemoryRepositorySpec extends ObjectBehavior
         $this->find($specification)->shouldBeLike([$student, $student3]);
     }
 
-    public function it_returns_empty_if_no_students_satisfiy_specifications(StudentServiceSpecification $specification, Student $student, Student $student2, Student $student3)
+    public function it_returns_empty_if_no_students_satisfiy_specifications(Specification $specification, Student $student, Student $student2, Student $student3)
     {
         $this->store($student);
         $this->store($student2);
@@ -54,7 +54,7 @@ class StudentServiceInMemoryRepositorySpec extends ObjectBehavior
         $this->find($specification)->shouldBeLike([]);
     }
 
-    public function it_throws_exception_if_student_not_found(StudentServiceSpecification $specification)
+    public function it_throws_exception_if_student_not_found(Specification $specification)
     {
         $specification->isSatisfiedBy(Argument::type(Student::class))->willReturn(false);
         $this->shouldThrow(StudentServiceException::class)->during('get', [$specification]);

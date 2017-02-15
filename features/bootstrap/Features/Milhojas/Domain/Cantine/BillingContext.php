@@ -7,12 +7,10 @@ use Behat\Gherkin\Node\TableNode;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Domain\Utils\Schedule\MonthWeekSchedule;
 use Milhojas\Domain\Shared\Student;
-use Milhojas\Domain\Shared\StudentId;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineGroup;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
 use Milhojas\Domain\Cantine\Specification\BillableThisMonth;
-use Milhojas\LIbrary\ValueObjects\Identity\Person;
 use League\Period\Period;
 
 /**
@@ -52,13 +50,12 @@ class BillingContext implements Context
                     // code...
                     break;
             }
-            $student = new Student(
-                new StudentId($row['student_id']),
-                new Person($row['name'], $row['surname'], $row['gender']),
+            $User = CantineUser::apply(
+                $row['student_id'],
+                sprintf('%s, %s', $row['surname'], $row['name']),
                 $row['class'],
-                ''
-            );
-            $User = CantineUser::apply($student, $schedule);
+                substr($row['class'], 0, strpos($row['class'], ' ')),
+                $schedule);
             $User->assignToGroup(new CantineGroup($row['group']));
             $this->CantineUserRepository->store($User);
         }
@@ -84,7 +81,7 @@ class BillingContext implements Context
         foreach ($billable as $user) {
             $days = $user->getBillableDaysOn($month);
             $this->result[] = [
-                'student' => $user->getPerson()->getListName(),
+                'student' => $user->getListName(),
                 'days' => $days,
                 'amount' => $this->priceList[$days],
             ];

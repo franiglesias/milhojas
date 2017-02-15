@@ -2,12 +2,12 @@
 
 namespace Milhojas\Domain\Shared;
 
-use Milhojas\Domain\Shared\Specification\StudentServiceSpecification;
+use RulerZ\Spec\Specification;
 
 interface StudentServiceRepository
 {
-    public function get(StudentServiceSpecification $studentServiceSpecification);
-    public function find(StudentServiceSpecification $studentServiceSpecification);
+    public function get(Specification $studentServiceSpecification);
+    public function find(Specification $studentServiceSpecification);
 
     public function store(Student $student);
 }

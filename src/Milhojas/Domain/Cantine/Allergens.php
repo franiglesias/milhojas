@@ -25,4 +25,9 @@ class Allergens
     {
         return $this->list->hasCoincidencesWith($another->list);
     }
+
+    public function getAsString()
+    {
+        return $this->list->getListAsString();
+    }
 }

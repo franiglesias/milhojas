@@ -3,8 +3,9 @@
 namespace Milhojas\Domain\Shared\Specification;
 
 use Milhojas\Domain\Shared\Student;
+use RulerZ\Spec\Specification;
 
-class StudentsWhoseNameContains implements StudentServiceSpecification
+class StudentsWhoseNameContains implements Specification
 {
     private $fragment;
     public function __construct($fragment)
@@ -23,5 +24,20 @@ class StudentsWhoseNameContains implements StudentServiceSpecification
         }
 
         return false;
+    }
+    /**
+     * {@inheritdoc}
+     */
+    public function getRule()
+    {
+        throw new \LogicException('Not implemented'); // TODO
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParameters()
+    {
+        return ['fragment' => $this->fragment]; // TODO
     }
 }

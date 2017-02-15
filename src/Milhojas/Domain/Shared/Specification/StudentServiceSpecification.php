@@ -4,7 +4,7 @@ namespace Milhojas\Domain\Shared\Specification;
 
 use Milhojas\Domain\Shared\Student;
 
-interface StudentServiceSpecification
+interface Specification
 {
     public function isSatisfiedBy(Student $student);
 }

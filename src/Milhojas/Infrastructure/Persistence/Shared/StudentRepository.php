@@ -52,4 +52,9 @@ class StudentRepository implements StudentServiceRepository
     {
         $this->storage->store($student);
     }
+
+    public function getAll()
+    {
+        return $this->storage->findAll();
+    }
 }

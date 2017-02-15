@@ -10,7 +10,6 @@ use Milhojas\Domain\Utils\Schedule\Schedule;
 use Milhojas\Domain\Utils\Schedule\NullSchedule;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Library\Sortable\Sortable;
-use Milhojas\LIbrary\ValueObjects\Identity\Person;
 
 /**
  * Represents a CantineUser.
@@ -18,7 +17,6 @@ use Milhojas\LIbrary\ValueObjects\Identity\Person;
 class CantineUser implements Sortable
 {
     protected $studentId;
-    protected $person;
     protected $schedule;
     protected $allergens;
     protected $cantineGroup;
@@ -30,12 +28,6 @@ class CantineUser implements Sortable
 
     public function __construct($id, $listname, $class, $stage, Schedule $schedule)
     {
-        // $this->studentId = $student->getId();
-        // $this->person = $student->getPerson();
-        // $this->allergens = $student->getAllergies();
-        // $this->classGroup = $student->getClass();
-        // $this->remarks = $student->getRemarks();
-
         $this->studentId = $id;
         $this->listname = $listname;
         $this->class = $class;
@@ -53,9 +45,8 @@ class CantineUser implements Sortable
     public static function apply($id, $listname, $class, $stage, Schedule $schedule = null)
     {
         $schedule = $schedule ? $schedule : new NullSchedule();
-        $cantineUser = new self($id, $listname, $class, $stage, $schedule);
 
-        return $cantineUser;
+        return new self($id, $listname, $class, $stage, $schedule);
     }
     /**
      * Tells if the User is expected to use the cantine on date provided.
@@ -86,11 +77,6 @@ class CantineUser implements Sortable
     public function updateSchedule(Schedule $delta)
     {
         $this->schedule = $this->schedule->update($delta);
-    }
-
-    public function isEnrolled()
-    {
-        return true;
     }
 
     /**
@@ -182,7 +168,10 @@ class CantineUser implements Sortable
 
     public function getRemarks()
     {
-        $remarks = $this->allergens->getAsString();
+        $remarks = '';
+        if ($this->allergens) {
+            $remarks = $this->allergens->getAsString();
+        }
         if (!$this->remarks) {
             return $remarks;
         }

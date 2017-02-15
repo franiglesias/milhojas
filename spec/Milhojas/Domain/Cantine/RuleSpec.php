@@ -19,7 +19,6 @@ class RuleSpec extends ObjectBehavior
         Turn $turn)
     {
         $User->belongsToGroup($group)->willReturn(true);
-        $User->isEnrolled()->willReturn(false);
 
         $this->beConstructedWith($turn, $schedule, $group, [], []);
     }
@@ -48,7 +47,6 @@ class RuleSpec extends ObjectBehavior
         $schedule->isScheduledDate($date)->willReturn(false);
         $User->getListName()->shouldBeCalled();
         $this->shouldThrow(CantineUserCouldNotBeAssignedToTurn::class)->during('assignsUserToTurn', [$User, $date]);
-        // $this->assignsUserToTurn($User, $date)->shouldBe(false);
     }
 
     public function it_does_not_appoint_user_if_group_does_not_match(
@@ -61,7 +59,6 @@ class RuleSpec extends ObjectBehavior
         $User->belongsToGroup($group)->willReturn(false);
         $User->getListName()->shouldBeCalled();
         $this->shouldThrow(CantineUserCouldNotBeAssignedToTurn::class)->during('assignsUserToTurn', [$User, $date]);
-        // $this->assignsUserToTurn($User, $date)->shouldBe(false);
     }
 
     public function it_delegates_to_another_rule_if_it_can_not_handle_conditions(
@@ -89,8 +86,6 @@ class RuleSpec extends ObjectBehavior
         $rule->assignsUserToTurn($User, $date)->shouldNotBeCalled();
         $User->getListName()->shouldBeCalled();
         $this->shouldThrow(CantineUserCouldNotBeAssignedToTurn::class)->during('assignsUserToTurn', [$User, $date]);
-
-        // $this->assignsUserToTurn($User, $date)->shouldBe(false);
     }
 
     public function it_returns_first_positive(

@@ -80,11 +80,6 @@ class CantineUserSpec extends ObjectBehavior
         $this->compare($anotherUser)->shouldBe(1);
     }
 
-    public function it_can_tell_extracurricular_user_is_enrolled()
-    {
-        $this->isEnrolled()->shouldReturn(true);
-    }
-
     public function it_can_apply_without_schedule_getting_null_schedule(\DateTimeImmutable $anyDate)
     {
         $this->beConstructedThrough('apply', ['102', 'Fernández, Rodrigo', 'EP 4 B', 'EP']);

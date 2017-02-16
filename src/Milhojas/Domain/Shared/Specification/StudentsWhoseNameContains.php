@@ -30,7 +30,7 @@ class StudentsWhoseNameContains implements Specification
      */
     public function getRule()
     {
-        throw new \LogicException('Not implemented'); // TODO
+        return sprintf('fullname like "%s%"', $this->fragment);
     }
 
     /**

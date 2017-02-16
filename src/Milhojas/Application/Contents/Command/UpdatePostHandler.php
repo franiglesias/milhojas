@@ -33,7 +33,7 @@ class UpdatePostHandler implements CommandHandler
 	{
 		$Post = $this->repository->get(new PostId($command->getId()));
 		$Post->update(new PostContent($command->getTitle(), $command->getBody()));
-		$this->recorder->load($Post->retrieveEvents());
+		$this->recorder->load($Post->getPlainEvents());
 		$this->repository->save($Post);
 	}
 }

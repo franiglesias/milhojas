@@ -54,7 +54,7 @@ class EventSourcedEntityTest extends \PHPUnit_Framework_TestCase {
 	
 	protected function entity_has_not_recorded_events()
 	{
-		$this->assertEquals(0, $this->Entity->getEvents()->count());
+		$this->assertEquals(0, $this->Entity->getEventStream()->count());
 	}
 	
 	protected function entity_receives_an_unknown_event()
@@ -71,7 +71,7 @@ class EventSourcedEntityTest extends \PHPUnit_Framework_TestCase {
 	
 	protected function entity_should_have_recorded_events($expectedEventCount)
 	{
-		$this->assertEquals($expectedEventCount, $this->Entity->getEvents()->count());
+		$this->assertEquals($expectedEventCount, $this->Entity->getEventStream()->count());
 	}
 	
 	protected function entity_should_have_version_number_of($expectedVersionNumber)
@@ -88,7 +88,7 @@ class EventSourcedEntityTest extends \PHPUnit_Framework_TestCase {
 	{
 		$original = $this->Entity;
 		unset($this->Entity);
-		$this->Entity = TestESEntity::reconstitute($original->getEvents());
+		$this->Entity = TestESEntity::reconstitute($original->getEventStream());
 	}
 	
 	protected function entity_clears_events()

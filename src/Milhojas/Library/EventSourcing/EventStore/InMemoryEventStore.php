@@ -83,7 +83,7 @@ class InMemoryEventStore extends EventStore
 		return $this->count($entity);
 	}
 	
-	public function getEvents()
+	public function getEventStream()
 	{
 		return $this->events;
 	}

@@ -52,7 +52,7 @@ class EventSourcingStorage implements EventSourcingStorageInterface
 	
 	public function store($object)
 	{
-		$this->store->saveStream($object->getEvents());
+		$this->store->saveStream($object->getEventStream());
 		$object->clearEvents();
 	}
 	

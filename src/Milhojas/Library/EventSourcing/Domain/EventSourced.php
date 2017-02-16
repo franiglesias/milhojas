@@ -10,16 +10,16 @@ namespace Milhojas\Library\EventSourcing\Domain;
  */
 
 interface EventSourced {
-	
+
 	/**
-	 * Return the stream of uncommitted envents
+	 * Return the stream of uncommitted events
 	 *
 	 * @return EventStream object
 	 * @author Fran Iglesias
 	 */
-	public function getEvents();
-	
-	
+	public function getEventStream();
+
+
 	/**
 	 * Return the identity of the entity
 	 *
@@ -27,10 +27,10 @@ interface EventSourced {
 	 * @author Fran Iglesias
 	 */
 	public function getId();
-	
+
 	/**
 	 * Returns the version number for the entity
-	 * 
+	 *
 	 * -1: the entity has no events applied
 	 *  0: initial version
 	 *
@@ -38,7 +38,7 @@ interface EventSourced {
 	 * @author Fran Iglesias
 	 */
 	public function getVersion();
-	
+
 	/**
 	 * Clear remaining events
 	 *

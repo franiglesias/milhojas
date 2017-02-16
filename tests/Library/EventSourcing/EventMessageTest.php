@@ -3,48 +3,39 @@
 namespace Tests\Library\EventSourcing;
 
 use Milhojas\Library\EventSourcing\EventStream\EventMessage;
-
 use Milhojas\Messaging\EventBus\Event;
 use Milhojas\Library\EventSourcing\DTO\EntityDTO;
-use Milhojas\Library\ValueObjects\Identity\Id;
-use Tests\Library\EventSourcing\Fixtures\EventDouble;
 
 /**
-* Description
-*/
+ * Description.
+ */
 class EventMessageTest extends \PHPUnit_Framework_TestCase
 {
-	
-	public function test_it_creates_an_event_message()
-	{
-		$message = EventMessage::record(new EventDouble(1), new EntityDTO('Entity', new Id(1), 1));
-		$this->assertEquals('Tests\Library\EventSourcing\Fixtures\EventDouble with Entity:1', (string)$message);
-	}
-	
-	public function test_it_can_return_the_event()
-	{
-		$message = EventMessage::record(new EventDouble(1), new EntityDTO('Entity', new Id(1), 1));
-		$this->assertEquals(new EventDouble(1), $message->getEvent());
-	}
-	
-	public function test_it_can_add_metadata()
-	{
-		$message = EventMessage::record(new EventDouble(1), new EntityDTO('Entity', new Id(1), 1));
-		$message->addMetadata('Meta', 'Data');
-		$this->assertEquals(array('Meta' => 'Data'), $message->getMetadata());
-	}
-	
-	public function test_it_can_add_an_array_of_metadata()
-	{
-		$message = EventMessage::record(new EventDouble(1), new EntityDTO('Entity', new Id(1), 1));
-		$metadata = array(
-			'meta' => 'data',
-			'field' => 'value'
-		);
-		$message->addMetadata($metadata);
-		$this->assertEquals($metadata, $message->getMetadata());
-	}
+    public function setUp()
+    {
+        $this->event = $this->prophesize(Event::class);
+        $this->entity = $this->prophesize(EntityDTO::class);
+        $this->message = EventMessage::record($this->event->reveal(), $this->entity->reveal());
+    }
 
+    public function test_it_can_return_the_event()
+    {
+        $this->assertEquals($this->event->reveal(), $this->message->getEvent());
+    }
+
+    public function test_it_can_add_metadata()
+    {
+        $this->message->addMetadata('Meta', 'Data');
+        $this->assertEquals(array('Meta' => 'Data'), $this->message->getMetadata());
+    }
+
+    public function test_it_can_add_an_array_of_metadata()
+    {
+        $metadata = array(
+            'meta' => 'data',
+            'field' => 'value',
+        );
+        $this->message->addMetadata($metadata);
+        $this->assertEquals($metadata, $this->message->getMetadata());
+    }
 }
-
-?>

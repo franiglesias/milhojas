@@ -8,20 +8,14 @@ use Milhojas\Domain\Cantine\TicketRegistrar;
 use Milhojas\Domain\Cantine\Event\CantineUserBoughtTickets;
 use Milhojas\Domain\Cantine\Event\CantineUserTriedToBuyInvalidTicket;
 use Milhojas\Domain\Cantine\Exception\CantineUserNotFound;
-use Milhojas\Domain\Cantine\Specification\AssociatedCantineUser;
-use Milhojas\Domain\Shared\Specification\StudentNamed;
-use Milhojas\Domain\Shared\ClassGroup;
-use Milhojas\Domain\Shared\StudentId;
 use Milhojas\Domain\Shared\Student;
 use Milhojas\Domain\Cantine\CantineGroup;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Domain\Utils\Schedule\MonthWeekSchedule;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
-use Milhojas\Infrastructure\Persistence\Shared\StudentServiceInMemoryRepository;
 use Milhojas\Messaging\CommandBus\CommandBus;
 use Milhojas\Messaging\EventBus\EventBus;
-use Milhojas\LIbrary\ValueObjects\Identity\Person;
 use Prophecy\Prophet;
 use Prophecy\Argument;
 
@@ -31,7 +25,7 @@ use Prophecy\Argument;
 class StudentsUsingCantineContext implements Context
 {
     private $prophet;
-    private $student;
+    private $student_name;
     private $cantineUser;
     private $dispatcher;
     private $CantineUserRepository;
@@ -51,7 +45,6 @@ class StudentsUsingCantineContext implements Context
         $this->TicketRegistrar = $this->prophet->prophesize(TicketRegistrar::class);
         $this->dispatcher = $this->prophet->prophesize(EventBus::class);
         $this->bus = $this->prophet->prophesize(CommandBus::class);
-        $this->StudentRepository = new StudentServiceInMemoryRepository();
     }
 
     /**
@@ -60,8 +53,7 @@ class StudentsUsingCantineContext implements Context
     public function thereIsAStudentCalled($student_name)
     {
         list($name, $surname) = explode(' ', $student_name);
-        $this->StudentRepository->store(new Student(new StudentId('student-01'), new Person($name, $surname, 'm'), new ClassGroup('4º EP', 'EP 4 A', 'EP'), ''));
-        $this->student_name = $student_name;
+        $this->student_name = sprintf('%s, %s', $surname, $name);
     }
 
     /**
@@ -69,12 +61,8 @@ class StudentsUsingCantineContext implements Context
      */
     public function CantineUserNotFound()
     {
-        $this->student = $this->StudentRepository->get(new StudentNamed($this->student_name));
-        try {
-            $this->cantineUser = $this->CantineUserRepository->get(new AssociatedCantineUser($this->student));
-        } catch (CantineUserNotFound $e) {
-            $this->cantineUser = $this->studentAppliesToCantine($this->student);
-        }
+        $this->cantineUser = $this->getNewCantineUserNamed($this->student_name);
+        $this->CantineUserRepository->store($this->cantineUser);
     }
 
     /**
@@ -131,8 +119,7 @@ class StudentsUsingCantineContext implements Context
      */
     public function studentIsRegisteredAsCantineUser()
     {
-        $this->student = $this->StudentRepository->get(new StudentNamed($this->student_name));
-        $this->cantineUser = $this->studentAppliesToCantine($this->student);
+        $this->cantineUser = $this->getNewCantineUserNamed($this->student_name);
     }
 
     /**
@@ -203,7 +190,7 @@ class StudentsUsingCantineContext implements Context
      */
     public function studentAppliesToCantineWithSchedule(MonthWeekSchedule $schedule)
     {
-        $this->cantineUser = $this->studentAppliesToCantine($this->student, $schedule);
+        $this->cantineUser = $this->getNewCantineUserNamed($this->student_name, $schedule);
     }
 
     /**
@@ -211,9 +198,7 @@ class StudentsUsingCantineContext implements Context
      */
     public function studentIsRegisteredAsCantineUserWithASchedule(MonthWeekSchedule $schedule)
     {
-        $this->student = $this->StudentRepository->get(new StudentNamed($this->student_name));
-
-        $this->cantineUser = $this->studentAppliesToCantine($this->student, $schedule);
+        $this->cantineUser = $this->getNewCantineUserNamed($this->student_name, $schedule);
     }
 
     private function studentAppliesToCantine(Student $student, $schedule = null)
@@ -226,6 +211,18 @@ class StudentsUsingCantineContext implements Context
             $schedule
         );
     }
+
+    private function getNewCantineUserNamed($listname, $schedule = null)
+    {
+        return CantineUser::apply(
+            'user-01',
+            $listname,
+            'Test class',
+            'Test Stage',
+            $schedule
+        );
+    }
+
     /**
      * @Then Student should not be eating on dates
      */

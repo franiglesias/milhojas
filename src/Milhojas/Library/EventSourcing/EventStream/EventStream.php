@@ -38,7 +38,7 @@ class EventStream implements \IteratorAggregate
 
     public function getEvents()
     {
-        return array_map(function ($message) {
+        return array_map(function (EventMessage $message) {
             return $message->getEvent();
         }, $this->messages);
     }

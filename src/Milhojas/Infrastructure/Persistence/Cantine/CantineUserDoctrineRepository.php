@@ -45,7 +45,7 @@ class CantineUserDoctrineRepository implements CantineUserRepository
      */
     public function get(CantineUserSpecification $cantineUserSpecification)
     {
-        throw new \LogicException('Not implemented'); // TODO
+        return null;
     }
 
     /**
@@ -53,6 +53,6 @@ class CantineUserDoctrineRepository implements CantineUserRepository
      */
     public function find(CantineUserSpecification $cantineUserSpecification)
     {
-        throw new \LogicException('Not implemented'); // TODO
+        return null;
     }
 }

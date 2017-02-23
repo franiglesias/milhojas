@@ -7,7 +7,7 @@ use Milhojas\Domain\Contents\PostStates as States;
 
 use Milhojas\Library\ValueObjects\Dates\DateRange;
 
-use Milhojas\Library\EventSourcing\Domain\EventSourcedEntity;
+use Milhojas\EventSourcing\Domain\EventSourcedEntity;
 
 /**
 * Represents a Post or article

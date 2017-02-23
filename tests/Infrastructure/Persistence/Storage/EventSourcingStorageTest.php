@@ -1,21 +1,21 @@
 <?php
 
-namespace Tests\Library\EventSourcing\EventStore;
+namespace Tests\EventSourcing\EventStore;
 
 use Milhojas\Infrastructure\Persistence\Storage\EventSourcingStorage;
-use Milhojas\Library\EventSourcing\EventStore\InMemoryEventStore;
+use Milhojas\EventSourcing\EventStore\InMemoryEventStore;
 
-use Milhojas\Library\EventSourcing\EventStream\EventStream;
-use Milhojas\Library\EventSourcing\EventStream\EventMessage;
-use Milhojas\Library\EventSourcing\DTO\EntityDTO;
+use Milhojas\EventSourcing\EventStream\EventStream;
+use Milhojas\EventSourcing\EventStream\EventMessage;
+use Milhojas\EventSourcing\DTO\EntityDTO;
 
 use Milhojas\Library\ValueObjects\Identity\Id;
 
-use Tests\Library\EventSourcing\Fixtures\EventDouble;
+use Tests\EventSourcing\Fixtures\EventDouble;
 
-use Tests\Library\EventSourcing\Fixtures\EventSourcedEntityDummy;
-use Tests\Library\EventSourcing\Fixtures\CreationEvent;
-use Tests\Library\EventSourcing\Fixtures\ModificationEvent;
+use Tests\EventSourcing\Fixtures\EventSourcedEntityDummy;
+use Tests\EventSourcing\Fixtures\CreationEvent;
+use Tests\EventSourcing\Fixtures\ModificationEvent;
 
 class EventSourcingStorageTest extends \PHPUnit_Framework_TestCase {
 	
@@ -46,7 +46,7 @@ class EventSourcingStorageTest extends \PHPUnit_Framework_TestCase {
 	public function test_it_reconstitutes_right_object_from_repository()
 	{
 		$object = $this->repo->load(new Id(1));
-		$this->assertInstanceOf('\Tests\Library\EventSourcing\Fixtures\EventSourcedEntityDummy', $object);
+		$this->assertInstanceOf('\Tests\EventSourcing\Fixtures\EventSourcedEntityDummy', $object);
 	}
 	
 	public function test_it_retrieves_the_right_id()
@@ -72,7 +72,7 @@ class EventSourcingStorageTest extends \PHPUnit_Framework_TestCase {
 		$id = new Id(3);
 		$this->repo->store($this->createObject($id));
 		$object = $this->repo->load($id);
-		$this->assertInstanceOf('\Tests\Library\EventSourcing\Fixtures\EventSourcedEntityDummy', $object);
+		$this->assertInstanceOf('\Tests\EventSourcing\Fixtures\EventSourcedEntityDummy', $object);
 		$this->assertEquals($id, $object->getId());
 		$this->assertEquals(2, $object->getVersion());
 	}
@@ -80,7 +80,7 @@ class EventSourcingStorageTest extends \PHPUnit_Framework_TestCase {
 	public function test_it_can_retrieve_a_specific_version()
 	{
 		$object = $this->repo->load(new Id(1), 2);
-		$this->assertInstanceOf('\Tests\Library\EventSourcing\Fixtures\EventSourcedEntityDummy', $object);
+		$this->assertInstanceOf('\Tests\EventSourcing\Fixtures\EventSourcedEntityDummy', $object);
 		$this->assertEquals('new value', $object->getValue());
 		$this->assertEquals(2, $object->getVersion());
 	}

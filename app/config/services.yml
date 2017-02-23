@@ -49,8 +49,8 @@ services:
     # EventSourcing Services
 
     event_store:
-        class:          Milhojas\Library\EventSourcing\EventStore\DoctrineEventStore
-        arguments:      ['@doctrine.orm.entity_manager']
+        class:          Milhojas\EventSourcing\EventStore\DBALEventStore
+        arguments:      ['@doctrine.dbal.connection']
 
     event_sourcing_repository:
         class:          Milhojas\Infrastructure\Persistence\Storage\EventSourcingStorage

@@ -46,14 +46,17 @@ twig:
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   pdo_mysql
-        host:     "%database_host%"
-        port:     "%database_port%"
-        dbname:   "%database_name%"
-        user:     "%database_user%"
-        password: "%database_password%"
-        charset:  UTF8
-        server_version: 5.6.25
+        default_connection: default
+        connections:
+            default:
+                driver:   'pdo_mysql'
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_name%"
+                user:     "%database_user%"
+                password: "%database_password%"
+                charset:  'utf8mb4'
+                server_version: '5.6'
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
         #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
@@ -72,18 +75,6 @@ doctrine:
                 dir: "%kernel.root_dir%/../src/Milhojas/Domain/Contents/DTO"
                 prefix: Milhojas\Domain\Contents\DTO
                 alias: Contents
-            EventStore:
-                type: annotation
-                is_bundle: false
-                dir: "%kernel.root_dir%/../src/Milhojas/Library/EventSourcing/DTO"
-                prefix: Milhojas\Library\EventSourcing\DTO
-                alias: EventStore
-            StoreObject:
-                type: annotation
-                is_bundle: false
-                dir: "%kernel.root_dir%/../tests/Library/EventSourcing/EventStore/Fixtures"
-                prefix: Tests\Library\EventSourcing\EventStore\Fixtures
-                alias: EventDouble
             Cantine:
                 type: annotation
                 is_bundle: false

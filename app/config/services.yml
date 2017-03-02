@@ -50,7 +50,7 @@ services:
 
     event_store:
         class:          Milhojas\EventSourcing\EventStore\DBALEventStore
-        arguments:      ['@doctrine.dbal.connection']
+        arguments:      ['@database_connection']
 
     event_sourcing_repository:
         class:          Milhojas\Infrastructure\Persistence\Storage\EventSourcingStorage

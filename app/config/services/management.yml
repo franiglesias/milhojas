@@ -47,6 +47,17 @@ services:
         class:          Milhojas\Application\Management\Listener\RegisterEmployeeWithoutPayroll
         arguments:      ['no-payroll-found.data', '@local_exchange.fs']
 
+    management.init_progress_exchange.listener:
+        class:          Milhojas\Application\Management\Listener\InitProgressExchange
+        arguments:      ['@management.payroll_reporter_exchange']
+
+    management.log_events.listener:
+        class:          Milhojas\Application\Management\Listener\LogPayrollEvent
+        arguments:      ['@logger']
+        tags:
+          - { name: monolog.logger, channel: dispatcher }
+
+
     # Repositories
 
     management.staff:
@@ -65,21 +76,10 @@ services:
 
     management.distribute_payroll.handler:
         class:          Milhojas\Application\Management\Command\DistributePayrollHandler
-        arguments:      ['@management.staff', '%payroll.sender%', '@command_bus', '@logger']
-        tags:
-            - { name: monolog.logger, channel: messageBus }
+        arguments:      ['@management.staff', '%payroll.sender%', '@command_bus', '@event_bus']
 
     management.launch_payroll_distributor.handler:
         class:          Milhojas\Application\Management\Command\LaunchPayrollDistributorHandler
-
-
-    management.start_payroll.handler:
-        class:          Milhojas\Application\Management\Command\StartPayrollHandler
-        arguments:      ['@management.payroll_reporter_exchange', '@event_recorder']
-    management.end_payroll.handler:
-        class:          Milhojas\Application\Management\Command\EndPayrollHandler
-        arguments:      ['@event_recorder']
-
 
 # Payroll command
     payroll_month:

@@ -4,6 +4,8 @@ namespace Milhojas\Application\Management\Command;
 
 // Domain concepts
 
+use Milhojas\Application\Management\Event\AllPayrollsWereSent;
+use Milhojas\Application\Management\Event\PayrollDistributionStarted;
 use Milhojas\Domain\Management\Staff;
 use Milhojas\Domain\Management\PayrollReporter;
 
@@ -22,29 +24,27 @@ class DistributePayrollHandler implements CommandHandler
     private $bus;
     private $sender;
     private $staff;
-    private $logger;
+    private $eventDispatcher;
 
-    public function __construct(Staff $staff, $sender, $bus, $logger)
+    public function __construct(Staff $staff, $sender, $bus, $eventDispatcher)
     {
         $this->bus = $bus;
         $this->staff = $staff;
         $this->sender = $sender;
-        $this->logger = $logger;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function handle(Command $command)
     {
         $progress = new PayrollReporter(0, $this->staff->countAll());
-        $this->logger->notice('Start Payroll command about to be launched');
-        $this->bus->execute(new StartPayroll($progress));
-        $this->logger->notice('Start Payroll command launched');
+
+        $this->eventDispatcher->dispatch(new PayrollDistributionStarted($progress));
+
         foreach ($this->staff as $employee) {
             $progress = $progress->advance();
-            $this->logger->notice('SendPayroll command about to be launched');
             $this->bus->execute(new SendPayroll($employee, $command->getMonth(), $command->getPaths(), $this->sender, $progress));
-            $this->logger->notice('SendPayroll launched');
         }
 
-        $this->bus->execute(new EndPayroll($command->getMonth(), $progress));
+        $this->eventDispatcher->dispatch(new AllPayrollsWereSent($progress, $command->getMonth()));
     }
 }

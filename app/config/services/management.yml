@@ -69,6 +69,9 @@ services:
         tags:
             - { name: monolog.logger, channel: messageBus }
 
+    management.launch_payroll_distributor.handler:
+        class:          Milhojas\Application\Management\Command\LaunchPayrollDistributorHandler
+
 
     management.start_payroll.handler:
         class:          Milhojas\Application\Management\Command\StartPayrollHandler

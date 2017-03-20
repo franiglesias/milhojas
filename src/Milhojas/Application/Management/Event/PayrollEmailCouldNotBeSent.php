@@ -7,7 +7,7 @@ use Milhojas\Domain\Management\Employee;
 use Milhojas\Library\ValueObjects\Misc\Progress;
 
 /**
- * Describes the condition of a Payroll that could not be sent because there is no record for it in the email.dat database.
+ * Describes the condition of a Payroll that could not be sent because there is no record for it in the database.
  */
 class PayrollEmailCouldNotBeSent implements Event
 {

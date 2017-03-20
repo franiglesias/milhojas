@@ -16,19 +16,19 @@ class SpecialMealsCantineSeatListReporterSpec extends ObjectBehavior
         $this->shouldBeAnInstanceOf(CantineSeatListReporter::class);
     }
 
-    public function it_can_visit_records(CantineSeat $cantineListUserRecord)
+    public function it_can_visit_records(CantineSeat $seat)
     {
-        $cantineListUserRecord->getRemarks()->shouldBeCalled()->willReturn('something');
-        $cantineListUserRecord->getUserListName()->shouldBeCalled()->willReturn('something');
-        $cantineListUserRecord->getTurnName()->shouldBeCalled()->willReturn('something');
-        $this->visitRecord($cantineListUserRecord);
+        $seat->getRemarks()->shouldBeCalled()->willReturn('something');
+        $seat->getUserListName()->shouldBeCalled()->willReturn('something');
+        $seat->getTurnName()->shouldBeCalled()->willReturn('something');
+        $this->visitRecord($seat);
     }
 
-    public function it_visits_a_record_that_has_no_remarks(CantineSeat $cantineListUserRecord)
+    public function it_visits_a_record_that_has_no_remarks(CantineSeat $seat)
     {
-        $cantineListUserRecord->getRemarks()->shouldBeCalled()->willReturn('');
-        $cantineListUserRecord->getUserListName()->shouldNotBeCalled();
-        $this->visitRecord($cantineListUserRecord);
+        $seat->getRemarks()->shouldBeCalled()->willReturn('');
+        $seat->getUserListName()->shouldNotBeCalled();
+        $this->visitRecord($seat);
     }
 
     public function it_can_tell_the_report(CantineSeat $user1, CantineSeat $user2, CantineSeat $user3)

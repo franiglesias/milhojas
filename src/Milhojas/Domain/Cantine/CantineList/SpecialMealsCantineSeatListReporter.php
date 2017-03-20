@@ -14,13 +14,13 @@ class SpecialMealsCantineSeatListReporter extends CantineSeatListReporter
      *
      * @param CantineSeat $cantineListUserRecord
      */
-    public function visitRecord(CantineSeat $cantineListUserRecord)
+    public function visitRecord(CantineSeat $seat)
     {
-        if ($cantineListUserRecord->getRemarks()) {
+        if ($seat->getRemarks()) {
             $this->report[] = new SpecialMealsRecord(
-                $cantineListUserRecord->getTurnName(),
-                $cantineListUserRecord->getUserListName(),
-                $cantineListUserRecord->getRemarks()
+                $seat->getTurnName(),
+                $seat->getUserListName(),
+                $seat->getRemarks()
             );
         }
     }

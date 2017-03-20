@@ -49,6 +49,20 @@ class ChecklistSpec extends ObjectBehavior
         }
     }
 
+    public function it_can_return_checked_items()
+    {
+        $this->check('banana');
+        $this->check('apple');
+        $this->getChecked()->shouldBeLike(['apple', 'banana']);
+    }
+
+    public function it_can_return_string_list_of_checked_items()
+    {
+        $this->check('banana');
+        $this->check('apple');
+        $this->getListAsString()->shouldBe('apple, banana');
+    }
+
     public function it_can_check_one_item()
     {
         $this->check('banana');

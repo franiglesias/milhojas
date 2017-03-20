@@ -13,33 +13,21 @@ class CantineSeat implements Sortable
 {
     private $date;
     private $turn;
-    private $userListName;
-    private $classGroupName;
-    private $stageName;
-    private $remarks;
+    private $user;
 
     /**
-     * @param mixed $date
-     * @param mixed $turn
-     * @param mixed $userListName
-     * @param mixed $classGroupName
-     * @param mixed $stageName
-     * @param mixed $remarks
+     * @param mixed       $date
+     * @param mixed       $turn
+     * @param CantineUser $user
      */
     public function __construct(
         $date,
         $turn,
-        $userListName,
-        $classGroupName,
-        $stageName,
-        $remarks
+        $user
     ) {
         $this->date = $date;
         $this->turn = $turn;
-        $this->userListName = $userListName;
-        $this->classGroupName = $classGroupName;
-        $this->stageName = $stageName;
-        $this->remarks = $remarks;
+        $this->user = $user;
     }
 
     /**
@@ -49,24 +37,20 @@ class CantineSeat implements Sortable
      */
     public static function createFromUserTurnAndDate(CantineUser $user, Turn $turn, \DateTimeInterface $date)
     {
-        $cantineListUserRecord = new self($date, $turn, $user->getListName(), $user->getClassGroupName(), $user->getStageName(), $user->getRemarks());
-
-        return $cantineListUserRecord;
+        return new self($date, $turn, $user);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function compare($object)
+    public function compare($seat)
     {
-        $compareTurns = $this->turn->compare($object->getTurn());
+        $compareTurns = $this->turn->compare($seat->getTurn());
         if ($compareTurns != Sortable::EQUAL) {
             return $compareTurns;
         }
 
-        $result = strcasecmp($this->userListName, $object->getUserListName());
-
-        return $result != 0 ? $result / abs($result) : 0;
+        return $this->user->compare($seat->getUser());
     }
 
     public function getDate()
@@ -81,7 +65,7 @@ class CantineSeat implements Sortable
 
     public function getUser()
     {
-        return $this->cantineUser;
+        return $this->user;
     }
 
     public function getTurnName()
@@ -91,22 +75,22 @@ class CantineSeat implements Sortable
 
     public function getUserListName()
     {
-        return $this->userListName;
+        return $this->user->getListName();
     }
 
     public function getClassGroupName()
     {
-        return $this->classGroupName;
+        return $this->user->getClassGroupName();
     }
 
     public function getStageName()
     {
-        return $this->stageName;
+        return $this->user->getStageName();
     }
 
     public function getRemarks()
     {
-        return $this->remarks;
+        return $this->user->getRemarks();
     }
 
     public function accept(CantineSeatListReporter $cantineListReporter)

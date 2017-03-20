@@ -4,8 +4,6 @@ namespace Milhojas\Infrastructure\Persistence\Mapper;
 
 interface Mapper
 {
-
-    public function toDTO($argument1);
-
-    public function fromDTO($argument1);
+    public function dtoToEntity($dto);
+    public function entityToDto($entity);
 }

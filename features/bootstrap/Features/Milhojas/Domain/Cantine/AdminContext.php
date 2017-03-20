@@ -22,15 +22,12 @@ use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\Factories\CantineManager;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Domain\Shared\Student;
-use Milhojas\Domain\Shared\StudentId;
-use Milhojas\Domain\Shared\ClassGroup;
 use Milhojas\Domain\Utils\Schedule\MonthWeekSchedule;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineSeatInMemoryRepository;
 use Milhojas\Messaging\EventBus\EventRecorder;
 use Milhojas\Messaging\QueryBus\Worker\QueryWorker;
 use Milhojas\Messaging\Shared\Pipeline\WorkerPipeline;
 use Milhojas\Messaging\Shared\Inflector\ContainerInflector;
-use Milhojas\Library\ValueObjects\Identity\Person;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
 use Milhojas\Messaging\QueryBus\QueryBus;
 use Milhojas\Messaging\Shared\Loader\TestLoader;
@@ -131,14 +128,20 @@ class AdminContext implements Context
                     // code...
                     break;
             }
-            $student = new Student(
-                new StudentId($row['student_id']),
-                new Person($row['name'], $row['surname'], $row['gender']),
-                new ClassGroup($row['class'], $row['class'], 'EP'),
-                $row['allergies'].$row['remarks']
-            );
-            $User = CantineUser::apply($student, $schedule);
+            $User = CantineUser::apply(
+                $row['student_id'],
+                sprintf('%s, %s', $row['surname'], $row['name']),
+                $row['class'],
+                substr($row['class'], 0, strpos($row['class'], ' ')),
+                $schedule);
             $User->assignToGroup(new CantineGroup($row['group']));
+
+            $allergens = $this->manager->getBlankAllergensSheet();
+            if ($row['allergies']) {
+                $allergens->check(explode(', ', $row['allergies']));
+            }
+            $User->setAllergies($allergens);
+            $User->setRemarks($row['remarks']);
             $this->CantineUserRepository->store($User);
         }
     }

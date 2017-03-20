@@ -12,7 +12,6 @@ use Milhojas\Domain\Cantine\Ticket;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\TicketCounter;
 use Milhojas\Domain\Cantine\Specification\TicketSoldToStudent;
-use Milhojas\Domain\Shared\StudentId;
 use Milhojas\Infrastructure\Persistence\Cantine\TicketInMemoryRepository;
 use Milhojas\Messaging\EventBus\EventBus;
 use Prophecy\Prophet;
@@ -64,7 +63,7 @@ class TicketAccountingContext implements Context
     {
         foreach ($table->getHash() as $row) {
             $user = $this->prophet->prophesize(CantineUser::class);
-            $user->getStudentId()->willReturn(new StudentId($row['user']));
+            $user->getStudentId()->willReturn($row['user']);
             $ticket = new Ticket($user->reveal(), new \DateTime($row['date']), ($row['paid'] == 'yes'));
             $this->ticketRepository->store($ticket);
         }
@@ -166,7 +165,7 @@ class TicketAccountingContext implements Context
      */
     public function weBillForPendingTickets($student)
     {
-        $this->result = $this->ticketCounter->count(new TicketSoldToStudent(new StudentId($student)));
+        $this->result = $this->ticketCounter->count(new TicketSoldToStudent($student));
     }
 
     /**

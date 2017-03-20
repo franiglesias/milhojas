@@ -10,7 +10,6 @@ use Milhojas\Domain\Utils\Schedule\Schedule;
 use Milhojas\Domain\Utils\Schedule\NullSchedule;
 use Milhojas\Domain\Utils\Schedule\ListOfDates;
 use Milhojas\Library\Sortable\Sortable;
-use Milhojas\LIbrary\ValueObjects\Identity\Person;
 
 /**
  * Represents a CantineUser.
@@ -18,22 +17,23 @@ use Milhojas\LIbrary\ValueObjects\Identity\Person;
 class CantineUser implements Sortable
 {
     protected $studentId;
-    protected $person;
     protected $schedule;
     protected $allergens;
     protected $cantineGroup;
     protected $classGroup;
     protected $remarks;
+    protected $class;
+    protected $stage;
+    protected $listname;
 
-    public function __construct(Student $student, Schedule $schedule)
+    public function __construct($id, $listname, $class, $stage, Schedule $schedule)
     {
-        $this->studentId = $student->getId();
+        $this->studentId = $id;
+        $this->listname = $listname;
+        $this->class = $class;
+        $this->stage = $stage;
         $this->schedule = $schedule;
-        $this->person = $student->getPerson();
-        $this->allergens = $student->getAllergies();
         $this->cantineGroup = new NullCantineGroup();
-        $this->classGroup = $student->getClass();
-        $this->remarks = $student->getRemarks();
     }
 
     /**
@@ -42,12 +42,11 @@ class CantineUser implements Sortable
      * @param Student       $student
      * @param Schedule|null $schedule
      */
-    public static function apply(Student $student, Schedule $schedule = null)
+    public static function apply($id, $listname, $class, $stage, Schedule $schedule = null)
     {
         $schedule = $schedule ? $schedule : new NullSchedule();
-        $cantineUser = new self($student, $schedule);
 
-        return $cantineUser;
+        return new self($id, $listname, $class, $stage, $schedule);
     }
     /**
      * Tells if the User is expected to use the cantine on date provided.
@@ -80,11 +79,6 @@ class CantineUser implements Sortable
         $this->schedule = $this->schedule->update($delta);
     }
 
-    public function isEnrolled()
-    {
-        return true;
-    }
-
     /**
      * Tells if Use belongs to a $cantineGroup.
      *
@@ -112,7 +106,9 @@ class CantineUser implements Sortable
      */
     public function compare($anotherUser)
     {
-        return $this->person->compare($anotherUser->getPerson());
+        $collator = collator_create('es_ES');
+
+        return collator_compare($collator, $this->listname, $anotherUser->getListName());
     }
 
     /**
@@ -128,16 +124,6 @@ class CantineUser implements Sortable
             }
         }
         $this->schedule->chain($dates);
-    }
-
-    /**
-     * Tells the user person.
-     *
-     * @return Person the User Name
-     */
-    public function getPerson()
-    {
-        return $this->person;
     }
 
     public function getClass()
@@ -167,21 +153,42 @@ class CantineUser implements Sortable
 
     public function getListName()
     {
-        return $this->person->getListName();
+        return $this->listname;
     }
 
     public function getClassGroupName()
     {
-        return $this->classGroup->getShortName();
+        return $this->class;
     }
 
     public function getStageName()
     {
-        return $this->classGroup->getStageName();
+        return $this->stage;
     }
 
     public function getRemarks()
     {
+        $remarks = '';
+        if ($this->allergens) {
+            $remarks = $this->allergens->getAsString();
+        }
+        if (!$this->remarks) {
+            return $remarks;
+        }
+        if ($remarks) {
+            return $remarks.', '.$this->remarks;
+        }
+
         return $this->remarks;
+    }
+
+    public function setAllergies(Allergens $allergens)
+    {
+        $this->allergens = $allergens;
+    }
+
+    public function setRemarks($remarks)
+    {
+        $this->remarks = $remarks;
     }
 }

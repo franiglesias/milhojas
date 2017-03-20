@@ -41,12 +41,8 @@ class ManagementController extends Controller
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $uploader = $this->get('milhojas.uploader');
-
             $distribution = $form->getData();
-            foreach ($distribution->getFile() as $file) {
-                $distribution->setFileName($uploader->upload($file));
-            }
+            $distribution->uploadFiles($this->get('milhojas.uploader'));
 
             $command = new LaunchPayrollDistributor(
                 $distribution,
@@ -61,11 +57,7 @@ class ManagementController extends Controller
         }
 
         return $this->render(
-            'AppBundle:Management:web/payroll-upload-form.html.twig',
-            array(
-                'form' => $form->createView(),
-            )
-        );
+            'AppBundle:Management:web/payroll-upload-form.html.twig', [ 'form' => $form->createView() ] );
     }
 
     /**

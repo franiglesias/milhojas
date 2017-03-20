@@ -75,4 +75,11 @@ class PayrollDistributor
     {
         return $this->fileName;
     }
+
+    public function uploadFiles($uploader)
+    {
+        foreach ($this->file as $file) {
+            $this->setFileName($uploader->upload($file));
+        }
+    }
 }

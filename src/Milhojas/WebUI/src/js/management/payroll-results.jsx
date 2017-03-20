@@ -3,7 +3,7 @@ var NewButton = React.createClass({
         if (this.props.show) {
             return (
                 <p id="allow-new">
-                <a href="this.props.url" className="hollow button expanded">¿Deseas enviar otra nómina?</a>
+                <a href="{ this.props.url }" className="hollow button expanded">¿Deseas enviar otra nómina?</a>
                 </p>
             );
         };

@@ -18,6 +18,11 @@ class PayrollMonth
         $this->year = $year;
     }
 
+    public static function current()
+    {
+        return new static(date('m'), date('Y'));
+    }
+
     public function getMonth()
     {
         return $this->month;

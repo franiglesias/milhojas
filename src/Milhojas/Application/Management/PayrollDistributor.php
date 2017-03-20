@@ -14,6 +14,17 @@ class PayrollDistributor
     protected $file;
     protected $fileName;
 
+    /**
+     * PayrollDistributor constructor.
+     *
+     * @param $month
+     */
+    public function __construct(PayrollMonth $month)
+    {
+        $this->setMonth($month);
+    }
+
+
     public function setMonth(PayrollMonth $month)
     {
         $this->month = $month;
@@ -38,7 +49,7 @@ class PayrollDistributor
     {
         foreach ($files as $file) {
             if ($file instanceof File) {
-                $this->file = $files;
+                $this->file[] = $file;
             }
         }
         if ($files) {

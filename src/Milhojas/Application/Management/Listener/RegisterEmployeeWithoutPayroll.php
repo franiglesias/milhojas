@@ -20,6 +20,7 @@ class RegisterEmployeeWithoutPayroll implements Listener
      * @var FilesystemInterface
      */
     private $fs;
+
     public function __construct($file, FilesystemInterface $filesystem)
     {
         $this->file = $file;

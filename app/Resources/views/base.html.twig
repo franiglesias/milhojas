@@ -8,7 +8,9 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
 		<link rel="stylesheet" href="{{ asset('assets/css/app.min.css') }}" />
+
 		{% endblock %}
+        <script src="{{ asset('assets/js/vendor/jquery.min.js') }}"></script>
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>

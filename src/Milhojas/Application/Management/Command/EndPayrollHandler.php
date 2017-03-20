@@ -1,7 +1,6 @@
 <?php
 
 namespace Milhojas\Application\Management\Command;
-
 use League\Flysystem\FilesystemInterface;
 use Milhojas\Application\Management\Event\AllPayrollsWereSent;
 use Milhojas\Messaging\CommandBus\Command;

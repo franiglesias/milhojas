@@ -17,7 +17,7 @@ use Milhojas\Application\Management\Event\PayrollCouldNotBeFound;
 
 use Milhojas\Messaging\CommandBus\Command;
 use Milhojas\Messaging\CommandBus\CommandHandler;
-use Milhojas\Messaging\EventBus\EventRecorder;
+use Milhojas\Messaging\EventBus\EventBus;
 
 // Mailer
 
@@ -36,12 +36,12 @@ class SendPayrollHandler implements CommandHandler
     private $payrolls;
     private $template;
     private $mailer;
-    private $recorder;
+    private $dispatcher;
 
-    public function __construct(Payrolls $payrolls, $template, Mailer $mailer, EventRecorder $recorder)
+    public function __construct(Payrolls $payrolls, $template, Mailer $mailer, EventBus $dispatcher)
     {
         $this->mailer = $mailer;
-        $this->recorder = $recorder;
+        $this->dispatcher = $dispatcher;
         $this->payrolls = $payrolls;
         $this->template = $template;
     }
@@ -58,11 +58,11 @@ class SendPayrollHandler implements CommandHandler
         $employee = $command->getEmployee();
         try {
             $this->sendEmail($employee, $command->getSender(), $command->getPaths(), $command->getMonth());
-            $this->recorder->recordThat(new PayrollEmailWasSent($employee, $command->getProgress()->addSent()));
+            $this->dispatcher->dispatch(new PayrollEmailWasSent($employee, $command->getProgress()->addSent()));
         } catch (EmployeeHasNoPayrollFiles $e) {
-            $this->recorder->recordThat(new PayrollCouldNotBeFound($employee, $command->getProgress()->addNotFound()));
+            $this->dispatcher->dispatch(new PayrollCouldNotBeFound($employee, $command->getProgress()->addNotFound()));
         } catch (\Swift_SwiftException $e) {
-            $this->recorder->recordThat(new PayrollEmailCouldNotBeSent($employee, $e->getMessage(), $command->getProgress()->addFailed()));
+            $this->dispatcher->dispatch(new PayrollEmailCouldNotBeSent($employee, $e->getMessage(), $command->getProgress()->addFailed()));
         }
     }
 

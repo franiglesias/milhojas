@@ -51,11 +51,16 @@ services:
         class:          Milhojas\Application\Management\Listener\InitProgressExchange
         arguments:      ['@management.payroll_reporter_exchange']
 
+
+    management.archive_sent_payrolls.listener:
+        class:          Milhojas\Application\Management\Listener\ArchiveSentPayrolls
+        arguments:      ['@management.payrolls', '@inbox.fs']
+
     management.log_events.listener:
         class:          Milhojas\Application\Management\Listener\LogPayrollEvent
         arguments:      ['@logger']
         tags:
-          - { name: monolog.logger, channel: dispatcher }
+            - { name: monolog.logger, channel: dispatcher }
 
 
     # Repositories
@@ -72,7 +77,7 @@ services:
 
     management.send_payroll.handler:
         class:          Milhojas\Application\Management\Command\SendPayrollHandler
-        arguments:      ['@management.payrolls', '%payroll.email.template%', '@milhojas.mailer',  "@event_recorder"]
+        arguments:      ['@management.payrolls', '%payroll.email.template%', '@milhojas.mailer',  "@event_bus"]
 
     management.distribute_payroll.handler:
         class:          Milhojas\Application\Management\Command\DistributePayrollHandler

@@ -17,6 +17,14 @@ services:
     # Flysystem
     # Local filesystem adapter tied to the exchange path
 
+    inbox.adapter:
+        class:          League\Flysystem\Adapter\Local
+        arguments:      ['%payroll.dataPath%']
+
+    inbox.fs:
+        class:          League\Flysystem\Filesystem
+        arguments:      ['@inbox.adapter']
+
     local_exchange.adapter:
         class:          League\Flysystem\Adapter\Local
         arguments:      ['%exchange_path%']
@@ -122,11 +130,11 @@ services:
         class:           Milhojas\Messaging\EventBus\Inflector\ListenerInflector
         calls:
             # Management
-            - ['addListeners', ['management.payroll_distribution_started', ['management.init_progress_exchange.listener']]]
-            - ['addListeners', ['management.payroll_email_was_sent.event', ['management.payroll_progress.reporter', 'management.payroll_was_sent.cli.reporter']]]
-            - ['addListeners', ['management.payroll_email_could_not_be_sent.event', ['management.payroll_progress.reporter', 'management.email_was_not_sent.cli.reporter']]]
-            - ['addListeners', ['management.payroll_could_not_be_found.event', ['management.payroll_could_not_be_sent.cli.reporter', 'management.payroll_progress.reporter', 'management.register_employee_without_payroll.listener']]]
-            - ['addListeners', ['management.all_payrolls_were_sent.event', ['management.payroll_sending_complete.reporter', 'management.payroll_progress.resetter']]]
+            - ['addListeners', ['management.payroll_distribution_started.event', ['management.init_progress_exchange.listener',  'management.log_events.listener']]]
+            - ['addListeners', ['management.payroll_email_was_sent.event', ['management.archive_sent_payrolls.listener', 'management.payroll_progress.reporter', 'management.payroll_was_sent.cli.reporter', 'management.log_events.listener']]]
+            - ['addListeners', ['management.payroll_email_could_not_be_sent.event', ['management.log_events.listener', 'management.payroll_progress.reporter', 'management.email_was_not_sent.cli.reporter']]]
+            - ['addListeners', ['management.payroll_could_not_be_found.event', ['management.log_events.listener', 'management.payroll_could_not_be_sent.cli.reporter', 'management.payroll_progress.reporter', 'management.register_employee_without_payroll.listener']]]
+            - ['addListeners', ['management.all_payrolls_were_sent.event', ['management.log_events.listener', 'management.payroll_sending_complete.reporter', 'management.payroll_progress.resetter']]]
 
             # Contents
             - ['addListener', ['contents.new_post_was_written', 'contents.post_created.reporter'] ]

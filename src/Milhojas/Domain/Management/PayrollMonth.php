@@ -35,7 +35,7 @@ class PayrollMonth
 
     public function getFolderName()
     {
-        return sprintf('%s-%s', $this->month, $this->year);
+        return sprintf('%s/%s', $this->year, $this->month);
     }
 
     public function __toString()

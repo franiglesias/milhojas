@@ -33,6 +33,6 @@ class LogPayrollEvent implements Listener
 
     public function handle(Event $event)
     {
-        $this->logger->notice($event, ['listener']):
+        $this->logger->notice($event, ['event' => $event->getName()]);
     }
 }

@@ -12,7 +12,7 @@ class PayrollMonthTest extends \PHPUnit_Framework_Testcase
     public function test_it_constructs()
     {
         $month = new PayrollMonth('01', '2017');
-        $this->assertEquals('01-2017', $month);
+        $this->assertEquals('2017/01', $month);
     }
 
     /**

@@ -18,16 +18,17 @@ monolog:
             path: "%kernel.logs_dir%/%kernel.environment%.log"
             level: debug
             channels: [!event, !messageBus]
-        events:
-            type: stream
-            path: "%kernel.logs_dir%/events.log"
-            level: info
-            channels: [messageBus]
         events2:
             type: stream
             path: "%kernel.logs_dir%/dispatched.log"
             level: info
             channels: [dispatcher]
+        events:
+            type: stream
+            path: "%kernel.logs_dir%/events.log"
+            level: info
+            channels: [messageBus]
+
         console:
             type:   console
             bubble: false

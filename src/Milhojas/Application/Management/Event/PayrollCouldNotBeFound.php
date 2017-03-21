@@ -42,6 +42,6 @@ class PayrollCouldNotBeFound implements Event
 
     public function __toString()
     {
-        return $this->getName();
+        return sprintf('No se han encontrado nóminas para %s (%s). Progreso: %s.', $this->employee->getFullName(), $this->employee->getEmail(), $this->progress);
     }
 }

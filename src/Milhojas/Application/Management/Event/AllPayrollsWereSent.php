@@ -36,7 +36,7 @@ class AllPayrollsWereSent implements Event
 
     public function __toString()
     {
-        return $this->getName();
+        return 'El envío de nóminas se ha completado.';
     }
 
     public function getCurrentProgress()

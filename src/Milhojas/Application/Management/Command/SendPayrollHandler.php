@@ -58,7 +58,7 @@ class SendPayrollHandler implements CommandHandler
         $employee = $command->getEmployee();
         try {
             $this->sendEmail($employee, $command->getSender(), $command->getPaths(), $command->getMonth());
-            $this->dispatcher->dispatch(new PayrollEmailWasSent($employee, $command->getProgress()->addSent()));
+            $this->dispatcher->dispatch(new PayrollEmailWasSent($employee, $command->getMonth(), $command->getPaths(), $command->getProgress()->addSent()));
         } catch (EmployeeHasNoPayrollFiles $e) {
             $this->dispatcher->dispatch(new PayrollCouldNotBeFound($employee, $command->getProgress()->addNotFound()));
         } catch (\Swift_SwiftException $e) {

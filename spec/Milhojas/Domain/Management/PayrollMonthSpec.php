@@ -18,6 +18,6 @@ class PayrollMonthSpec extends ObjectBehavior
     public function it_can_be_constructed_from_current_date()
     {
         $this->beConstructedThrough('current');
-        $this->getFolderName()->shouldBe(date('m-Y'));
+        $this->getFolderName()->shouldBe(date('Y/m'));
     }
 }

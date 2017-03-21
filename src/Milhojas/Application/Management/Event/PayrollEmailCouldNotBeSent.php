@@ -11,8 +11,17 @@ use Milhojas\Library\ValueObjects\Misc\Progress;
  */
 class PayrollEmailCouldNotBeSent implements Event
 {
+    /**
+     * @var Employee
+     */
     private $employee;
+    /**
+     * @var Progress
+     */
     private $progress;
+    /**
+     * @var string
+     */
     private $errorMessage;
 
     public function __construct(Employee $employee, $error_message, Progress $progress)
@@ -49,6 +58,9 @@ class PayrollEmailCouldNotBeSent implements Event
 
     public function __toString()
     {
-        return $this->getName();
+        return sprintf('Email not sent to %s (%s). Reason: %s. Progress: %s',
+                       $this->employee->getFullName(),
+                       $this->errorMessage,
+                       $this->progress);
     }
 }

@@ -31,7 +31,7 @@ class PayrollDistributionStarted implements Event
 	
 	public function __toString()
 	{
-		return $this->getName().' '.$this->progress;
+		return 'Comienzo del envío de nóminas.';
 	}
 }
 

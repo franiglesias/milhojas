@@ -12,6 +12,11 @@ use Milhojas\Domain\Management\PayrollMonth;
  */
 interface Payrolls {
 	public function getForEmployee(Employee $employee, PayrollMonth $month, $repositories);
+
+    public function getAttachments(Employee $employee, PayrollMonth $month);
+
+    public function archive(Employee $employee, PayrollMonth $month);
+
 }
 
 ?>

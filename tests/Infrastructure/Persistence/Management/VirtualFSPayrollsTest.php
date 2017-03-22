@@ -26,7 +26,7 @@ class VirtualFSPayrollsTest extends \PHPUnit_Framework_TestCase
 
 
         $filesystem = new Filesystem(
-            new ZipArchiveAdapter('/Library/WebServer/Documents/milhojas/var/inbox/php1ZOZO1.zip')
+            new ZipArchiveAdapter('/Library/WebServer/Documents/milhojas/var/inbox/pruebas.zip')
         );
         $local = new Filesystem(new Local('/Library/WebServer/Documents/milhojas/var/inbox/test'));
 
@@ -39,11 +39,13 @@ class VirtualFSPayrollsTest extends \PHPUnit_Framework_TestCase
 
         $files = $manager->listContents('zip://', true);
         foreach ($files as $file) {
-
             $destination = 'local://'.$file['path'];
-            $manager->Put($destination, $manager->read('zip://'.$file['path']));
+            $manager->move('zip://'.$file['path'], $destination);
         }
+        $files = $local->listContents();
+        foreach ($files as $file) {
+            print_r($local->getMimetype($file['path']));
 
-
+        }
     }
 }

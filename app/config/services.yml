@@ -25,6 +25,9 @@ services:
         class:          League\Flysystem\Filesystem
         arguments:      ['@inbox.adapter']
 
+    inbox.manager:
+        class:          League\Flysystem\MountManager
+
     local_exchange.adapter:
         class:          League\Flysystem\Adapter\Local
         arguments:      ['%exchange_path%']

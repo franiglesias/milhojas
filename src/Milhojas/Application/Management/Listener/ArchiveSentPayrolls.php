@@ -30,12 +30,13 @@ class ArchiveSentPayrolls implements Listener
         $employee = $event->getEmployee();
         $month = $event->getMonth();
         $paths = $event->getRepositories();
-        $files = $this->payrolls->getForEmployee($employee, $month, $paths);
-        foreach ($files as $file) {
-            $path = str_replace('/Library/WebServer/Documents/milhojas/var/inbox', '', $file->getPath());
-            if ($this->filesystem->has($path)) {
-                $this->filesystem->rename($path, 'archive/'.$month->getFolderName().'/'.basename($path));
-            }
-        }
+        $this->payrolls->archive($employee, $month);
+//        $files = $this->payrolls->getForEmployee($employee, $month, $paths);
+//        foreach ($files as $file) {
+//            $path = str_replace('/Library/WebServer/Documents/milhojas/var/inbox', '', $file->getPath());
+//            if ($this->filesystem->has($path)) {
+//                $this->filesystem->rename($path, 'archive/'.$month->getFolderName().'/'.basename($path));
+//            }
+//        }
     }
 }

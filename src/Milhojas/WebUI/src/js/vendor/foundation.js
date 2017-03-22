@@ -1221,7 +1221,7 @@
       if (this.complete || this.readyState === 4 || this.readyState === 'complete') {
         singleImageLoaded();
       }
-      // Force load the image
+      // Force loadArchive the image
       else {
           // fix for IE. See https://css-tricks.com/snippets/jquery/fixing-load-in-ie-for-cached-images/
           var src = $(this).attr('src');
@@ -1676,7 +1676,7 @@
     closemeListener();
   }
 
-  //******** only fires this function once on load, if there's something to watch ********
+  //******** only fires this function once on loadArchive, if there's something to watch ********
   function closemeListener(pluginName) {
     var yetiBoxes = $('[data-yeti-box]'),
         plugNames = ['dropdown', 'tooltip', 'reveal'];
@@ -1891,7 +1891,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }
 
     /**
-     * Initializes the Abide plugin and calls functions to get Abide functioning on load.
+     * Initializes the Abide plugin and calls functions to get Abide functioning on loadArchive.
      * @private
      */
 
@@ -4613,7 +4613,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }
 
     /**
-     * Initializes the Equalizer plugin and calls functions to get equalizer functioning on load.
+     * Initializes the Equalizer plugin and calls functions to get equalizer functioning on loadArchive.
      * @private
      */
 
@@ -4990,7 +4990,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }
 
     /**
-     * Initializes the Interchange plugin and calls functions to get interchange functioning on load.
+     * Initializes the Interchange plugin and calls functions to get interchange functioning on loadArchive.
      * @function
      * @private
      */
@@ -5219,7 +5219,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }
 
     /**
-     * Initializes the Magellan plugin and calls functions to get equalizer functioning on load.
+     * Initializes the Magellan plugin and calls functions to get equalizer functioning on loadArchive.
      * @private
      */
 
@@ -6422,7 +6422,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     */
     animOutToLeft: 'slide-out-left',
     /**
-    * Allows Orbit to automatically animate on page load.
+    * Allows Orbit to automatically animate on page loadArchive.
     * @option
      * @type {boolean}
      * @default true
@@ -7456,7 +7456,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      */
     resetOnClose: false,
     /**
-     * Allows the modal to alter the url on open/close, and allows the use of the `back` button to close modals. ALSO, allows a modal to auto-maniacally open on page load IF the hash === the modal's user-set id.
+     * Allows the modal to alter the url on open/close, and allows the use of the `back` button to close modals. ALSO, allows a modal to auto-maniacally open on page loadArchive IF the hash === the modal's user-set id.
      * @option
      * @type {boolean}
      * @default false
@@ -8870,7 +8870,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
               }
           }
 
-          //current context-bound function to open tabs on page load or history popstate
+          //current context-bound function to open tabs on page loadArchive or history popstate
           this._checkDeepLink = function () {
               var anchor = window.location.hash;
               //need a hash and a relevant anchor in this tabset
@@ -9213,7 +9213,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     updateHistory: false,
 
     /**
-     * Allows the window to scroll to content of active pane on load if set to true.
+     * Allows the window to scroll to content of active pane on loadArchive if set to true.
      * Not recommended if more than one tab panel per page.
      * @option
      * @type {boolean}

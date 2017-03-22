@@ -70,8 +70,8 @@ services:
         arguments:      ['%staff.file%']
 
     management.payrolls:
-        class:          Milhojas\Infrastructure\Persistence\Management\ZipPayrolls
-        arguments:      ["%payroll.dataPath%"]
+        class:          Milhojas\Infrastructure\Persistence\Management\VirtualFSPayrolls
+        arguments:      ["@inbox.fs", "@inbox.manager"]
 
     # Command Handlers
 
@@ -81,7 +81,7 @@ services:
 
     management.distribute_payroll.handler:
         class:          Milhojas\Application\Management\Command\DistributePayrollHandler
-        arguments:      ['@management.staff', '%payroll.sender%', '@command_bus', '@event_bus']
+        arguments:      ['@management.staff', '@management.payrolls', '%payroll.sender%', '@command_bus', '@event_bus']
 
     management.launch_payroll_distributor.handler:
         class:          Milhojas\Application\Management\Command\LaunchPayrollDistributorHandler

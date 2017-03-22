@@ -4,6 +4,8 @@ namespace Milhojas\Application\Management\Command;
 
 // Domain concepts
 
+use League\Flysystem\Filesystem;
+use League\Flysystem\ZipArchive\ZipArchiveAdapter;
 use Milhojas\Domain\Management\Payrolls;
 use Milhojas\Domain\Management\PayrollMonth;
 use Milhojas\Domain\Management\Employee;
@@ -84,9 +86,12 @@ class SendPayrollHandler implements CommandHandler
         $message
             ->setTo($employee->getEmail())
             ->setSender($sender)
-            ->setTemplate($this->template, array('employee' => $employee, 'month' => $month))
-            ->attach($this->getPayrollDocuments($employee, $paths, $month));
-
+            ->setTemplate($this->template, array('employee' => $employee, 'month' => $month));
+        $attachments = $this->getPayrollDocuments($employee, $paths, $month);
+        foreach ($attachments as $attachment) {
+            // TODO: mailer needs a method to attach data
+            $message->attach(\Swift_Attachment::newInstance($attachment['data'], $attachment['filename'], $attachment['type']));
+        }
         return $this->mailer->send($message);
     }
 
@@ -103,12 +108,8 @@ class SendPayrollHandler implements CommandHandler
      */
     private function getPayrollDocuments(Employee $employee, $paths, PayrollMonth $month)
     {
-        $files = $this->payrolls->getForEmployee($employee, $month, $paths);
-        $paths = array();
-        foreach ($files as $file) {
-            $paths[] = $file->getPath();
-        }
 
-        return $paths;
+        return $this->payrolls->getAttachments($employee, $month);
+
     }
 }

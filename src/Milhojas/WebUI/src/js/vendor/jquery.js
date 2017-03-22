@@ -4586,7 +4586,7 @@ jQuery.event = {
 
 	special: {
 		load: {
-			// Prevent triggered image.load events from bubbling to window.load
+			// Prevent triggered image.loadArchive events from bubbling to window.loadArchive
 			noBubble: true
 		},
 		focus: {
@@ -7476,7 +7476,7 @@ jQuery.each([ "radio", "checkbox" ], function() {
 // Return jQuery for attributes-only inclusion
 
 
-jQuery.each( ("blur focus focusin focusout load resize scroll unload click dblclick " +
+jQuery.each( ("blur focus focusin focusout loadArchive resize scroll unload click dblclick " +
 	"mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave " +
 	"change select submit keydown keypress keyup error contextmenu").split(" "), function( i, name ) {
 
@@ -8686,7 +8686,7 @@ jQuery.ajaxTransport( "script", function( s ) {
 					charset: s.scriptCharset,
 					src: s.url
 				}).on(
-					"load error",
+					"loadArchive error",
 					callback = function( evt ) {
 						script.remove();
 						callback = null;
@@ -8824,7 +8824,7 @@ jQuery.parseHTML = function( data, context, keepScripts ) {
 };
 
 
-// Keep a copy of the old load method
+// Keep a copy of the old loadArchive method
 var _load = jQuery.fn.load;
 
 /**

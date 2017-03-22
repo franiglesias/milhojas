@@ -6,7 +6,7 @@ var NewButton = React.createClass({
                 <a href="{ this.props.url }" className="hollow button expanded">¿Deseas enviar otra nómina?</a>
                 </p>
             );
-        };
+        }
         return (
             <span></span>
         );

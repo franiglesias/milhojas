@@ -3,7 +3,6 @@
 namespace Milhojas\Application\Management\Listener;
 
 use League\Flysystem\FilesystemInterface;
-use Milhojas\Domain\Management\PayrollMonth;
 use Milhojas\Domain\Management\Payrolls;
 use Milhojas\Messaging\EventBus\Event;
 use Milhojas\Messaging\EventBus\Listener;

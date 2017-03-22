@@ -2,8 +2,10 @@
 
 namespace Milhojas\Application\Management;
 
+use Milhojas\Infrastructure\Uploader\FileUploader;
 use Symfony\Component\HttpFoundation\File\File;
 use Milhojas\Domain\Management\PayrollMonth;
+
 
 /**
  * Represents Distribution of Payroll for a month.
@@ -76,7 +78,7 @@ class PayrollDistributor
         return $this->fileName;
     }
 
-    public function uploadFiles($uploader)
+    public function uploadFiles(FileUploader $uploader)
     {
         foreach ($this->file as $file) {
             $this->setFileName($uploader->upload($file));

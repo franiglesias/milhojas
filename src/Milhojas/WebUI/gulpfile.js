@@ -104,8 +104,7 @@ gulp.task('compile-jsx', () => {
         }))
         .pipe(uglify())
         .pipe(gulp.dest(destination + '/js'));
-});
-
+})
 gulp.task('scripts', function () {
     gulp.src(jsSource)
         .pipe(gulp.dest(destination + '/js'))
@@ -126,4 +125,4 @@ gulp.task('styleguide', function () {
 gulp.task('html', function () {
     gulp.src(htmlSource)
         .pipe(gulp.dest(destination))
-})
+});

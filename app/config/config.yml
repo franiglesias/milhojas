@@ -145,4 +145,4 @@ vich_uploader:
     mappings:
             payroll_file:
                 uri_prefix:         /payroll/month
-                upload_destination: '%upload_inbox%'
+                upload_destination: '%uploads.inbox%'

@@ -4,7 +4,7 @@ parameters:
     payroll.report:
         administracion@miralba.org: 'Administración Colegio Miralba'
         webmaster@miralba.org: 'Webmaster'
-    payroll.dataPath: '%upload_inbox%'
+    payroll.dataPath: '%uploads.inbox%'
     payroll.email.template: 'AppBundle:Management:payroll_document.email.twig'
 
 services:

@@ -19,7 +19,7 @@ services:
 
     inbox.adapter:
         class:          League\Flysystem\Adapter\Local
-        arguments:      ['%payroll.dataPath%']
+        arguments:      ['%uploads.inbox%']
 
     inbox.fs:
         class:          League\Flysystem\Filesystem
@@ -168,4 +168,4 @@ services:
 
     milhojas.uploader:
         class: Milhojas\Infrastructure\Uploader\FileUploader
-        arguments: ['%upload_inbox%']
+        arguments: ['%uploads.inbox%']

@@ -35,14 +35,6 @@ class PayrollDocument
 		return $path;
 	}
 
-    public function delete()
-    {
-    	if (is_writable($this->getPath())) {
-			print_r('Puede borrarse');
-		} else {
-    		print_r('* No puede borrarse *');
-		}
-	}
-} 
+}
 
 ?>

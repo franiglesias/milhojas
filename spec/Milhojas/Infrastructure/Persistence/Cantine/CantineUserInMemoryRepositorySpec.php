@@ -6,7 +6,6 @@ use Milhojas\Domain\Cantine\Exception\CantineUserNotFound;
 use Milhojas\Infrastructure\Persistence\Cantine\CantineUserInMemoryRepository;
 use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineUserRepository;
-use Milhojas\Domain\Shared\Student;
 use PhpSpec\ObjectBehavior;
 use Milhojas\Domain\Cantine\Specification\AssociatedCantineUser;
 use Milhojas\Domain\Cantine\Specification\CantineUserEatingOnDate;
@@ -44,30 +43,4 @@ class CantineUserInMemoryRepositorySpec extends ObjectBehavior
         $this->find($specification)->shouldReturn([$user1, $user3]);
     }
 
-    public function it_can_get_the_user_associated_with_a_student_using_specification(Student $student, CantineUser $user1, CantineUser $user2, CantineUser $user3, CantineUser $user4)
-    {
-        $user1->getStudentId()->willReturn('student-01');
-        $user2->getStudentId()->willReturn('student-02');
-        $user3->getStudentId()->willReturn('student-03');
-        $user4->getStudentId()->willReturn('student-04');
-        $this->store($user1);
-        $this->store($user2);
-        $this->store($user3);
-        $this->store($user4);
-
-        $student->getId()->willReturn('student-01');
-        $this->get(new AssociatedCantineUser($student->getWrappedObject()))->shouldBe($user1);
-    }
-
-    public function it_throws_exception_if_not_found(Student $student, CantineUser $user1, CantineUser $user2, CantineUser $user3, CantineUser $user4)
-    {
-        $user2->getStudentId()->willReturn('student-02');
-        $user3->getStudentId()->willReturn('student-03');
-        $user4->getStudentId()->willReturn('student-04');
-        $this->store($user2);
-        $this->store($user3);
-        $this->store($user4);
-
-        $this->shouldThrow(CantineUserNotFound::class)->during('get', [new AssociatedCantineUser($student->getWrappedObject())]);
-    }
 }

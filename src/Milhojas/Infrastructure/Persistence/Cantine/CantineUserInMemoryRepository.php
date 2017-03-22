@@ -6,7 +6,6 @@ use Milhojas\Domain\Cantine\CantineUser;
 use Milhojas\Domain\Cantine\CantineUserRepository;
 use Milhojas\Domain\Cantine\Exception\CantineUserNotFound;
 use Milhojas\Domain\Cantine\Specification\CantineUserSpecification;
-use Milhojas\Domain\Shared\StudentId;
 
 class CantineUserInMemoryRepository implements CantineUserRepository
 {
@@ -29,7 +28,6 @@ class CantineUserInMemoryRepository implements CantineUserRepository
      */
     public function retrieve($id)
     {
-        $id = new StudentId($id);
         foreach ($this->users as $user) {
             if ($user->getStudentId() == $id) {
                 return $user;

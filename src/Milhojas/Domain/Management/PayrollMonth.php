@@ -38,6 +38,13 @@ class PayrollMonth
         return sprintf('%s/%s', $this->year, $this->month);
     }
 
+    public function getPrevious()
+    {
+        $lastmonth = mktime(0, 0, 0, $this->month - 1, 1, $this->year);
+
+        return new static(date('m', $lastmonth), date('Y', $lastmonth));
+    }
+
     public function __toString()
     {
         return $this->getFolderName();

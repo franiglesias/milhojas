@@ -5,10 +5,10 @@ namespace Tests\Application\Utils;
 # Application Messaging
 
 
-use Milhojas\Messaging\EventBus\EventRecorder;
 use Milhojas\Messaging\CommandBus\Command;
 use Milhojas\Messaging\CommandBus\CommandHandler;
 use Milhojas\Messaging\CommandBus\TestCommandBus;
+use Milhojas\Messaging\EventBus\EventRecorder;
 use PHPUnit\Framework\TestCase;
 
 
@@ -120,7 +120,10 @@ class CommandScenario extends TestCase
      */
     protected function produces($effect)
     {
-        $this->assertTrue($effect);
+        if (is_bool($effect)) {
+            $this->assertTrue($effect);
+        }
+
 
         return $this;
     }

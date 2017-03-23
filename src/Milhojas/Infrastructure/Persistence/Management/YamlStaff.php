@@ -4,25 +4,22 @@ namespace Milhojas\Infrastructure\Persistence\Management;
 
 # Domain concepts
 
-use Milhojas\Domain\Management\Staff;
 use Milhojas\Domain\Management\Employee;
-
+use Milhojas\Domain\Management\Staff;
+use Milhojas\Infrastructure\Persistence\Management\Exceptions\EmployeeCouldNotBeFound;
 use Milhojas\Library\ValueObjects\Identity\Username;
+use Symfony\Component\Yaml\Yaml;
+
 
 # Exceptions
 
-use Milhojas\Infrastructure\Persistence\Management\Exceptions\EmployeeCouldNotBeFound;
-
 # Utilities
-
-use Symfony\Component\Yaml\Yaml;
 
 
 /**
 * Implements a Staff repository over a Yaml file
 */
-
-class YamlStaff implements Staff, \IteratorAggregate
+class YamlStaff implements Staff
 {
 	private $path;
 	private $employees;

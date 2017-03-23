@@ -47,7 +47,7 @@ class VirtualFSPayrolls implements Payrolls
      *
      * @return mixed
      */
-    public function getForEmployee(Employee $employee, PayrollMonth $month, $repositories = null)
+    public function getForEmployee(Employee $employee, PayrollMonth $month)
     {
         $files = $this->filesystem->listContents('new', true);
         $pattern = sprintf('/_trabajador_(%s)_/', implode('|', $employee->getPayrolls()));
@@ -106,6 +106,10 @@ class VirtualFSPayrolls implements Payrolls
         }
     }
 
+    public function getFilesNotSent(PayrollMonth $month)
+    {
+
+    }
 
 }
 

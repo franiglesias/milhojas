@@ -10,7 +10,6 @@ use Milhojas\Domain\Management\PayrollMonth;
 use Milhojas\Domain\Management\Payrolls;
 use Milhojas\Messaging\EventBus\Listener;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 
 class ArchiveSentPayrollsSpec extends ObjectBehavior
@@ -29,8 +28,7 @@ class ArchiveSentPayrollsSpec extends ObjectBehavior
     {
         $event->getEmployee()->shouldBeCalled()->willReturn($employee);
         $event->getMonth()->shouldBeCalled()->willReturn($month);
-        $event->getRepositories()->shouldBeCalled()->willReturn(['path1', 'path2']);
-        $payrolls->getForEmployee($employee, $month, ['path1', 'path2'])->willReturn($file);
+        $payrolls->archive($employee, $month)->shouldBeCalled();
         $this->handle($event);
     }
 }

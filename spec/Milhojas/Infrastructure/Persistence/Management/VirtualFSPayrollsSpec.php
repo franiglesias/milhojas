@@ -4,7 +4,6 @@ namespace spec\Milhojas\Infrastructure\Persistence\Management;
 
 use League\Flysystem\FilesystemInterface;
 use League\Flysystem\MountManager;
-use League\Flysystem\Plugin\GetWithMetadata;
 use Milhojas\Domain\Management\Employee;
 use Milhojas\Domain\Management\PayrollMonth;
 use Milhojas\Domain\Management\Payrolls;
@@ -71,7 +70,7 @@ class VirtualFSPayrollsSpec extends ObjectBehavior
         PayrollMonth $month,
         FilesystemInterface $filesystem
     ) {
-        $filesystem->listContents()->shouldBeCalled()->willReturn(
+        $filesystem->listContents('new', true)->shouldBeCalled()->willReturn(
             [
                 [
                     'basename' => 'archivo_trabajador_123456_masinfo.pdf',
@@ -99,7 +98,7 @@ class VirtualFSPayrollsSpec extends ObjectBehavior
         PayrollMonth $month,
         FilesystemInterface $filesystem
     ) {
-        $filesystem->listContents()->shouldBeCalled()->willReturn(
+        $filesystem->listContents('new', true)->shouldBeCalled()->willReturn(
             [
                 [
                     'basename' => 'archivo_trabajador_123456_masinfo.pdf',
@@ -131,7 +130,7 @@ class VirtualFSPayrollsSpec extends ObjectBehavior
         PayrollMonth $month,
         FilesystemInterface $filesystem
     ) {
-        $filesystem->listContents()->shouldBeCalled()->willReturn(
+        $filesystem->listContents('new', true)->shouldBeCalled()->willReturn(
             [
                 [
                     'basename' => 'archivo_trabajador_123456_masinfo.pdf',
@@ -172,7 +171,7 @@ class VirtualFSPayrollsSpec extends ObjectBehavior
         PayrollMonth $month,
         FilesystemInterface $filesystem
     ) {
-        $filesystem->listContents()->shouldBeCalled()->willReturn(
+        $filesystem->listContents('new', true)->shouldBeCalled()->willReturn(
             [
                 [
                     'basename' => 'archivo_trabajador_123456_masinfo.pdf',

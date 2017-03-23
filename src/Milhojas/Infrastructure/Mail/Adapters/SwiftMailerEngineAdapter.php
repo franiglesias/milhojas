@@ -5,6 +5,7 @@ namespace Milhojas\Infrastructure\Mail\Adapters;
 use Milhojas\Infrastructure\Mail\MailerEngine;
 use Milhojas\Infrastructure\Mail\MailMessage;
 
+
 class SwiftMailerEngineAdapter implements MailerEngine {
 
 	private $swift;
@@ -28,6 +29,12 @@ class SwiftMailerEngineAdapter implements MailerEngine {
 		}
 
 		foreach ($message->getAttachments() as $attachment) {
+            if (is_array($attachment)) {
+                $swiftMessage->attach(
+                    \Swift_Attachment::newInstance($attachment['data'], $attachment['filename'], $attachment['type'])
+                );
+                continue;
+            }
 			$swiftMessage->attach(\Swift_Attachment::fromPath($attachment));
 		}
 
@@ -35,5 +42,3 @@ class SwiftMailerEngineAdapter implements MailerEngine {
 	}
 
 }
-
-?>

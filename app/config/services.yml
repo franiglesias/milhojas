@@ -28,6 +28,9 @@ services:
     inbox.manager:
         class:          League\Flysystem\MountManager
 
+    filesystem.factory:
+        class:          Milhojas\Infrastructure\FileSystem\FileSystemFactory
+
     local_exchange.adapter:
         class:          League\Flysystem\Adapter\Local
         arguments:      ['%exchange_path%']

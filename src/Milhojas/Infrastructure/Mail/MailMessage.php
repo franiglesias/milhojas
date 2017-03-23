@@ -79,7 +79,7 @@ class MailMessage
 	}
 	
 	public function attach($path) {
-		$this->attachments = array_merge($this->attachments, (array)$path);
+        $this->attachments[] = $path;
 		return $this;
 	}
 	public function getAttachments()

@@ -2,10 +2,11 @@
 
 namespace Milhojas\Application\Management\Event;
 
-use Milhojas\Domain\Management\PayrollMonth;
-use Milhojas\Messaging\EventBus\Event;
 use Milhojas\Domain\Management\Employee;
+use Milhojas\Domain\Management\PayrollMonth;
 use Milhojas\Library\ValueObjects\Misc\Progress;
+use Milhojas\Messaging\EventBus\Event;
+
 
 /**
  * Describes a Payroll that was sent by the system.
@@ -26,17 +27,13 @@ class PayrollEmailWasSent implements Event
      * @var PayrollMonth
      */
     private $month;
-    /**
-     * @var array
-     */
-    private $repositories;
 
-    public function __construct(Employee $employee, PayrollMonth $month, $repositories, Progress $progress)
+
+    public function __construct(Employee $employee, PayrollMonth $month, Progress $progress)
     {
         $this->employee = $employee;
         $this->progress = $progress;
         $this->month = $month;
-        $this->repositories = $repositories;
     }
 
     /**
@@ -45,14 +42,6 @@ class PayrollEmailWasSent implements Event
     public function getMonth()
     {
         return $this->month;
-    }
-
-    /**
-     * @return array
-     */
-    public function getRepositories()
-    {
-        return $this->repositories;
     }
 
     /**

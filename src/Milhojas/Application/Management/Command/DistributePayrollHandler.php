@@ -4,18 +4,17 @@ namespace Milhojas\Application\Management\Command;
 
 // Domain concepts
 
-use League\Flysystem\Filesystem;
-use League\Flysystem\ZipArchive\ZipArchiveAdapter;
 use Milhojas\Application\Management\Event\AllPayrollsWereSent;
 use Milhojas\Application\Management\Event\PayrollDistributionStarted;
+use Milhojas\Domain\Management\PayrollReporter;
 use Milhojas\Domain\Management\Payrolls;
 use Milhojas\Domain\Management\Staff;
-use Milhojas\Domain\Management\PayrollReporter;
-
-// Application Messaging infrastructure
-
+use Milhojas\Infrastructure\FileSystem\FileSystemFactory;
 use Milhojas\Messaging\CommandBus\Command;
 use Milhojas\Messaging\CommandBus\CommandHandler;
+
+
+// Application Messaging infrastructure
 
 // Events
 
@@ -25,21 +24,24 @@ use Milhojas\Messaging\CommandBus\CommandHandler;
 class DistributePayrollHandler implements CommandHandler
 {
     private $bus;
-    private $sender;
     private $staff;
     private $eventDispatcher;
     /**
      * @var Payrolls
      */
     private $payrolls;
+    /**
+     * @var
+     */
+    private $fsFactory;
 
-    public function __construct(Staff $staff, Payrolls $payrolls, $sender, $bus, $eventDispatcher)
+    public function __construct(Staff $staff, Payrolls $payrolls, FileSystemFactory $fsFactory, $bus, $eventDispatcher)
     {
         $this->bus = $bus;
         $this->staff = $staff;
-        $this->sender = $sender;
         $this->eventDispatcher = $eventDispatcher;
         $this->payrolls = $payrolls;
+        $this->fsFactory = $fsFactory;
     }
 
     public function handle(Command $command)
@@ -50,7 +52,7 @@ class DistributePayrollHandler implements CommandHandler
 
         foreach ($this->staff as $employee) {
             $progress = $progress->advance();
-            $this->bus->execute(new SendPayroll($employee, $command->getMonth(), $command->getPaths(), $this->sender, $progress));
+            $this->bus->execute(new SendPayroll($employee, $command->getMonth(), $progress));
         }
 
         $this->eventDispatcher->dispatch(new AllPayrollsWereSent($progress, $command->getMonth()));
@@ -59,7 +61,7 @@ class DistributePayrollHandler implements CommandHandler
     protected function prepareFiles($paths, $month)
     {
         foreach ($paths as $path) {
-            $this->payrolls->loadArchive($month, new Filesystem(new ZipArchiveAdapter(getcwd().'/var/inbox/'.$path)));
+            $this->payrolls->loadArchive($month, $this->fsFactory->getZip(getcwd().'/var/inbox/'.$path));
         }
     }
 }

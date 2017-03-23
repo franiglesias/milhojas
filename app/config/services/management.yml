@@ -77,11 +77,11 @@ services:
 
     management.send_payroll.handler:
         class:          Milhojas\Application\Management\Command\SendPayrollHandler
-        arguments:      ['@management.payrolls', '%payroll.email.template%', '@milhojas.mailer',  "@event_bus"]
+        arguments:      ['@management.payrolls', '%payroll.email.template%', '%payroll.sender%', '@milhojas.mailer',  "@event_bus"]
 
     management.distribute_payroll.handler:
         class:          Milhojas\Application\Management\Command\DistributePayrollHandler
-        arguments:      ['@management.staff', '@management.payrolls', '%payroll.sender%', '@command_bus', '@event_bus']
+        arguments:      ['@management.staff', '@management.payrolls', '@filesystem.factory', '@command_bus', '@event_bus']
 
     management.launch_payroll_distributor.handler:
         class:          Milhojas\Application\Management\Command\LaunchPayrollDistributorHandler

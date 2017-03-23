@@ -11,30 +11,51 @@ use Milhojas\Domain\Management\Payrolls;
 use Milhojas\Domain\Management\Staff;
 use Milhojas\Infrastructure\FileSystem\FileSystemFactory;
 use Milhojas\Messaging\CommandBus\Command;
+use Milhojas\Messaging\CommandBus\CommandBus;
 use Milhojas\Messaging\CommandBus\CommandHandler;
+use Milhojas\Messaging\EventBus\EventBus;
 
-
-// Application Messaging infrastructure
-
-// Events
 
 /**
  * Distributes payroll documents for a month.
  */
 class DistributePayrollHandler implements CommandHandler
 {
+    /**
+     * To execute the command to send the payroll
+     * @var CommandBus
+     */
     private $bus;
+    /**
+     * THe collection of employees
+     * @var Staff
+     */
     private $staff;
+    /**
+     * To dispatch events
+     * @var EventBus
+     */
     private $eventDispatcher;
     /**
+     * Access to payrolls
      * @var Payrolls
      */
     private $payrolls;
     /**
-     * @var
+     * Need this to access zip archives
+     * @var FileSystemFactory
      */
     private $fsFactory;
 
+    /**
+     * DistributePayrollHandler constructor.
+     *
+     * @param Staff             $staff
+     * @param Payrolls          $payrolls
+     * @param FileSystemFactory $fsFactory
+     * @param                   $bus
+     * @param                   $eventDispatcher
+     */
     public function __construct(Staff $staff, Payrolls $payrolls, FileSystemFactory $fsFactory, $bus, $eventDispatcher)
     {
         $this->bus = $bus;
@@ -44,6 +65,9 @@ class DistributePayrollHandler implements CommandHandler
         $this->fsFactory = $fsFactory;
     }
 
+    /**
+     * @param Command $command
+     */
     public function handle(Command $command)
     {
         $progress = new PayrollReporter(0, $this->staff->countAll());
@@ -58,6 +82,10 @@ class DistributePayrollHandler implements CommandHandler
         $this->eventDispatcher->dispatch(new AllPayrollsWereSent($progress, $command->getMonth()));
     }
 
+    /**
+     * @param $paths
+     * @param $month
+     */
     protected function prepareFiles($paths, $month)
     {
         foreach ($paths as $path) {

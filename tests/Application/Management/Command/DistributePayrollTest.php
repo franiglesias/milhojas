@@ -35,28 +35,27 @@ class DistributePayrollTest extends CommandScenario
     private $mailer;
     private $staff;
 
+    protected $fsFactory;
+
     public function setUp()
     {
         parent::setUp();
         $this->mailer = $this->prophesize(Mailer::class);
-        $this->staff = $this->prophesize(Staff::class);
+
+        $this->prepareStaff();
+        $this->prepareFileSystemFactory();
+
     }
 
     public function test_It_Handles_a_regular_distribution()
     {
-        $fsFactory = $this->prophesize(FileSystemFactory::class);
-        $zip = $this->prophesize(FilesystemInterface::class);
-        $fsFactory->getZip(Argument::type('string'))->willReturn($zip->reveal());
-        $now = new \DateTime();
         $payrolls = $this->prophesize(Payrolls::class);
-        $employees = array_fill(0, 3, $this->prophesize(Employee::class)->reveal());
-        $this->staff->countAll()->willReturn(3);
-        $this->staff->getIterator()->willReturn(new \ArrayIterator($employees));
-        $command = new DistributePayroll(new PayrollMonth($now->format('m'), $now->format('Y')), array('test'));
+
+        $command = new DistributePayroll(PayrollMonth::current(), ['archive.zip']);
         $handler = new DistributePayrollHandler(
             $this->staff->reveal(),
             $payrolls->reveal(),
-            $fsFactory->reveal(),
+            $this->fsFactory->reveal(),
             $this->bus,
             $this->dispatcher
         );
@@ -78,5 +77,21 @@ class DistributePayrollTest extends CommandScenario
 
             )
         ;
+    }
+
+    protected function prepareStaff()
+    {
+        $employees = array_fill(0, 3, $this->prophesize(Employee::class)->reveal());
+        $this->staff = $this->prophesize(Staff::class);
+        $this->staff->countAll()->willReturn(3);
+        $this->staff->getIterator()->willReturn(new \ArrayIterator($employees));
+    }
+
+    protected function prepareFileSystemFactory()
+    {
+        $zip = $this->prophesize(FilesystemInterface::class);
+        $this->fsFactory = $this->prophesize(FileSystemFactory::class);
+
+        $this->fsFactory->getZip(Argument::type('string'))->willReturn($zip->reveal());
     }
 }

@@ -56,6 +56,10 @@ services:
         class:          Milhojas\Application\Management\Listener\ArchiveSentPayrolls
         arguments:      ['@management.payrolls']
 
+    management.report_unsent_payrolls.listener:
+        class:          Milhojas\Application\Management\Listener\ReportUnsentPayrolls
+        arguments:      ['@inbox.fs', '@milhojas.mailer', '%payroll.sender%', '%payroll.report%', 'AppBundle:Management:payroll_unsent.email.twig']
+
     management.log_events.listener:
         class:          Milhojas\Application\Management\Listener\LogPayrollEvent
         arguments:      ['@logger']

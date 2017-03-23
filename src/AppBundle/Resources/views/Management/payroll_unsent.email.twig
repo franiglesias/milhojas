@@ -1,0 +1,19 @@
+{% block subject 'Documentos no enviados de la Nómina del mes de ' ~ month %}
+
+{% block body_html %}
+    <p>Algunos documentos de nómina no han podido enviarse porque pertenecen a trabajadores que no están dados de alta
+        en el sistema.</p>
+    <p>Te adjuntamos las nóminas que no se han podido enviar.</p>
+    <p>Atte.</p>
+    <p>Departamento Técnico</p>
+{% endblock %}
+
+{% block body_text %}
+    Algunos documentos de nómina no han podido enviarse porque pertenecen a trabajadores que no están dados de alta en el sistema.
+
+    Te adjuntamos las nóminas que no se han podido enviar
+
+    Atte.
+
+    Departamento Técnico
+{% endblock %}

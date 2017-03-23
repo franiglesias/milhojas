@@ -140,7 +140,7 @@ services:
             - ['addListeners', ['management.payroll_email_was_sent.event', ['management.archive_sent_payrolls.listener', 'management.payroll_progress.reporter', 'management.payroll_was_sent.cli.reporter', 'management.log_events.listener']]]
             - ['addListeners', ['management.payroll_email_could_not_be_sent.event', ['management.log_events.listener', 'management.payroll_progress.reporter', 'management.email_was_not_sent.cli.reporter']]]
             - ['addListeners', ['management.payroll_could_not_be_found.event', ['management.log_events.listener', 'management.payroll_could_not_be_sent.cli.reporter', 'management.payroll_progress.reporter', 'management.register_employee_without_payroll.listener']]]
-            - ['addListeners', ['management.all_payrolls_were_sent.event', ['management.log_events.listener', 'management.payroll_sending_complete.reporter', 'management.payroll_progress.resetter']]]
+            - ['addListeners', ['management.all_payrolls_were_sent.event', ['management.log_events.listener', 'management.payroll_sending_complete.reporter', 'management.report_unsent_payrolls.listener', 'management.payroll_progress.resetter']]]
 
             # Contents
             - ['addListener', ['contents.new_post_was_written', 'contents.post_created.reporter'] ]

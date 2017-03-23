@@ -15,6 +15,7 @@ use Milhojas\Domain\Management\PayrollMonth;
 use Milhojas\Domain\Management\Payrolls;
 use Milhojas\Domain\Management\Staff;
 use Milhojas\Infrastructure\FileSystem\FileSystemFactory;
+use Milhojas\Infrastructure\Mail\Mailer;
 use Prophecy\Argument;
 use Tests\Application\Utils\CommandScenario;
 

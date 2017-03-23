@@ -2,8 +2,6 @@
 
 namespace Milhojas\Application\Management\Command;
 
-// Domain concepts
-
 use Milhojas\Application\Management\Event\AllPayrollsWereSent;
 use Milhojas\Application\Management\Event\PayrollDistributionStarted;
 use Milhojas\Domain\Management\PayrollReporter;

@@ -2,11 +2,10 @@
 
 namespace Milhojas\Domain\Contents\Specifications;
 
-use Milhojas\Library\Specification\AbstractSpecification;
 /**
 * Description
 */
-class CurrentlyPublishedPostSpecification extends AbstractSpecification
+class CurrentlyPublishedPostSpecification
 {
 	public function isSatisfiedBy($Post)
 	{

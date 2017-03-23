@@ -54,7 +54,7 @@ services:
 
     management.archive_sent_payrolls.listener:
         class:          Milhojas\Application\Management\Listener\ArchiveSentPayrolls
-        arguments:      ['@management.payrolls', '@inbox.fs']
+        arguments:      ['@management.payrolls']
 
     management.log_events.listener:
         class:          Milhojas\Application\Management\Listener\LogPayrollEvent

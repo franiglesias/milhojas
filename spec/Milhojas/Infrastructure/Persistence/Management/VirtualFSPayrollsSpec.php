@@ -28,7 +28,6 @@ class VirtualFSPayrollsSpec extends ObjectBehavior
         PayrollMonth $month,
         FilesystemInterface $zip,
         MountManager $manager,
-        PayrollMonth $month,
         FilesystemInterface $filesystem
     ) {
         $manager->mountFilesystem('local', $filesystem)->shouldBeCalled();

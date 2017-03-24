@@ -62,4 +62,14 @@ class PayrollMonthTest extends TestCase
         $this->assertEquals(new PayrollMonth('12', '2016'), $month->getPrevious());
     }
 
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function test_valid_years_start_at_previous_to_current()
+    {
+        $month = new PayrollMonth('01', '2015');
+    }
+
+
 }

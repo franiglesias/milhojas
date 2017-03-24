@@ -26,9 +26,9 @@ class VirtualFSPayrollsTest extends \PHPUnit_Framework_TestCase
 
 
         $filesystem = new Filesystem(
-            new ZipArchiveAdapter('/Library/WebServer/Documents/milhojas/var/inbox/pruebas.zip')
+            new ZipArchiveAdapter('var/inbox/pruebas.zip')
         );
-        $local = new Filesystem(new Local('/Library/WebServer/Documents/milhojas/var/inbox/test'));
+        $local = new Filesystem(new Local('var/inbox/test'));
 
         $manager = new MountManager(
             [

@@ -3,11 +3,13 @@
 namespace Tests\Milhojas\Library\ValueObjects\Identity;
 
 use Milhojas\Library\ValueObjects\Identity\Email;
+use PHPUnit\Framework\TestCase;
+
 
 /**
 * Description
 */
-class EmailTest extends \PHPUnit_Framework_Testcase
+class EmailTest extends Testcase
 {
 	public function testItCanCreateEmail()
 	{

@@ -7,7 +7,9 @@ namespace Milhojas\Infrastructure\Persistence\Management;
 use Milhojas\Domain\Management\Employee;
 use Milhojas\Domain\Management\Staff;
 use Milhojas\Infrastructure\Persistence\Management\Exceptions\EmployeeCouldNotBeFound;
+use Milhojas\Library\ValueObjects\Identity\Email;
 use Milhojas\Library\ValueObjects\Identity\Username;
+use Milhojas\Library\ValueObjects\Misc\Gender;
 use Symfony\Component\Yaml\Yaml;
 
 
@@ -21,10 +23,22 @@ use Symfony\Component\Yaml\Yaml;
 */
 class YamlStaff implements Staff
 {
-	private $path;
-	private $employees;
-	
-	public function __construct($path)
+    /**
+     * Path to YAML file
+     * @var string
+     */
+    private $path;
+    /**
+     * @var Employee[]
+     */
+    private $employees;
+
+    /**
+     * YamlStaff constructor.
+     *
+     * @param $path string to the YAML file storing data
+     */
+    public function __construct($path)
 	{
 		$this->path = $path;
 		$this->loadEmployees();
@@ -82,11 +96,11 @@ class YamlStaff implements Staff
 		$employees = Yaml::parse(file_get_contents($this->path));
 		foreach ($employees as $username => $data) {
 			$this->employees[$username] = new Employee(
-				$data['email'], 
-				$data['firstname'],
-				$data['lastname'],
-				$data['gender'],
-				$data['payroll']
+                new Email($data['email']),
+                $data['firstname'],
+                $data['lastname'],
+                new Gender($data['gender']),
+                $data['payroll']
 				);
 		}
 	}

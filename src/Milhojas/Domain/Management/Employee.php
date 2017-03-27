@@ -1,6 +1,9 @@
 <?php
 
 namespace Milhojas\Domain\Management;
+use Milhojas\Library\ValueObjects\Identity\Email;
+use Milhojas\Library\ValueObjects\Misc\Gender;
+
 
 /**
 * Represents an Employee for Management Bounded Context. In this context we are interested on a few data:
@@ -14,13 +17,16 @@ namespace Milhojas\Domain\Management;
 
 class Employee
 {
-	private $email;
+    /**
+     * @var Email
+     */
+    private $email;
 	private $firstname;
 	private $lastname;
 	private $gender;
 	private $payrolls;
-	
-	public function __construct($email, $firstname, $lastname, $gender, $payrolls)
+
+    public function __construct(Email $email, $firstname, $lastname, Gender $gender, $payrolls)
 	{
 		$this->email     = $email;
 		$this->firstname = $firstname;
@@ -56,28 +62,37 @@ class Employee
 	
 	public function getFullName()
 	{
-		return $this->firstname.' '.$this->lastname;
+        return $this->getFirstName().' '.$this->getLastName();
 	}
 	
 	public function getEmail()
 	{
 		return $this->email;
 	}
-	
-	public function getGender()
+
+    protected function getGender()
 	{
-		return $this->gender;
+        return $this->gender->getGender();
 	}
-	
-	public function getName()
+
+    protected function getFirstName()
 	{
 		return $this->firstname;
 	}
+
+    /**
+     * @return string
+     */
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
 	
 	public function getTreatment()
 	{
-		$treatment = $this->gender == 'female' ? 'Estimada' : 'Estimado';
-		return sprintf('%s %s', $treatment, $this->firstname);
+        $treatment = $this->getGender() == Gender::FEMALE ? 'Estimada' : 'Estimado';
+
+        return sprintf('%s %s', $treatment, $this->getFirstName());
 	}
 	
 	public function __toString()

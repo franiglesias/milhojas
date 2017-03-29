@@ -13,8 +13,16 @@ use Milhojas\Library\ValueObjects\Identity\Username;
  */
 interface Staff extends \IteratorAggregate
 {
-	public function getEmployeeByUsername(Username $username);
+    /**
+     * @param Username $username
+     *
+     * @return mixed
+     */
+    public function getEmployeeByUsername(Username $username);
 
+    /**
+     * @return integer
+     */
     public function countAll();
 }
 

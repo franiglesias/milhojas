@@ -3,6 +3,8 @@
 namespace Milhojas\Library\ValueObjects\Identity;
 
 use Milhojas\Library\Sortable\Sortable;
+use Milhojas\Library\ValueObjects\Misc\Gender;
+
 
 class Person implements Sortable
 {
@@ -11,12 +13,23 @@ class Person implements Sortable
     const LISTNAME = '%2$s, %1$s';
     const FULLNAME = '%1$s %2$s';
 
+    /**
+     * @var string
+     */
     private $name;
+    /**
+     * @var string
+     */
     private $surname;
+    /**
+     * @var Gender
+     */
     private $gender;
 
-    public function __construct($name, $surname, $gender)
+    public function __construct($name, $surname, Gender $gender)
     {
+        $this->isNotEmpty($name);
+        $this->isNotEmpty($surname);
         $this->name = $name;
         $this->surname = $surname;
         $this->gender = $gender;
@@ -34,7 +47,7 @@ class Person implements Sortable
 
     public function getGender()
     {
-        return $this->gender;
+        return $this->gender->getGender();
     }
 
     public function compare($other)
@@ -52,5 +65,12 @@ class Person implements Sortable
     public function getFullName()
     {
         return sprintf(self::FULLNAME, $this->name, $this->surname);
+    }
+
+    private function isNotEmpty($name)
+    {
+        if (empty($name)) {
+            throw new \InvalidArgumentException('A name and a last name must be provided for a Person');
+        }
     }
 }

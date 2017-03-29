@@ -2,15 +2,17 @@
 
 namespace spec\Milhojas\LIbrary\ValueObjects\Identity;
 
-use Milhojas\LIbrary\ValueObjects\Identity\Person;
 use Milhojas\Library\Sortable\Sortable;
+use Milhojas\LIbrary\ValueObjects\Identity\Person;
+use Milhojas\Library\ValueObjects\Misc\Gender;
 use PhpSpec\ObjectBehavior;
+
 
 class PersonSpec extends ObjectBehavior
 {
-    public function let()
+    public function let(Gender $gender)
     {
-        $this->beConstructedWith('Fran', 'Iglesias', Person::MALE);
+        $this->beConstructedWith('Fran', 'Iglesias', $gender);
     }
     public function it_is_initializable()
     {
@@ -36,11 +38,17 @@ class PersonSpec extends ObjectBehavior
 
     public function it_can_be_compared_with_other()
     {
-        $this->compare(new Person('Patricia', 'Iglesias', Person::FEMALE))->shouldBe(-1);
+        $this->compare(new Person('Patricia', 'Iglesias', new Gender(Gender::MALE)))->shouldBe(-1);
     }
 
     public function it_manages_accented_names()
     {
-        $this->compare(new Person('Fernando', 'Álvarez', PERSON::MALE))->shouldBe(1);
+        $this->compare(new Person('Fernando', 'Álvarez', new Gender(Gender::FEMALE)))->shouldBe(1);
+    }
+
+    public function it_throws_exception_for_empty_names()
+    {
+        $this->beConstructedWith('', '', new Gender(Gender::FEMALE));
+        $this->shouldThrow(\InvalidArgumentException::class)->duringInstantiation();
     }
 }

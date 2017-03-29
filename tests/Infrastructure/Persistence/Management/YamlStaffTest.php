@@ -7,9 +7,11 @@ namespace Tests\Infrastructure\Persistence\Management;
 use Milhojas\Domain\Management\Employee;
 use Milhojas\Infrastructure\Persistence\Management\YamlStaff;
 use Milhojas\Library\ValueObjects\Identity\Email;
+use Milhojas\Library\ValueObjects\Identity\Person;
 use Milhojas\Library\ValueObjects\Identity\Username;
 use Milhojas\Library\ValueObjects\Misc\Gender;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\TestCase;
 use Tests\Infrastructure\Persistence\Management\Fixtures\NewPayrollFileSystem;
 
 
@@ -20,7 +22,7 @@ use Tests\Infrastructure\Persistence\Management\Fixtures\NewPayrollFileSystem;
 /**
 * Test the YamlStaff Employee data repository
 */
-class YamlStaffTest extends \PHPUnit_Framework_Testcase
+class YamlStaffTest extends Testcase
 {
     private $root;
 
@@ -48,9 +50,11 @@ class YamlStaffTest extends \PHPUnit_Framework_Testcase
 		$staff = new YamlStaff(vfsStream::url('root/payroll/staff.yml'));
 		$expected = new Employee(
             new Email('email1@example.com'),
-            'Nombre 1',
-            'Apellido 1',
-            new Gender('male'),
+            new Person(
+                'Nombre 1',
+                'Apellido 1',
+                new Gender('male')
+            ),
             array(12345, 67890)
 		);
 		$this->assertEquals($expected, $staff->getEmployeeByUsername(new Username('email1@example.com')));

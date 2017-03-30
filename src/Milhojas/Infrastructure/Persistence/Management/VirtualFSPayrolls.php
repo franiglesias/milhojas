@@ -7,6 +7,7 @@ use League\Flysystem\MountManager;
 use Milhojas\Domain\Management\Employee;
 use Milhojas\Domain\Management\PayrollMonth;
 use Milhojas\Domain\Management\Payrolls;
+use Milhojas\Infrastructure\FileSystem\FileSystemFactory;
 use Milhojas\Infrastructure\Persistence\Management\Exceptions\EmployeeHasNoPayrollFiles;
 
 
@@ -18,6 +19,7 @@ use Milhojas\Infrastructure\Persistence\Management\Exceptions\EmployeeHasNoPayro
  */
 class VirtualFSPayrolls implements Payrolls
 {
+    protected $basePath = 'var/inbox/';
     /**
      * Destination filesystem
      * @var FilesystemInterface
@@ -27,23 +29,27 @@ class VirtualFSPayrolls implements Payrolls
      * @var MountManager
      */
     private $manager;
+    /**
+     * @var FileSystemFactory
+     */
+    private $fsFactory;
 
     /**
      * VirtualFSPayrolls constructor.
      *
      * @param FilesystemInterface $filesystem
      */
-    public function __construct(FilesystemInterface $filesystem, MountManager $manager)
+    public function __construct(FilesystemInterface $filesystem, MountManager $manager, FileSystemFactory $fsFactory)
     {
         $this->filesystem = $filesystem;
         $this->manager = $manager;
         $this->manager->mountFilesystem('local', $filesystem);
+        $this->fsFactory = $fsFactory;
     }
 
     /**
      * @param Employee     $employee
      * @param PayrollMonth $month
-     * @param              $repositories
      *
      * @return mixed
      */
@@ -79,6 +85,14 @@ class VirtualFSPayrolls implements Payrolls
             $destination = sprintf('new/%s/%s', $month->getFolderName(), $file['path']);
             $this->manager->move('zip://'.$file['path'], 'local://'.$destination);
         }
+    }
+
+    public function loadMonthDataFrom(PayrollMonth $month, array $paths)
+    {
+        foreach ($paths as $path) {
+            $this->loadArchive($month, $this->fsFactory->getZip($this->basePath.$path));
+        }
+
     }
 
     public function getAttachments(Employee $employee, PayrollMonth $month)

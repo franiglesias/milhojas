@@ -8,7 +8,6 @@
 
 namespace Tests\Application\Management\Command;
 
-use League\Flysystem\FilesystemInterface;
 use Milhojas\Application\Management\Command\DistributePayroll;
 use Milhojas\Application\Management\Command\DistributePayrollHandler;
 use Milhojas\Application\Management\Command\SendPayroll;
@@ -18,7 +17,6 @@ use Milhojas\Domain\Management\Employee;
 use Milhojas\Domain\Management\PayrollMonth;
 use Milhojas\Domain\Management\Payrolls;
 use Milhojas\Domain\Management\Staff;
-use Milhojas\Infrastructure\FileSystem\FileSystemFactory;
 use Milhojas\Messaging\CommandBus\CommandBus;
 use Milhojas\Messaging\EventBus\EventBus;
 use PHPUnit\Framework\TestCase;
@@ -34,13 +32,8 @@ class DistributePayrollHandlerTest extends TestCase
         $employees = 5;
         $staff = $this->getStaff($employees);
 
-        $fileSystem = $this->prophesize(FilesystemInterface::class);
-
-        $fsFactory = $this->prophesize(FileSystemFactory::class);
-        $fsFactory->getZip(Argument::type('string'))->shouldBeCalled()->willReturn($fileSystem);
-
         $payrolls = $this->prophesize(Payrolls::class);
-        $payrolls->loadArchive(Argument::type(PayrollMonth::class), $fileSystem)->shouldBeCalled();
+        $payrolls->loadMonthDataFrom(Argument::type(PayrollMonth::class), Argument::type('array'))->shouldBeCalled();
 
         $bus = $this->prophesize(CommandBus::class);
         $bus->execute(Argument::type(SendPayroll::class))->shouldBeCalled($employees);
@@ -52,7 +45,6 @@ class DistributePayrollHandlerTest extends TestCase
         $handler = new DistributePayrollHandler(
             $staff->reveal(),
             $payrolls->reveal(),
-            $fsFactory->reveal(),
             $bus->reveal(),
             $dispatcher->reveal()
         );

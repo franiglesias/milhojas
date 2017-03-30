@@ -7,15 +7,16 @@ use League\Flysystem\MountManager;
 use Milhojas\Domain\Management\Employee;
 use Milhojas\Domain\Management\PayrollMonth;
 use Milhojas\Domain\Management\Payrolls;
+use Milhojas\Infrastructure\FileSystem\FileSystemFactory;
 use Milhojas\Infrastructure\Persistence\Management\VirtualFSPayrolls;
 use PhpSpec\ObjectBehavior;
 
 
 class VirtualFSPayrollsSpec extends ObjectBehavior
 {
-    public function let(FilesystemInterface $filesystem, MountManager $manager)
+    public function let(FilesystemInterface $filesystem, MountManager $manager, FileSystemFactory $factory)
     {
-        $this->beConstructedWith($filesystem, $manager);
+        $this->beConstructedWith($filesystem, $manager, $factory);
     }
 
     function it_is_initializable()
@@ -60,9 +61,49 @@ class VirtualFSPayrollsSpec extends ObjectBehavior
 
 
         $this->loadArchive($month, $zip);
-
-
     }
+
+    function it_loads_from_zip_archive_encapsulated(
+        PayrollMonth $month,
+        FilesystemInterface $zip,
+        MountManager $manager,
+        FilesystemInterface $filesystem,
+        FileSystemFactory $factory
+    ) {
+        $manager->mountFilesystem('local', $filesystem)->shouldBeCalled();
+        $manager->mountFilesystem('zip', $zip)->shouldBeCalled();
+
+        $manager->listContents('zip://', true)->shouldBeCalled()->willReturn(
+            [
+                [
+                    'basename' => 'archivo_trabajador_123456_masinfo.pdf',
+                    'path' => 'archivo_trabajador_123456_masinfo.pdf',
+                ],
+                [
+                    'basename' => 'archivo_trabajador_789012_masinfo.pdf',
+                    'path' => 'archivo_trabajador_789012_masinfo.pdf',
+                ],
+            ]
+        )
+        ;
+        $month->getFolderName()->shouldBeCalledTimes(2)->willReturn('2017/03');
+        $manager->move(
+            'zip://archivo_trabajador_123456_masinfo.pdf',
+            'local://new/2017/03/archivo_trabajador_123456_masinfo.pdf'
+        )->shouldBeCalled()
+        ;
+        $manager->move(
+            'zip://archivo_trabajador_789012_masinfo.pdf',
+            'local://new/2017/03/archivo_trabajador_789012_masinfo.pdf'
+        )->shouldBeCalled()
+        ;
+
+        $factory->getZip('var/inbox/some/path.zip')->shouldBeCalled()->willReturn($zip);
+
+        $this->loadMonthDataFrom($month, ['some/path.zip']);
+    }
+
+
 
     public function it_retrieves_files_for_an_employee(
         Employee $employee,

@@ -4,7 +4,6 @@ namespace Tests\Application\Management\Command;
 
 // SUT
 
-use League\Flysystem\FilesystemInterface;
 use Milhojas\Application\Management\Command\DistributePayroll;
 use Milhojas\Application\Management\Command\DistributePayrollHandler;
 use Milhojas\Application\Management\Command\SendPayroll;
@@ -14,9 +13,7 @@ use Milhojas\Domain\Management\Employee;
 use Milhojas\Domain\Management\PayrollMonth;
 use Milhojas\Domain\Management\Payrolls;
 use Milhojas\Domain\Management\Staff;
-use Milhojas\Infrastructure\FileSystem\FileSystemFactory;
 use Milhojas\Infrastructure\Mail\Mailer;
-use Prophecy\Argument;
 use Tests\Application\Utils\CommandScenario;
 
 
@@ -44,7 +41,6 @@ class DistributePayrollTest extends CommandScenario
         $this->mailer = $this->prophesize(Mailer::class);
 
         $this->prepareStaff();
-        $this->prepareFileSystemFactory();
 
     }
 
@@ -56,7 +52,6 @@ class DistributePayrollTest extends CommandScenario
         $handler = new DistributePayrollHandler(
             $this->staff->reveal(),
             $payrolls->reveal(),
-            $this->fsFactory->reveal(),
             $this->bus,
             $this->dispatcher
         );
@@ -88,11 +83,4 @@ class DistributePayrollTest extends CommandScenario
         $this->staff->getIterator()->willReturn(new \ArrayIterator($employees));
     }
 
-    protected function prepareFileSystemFactory()
-    {
-        $zip = $this->prophesize(FilesystemInterface::class);
-        $this->fsFactory = $this->prophesize(FileSystemFactory::class);
-
-        $this->fsFactory->getZip(Argument::type('string'))->willReturn($zip->reveal());
-    }
 }

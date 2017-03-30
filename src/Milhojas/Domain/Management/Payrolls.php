@@ -19,6 +19,8 @@ interface Payrolls
     public function getFilesNotSent(PayrollMonth $monh);
 
     public function loadArchive(PayrollMonth $month, FilesystemInterface $filesystem);
+
+    public function loadMonthDataFrom(PayrollMonth $month, array $path);
 }
 
 ?>

@@ -75,7 +75,7 @@ services:
 
     management.payrolls:
         class:          Milhojas\Infrastructure\Persistence\Management\VirtualFSPayrolls
-        arguments:      ["@inbox.fs", "@inbox.manager"]
+        arguments:      ["@inbox.fs", "@inbox.manager", '@filesystem.factory' ]
 
     # Command Handlers
 
@@ -85,7 +85,7 @@ services:
 
     management.distribute_payroll.handler:
         class:          Milhojas\Application\Management\Command\DistributePayrollHandler
-        arguments:      ['@management.staff', '@management.payrolls', '@filesystem.factory', '@command_bus', '@event_bus']
+        arguments:      ['@management.staff', '@management.payrolls', '@command_bus', '@event_bus']
 
     management.launch_payroll_distributor.handler:
         class:          Milhojas\Application\Management\Command\LaunchPayrollDistributorHandler

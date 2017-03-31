@@ -77,9 +77,10 @@ class MailMessage
 	{
 		return $this->parts;
 	}
-	
-	public function attach($path) {
-        $this->attachments[] = $path;
+
+    public function attach(MailerAttachment $attachment)
+    {
+        $this->attachments[] = $attachment;
 		return $this;
 	}
 	public function getAttachments()

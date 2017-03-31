@@ -6,39 +6,41 @@ use Milhojas\Infrastructure\Mail\MailerEngine;
 use Milhojas\Infrastructure\Mail\MailMessage;
 
 
-class SwiftMailerEngineAdapter implements MailerEngine {
+class SwiftMailerEngineAdapter implements MailerEngine
+{
 
-	private $swift;
+    private $swift;
 
-	public function __construct($swift)
-	{
-		$this->swift = $swift;
-	}
+    public function __construct($swift)
+    {
+        $this->swift = $swift;
+    }
 
-	public function send(MailMessage $message) 
-	{
-		$swiftMessage = \Swift_Message::newInstance()
-			->setSubject($message->getSubject())
-			->setFrom($message->getSender())
-			->setReplyTo($message->getReplyTo())
-			->setTo($message->getTo())
-			->setBody($message->getBody());
+    public function send(MailMessage $message)
+    {
+        $swiftMessage = \Swift_Message::newInstance()
+            ->setSubject($message->getSubject())
+            ->setFrom($message->getSender())
+            ->setReplyTo($message->getReplyTo())
+            ->setTo($message->getTo())
+            ->setBody($message->getBody())
+        ;
 
-		foreach ($message->getParts() as $part) {
-			$swiftMessage->addPart($part['part'], $part['type']);
-		}
+        foreach ($message->getParts() as $part) {
+            $swiftMessage->addPart($part['part'], $part['type']);
+        }
 
-		foreach ($message->getAttachments() as $attachment) {
-            if (is_array($attachment)) {
-                $swiftMessage->attach(
-                    \Swift_Attachment::newInstance($attachment['data'], $attachment['filename'], $attachment['type'])
-                );
-                continue;
-            }
-			$swiftMessage->attach(\Swift_Attachment::fromPath($attachment));
-		}
+        foreach ($message->getAttachments() as $attachment) {
+            $swiftMessage->attach(
+                \Swift_Attachment::newInstance(
+                    $attachment->getData(),
+                    $attachment->getFilename(),
+                    $attachment->getType()
+                )
+            );
+        }
 
-		return $this->swift->send($swiftMessage);
-	}
+        return $this->swift->send($swiftMessage);
+    }
 
 }

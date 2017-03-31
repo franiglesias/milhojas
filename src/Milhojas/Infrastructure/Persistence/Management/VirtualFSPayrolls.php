@@ -5,6 +5,7 @@ namespace Milhojas\Infrastructure\Persistence\Management;
 use League\Flysystem\FilesystemInterface;
 use League\Flysystem\MountManager;
 use Milhojas\Domain\Management\Employee;
+use Milhojas\Domain\Management\PayrollDocument;
 use Milhojas\Domain\Management\PayrollMonth;
 use Milhojas\Domain\Management\Payrolls;
 use Milhojas\Infrastructure\FileSystem\FileSystemFactory;
@@ -47,6 +48,38 @@ class VirtualFSPayrolls implements Payrolls
         $this->fsFactory = $fsFactory;
     }
 
+    public function loadMonthDataFrom(PayrollMonth $month, array $paths)
+    {
+        foreach ($paths as $path) {
+            $this->loadArchive($month, $this->fsFactory->getZip($this->basePath.$path));
+        }
+    }
+
+    private function loadArchive(PayrollMonth $month, FilesystemInterface $zip)
+    {
+        $this->manager->mountFilesystem('zip', $zip);
+        $files = $this->manager->listContents('zip://', true);
+        foreach ($files as $file) {
+            $destination = sprintf('new/%s/%s', $month->getFolderName(), $file['path']);
+            $this->manager->move('zip://'.$file['path'], 'local://'.$destination);
+        }
+    }
+
+    public function getAttachments(Employee $employee, PayrollMonth $month)
+    {
+        $attachments = [];
+        $files = $this->getForEmployee($employee, $month);
+        foreach ($files as $file) {
+            $attachments[] = PayrollDocument::inline(
+                basename($file),
+                $this->filesystem->getMimetype($file),
+                $this->filesystem->read($file)
+            );
+        }
+
+        return $attachments;
+    }
+
     /**
      * @param Employee     $employee
      * @param PayrollMonth $month
@@ -76,40 +109,6 @@ class VirtualFSPayrolls implements Payrolls
         throw new EmployeeHasNoPayrollFiles(sprintf('No payroll files for %s', $employee->getFullName()));
 
     }
-
-    public function loadArchive(PayrollMonth $month, FilesystemInterface $zip)
-    {
-        $this->manager->mountFilesystem('zip', $zip);
-        $files = $this->manager->listContents('zip://', true);
-        foreach ($files as $file) {
-            $destination = sprintf('new/%s/%s', $month->getFolderName(), $file['path']);
-            $this->manager->move('zip://'.$file['path'], 'local://'.$destination);
-        }
-    }
-
-    public function loadMonthDataFrom(PayrollMonth $month, array $paths)
-    {
-        foreach ($paths as $path) {
-            $this->loadArchive($month, $this->fsFactory->getZip($this->basePath.$path));
-        }
-
-    }
-
-    public function getAttachments(Employee $employee, PayrollMonth $month)
-    {
-        $attachments = [];
-        $files = $this->getForEmployee($employee, $month);
-        foreach ($files as $file) {
-            $attachments[] = [
-                'data' => $this->filesystem->read($file),
-                'type' => $this->filesystem->getMimetype($file),
-                'filename' => basename($file)
-            ];
-        }
-        return $attachments;
-    }
-
-
 
     public function archive(Employee $employee, PayrollMonth $month)
     {

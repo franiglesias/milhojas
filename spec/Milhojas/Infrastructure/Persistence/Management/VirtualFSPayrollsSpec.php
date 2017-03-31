@@ -5,15 +5,27 @@ namespace spec\Milhojas\Infrastructure\Persistence\Management;
 use League\Flysystem\FilesystemInterface;
 use League\Flysystem\MountManager;
 use Milhojas\Domain\Management\Employee;
+use Milhojas\Domain\Management\PayrollDocument;
 use Milhojas\Domain\Management\PayrollMonth;
 use Milhojas\Domain\Management\Payrolls;
 use Milhojas\Infrastructure\FileSystem\FileSystemFactory;
 use Milhojas\Infrastructure\Persistence\Management\VirtualFSPayrolls;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
 
 
 class VirtualFSPayrollsSpec extends ObjectBehavior
 {
+    protected $sample1 = [
+        'basename' => 'archivo_trabajador_123456_masinfo.pdf',
+        'path'     => 'archivo_trabajador_123456_masinfo.pdf',
+    ];
+
+    protected $sample2 = [
+        'basename' => 'archivo_trabajador_789012_masinfo.pdf',
+        'path'     => 'archivo_trabajador_789012_masinfo.pdf',
+    ];
+
     public function let(FilesystemInterface $filesystem, MountManager $manager, FileSystemFactory $factory)
     {
         $this->beConstructedWith($filesystem, $manager, $factory);
@@ -29,21 +41,17 @@ class VirtualFSPayrollsSpec extends ObjectBehavior
         PayrollMonth $month,
         FilesystemInterface $zip,
         MountManager $manager,
-        FilesystemInterface $filesystem
+        FilesystemInterface $filesystem,
+        FileSystemFactory $factory
     ) {
+        $factory->getZip(Argument::type('string'))->willReturn($zip);
         $manager->mountFilesystem('local', $filesystem)->shouldBeCalled();
         $manager->mountFilesystem('zip', $zip)->shouldBeCalled();
 
         $manager->listContents('zip://', true)->shouldBeCalled()->willReturn(
             [
-                [
-                    'basename' => 'archivo_trabajador_123456_masinfo.pdf',
-                    'path' => 'archivo_trabajador_123456_masinfo.pdf',
-                ],
-                [
-                    'basename' => 'archivo_trabajador_789012_masinfo.pdf',
-                    'path' => 'archivo_trabajador_789012_masinfo.pdf',
-                ],
+                $this->sample1,
+                $this->sample2,
             ]
         )
         ;
@@ -60,7 +68,7 @@ class VirtualFSPayrollsSpec extends ObjectBehavior
         ;
 
 
-        $this->loadArchive($month, $zip);
+        $this->loadMonthDataFrom($month, ['path/to/zip.zip']);
     }
 
     function it_loads_from_zip_archive_encapsulated(
@@ -75,14 +83,8 @@ class VirtualFSPayrollsSpec extends ObjectBehavior
 
         $manager->listContents('zip://', true)->shouldBeCalled()->willReturn(
             [
-                [
-                    'basename' => 'archivo_trabajador_123456_masinfo.pdf',
-                    'path' => 'archivo_trabajador_123456_masinfo.pdf',
-                ],
-                [
-                    'basename' => 'archivo_trabajador_789012_masinfo.pdf',
-                    'path' => 'archivo_trabajador_789012_masinfo.pdf',
-                ],
+                $this->sample1,
+                $this->sample2,
             ]
         )
         ;
@@ -112,14 +114,8 @@ class VirtualFSPayrollsSpec extends ObjectBehavior
     ) {
         $filesystem->listContents('new', true)->shouldBeCalled()->willReturn(
             [
-                [
-                    'basename' => 'archivo_trabajador_123456_masinfo.pdf',
-                    'path' => 'archivo_trabajador_123456_masinfo.pdf',
-                ],
-                [
-                    'basename' => 'archivo_trabajador_789012_masinfo.pdf',
-                    'path' => 'archivo_trabajador_789012_masinfo.pdf',
-                ],
+                $this->sample1,
+                $this->sample2,
             ]
         )
         ;
@@ -140,14 +136,8 @@ class VirtualFSPayrollsSpec extends ObjectBehavior
     ) {
         $filesystem->listContents('new', true)->shouldBeCalled()->willReturn(
             [
-                [
-                    'basename' => 'archivo_trabajador_123456_masinfo.pdf',
-                    'path' => 'archivo_trabajador_123456_masinfo.pdf',
-                ],
-                [
-                    'basename' => 'archivo_trabajador_789012_masinfo.pdf',
-                    'path' => 'archivo_trabajador_789012_masinfo.pdf',
-                ],
+                $this->sample1,
+                $this->sample2,
                 [
                     'basename' => 'archivo_trabajador_123456_otro_archivo.pdf',
                     'path' => 'archivo_trabajador_123456_otro_archivo.pdf',
@@ -172,14 +162,8 @@ class VirtualFSPayrollsSpec extends ObjectBehavior
     ) {
         $filesystem->listContents('new', true)->shouldBeCalled()->willReturn(
             [
-                [
-                    'basename' => 'archivo_trabajador_123456_masinfo.pdf',
-                    'path' => 'archivo_trabajador_123456_masinfo.pdf',
-                ],
-                [
-                    'basename' => 'archivo_trabajador_789012_masinfo.pdf',
-                    'path' => 'archivo_trabajador_789012_masinfo.pdf',
-                ],
+                $this->sample1,
+                $this->sample2,
             ]
         )
         ;
@@ -196,11 +180,11 @@ class VirtualFSPayrollsSpec extends ObjectBehavior
 
         $this->getAttachments($employee, $month)->shouldBeLike(
             [
-                [
-                    'data' => 'content of the file',
-                    'type' => 'application/pdf',
-                    'filename' => 'archivo_trabajador_123456_masinfo.pdf',
-                ],
+                PayrollDocument::inline(
+                    'archivo_trabajador_123456_masinfo.pdf',
+                    'application/pdf',
+                    'content of the file'
+                ),
             ]
         )
         ;
@@ -209,8 +193,10 @@ class VirtualFSPayrollsSpec extends ObjectBehavior
     public function it_archives_distributed_payrolls(
         Employee $employee,
         PayrollMonth $month,
-        FilesystemInterface $filesystem
+        FilesystemInterface $filesystem,
+        FileSystemFactory $factory
     ) {
+
         $filesystem->listContents('new', true)->shouldBeCalled()->willReturn(
             [
                 [
@@ -231,49 +217,6 @@ class VirtualFSPayrollsSpec extends ObjectBehavior
             'archive/2017/03/archivo_trabajador_123456_masinfo.pdf'
         )->shouldBeCalled();
         $this->archive($employee, $month);
-    }
-
-    public function no_test_it_retrieves_files_for_an_employee_from_serveral_locations(
-        Employee $employee,
-        PayrollMonth $month,
-        FilesystemInterface $filesystem
-    ) {
-        $filesystem->listContents('repo1')->shouldBeCalled()->willReturn(
-            [
-                [
-                    'basename' => 'archivo_trabajador_123456_masinfo.pdf',
-                    'path' => 'repo1/archivo_trabajador_123456_masinfo.pdf',
-                ],
-                [
-                    'basename' => 'archivo_trabajador_789012_masinfo.pdf',
-                    'path' => 'repo1/archivo_trabajador_789012_masinfo.pdf',
-                ],
-            ]
-        )
-        ;
-
-        $filesystem->listContents('repo2')->shouldBeCalled()->willReturn(
-            [
-                [
-                    'basename' => 'archivo_trabajador_789012_otro_archivo.pdf',
-                    'path' => 'repo2/archivo_trabajador_789012_otro_archivo.pdf',
-                ],
-                [
-                    'basename' => 'archivo_trabajador_123456_otro_archivo.pdf',
-                    'path' => 'repo2/archivo_trabajador_123456_otro_archivo.pdf',
-                ],
-            ]
-        )
-        ;
-
-        $employee->getPayrolls()->shouldBeCalled()->willReturn(['123456']);
-        $this->getForEmployee($employee, $month, ['repo1', 'repo2'])->shouldBe(
-            [
-                'repo1/archivo_trabajador_123456_masinfo.pdf',
-                'repo2/archivo_trabajador_123456_otro_archivo.pdf',
-            ]
-        )
-        ;
     }
 
 

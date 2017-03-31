@@ -2,8 +2,6 @@
 
 namespace Milhojas\Domain\Management;
 
-use League\Flysystem\FilesystemInterface;
-
 
 /**
  * Represent a repository for payroll files. It could be the FileSystem or a zip file
@@ -17,9 +15,6 @@ interface Payrolls
     public function archive(Employee $employee, PayrollMonth $month);
 
     public function getFilesNotSent(PayrollMonth $monh);
-
-    public function loadArchive(PayrollMonth $month, FilesystemInterface $filesystem);
-
     public function loadMonthDataFrom(PayrollMonth $month, array $path);
 }
 

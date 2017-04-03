@@ -10,7 +10,8 @@ parameters:
 services:
 
     clibuilder:
-        class:          Milhojas\Infrastructure\Process\CommandLineBuilder;
+        class:          Milhojas\Infrastructure\Process\CommandLineBuilder
+
     # Reporters
 
     management.payroll_was_sent.cli.reporter:
@@ -91,7 +92,7 @@ services:
 
     management.launch_payroll_distributor.handler:
         class:          Milhojas\Application\Management\Command\LaunchPayrollDistributorHandler
-        arguments:      ['@clibuilder]
+        arguments:      ['@clibuilder']
 
 # Payroll command
     payroll_month:

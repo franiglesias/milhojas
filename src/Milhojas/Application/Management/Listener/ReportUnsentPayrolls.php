@@ -5,6 +5,7 @@ namespace Milhojas\Application\Management\Listener;
 use League\Flysystem\FilesystemInterface;
 use Milhojas\Application\Management\Event\AllPayrollsWereSent;
 use Milhojas\Infrastructure\Mail\Mailer;
+use Milhojas\Infrastructure\Mail\MailerAttachment;
 use Milhojas\Infrastructure\Mail\MailMessage;
 use Milhojas\Messaging\EventBus\Event;
 use Milhojas\Messaging\EventBus\Listener;
@@ -71,11 +72,11 @@ class ReportUnsentPayrolls implements Listener
         ;
         foreach ($pending as $file) {
             $message->attach(
-                [
-                    'data' => $this->filesystem->read($file['path']),
-                    'type' => $this->filesystem->getMimetype($file['path']),
-                    'filename' => basename($file['path']),
-                ]
+                MailerAttachment::inline(
+                    $this->filesystem->read($file['path']),
+                    $this->filesystem->getMimetype($file['path']),
+                    basename($file['path'])
+                )
             );
         }
 

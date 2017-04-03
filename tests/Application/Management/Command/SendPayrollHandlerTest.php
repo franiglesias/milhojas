@@ -18,6 +18,7 @@ use Milhojas\Domain\Management\PayrollMonth;
 use Milhojas\Domain\Management\PayrollReporter;
 use Milhojas\Domain\Management\Payrolls;
 use Milhojas\Infrastructure\Mail\Mailer;
+use Milhojas\Infrastructure\Mail\MailerAttachment;
 use Milhojas\Infrastructure\Mail\MailMessage;
 use Milhojas\Infrastructure\Persistence\Management\Exceptions\EmployeeHasNoPayrollFiles;
 use Milhojas\Library\ValueObjects\Identity\Email;
@@ -113,9 +114,11 @@ class SendPayrollHandlerTest extends TestCase
      */
     protected function getPayrolls()
     {
+
         $payrolls = $this->prophesize(Payrolls::class);
+        $attachment = $this->prophesize(MailerAttachment::class);
         $payrolls->getAttachments(Argument::type(Employee::class), Argument::type(PayrollMonth::class))->shouldBeCalled(
-        )->willReturn(['attachment'])
+        )->willReturn([$attachment->reveal()])
         ;
 
         return $payrolls;

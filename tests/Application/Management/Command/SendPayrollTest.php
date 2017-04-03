@@ -13,6 +13,7 @@ use Milhojas\Domain\Management\PayrollMonth;
 use Milhojas\Domain\Management\PayrollReporter;
 use Milhojas\Domain\Management\Payrolls;
 use Milhojas\Infrastructure\Mail\Mailer;
+use Milhojas\Infrastructure\Mail\MailerAttachment;
 use Milhojas\Infrastructure\Mail\MailMessage;
 use Milhojas\Infrastructure\Persistence\Management\Exceptions\EmployeeHasNoPayrollFiles;
 use Prophecy\Argument;
@@ -62,8 +63,9 @@ class SendPayrollTest extends CommandScenario
 
     public function test_it_handles_sending_payroll_documents_to_employee()
     {
+        $attachment = $this->prophesize(MailerAttachment::class);
         $this->payrolls->getAttachments($this->employee->reveal(), Argument::type(PayrollMonth::class))->willReturn(
-            ['attachment']
+            [$attachment->reveal()]
         )
         ;
 
@@ -101,8 +103,9 @@ class SendPayrollTest extends CommandScenario
 
     public function test_it_handles_problems_with_mailer()
     {
+        $attachment = $this->prophesize(MailerAttachment::class);
         $this->payrolls->getAttachments($this->employee->reveal(), Argument::type(PayrollMonth::class))->willReturn(
-            ['attachment']
+            [$attachment->reveal()]
         )
         ;
         $this->mailer->send(Argument::type(MailMessage::class))->willThrow(\Swift_SwiftException::class);

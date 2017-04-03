@@ -21,18 +21,18 @@ class Employee
      * @var Email
      */
     private $email;
-    private $firstname;
-    private $lastname;
-    private $gender;
+    /**
+     * @var array
+     */
     private $payrolls;
+    /**
+     * @var Person
+     */
     private $person;
 
     public function __construct(Email $email, Person $person, $payrolls)
     {
         $this->email = $email;
-//		$this->firstname = $firstname;
-//		$this->lastname  = $lastname;
-//		$this->gender    = $gender;
         $this->payrolls = $payrolls;
         $this->person = $person;
     }

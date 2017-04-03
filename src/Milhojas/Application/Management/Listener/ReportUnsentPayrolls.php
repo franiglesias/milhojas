@@ -80,6 +80,7 @@ class ReportUnsentPayrolls implements Listener
             );
         }
 
+        $this->filesystem->deleteDir('new');
 
         $this->mailer->send($message);
 

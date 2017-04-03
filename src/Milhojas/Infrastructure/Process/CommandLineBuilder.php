@@ -12,15 +12,34 @@ class CommandLineBuilder
     private $environment;
     private $workingDir;
     private $output;
+    protected $template = 'php bin/console %s';
 
-    public function __construct($command)
+
+    /**
+     * CommandLineBuilder constructor.
+     *
+     * @param string $command
+     */
+    public function __construct($command = '')
     {
         $this->command = $command;
         $this->arguments = [];
         $this->output = '';
+        return $this;
+    }
+
+
+    /**
+     * @param string $command
+     */
+    public function setCommand($command)
+    {
+        $this->command = $command;
 
         return $this;
     }
+
+
 
     public function withArgument($argument)
     {
@@ -52,8 +71,12 @@ class CommandLineBuilder
 
     public function line()
     {
-        $template = 'php bin/console %s';
-        $line = sprintf($template, $this->command);
+        if (!$this->command) {
+            throw new \InvalidArgumentException('There is no command to run');
+        }
+
+
+        $line = sprintf($this->template, $this->command);
         $line .= $this->buildArguments();
         $line .= $this->buildEnvironment();
         $line .= $this->buildOutputTo();
@@ -116,6 +139,18 @@ class CommandLineBuilder
                 echo 'OUT > '.$buffer;
             }
         });
+
+        return $this;
+    }
+
+    /**
+     * @param string $template
+     *
+     * @return CommandLineBuilder
+     */
+    public function setTemplate($template)
+    {
+        $this->template = $template;
 
         return $this;
     }

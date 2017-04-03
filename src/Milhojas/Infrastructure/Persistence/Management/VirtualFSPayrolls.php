@@ -9,6 +9,7 @@ use Milhojas\Domain\Management\PayrollDocument;
 use Milhojas\Domain\Management\PayrollMonth;
 use Milhojas\Domain\Management\Payrolls;
 use Milhojas\Infrastructure\FileSystem\FileSystemFactory;
+use Milhojas\Infrastructure\Mail\MailerAttachment;
 use Milhojas\Infrastructure\Persistence\Management\Exceptions\EmployeeHasNoPayrollFiles;
 
 
@@ -70,7 +71,7 @@ class VirtualFSPayrolls implements Payrolls
         $attachments = [];
         $files = $this->getForEmployee($employee, $month);
         foreach ($files as $file) {
-            $attachments[] = PayrollDocument::inline(
+            $attachments[] = MailerAttachment::inline(
                 basename($file),
                 $this->filesystem->getMimetype($file),
                 $this->filesystem->read($file)

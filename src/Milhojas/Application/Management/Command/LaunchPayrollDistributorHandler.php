@@ -9,14 +9,28 @@ use Milhojas\Messaging\CommandBus\CommandHandler;
 
 class LaunchPayrollDistributorHandler implements CommandHandler
 {
+    /**
+     * @var CommandLineBuilder
+     */
+    private $cliBuilder;
+
+    /**
+     * LaunchPayrollDistributorHandler constructor.
+     *
+     * @param CommandLineBuilder $cliBuilder
+     */
+    public function __construct(CommandLineBuilder $cliBuilder)
+    {
+        $this->cliBuilder = $cliBuilder;
+    }
+
+
     public function handle(Command $command)
     {
-        $distribution = $command->getDistribution();
-
-        $cli = (new CommandLineBuilder('payroll:month'))
-            ->withArgument($distribution->getMonthString())
-            ->withArgument($distribution->getYear())
-            ->withArgument(implode(' ', $distribution->getFileName()))
+        $cli = $this->cliBuilder->setCommand('payroll:month')
+            ->withArgument($command->getMonth())
+            ->withArgument($command->getYear())
+            ->withArgument(implode(' ', $command->getFileName()))
             ->outputTo($command->getLogfile())
             ->environment($command->getEnvironment())
             ->setWorkingDirectory($command->getRootPath())

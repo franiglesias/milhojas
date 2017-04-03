@@ -9,6 +9,7 @@ use Milhojas\Domain\Management\PayrollDocument;
 use Milhojas\Domain\Management\PayrollMonth;
 use Milhojas\Domain\Management\Payrolls;
 use Milhojas\Infrastructure\FileSystem\FileSystemFactory;
+use Milhojas\Infrastructure\Mail\MailerAttachment;
 use Milhojas\Infrastructure\Persistence\Management\VirtualFSPayrolls;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -180,7 +181,7 @@ class VirtualFSPayrollsSpec extends ObjectBehavior
 
         $this->getAttachments($employee, $month)->shouldBeLike(
             [
-                PayrollDocument::inline(
+                MailerAttachment::inline(
                     'archivo_trabajador_123456_masinfo.pdf',
                     'application/pdf',
                     'content of the file'

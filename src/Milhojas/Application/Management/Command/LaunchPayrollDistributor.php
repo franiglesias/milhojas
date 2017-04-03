@@ -57,6 +57,20 @@ class LaunchPayrollDistributor implements Command
         return $this->distribution;
     }
 
+    public function getMonth()
+    {
+        return $this->distribution->getMonthString();
+    }
+
+    public function getYear()
+    {
+        return $this->distribution->getYear();
+    }
+
+    public function getFileName()
+    {
+        return $this->distribution->getFileName();
+    }
     /**
      * @return string
      */

@@ -57,7 +57,7 @@ class DistributePayrollHandler implements CommandHandler
     }
 
     /**
-     * @param Command $command
+     * @param DistributePayroll $command
      */
     public function handle(Command $command)
     {
